@@ -1,0 +1,5 @@
+bases:
+  - name: networking
+    version: v1.0.0
+  - name: monitoring
+    version: v1.3.0
