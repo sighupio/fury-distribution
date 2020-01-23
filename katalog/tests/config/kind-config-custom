@@ -1,0 +1,45 @@
+apiVersion: kind.sigs.k8s.io/v1alpha3
+kind: Cluster
+networking:
+  apiServerAddress: "0.0.0.0"
+  disableDefaultCNI: true
+  podSubnet: 172.16.0.0/16
+  
+kubeadmConfigPatches:
+- |
+  kind: ClusterConfiguration
+  metadata:
+    name: config
+  etcd:
+    local:
+      extraArgs:
+        "listen-metrics-urls": "http://0.0.0.0:2378"
+  apiServer:
+    extraArgs:
+      "enable-admission-plugins": "NamespaceLifecycle,LimitRanger,PodNodeSelector,ServiceAccount,DefaultStorageClass,DefaultTolerationSeconds,MutatingAdmissionWebhook,ValidatingAdmissionWebhook,ResourceQuota"
+
+kubeadmConfigPatchesJson6902:
+- group: kubeadm.k8s.io
+  version: v1beta2
+  kind: ClusterConfiguration
+  patch: |
+    - op: add
+      path: /apiServer/certSANs/-
+      value: docker
+
+nodes:
+- role: control-plane
+
+- role: worker
+  extraPortMappings:
+  - containerPort: 31080
+    hostPort: 31080
+    # Istio HTTP2
+  - containerPort: 31380
+    hostPort: 31380
+    # Istio HTTPS
+  - containerPort: 31390
+    hostPort: 31390
+    # Istio TCP
+  - containerPort: 31400
+    hostPort: 31400
