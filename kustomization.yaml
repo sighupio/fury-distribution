@@ -1,0 +1,11 @@
+bases:
+  # Networking
+  - ./vendor/katalog/networking/calico
+  # Monitoring
+  - ./vendor/katalog/monitoring/prometheus-operator
+  - ./vendor/katalog/monitoring/prometheus-operated
+  - ./vendor/katalog/monitoring/grafana
+  - ./vendor/katalog/monitoring/goldpinger
+  - ./vendor/katalog/monitoring/kubeadm-sm
+  - ./vendor/katalog/monitoring/kube-state-metrics
+  - ./vendor/katalog/monitoring/node-exporter
