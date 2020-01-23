@@ -5,7 +5,7 @@ load ./helper
 @test "Download" {
     info
     download() {
-        furyctl install
+        furyctl install -H
     }
     run download
     [ "$status" -eq 0 ]
@@ -23,8 +23,9 @@ load ./helper
 @test "Install" {
     info
     install() {
-        kustomize build | kubectl apply -f -
+        apply .
     }
-    run install
+    loop_it install 10 3
+    status=${loop_it_result}
     [ "$status" -eq 0 ]
 }
