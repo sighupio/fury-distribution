@@ -5,8 +5,8 @@
 This POC spin up a kind cluster with a custom configuration:
 [katalog/tests/config/kind-config-custom](katalog/tests/config/kind-config-custom)
 
-This configuration is the most similar configuration to every kubernetes cluster we create to our clusters.
-This way we can ensure everything works as expected including the CNI (calico).
+This configuration is the most similar configuration to every kubernetes cluster we create.
+This way we can ensure everything works as expected including the CNI *(calico)*.
 
 ## Core Modules
 
@@ -33,3 +33,6 @@ We should define the test we should pass here as every module has to have it's o
 - Certified everything is working
 - Document it
 - Document how to extend it
+- Make a binary to orchestrate the installation
+  - Opcional CNI as we can install this distribution on top of Cloud Providers
+  - Optional HA ElasticSearch deployment
