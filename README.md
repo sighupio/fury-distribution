@@ -26,6 +26,10 @@ This way we can ensure everything works as expected including the CNI *(calico)*
   - curator
   - fluentd
   - kibana
+- Ingress
+  - cert-manager
+  - nginx
+  - forecastle
 
 ## Tests
 
@@ -42,3 +46,5 @@ We should define the test we should pass here as every module has to have it's o
 - Make a binary to orchestrate the installation
   - Opcional CNI as we can install this distribution on top of Cloud Providers
   - Optional HA ElasticSearch deployment
+  - Optional Dual Ingress
+    - Be careful with the cert-manager cluster-issuer

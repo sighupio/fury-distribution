@@ -5,3 +5,5 @@ bases:
     version: v1.3.0
   - name: logging
     version: v1.2.1
+  - name: ingress
+    version: v1.4.1
