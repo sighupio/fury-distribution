@@ -47,6 +47,7 @@ steps:
       - bats -t katalog/tests/install.sh
       - bats -t katalog/tests/networking.sh
       - bats -t katalog/tests/monitoring.sh
+      - bats -t katalog/tests/logging.sh
     when:
       ref:
         include:

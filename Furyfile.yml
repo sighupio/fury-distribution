@@ -3,3 +3,5 @@ bases:
     version: v1.0.0
   - name: monitoring
     version: v1.3.0
+  - name: logging
+    version: v1.2.1

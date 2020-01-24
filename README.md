@@ -20,6 +20,12 @@ This way we can ensure everything works as expected including the CNI *(calico)*
   - kubeadm-sm
   - kube-state-metrics
   - node-exporter
+- Logging
+  - elasticsearch-single
+  - cerebro
+  - curator
+  - fluentd
+  - kibana
 
 ## Tests
 
