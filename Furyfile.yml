@@ -1,9 +1,23 @@
+versions:
+  networking: v1.0.0
+  monitoring: v1.3.0
+  logging: v1.2.1
+  ingress: v1.4.1
+
 bases:
-  - name: networking
-    version: v1.0.0
-  - name: monitoring
-    version: v1.3.0
-  - name: logging
-    version: v1.2.1
-  - name: ingress
-    version: v1.4.1
+  - name: networking/calico
+  - name: monitoring/prometheus-operator
+  - name: monitoring/prometheus-operated
+  - name: monitoring/grafana
+  - name: monitoring/goldpinger
+  - name: monitoring/kubeadm-sm
+  - name: monitoring/kube-state-metrics
+  - name: monitoring/node-exporter
+  - name: logging/elasticsearch-single
+  - name: logging/cerebro
+  - name: logging/curator
+  - name: logging/fluentd
+  - name: logging/kibana
+  - name: ingress/cert-manager
+  - name: ingress/nginx
+  - name: ingress/forecastle
