@@ -49,6 +49,7 @@ steps:
       - bats -t katalog/tests/monitoring.sh
       - bats -t katalog/tests/logging.sh
       - bats -t katalog/tests/ingress.sh
+      - bats -t katalog/tests/dr.sh
     when:
       ref:
         include:

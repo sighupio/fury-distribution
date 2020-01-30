@@ -30,6 +30,9 @@ This way we can ensure everything works as expected including the CNI *(calico)*
   - cert-manager
   - nginx
   - forecastle
+- DR
+  - Velero (on prem, with Minio)
+  - Velero Restic
 
 ## Tests
 
@@ -43,8 +46,11 @@ We should define the test we should pass here as every module has to have it's o
 - Certified everything is working
 - Document it
 - Document how to extend it
-- Make a binary to orchestrate the installation
+- Make a binary to orchestrate the installation (Optional)
   - Opcional CNI as we can install this distribution on top of Cloud Providers
   - Optional HA ElasticSearch deployment
   - Optional Dual Ingress
     - Be careful with the cert-manager cluster-issuer
+  - Optional Velero Cloud (aws, gke, aks)
+    - If choosen a cloud DR deployment, a terraform module has to be instantiate to create "cloud-credentials" and 
+    VolumeSnapshotsLocation/BackupLocation CRDs from the output of the module.

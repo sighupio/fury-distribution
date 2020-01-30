@@ -3,6 +3,7 @@ versions:
   monitoring: v1.3.0
   logging: v1.2.1
   ingress: v1.4.1
+  dr: v1.2.0-rc3
 
 bases:
   - name: networking/calico
@@ -21,3 +22,4 @@ bases:
   - name: ingress/cert-manager
   - name: ingress/nginx
   - name: ingress/forecastle
+  - name: dr/velero
