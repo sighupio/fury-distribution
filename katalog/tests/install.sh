@@ -25,7 +25,7 @@ load ./helper
     install() {
         apply .
     }
-    loop_it install 10 3
+    loop_it install 30 5
     status=${loop_it_result}
     [ "$status" -eq 0 ]
 }
