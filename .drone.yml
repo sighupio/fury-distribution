@@ -57,6 +57,48 @@ steps:
           - refs/heads/develop
           - refs/tags/**
 
+  - name: publish-prerelease
+    image: plugins/github-release
+    pull: always
+    depends_on: [ test ]
+    settings:
+      api_key:
+        from_secret: github_token
+      files:
+        - Furyfile.yml
+        - kustomization.yaml
+      prerelease: true
+      title: "Prerelease ${DRONE_TAG}"
+      checksum:
+        - md5
+        - sha256
+    when:
+      ref:
+        include:
+          - refs/tags/v**-rc**
+
+  - name: publish-stable
+    image: plugins/github-release
+    pull: always
+    depends_on: [ test ]
+    settings:
+      api_key:
+        from_secret: github_token
+      files:
+        - Furyfile.yml
+        - kustomization.yaml
+      prerelease: false
+      title: "Release ${DRONE_TAG}"
+      checksum:
+        - md5
+        - sha256
+    when:
+      ref:
+        exclude: 
+          - refs/tags/v**-rc**
+        include:
+          - refs/tags/v**
+
   - name: destroy
     image: quay.io/sighup/e2e-testing-drone-plugin:v0.2.0-rc3
     pull: always
