@@ -32,7 +32,6 @@ steps:
       ref:
         include:
           - refs/heads/hotfix-*
-          - refs/heads/develop
           - refs/tags/**
 
   - name: test
@@ -54,7 +53,6 @@ steps:
       ref:
         include:
           - refs/heads/hotfix-*
-          - refs/heads/develop
           - refs/tags/**
 
   - name: publish-prerelease
