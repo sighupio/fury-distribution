@@ -1,14 +1,20 @@
-# POC Fury Distribution
+# Fury Distribution
 
 [![Build Status](http://ci.sighup.io/api/badges/sighupio/poc-fury-distribution/status.svg?ref=refs/heads/develop)](http://ci.sighup.io/sighupio/poc-fury-distribution)
 
-This POC spin up a kind cluster with a custom configuration:
+## Attention
+
+:warning: **Work in progress**. The :warning: will be removed once a stable v1.0.0 version is released.
+
+## Information
+
+This repository spin up a kind cluster with a custom configuration:
 [katalog/tests/config/kind-config-custom](katalog/tests/config/kind-config-custom)
 
-This configuration is the most similar configuration to every kubernetes cluster we create.
+The configuration is almost the same configuration we do in every kubernetes cluster we create.
 This way we can ensure everything works as expected including the CNI *(calico)*.
 
-## Core Modules
+### Core Modules
 
 - Networking
   - calico
@@ -34,23 +40,10 @@ This way we can ensure everything works as expected including the CNI *(calico)*
   - Velero (on prem, with Minio)
   - Velero Restic
 
-## Tests
+### Tests
 
-Smoke tests *(smoke testing)* are executed in an E2E pipeline. It checks everything is running.
-We should define the test we should pass here as every module has to have it's own tests.
+Smoke tests *(smoke testing)* are executed in this E2E pipeline. It checks everything is running.
 
-## Pending work
+## License
 
-- Add more core modules
-  - Create more tests
-- Certified everything is working
-- Document it
-- Document how to extend it
-- Make a binary to orchestrate the installation (Optional)
-  - Opcional CNI as we can install this distribution on top of Cloud Providers
-  - Optional HA ElasticSearch deployment
-  - Optional Dual Ingress
-    - Be careful with the cert-manager cluster-issuer
-  - Optional Velero Cloud (aws, gke, aks)
-    - If choosen a cloud DR deployment, a terraform module has to be instantiate to create "cloud-credentials" and 
-    VolumeSnapshotsLocation/BackupLocation CRDs from the output of the module.
+For license details please see [LICENSE](LICENSE)
