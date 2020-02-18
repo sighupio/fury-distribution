@@ -5,7 +5,7 @@ load ./helper
 @test "Download" {
     info
     download() {
-        furyctl install -H
+        furyctl vendor -H
     }
     run download
     [ "$status" -eq 0 ]
