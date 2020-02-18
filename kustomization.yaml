@@ -20,5 +20,5 @@ bases:
   - ./vendor/katalog/ingress/nginx
   - ./vendor/katalog/ingress/forecastle
   # DR
-  - ./vendor/katalog/dr/velero/velero-prem
+  - ./vendor/katalog/dr/velero/velero-on-prem
   - ./vendor/katalog/dr/velero/velero-restic
