@@ -66,6 +66,7 @@ steps:
         - Furyfile.yml
         - kustomization.yaml
       prerelease: true
+      overwrite: true
       title: "Prerelease ${DRONE_TAG}"
       checksum:
         - md5
@@ -86,6 +87,7 @@ steps:
         - Furyfile.yml
         - kustomization.yaml
       prerelease: false
+      overwrite: true
       title: "Release ${DRONE_TAG}"
       checksum:
         - md5
@@ -189,6 +191,7 @@ steps:
         - Furyfile.yml
         - kustomization.yaml
       prerelease: true
+      overwrite: true
       title: "Prerelease ${DRONE_TAG}"
       checksum:
         - md5
@@ -209,6 +212,7 @@ steps:
         - Furyfile.yml
         - kustomization.yaml
       prerelease: false
+      overwrite: true
       title: "Release ${DRONE_TAG}"
       checksum:
         - md5
@@ -311,6 +315,7 @@ steps:
         - Furyfile.yml
         - kustomization.yaml
       prerelease: true
+      overwrite: true
       title: "Prerelease ${DRONE_TAG}"
       checksum:
         - md5
@@ -331,6 +336,7 @@ steps:
         - Furyfile.yml
         - kustomization.yaml
       prerelease: false
+      overwrite: true
       title: "Release ${DRONE_TAG}"
       checksum:
         - md5
