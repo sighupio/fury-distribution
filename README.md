@@ -2,10 +2,6 @@
 
 [![Build Status](http://ci.sighup.io/api/badges/sighupio/poc-fury-distribution/status.svg?ref=refs/heads/develop)](http://ci.sighup.io/sighupio/poc-fury-distribution)
 
-## Attention
-
-:warning: **Work in progress**. The :warning: will be removed once a stable v1.0.0 version is released.
-
 ## Information
 
 This repository spin up a kind cluster with a custom configuration:
@@ -26,6 +22,7 @@ This way we can ensure everything works as expected including the CNI *(calico)*
   - kubeadm-sm
   - kube-state-metrics
   - node-exporter
+  - metrics-server
 - Logging
   - elasticsearch-single
   - cerebro
