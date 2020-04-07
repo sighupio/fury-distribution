@@ -72,7 +72,7 @@ steps:
   - name: publish-prerelease
     image: plugins/github-release
     pull: always
-    depends_on: [ test ]
+    depends_on: [ prepare-release-notes ]
     settings:
       api_key:
         from_secret: github_token
@@ -82,6 +82,7 @@ steps:
       prerelease: true
       overwrite: true
       title: "Prerelease ${DRONE_TAG}"
+      note: release-notes.md
       checksum:
         - md5
         - sha256
@@ -212,7 +213,7 @@ steps:
   - name: publish-prerelease
     image: plugins/github-release
     pull: always
-    depends_on: [ test ]
+    depends_on: [ prepare-release-notes ]
     settings:
       api_key:
         from_secret: github_token
@@ -222,6 +223,7 @@ steps:
       prerelease: true
       overwrite: true
       title: "Prerelease ${DRONE_TAG}"
+      note: release-notes.md
       checksum:
         - md5
         - sha256
