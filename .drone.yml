@@ -55,6 +55,20 @@ steps:
           - refs/heads/hotfix-*
           - refs/tags/**
 
+  - name: prepare-release-notes
+    image: python:3.7
+    pull: always
+    depends_on: [ test ]
+    environment:
+      RELEASE_NOTES_FILE_PATH: release-notes.md
+    commands:
+      - pip install semantic_version==2.8.4
+      - python -u release-notes.py
+    when:
+      ref:
+        include:
+          - refs/tags/**
+
   - name: publish-prerelease
     image: plugins/github-release
     pull: always
@@ -79,7 +93,7 @@ steps:
   - name: publish-stable
     image: plugins/github-release
     pull: always
-    depends_on: [ test ]
+    depends_on: [ prepare-release-notes ]
     settings:
       api_key:
         from_secret: github_token
@@ -89,6 +103,7 @@ steps:
       prerelease: false
       overwrite: true
       title: "Release ${DRONE_TAG}"
+      note: release-notes.md
       checksum:
         - md5
         - sha256
@@ -180,6 +195,20 @@ steps:
           - refs/heads/hotfix-*
           - refs/tags/**
 
+  - name: prepare-release-notes
+    image: python:3.7
+    pull: always
+    depends_on: [ test ]
+    environment:
+      RELEASE_NOTES_FILE_PATH: release-notes.md
+    commands:
+      - pip install semantic_version==2.8.4
+      - python -u release-notes.py
+    when:
+      ref:
+        include:
+          - refs/tags/**
+
   - name: publish-prerelease
     image: plugins/github-release
     pull: always
@@ -204,7 +233,7 @@ steps:
   - name: publish-stable
     image: plugins/github-release
     pull: always
-    depends_on: [ test ]
+    depends_on: [ prepare-release-notes ]
     settings:
       api_key:
         from_secret: github_token
@@ -214,6 +243,7 @@ steps:
       prerelease: false
       overwrite: true
       title: "Release ${DRONE_TAG}"
+      note: release-notes.md
       checksum:
         - md5
         - sha256
@@ -304,10 +334,24 @@ steps:
           - refs/heads/hotfix-*
           - refs/tags/**
 
+  - name: prepare-release-notes
+    image: python:3.7
+    pull: always
+    depends_on: [ test ]
+    environment:
+      RELEASE_NOTES_FILE_PATH: release-notes.md
+    commands:
+      - pip install semantic_version==2.8.4
+      - python -u release-notes.py
+    when:
+      ref:
+        include:
+          - refs/tags/**
+
   - name: publish-prerelease
     image: plugins/github-release
     pull: always
-    depends_on: [ test ]
+    depends_on: [ prepare-release-notes ]
     settings:
       api_key:
         from_secret: github_token
@@ -317,6 +361,7 @@ steps:
       prerelease: true
       overwrite: true
       title: "Prerelease ${DRONE_TAG}"
+      note: release-notes.md
       checksum:
         - md5
         - sha256
@@ -328,7 +373,7 @@ steps:
   - name: publish-stable
     image: plugins/github-release
     pull: always
-    depends_on: [ test ]
+    depends_on: [ prepare-release-notes ]
     settings:
       api_key:
         from_secret: github_token
@@ -338,6 +383,7 @@ steps:
       prerelease: false
       overwrite: true
       title: "Release ${DRONE_TAG}"
+      note: release-notes.md
       checksum:
         - md5
         - sha256
