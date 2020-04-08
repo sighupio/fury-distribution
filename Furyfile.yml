@@ -4,6 +4,7 @@ versions:
   logging: v1.2.1
   ingress: v1.6.0
   dr: v1.3.0
+  opa: v1.0.0
 
 bases:
   - name: networking/calico
@@ -24,3 +25,4 @@ bases:
   - name: ingress/nginx
   - name: ingress/forecastle
   - name: dr/velero
+  - name: opa/gatekeeper

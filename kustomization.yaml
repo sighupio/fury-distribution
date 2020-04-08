@@ -1,6 +1,8 @@
 bases:
   # Networking
   - ./vendor/katalog/networking/calico
+  # OPA
+  - ./vendor/katalog/opa/gatekeeper/core
   # Monitoring
   - ./vendor/katalog/monitoring/prometheus-operator
   - ./vendor/katalog/monitoring/prometheus-operated

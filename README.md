@@ -7,7 +7,7 @@
 This repository spin up a kind cluster with a custom configuration:
 [katalog/tests/config/kind-config-custom](katalog/tests/config/kind-config-custom)
 
-The configuration is almost the same configuration we do in every kubernetes cluster we create.
+The configuration is almost the same configuration we do in every Kubernetes cluster we create.
 This way we can ensure everything works as expected including the CNI *(calico)*.
 
 ### Core Modules
@@ -36,6 +36,8 @@ This way we can ensure everything works as expected including the CNI *(calico)*
 - DR
   - Velero (on prem, with Minio)
   - Velero Restic
+- OPA
+  - Gatekeeper
 
 ### Tests
 

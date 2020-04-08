@@ -49,6 +49,7 @@ steps:
       - bats -t katalog/tests/logging.sh
       - bats -t katalog/tests/ingress.sh
       - bats -t katalog/tests/dr.sh
+      - bats -t katalog/tests/opa.sh
     when:
       ref:
         include:
@@ -192,6 +193,7 @@ steps:
       - bats -t katalog/tests/logging.sh
       - bats -t katalog/tests/ingress.sh
       - bats -t katalog/tests/dr.sh
+      - bats -t katalog/tests/opa.sh
     when:
       ref:
         include:
@@ -334,6 +336,7 @@ steps:
       - bats -t katalog/tests/logging.sh
       - bats -t katalog/tests/ingress.sh
       - bats -t katalog/tests/dr.sh
+      - bats -t katalog/tests/opa.sh
     when:
       ref:
         include:
