@@ -1,6 +1,6 @@
 # Fury Distribution
 
-[![Build Status](http://ci.sighup.io/api/badges/sighupio/poc-fury-distribution/status.svg?ref=refs/heads/develop)](http://ci.sighup.io/sighupio/poc-fury-distribution)
+[![Build Status](http://ci.sighup.io/api/badges/sighupio/fury-distribution/status.svg?ref=refs/tags/v1.0.0)](http://ci.sighup.io/sighupio/fury-distribution)
 
 ## Information
 
