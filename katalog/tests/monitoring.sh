@@ -67,7 +67,7 @@ load ./helper
     test() {
         kubectl get pods -l app=metrics-server -o json -n kube-system |jq '.items[].status.containerStatuses[].ready' | uniq | grep -q true
     }
-    loop_it test 30 2
+    loop_it test 60 2
     status=${loop_it_result}
     [ "$status" -eq 0 ]
 }
