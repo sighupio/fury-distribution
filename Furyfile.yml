@@ -2,7 +2,7 @@ versions:
   networking: v1.2.0
   monitoring: v1.5.0
   logging: v1.2.1
-  ingress: v1.5.0
+  ingress: v1.6.0
   dr: v1.3.0
 
 bases:
