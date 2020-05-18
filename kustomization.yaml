@@ -25,4 +25,5 @@ bases:
   - ./vendor/katalog/ingress/forecastle
   # DR
   - ./vendor/katalog/dr/velero/velero-on-prem
+  - ./vendor/katalog/dr/velero/velero-schedules
   - ./vendor/katalog/dr/velero/velero-restic
