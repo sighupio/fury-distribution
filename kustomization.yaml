@@ -3,6 +3,7 @@ bases:
   - ./vendor/katalog/networking/calico
   # OPA
   - ./vendor/katalog/opa/gatekeeper/core
+  - ./vendor/katalog/opa/gatekeeper/rules/templates
   # Monitoring
   - ./vendor/katalog/monitoring/prometheus-operator
   - ./vendor/katalog/monitoring/prometheus-operated
