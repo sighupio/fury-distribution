@@ -8,7 +8,7 @@ platform:
 
 steps:
   - name: init
-    image: quay.io/sighup/e2e-testing-drone-plugin:v0.2.1
+    image: quay.io/sighup/e2e-testing-drone-plugin:v0.3.2
     pull: always
     volumes:
     - name: shared
@@ -18,7 +18,7 @@ steps:
       action: custom-cluster-116
       pipeline_id: cluster-116
       local_kind_config_path: katalog/tests/config/kind-config-custom
-      cluster_version: '1.16.4'
+      cluster_version: '1.16.9'
       instance_path: /shared
       aws_default_region:
         from_secret: aws_region
@@ -31,7 +31,6 @@ steps:
     when:
       ref:
         include:
-          - refs/heads/hotfix-*
           - refs/tags/**
 
   - name: test
@@ -53,7 +52,6 @@ steps:
     when:
       ref:
         include:
-          - refs/heads/hotfix-*
           - refs/tags/**
 
   - name: prepare-release-notes
@@ -119,7 +117,7 @@ steps:
           - refs/tags/v**
 
   - name: destroy
-    image: quay.io/sighup/e2e-testing-drone-plugin:v0.2.1
+    image: quay.io/sighup/e2e-testing-drone-plugin:v0.3.2
     pull: always
     depends_on: [ test ]
     settings:
@@ -152,7 +150,7 @@ platform:
 
 steps:
   - name: init
-    image: quay.io/sighup/e2e-testing-drone-plugin:v0.2.1
+    image: quay.io/sighup/e2e-testing-drone-plugin:v0.3.2
     pull: always
     volumes:
     - name: shared
@@ -162,7 +160,7 @@ steps:
       action: custom-cluster-115
       pipeline_id: cluster-115
       local_kind_config_path: katalog/tests/config/kind-config-custom
-      cluster_version: '1.15.7'
+      cluster_version: '1.15.11'
       instance_path: /shared
       aws_default_region:
         from_secret: aws_region
@@ -175,7 +173,6 @@ steps:
     when:
       ref:
         include:
-          - refs/heads/hotfix-*
           - refs/tags/**
 
   - name: test
@@ -197,7 +194,6 @@ steps:
     when:
       ref:
         include:
-          - refs/heads/hotfix-*
           - refs/tags/**
 
   - name: prepare-release-notes
@@ -263,7 +259,7 @@ steps:
           - refs/tags/v**
 
   - name: destroy
-    image: quay.io/sighup/e2e-testing-drone-plugin:v0.2.1
+    image: quay.io/sighup/e2e-testing-drone-plugin:v0.3.2
     pull: always
     depends_on: [ test ]
     settings:
@@ -295,7 +291,7 @@ platform:
 
 steps:
   - name: init
-    image: quay.io/sighup/e2e-testing-drone-plugin:v0.2.1
+    image: quay.io/sighup/e2e-testing-drone-plugin:v0.3.2
     pull: always
     volumes:
     - name: shared
@@ -318,7 +314,6 @@ steps:
     when:
       ref:
         include:
-          - refs/heads/hotfix-*
           - refs/tags/**
 
   - name: test
@@ -340,7 +335,6 @@ steps:
     when:
       ref:
         include:
-          - refs/heads/hotfix-*
           - refs/tags/**
 
   - name: prepare-release-notes
@@ -406,7 +400,7 @@ steps:
           - refs/tags/v**
 
   - name: destroy
-    image: quay.io/sighup/e2e-testing-drone-plugin:v0.2.1
+    image: quay.io/sighup/e2e-testing-drone-plugin:v0.3.2
     pull: always
     depends_on: [ test ]
     settings:
