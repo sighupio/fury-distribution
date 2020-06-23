@@ -10,5 +10,5 @@
   - Optional Dual Ingress
     - Be careful with the cert-manager cluster-issuer
   - Optional Velero Cloud (aws, gke, aks)
-    - If choosen a cloud DR deployment, a terraform module has to be instantiate to create "cloud-credentials" and 
+    - If choosen a cloud DR deployment, a terraform module has to be instantiate to create "cloud-credentials" and
     VolumeSnapshotsLocation/BackupLocation CRDs from the output of the module.
