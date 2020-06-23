@@ -1,7 +1,7 @@
 import os
 from shutil import copyfile
 
-import semantic_version
+import semantic_version # pylint: disable=import-error
 
 RELEASE_NOTES_FILE_PATH = os.getenv("RELEASE_NOTES_FILE_PATH")
 DRONE_TAG = os.getenv("DRONE_TAG")

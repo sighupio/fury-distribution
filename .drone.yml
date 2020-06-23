@@ -1,14 +1,35 @@
 ---
 kind: pipeline
-name: e2e-kubernetes-1.16
+name: policeman
 
 platform:
   os: linux
   arch: amd64
 
 steps:
+  - name: lint
+    image: quay.io/sighup/policeman
+    pull: always
+
+---
+kind: pipeline
+name: e2e-kubernetes-1.16
+
+depends_on:
+  - policeman
+
+platform:
+  os: linux
+  arch: amd64
+
+trigger:
+  ref:
+    include:
+      - refs/tags/**
+
+steps:
   - name: init
-    image: quay.io/sighup/e2e-testing-drone-plugin:v0.3.2
+    image: quay.io/sighup/e2e-testing-drone-plugin:v0.4.3
     pull: always
     volumes:
     - name: shared
@@ -28,10 +49,12 @@ steps:
         from_secret: aws_secret_access_key
       terraform_tf_states_bucket_name:
         from_secret: terraform_tf_states_bucket_name
-    when:
-      ref:
-        include:
-          - refs/tags/**
+      vsphere_server:
+        from_secret: vsphere_server
+      vsphere_password:
+        from_secret: vsphere_password
+      vsphere_user:
+        from_secret: vsphere_user
 
   - name: test
     image: quay.io/sighup/e2e-testing:1.1.0_0.2.2_2.16.1_1.4.0_1.16.4_3.2.2_2.4.1
@@ -49,76 +72,9 @@ steps:
       - bats -t katalog/tests/ingress.sh
       - bats -t katalog/tests/dr.sh
       - bats -t katalog/tests/opa.sh
-    when:
-      ref:
-        include:
-          - refs/tags/**
-
-  - name: prepare-release-notes
-    image: python:3.7
-    pull: always
-    depends_on: [ test ]
-    environment:
-      RELEASE_NOTES_FILE_PATH: release-notes.md
-    commands:
-      - pip install semantic_version==2.8.4
-      - python -u release-notes.py
-    when:
-      ref:
-        include:
-          - refs/tags/**
-
-  - name: publish-prerelease
-    image: plugins/github-release
-    pull: always
-    depends_on: [ prepare-release-notes ]
-    settings:
-      api_key:
-        from_secret: github_token
-      file_exists: skip
-      files:
-        - Furyfile.yml
-        - kustomization.yaml
-      prerelease: true
-      overwrite: true
-      title: "Prerelease ${DRONE_TAG}"
-      note: release-notes.md
-      checksum:
-        - md5
-        - sha256
-    when:
-      ref:
-        include:
-          - refs/tags/v**-rc**
-
-  - name: publish-stable
-    image: plugins/github-release
-    pull: always
-    depends_on: [ prepare-release-notes ]
-    settings:
-      api_key:
-        from_secret: github_token
-      file_exists: skip
-      files:
-        - Furyfile.yml
-        - kustomization.yaml
-      prerelease: false
-      overwrite: true
-      title: "Release ${DRONE_TAG}"
-      note: release-notes.md
-      checksum:
-        - md5
-        - sha256
-    when:
-      ref:
-        exclude:
-          - refs/tags/v**-rc**
-        include:
-          - refs/tags/v**
 
   - name: destroy
-    image: quay.io/sighup/e2e-testing-drone-plugin:v0.3.2
-    pull: always
+    image: quay.io/sighup/e2e-testing-drone-plugin:v0.4.3
     depends_on: [ test ]
     settings:
       action: destroy
@@ -131,6 +87,12 @@ steps:
         from_secret: aws_secret_access_key
       terraform_tf_states_bucket_name:
         from_secret: terraform_tf_states_bucket_name
+      vsphere_server:
+        from_secret: vsphere_server
+      vsphere_password:
+        from_secret: vsphere_password
+      vsphere_user:
+        from_secret: vsphere_user
     when:
       status:
       - success
@@ -142,25 +104,33 @@ volumes:
 
 ---
 kind: pipeline
-name: e2e-kubernetes-1.15
+name: e2e-kubernetes-1.17
+
+depends_on:
+  - policeman
 
 platform:
   os: linux
   arch: amd64
 
+trigger:
+  ref:
+    include:
+      - refs/tags/**
+
 steps:
   - name: init
-    image: quay.io/sighup/e2e-testing-drone-plugin:v0.3.2
+    image: quay.io/sighup/e2e-testing-drone-plugin:v0.4.3
     pull: always
     volumes:
     - name: shared
       path: /shared
     depends_on: [ clone ]
     settings:
-      action: custom-cluster-115
-      pipeline_id: cluster-115
+      action: custom-cluster-117
+      pipeline_id: cluster-117
       local_kind_config_path: katalog/tests/config/kind-config-custom
-      cluster_version: '1.15.11'
+      cluster_version: '1.17.5'
       instance_path: /shared
       aws_default_region:
         from_secret: aws_region
@@ -170,20 +140,22 @@ steps:
         from_secret: aws_secret_access_key
       terraform_tf_states_bucket_name:
         from_secret: terraform_tf_states_bucket_name
-    when:
-      ref:
-        include:
-          - refs/tags/**
+      vsphere_server:
+        from_secret: vsphere_server
+      vsphere_password:
+        from_secret: vsphere_password
+      vsphere_user:
+        from_secret: vsphere_user
 
   - name: test
-    image: quay.io/sighup/e2e-testing:1.1.0_0.2.2_2.16.1_1.4.0_1.15.7_3.2.2_2.4.1
+    image: quay.io/sighup/e2e-testing:1.1.0_0.2.2_2.16.1_1.4.0_1.17.2_3.2.2_2.4.1
     pull: always
     volumes:
     - name: shared
       path: /shared
     depends_on: [ init ]
     commands:
-      - export KUBECONFIG=/shared/kube/kubeconfig-115
+      - export KUBECONFIG=/shared/kube/kubeconfig-117
       - bats -t katalog/tests/install.sh
       - bats -t katalog/tests/networking.sh
       - bats -t katalog/tests/monitoring.sh
@@ -191,15 +163,145 @@ steps:
       - bats -t katalog/tests/ingress.sh
       - bats -t katalog/tests/dr.sh
       - bats -t katalog/tests/opa.sh
-    when:
-      ref:
-        include:
-          - refs/tags/**
 
+  - name: destroy
+    image: quay.io/sighup/e2e-testing-drone-plugin:v0.4.3
+    depends_on: [ test ]
+    settings:
+      action: destroy
+      pipeline_id: cluster-117
+      aws_default_region:
+        from_secret: aws_region
+      aws_access_key_id:
+        from_secret: aws_access_key_id
+      aws_secret_access_key:
+        from_secret: aws_secret_access_key
+      terraform_tf_states_bucket_name:
+        from_secret: terraform_tf_states_bucket_name
+      vsphere_server:
+        from_secret: vsphere_server
+      vsphere_password:
+        from_secret: vsphere_password
+      vsphere_user:
+        from_secret: vsphere_user
+    when:
+      status:
+      - success
+      - failure
+
+volumes:
+- name: shared
+  temp: {}
+
+---
+kind: pipeline
+name: e2e-kubernetes-1.18
+
+depends_on:
+  - policeman
+
+platform:
+  os: linux
+  arch: amd64
+
+trigger:
+  ref:
+    include:
+      - refs/tags/**
+
+steps:
+  - name: init
+    image: quay.io/sighup/e2e-testing-drone-plugin:v0.4.3
+    pull: always
+    volumes:
+    - name: shared
+      path: /shared
+    depends_on: [ clone ]
+    settings:
+      action: custom-cluster-118
+      pipeline_id: cluster-118
+      local_kind_config_path: katalog/tests/config/kind-config-custom
+      cluster_version: '1.18.2'
+      instance_path: /shared
+      aws_default_region:
+        from_secret: aws_region
+      aws_access_key_id:
+        from_secret: aws_access_key_id
+      aws_secret_access_key:
+        from_secret: aws_secret_access_key
+      terraform_tf_states_bucket_name:
+        from_secret: terraform_tf_states_bucket_name
+      vsphere_server:
+        from_secret: vsphere_server
+      vsphere_password:
+        from_secret: vsphere_password
+      vsphere_user:
+        from_secret: vsphere_user
+
+  - name: test
+    image: quay.io/sighup/e2e-testing:1.1.0_0.2.2_2.16.1_1.4.0_1.18.0_3.2.2_2.4.1
+    pull: always
+    volumes:
+    - name: shared
+      path: /shared
+    depends_on: [ init ]
+    commands:
+      - export KUBECONFIG=/shared/kube/kubeconfig-118
+      - bats -t katalog/tests/install.sh
+      - bats -t katalog/tests/networking.sh
+      - bats -t katalog/tests/monitoring.sh
+      - bats -t katalog/tests/logging.sh
+      - bats -t katalog/tests/ingress.sh
+      - bats -t katalog/tests/dr.sh
+      - bats -t katalog/tests/opa.sh
+
+  - name: destroy
+    image: quay.io/sighup/e2e-testing-drone-plugin:v0.4.3
+    depends_on: [ test ]
+    settings:
+      action: destroy
+      pipeline_id: cluster-118
+      aws_default_region:
+        from_secret: aws_region
+      aws_access_key_id:
+        from_secret: aws_access_key_id
+      aws_secret_access_key:
+        from_secret: aws_secret_access_key
+      terraform_tf_states_bucket_name:
+        from_secret: terraform_tf_states_bucket_name
+      vsphere_server:
+        from_secret: vsphere_server
+      vsphere_password:
+        from_secret: vsphere_password
+      vsphere_user:
+        from_secret: vsphere_user
+    when:
+      status:
+      - success
+      - failure
+
+volumes:
+- name: shared
+  temp: {}
+
+---
+kind: pipeline
+name: release
+
+depends_on:
+  - e2e-kubernetes-1.16
+  - e2e-kubernetes-1.17
+  - e2e-kubernetes-1.18
+
+platform:
+  os: linux
+  arch: amd64
+
+steps:
   - name: prepare-release-notes
     image: python:3.7
     pull: always
-    depends_on: [ test ]
+    depends_on: [ clone ]
     environment:
       RELEASE_NOTES_FILE_PATH: release-notes.md
     commands:
@@ -257,168 +359,3 @@ steps:
           - refs/tags/v**-rc**
         include:
           - refs/tags/v**
-
-  - name: destroy
-    image: quay.io/sighup/e2e-testing-drone-plugin:v0.3.2
-    pull: always
-    depends_on: [ test ]
-    settings:
-      action: destroy
-      pipeline_id: cluster-115
-      aws_default_region:
-        from_secret: aws_region
-      aws_access_key_id:
-        from_secret: aws_access_key_id
-      aws_secret_access_key:
-        from_secret: aws_secret_access_key
-      terraform_tf_states_bucket_name:
-        from_secret: terraform_tf_states_bucket_name
-    when:
-      status:
-      - success
-      - failure
-
-volumes:
-- name: shared
-  temp: {}
----
-kind: pipeline
-name: e2e-kubernetes-1.14
-
-platform:
-  os: linux
-  arch: amd64
-
-steps:
-  - name: init
-    image: quay.io/sighup/e2e-testing-drone-plugin:v0.3.2
-    pull: always
-    volumes:
-    - name: shared
-      path: /shared
-    depends_on: [ clone ]
-    settings:
-      action: custom-cluster-114
-      pipeline_id: cluster-114
-      local_kind_config_path: katalog/tests/config/kind-config-custom
-      cluster_version: '1.14.10'
-      instance_path: /shared
-      aws_default_region:
-        from_secret: aws_region
-      aws_access_key_id:
-        from_secret: aws_access_key_id
-      aws_secret_access_key:
-        from_secret: aws_secret_access_key
-      terraform_tf_states_bucket_name:
-        from_secret: terraform_tf_states_bucket_name
-    when:
-      ref:
-        include:
-          - refs/tags/**
-
-  - name: test
-    image: quay.io/sighup/e2e-testing:1.1.0_0.2.2_2.16.1_1.4.0_1.14.10_3.2.2_2.4.1
-    pull: always
-    volumes:
-    - name: shared
-      path: /shared
-    depends_on: [ init ]
-    commands:
-      - export KUBECONFIG=/shared/kube/kubeconfig-114
-      - bats -t katalog/tests/install.sh
-      - bats -t katalog/tests/networking.sh
-      - bats -t katalog/tests/monitoring.sh
-      - bats -t katalog/tests/logging.sh
-      - bats -t katalog/tests/ingress.sh
-      - bats -t katalog/tests/dr.sh
-      - bats -t katalog/tests/opa.sh
-    when:
-      ref:
-        include:
-          - refs/tags/**
-
-  - name: prepare-release-notes
-    image: python:3.7
-    pull: always
-    depends_on: [ test ]
-    environment:
-      RELEASE_NOTES_FILE_PATH: release-notes.md
-    commands:
-      - pip install semantic_version==2.8.4
-      - python -u release-notes.py
-    when:
-      ref:
-        include:
-          - refs/tags/**
-
-  - name: publish-prerelease
-    image: plugins/github-release
-    pull: always
-    depends_on: [ prepare-release-notes ]
-    settings:
-      api_key:
-        from_secret: github_token
-      file_exists: skip
-      files:
-        - Furyfile.yml
-        - kustomization.yaml
-      prerelease: true
-      overwrite: true
-      title: "Prerelease ${DRONE_TAG}"
-      note: release-notes.md
-      checksum:
-        - md5
-        - sha256
-    when:
-      ref:
-        include:
-          - refs/tags/v**-rc**
-
-  - name: publish-stable
-    image: plugins/github-release
-    pull: always
-    depends_on: [ prepare-release-notes ]
-    settings:
-      api_key:
-        from_secret: github_token
-      file_exists: skip
-      files:
-        - Furyfile.yml
-        - kustomization.yaml
-      prerelease: false
-      overwrite: true
-      title: "Release ${DRONE_TAG}"
-      note: release-notes.md
-      checksum:
-        - md5
-        - sha256
-    when:
-      ref:
-        exclude:
-          - refs/tags/v**-rc**
-        include:
-          - refs/tags/v**
-
-  - name: destroy
-    image: quay.io/sighup/e2e-testing-drone-plugin:v0.3.2
-    pull: always
-    depends_on: [ test ]
-    settings:
-      action: destroy
-      pipeline_id: cluster-114
-      aws_default_region:
-        from_secret: aws_region
-      aws_access_key_id:
-        from_secret: aws_access_key_id
-      aws_secret_access_key:
-        from_secret: aws_secret_access_key
-      terraform_tf_states_bucket_name:
-        from_secret: terraform_tf_states_bucket_name
-    when:
-      status:
-      - success
-      - failure
-
-volumes:
-- name: shared
-  temp: {}
