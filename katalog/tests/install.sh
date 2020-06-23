@@ -21,6 +21,18 @@ load ./helper
     [ "$status" -eq 0 ]
 }
 
+@test "Install CRDs" {
+    info
+    kubectl apply -f vendor/katalog/networking/calico/crd.yml
+    kubectl apply -f vendor/katalog/monitoring/prometheus-operator/crd-alertmanager.yml
+    kubectl apply -f vendor/katalog/monitoring/prometheus-operator/crd-prometheus.yml
+    kubectl apply -f vendor/katalog/monitoring/prometheus-operator/crd-rule.yml
+    kubectl apply -f vendor/katalog/monitoring/prometheus-operator/crd-servicemonitor.yml
+    kubectl apply -f vendor/katalog/ingress/cert-manager/cert-manager-controller/crd.yml
+    kubectl apply -f vendor/katalog/opa/gatekeeper/core/crd.yml
+    kubectl apply -f vendor/katalog/dr/velero/velero-base/crds.yaml
+}
+
 @test "Install" {
     info
     install() {
