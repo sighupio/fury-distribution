@@ -8,7 +8,7 @@ load ./helper
     test() {
         kubectl get pods -l app=elasticsearch -o json -n logging |jq '.items[].status.containerStatuses[].ready' | uniq | grep -q true
     }
-    loop_it test 30 2
+    loop_it test 60 10
     status=${loop_it_result}
     [ "$status" -eq 0 ]
 }
@@ -18,7 +18,7 @@ load ./helper
     test() {
         kubectl get pods -l app=cerebro -o json -n logging |jq '.items[].status.containerStatuses[].ready' | uniq | grep -q true
     }
-    loop_it test 30 2
+    loop_it test 60 10
     status=${loop_it_result}
     [ "$status" -eq 0 ]
 }
@@ -28,7 +28,7 @@ load ./helper
     test() {
         kubectl get pods -l app=fluentd -o json -n logging |jq '.items[].status.containerStatuses[].ready' | uniq | grep -q true
     }
-    loop_it test 30 2
+    loop_it test 60 10
     status=${loop_it_result}
     [ "$status" -eq 0 ]
 }
@@ -38,7 +38,7 @@ load ./helper
     test() {
         kubectl get pods -l app=kibana -o json -n logging |jq '.items[].status.containerStatuses[].ready' | uniq | grep -q true
     }
-    loop_it test 30 2
+    loop_it test 60 10
     status=${loop_it_result}
     [ "$status" -eq 0 ]
 }

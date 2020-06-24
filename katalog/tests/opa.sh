@@ -8,7 +8,7 @@ load ./helper
     test() {
         kubectl get pods -l control-plane=controller-manager -o json -n gatekeeper-system | jq '.items[].status.containerStatuses[].ready' | uniq | grep -q true
     }
-    loop_it test 30 2
+    loop_it test 60 10
     status=${loop_it_result}
     [ "$status" -eq 0 ]
 }

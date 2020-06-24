@@ -22,6 +22,7 @@ load ./helper
 }
 
 @test "Install CRDs" {
+    skip # Testing without Pre-installing CRDs
     info
     kubectl apply -f vendor/katalog/networking/calico/crd.yml
     kubectl apply -f vendor/katalog/monitoring/prometheus-operator/crd-alertmanager.yml
@@ -38,7 +39,7 @@ load ./helper
     install() {
         apply .
     }
-    loop_it install 30 5
+    loop_it install 120 10
     status=${loop_it_result}
     [ "$status" -eq 0 ]
 }
