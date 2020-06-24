@@ -8,7 +8,7 @@ load ./helper
     test() {
         kubectl get pods -l k8s-app=goldpinger -o json -n monitoring |jq '.items[].status.containerStatuses[].ready' | uniq | grep -q true
     }
-    loop_it test 30 2
+    loop_it test 60 10
     status=${loop_it_result}
     [ "$status" -eq 0 ]
 }
@@ -18,7 +18,7 @@ load ./helper
     test() {
         kubectl get pods -l app=grafana -o json -n monitoring |jq '.items[].status.containerStatuses[].ready' | uniq | grep -q true
     }
-    loop_it test 30 2
+    loop_it test 60 10
     status=${loop_it_result}
     [ "$status" -eq 0 ]
 }
@@ -28,7 +28,7 @@ load ./helper
     test() {
         kubectl get pods -l k8s-app=prometheus-operator -o json -n monitoring |jq '.items[].status.containerStatuses[].ready' | uniq | grep -q true
     }
-    loop_it test 30 2
+    loop_it test 60 10
     status=${loop_it_result}
     [ "$status" -eq 0 ]
 }
@@ -38,7 +38,7 @@ load ./helper
     test() {
         kubectl get pods -l app=kube-state-metrics -o json -n monitoring |jq '.items[].status.containerStatuses[].ready' | uniq | grep -q true
     }
-    loop_it test 30 2
+    loop_it test 60 10
     status=${loop_it_result}
     [ "$status" -eq 0 ]
 }
@@ -48,7 +48,7 @@ load ./helper
     test() {
         kubectl get pods -l app=node-exporter -o json -n monitoring |jq '.items[].status.containerStatuses[].ready' | uniq | grep -q true
     }
-    loop_it test 30 2
+    loop_it test 60 10
     status=${loop_it_result}
     [ "$status" -eq 0 ]
 }
@@ -58,7 +58,7 @@ load ./helper
     test() {
         kubectl get pods -l app=prometheus -o json -n monitoring |jq '.items[].status.containerStatuses[].ready' | uniq | grep -q true
     }
-    loop_it test 30 2
+    loop_it test 60 10
     status=${loop_it_result}
     [ "$status" -eq 0 ]
 }
@@ -68,7 +68,7 @@ load ./helper
     test() {
         kubectl get pods -l app=metrics-server -o json -n kube-system |jq '.items[].status.containerStatuses[].ready' | uniq | grep -q true
     }
-    loop_it test 60 2
+    loop_it test 60 10
     status=${loop_it_result}
     [ "$status" -eq 0 ]
 }
