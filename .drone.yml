@@ -29,7 +29,7 @@ trigger:
 
 steps:
   - name: init
-    image: quay.io/sighup/e2e-testing-drone-plugin:v0.5.0-rc2
+    image: quay.io/sighup/e2e-testing-drone-plugin:v0.5.0-rc3
     pull: always
     volumes:
     - name: shared
@@ -75,7 +75,7 @@ steps:
       - bats -t katalog/tests/opa.sh
 
   - name: destroy
-    image:
+    image: quay.io/sighup/e2e-testing-drone-plugin:v0.5.0-rc3
     depends_on: [ test ]
     settings:
       action: destroy
@@ -122,7 +122,7 @@ trigger:
 
 steps:
   - name: init
-    image: quay.io/sighup/e2e-testing-drone-plugin:v0.5.0-rc2
+    image: quay.io/sighup/e2e-testing-drone-plugin:v0.5.0-rc3
     pull: always
     volumes:
     - name: shared
@@ -168,7 +168,7 @@ steps:
       - bats -t katalog/tests/opa.sh
 
   - name: destroy
-    image: quay.io/sighup/e2e-testing-drone-plugin:v0.5.0-rc2
+    image: quay.io/sighup/e2e-testing-drone-plugin:v0.5.0-rc3
     depends_on: [ test ]
     settings:
       action: destroy
@@ -215,7 +215,7 @@ trigger:
 
 steps:
   - name: init
-    image: quay.io/sighup/e2e-testing-drone-plugin:v0.5.0-rc2
+    image: quay.io/sighup/e2e-testing-drone-plugin:v0.5.0-rc3
     pull: always
     volumes:
     - name: shared
@@ -261,7 +261,7 @@ steps:
       - bats -t katalog/tests/opa.sh
 
   - name: destroy
-    image: quay.io/sighup/e2e-testing-drone-plugin:v0.5.0-rc2
+    image: quay.io/sighup/e2e-testing-drone-plugin:v0.5.0-rc3
     depends_on: [ test ]
     settings:
       action: destroy
