@@ -58,7 +58,7 @@ steps:
         from_secret: vsphere_user
 
   - name: test
-    image: quay.io/sighup/e2e-testing:1.1.0_0.2.2_2.16.1_1.4.0_1.16.4_3.2.2_2.4.1
+    image: quay.io/sighup/e2e-testing:1.1.0_0.2.2_2.16.1_1.4.0_1.16.9_3.3.0_2.4.1
     pull: always
     volumes:
     - name: shared
@@ -151,7 +151,7 @@ steps:
         from_secret: vsphere_user
 
   - name: test
-    image: quay.io/sighup/e2e-testing:1.1.0_0.2.2_2.16.1_1.4.0_1.17.2_3.2.2_2.4.1
+    image: quay.io/sighup/e2e-testing:1.1.0_0.2.2_2.16.1_1.4.0_1.17.5_3.3.0_2.4.1
     pull: always
     volumes:
     - name: shared
@@ -244,7 +244,7 @@ steps:
         from_secret: vsphere_user
 
   - name: test
-    image: quay.io/sighup/e2e-testing:1.1.0_0.2.2_2.16.1_1.4.0_1.18.0_3.2.2_2.4.1
+    image: quay.io/sighup/e2e-testing:1.1.0_0.2.2_2.16.1_1.4.0_1.18.2_3.3.0_2.4.1
     pull: always
     volumes:
     - name: shared
