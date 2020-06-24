@@ -23,6 +23,7 @@ load ./helper
 
 @test "Install CRDs" {
     info
+    skip # Trying again without pre-installing CRDs
     kubectl apply -f vendor/katalog/networking/calico/crd.yml
     kubectl apply -f vendor/katalog/monitoring/prometheus-operator/crd-alertmanager.yml
     kubectl apply -f vendor/katalog/monitoring/prometheus-operator/crd-prometheus.yml
