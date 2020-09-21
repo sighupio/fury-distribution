@@ -322,6 +322,11 @@ platform:
   os: linux
   arch: amd64
 
+trigger:
+  ref:
+    include:
+      - refs/tags/**
+
 steps:
   - name: prepare-release-manifests
     image: quay.io/sighup/e2e-testing:1.1.0_0.2.2_2.16.1_1.4.0_1.18.8_3.3.0_2.4.1
