@@ -72,3 +72,13 @@ load ./helper
     status=${loop_it_result}
     [ "$status" -eq 0 ]
 }
+
+@test "kube-proxy-metrics is Running" {
+    info
+    test() {
+        kubectl get pods -l k8s-app=kube-proxy-metrics -o json -n monitoring | jq '.items[].status.containerStatuses[].ready' | uniq | grep -q true
+    }
+    loop_it test 60 10
+    status=${loop_it_result}
+    [ "$status" -eq 0 ]
+}
