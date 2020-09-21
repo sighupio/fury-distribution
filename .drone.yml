@@ -29,7 +29,7 @@ trigger:
 
 steps:
   - name: init
-    image: quay.io/sighup/e2e-testing-drone-plugin:v0.5.0
+    image: quay.io/sighup/e2e-testing-drone-plugin:v0.6.0
     pull: always
     volumes:
     - name: shared
@@ -58,7 +58,7 @@ steps:
         from_secret: vsphere_user
 
   - name: test
-    image: quay.io/sighup/e2e-testing:1.1.0_0.2.2_2.16.1_1.4.0_1.16.9_3.3.0_2.4.1
+    image: quay.io/sighup/e2e-testing:1.1.0_0.2.2_2.16.1_1.4.0_1.16.15_3.3.0_2.4.1
     pull: always
     volumes:
     - name: shared
@@ -75,7 +75,7 @@ steps:
       - bats -t katalog/tests/opa.sh
 
   - name: destroy
-    image: quay.io/sighup/e2e-testing-drone-plugin:v0.5.0
+    image: quay.io/sighup/e2e-testing-drone-plugin:v0.6.0
     depends_on: [ test ]
     settings:
       action: destroy
@@ -122,7 +122,7 @@ trigger:
 
 steps:
   - name: init
-    image: quay.io/sighup/e2e-testing-drone-plugin:v0.5.0
+    image: quay.io/sighup/e2e-testing-drone-plugin:v0.6.0
     pull: always
     volumes:
     - name: shared
@@ -151,7 +151,7 @@ steps:
         from_secret: vsphere_user
 
   - name: test
-    image: quay.io/sighup/e2e-testing:1.1.0_0.2.2_2.16.1_1.4.0_1.17.5_3.3.0_2.4.1
+    image: quay.io/sighup/e2e-testing:1.1.0_0.2.2_2.16.1_1.4.0_1.17.11_3.3.0_2.4.1
     pull: always
     volumes:
     - name: shared
@@ -168,7 +168,7 @@ steps:
       - bats -t katalog/tests/opa.sh
 
   - name: destroy
-    image: quay.io/sighup/e2e-testing-drone-plugin:v0.5.0
+    image: quay.io/sighup/e2e-testing-drone-plugin:v0.6.0
     depends_on: [ test ]
     settings:
       action: destroy
@@ -215,7 +215,7 @@ trigger:
 
 steps:
   - name: init
-    image: quay.io/sighup/e2e-testing-drone-plugin:v0.5.0
+    image: quay.io/sighup/e2e-testing-drone-plugin:v0.6.0
     pull: always
     volumes:
     - name: shared
@@ -244,7 +244,7 @@ steps:
         from_secret: vsphere_user
 
   - name: test
-    image: quay.io/sighup/e2e-testing:1.1.0_0.2.2_2.16.1_1.4.0_1.18.2_3.3.0_2.4.1
+    image: quay.io/sighup/e2e-testing:1.1.0_0.2.2_2.16.1_1.4.0_1.18.8_3.3.0_2.4.1
     pull: always
     volumes:
     - name: shared
@@ -261,7 +261,7 @@ steps:
       - bats -t katalog/tests/opa.sh
 
   - name: destroy
-    image: quay.io/sighup/e2e-testing-drone-plugin:v0.5.0
+    image: quay.io/sighup/e2e-testing-drone-plugin:v0.6.0
     depends_on: [ test ]
     settings:
       action: destroy
@@ -304,6 +304,20 @@ platform:
   arch: amd64
 
 steps:
+  - name: prepare-release-manifests
+    image: quay.io/sighup/e2e-testing:1.1.0_0.2.2_2.16.1_1.4.0_1.18.8_3.3.0_2.4.1
+    pull: always
+    depends_on: [ clone ]
+    environment:
+      RELEASE_MANIFESTS_PATH: fury-distribution-${DRONE_TAG}.yml
+    commands:
+      - furyctl vendor -H
+      - kustomize build . > $${RELEASE_MANIFESTS_PATH}
+    when:
+      ref:
+        include:
+          - refs/tags/**
+
   - name: prepare-release-notes
     image: python:3.7
     pull: always
@@ -321,12 +335,15 @@ steps:
   - name: publish-prerelease
     image: plugins/github-release
     pull: always
-    depends_on: [ prepare-release-notes ]
+    depends_on: 
+      - prepare-release-manifests
+      - prepare-release-notes
     settings:
       api_key:
         from_secret: github_token
       file_exists: skip
       files:
+        - fury-distribution-${DRONE_TAG}.yml
         - Furyfile.yml
         - kustomization.yaml
       prerelease: true
@@ -344,12 +361,15 @@ steps:
   - name: publish-stable
     image: plugins/github-release
     pull: always
-    depends_on: [ prepare-release-notes ]
+    depends_on: 
+      - prepare-release-manifests
+      - prepare-release-notes
     settings:
       api_key:
         from_secret: github_token
       file_exists: skip
       files:
+        - fury-distribution-${DRONE_TAG}.yml
         - Furyfile.yml
         - kustomization.yaml
       prerelease: false
