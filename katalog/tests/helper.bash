@@ -1,4 +1,5 @@
 #!/usr/bin/env bats
+# shellcheck disable=SC2154,SC2034,SC2086
 
 apply (){
   kustomize build $1 >&2
