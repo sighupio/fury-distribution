@@ -60,7 +60,7 @@ steps:
       local_kind_config_path: katalog/tests/config/kind-config-custom
       cluster_version: '1.16.9'
       instance_path: /shared
-      instance_size: extra-large
+      instance_size: 2-extra-large
       aws_default_region:
         from_secret: aws_region
       aws_access_key_id:
@@ -99,7 +99,7 @@ steps:
     settings:
       action: destroy
       pipeline_id: cluster-116
-      instance_size: extra-large
+      instance_size: 2-extra-large
       aws_default_region:
         from_secret: aws_region
       aws_access_key_id:
@@ -153,7 +153,7 @@ steps:
       local_kind_config_path: katalog/tests/config/kind-config-custom
       cluster_version: '1.17.5'
       instance_path: /shared
-      instance_size: extra-large
+      instance_size: 2-extra-large
       aws_default_region:
         from_secret: aws_region
       aws_access_key_id:
@@ -192,7 +192,7 @@ steps:
     settings:
       action: destroy
       pipeline_id: cluster-117
-      instance_size: extra-large
+      instance_size: 2-extra-large
       aws_default_region:
         from_secret: aws_region
       aws_access_key_id:
@@ -246,7 +246,7 @@ steps:
       local_kind_config_path: katalog/tests/config/kind-config-custom
       cluster_version: '1.18.2'
       instance_path: /shared
-      instance_size: extra-large
+      instance_size: 2-extra-large
       aws_default_region:
         from_secret: aws_region
       aws_access_key_id:
@@ -285,7 +285,7 @@ steps:
     settings:
       action: destroy
       pipeline_id: cluster-118
-      instance_size: extra-large
+      instance_size: 2-extra-large
       aws_default_region:
         from_secret: aws_region
       aws_access_key_id:
@@ -339,7 +339,7 @@ steps:
       local_kind_config_path: katalog/tests/config/kind-config-custom
       cluster_version: '1.19.0'
       instance_path: /shared
-      instance_size: extra-large
+      instance_size: 2-extra-large
       aws_default_region:
         from_secret: aws_region
       aws_access_key_id:
@@ -378,7 +378,7 @@ steps:
     settings:
       action: destroy
       pipeline_id: cluster-119
-      instance_size: extra-large
+      instance_size: 2-extra-large
       aws_default_region:
         from_secret: aws_region
       aws_access_key_id:
