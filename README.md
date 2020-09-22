@@ -21,6 +21,7 @@ This way we can ensure everything works as expected including the CNI *(calico)*
   - goldpinger
   - kubeadm-sm
   - kube-state-metrics
+  - kube-proxy-exporter
   - node-exporter
   - metrics-server
 - Logging
