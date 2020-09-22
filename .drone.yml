@@ -430,6 +430,7 @@ steps:
     commands:
       - furyctl vendor -H
       - kustomize build . > $${RELEASE_MANIFESTS_PATH}
+      - cp katalog/tests/config/kind-config-custom kind-config-${DRONE_TAG}.yml
     when:
       ref:
         include:
@@ -461,6 +462,7 @@ steps:
       file_exists: skip
       files:
         - fury-distribution-${DRONE_TAG}.yml
+        - kind-config-${DRONE_TAG}.yml
         - Furyfile.yml
         - kustomization.yaml
       prerelease: true
@@ -487,6 +489,7 @@ steps:
       file_exists: skip
       files:
         - fury-distribution-${DRONE_TAG}.yml
+        - kind-config-${DRONE_TAG}.yml
         - Furyfile.yml
         - kustomization.yaml
       prerelease: false
