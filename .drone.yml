@@ -146,6 +146,7 @@ name: e2e-kubernetes-1.17
 
 depends_on:
   - policeman
+  - e2e-kubernetes-1.16
 
 platform:
   os: linux
@@ -239,6 +240,8 @@ name: e2e-kubernetes-1.18
 
 depends_on:
   - policeman
+  - e2e-kubernetes-1.16
+  - e2e-kubernetes-1.17
 
 platform:
   os: linux
@@ -332,6 +335,9 @@ name: e2e-kubernetes-1.19
 
 depends_on:
   - policeman
+  - e2e-kubernetes-1.16
+  - e2e-kubernetes-1.17
+  - e2e-kubernetes-1.18
 
 platform:
   os: linux
