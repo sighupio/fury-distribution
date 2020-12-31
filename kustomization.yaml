@@ -8,6 +8,7 @@ bases:
   # OPA
   - ./vendor/katalog/opa/gatekeeper/core
   - ./vendor/katalog/opa/gatekeeper/rules/templates
+  - ./vendor/katalog/opa/gatekeeper/gpm
   # Monitoring
   - ./vendor/katalog/monitoring/prometheus-operator
   - ./vendor/katalog/monitoring/prometheus-operated

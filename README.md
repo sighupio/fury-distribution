@@ -1,6 +1,6 @@
 # Fury Distribution
 
-[![Build Status](http://ci.sighup.io/api/badges/sighupio/fury-distribution/status.svg?ref=refs/tags/v1.4.0)](http://ci.sighup.io/sighupio/fury-distribution)
+[![Build Status](http://ci.sighup.io/api/badges/sighupio/fury-distribution/status.svg?ref=refs/tags/v1.5.0)](http://ci.sighup.io/sighupio/fury-distribution)
 
 ## Information
 
@@ -40,6 +40,7 @@ This way we can ensure everything works as expected including the CNI *(calico)*
 - OPA
   - Gatekeeper
   - Gatekeeper contraint templates
+  - Gatekeeper Policy Manager
 
 ### Tests
 

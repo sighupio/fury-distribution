@@ -27,6 +27,12 @@ nodes:
     apiServer:
       extraArgs:
         "enable-admission-plugins": "NamespaceLifecycle,LimitRanger,PodNodeSelector,ServiceAccount,DefaultStorageClass,DefaultTolerationSeconds,MutatingAdmissionWebhook,ValidatingAdmissionWebhook,ResourceQuota"
+    controllerManager:
+      extraArgs:
+        "bind-address": "0.0.0.0"
+    scheduler:
+      extraArgs:
+        "bind-address": "0.0.0.0"
 
 - role: worker
   extraPortMappings:

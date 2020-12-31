@@ -25,3 +25,14 @@ load ./helper
   status=${loop_it_result}
   [[ "$status" -eq 0 ]]
 }
+
+@test "Wait for Gatekeeper Policy Manager" {
+  info
+  test(){
+    readyReplicas=$(kubectl get deploy gatekeeper-policy-manager -n gatekeeper-system -o jsonpath="{.status.readyReplicas}")
+    if [ "${readyReplicas}" != "1" ]; then return 1; fi
+  }
+  loop_it test 30 2
+  status=${loop_it_result}
+  [[ "$status" -eq 0 ]]
+}
