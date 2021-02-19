@@ -8,7 +8,7 @@ This repository spin up a kind cluster with a custom configuration:
 [katalog/tests/config/kind-config-custom](katalog/tests/config/kind-config-custom)
 
 The configuration is almost the same configuration we do in every Kubernetes cluster we create.
-This way we can ensure everything works as expected including the CNI *(calico)*.
+This way, we can ensure everything works as expected, including the CNI *(calico)*.
 
 ### Core Modules
 
@@ -48,4 +48,4 @@ Smoke tests *(smoke testing)* are executed in this E2E pipeline. It checks every
 
 ## License
 
-For license details please see [LICENSE](LICENSE)
+For license details, please see [LICENSE](LICENSE)
