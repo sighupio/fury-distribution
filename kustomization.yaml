@@ -19,6 +19,7 @@ bases:
   - ./vendor/katalog/monitoring/kube-state-metrics
   - ./vendor/katalog/monitoring/node-exporter
   - ./vendor/katalog/monitoring/metrics-server
+  - ./vendor/katalog/monitoring/alertmanager-operated
   # Logging
   - ./vendor/katalog/logging/elasticsearch-single
   - ./vendor/katalog/logging/cerebro
