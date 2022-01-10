@@ -12,14 +12,38 @@
 
 ## Overview
 
+Kubernetes Fury Distribution (KFD) is a [CNCF certified](https://landscape.cncf.io/?selected=fury-distribution) battle-tested Kubernetes distribution based purely on upstream Kubernetes.
+
+It is developed and maintained by [SIGHUP](https://sighup.io/), and it is fully open source.
+
+> 🎯 The goal of Fury is to turn any standard Kubernetes cluster into a fully-configured production-grade cluster.
+
+## Un-distribution model
+
+KFD uses an **un-distribution model**. This means that we:
+
+- Rely only on open source solutions.
+- Are free from vendor lock-in.
+- Stay close to upstream Kubernetes and the cloud native landscape.
+- Choose and configure a set of battle-tested open source tools.
+
 ## Architecture
 
-Kubernetes Fury Distribution was designed as a modular Kubernetes distribution.
-This modular design makes it possible to extend the distribution with new features.
+Kubernetes Fury Distribution is structured on modules, and each module has a set of packages.
+
+- A package is a single unit of functionality.
+- A module groups together packages that are functionally related.
+
+> All modules are open source, widely used, easily customizable, and pre-configured with sane defaults.
+
+The standard way to deploy KFD is to:
+
+- Deploy all the [Core Modules](#-core-modules) of the distribution
+- Deploy (if needed) any of the [Addon modules](#-addon-modules)
 
 ### Core Modules
 
-The core modules provides essential functionality to the distribution.
+Core modules provides essential functionality to the distribution.
 
 <p align="center">
   <img src="docs/assets/fury-core-modules.png" width="400px"/>
@@ -36,16 +60,45 @@ The core modules provides essential functionality to the distribution.
 
 ### Addons Modules
 
-## Features
+Addon modules provides additional functionality to the distribution.
+
+|               Module                |          Latest Release          |                                 Description                                  |
+| ----------------------------------- | -------------------------------- | ---------------------------------------------------------------------------- |
+| [Kong][kong-module]                 | ![Version][kong-version]         | Add Kong API Gateway for Kubernetes applications via Kong Ingress Controller |
+| [Service Mesh][service-mesh-module] | ![Version][service-mesh-version] | Deploy a service mesh on top of KFD                                          |
+| [Registry][registry-module]         | ![Version][registry-version]     | Integrate a Container Registry solution                                      |
+
+## Issues
+
+In case you experience any issues feel free to [open a new issue](https://github.com/sighupio/fury-distribution/issues/new/choose).
+
+If  the problem is related to a specific module, open the issue in the module repository.
 
 ## Contributing
 
-If you wish to contribute please read the [Contributing Guidelines][docs/CONTRIBUTING.md].
+If you wish to contribute please read the [Contributing Guidelines](docs/CONTRIBUTING.md).
+
+## CNCF Certified 🎓
+
+Kubernetes Fury Distribution has been certified by the [CNCF] *(Cloud Native Computing foundation)* as a Certified Kubernetes Distribution. Certified Kubernetes solutions are validated by the [CNCF] to ensure a set of guarantees as consistency, timely updates and confirmability.
+
+<center>
+    <a href="https://github.com/cncf/k8s-conformance/pull/1028">
+        <img src="https://github.com/cncf/artwork/raw/master/projects/kubernetes/certified-kubernetes/1.20/color/certified-kubernetes-1.20-color.png" width="100" />
+    </a>
+    <a href="https://github.com/cncf/k8s-conformance/pull/1279">
+        <img src="https://github.com/cncf/artwork/raw/master/projects/kubernetes/certified-kubernetes/1.21/color/certified-kubernetes-1.21-color.png" width="100" />
+    </a>
+    <a href="https://github.com/cncf/k8s-conformance/pull/1280">
+        <img src="https://github.com/cncf/artwork/raw/master/projects/kubernetes/certified-kubernetes/1.22/color/certified-kubernetes-1.22-color.png" width="100" />
+    </a>
+</center>
 
 ## License
 
 KFD is open-source software and it's released under the following [LICENSE](LICENSE)
 
+<!-- Core Modules -->
 [networking-module]: https://github.com/sighupio/fury-kubernetes-networking
 [ingress-module]: https://github.com/sighupio/fury-kubernetes-ingress
 [logging-module]: https://github.com/sighupio/fury-kubernetes-logging
@@ -59,3 +112,15 @@ KFD is open-source software and it's released under the following [LICENSE](LICE
 [monitoring-version]: https://img.shields.io/github/v/release/sighupio/fury-kubernetes-monitoring
 [dr-version]: https://img.shields.io/github/v/release/sighupio/fury-kubernetes-dr
 [opa-version]: https://img.shields.io/github/v/release/sighupio/fury-kubernetes-opa
+
+<!-- Addon Modules -->
+[kong-module]: https://github.com/sighupio/fury-kubernetes-kong
+[service-mesh-module]: https://github.com/sighupio/fury-kubernetes-service-mesh
+[registry-module]: https://github.com/sighupio/fury-kubernetes-registry
+
+[kong-version]: https://img.shields.io/github/v/release/sighupio/fury-kubernetes-kong
+[service-mesh-version]: https://img.shields.io/github/v/release/sighupio/fury-kubernetes-service-mesh
+[registry-version]: https://img.shields.io/github/v/release/sighupio/fury-kubernetes-registry
+
+<!-- Misc -->
+[CNCF]: https://landscape.cncf.io/card-mode?category=certified-kubernetes-distribution&grouping=category&organization=sighup
