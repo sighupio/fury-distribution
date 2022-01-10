@@ -14,7 +14,7 @@
 
 Kubernetes Fury Distribution (KFD) is a [CNCF certified](https://landscape.cncf.io/?selected=fury-distribution) battle-tested Kubernetes distribution based purely on upstream Kubernetes.
 
-It is developed and maintained by [SIGHUP](https://sighup.io/), and it is fully open source.
+It is developed and maintained by [SIGHUP](https://sighup.io/) and the community, and it is fully open source.
 
 > 🎯 The goal of Fury is to turn any standard Kubernetes cluster into a fully-configured production-grade cluster.
 
@@ -53,7 +53,7 @@ Core modules provides essential functionality to the distribution.
 | ------------------------------- | ------------------------------ | ----------------------------------------------------------------------------------------- |
 | [Networking][networking-module] | ![Version][networking-version] | Networking functionality via Calico CNI                                                   |
 | [Ingress][ingress-module]       | ![Version][ingress-version]    | Fast and reliable Ingress Controller and TLS certificate management                       |
-| [Logging][logging-module]       | ![Version][logging-version]    | A centralized logging solution based on the EFK stack (Elastic + Fluentd + Kibana)        |
+| [Logging][logging-module]       | ![Version][logging-version]    | A centralized logging solution based on the EFK stack (Elastic, Fluentd and Kibana)        |
 | [Monitoring][monitoring-module] | ![Version][monitoring-version] | Monitoring and alerting functionality based on Prometheus, AlertManager and Grafana       |
 | [Disaster Recovery][dr-module]  | ![Version][dr-version]         | Backup and disaster recovery solution using Velero                                        |
 | [OPA][opa-module]               | ![Version][opa-version]        | Policy and Governance for your cluster using OPA Gatekeeper and Gatekeeper Policy Manager |
@@ -80,7 +80,7 @@ If you wish to contribute please read the [Contributing Guidelines](docs/CONTRIB
 
 ## CNCF Certified 🎓
 
-Kubernetes Fury Distribution has been certified by the [CNCF] *(Cloud Native Computing foundation)* as a Certified Kubernetes Distribution. Certified Kubernetes solutions are validated by the [CNCF] to ensure a set of guarantees as consistency, timely updates and confirmability.
+Kubernetes Fury Distribution has been certified by the [CNCF] *(Cloud Native Computing foundation)* as a *Certified Kubernetes Distribution*. Certified solutions are validated to ensure a set of guarantees as consistency, timely updates and confirmability.
 
 <center>
     <a href="https://github.com/cncf/k8s-conformance/pull/1028">
