@@ -36,6 +36,12 @@ The core modules provides essential functionality to the distribution.
 
 ### Addons Modules
 
+## Features
+
+## Contributing
+
+If you wish to contribute please read the [Contributing Guidelines][docs/CONTRIBUTING.md].
+
 ## License
 
 KFD is open-source software and it's released under the following [LICENSE](LICENSE)
