@@ -70,6 +70,7 @@ trigger:
     include:
       - refs/tags/**
       - refs/heads/master
+      - refs/heads/support_1.23
 
 steps:
   - name: init
@@ -174,6 +175,7 @@ trigger:
     include:
       - refs/tags/**
       - refs/heads/master
+      - refs/heads/support_1.23
 
 steps:
   - name: init
@@ -279,6 +281,7 @@ trigger:
     include:
       - refs/tags/**
       - refs/heads/master
+      - refs/heads/support_1.23
 
 steps:
   - name: init
@@ -381,6 +384,7 @@ trigger:
     include:
       - refs/tags/**
       - refs/heads/master
+      - refs/heads/support_1.23
 
 steps:
   - name: init
