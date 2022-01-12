@@ -60,6 +60,9 @@ name: e2e-kubernetes-1.20
 depends_on:
   - policeman
 
+node:
+  runner: internal
+
 platform:
   os: linux
   arch: amd64
@@ -163,6 +166,9 @@ name: e2e-kubernetes-1.21
 depends_on:
   - policeman
 
+node:
+  runner: internal
+
 platform:
   os: linux
   arch: amd64
@@ -262,6 +268,9 @@ volumes:
 ---
 kind: pipeline
 name: e2e-kubernetes-1.22
+
+node:
+  runner: internal
 
 depends_on:
   - policeman
@@ -365,6 +374,9 @@ volumes:
 ---
 kind: pipeline
 name: e2e-kubernetes-1.23
+
+node:
+  runner: internal
 
 depends_on:
   - policeman
