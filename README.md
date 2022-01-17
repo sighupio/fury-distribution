@@ -58,7 +58,7 @@ Core modules provides essential functionality to the distribution.
 | [Disaster Recovery][dr-module]  | ![Version][dr-version]         | Backup and disaster recovery solution using Velero                                        |
 | [OPA][opa-module]               | ![Version][opa-version]        | Policy and Governance for your cluster using OPA Gatekeeper and Gatekeeper Policy Manager |
 
-### Addons Modules
+### Addon Modules
 
 Addon modules provides additional functionality to the distribution.
 
@@ -83,13 +83,13 @@ If you wish to contribute please read the [Contributing Guidelines](docs/CONTRIB
 Kubernetes Fury Distribution has been certified by the [CNCF] *(Cloud Native Computing foundation)* as a *Certified Kubernetes Distribution*. Certified solutions are validated to ensure a set of guarantees as consistency, timely updates and confirmability.
 
 <center>
-    <a href="https://github.com/cncf/k8s-conformance/pull/1279">
+    <a href="https://github.com/cncf/k8s-conformance/pull/1280">
         <img src="https://github.com/cncf/artwork/raw/master/projects/kubernetes/certified-kubernetes/1.20/color/certified-kubernetes-1.20-color.png" width="100" />
     </a>
-    <a href="https://github.com/cncf/k8s-conformance/pull/1280">
+    <a href="https://github.com/cncf/k8s-conformance/pull/1495">
         <img src="https://github.com/cncf/artwork/raw/master/projects/kubernetes/certified-kubernetes/1.21/color/certified-kubernetes-1.21-color.png" width="100" />
     </a>
-    <a href="https://github.com/cncf/k8s-conformance/pull/1495">
+    <a href="https://github.com/cncf/k8s-conformance/pull/1602">
         <img src="https://github.com/cncf/artwork/raw/master/projects/kubernetes/certified-kubernetes/1.22/color/certified-kubernetes-1.22-color.png" width="100" />
     </a>
 </center>
