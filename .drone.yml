@@ -37,7 +37,7 @@ steps:
       - clone
 
   - name: render
-    image: quay.io/sighup/e2e-testing:1.1.0_0.2.2_2.16.1_1.9.4_1.19.11_3.8.7_2.4.1
+    image: quay.io/sighup/e2e-testing:1.1.0_0.2.2_2.16.1_1.9.4_1.20.7_3.8.7_2.4.1
     pull: always
     depends_on:
       - clone
@@ -55,113 +55,13 @@ steps:
 
 ---
 kind: pipeline
-name: e2e-kubernetes-1.19
-
-depends_on:
-  - policeman
-
-platform:
-  os: linux
-  arch: amd64
-
-trigger:
-  ref:
-    include:
-      - refs/tags/**
-      - refs/heads/master
-
-steps:
-  - name: init
-    image: quay.io/sighup/e2e-testing-drone-plugin:v0.12.0
-    pull: always
-    volumes:
-    - name: shared
-      path: /shared
-    depends_on: [ clone ]
-    settings:
-      action: custom-cluster-119
-      pipeline_id: cluster-119
-      local_kind_config_path: katalog/tests/config/kind-config-custom
-      cluster_version: '1.19.11'
-      instance_path: /shared
-      instance_size: 2-extra-large
-      aws_default_region:
-        from_secret: aws_region
-      aws_access_key_id:
-        from_secret: aws_access_key_id
-      aws_secret_access_key:
-        from_secret: aws_secret_access_key
-      terraform_tf_states_bucket_name:
-        from_secret: terraform_tf_states_bucket_name
-      vsphere_server:
-        from_secret: vsphere_server
-      vsphere_password:
-        from_secret: vsphere_password
-      vsphere_user:
-        from_secret: vsphere_user
-      dockerhub_username:
-        from_secret: dockerhub_username
-      dockerhub_password:
-        from_secret: dockerhub_password
-
-  - name: test
-    image: quay.io/sighup/e2e-testing:1.1.0_0.2.2_2.16.1_1.9.4_1.19.11_3.8.7_2.4.1
-    pull: always
-    volumes:
-    - name: shared
-      path: /shared
-    depends_on: [ init ]
-    commands:
-      - export KUBECONFIG=/shared/kube/kubeconfig-119
-      - bats -t katalog/tests/install.sh
-      - bats -t katalog/tests/networking.sh
-      - bats -t katalog/tests/monitoring.sh
-      - bats -t katalog/tests/logging.sh
-      - bats -t katalog/tests/ingress.sh
-      - bats -t katalog/tests/dr.sh
-      - bats -t katalog/tests/opa.sh
-
-  - name: destroy
-    image: quay.io/sighup/e2e-testing-drone-plugin:v0.12.0
-    depends_on: [ test ]
-    settings:
-      action: destroy
-      pipeline_id: cluster-119
-      instance_size: 2-extra-large
-      aws_default_region:
-        from_secret: aws_region
-      aws_access_key_id:
-        from_secret: aws_access_key_id
-      aws_secret_access_key:
-        from_secret: aws_secret_access_key
-      terraform_tf_states_bucket_name:
-        from_secret: terraform_tf_states_bucket_name
-      vsphere_server:
-        from_secret: vsphere_server
-      vsphere_password:
-        from_secret: vsphere_password
-      vsphere_user:
-        from_secret: vsphere_user
-      dockerhub_username:
-        from_secret: dockerhub_username
-      dockerhub_password:
-        from_secret: dockerhub_password
-    when:
-      status:
-      - success
-      - failure
-
-volumes:
-- name: shared
-  temp: {}
-
----
-kind: pipeline
 name: e2e-kubernetes-1.20
 
 depends_on:
   - policeman
-  - e2e-kubernetes-1.19
+
+node:
+  runner: internal
 
 platform:
   os: linux
@@ -175,7 +75,7 @@ trigger:
 
 steps:
   - name: init
-    image: quay.io/sighup/e2e-testing-drone-plugin:v0.12.0
+    image: quay.io/sighup/e2e-testing-drone-plugin:v0.13.0
     pull: always
     volumes:
     - name: shared
@@ -184,7 +84,7 @@ steps:
     settings:
       action: custom-cluster-120
       pipeline_id: cluster-120
-      local_kind_config_path: katalog/tests/config/kind-config-custom
+      local_kind_config_path: tests/config/kind-config-custom
       cluster_version: '1.20.7'
       instance_path: /shared
       instance_size: 2-extra-large
@@ -216,16 +116,16 @@ steps:
     depends_on: [ init ]
     commands:
       - export KUBECONFIG=/shared/kube/kubeconfig-120
-      - bats -t katalog/tests/install.sh
-      - bats -t katalog/tests/networking.sh
-      - bats -t katalog/tests/monitoring.sh
-      - bats -t katalog/tests/logging.sh
-      - bats -t katalog/tests/ingress.sh
-      - bats -t katalog/tests/dr.sh
-      - bats -t katalog/tests/opa.sh
+      - bats -t tests/install.sh
+      - bats -t tests/networking.sh
+      - bats -t tests/monitoring.sh
+      - bats -t tests/logging.sh
+      - bats -t tests/ingress.sh
+      - bats -t tests/dr.sh
+      - bats -t tests/opa.sh
 
   - name: destroy
-    image: quay.io/sighup/e2e-testing-drone-plugin:v0.12.0
+    image: quay.io/sighup/e2e-testing-drone-plugin:v0.13.0
     depends_on: [ test ]
     settings:
       action: destroy
@@ -264,8 +164,9 @@ name: e2e-kubernetes-1.21
 
 depends_on:
   - policeman
-  - e2e-kubernetes-1.19
-  - e2e-kubernetes-1.20
+
+node:
+  runner: internal
 
 platform:
   os: linux
@@ -279,7 +180,7 @@ trigger:
 
 steps:
   - name: init
-    image: quay.io/sighup/e2e-testing-drone-plugin:v0.12.0
+    image: quay.io/sighup/e2e-testing-drone-plugin:v0.13.0
     pull: always
     volumes:
     - name: shared
@@ -288,7 +189,7 @@ steps:
     settings:
       action: custom-cluster-121
       pipeline_id: cluster-121
-      local_kind_config_path: katalog/tests/config/kind-config-custom
+      local_kind_config_path: tests/config/kind-config-custom
       cluster_version: '1.21.1'
       instance_path: /shared
       instance_size: 2-extra-large
@@ -320,16 +221,16 @@ steps:
     depends_on: [ init ]
     commands:
       - export KUBECONFIG=/shared/kube/kubeconfig-121
-      - bats -t katalog/tests/install.sh
-      - bats -t katalog/tests/networking.sh
-      - bats -t katalog/tests/monitoring.sh
-      - bats -t katalog/tests/logging.sh
-      - bats -t katalog/tests/ingress.sh
-      - bats -t katalog/tests/dr.sh
-      - bats -t katalog/tests/opa.sh
+      - bats -t tests/install.sh
+      - bats -t tests/networking.sh
+      - bats -t tests/monitoring.sh
+      - bats -t tests/logging.sh
+      - bats -t tests/ingress.sh
+      - bats -t tests/dr.sh
+      - bats -t tests/opa.sh
 
   - name: destroy
-    image: quay.io/sighup/e2e-testing-drone-plugin:v0.12.0
+    image: quay.io/sighup/e2e-testing-drone-plugin:v0.13.0
     depends_on: [ test ]
     settings:
       action: destroy
@@ -366,11 +267,11 @@ volumes:
 kind: pipeline
 name: e2e-kubernetes-1.22
 
+node:
+  runner: internal
+
 depends_on:
   - policeman
-  - e2e-kubernetes-1.19
-  - e2e-kubernetes-1.20
-  - e2e-kubernetes-1.21
 
 platform:
   os: linux
@@ -384,7 +285,7 @@ trigger:
 
 steps:
   - name: init
-    image: quay.io/sighup/e2e-testing-drone-plugin:v0.12.0
+    image: quay.io/sighup/e2e-testing-drone-plugin:v0.13.0
     pull: always
     volumes:
     - name: shared
@@ -393,7 +294,7 @@ steps:
     settings:
       action: custom-cluster-122
       pipeline_id: cluster-122
-      local_kind_config_path: katalog/tests/config/kind-config-custom
+      local_kind_config_path: tests/config/kind-config-custom
       cluster_version: '1.22.0'
       instance_path: /shared
       instance_size: 2-extra-large
@@ -425,16 +326,16 @@ steps:
     depends_on: [ init ]
     commands:
       - export KUBECONFIG=/shared/kube/kubeconfig-122
-      - bats -t katalog/tests/install.sh
-      - bats -t katalog/tests/networking.sh
-      - bats -t katalog/tests/monitoring.sh
-      - bats -t katalog/tests/logging.sh
-      - bats -t katalog/tests/ingress.sh
-      - bats -t katalog/tests/dr.sh
-      - bats -t katalog/tests/opa.sh
+      - bats -t tests/install.sh
+      - bats -t tests/networking.sh
+      - bats -t tests/monitoring.sh
+      - bats -t tests/logging.sh
+      - bats -t tests/ingress.sh
+      - bats -t tests/dr.sh
+      - bats -t tests/opa.sh
 
   - name: destroy
-    image: quay.io/sighup/e2e-testing-drone-plugin:v0.12.0
+    image: quay.io/sighup/e2e-testing-drone-plugin:v0.13.0
     depends_on: [ test ]
     settings:
       action: destroy
@@ -469,13 +370,118 @@ volumes:
 
 ---
 kind: pipeline
+name: e2e-kubernetes-1.23
+
+node:
+  runner: internal
+
+depends_on:
+  - policeman
+
+platform:
+  os: linux
+  arch: amd64
+
+trigger:
+  ref:
+    include:
+      - refs/tags/**
+      - refs/heads/master
+
+steps:
+  - name: init
+    image: quay.io/sighup/e2e-testing-drone-plugin:v0.13.0
+    pull: always
+    volumes:
+    - name: shared
+      path: /shared
+    depends_on: [ clone ]
+    settings:
+      action: custom-cluster-123
+      pipeline_id: cluster-123
+      local_kind_config_path: tests/config/kind-config-custom
+      cluster_version: '1.23.0'
+      instance_path: /shared
+      instance_size: 2-extra-large
+      aws_default_region:
+        from_secret: aws_region
+      aws_access_key_id:
+        from_secret: aws_access_key_id
+      aws_secret_access_key:
+        from_secret: aws_secret_access_key
+      terraform_tf_states_bucket_name:
+        from_secret: terraform_tf_states_bucket_name
+      vsphere_server:
+        from_secret: vsphere_server
+      vsphere_password:
+        from_secret: vsphere_password
+      vsphere_user:
+        from_secret: vsphere_user
+      dockerhub_username:
+        from_secret: dockerhub_username
+      dockerhub_password:
+        from_secret: dockerhub_password
+
+  - name: test
+    image: quay.io/sighup/e2e-testing:1.1.0_0.2.2_2.16.1_1.9.4_1.23.0_3.8.7_2.4.1
+    pull: always
+    volumes:
+    - name: shared
+      path: /shared
+    depends_on: [ init ]
+    commands:
+      - export KUBECONFIG=/shared/kube/kubeconfig-123
+      - bats -t tests/install.sh
+      - bats -t tests/networking.sh
+      - bats -t tests/monitoring.sh
+      - bats -t tests/logging.sh
+      - bats -t tests/ingress.sh
+      - bats -t tests/dr.sh
+      - bats -t tests/opa.sh
+
+  - name: destroy
+    image: quay.io/sighup/e2e-testing-drone-plugin:v0.13.0
+    depends_on: [ test ]
+    settings:
+      action: destroy
+      pipeline_id: cluster-123
+      instance_size: 2-extra-large
+      aws_default_region:
+        from_secret: aws_region
+      aws_access_key_id:
+        from_secret: aws_access_key_id
+      aws_secret_access_key:
+        from_secret: aws_secret_access_key
+      terraform_tf_states_bucket_name:
+        from_secret: terraform_tf_states_bucket_name
+      vsphere_server:
+        from_secret: vsphere_server
+      vsphere_password:
+        from_secret: vsphere_password
+      vsphere_user:
+        from_secret: vsphere_user
+      dockerhub_username:
+        from_secret: dockerhub_username
+      dockerhub_password:
+        from_secret: dockerhub_password
+    when:
+      status:
+      - success
+      - failure
+
+volumes:
+- name: shared
+  temp: {}
+
+---
+kind: pipeline
 name: release
 
 depends_on:
-  - e2e-kubernetes-1.19
   - e2e-kubernetes-1.20
   - e2e-kubernetes-1.21
   - e2e-kubernetes-1.22
+  - e2e-kubernetes-1.23
 
 platform:
   os: linux
@@ -487,6 +493,17 @@ trigger:
       - refs/tags/**
 
 steps:
+  - name: prepare-canonical-json
+    image: registry.sighup.io/poc/fury-repo-automations:v0.0.3
+    pull: always
+    depends_on: [ clone ]
+    commands:
+      - spock distro-json -r=False -v=${DRONE_TAG}
+    when:
+      ref:
+        include:
+          - refs/tags/**
+
   - name: prepare-release-manifests
     image: quay.io/sighup/e2e-testing:1.1.0_0.2.2_2.16.1_1.9.4_1.18.19_3.8.7_2.4.1
     pull: always
@@ -496,21 +513,18 @@ steps:
     commands:
       - furyctl vendor -H
       - kustomize build . > $${RELEASE_MANIFESTS_PATH}
-      - cp katalog/tests/config/kind-config-custom kind-config-${DRONE_TAG}.yml
+      - cp tests/config/kind-config-custom kind-config-${DRONE_TAG}.yml
     when:
       ref:
         include:
           - refs/tags/**
 
   - name: prepare-release-notes
-    image: python:3.7
+    image: quay.io/sighup/fury-release-notes-plugin:3.7_2.8.4
     pull: always
     depends_on: [ clone ]
-    environment:
-      RELEASE_NOTES_FILE_PATH: release-notes.md
-    commands:
-      - pip install semantic_version==2.8.4
-      - python -u release-notes.py
+    settings:
+      release_notes_file_path: release-notes.md
     when:
       ref:
         include:
@@ -520,6 +534,7 @@ steps:
     image: plugins/github-release
     pull: always
     depends_on:
+      - prepare-canonical-json
       - prepare-release-manifests
       - prepare-release-notes
     settings:
@@ -531,6 +546,7 @@ steps:
         - kind-config-${DRONE_TAG}.yml
         - Furyfile.yml
         - kustomization.yaml
+        - kfd-canonical-definition-${DRONE_TAG}.json
       prerelease: true
       overwrite: true
       title: "Prerelease ${DRONE_TAG}"
@@ -547,6 +563,7 @@ steps:
     image: plugins/github-release
     pull: always
     depends_on:
+      - prepare-canonical-json
       - prepare-release-manifests
       - prepare-release-notes
     settings:
@@ -558,6 +575,7 @@ steps:
         - kind-config-${DRONE_TAG}.yml
         - Furyfile.yml
         - kustomization.yaml
+        - kfd-canonical-definition-${DRONE_TAG}.json
       prerelease: false
       overwrite: true
       title: "Release ${DRONE_TAG}"
