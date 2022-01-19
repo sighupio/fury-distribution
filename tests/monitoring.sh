@@ -60,9 +60,10 @@ load ./helper
 @test "Prometheus is Running" {
     info
     test() {
-        kubectl get pods -l app=prometheus -o json -n monitoring |jq '.items[].status.containerStatuses[].ready' | uniq | grep -q true
+        kubectl get pods -l app.kubernetes.io/name=prometheus -o json -n monitoring | jq '.items[].status.containerStatuses[].ready' | uniq | grep -q true
+
     }
-    loop_it test 60 10
+    loop_it test 160 10
     status=${loop_it_result}
     [ "$status" -eq 0 ]
 }
