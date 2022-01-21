@@ -1,0 +1,19 @@
+name: Questions or Clarification
+description: Provide supporting details for the query you have
+labels: kind/question
+body:
+  - type: textarea
+    id: feature
+    attributes:
+      label: What would you like to be added?
+      description: |
+        Questions are unlikely to make progress as issues. Please consider engaging with SIGHUP on slack, instead.
+    validations:
+      required: true
+
+  - type: textarea
+    id: rationale
+    attributes:
+      label: Give us more technical information about your test setup that would help us understand better
+    validations:
+      required: true
