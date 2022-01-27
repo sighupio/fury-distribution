@@ -92,6 +92,9 @@ Kubernetes Fury Distribution has been certified by the [CNCF] *(Cloud Native Com
     <a href="https://github.com/cncf/k8s-conformance/pull/1602">
         <img src="https://github.com/cncf/artwork/raw/master/projects/kubernetes/certified-kubernetes/1.22/color/certified-kubernetes-1.22-color.png" width="100" />
     </a>
+    <a href="https://github.com/cncf/k8s-conformance/pull/1788">
+        <img src="https://github.com/cncf/artwork/raw/master/projects/kubernetes/certified-kubernetes/1.23/color/certified-kubernetes-1.23-color.png" width="100" />
+    </a>
 </center>
 
 ## License
