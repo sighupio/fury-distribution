@@ -58,9 +58,9 @@ Core modules provides essential functionality to the distribution.
 | [Disaster Recovery][dr-module]  | ![Version][dr-version]         | Backup and disaster recovery solution using Velero                                        |
 | [OPA][opa-module]               | ![Version][opa-version]        | Policy and Governance for your cluster using OPA Gatekeeper and Gatekeeper Policy Manager |
 
-### Addon Modules
+### Add-on Modules
 
-Addon modules provides additional functionality to the distribution.
+Add-on modules provides additional functionality to the distribution.
 
 |               Module                |          Latest Release          |                                 Description                                  |
 | ----------------------------------- | -------------------------------- | ---------------------------------------------------------------------------- |
