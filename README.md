@@ -10,6 +10,7 @@
 [![Slack](https://img.shields.io/badge/slack-@kubernetes/fury-yellow.svg?logo=slack)](https://kubernetes.slack.com/archives/C0154HYTAQH)
 [![License](https://img.shields.io/github/license/sighupio/fury-distribution)](https://github.com/sighupio/fury-distribution/blob/master/LICENSE)
 
+
 ## Overview
 
 Kubernetes Fury Distribution (KFD) is a [CNCF certified](https://landscape.cncf.io/?selected=fury-distribution) battle-tested Kubernetes distribution based purely on upstream Kubernetes.
@@ -58,9 +59,9 @@ Core modules provides essential functionality to the distribution.
 | [Disaster Recovery][dr-module]  | ![Version][dr-version]         | Backup and disaster recovery solution using Velero                                        |
 | [OPA][opa-module]               | ![Version][opa-version]        | Policy and Governance for your cluster using OPA Gatekeeper and Gatekeeper Policy Manager |
 
-### Addon Modules
+### Add-on Modules
 
-Addon modules provides additional functionality to the distribution.
+Add-on modules provides additional functionality to the distribution.
 
 |               Module                |          Latest Release          |                                 Description                                  |
 | ----------------------------------- | -------------------------------- | ---------------------------------------------------------------------------- |
@@ -91,6 +92,9 @@ Kubernetes Fury Distribution has been certified by the [CNCF] *(Cloud Native Com
     </a>
     <a href="https://github.com/cncf/k8s-conformance/pull/1602">
         <img src="https://github.com/cncf/artwork/raw/master/projects/kubernetes/certified-kubernetes/1.22/color/certified-kubernetes-1.22-color.png" width="100" />
+    </a>
+    <a href="https://github.com/cncf/k8s-conformance/pull/1788">
+        <img src="https://github.com/cncf/artwork/raw/master/projects/kubernetes/certified-kubernetes/1.23/color/certified-kubernetes-1.23-color.png" width="100" />
     </a>
 </center>
 
