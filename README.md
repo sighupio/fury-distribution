@@ -6,9 +6,9 @@
 <p align="center">Kubernetes Fury Distribution (KFD) is a certified battle-tested Kubernetes distribution based purely on upstream Kubernetes.</p>
 
 [![Build Status](http://ci.sighup.io/api/badges/sighupio/fury-distribution/status.svg?ref=refs/tags/v1.6.0)](http://ci.sighup.io/sighupio/fury-distribution)
-[![Release](https://img.shields.io/github/v/release/sighupio/fury-distribution?label=FuryDistributionRelease)]()
+![Release](https://img.shields.io/github/v/release/sighupio/fury-distribution?label=FuryDistributionRelease)
 [![Slack](https://img.shields.io/badge/slack-@kubernetes/fury-yellow.svg?logo=slack)](https://kubernetes.slack.com/archives/C0154HYTAQH)
-[![License](https://img.shields.io/github/license/sighupio/fury-distribution)]()
+![License](https://img.shields.io/github/license/sighupio/fury-distribution)]
 
 ## Overview
 
@@ -91,6 +91,9 @@ Kubernetes Fury Distribution has been certified by the [CNCF] *(Cloud Native Com
     </a>
     <a href="https://github.com/cncf/k8s-conformance/pull/1602">
         <img src="https://github.com/cncf/artwork/raw/master/projects/kubernetes/certified-kubernetes/1.22/color/certified-kubernetes-1.22-color.png" width="100" />
+    </a>
+    <a href="https://github.com/cncf/k8s-conformance/pull/1788">
+        <img src="https://github.com/cncf/artwork/raw/master/projects/kubernetes/certified-kubernetes/1.23/color/certified-kubernetes-1.23-color.png" width="100" />
     </a>
 </center>
 
