@@ -77,7 +77,7 @@ If  the problem is related to a specific module, open the issue in the module re
 
 ## Contributing
 
-If you wish to contribute please read the [Contributing Guidelines](docs/CONTRIBUTING.md).
+If you wish to contribute please read the [Contributing Guidelines](docs/contributing).
 
 ## CNCF Certified 🎓
 
