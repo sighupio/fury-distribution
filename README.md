@@ -69,6 +69,11 @@ Add-on modules provides additional functionality to the distribution.
 | [Service Mesh][service-mesh-module] | ![Version][service-mesh-version] | Deploy a service mesh on top of KFD                                          |
 | [Registry][registry-module]         | ![Version][registry-version]     | Integrate a Container Registry solution                                      |
 
+
+## Get started with KFD
+
+To get started with KFD, please head to the [documentation site](https://docs.kubernetesfury.com/docs/distribution/#%EF%B8%8F-how-do-i-get-started)
+
 ## Issues
 
 In case you experience any issues feel free to [open a new issue](https://github.com/sighupio/fury-distribution/issues/new/choose).
