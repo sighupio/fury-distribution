@@ -9,11 +9,11 @@ hands dirty, we promise to guide you well through the journey.
 
 ## Get an understanding of the core concepts of Fury Distribution
 
-We have a great documentation about the core concepts of KFD over [here](../02-core-concepts/00-principles.md).
+We have a great documentation about the core concepts of KFD over [here][core-concepts].
 We recommend you go through it to understand the base principles on how our
 distribution works, and what makes it easy to use and configure.
 If you have any questions or doubts, please feel free to quickly drop our engineers
-a message at [our Slack or via e-mail](index.md#get-in-touch-with-us).
+a message at [our Slack or via e-mail][get-in-touch].md#get-in-touch-with-us).
 
 You can also open a `Question` issue over at Github.
 
@@ -64,8 +64,8 @@ important repos:
 
 The best way to get started with Fury is to start testing it on your favorite
 cloud provider. We have a very well explained documentation about how to set it
-up with a step by step guide over [here](../03-quickstart/1-fury-on-eks.mdx). If
-you are stuck, you know [where to get help](index.md#get-in-touch-with-us).
+up with a step by step guide over [here][getting-started]. If
+you are stuck, you know [where to get help][get-in-touch].
 
 ## Contributing
 
@@ -79,7 +79,7 @@ information is clear while opening the issue:
 * Give us a quick description of the environment where the need arises
 * Describe any available alternative out there
 
-We will review the issue and le you know if it works for us to implement it.
+We will review the issue and let you know if it works for us to implement it.
 
 ## Hands on
 
@@ -113,3 +113,7 @@ it's the right moment.
 [kong-module]: https://github.com/sighupio/fury-kubernetes-kong
 [service-mesh-module]: https://github.com/sighupio/fury-kubernetes-service-mesh
 [registry-module]: https://github.com/sighupio/fury-kubernetes-registry
+
+[core-concepts]: https://docs.kubernetesfury.com/docs/core-concepts/principles
+[get-in-touch]: https://docs.kubernetesfury.com/docs/contribute/#get-in-touch-with-us
+[getting-started]: https://docs.kubernetesfury.com/docs/quickstart/fury-on-eks

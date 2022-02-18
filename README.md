@@ -77,7 +77,7 @@ If  the problem is related to a specific module, open the issue in the module re
 
 ## Contributing
 
-If you wish to contribute please read the [Contributing Guidelines](docs/contributing).
+If you wish to contribute please read the [Contributing Guidelines][contributing].
 
 ## CNCF Certified 🎓
 
@@ -128,3 +128,4 @@ KFD is open-source software and it's released under the following [LICENSE](LICE
 
 <!-- Misc -->
 [CNCF]: https://landscape.cncf.io/card-mode?category=certified-kubernetes-distribution&grouping=category&organization=sighup
+[contributing]: https://github.com/sighupio/fury-distribution/tree/master/docs/contributing/README.md

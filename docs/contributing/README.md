@@ -7,8 +7,8 @@ written some guidelines to get you started with the process.
 
 Here are some of the quick links to get you started:
 
-- [Reporting Bugs and Enhancement Requests](bugs.md)
-- [Developer Guide](developer.md)
+- [Reporting Bugs and Enhancement Requests](https://github.com/sighupio/fury-distribution/tree/master/docs/contributing/bugs.md)
+- [Developer Guide](https://github.com/sighupio/fury-distribution/tree/master/docs/contributing/developer.md)
 
 ## Get in touch with us
 

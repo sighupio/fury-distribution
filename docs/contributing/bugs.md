@@ -25,7 +25,7 @@ but we promise to get it fixed as soon as possible.
 We provide some Issue templates in GitHub to ease the process of reporting and
 resolving issues. Once you have a clear idea of the nature of the issue, you can
 head over to the component's repository, for example, if you found an issue in
-the [logging module](../../modules/logging), you can open an issue in its
+the [logging module](https://github.com/sighupio/fury-kubernetes-logging/issues), you can open an issue in its
 [GitHub repository](https://github.com/sighupio/fury-kubernetes-logging/issues)
 and in this way we will be notified and get back to you.
 
