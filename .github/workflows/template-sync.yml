@@ -1,0 +1,26 @@
+name: Sync Issue and PR tempaltes
+on:
+  push:
+    branches:
+      - main
+      - master
+    paths:
+      - .github/ISSUE_TEMPLATE
+      - .github/PULL_REQUEST_TEMPLATE.md
+
+jobs:
+  copy:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Copycat
+      uses: andstor/copycat-action@v3
+      with:
+        personal_token: ${{ secrets.PERSONAL_TOKEN }}
+        src_path: .github/ISSUE_TEMPLATE
+        dst_owner: sighupio
+        dst_repo_name: ${{ secrets.GITHUB_REPO }}
+        dst_branch: master
+        src_branch: master
+        src_wiki: false
+        dst_wiki: false
+        username: SIGHUP-C3P0
