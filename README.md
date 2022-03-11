@@ -5,7 +5,7 @@
 
 <p align="center">Kubernetes Fury Distribution (KFD) is a certified battle-tested Kubernetes distribution based purely on upstream Kubernetes.</p>
 
-[![Build Status](http://ci.sighup.io/api/badges/sighupio/fury-distribution/status.svg?ref=refs/tags/v1.6.0)](http://ci.sighup.io/sighupio/fury-distribution)
+[![Build Status](http://ci.sighup.io/api/badges/sighupio/fury-distribution/status.svg?ref=refs/tags/v1.23.1)](http://ci.sighup.io/sighupio/fury-distribution)
 [![Release](https://img.shields.io/github/v/release/sighupio/fury-distribution?label=FuryDistributionRelease)](https://github.com/sighupio/fury-distribution/releases/latest)
 [![Slack](https://img.shields.io/badge/slack-@kubernetes/fury-yellow.svg?logo=slack)](https://kubernetes.slack.com/archives/C0154HYTAQH)
 [![License](https://img.shields.io/github/license/sighupio/fury-distribution)](https://github.com/sighupio/fury-distribution/blob/master/LICENSE)
@@ -50,7 +50,7 @@ Core modules provides essential functionality to the distribution.
   <img src="docs/assets/fury-core-modules.png" width="400px"/>
 </p>
 
-|             Module              |         Latest Release         |                                        Description                                        |
+|             Module              |         Included Release       |                                        Description                                        |
 | ------------------------------- | ------------------------------ | ----------------------------------------------------------------------------------------- |
 | [Networking][networking-module] | ![Version][networking-version] | Networking functionality via Calico CNI                                                   |
 | [Ingress][ingress-module]       | ![Version][ingress-version]    | Fast and reliable Ingress Controller and TLS certificate management                       |
@@ -115,12 +115,12 @@ KFD is open-source software and it's released under the following [LICENSE](LICE
 [dr-module]: https://github.com/sighupio/fury-kubernetes-dr
 [opa-module]: https://github.com/sighupio/fury-kubernetes-opa
 
-[networking-version]: https://img.shields.io/github/v/release/sighupio/fury-kubernetes-networking
-[ingress-version]: https://img.shields.io/github/v/release/sighupio/fury-kubernetes-ingress
-[logging-version]: https://img.shields.io/github/v/release/sighupio/fury-kubernetes-logging
-[monitoring-version]: https://img.shields.io/github/v/release/sighupio/fury-kubernetes-monitoring
-[dr-version]: https://img.shields.io/github/v/release/sighupio/fury-kubernetes-dr
-[opa-version]: https://img.shields.io/github/v/release/sighupio/fury-kubernetes-opa
+[networking-version]: https://img.shields.io/badge/release-v1.8.2-blue
+[ingress-version]: https://img.shields.io/badge/release-v1.12.2-blue
+[logging-version]: https://img.shields.io/badge/release-v1.10.2-blue
+[monitoring-version]: https://img.shields.io/badge/release-v1.14.1-blue
+[dr-version]: https://img.shields.io/badge/release-v1.9.2-blue
+[opa-version]: https://img.shields.io/badge/release-v1.6.2-blue
 
 <!-- Addon Modules -->
 [kong-module]: https://github.com/sighupio/fury-kubernetes-kong
