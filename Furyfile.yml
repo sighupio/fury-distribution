@@ -1,14 +1,14 @@
-# Copyright (c) 2020 SIGHUP s.r.l All rights reserved.
+# Copyright (c) 2022 SIGHUP s.r.l All rights reserved.
 # Use of this source code is governed by a BSD-style
 # license that can be found in the LICENSE file.
 
 versions:
-  networking: v1.8.1
-  monitoring: v1.14.0
-  logging: v1.10.1
-  ingress: v1.12.1
-  dr: v1.9.1
-  opa: v1.6.1
+  networking: v1.8.2
+  monitoring: v1.14.1
+  logging: v1.10.2
+  ingress: v1.12.2
+  dr: v1.9.2
+  opa: v1.6.2
 
 bases:
   - name: networking/calico
