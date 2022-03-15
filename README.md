@@ -28,6 +28,18 @@ KFD uses an **un-distribution model**. This means that we:
 - Stay close to upstream Kubernetes and the cloud native landscape.
 - Choose and configure a set of battle-tested open source tools.
 
+## Compatibility
+
+| Kubernetes Version |   Compatibility    |                        Notes                        |
+| ------------------ | :----------------: | --------------------------------------------------- |
+| `1.20.x`           | :white_check_mark: | No known issues                                     |
+| `1.21.x`           | :white_check_mark: | No known issues                                     |
+| `1.22.x`           | :white_check_mark: | No known issues                                     |
+| `1.23.x`           |     :warning:      | Tech Preview, not officially supported by SIGHUP    |
+
+Check the [compatibility matrix][compatibility-matrix] for the complete compatibility list of the previous releases of
+the distribution.
+
 ## Architecture
 
 Kubernetes Fury Distribution is structured on modules, and each module has a set of packages.
@@ -133,3 +145,4 @@ KFD is open-source software and it's released under the following [LICENSE](LICE
 
 <!-- Misc -->
 [CNCF]: https://landscape.cncf.io/card-mode?category=certified-kubernetes-distribution&grouping=category&organization=sighup
+[compatibility-matrix]: https://github.com/sighupio/fury-distribution/blob/master/docs/COMPATIBILITY_MATRIX.md
