@@ -84,7 +84,23 @@ Add-on modules provides additional functionality to the distribution.
 
 ## Get started with KFD
 
-To get started with KFD, please head to the [documentation site](https://docs.kubernetesfury.com/docs/distribution/#%EF%B8%8F-how-do-i-get-started)
+To download the distribution, you will need our [furyctl][furyctl] tool.
+
+Download the latest version with:
+
+```bash
+furyctl distribution template --version v1.23.1
+```
+
+It will download an opinionated example of the `Furyfile.yml` and a `kustomization.yaml` file to your current directory.
+
+Download all the modules with:
+
+```bash
+furyctl distribution download
+```
+
+Additionally, more comprehensive examples of the KFD can be found on our [documentation site](https://docs.kubernetesfury.com/docs/distribution/#%EF%B8%8F-how-do-i-get-started).
 
 ## Issues
 
@@ -146,3 +162,4 @@ KFD is open-source software and it's released under the following [LICENSE](LICE
 <!-- Misc -->
 [CNCF]: https://landscape.cncf.io/card-mode?category=certified-kubernetes-distribution&grouping=category&organization=sighup
 [compatibility-matrix]: https://github.com/sighupio/fury-distribution/blob/master/docs/COMPATIBILITY_MATRIX.md
+[furyctl]: https://github.com/sighupio/furyctl
