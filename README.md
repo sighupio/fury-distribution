@@ -92,7 +92,7 @@ Download the latest version with:
 furyctl distribution template --version v1.23.1
 ```
 
-It will download an opinionated example of the `Furyfile.yml` and a `kustomization.yaml` file to your current directory.
+It will download the release `v1.23.1` of the `Furyfile.yml` and a `kustomization.yaml` file to your current directory.
 
 Download all the modules with:
 
