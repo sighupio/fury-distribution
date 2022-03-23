@@ -84,23 +84,20 @@ Add-on modules provides additional functionality to the distribution.
 
 ## Get started with KFD
 
-To download the distribution, you will need our [furyctl][furyctl] tool.
+If you are new to KFD and want to get started, please head to the [documentation site](https://docs.kubernetesfury.com/docs/distribution/#%EF%B8%8F-how-do-i-get-started)
 
-Download the latest version with:
+If you are an advanced user, you can get started by using [`furyctl`][furyctl] to download a `Furyfile.yml` and a
+`kustomization.yaml` template file:
 
 ```bash
 furyctl distribution template --version v1.23.1
 ```
 
-It will download the release `v1.23.1` of the `Furyfile.yml` and a `kustomization.yaml` file to your current directory.
-
-Download all the modules with:
+Edit the files accordingly to your needs and then download the modules by running:
 
 ```bash
 furyctl distribution download
 ```
-
-Additionally, more comprehensive examples of the KFD can be found on our [documentation site](https://docs.kubernetesfury.com/docs/distribution/#%EF%B8%8F-how-do-i-get-started).
 
 ## Issues
 
