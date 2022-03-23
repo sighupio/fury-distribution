@@ -99,6 +99,8 @@ Edit the files accordingly to your needs and then download the modules by runnin
 furyctl distribution download
 ```
 
+You can find now the modules manifests in the `vendor` folder and start working with them, refer to each module's documentation for further details.
+
 ## Issues
 
 In case you experience any issues feel free to [open a new issue](https://github.com/sighupio/fury-distribution/issues/new/choose).
