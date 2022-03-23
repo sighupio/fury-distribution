@@ -33,6 +33,8 @@ steps:
       VALIDATE_KUBERNETES_KUBEVAL: "false"
       # Some duplicated code is intended.
       VALIDATE_JSCPD: "false"
+      # Disable natural language checks.
+      VALIDATE_NATURAL_LANGUAGE: "false"
     depends_on:
       - clone
 
