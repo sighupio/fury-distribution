@@ -7,10 +7,9 @@ from shutil import copyfile
 
 import semantic_version  # pylint: disable=import-error
 
-DRONE_TAG = os.getenv("DRONE_TAG")
-RELEASE_NOTES_FILE_PATH = os.getenv(
-    "RELEASE_NOTES_FILE_PATH", f"fury-distribution-{DRONE_TAG}.yml"
-)
+# Using env["VAR"] notation to riase an exception if the env vars are not present
+DRONE_TAG = os.env["DRONE_TAG"]
+RELEASE_NOTES_FILE_PATH = os.env["RELEASE_NOTES_FILE_PATH"]
 
 if __name__ == "__main__":
     version = DRONE_TAG[1:]
