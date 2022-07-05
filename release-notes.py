@@ -1,4 +1,4 @@
-# Copyright (c) 2020 SIGHUP s.r.l All rights reserved.
+# Copyright (c) 2022 SIGHUP s.r.l All rights reserved.
 # Use of this source code is governed by a BSD-style
 # license that can be found in the LICENSE file.
 
@@ -7,8 +7,10 @@ from shutil import copyfile
 
 import semantic_version  # pylint: disable=import-error
 
-RELEASE_NOTES_FILE_PATH = os.getenv("RELEASE_NOTES_FILE_PATH")
 DRONE_TAG = os.getenv("DRONE_TAG")
+RELEASE_NOTES_FILE_PATH = os.getenv(
+    "RELEASE_NOTES_FILE_PATH", f"fury-distribution-{DRONE_TAG}.yml"
+)
 
 if __name__ == "__main__":
     version = DRONE_TAG[1:]
