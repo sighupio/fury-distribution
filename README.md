@@ -1,11 +1,10 @@
 # Fury Distribution
 
-[![Build Status](http://ci.sighup.io/api/badges/sighupio/fury-distribution/status.svg?ref=refs/tags/v1.6.0)](http://ci.sighup.io/sighupio/fury-distribution)
+[![Build Status](http://ci.sighup.io/api/badges/sighupio/fury-distribution/status.svg?ref=refs/tags/v1.6.1)](http://ci.sighup.io/sighupio/fury-distribution)
 
 ## Information
 
-This repository spin up a kind cluster with a custom configuration:
-[katalog/tests/config/kind-config-custom](katalog/tests/config/kind-config-custom)
+This repository to spin up a kind cluster with a custom configuration: [katalog/tests/config/kind-config-custom](katalog/tests/config/kind-config-custom)
 
 The configuration is almost the same configuration we do in every Kubernetes cluster we create.
 This way, we can ensure everything works as expected, including the CNI *(calico)*.
