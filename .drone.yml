@@ -480,7 +480,8 @@ type: docker
 depends_on:
   # - e2e-kubernetes-1.18
   # - e2e-kubernetes-1.19
-  - e2e-kubernetes-1.20
+  # - e2e-kubernetes-1.20
+  - e2e-kubernetes-1.21
 
 platform:
   os: linux
