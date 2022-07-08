@@ -3,33 +3,16 @@
 # license that can be found in the LICENSE file.
 
 versions:
-  networking: v1.8.2
-  monitoring: v1.14.1
-  logging: v1.10.2
+  networking: v1.9.0
+  monitoring: v1.14.2
+  logging: v1.10.3
   ingress: v1.12.2
   dr: v1.9.2
   opa: v1.6.2
 
 bases:
-  - name: networking/calico
-  - name: monitoring/prometheus-operator
-  - name: monitoring/prometheus-operated
-  - name: monitoring/grafana
-  - name: monitoring/goldpinger
-  - name: monitoring/configs
-  - name: monitoring/kubeadm-sm
-  - name: monitoring/kube-proxy-metrics
-  - name: monitoring/kube-state-metrics
-  - name: monitoring/node-exporter
-  - name: monitoring/metrics-server
-  - name: monitoring/alertmanager-operated
-  - name: logging/elasticsearch-single
-  - name: logging/cerebro
-  - name: logging/curator
-  - name: logging/fluentd
-  - name: logging/kibana
-  - name: ingress/cert-manager
-  - name: ingress/nginx
-  - name: ingress/forecastle
-  - name: dr/velero
-  - name: opa/gatekeeper
+  - name: networking
+  - name: logging
+  - name: ingress
+  - name: dr
+  - name: opa
