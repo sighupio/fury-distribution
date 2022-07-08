@@ -12,6 +12,7 @@ versions:
 
 bases:
   - name: networking
+  - name: monitoring
   - name: logging
   - name: ingress
   - name: dr
