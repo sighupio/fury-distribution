@@ -1,0 +1,35 @@
+# Copyright (c) 2020 SIGHUP s.r.l All rights reserved.
+# Use of this source code is governed by a BSD-style
+# license that can be found in the LICENSE file.
+
+bases:
+  # Networking
+  - ./vendor/katalog/networking/calico
+  # OPA
+  - ./vendor/katalog/opa/gatekeeper/core
+  - ./vendor/katalog/opa/gatekeeper/rules/templates
+  - ./vendor/katalog/opa/gatekeeper/gpm
+  # Monitoring
+  - ./vendor/katalog/monitoring/prometheus-operator
+  - ./vendor/katalog/monitoring/prometheus-operated
+  - ./vendor/katalog/monitoring/grafana
+  - ./vendor/katalog/monitoring/goldpinger
+  - ./vendor/katalog/monitoring/kubeadm-sm
+  - ./vendor/katalog/monitoring/kube-proxy-metrics
+  - ./vendor/katalog/monitoring/kube-state-metrics
+  - ./vendor/katalog/monitoring/node-exporter
+  - ./vendor/katalog/monitoring/metrics-server
+  # Logging
+  - ./vendor/katalog/logging/elasticsearch-single
+  - ./vendor/katalog/logging/cerebro
+  - ./vendor/katalog/logging/curator
+  - ./vendor/katalog/logging/fluentd
+  - ./vendor/katalog/logging/kibana
+  # Ingress
+  - ./vendor/katalog/ingress/cert-manager
+  - ./vendor/katalog/ingress/nginx
+  - ./vendor/katalog/ingress/forecastle
+  # DR
+  - ./vendor/katalog/dr/velero/velero-on-prem
+  - ./vendor/katalog/dr/velero/velero-schedules
+  - ./vendor/katalog/dr/velero/velero-restic
