@@ -57,13 +57,13 @@ steps:
 
 ---
 kind: pipeline
-name: e2e-kubernetes-1.21
-
-depends_on:
-  - policeman
+name: e2e-kubernetes-1.22
 
 node:
   runner: internal
+
+depends_on:
+  - policeman
 
 platform:
   os: linux
@@ -80,14 +80,14 @@ steps:
     image: quay.io/sighup/e2e-testing-drone-plugin:v0.13.0
     pull: always
     volumes:
-    - name: shared
-      path: /shared
+      - name: shared
+        path: /shared
     depends_on: [ clone ]
     settings:
-      action: custom-cluster-121
-      pipeline_id: cluster-121
+      action: custom-cluster-122
+      pipeline_id: cluster-122
       local_kind_config_path: tests/config/kind-config-custom
-      cluster_version: '1.21.1'
+      cluster_version: '1.22.0'
       instance_path: /shared
       instance_size: 2-extra-large
       aws_default_region:
@@ -110,14 +110,14 @@ steps:
         from_secret: dockerhub_password
 
   - name: test
-    image: quay.io/sighup/e2e-testing:1.1.0_0.2.2_2.16.1_1.9.4_1.21.1_3.8.7_2.4.1
+    image: quay.io/sighup/e2e-testing:1.1.0_0.2.2_2.16.1_1.9.4_1.22.0_3.8.7_2.4.1
     pull: always
     volumes:
-    - name: shared
-      path: /shared
+      - name: shared
+        path: /shared
     depends_on: [ init ]
     commands:
-      - export KUBECONFIG=/shared/kube/kubeconfig-121
+      - export KUBECONFIG=/shared/kube/kubeconfig-122
       - bats -t tests/install.sh
       - bats -t tests/networking.sh
       - bats -t tests/monitoring.sh
@@ -131,7 +131,7 @@ steps:
     depends_on: [ test ]
     settings:
       action: destroy
-      pipeline_id: cluster-121
+      pipeline_id: cluster-122
       instance_size: 2-extra-large
       aws_default_region:
         from_secret: aws_region
@@ -153,19 +153,19 @@ steps:
         from_secret: dockerhub_password
     when:
       status:
-      - success
-      - failure
+        - success
+        - failure
 
 volumes:
-- name: shared
-  temp: {}
+  - name: shared
+    temp: {}
 
 ---
 kind: pipeline
 name: release
 
 depends_on:
-  - e2e-kubernetes-1.21
+  - e2e-kubernetes-1.22
 
 platform:
   os: linux
