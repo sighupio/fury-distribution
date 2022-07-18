@@ -94,7 +94,7 @@ If you are looking to run KFD in production and would like to learn more, SIGHUP
 
 Check the [compatibility matrix][compatibility-matrix] for additional information about previous releases of the modules.
 
-Also, check the [versioning][versioning] section to know more about the versioning scheme of the distribution and the upgrade path.
+Also, check the [versioning documentation file][versioning] to know more about the versioning scheme of the distribution and the upgrade path.
 
 ## Contributing 🤝
 
