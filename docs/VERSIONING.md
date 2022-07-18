@@ -8,11 +8,11 @@ This mean that each KFD version will have a 1:1 compatibility with the Kubernete
 For example:
 
 - KFD 1.22.0 is compatible with Kubernetes 1.22.x
-- KFD 1.22.5 is incompatible with Kubernetes 1.22.x
-- KFD 1.23.0 is incompatible with Kubernetes 1.23.x
-- KFD 1.23.1 is incompatible with Kubernetes 1.23.x
-- KFD 1.23.2 is incompatible with Kubernetes 1.23.x
-- KFD 1.24.0 is incompatible with Kubernetes 1.24.x
+- KFD 1.22.5 is compatible with Kubernetes 1.22.x
+- KFD 1.23.0 is compatible with Kubernetes 1.23.x
+- KFD 1.23.1 is compatible with Kubernetes 1.23.x
+- KFD 1.23.2 is compatible with Kubernetes 1.23.x
+- KFD 1.24.0 is compatible with Kubernetes 1.24.x
 
 ## Upgrades
 
