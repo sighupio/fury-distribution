@@ -94,6 +94,8 @@ If you are looking to run KFD in production and would like to learn more, SIGHUP
 
 Check the [compatibility matrix][compatibility-matrix] for additional informations about previous releases of the modules.
 
+Also, check the [versioning][versioning] section to know more about the versioning scheme of the distribution and the upgrade path.
+
 ## Contributing 🤝
 
 If you wish to contribute please read the [Contributing Guidelines](docs/CONTRIBUTING.md).
@@ -137,6 +139,8 @@ KFD is open-source software and it's released under the following [LICENSE](LICE
 [monitoring-version]: https://img.shields.io/badge/release-v1.14.1-blue
 [dr-version]: https://img.shields.io/badge/release-v1.9.2-blue
 [opa-version]: https://img.shields.io/badge/release-v1.6.2-blue
+[compatibility-matrix]: https://github.com/sighupio/fury-distribution/blob/master/docs/COMPATIBILITY_MATRIX.md
+[versioning]: https://github.com/sighupio/fury-distribution/blob/master/docs/VERSIONING.md
 
 <!-- Addon Modules -->
 [kong-module]: https://github.com/sighupio/fury-kubernetes-kong
