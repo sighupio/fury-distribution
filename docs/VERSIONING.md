@@ -18,7 +18,7 @@ For example:
 
 ## Upgrades
 
-Each KFD version will be compatible with X-1 Kubernetes version during upgrades.
+Each KFD version will be compatible with the X-1 Kubernetes version during upgrades.
 For example, the 1.23.0 KFD version will be compatible with Kubernetes 1.22.X during upgrades.
 
 The only supported upgrade path is:
