@@ -92,7 +92,7 @@ If you are looking to run KFD in production and would like to learn more, SIGHUP
 |--------------------|:------------------:|-----------------------------------------------------|
 | `1.21.x`           | :white_check_mark: | No known issues                                     |
 
-Check the [compatibility matrix][compatibility-matrix] for additional informations about previous releases of the modules.
+Check the [compatibility matrix][compatibility-matrix] for additional information about previous releases of the modules.
 
 Also, check the [versioning][versioning] section to know more about the versioning scheme of the distribution and the upgrade path.
 
