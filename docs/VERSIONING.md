@@ -19,5 +19,3 @@ For example:
 ## Upgrades
 
 Each KFD version will come with comprehensive documentation on all supported upgrade paths (es. tutorials to upgrade minor to minor, including patches if present).
-
-
