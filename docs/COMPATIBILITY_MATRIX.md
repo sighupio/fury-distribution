@@ -11,7 +11,7 @@
 | v1.6.0                                         |                    |                    |                    |                    | :white_check_mark: | :white_check_mark: | :white_check_mark: | :warning:          |
 | v1.7.0                                         |                    |                    |                    |                    |                    | :white_check_mark: | :white_check_mark: | :white_check_mark: |
 | v1.7.1                                         |                    |                    |                    |                    |                    | :white_check_mark: | :white_check_mark: | :white_check_mark: |
-| v1.21.0                                        |                    |                    |                    |                    |                    |                    |                    | :white_check_mark: |
+| v1.21.0                                        |                    |                    |                    |                    |                    |                    | :x:                | :white_check_mark: |
 
 :white_check_mark: Compatible
 
