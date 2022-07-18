@@ -1,5 +1,7 @@
 # Versioning
 
+KFD follows [semantic versioning][semver] for identifying its releases, in particular, it follows closely Kubernetes versioning.
+
 From the 1.21.0 KFD release, the versioning scheme has changed.
 
 We are now versioning KFD using the same minor version than the supported Kubernetes version.
