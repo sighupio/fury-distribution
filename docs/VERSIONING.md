@@ -1,6 +1,6 @@
 # Versioning
 
-KFD follows [semantic versioning][semver] for identifying its releases, in particular, it follows closely Kubernetes versioning.
+KFD follows closely Kubernetes versioning.
 
 Starting from the 1.21.0 KFD release, the versioning scheme has changed.
 
@@ -18,14 +18,4 @@ For example:
 
 ## Upgrades
 
-Each KFD version will be compatible with the X-1 Kubernetes version during upgrades.
-For example, the 1.23.0 KFD version will be compatible with Kubernetes 1.22.X during upgrades.
-
-The only supported upgrade path is:
-
-- Upgrade KFD to the next version
-- Upgrade Kubernetes to the version supported by KFD
-
-<!--  Links -->
-[semver]: https://semver.org/
-
+Each KFD version will come with comprehensive documentation on all supported upgrade paths (es. tutorials to upgrade minor to minor, including patches if present).

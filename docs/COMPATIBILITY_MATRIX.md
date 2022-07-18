@@ -12,12 +12,10 @@
 | v1.7.0                   |                    |                    |                    |                    |                    | :white_check_mark: | :white_check_mark: | :white_check_mark: |                    |
 | v1.7.1                   |                    |                    |                    |                    |                    | :white_check_mark: | :white_check_mark: | :white_check_mark: |                    |
 | v1.21.0                  |                    |                    |                    |                    |                    |                    | :x:                | :white_check_mark: |                    |
-| v1.22.0                  |                    |                    |                    |                    |                    |                    |                    | :arrow_up:         | :white_check_mark: |
+| v1.22.0                  |                    |                    |                    |                    |                    |                    |                    |                    | :white_check_mark: |
 
 :white_check_mark: Compatible
 
 :warning: Has issues
 
 :x: Incompatible
-
-:arrow_up: Upgrade compatibility
