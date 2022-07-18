@@ -26,3 +26,6 @@ The only supported upgrade path is:
 - Upgrade KFD to the next version
 - Upgrade Kubernetes to the version supported by KFD
 
+<!--  Links -->
+[semver]: https://semver.org/
+
