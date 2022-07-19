@@ -53,11 +53,11 @@ Core modules provides essential functionality to the distribution.
 </p>
 <!-- markdownlint-enable MD033 -->
 
-|             Module              |         Included Release       |                                        Description                                        |
+| Module                          | Included Release               | Description                                                                               |
 | ------------------------------- | ------------------------------ | ----------------------------------------------------------------------------------------- |
 | [Networking][networking-module] | ![Version][networking-version] | Networking functionality via Calico CNI                                                   |
 | [Ingress][ingress-module]       | ![Version][ingress-version]    | Fast and reliable Ingress Controller and TLS certificate management                       |
-| [Logging][logging-module]       | ![Version][logging-version]    | A centralized logging solution based on the EFK stack (Elastic, Fluentd and Kibana)        |
+| [Logging][logging-module]       | ![Version][logging-version]    | A centralized logging solution based on the EFK stack (Elastic, Fluentd and Kibana)       |
 | [Monitoring][monitoring-module] | ![Version][monitoring-version] | Monitoring and alerting functionality based on Prometheus, AlertManager and Grafana       |
 | [Disaster Recovery][dr-module]  | ![Version][dr-version]         | Backup and disaster recovery solution using Velero                                        |
 | [OPA][opa-module]               | ![Version][opa-version]        | Policy and Governance for your cluster using OPA Gatekeeper and Gatekeeper Policy Manager |
@@ -66,7 +66,7 @@ Core modules provides essential functionality to the distribution.
 
 Add-on modules provide additional functionality to the distribution.
 
-|               Module                |          Latest Release          |                                 Description                                  |
+| Module                              | Latest Release                   | Description                                                                  |
 | ----------------------------------- | -------------------------------- | ---------------------------------------------------------------------------- |
 | [Kong][kong-module]                 | ![Version][kong-version]         | Add Kong API Gateway for Kubernetes applications via Kong Ingress Controller |
 | [Service Mesh][service-mesh-module] | ![Version][service-mesh-version] | Deploy a service mesh on top of KFD                                          |
@@ -74,7 +74,7 @@ Add-on modules provide additional functionality to the distribution.
 
 ## Get started with KFD 🚀
 
-To get started with KFD, please head to the [documentation site](https://docs.kubernetesfury.com/docs/distribution/#%EF%B8%8F-how-do-i-get-started)
+To get started with KFD, please head to the [quickstart guides on the documentation site](https://docs.kubernetesfury.com/docs/distribution/#%EF%B8%8F-how-do-i-get-started).
 
 ## Issues 🐛
 
@@ -88,11 +88,11 @@ If you are looking to run KFD in production and would like to learn more, SIGHUP
 
 ## Compatibility
 
-| Kubernetes Version |   Compatibility    | Notes                                               |
-|--------------------|:------------------:|-----------------------------------------------------|
-| `1.23.x`           | :white_check_mark: | No known issues                                     |
+| Kubernetes Version |   Compatibility    | Notes           |
+| ------------------ | :----------------: | --------------- |
+| `1.23.x`           | :white_check_mark: | No known issues |
 
-Check the [compatibility matrix][compatibility-matrix] for additional information about previous releases of the modules.
+Check the [compatibility matrix][compatibility-matrix] for additional information about previous releases of the Distribution.
 
 Also, check the [versioning documentation file][versioning] to know more about the versioning scheme of the distribution and the upgrade path.
 
