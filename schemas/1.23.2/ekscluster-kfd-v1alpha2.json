@@ -153,11 +153,7 @@
                     "$ref": "#/$defs/Spec.Infrastructure.Vpc.Vpn"
                 }
             },
-            "required": [
-                "enabled",
-                "network",
-                "vpn"
-            ]
+            "required": ["enabled"]
         },
         "Spec.Infrastructure.Vpc.Network": {
             "type": "object",
@@ -230,15 +226,7 @@
                 }
             },
             "required": [
-                "dhParamsBits",
-                "diskSize",
-                "enabled",
-                "instanceType",
-                "instances",
-                "operatorName",
-                "port",
-                "ssh",
-                "vpnClientsSubnetCidr"
+                "enabled"
             ]
         },
         "Spec.Infrastructure.Vpc.Vpn.Ssh": {
