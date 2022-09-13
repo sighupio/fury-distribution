@@ -1,0 +1,769 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "$id": "https://schema.sighup.io/kfd/1.23.2/ekscluster-kfd-v1alpha2.json",
+    "description": "A Fury Cluster deployed through AWS's Elastic Kubernetes Service",
+    "type": "object",
+    "properties": {
+        "apiVersion": {
+            "type": "string",
+            "pattern": "^kfd\\.sighup\\.io/v\\d+((alpha|beta)\\d+)?$"
+        },
+        "kind": {
+            "type": "string",
+            "enum": ["EksCluster"]
+        },
+        "metadata": {
+            "$ref": "#/$defs/Metadata"
+        },
+        "spec": {
+            "$ref": "#/$defs/Spec"
+        }
+    },
+    "additionalProperties": false,
+    "required": [
+        "apiVersion",
+        "kind",
+        "metadata",
+        "spec"
+    ],
+    "$defs": {
+        "Metadata": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "name": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "name"
+            ]
+        },
+        "Spec": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "distributionVersion": {
+                    "$ref": "#/$defs/Types.SemVer"
+                },
+                "tags": {
+                    "$ref": "#/$defs/Types.AwsTags"
+                },
+                "toolsConfiguration": {
+                    "$ref": "#/$defs/Spec.ToolsConfiguration"
+                },
+                "infrastructure": {
+                    "$ref": "#/$defs/Spec.Infrastructure"
+                },
+                "kubernetes": {
+                    "$ref": "#/$defs/Spec.Kubernetes"
+                },
+                "distribution": {
+                    "$ref": "#/$defs/Spec.Distribution"
+                }
+            },
+            "required": [
+                "distributionVersion",
+                "infrastructure",
+                "kubernetes",
+                "toolsConfiguration"
+            ]
+        },
+
+        "Spec.ToolsConfiguration": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "terraform": {
+                    "$ref": "#/$defs/Spec.ToolsConfiguration.Terraform"
+                }
+            },
+            "required": [
+                "terraform"
+            ]
+        },
+        "Spec.ToolsConfiguration.Terraform": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "state": {
+                    "$ref": "#/$defs/Spec.ToolsConfiguration.Terraform.State"
+                }
+            },
+            "required": [
+                "state"
+            ]
+        },
+        "Spec.ToolsConfiguration.Terraform.State": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "s3": {
+                    "$ref": "#/$defs/Spec.ToolsConfiguration.Terraform.State.S3"
+                }
+            },
+            "required": [
+                "s3"
+            ]
+        },
+        "Spec.ToolsConfiguration.Terraform.State.S3": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "bucketName": {
+                    "type": "string"
+                },
+                "keyPrefix": {
+                    "type": "string"
+                },
+                "region": {
+                    "$ref": "#/$defs/Types.AwsRegion"
+                }
+            },
+            "required": [
+                "bucketName",
+                "keyPrefix",
+                "region"
+            ]
+        },
+
+        "Spec.Infrastructure": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "vpc": {
+                    "$ref": "#/$defs/Spec.Infrastructure.Vpc"
+                }
+            },
+            "required": [
+                "vpc"
+            ]
+        },
+        "Spec.Infrastructure.Vpc": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "enabled": {
+                    "type": "boolean"
+                },
+                "network": {
+                    "$ref": "#/$defs/Spec.Infrastructure.Vpc.Network"
+                },
+                "vpn": {
+                    "$ref": "#/$defs/Spec.Infrastructure.Vpc.Vpn"
+                }
+            },
+            "required": [
+                "enabled",
+                "network",
+                "vpn"
+            ]
+        },
+        "Spec.Infrastructure.Vpc.Network": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "cidr": {
+                    "$ref": "#/$defs/Types.Cidr"
+                },
+                "subnetsCidrs": {
+                    "$ref": "#/$defs/Spec.Infrastructure.Vpc.Network.SubnetsCidrs"
+                }
+            },
+            "required": [
+                "cidr",
+                "subnetsCidrs"
+            ]
+        },
+        "Spec.Infrastructure.Vpc.Network.SubnetsCidrs": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "private": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/$defs/Types.Cidr"
+                    }
+                },
+                "public": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/$defs/Types.Cidr"
+                    }
+                }
+            },
+            "required": [
+                "private",
+                "public"
+            ]
+        },
+        "Spec.Infrastructure.Vpc.Vpn": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "enabled": {
+                    "type": "boolean"
+                },
+                "instances": {
+                    "type": "integer"
+                },
+                "port": {
+                    "$ref": "#/$defs/Types.TcpPort"
+                },
+                "instanceType": {
+                    "type": "string"
+                },
+                "diskSize": {
+                    "type": "integer"
+                },
+                "operatorName": {
+                    "type": "string"
+                },
+                "dhParamsBits": {
+                    "type": "integer"
+                },
+                "vpnClientsSubnetCidr": {
+                    "$ref": "#/$defs/Types.Cidr"
+                },
+                "ssh": {
+                    "$ref": "#/$defs/Spec.Infrastructure.Vpc.Vpn.Ssh"
+                }
+            },
+            "required": [
+                "dhParamsBits",
+                "diskSize",
+                "enabled",
+                "instanceType",
+                "instances",
+                "operatorName",
+                "port",
+                "ssh",
+                "vpnClientsSubnetCidr"
+            ]
+        },
+        "Spec.Infrastructure.Vpc.Vpn.Ssh": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "publicKeys": {
+                    "type": "array",
+                    "items": {
+                        "anyOf": [
+                            {
+                                "$ref": "#/$defs/Types.SshPubKey"
+                            },
+                            {
+                                "$ref": "#/$defs/Types.FileRef"
+                            }
+                        ]
+                    }
+                },
+                "githubUsersName": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "allowedFromCidrs": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/$defs/Types.Cidr"
+                    }
+                }
+            },
+            "required": [
+                "allowedFromCidrs",
+                "githubUsersName",
+                "publicKeys"
+            ]
+        },
+
+        "Spec.Kubernetes": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "vpcId": {
+                    "$ref": "#/$defs/Types.AwsVpcId"
+                },
+                "subnetIds": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/$defs/Types.AwsSubnetId"
+                    }
+                },
+                "apiServerEndpointAccess": {
+                    "$ref": "#/$defs/Spec.Kubernetes.APIServerEndpointAccess"
+                },
+                "nodeAllowedSshPublicKey": {
+                    "anyOf": [
+                        {
+                            "$ref": "#/$defs/Types.SshPubKey"
+                        },
+                        {
+                            "$ref": "#/$defs/Types.FileRef"
+                        }
+                    ]
+                },
+                "nodePools": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/$defs/Spec.Kubernetes.NodePool"
+                    }
+                },
+                "awsAuth": {
+                    "$ref": "#/$defs/Spec.Kubernetes.AwsAuth"
+                }
+            },
+            "required": [
+                "apiServerEndpointAccess",
+                "awsAuth",
+                "nodeAllowedSshPublicKey",
+                "nodePools",
+                "subnetIds",
+                "vpcId"
+            ]
+        },
+        "Spec.Kubernetes.APIServerEndpointAccess": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "type": {
+                    "type": "string",
+                    "enum": [
+                        "public",
+                        "private",
+                        "public_and_private"
+                    ]
+                },
+                "allowedCidrs": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/$defs/Types.Cidr"
+                    }
+                }
+            },
+            "required": [
+                "allowedCidrs",
+                "type"
+            ]
+        },
+        "Spec.Kubernetes.NodePool": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "name": {
+                    "type": "string"
+                },
+                "ami": {
+                    "$ref": "#/$defs/Spec.Kubernetes.NodePool.Ami"
+                },
+                "size": {
+                    "$ref": "#/$defs/Spec.Kubernetes.NodePool.Size"
+                },
+                "instance": {
+                    "$ref": "#/$defs/Spec.Kubernetes.NodePool.Instance"
+                },
+                "attachedTargetGroups": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/$defs/Types.AwsArn"
+                    }
+                },
+                "labels": {
+                    "$ref": "#/$defs/Types.KubeLabels"
+                },
+                "taints": {
+                    "$ref": "#/$defs/Types.KubeTaints"
+                },
+                "tags": {
+                    "$ref": "#/$defs/Types.AwsTags"
+                },
+                "additionalFirewallRules": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/$defs/Spec.Kubernetes.NodePool.AdditionalFirewallRule"
+                    }
+                }
+            },
+            "required": [
+                "additionalFirewallRules",
+                "ami",
+                "attachedTargetGroups",
+                "instance",
+                "labels",
+                "name",
+                "size",
+                "tags",
+                "taints"
+            ]
+        },
+        "Spec.Kubernetes.NodePool.Ami": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "id": {
+                    "type": "string"
+                },
+                "owner": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "id",
+                "owner"
+            ]
+        },
+        "Spec.Kubernetes.NodePool.Instance": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "type": {
+                    "type": "string"
+                },
+                "spot": {
+                    "type": "boolean"
+                },
+                "volumeSize": {
+                    "type": "integer"
+                }
+            },
+            "required": [
+                "spot",
+                "type",
+                "volumeSize"
+            ]
+        },
+        "Spec.Kubernetes.NodePool.Size": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "min": {
+                    "type": "integer",
+                    "minimum": 1
+                },
+                "max": {
+                    "type": "integer",
+                    "minimum": 1
+                }
+            },
+            "required": [
+                "max",
+                "min"
+            ]
+        },
+        "Spec.Kubernetes.NodePool.AdditionalFirewallRule": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "name": {
+                    "type": "string"
+                },
+                "type": {
+                    "type": "string"
+                },
+                "cidrBlocks": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/$defs/Types.Cidr"
+                    }
+                },
+                "protocol": {
+                    "$ref": "#/$defs/Types.AwsIpProtocol"
+                },
+                "ports": {
+                    "$ref": "#/$defs/Spec.Kubernetes.NodePool.AdditionalFirewallRule.Ports"
+                }
+            },
+            "required": [
+                "cidrBlocks",
+                "name",
+                "ports",
+                "protocol",
+                "type"
+            ]
+        },
+        "Spec.Kubernetes.NodePool.AdditionalFirewallRule.Ports": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "from": {
+                    "$ref": "#/$defs/Types.TcpPort"
+                },
+                "to": {
+                    "$ref": "#/$defs/Types.TcpPort"
+                }
+            },
+            "required": [
+                "from",
+                "to"
+            ]
+        },
+        "Spec.Kubernetes.AwsAuth": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "additionalAccounts": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "users": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/$defs/Spec.Kubernetes.AwsAuth.User"
+                    }
+                },
+                "roles": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/$defs/Spec.Kubernetes.AwsAuth.Role"
+                    }
+                }
+            },
+            "required": [
+                "additionalAccounts",
+                "roles",
+                "users"
+            ]
+        },
+        "Spec.Kubernetes.AwsAuth.Role": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "username": {
+                    "type": "string"
+                },
+                "groups": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "rolearn": {
+                    "$ref": "#/$defs/Types.AwsArn"
+                }
+            },
+            "required": [
+                "groups",
+                "rolearn",
+                "username"
+            ]
+        },
+        "Spec.Kubernetes.AwsAuth.User": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "username": {
+                    "type": "string"
+                },
+                "groups": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "userarn": {
+                    "$ref": "#/$defs/Types.AwsArn"
+                }
+            },
+            "required": [
+                "groups",
+                "userarn",
+                "username"
+            ]
+        },
+
+        "Spec.Distribution": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "common": {
+                    "$ref": "#/$defs/Spec.Distribution.Common"
+                },
+                "modules": {
+                    "$ref": "#/$defs/Spec.Distribution.Modules"
+                }
+            },
+            "required": [
+                "common",
+                "modules"
+            ]
+        },
+        "Spec.Distribution.Common": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "nodeSelector": {
+                    "$ref": "#/$defs/Types.KubeNodeSelector"
+                },
+                "tolerations": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/$defs/Types.KubeToleration"
+                    }
+                }
+            },
+            "required": [
+                "nodeSelector",
+                "tolerations"
+            ]
+        },
+        "Spec.Distribution.Modules": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "auth": {
+                    "type": "object",
+                    "additionalProperties": true
+                },
+                "dr": {
+                    "type": "object",
+                    "additionalProperties": true
+                },
+                "ingress": {
+                    "type": "object",
+                    "additionalProperties": true
+                },
+                "logging": {
+                    "type": "object",
+                    "additionalProperties": true
+                },
+                "monitoring": {
+                    "type": "object",
+                    "additionalProperties": true
+                },
+                "policy": {
+                    "type": "object",
+                    "additionalProperties": true
+                }
+            },
+            "required": [
+                "auth",
+                "dr",
+                "ingress",
+                "logging",
+                "monitoring",
+                "policy"
+            ]
+        },
+
+        "Types.SemVer": {
+            "type": "string",
+            "pattern": "^v[0-9]+\\.[0-9]+\\.[0-9]+\\$"
+        },
+        "Types.IpAddress": {
+            "type": "string",
+            "pattern": "^((25[0-5]|(2[0-4]|1\\d|[1-9]|)\\d)\\.?\b){4}$"
+        },
+        "Types.Cidr": {
+            "type": "string",
+            "pattern": "^((25[0-5]|(2[0-4]|1\\d|[1-9]|)\\d)\\.?\b){4}\\/(3[0-2]|[1-2][0-9]|[0-9])$"
+        },
+        "Types.FileRef": {
+            "type": "string",
+            "pattern": "^\\{file\\:\\/\\/.*\\}$"
+        },
+        "Types.EnvRef": {
+            "type": "string",
+            "pattern": "\\{^env\\:\\/\\/.*\\}$"
+        },
+        "Types.TcpPort": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 65535
+        },
+        "Types.SshPubKey": {
+            "type": "string",
+            "pattern": "^ssh\\-(dsa|ecdsa|ecdsa-sk|ed25519|ed25519-sk|rsa)\\s+"
+        },
+        "Types.Uri": {
+            "type": "string",
+            "pattern": "^(http|https)\\:\\/\\/.+$"
+        },
+        "Types.AwsArn": {
+            "type": "string",
+            "pattern": "^arn:(?P<Partition>[^:\\n]*):(?P<Service>[^:\\n]*):(?P<Region>[^:\\n]*):(?P<AccountID>[^:\\n]*):(?P<Ignore>(?P<ResourceType>[^:\\/\\n]*)[:\\/])?(?P<Resource>.*)$"
+        },
+        "Types.AwsRegion": {
+            "type": "string",
+            "enum": [
+                "af-south-1",
+                "ap-east-1",
+                "ap-northeast-1",
+                "ap-northeast-2",
+                "ap-northeast-3",
+                "ap-south-1",
+                "ap-southeast-1",
+                "ap-southeast-2",
+                "ap-southeast-3",
+                "ca-central-1",
+                "eu-central-1",
+                "eu-north-1",
+                "eu-south-1",
+                "eu-west-1",
+                "eu-west-2",
+                "eu-west-3",
+                "me-central-1",
+                "me-south-1",
+                "sa-east-1",
+                "us-east-1",
+                "us-east-2",
+                "us-west-1",
+                "us-west-2"
+            ]
+        },
+        "Types.AwsVpcId": {
+            "type": "string",
+            "pattern": "^vpc\\-([0-9a-f]{8}|[0-9a-f]{16})$"
+        },
+        "Types.AwsSubnetId": {
+            "type": "string",
+            "pattern": "^subnet\\-[0-9a-f]{16}$"
+        },
+        "Types.AwsTags": {
+            "type": "object",
+            "additionalProperties": { "type": "string" }
+        },
+        "Types.AwsIpProtocol": {
+            "type": "string",
+            "enum": ["tcp", "udp", "icmp", "icmpv6", "-1"]
+        },
+        "Types.KubeLabels": {
+            "type": "object",
+            "additionalProperties": { "type": "string" }
+        },
+        "Types.KubeTaints": {
+            "type": "array",
+            "items": {
+                "type": "string",
+                "pattern": "^([a-zA-Z0-9\\-\\.\\/]+)=(\\w+):(NoSchedule|PreferNoSchedule|NoExecute)$"
+            }
+        },
+        "Types.KubeNodeSelector": {
+            "type": "object",
+            "additionalProperties": { "type": "string" }
+        },
+        "Types.KubeToleration": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "effect": {
+                    "type": "string",
+                    "enum": ["NoSchedule", "PreferNoSchedule", "NoExecute"]
+                },
+                "key": {
+                    "type": "string"
+                },
+                "value": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "effect",
+                "key",
+                "value"
+            ]
+        }
+    }
+}
