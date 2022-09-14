@@ -10,7 +10,7 @@
         },
         "kind": {
             "type": "string",
-            "enum": ["EksCluster"]
+            "enum": ["EKSCluster"]
         },
         "metadata": {
             "$ref": "#/$defs/Metadata"
@@ -56,7 +56,8 @@
                     "$ref": "#/$defs/Spec.Infrastructure"
                 },
                 "kubernetes": {
-                    "$ref": "#/$defs/Spec.Kubernetes"
+                    "type": "object",
+                    "additionalProperties": true
                 },
                 "distribution": {
                     "$ref": "#/$defs/Spec.Distribution"
@@ -638,7 +639,7 @@
 
         "Types.SemVer": {
             "type": "string",
-            "pattern": "^v[0-9]+\\.[0-9]+\\.[0-9]+\\$"
+            "pattern": "^v[0-9]+\\.[0-9]+\\.[0-9]+$"
         },
         "Types.IpAddress": {
             "type": "string",
@@ -646,11 +647,11 @@
         },
         "Types.Cidr": {
             "type": "string",
-            "pattern": "^((25[0-5]|(2[0-4]|1\\d|[1-9]|)\\d)\\.?\b){4}\\/(3[0-2]|[1-2][0-9]|[0-9])$"
+            "pattern": "^((25[0-5]|(2[0-4]|1\\d|[1-9]|)\\d)\\.?\\b){4}\\/(3[0-2]|[1-2][0-9]|[0-9])$"
         },
         "Types.FileRef": {
             "type": "string",
-            "pattern": "^\\{file\\:\\/\\/.*\\}$"
+            "pattern": "^\\{file\\:\\/\\/.+\\}$"
         },
         "Types.EnvRef": {
             "type": "string",
