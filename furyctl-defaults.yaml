@@ -1,0 +1,192 @@
+# Copyright (c) 2017-present SIGHUP s.r.l All rights reserved.
+# Use of this source code is governed by a BSD-style
+# license that can be found in the LICENSE file.
+
+data:
+  # the common section will be used by all the templates in all modules, everything defined here is something used by all the KFD modules.
+  common:
+    # where all the KFD modules are downloaded
+    relativeVendorPath: "../../vendor"
+    provider:
+      # can be eks for now, in the future we will add additional providers
+      type: eks
+    # nodeSelector and tolerations will be used to select the nodes where the KFD will be installed
+    nodeSelector:
+      node.kubernetes.io/role: infra
+    tolerations:
+      - effect: NoSchedule
+        key: node.kubernetes.io/role
+        value: infra
+    # this section will contain the authentication configuration that will be used to protect the KFD infrastructural ingresses
+
+  # the module section will be used to fine tune each module behaviour and configuration
+  modules:
+    # ingress module configuration
+    ingress:
+      overrides:
+        nodeSelector: {}
+        tolerations: {}
+        # override ingresses parameters
+        ingresses:
+          forecastle:
+            # disable authentication if set globally on auth module
+            disableAuth: false
+            # if empty, will use the default packageName + baseDomain from common configurations
+            host: ""
+            ingressClass: ""
+
+      baseDomain: example.dev
+      # common configuration for nginx ingress controller
+      nginx:
+        # can be single or dual
+        type: single
+        tls:
+          # can be certManager, secret or none
+          provider: certManager # it uses the configuration below as default when certManager is chosen
+          secret: #if we want to use custom certificates, the template should create a secret and set it as default certificate in NGINX, so patch nginx deployment accordingly
+            cert: |
+              value
+            key: |
+              value
+            ca: |
+              value
+      # the standard configuration for cert-manager on the ingress module
+      certManager:
+        # to create the clusterIssuer, this is an additional clusterIssuer than the two provided by cert-manager, for simplicity
+        clusterIssuer:
+          name: letsencrypt-fury
+          # can be route53 or http01 , if http01 we need to extrapolate the ingress type. If single the class will be nginx, if dual the class will be external
+          type: http01
+          # if auth type is route53, we need to provide the following configurations
+          route53:
+            iamRoleArn: arn:aws:iam::123456789012:role/example-cert-manager
+            region: eu-west-1
+            hostedZoneId: ZXXXXXXXXXXXXXXXXXXX0
+    # logging module configuration
+    logging:
+      overrides:
+        nodeSelector: {}
+        tolerations: {}
+        ingresses:
+          opensearch-dashboards:
+            disableAuth: false
+            host: ""
+            ingressClass: ""
+          cerebro:
+            disableAuth: false
+            host: ""
+            ingressClass: ""
+      opensearch:
+        # can be single or triple
+        type: single
+        # if not set, no resource patch will be created
+        resources:
+          requests:
+            cpu: ""
+            memory: ""
+          limits:
+            cpu: ""
+            memory: ""
+        # if set, it will override the volumeClaimTemplates in the opensearch statefulSet
+        storage_request: ""
+      # override ingresses parameters
+    # monitoring module configuration
+    monitoring:
+      overrides:
+        nodeSelector: {}
+        tolerations: {}
+        # override ingresses parameters
+        ingresses:
+          prometheus:
+            disableAuth: false
+            host: ""
+            ingressClass: ""
+          alertmanager:
+            disableAuth: false
+            host: ""
+            ingressClass: ""
+          grafana:
+            disableAuth: false
+            host: ""
+            ingressClass: ""
+          goldpinger:
+            disableAuth: false
+            host: ""
+            ingressClass: ""
+      prometheus:
+        resources:
+          requests:
+            cpu: ""
+            memory: ""
+          limits:
+            cpu: ""
+            memory: ""
+    # policy module configuration
+    policy:
+      overrides:
+        nodeSelector: {}
+        tolerations: {}
+        # override ingresses parameters
+        ingresses:
+          gpm:
+            disableAuth: false
+            host: ""
+            ingressClass: ""
+      # the standard configuration for gatekeeper on the policy module
+      gatekeeper:
+        # this configuration adds namespaces to the excluded list, actually whitelisting them
+        additionalExcludedNamespaces: []
+    # dr module configuration
+    dr:
+      overrides:
+        nodeSelector: {}
+        tolerations: {}
+      # the standard configuration for velero on the dr module
+      velero:
+        # this configuration will be used if common.provider.type is eks
+        eks:
+          iamRoleArn: arn:aws:iam::123456789012:role/example-velero
+          region: eu-west-1
+          bucket: example-velero
+    # auth module configuration
+    auth:
+      overrides:
+        nodeSelector: {}
+        # override ingresses parameters
+        ingresses:
+          pomerium:
+            # disableAuth: false <- This doesn't make sense here.
+            host: ""
+            ingressClass: ""
+          dex:
+            host: ""
+            ingressClass: ""
+        tolerations: {}
+      provider:
+        # can be none, basicAuth or sso. SSO uses pomerium+dex
+        type: none
+        basicAuth:
+          username: admin
+          password: admin
+      pomerium:
+        secrets:
+          # override environment variables here
+          ##COOKIE_SECRET is obtained with  `head -c32 /dev/urandom | base64` see https://www.pomerium.io/reference/#cookie-secret
+          COOKIE_SECRET: ""
+          ##IDP_CLIENT_SECRET is the secret configured in the pomerium Dex static client
+          IDP_CLIENT_SECRET: ""
+          ##SHARED_SECRET is obtained with  `head -c32 /dev/urandom | base64` see https://www.pomerium.io/reference/#shared-secret
+          SHARED_SECRET: ""
+      dex:
+        # see dex documentation for more information
+        connectors: []
+    aws:
+      clusterAutoscaler:
+        nodeGroupAutoDiscovery: asg:tag=k8s.io/cluster-autoscaler/enabled,k8s.io/cluster-autoscaler/example
+        iamRoleArn: arn:aws:iam::123456789012:role/example-cluster-autoscaler
+templates:
+  includes:
+    - ".*\\.yaml"
+    - ".*\\.yml"
+  suffix: ".tpl"
+  processFilename: true
