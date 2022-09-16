@@ -25,7 +25,7 @@ data:
     ingress:
       overrides:
         nodeSelector: {}
-        tolerations: {}
+        tolerations: []
         # override ingresses parameters
         ingresses:
           forecastle:
@@ -66,7 +66,7 @@ data:
     logging:
       overrides:
         nodeSelector: {}
-        tolerations: {}
+        tolerations: []
         ingresses:
           opensearch-dashboards:
             disableAuth: false
@@ -94,7 +94,7 @@ data:
     monitoring:
       overrides:
         nodeSelector: {}
-        tolerations: {}
+        tolerations: []
         # override ingresses parameters
         ingresses:
           prometheus:
@@ -125,7 +125,7 @@ data:
     policy:
       overrides:
         nodeSelector: {}
-        tolerations: {}
+        tolerations: []
         # override ingresses parameters
         ingresses:
           gpm:
@@ -140,7 +140,7 @@ data:
     dr:
       overrides:
         nodeSelector: {}
-        tolerations: {}
+        tolerations: []
       # the standard configuration for velero on the dr module
       velero:
         # this configuration will be used if common.provider.type is eks
@@ -161,7 +161,7 @@ data:
           dex:
             host: ""
             ingressClass: ""
-        tolerations: {}
+        tolerations: []
       provider:
         # can be none, basicAuth or sso. SSO uses pomerium+dex
         type: none
