@@ -1,6 +1,6 @@
 {
     "$schema": "http://json-schema.org/draft-07/schema#",
-    "$id": "https://schema.sighup.io/kfd/v1.23.3/ekscluster-kfd-v1alpha2.json",
+    "$id": "https://schema.sighup.io/kfd/ekscluster-kfd-v1alpha2.json",
     "description": "A Fury Cluster deployed through AWS's Elastic Kubernetes Service",
     "type": "object",
     "properties": {
