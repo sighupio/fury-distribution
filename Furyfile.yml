@@ -3,17 +3,18 @@
 # license that can be found in the LICENSE file.
 
 versions:
-  networking: v1.9.0
-  monitoring: v1.14.2
-  logging: v1.10.3
-  ingress: v1.12.2
-  dr: v1.9.2
-  opa: v1.6.2
+  auth: v0.0.1
+  dr: master
+  ingress: master
+  logging: v3.0.0
+  monitoring: prepare-v2.0.0
+  opa: feature/update-gpm-101
+
 
 bases:
-  - name: networking
-  - name: monitoring
-  - name: logging
-  - name: ingress
+  - name: auth
   - name: dr
+  - name: ingress
+  - name: logging
+  - name: monitoring
   - name: opa
