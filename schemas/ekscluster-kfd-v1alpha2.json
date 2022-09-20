@@ -686,7 +686,7 @@
             "additionalProperties": false,
             "properties": {
                 "forecastle": {
-                    "$ref": "#/$defs/Types.FuryModuleIngressOverride"
+                    "$ref": "#/$defs/Types.FuryModuleOverridesIngresses"
                 }
             }
         },
