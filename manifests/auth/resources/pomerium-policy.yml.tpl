@@ -1,0 +1,1 @@
+{{ .modules.auth.pomerium.policy }}
