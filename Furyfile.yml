@@ -3,23 +3,23 @@
 # license that can be found in the LICENSE file.
 
 versions:
-  networking: v1.12.1
-  monitoring: v2.1.0
-  logging: v3.1.3
-  ingress: v1.14.1
-  dr: v1.11.0
-  opa: v1.8.0
   auth: v0.0.3
+  aws: v2.0.0
+  dr: v1.11.0
+  ingress: v1.14.1
+  logging: v3.1.3
+  monitoring: v2.1.0
+  networking: v1.12.1
+  opa: v1.8.0
 
 bases:
-  - name: networking
-  - name: monitoring
-  - name: logging
-  - name: ingress
-  - name: dr
-  - name: opa
   - name: auth
+  - name: dr
+  - name: ingress
+  - name: logging
+  - name: monitoring
+  - name: opa
 
 modules:
-  - name: ingress
   - name: dr
+  - name: ingress
