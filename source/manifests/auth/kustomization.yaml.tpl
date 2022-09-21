@@ -1,7 +1,10 @@
-{{- if eq .modules.auth.provider.type "sso" -}}
+{{- if eq .modules.auth.provider.type "none" -}}
+{{- else -}}
 ---
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
+{{- end -}}
+{{- if eq .modules.auth.provider.type "sso" }}
 
 resources:
   - {{ print "../" .common.relativeVendorPath "/katalog/auth/dex" }}
@@ -31,4 +34,9 @@ secretGenerator:
     behavior: replace
     envs:
       - secrets/pomerium.env
+{{- end -}}
+{{- if eq .modules.auth.provider.type "basicAuth" }}
+
+resources:
+  - secrets/basic-auth.yml
 {{- end }}
