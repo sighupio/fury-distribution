@@ -1,3 +1,17 @@
+{{- define "ingressClass" }}
+  {{ if .modules.auth.overrides.ingresses.dex.ingressClass -}}
+    {{ .modules.auth.overrides.ingresses.dex.ingressClass }}
+  {{- else -}}
+    {{ template "ingressClass" . }}
+  {{- end }}
+{{- end -}}
+{{- define "host" -}}
+  {{ if .modules.auth.overrides.ingresses.dex.host -}}
+    {{ .modules.auth.overrides.ingresses.dex.host }}
+  {{- else -}}
+    {{ print "login." .modules.ingress.baseDomain }}
+  {{- end }}
+{{- end -}}
 ---
 apiVersion: networking.k8s.io/v1
 kind: Ingress
@@ -8,9 +22,9 @@ metadata:
     cert-manager.io/cluster-issuer: "letsencrypt-aws" # FIXME
 spec:
   # Needs to be externally available in order to act as callback from GitHub.
-  ingressClassName: {{ if .modules.auth.overrides.ingresses.dex.ingressClass }} {{ .modules.auth.overrides.ingresses.dex.ingressClass }} {{ else }} {{ if eq .modules.ingress.nginx.type "single" }} "nginx" {{ else }} "external" {{ end }} {{ end }}
+  ingressClassName: {{ template "ingressClass" . }}
   rules:
-    - host: {{ if .modules.auth.overrides.ingresses.dex.host }} {{ .modules.auth.overrides.ingresses.dex.host }} {{ else }} {{ print "login" .modules.ingress.baseDomaim }} {{ end }}
+    - host: {{ template "host" . }}
       http:
         paths:
           - path: /
@@ -22,5 +36,5 @@ spec:
                   name: http
   tls:
     - hosts:
-      - {{ if .modules.auth.overrides.ingresses.dex.host }} {{ .modules.auth.overrides.ingresses.dex.host }} {{ else }} {{ print "login" .modules.ingress.baseDomaim }} {{ end }}
+      - {{ template "host" . }}
       secretName: dex-tls
