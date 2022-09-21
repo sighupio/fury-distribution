@@ -12,6 +12,7 @@
     {{ template "commonTolerations" . }}
   {{- end }}
 {{- end -}}
+{{- if eq .modules.auth.provider.type "sso" -}}
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -38,3 +39,4 @@ spec:
         {{ template "nodeSelector" . }}
       tolerations:
         {{ template "tolerations" . }}
+{{- end }}

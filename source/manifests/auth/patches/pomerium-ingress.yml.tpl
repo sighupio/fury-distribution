@@ -12,6 +12,7 @@
     {{ print "pomerium.internal." .modules.ingress.baseDomain }}
   {{- end }}
 {{- end -}}
+{{- if eq .modules.auth.provider.type "sso" -}}
 ---
 apiVersion: networking.k8s.io/v1
 kind: Ingress
@@ -37,3 +38,4 @@ spec:
     - hosts:
         - {{ template "host" . }}
       secretName: pomerium-tls
+{{- end }}
