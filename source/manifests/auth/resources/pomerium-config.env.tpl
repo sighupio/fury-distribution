@@ -12,6 +12,7 @@
     {{ print "https://login" .modules.ingress.baseDomain }}
   {{- end }}
 {{- end -}}
+{{- if eq .modules.auth.provider.type "sso" -}}
 FORWARD_AUTH_HOST={{ template "pomeriumHost" . }}
 AUTHENTICATE_SERVICE_HOST={{ template "pomeriumHost" . }}
 FORWARD_AUTH_URL=https://$(FORWARD_AUTH_HOST)
@@ -27,3 +28,4 @@ IDP_PROVIDER=oidc
 # IDP_PROVIDER_URL is the url of dex ingress
 IDP_PROVIDER_URL={{ template "dexHost" . }}
 IDP_SCOPES=openid profile email groups
+{{- end }}
