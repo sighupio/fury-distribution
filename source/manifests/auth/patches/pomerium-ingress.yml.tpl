@@ -1,3 +1,17 @@
+{{- define "ingressClass" -}}
+  {{ if .modules.auth.overrides.ingresses.pomerium.ingressClass -}}
+    {{ .modules.auth.overrides.ingresses.pomerium.ingressClass }}
+  {{- else -}}
+    {{ template "ingressClass" . }}
+  {{- end }}
+{{- end -}}
+{{- define "host" -}}
+  {{ if .modules.auth.overrides.ingresses.pomerium.host -}}
+    {{ .modules.auth.overrides.ingresses.pomerium.host }}
+  {{- else -}}
+    {{ print "pomerium.internal." .modules.ingress.baseDomain }}
+  {{- end }}
+{{- end -}}
 ---
 apiVersion: networking.k8s.io/v1
 kind: Ingress
@@ -7,9 +21,9 @@ metadata:
   annotations:
     cert-manager.io/cluster-issuer: "letsencrypt-aws" # FIXME
 spec:
-  ingressClassName: {{ if .modules.auth.overrides.ingresses.pomerium.ingressClass }} {{ .modules.auth.overrides.ingresses.pomerium.ingressClass }} {{ else }} {{ if eq .modules.ingress.nginx.type "single" }} "nginx" {{ else }} "internal" {{ end }} {{ end }}
+  ingressClassName: {{ template "ingressClass" . }}
   rules:
-    - host: {{ if .modules.auth.overrides.ingresses.pomerium.host }} {{ .modules.auth.overrides.ingresses.pomerium.host }} {{ else }} {{ print "pomerium.internal." .modules.ingress.baseDomaim }} {{ end }}
+    - host: {{ template "host" . }}
       http:
         paths:
           - path: /
@@ -21,5 +35,5 @@ spec:
                   number: 80
   tls:
     - hosts:
-        - {{ if .modules.auth.overrides.ingresses.pomerium.host }} {{ .modules.auth.overrides.ingresses.pomerium.host }} {{ else }} {{ print "pomerium.internal." .modules.ingress.baseDomaim }} {{ end }}
+        - {{ template "host" . }}
       secretName: pomerium-tls
