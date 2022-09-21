@@ -65,7 +65,6 @@
             },
             "required": [
                 "distributionVersion",
-                "infrastructure",
                 "kubernetes",
                 "toolsConfiguration"
             ]
@@ -135,10 +134,7 @@
                 "vpc": {
                     "$ref": "#/$defs/Spec.Infrastructure.Vpc"
                 }
-            },
-            "required": [
-                "vpc"
-            ]
+            }
         },
         "Spec.Infrastructure.Vpc": {
             "type": "object",
