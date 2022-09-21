@@ -12,6 +12,7 @@
     {{ print "https://pomerium.internal." .modules.ingress.baseDomain "/oauth2/callback" }}
   {{- end }}
 {{- end -}}
+{{- if eq .modules.auth.provider.type "sso" -}}
 issuer: {{ template "dexHost" . }}
 storage:
   type: kubernetes
@@ -32,3 +33,4 @@ staticClients:
   name: 'Pomerium in-cluster SSO'
   secret: {{ .modules.auth.pomerium.secrets.IDP_CLIENT_SECRET }}
 enablePasswordDB: false
+{{- end }}

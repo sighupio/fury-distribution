@@ -1,3 +1,4 @@
+{{- if eq .modules.auth.provider.type "sso" -}}
 ---
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
@@ -30,3 +31,4 @@ secretGenerator:
     behavior: replace
     envs:
       - secrets/pomerium.env
+{{- end }}
