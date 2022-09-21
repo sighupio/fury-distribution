@@ -3,8 +3,8 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 
 resources:
-  - ../../vendor/katalog/auth/dex
-  - ../../vendor/katalog/auth/pomerium
+  - {{ print "../" .common.relativeVendorPath "/katalog/auth/dex" }}
+  - {{ print "../" .common.relativeVendorPath "/katalog/auth/pomerium" }}
   - resources/ingress-infra.yml
 
 patchesStrategicMerge:
