@@ -1,12 +1,12 @@
 {{- define "nodeSelector" -}}
-  {{ if .modules.ingress.overrides.nodeSelector -}}
+  {{ if ne .modules.ingress.overrides.nodeSelector nil -}}
     {{ .modules.ingress.overrides.nodeSelector | toYaml | indent 8 | trim }}
   {{- else -}}
     {{ template "commonNodeSelector" . }}
   {{- end }}
 {{- end -}}
 {{- define "tolerations" -}}
-  {{ if .modules.ingress.overrides.tolerations -}}
+  {{ if ne .modules.ingress.overrides.tolerations nil -}}
     {{ .modules.ingress.overrides.tolerations | toYaml | indent 8 | trim }}
   {{- else -}}
     {{ template "commonTolerations" . }}
