@@ -9,6 +9,7 @@ kind: Secret
 metadata:
   name: basic-auth
   namespace: {{ $namespace }}
+type: kubernetes.io/basic-auth
 data:
   auth: {{ htpasswd $username $password }}
 {{ end }}
