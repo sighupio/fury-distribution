@@ -5,6 +5,17 @@
     {{ template "ingressClassInternal" . }}
   {{- end }}
 {{- end -}}
+{{- define "tls" -}}
+  {{ if eq .modules.ingress.nginx.tls.provider "none" -}}
+  {{ else }}
+  tls:
+  - hosts:
+    - {{ template "pomeriumHost" . }}
+  {{ if eq .modules.ingress.nginx.tls.provider "certManager" -}}
+    secretName: pomerium-tls
+  {{- end }}
+  {{- end }}
+{{- end -}}
 {{- if eq .modules.auth.provider.type "sso" -}}
 ---
 apiVersion: networking.k8s.io/v1
@@ -27,8 +38,5 @@ spec:
                 name: pomerium
                 port:
                   number: 80
-  tls:
-    - hosts:
-        - {{ template "pomeriumHost" . }}
-      secretName: pomerium-tls
+{{- template "tls" . }}
 {{- end }}
