@@ -1,12 +1,12 @@
 {{- define "nodeSelector" -}}
-  {{ if .modules.dr.overrides.nodeSelector -}}
+  {{ if ne .modules.dr.overrides.nodeSelector nil -}}
     {{ .modules.dr.overrides.nodeSelector | toYaml | indent 8 | trim }}
   {{- else -}}
     {{ template "commonNodeSelector" . }}
   {{- end }}
 {{- end -}}
 {{- define "tolerations" -}}
-  {{ if .modules.dr.overrides.tolerations -}}
+  {{ if ne .modules.dr.overrides.tolerations nil -}}
     {{ .modules.dr.overrides.tolerations | toYaml | indent 8 | trim }}
   {{- else -}}
     {{ template "commonTolerations" . }}

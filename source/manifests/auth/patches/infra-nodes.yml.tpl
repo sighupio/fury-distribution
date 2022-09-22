@@ -1,12 +1,12 @@
 {{- define "nodeSelector" -}}
-  {{ if .modules.auth.overrides.nodeSelector -}}
+  {{ if ne .modules.auth.overrides.nodeSelector nil -}}
     {{ .modules.auth.overrides.nodeSelector | toYaml | indent 8 | trim }}
   {{- else -}}
     {{ template "commonNodeSelector" . }}
   {{- end }}
 {{- end -}}
 {{- define "tolerations" -}}
-  {{ if .modules.auth.overrides.tolerations -}}
+  {{ if ne .modules.auth.overrides.tolerations nil -}}
     {{ .modules.auth.overrides.tolerations | toYaml | indent 8 | trim }}
   {{- else -}}
     {{ template "commonTolerations" . }}
