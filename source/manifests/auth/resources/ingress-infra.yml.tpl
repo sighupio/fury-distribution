@@ -2,7 +2,7 @@
   {{ if .modules.auth.overrides.ingresses.dex.ingressClass -}}
     {{ .modules.auth.overrides.ingresses.dex.ingressClass }}
   {{- else -}}
-    {{ template "ingressClass" . }}
+    {{ template "ingressClassExternal" . }}
   {{- end }}
 {{- end -}}
 {{- define "host" -}}
