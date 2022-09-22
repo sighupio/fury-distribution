@@ -12,6 +12,17 @@
     {{ print "directory." .modules.ingress.baseDomain }}
   {{- end }}
 {{- end -}}
+{{- define "tls" -}}
+  {{ if eq .modules.ingress.nginx.tls.provider "none" -}}
+  {{ else }}
+  tls:
+  - hosts:
+    - {{ template "host" . }}
+  {{ if eq .modules.ingress.nginx.tls.provider "certManager" -}}
+    secretName: directory-tls
+  {{- end }}
+  {{- end }}
+{{- end -}}
 ---
 apiVersion: networking.k8s.io/v1
 kind: Ingress
@@ -37,7 +48,4 @@ spec:
             name: forecastle
             port:
               name: http
-  tls:
-  - hosts:
-    - {{ template "host" . }}
-    secretName: directory-tls
+{{- template "tls" . }}
