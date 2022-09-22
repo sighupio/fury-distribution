@@ -26,22 +26,22 @@
   {{- end -}}
 {{ end }}
 
-{{ define "ingressAuthUrl" }}
+{{ define "ingressAuthUrl" -}}
 "https://{{ template "pomeriumHost" . }}/verify?uri=$scheme://$host$request_uri"
-{{ end }}
+{{- end }}
 
-{{ define "ingressAuthSignin" }}
+{{ define "ingressAuthSignin" -}}
 "https://{{ template "pomeriumHost" . }}/?uri=$scheme://$host$request_uri"
-{{ end }}
+{{- end }}
 
 {{ define "ingressAuth" }}
 {{- if eq .modules.auth.provider.type "sso" -}}
-  nginx.ingress.kubernetes.io/auth-url: {{ template "ingressAuthUrl" . }}
-  nginx.ingress.kubernetes.io/auth-signin: {{ template "ingressAuthSignin" . }}
+    nginx.ingress.kubernetes.io/auth-url: {{ template "ingressAuthUrl" . }}
+    nginx.ingress.kubernetes.io/auth-signin: {{ template "ingressAuthSignin" . }}
 {{- else if eq .modules.auth.provider.type "basicAuth" -}}
-  nginx.ingress.kubernetes.io/auth-type: basic
-  nginx.ingress.kubernetes.io/auth-secret: basic-auth
-  nginx.ingress.kubernetes.io/auth-realm: 'Authentication Required'
+    nginx.ingress.kubernetes.io/auth-type: basic
+    nginx.ingress.kubernetes.io/auth-secret: basic-auth
+    nginx.ingress.kubernetes.io/auth-realm: 'Authentication Required'
 {{- end -}}
 {{ end }}
 
