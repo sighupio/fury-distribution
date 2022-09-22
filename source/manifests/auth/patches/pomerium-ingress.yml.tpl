@@ -2,14 +2,7 @@
   {{ if .modules.auth.overrides.ingresses.pomerium.ingressClass -}}
     {{ .modules.auth.overrides.ingresses.pomerium.ingressClass }}
   {{- else -}}
-    {{ template "ingressClass" . }}
-  {{- end }}
-{{- end -}}
-{{- define "host" -}}
-  {{ if .modules.auth.overrides.ingresses.pomerium.host -}}
-    {{ .modules.auth.overrides.ingresses.pomerium.host }}
-  {{- else -}}
-    {{ print "pomerium.internal." .modules.ingress.baseDomain }}
+    {{ template "ingressClassInternal" . }}
   {{- end }}
 {{- end -}}
 {{- if eq .modules.auth.provider.type "sso" -}}
@@ -24,7 +17,7 @@ metadata:
 spec:
   ingressClassName: {{ template "ingressClass" . }}
   rules:
-    - host: {{ template "host" . }}
+    - host: {{ template "pomeriumHost" . }}
       http:
         paths:
           - path: /
@@ -36,6 +29,6 @@ spec:
                   number: 80
   tls:
     - hosts:
-        - {{ template "host" . }}
+        - {{ template "pomeriumHost" . }}
       secretName: pomerium-tls
 {{- end }}
