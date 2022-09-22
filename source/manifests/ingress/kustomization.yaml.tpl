@@ -16,7 +16,7 @@ resources:
   - resources/ingress-infra.yml
 
 patchesStrategicMerge:
-{{- if eq .modules.ingress.nginx.tls.provider "certManager" }}
+{{- if and (eq .modules.ingress.nginx.tls.provider "certManager") (eq .modules.ingress.certManager.clusterIssuer.type "dns01") }}
   - patches/cert-manager.yml
 {{- end }}
   - patches/infra-nodes.yml
