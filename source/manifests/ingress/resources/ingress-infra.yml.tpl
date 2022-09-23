@@ -1,28 +1,3 @@
-{{- define "ingressClass" -}}
-  {{ if .modules.ingress.overrides.ingresses.forecastle.ingressClass -}}
-    {{ .modules.ingress.overrides.ingresses.forecastle.ingressClass }}
-  {{- else -}}
-    {{ template "ingressClassInternal" . }}
-  {{- end }}
-{{- end -}}
-{{- define "host" -}}
-  {{ if .modules.ingress.overrides.ingresses.forecastle.host -}}
-    {{ .modules.ingress.overrides.ingresses.forecastle.host }}
-  {{- else -}}
-    {{ print "directory." .modules.ingress.baseDomain }}
-  {{- end }}
-{{- end -}}
-{{- define "tls" -}}
-  {{ if eq .modules.ingress.nginx.tls.provider "none" -}}
-  {{ else }}
-  tls:
-  - hosts:
-    - {{ template "host" . }}
-  {{ if eq .modules.ingress.nginx.tls.provider "certManager" -}}
-    secretName: directory-tls
-  {{- end }}
-  {{- end }}
-{{- end -}}
 ---
 apiVersion: networking.k8s.io/v1
 kind: Ingress
@@ -36,16 +11,16 @@ metadata:
   name: forecastle
   namespace: ingress-nginx
 spec:
-  ingressClassName: {{ template "ingressClass" . }}
+  ingressClassName: {{ template "ingressClass" (dict "module" "ingress" "package" "forecastle" "type" "internal" "spec" .) }}
   rules:
-  - host: {{ template "host" . }}
-    http:
-      paths:
-      - path: /
-        pathType: Prefix
-        backend:
-          service:
-            name: forecastle
-            port:
-              name: http
-{{- template "tls" . }}
+    - host: {{ template "ingressHost" (dict "module" "ingress" "package" "forecastle" "prefix" "directory.internal." "spec" .) }}
+      http:
+        paths:
+        - path: /
+          pathType: Prefix
+          backend:
+            service:
+              name: forecastle
+              port:
+                name: http
+{{- template "ingressTls" (dict "module" "ingress" "package" "forecastle" "prefix" "directory.internal." "spec" .) }}

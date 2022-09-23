@@ -19,6 +19,6 @@ spec:
 {{ else if eq .modules.ingress.certManager.clusterIssuer.type "http01" }}
     - http01:
         ingress:
-          class: {{ template "ingressClassExternal" . }}
+          class: {{ template "globalIngressClass" (dict "type" "external" "spec" .) }}
 {{- end -}}
 {{- end -}}
