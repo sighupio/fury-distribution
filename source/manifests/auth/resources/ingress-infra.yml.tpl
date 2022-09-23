@@ -1,44 +1,19 @@
-{{- define "ingressClass" -}}
-  {{ if .modules.auth.overrides.ingresses.dex.ingressClass -}}
-    {{ .modules.auth.overrides.ingresses.dex.ingressClass }}
-  {{- else -}}
-    {{ template "ingressClassExternal" . }}
-  {{- end }}
-{{- end -}}
-{{- define "host" -}}
-  {{ if .modules.auth.overrides.ingresses.dex.host -}}
-    {{ .modules.auth.overrides.ingresses.dex.host }}
-  {{- else -}}
-    {{ print "login." .modules.ingress.baseDomain }}
-  {{- end }}
-{{- end -}}
-{{- define "tls" -}}
-  {{ if eq .modules.ingress.nginx.tls.provider "none" -}}
-  {{ else }}
-  tls:
-  - hosts:
-    - {{ template "host" . }}
-  {{ if eq .modules.ingress.nginx.tls.provider "certManager" -}}
-    secretName: dex-tls
-  {{- end }}
-  {{- end }}
-{{- end -}}
 {{- if eq .modules.auth.provider.type "sso" -}}
 ---
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: dex
-  namespace: kube-system
   {{- if eq .modules.ingress.nginx.tls.provider "certManager" }}
   annotations:
     {{ template "certManagerClusterIssuer" . }}
   {{- end }}
+  name: dex
+  namespace: kube-system
 spec:
   # Needs to be externally available in order to act as callback from GitHub.
-  ingressClassName: {{ template "ingressClass" . }}
+  ingressClassName: {{ template "ingressClass" (dict "module" "auth" "package" "dex" "type" "external" "spec" .) }}
   rules:
-    - host: {{ template "host" . }}
+    - host: {{ template "ingressHost" (dict "module" "auth" "package" "dex" "prefix" "login." "spec" .) }}
       http:
         paths:
           - path: /
@@ -48,5 +23,5 @@ spec:
                 name: dex
                 port:
                   name: http
-{{- template "tls" . }}
+{{- template "ingressTls" (dict "module" "auth" "package" "dex" "prefix" "login." "spec" .) }}
 {{- end }}

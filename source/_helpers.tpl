@@ -2,28 +2,53 @@
 
 {{ define "commonTolerations" }}{{ .common.tolerations | toYaml | indent 8 | trim }}{{ end }}
 
-{{ define "ingressClassExternal" }}
-{{- if eq .modules.ingress.nginx.type "single" -}}
-  "nginx"
-{{- else -}}
-  "external"
-{{- end -}}
+{{ define "globalIngressClass" }}
+  {{- if eq .spec.modules.ingress.nginx.type "single" -}}
+    "nginx"
+  {{- else -}}
+    {{ .type }}
+  {{- end -}}
 {{ end }}
 
-{{ define "ingressClassInternal" }}
-{{- if eq .modules.ingress.nginx.type "single" -}}
-  "nginx"
-{{- else -}}
-  "internal"
-{{- end -}}
+{{/* ingressClass { module: <module>, package: <package>, type: "internal|external", spec: "." } */}}
+{{ define "ingressClass" }}
+  {{- $module := index .spec.modules .module -}}
+  {{- $package := index $module.overrides.ingresses .package -}}
+  {{- $ingressClass := $package.ingressClass -}}
+  {{- if $ingressClass -}}
+    {{ $ingressClass }}
+  {{- else -}}
+    {{ template "globalIngressClass" (dict "spec" .spec "type" .type) }}
+  {{- end -}}
 {{ end }}
+
+{{/* ingressHost { module: <module>, package: <package>, prefix: <prefix>, spec: "." } */}}
+{{ define "ingressHost" }}
+  {{- $module := index .spec.modules .module -}}
+  {{- $package := index $module.overrides.ingresses .package -}}
+  {{- $host := $package.host -}}
+  {{- if $host -}}
+    {{ $host }}
+  {{- else -}}
+    {{ print .prefix .spec.modules.ingress.baseDomain }}
+  {{- end -}}
+{{ end }}
+
+{{/* ingressTls { module: <module>, package: <package>, prefix: <prefix>, spec: "." } */}}
+{{- define "ingressTls" -}}
+{{ if eq .spec.modules.ingress.nginx.tls.provider "none" -}}
+  {{ else }}
+  tls:
+    - hosts:
+      - {{ template "ingressHost" . }}
+    {{- if eq .spec.modules.ingress.nginx.tls.provider "certManager" }}
+      secretName: {{ .package }}-tls
+    {{- end }}
+{{- end }}
+{{- end -}}
 
 {{ define "pomeriumHost" }}
-  {{- if .modules.auth.overrides.ingresses.pomerium.host -}}
-    {{ .modules.auth.overrides.ingresses.pomerium.host }}
-  {{- else -}}
-    {{ print "pomerium.internal." .modules.ingress.baseDomain }}
-  {{- end -}}
+  {{- template "ingressHost" (dict "module" "auth" "package" "pomerium" "prefix" "pomerium.internal." "spec" .) -}}
 {{ end }}
 
 {{ define "ingressAuthUrl" -}}
@@ -49,4 +74,12 @@
 {{- if eq .modules.ingress.nginx.tls.provider "certManager" -}}
 cert-manager.io/cluster-issuer: {{ .modules.ingress.certManager.clusterIssuer.name }}
 {{- end -}}
+{{ end }}
+
+{{ define "alertmanagerUrl" }}
+  {{- template "ingressHost" (dict "module" "monitoring" "package" "alertmanager" "prefix" "alertmanager.internal." "spec" .) -}}
+{{ end }}
+
+{{ define "prometheusUrl" }}
+  {{- template "ingressHost" (dict "module" "monitoring" "package" "prometheus" "prefix" "prometheus.internal." "spec" .) -}}
 {{ end }}

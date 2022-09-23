@@ -1,32 +1,16 @@
-{{- define "ingressClass" -}}
-  {{ if .modules.auth.overrides.ingresses.pomerium.ingressClass -}}
-    {{ .modules.auth.overrides.ingresses.pomerium.ingressClass }}
-  {{- else -}}
-    {{ template "ingressClassInternal" . }}
-  {{- end }}
-{{- end -}}
-{{- define "tls" -}}
-  {{ if eq .modules.ingress.nginx.tls.provider "none" -}}
-  {{ else }}
-  tls:
-  - hosts:
-    - {{ template "pomeriumHost" . }}
-  {{ if eq .modules.ingress.nginx.tls.provider "certManager" -}}
-    secretName: pomerium-tls
-  {{- end }}
-  {{- end }}
-{{- end -}}
 {{- if eq .modules.auth.provider.type "sso" -}}
 ---
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
+  {{- if eq .modules.ingress.nginx.tls.provider "certManager" }}
+  annotations:
+    {{ template "certManagerClusterIssuer" . }}
+  {{- end }}
   name: pomerium
   namespace: pomerium
-  annotations:
-    cert-manager.io/cluster-issuer: "letsencrypt-aws" # FIXME
 spec:
-  ingressClassName: {{ template "ingressClass" . }}
+  ingressClassName: {{ template "ingressClass" (dict "module" "auth" "package" "pomerium" "type" "internal" "spec" .) }}
   rules:
     - host: {{ template "pomeriumHost" . }}
       http:
@@ -38,5 +22,5 @@ spec:
                 name: pomerium
                 port:
                   number: 80
-{{- template "tls" . }}
+{{- template "ingressTls" (dict "module" "auth" "package" "pomerium" "prefix" "pomerium.internal." "spec" .) }}
 {{- end }}
