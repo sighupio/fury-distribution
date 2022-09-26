@@ -56,8 +56,7 @@
                     "$ref": "#/$defs/Spec.Infrastructure"
                 },
                 "kubernetes": {
-                    "type": "object",
-                    "additionalProperties": true
+                    "$ref": "#/$defs/Spec.Kubernetes"
                 },
                 "distribution": {
                     "$ref": "#/$defs/Spec.Distribution"
@@ -1185,11 +1184,11 @@
         },
         "Types.AwsVpcId": {
             "type": "string",
-            "pattern": "^vpc\\-([0-9a-f]{8}|[0-9a-f]{16})$"
+            "pattern": "^vpc\\-([0-9a-f]{8}|[0-9a-f]{17})$"
         },
         "Types.AwsSubnetId": {
             "type": "string",
-            "pattern": "^subnet\\-[0-9a-f]{16}$"
+            "pattern": "^subnet\\-[0-9a-f]{17}$"
         },
         "Types.AwsTags": {
             "type": "object",
@@ -1197,7 +1196,8 @@
         },
         "Types.AwsIpProtocol": {
             "type": "string",
-            "enum": ["tcp", "udp", "icmp", "icmpv6", "-1"]
+            "pattern": "^(?i)(tcp|udp|icmp|icmpv6|-1)$",
+            "$comment": "this value should be lowercase, but we rely on terraform to do the conversion to make it a bit more user friendly"
         },
         "Types.KubeLabels": {
             "type": "object",
