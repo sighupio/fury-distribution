@@ -365,6 +365,12 @@
                 "tags": {
                     "$ref": "#/$defs/Types.AwsTags"
                 },
+                "subnetIds": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/$defs/Types.AwsSubnetId"
+                    }
+                },
                 "additionalFirewallRules": {
                     "type": "array",
                     "items": {
@@ -381,6 +387,7 @@
                 "name",
                 "size",
                 "tags",
+                "subnetIds",
                 "taints"
             ]
         },
@@ -448,6 +455,13 @@
                 "type": {
                     "type": "string"
                 },
+                "direction": {
+                    "type": "string",
+                    "enum": ["ingress", "egress"]
+                },
+                "tags": {
+                    "$ref": "#/$defs/Types.AwsTags"
+                },
                 "cidrBlocks": {
                     "type": "array",
                     "items": {
@@ -466,7 +480,9 @@
                 "name",
                 "ports",
                 "protocol",
-                "type"
+                "type",
+                "direction",
+                "tags"
             ]
         },
         "Spec.Kubernetes.NodePool.AdditionalFirewallRule.Ports": {
