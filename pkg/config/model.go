@@ -5,50 +5,50 @@
 package config
 
 type Furyctl struct {
-	ApiVersion string `yaml:"apiVersion"`
-	Kind       string `yaml:"kind"`
+	ApiVersion string `yaml:"apiVersion" validate:"required,api-version"`
+	Kind       string `yaml:"kind" validate:"required,cluster-kind"`
 	Spec       struct {
-		DistributionVersion string `yaml:"distributionVersion"`
-	} `yaml:"spec"`
+		DistributionVersion string `yaml:"distributionVersion" validate:"required,permissive-semver"`
+	} `yaml:"spec" validate:"required"`
 }
 
 type KFD struct {
-	Version        string        `yaml:"version"`
-	Modules        KFDModules    `yaml:"modules"`
-	Kubernetes     KFDKubernetes `yaml:"kubernetes"`
-	FuryctlSchemas KFDSchemas    `yaml:"furyctlSchemas"`
-	Tools          KFDTools      `yaml:"tools"`
+	Version        string        `yaml:"version" validate:"required,permissive-semver"`
+	Modules        KFDModules    `yaml:"modules" validate:"required"`
+	Kubernetes     KFDKubernetes `yaml:"kubernetes" validate:"required"`
+	FuryctlSchemas KFDSchemas    `yaml:"furyctlSchemas" validate:"required"`
+	Tools          KFDTools      `yaml:"tools" validate:"required"`
 }
 
 type KFDModules struct {
-	Auth       string `yaml:"auth"`
-	Dr         string `yaml:"dr"`
-	Ingress    string `yaml:"ingress"`
-	Logging    string `yaml:"logging"`
-	Monitoring string `yaml:"monitoring"`
-	Opa        string `yaml:"opa"`
+	Auth       string `yaml:"auth" validate:"required,permissive-semver"`
+	Dr         string `yaml:"dr" validate:"required,permissive-semver"`
+	Ingress    string `yaml:"ingress" validate:"required,permissive-semver"`
+	Logging    string `yaml:"logging" validate:"required,permissive-semver"`
+	Monitoring string `yaml:"monitoring" validate:"required,permissive-semver"`
+	Opa        string `yaml:"opa" validate:"required,permissive-semver"`
 }
 
 type KFDProvider struct {
-	Version   string `yaml:"version"`
-	Installer string `yaml:"installer"`
+	Version   string `yaml:"version" validate:"required"`
+	Installer string `yaml:"installer" validate:"required,permissive-semver"`
 }
 
 type KFDKubernetes struct {
-	Eks KFDProvider `yaml:"eks"`
+	Eks KFDProvider `yaml:"eks" validate:"required"`
 }
 
 type KFDSchemas struct {
 	Eks []struct {
-		ApiVersion string `yaml:"apiVersion"`
-		Kind       string `yaml:"kind"`
+		ApiVersion string `yaml:"apiVersion" validate:"required,api-version"`
+		Kind       string `yaml:"kind" validate:"required,cluster-kind"`
 	} `yaml:"eks"`
 }
 
 type KFDTools struct {
-	Ansible   string `yaml:"ansible"`
-	Furyagent string `yaml:"furyagent"`
-	Kubectl   string `yaml:"kubectl"`
-	Kustomize string `yaml:"kustomize"`
-	Terraform string `yaml:"terraform"`
+	Ansible   string `yaml:"ansible" validate:"required,permissive-semver"`
+	Furyagent string `yaml:"furyagent" validate:"required,permissive-semver"`
+	Kubectl   string `yaml:"kubectl" validate:"required,permissive-semver"`
+	Kustomize string `yaml:"kustomize" validate:"required,permissive-semver"`
+	Terraform string `yaml:"terraform" validate:"required,permissive-semver"`
 }
