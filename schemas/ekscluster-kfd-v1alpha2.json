@@ -681,7 +681,7 @@
             "additionalProperties": false,
             "properties": {
                 "forecastle": {
-                    "$ref": "#/$defs/Types.FuryModuleOverridesIngresses"
+                    "$ref": "#/$defs/Types.FuryModuleOverridesIngress"
                 }
             }
         },
@@ -1281,12 +1281,12 @@
                 "ingresses": {
                     "type": "object",
                     "additionalProperties": {
-                        "$ref": "#/$defs/Types.FuryModuleOverridesIngresses"
+                        "$ref": "#/$defs/Types.FuryModuleOverridesIngress"
                     }
                 }
             }
         },
-        "Types.FuryModuleOverridesIngresses": {
+        "Types.FuryModuleOverridesIngress": {
             "type": "object",
             "additionalProperties": false,
             "properties": {
