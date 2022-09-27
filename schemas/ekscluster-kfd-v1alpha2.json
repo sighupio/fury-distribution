@@ -994,12 +994,12 @@
                 "ingresses": {
                     "type": "object",
                     "additionalProperties": {
-                        "$ref": "#/$defs/Spec.Distribution.Modules.Auth.Overrides.Ingresses"
+                        "$ref": "#/$defs/Spec.Distribution.Modules.Auth.Overrides.Ingress"
                     }
                 }
             }
         },
-        "Spec.Distribution.Modules.Auth.Overrides.Ingresses": {
+        "Spec.Distribution.Modules.Auth.Overrides.Ingress": {
             "type": "object",
             "additionalProperties": false,
             "properties": {
