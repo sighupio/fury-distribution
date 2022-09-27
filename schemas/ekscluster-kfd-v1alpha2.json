@@ -453,9 +453,6 @@
                     "type": "string"
                 },
                 "type": {
-                    "type": "string"
-                },
-                "direction": {
                     "type": "string",
                     "enum": ["ingress", "egress"]
                 },
@@ -481,7 +478,6 @@
                 "ports",
                 "protocol",
                 "type",
-                "direction",
                 "tags"
             ]
         },
