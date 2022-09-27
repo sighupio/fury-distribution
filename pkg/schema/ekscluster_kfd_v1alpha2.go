@@ -338,7 +338,7 @@ const SpecDistributionModulesIngressNginxTypeSingle SpecDistributionModulesIngre
 
 type SpecDistributionModulesIngressOverridesIngresses struct {
 	// Forecastle corresponds to the JSON schema field "forecastle".
-	Forecastle *TypesFuryModuleOverridesIngresses `json:"forecastle,omitempty" yaml:"forecastle,omitempty"`
+	Forecastle *TypesFuryModuleOverridesIngress `json:"forecastle,omitempty" yaml:"forecastle,omitempty"`
 }
 
 type SpecDistributionModulesLogging struct {
@@ -1315,29 +1315,29 @@ type TypesFuryModuleOverrides struct {
 	Tolerations []TypesKubeToleration `json:"tolerations,omitempty" yaml:"tolerations,omitempty"`
 }
 
-type TypesFuryModuleOverridesIngresses map[string]TypesFuryModuleOverridesIngresses
+type TypesFuryModuleOverridesIngresses map[string]TypesFuryModuleOverridesIngress
 
 // UnmarshalJSON implements json.Unmarshaler.
-func (j *TypesFuryModuleOverridesIngresses) UnmarshalJSON(b []byte) error {
+func (j *TypesFuryModuleOverridesIngress) UnmarshalJSON(b []byte) error {
 	var raw map[string]interface{}
 	if err := json.Unmarshal(b, &raw); err != nil {
 		return err
 	}
 	if v, ok := raw["disableAuth"]; !ok || v == nil {
-		return fmt.Errorf("field disableAuth in TypesFuryModuleOverridesIngresses: required")
+		return fmt.Errorf("field disableAuth in TypesFuryModuleOverridesIngress: required")
 	}
 	if v, ok := raw["host"]; !ok || v == nil {
-		return fmt.Errorf("field host in TypesFuryModuleOverridesIngresses: required")
+		return fmt.Errorf("field host in TypesFuryModuleOverridesIngress: required")
 	}
 	if v, ok := raw["ingressClass"]; !ok || v == nil {
-		return fmt.Errorf("field ingressClass in TypesFuryModuleOverridesIngresses: required")
+		return fmt.Errorf("field ingressClass in TypesFuryModuleOverridesIngress: required")
 	}
-	type Plain TypesFuryModuleOverridesIngresses
+	type Plain TypesFuryModuleOverridesIngress
 	var plain Plain
 	if err := json.Unmarshal(b, &plain); err != nil {
 		return err
 	}
-	*j = TypesFuryModuleOverridesIngresses(plain)
+	*j = TypesFuryModuleOverridesIngress(plain)
 	return nil
 }
 
@@ -1362,7 +1362,7 @@ func (j *SpecKubernetesAPIServerEndpointAccess) UnmarshalJSON(b []byte) error {
 	return nil
 }
 
-type TypesFuryModuleOverridesIngresses struct {
+type TypesFuryModuleOverridesIngress struct {
 	// DisableAuth corresponds to the JSON schema field "disableAuth".
 	DisableAuth bool `json:"disableAuth" yaml:"disableAuth"`
 
