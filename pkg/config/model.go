@@ -41,10 +41,12 @@ type KFDKubernetes struct {
 }
 
 type KFDSchemas struct {
-	Eks []struct {
-		ApiVersion string `yaml:"apiVersion" validate:"required,api-version"`
-		Kind       string `yaml:"kind" validate:"required,cluster-kind"`
-	} `yaml:"eks"`
+	Eks []KFDSchema `yaml:"eks"`
+}
+
+type KFDSchema struct {
+	ApiVersion string `yaml:"apiVersion" validate:"required,api-version"`
+	Kind       string `yaml:"kind" validate:"required,cluster-kind"`
 }
 
 type KFDTools struct {
