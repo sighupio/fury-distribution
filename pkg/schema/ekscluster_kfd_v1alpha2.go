@@ -130,7 +130,7 @@ type SpecDistributionModulesAuthOverrides struct {
 	Tolerations []TypesKubeToleration `json:"tolerations,omitempty" yaml:"tolerations,omitempty"`
 }
 
-type SpecDistributionModulesAuthOverridesIngresses struct {
+type SpecDistributionModulesAuthOverridesIngress struct {
 	// Host corresponds to the JSON schema field "host".
 	Host string `json:"host" yaml:"host"`
 
@@ -138,7 +138,7 @@ type SpecDistributionModulesAuthOverridesIngresses struct {
 	IngressClass string `json:"ingressClass" yaml:"ingressClass"`
 }
 
-type SpecDistributionModulesAuthOverridesIngresses map[string]SpecDistributionModulesAuthOverridesIngresses
+type SpecDistributionModulesAuthOverridesIngresses map[string]SpecDistributionModulesAuthOverridesIngress
 
 type SpecDistributionModulesAuthPomerium struct {
 	// Secrets corresponds to the JSON schema field "secrets".
@@ -1672,23 +1672,23 @@ func (j *SpecKubernetesNodePoolInstance) UnmarshalJSON(b []byte) error {
 type TypesKubeLabels map[string]string
 
 // UnmarshalJSON implements json.Unmarshaler.
-func (j *SpecDistributionModulesAuthOverridesIngresses) UnmarshalJSON(b []byte) error {
+func (j *SpecDistributionModulesAuthOverridesIngress) UnmarshalJSON(b []byte) error {
 	var raw map[string]interface{}
 	if err := json.Unmarshal(b, &raw); err != nil {
 		return err
 	}
 	if v, ok := raw["host"]; !ok || v == nil {
-		return fmt.Errorf("field host in SpecDistributionModulesAuthOverridesIngresses: required")
+		return fmt.Errorf("field host in SpecDistributionModulesAuthOverridesIngress: required")
 	}
 	if v, ok := raw["ingressClass"]; !ok || v == nil {
-		return fmt.Errorf("field ingressClass in SpecDistributionModulesAuthOverridesIngresses: required")
+		return fmt.Errorf("field ingressClass in SpecDistributionModulesAuthOverridesIngress: required")
 	}
-	type Plain SpecDistributionModulesAuthOverridesIngresses
+	type Plain SpecDistributionModulesAuthOverridesIngress
 	var plain Plain
 	if err := json.Unmarshal(b, &plain); err != nil {
 		return err
 	}
-	*j = SpecDistributionModulesAuthOverridesIngresses(plain)
+	*j = SpecDistributionModulesAuthOverridesIngress(plain)
 	return nil
 }
 
