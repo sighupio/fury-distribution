@@ -5,11 +5,13 @@
 package config
 
 type Furyctl struct {
-	ApiVersion string `yaml:"apiVersion" validate:"required,api-version"`
-	Kind       string `yaml:"kind" validate:"required,cluster-kind"`
-	Spec       struct {
-		DistributionVersion string `yaml:"distributionVersion" validate:"required,permissive-semver"`
-	} `yaml:"spec" validate:"required"`
+	ApiVersion string      `yaml:"apiVersion" validate:"required,api-version"`
+	Kind       string      `yaml:"kind" validate:"required,cluster-kind"`
+	Spec       FuryctlSpec `yaml:"spec" validate:"required"`
+}
+
+type FuryctlSpec struct {
+	DistributionVersion string `yaml:"distributionVersion" validate:"required,permissive-semver"`
 }
 
 type KFD struct {
