@@ -4,6 +4,7 @@
 
 versions:
   auth: v0.0.1
+  aws: feat/refactor-as-a-support-aws-module
   dr: master
   ingress: master
   logging: v3.0.0
@@ -13,6 +14,7 @@ versions:
 
 bases:
   - name: auth
+  - name: aws
   - name: dr
   - name: ingress
   - name: logging
