@@ -11,7 +11,6 @@ versions:
   monitoring: prepare-v2.0.0
   opa: feature/update-gpm-101
 
-
 bases:
   - name: auth
   - name: aws
@@ -20,3 +19,7 @@ bases:
   - name: logging
   - name: monitoring
   - name: opa
+
+modules:
+  - name: aws
+  - name: dr
