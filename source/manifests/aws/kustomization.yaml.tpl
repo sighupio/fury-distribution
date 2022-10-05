@@ -2,7 +2,7 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 
-{{- $version := semver .metadata.distrobutionVersion }}
+{{- $version := semver .metadata.distributionVersion }}
 
 resources:
   - {{ print "../" .common.relativeVendorPath "/katalog/aws/cluster-autoscaler/v" $version.Major "." $version.Minor ".x" }}
