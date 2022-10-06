@@ -5,8 +5,8 @@
 versions:
   auth: v0.0.1
   aws: feat/refactor-as-a-support-aws-module
-  dr: master
-  ingress: master
+  dr: feat/add-iam-role-arn-as-output-on-aws-module
+  ingress: feat/add-external-dns-katalog-modules-and-cert-manager-iam-role
   logging: v3.0.0
   monitoring: prepare-v2.0.0
   opa: feature/update-gpm-101
@@ -23,3 +23,4 @@ bases:
 modules:
   - name: aws
   - name: dr
+  - name: ingress
