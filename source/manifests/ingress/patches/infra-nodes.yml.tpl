@@ -108,3 +108,46 @@ spec:
       tolerations:
         {{ template "tolerations" . }}
 {{- end }}
+
+{{ if eq .modules.ingress.nginx.type "dual" -}}
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: external-dns-public
+  namespace: ingress-nginx
+spec:
+  template:
+    spec:
+      nodeSelector:
+        {{ template "nodeSelector" . }}
+      tolerations:
+        {{ template "tolerations" . }}
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: external-dns-private
+  namespace: ingress-nginx
+spec:
+  template:
+    spec:
+      nodeSelector:
+        {{ template "nodeSelector" . }}
+      tolerations:
+        {{ template "tolerations" . }}
+{{- else if eq .modules.ingress.nginx.type "single" -}}
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: external-dns-public
+  namespace: ingress-nginx
+spec:
+  template:
+    spec:
+      nodeSelector:
+        {{ template "nodeSelector" . }}
+      tolerations:
+        {{ template "tolerations" . }}
+{{- end }}
