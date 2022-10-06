@@ -8,6 +8,12 @@ resources:
 {{- else if eq .modules.ingress.nginx.type "single" }}
   - {{ print "../" .common.relativeVendorPath "/katalog/ingress/nginx" }}
 {{- end }}
+{{- if eq .modules.ingress.nginx.type "dual" }}
+  - {{ print "../" .common.relativeVendorPath "/katalog/ingress/external-dns/private" }}
+  - {{ print "../" .common.relativeVendorPath "/katalog/ingress/external-dns/public" }}
+{{- else if eq .modules.ingress.nginx.type "single" }}
+  - {{ print "../" .common.relativeVendorPath "/katalog/ingress/external-dns/public" }}
+{{- end }}
   - {{ print "../" .common.relativeVendorPath "/katalog/ingress/forecastle" }}
 {{- if eq .modules.ingress.nginx.tls.provider "certManager" }}
   - {{ print "../" .common.relativeVendorPath "/katalog/ingress/cert-manager" }}
@@ -26,6 +32,7 @@ patchesStrategicMerge:
 {{- else if eq .modules.ingress.nginx.type "single" }}
   - patches/ingress-nginx.yml
 {{- end }}
+  - patches/external-dns.yml
 
 {{ if eq .modules.ingress.nginx.tls.provider "certManager" -}}
 patchesJson6902:
