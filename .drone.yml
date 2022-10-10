@@ -36,6 +36,8 @@ steps:
       VALIDATE_JSCPD: "false"
       # Disable natural language checks
       VALIDATE_NATURAL_LANGUAGE: "false"
+      # Exclude template files from linting. The linter does not understand Go template.
+      FILTER_REGEX_EXCLUDE: (source/)
     depends_on:
       - clone
 
