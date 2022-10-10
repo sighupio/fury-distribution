@@ -17,7 +17,6 @@ resources:
   - ./vendor/katalog/monitoring/prometheus-operator
   - ./vendor/katalog/monitoring/prometheus-operated
   - ./vendor/katalog/monitoring/grafana
-  - ./vendor/katalog/monitoring/goldpinger
   - ./vendor/katalog/monitoring/kubeadm-sm
   - ./vendor/katalog/monitoring/kube-proxy-metrics
   - ./vendor/katalog/monitoring/kube-state-metrics
