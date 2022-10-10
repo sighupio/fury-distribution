@@ -12,7 +12,7 @@ steps:
     pull: always
     commands:
       - go get -u github.com/google/addlicense
-      - addlicense -c "SIGHUP s.r.l" -v -l bsd -y "2017-present" --check .
+      - addlicense -c "SIGHUP s.r.l" -v -l bsd -y "2017-present"  -ignore 'source/**' --check .
 ---
 name: policeman
 kind: pipeline
