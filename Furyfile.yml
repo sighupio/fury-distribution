@@ -2,6 +2,7 @@
 # Use of this source code is governed by a BSD-style
 # license that can be found in the LICENSE file.
 
+---
 versions:
   auth: v0.0.1
   aws: feat/refactor-as-a-support-aws-module
@@ -9,6 +10,7 @@ versions:
   ingress: feat/add-external-dns-katalog-modules-and-cert-manager-iam-role
   logging: v3.0.0
   monitoring: prepare-v2.0.0
+  networking: feat/add-tigera-operator
   opa: feature/update-gpm-101
 
 bases:
@@ -18,6 +20,7 @@ bases:
   - name: ingress
   - name: logging
   - name: monitoring
+  - name: networking
   - name: opa
 
 modules:
