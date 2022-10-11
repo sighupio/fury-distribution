@@ -7,9 +7,6 @@ data:
   common:
     # where all the KFD modules are downloaded
     relativeVendorPath: "../../vendor"
-    provider:
-      # can be eks for now, in the future we will add additional providers
-      type: eks
     # nodeSelector and tolerations will be used to select the nodes where the KFD will be installed
     nodeSelector:
       node.kubernetes.io/role: infra
@@ -24,8 +21,8 @@ data:
     # ingress module configuration
     ingress:
       overrides:
-        nodeSelector: {}
-        tolerations: []
+        nodeSelector: null
+        tolerations: null
         # override ingresses parameters
         ingresses:
           forecastle:
@@ -50,23 +47,27 @@ data:
               value
             ca: |
               value
+          externalDns:
+            privateIamRoleArn: arn:aws:iam::123456789012:role/external-dns-private
+            publicIamRoleArn: arn:aws:iam::123456789012:role/external-dns-public
       # the standard configuration for cert-manager on the ingress module
       certManager:
         # to create the clusterIssuer, this is an additional clusterIssuer than the two provided by cert-manager, for simplicity
         clusterIssuer:
           name: letsencrypt-fury
-          # can be route53 or http01 , if http01 we need to extrapolate the ingress type. If single the class will be nginx, if dual the class will be external
+          email: engineering+fury-distribution@sighup.io
+          # can be dns01 or http01 , if http01 we need to extrapolate the ingress type. If single the class will be nginx, if dual the class will be external
           type: http01
           # if auth type is route53, we need to provide the following configurations
           route53:
-            iamRoleArn: arn:aws:iam::123456789012:role/example-cert-manager
+            iamRoleArn: arn:aws:iam::123456789012:role/example-route53
             region: eu-west-1
-            hostedZoneId: ZXXXXXXXXXXXXXXXXXXX0
+            hostedZoneId: ""
     # logging module configuration
     logging:
       overrides:
-        nodeSelector: {}
-        tolerations: []
+        nodeSelector: null
+        tolerations: null
         ingresses:
           opensearch-dashboards:
             disableAuth: false
@@ -88,13 +89,13 @@ data:
             cpu: ""
             memory: ""
         # if set, it will override the volumeClaimTemplates in the opensearch statefulSet
-        storage_request: ""
+        storageSize: 150Gi
       # override ingresses parameters
     # monitoring module configuration
     monitoring:
       overrides:
-        nodeSelector: {}
-        tolerations: []
+        nodeSelector: null
+        tolerations: null
         # override ingresses parameters
         ingresses:
           prometheus:
@@ -109,10 +110,6 @@ data:
             disableAuth: false
             host: ""
             ingressClass: ""
-          goldpinger:
-            disableAuth: false
-            host: ""
-            ingressClass: ""
       prometheus:
         resources:
           requests:
@@ -121,11 +118,17 @@ data:
           limits:
             cpu: ""
             memory: ""
+        retentionTime: 30d
+        retentionSize: 120GB
+        storageSize: 150Gi
+      alertmanager:
+        deadManSwitchWebhookUrl: ""
+        slackWebhookUrl: ""
     # policy module configuration
     policy:
       overrides:
-        nodeSelector: {}
-        tolerations: []
+        nodeSelector: null
+        tolerations: null
         # override ingresses parameters
         ingresses:
           gpm:
@@ -139,8 +142,8 @@ data:
     # dr module configuration
     dr:
       overrides:
-        nodeSelector: {}
-        tolerations: []
+        nodeSelector: null
+        tolerations: null
       # the standard configuration for velero on the dr module
       velero:
         # this configuration will be used if common.provider.type is eks
@@ -151,7 +154,7 @@ data:
     # auth module configuration
     auth:
       overrides:
-        nodeSelector: {}
+        nodeSelector: null
         # override ingresses parameters
         ingresses:
           pomerium:
@@ -161,7 +164,7 @@ data:
           dex:
             host: ""
             ingressClass: ""
-        tolerations: []
+        tolerations: null
       provider:
         # can be none, basicAuth or sso. SSO uses pomerium+dex
         type: none
@@ -169,6 +172,7 @@ data:
           username: admin
           password: admin
       pomerium:
+        policy: ""
         secrets:
           # override environment variables here
           ##COOKIE_SECRET is obtained with  `head -c32 /dev/urandom | base64` see https://www.pomerium.io/reference/#cookie-secret
@@ -181,8 +185,12 @@ data:
         # see dex documentation for more information
         connectors: []
     aws:
+      ebsCsiDriver:
+        iamRoleArn: arn:aws:iam::123456789012:role/ebs-csi-controller-role
+      loadBalancerController:
+        iamRoleArn: arn:aws:iam::123456789012:role/example-load-balancer-controller
       clusterAutoscaler:
-        nodeGroupAutoDiscovery: asg:tag=k8s.io/cluster-autoscaler/enabled,k8s.io/cluster-autoscaler/example
+        region: eu-west-1
         iamRoleArn: arn:aws:iam::123456789012:role/example-cluster-autoscaler
 templates:
   includes:

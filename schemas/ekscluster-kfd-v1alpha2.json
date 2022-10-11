@@ -46,6 +46,9 @@
                 "distributionVersion": {
                     "$ref": "#/$defs/Types.SemVer"
                 },
+                "region": {
+                    "$ref": "#/$defs/Types.AwsRegion"
+                },
                 "tags": {
                     "$ref": "#/$defs/Types.AwsTags"
                 },
@@ -64,6 +67,7 @@
             },
             "required": [
                 "distributionVersion",
+                "region",
                 "kubernetes",
                 "toolsConfiguration"
             ]
@@ -602,9 +606,6 @@
                         "$ref": "#/$defs/Types.KubeToleration"
                     }
                 },
-                "provider": {
-                    "$ref": "#/$defs/Spec.Distribution.Common.Provider"
-                },
                 "relativeVendorPath": {
                     "type": "string"
                 }
@@ -612,18 +613,8 @@
             "required": [
                 "nodeSelector",
                 "tolerations",
-                "provider",
                 "relativeVendorPath"
             ]
-        },
-        "Spec.Distribution.Common.Provider": {
-            "type": "object",
-            "additionalProperties": false,
-            "properties": {
-                "type": {
-                    "type": "string"
-                }
-            }
         },
         "Spec.Distribution.Modules": {
             "type": "object",
@@ -724,11 +715,15 @@
                 },
                 "secret": {
                     "$ref": "#/$defs/Spec.Distribution.Modules.Ingress.Nginx.TLS.Secret"
+                },
+                "externalDns": {
+                    "$ref": "#/$defs/Spec.Distribution.Modules.Ingress.Nginx.TLS.ExternalDNS"
                 }
             },
             "required": [
                 "provider",
-                "secret"
+                "secret",
+                "externalDns"
             ]
         },
         "Spec.Distribution.Modules.Ingress.Nginx.TLS.Secret": {
@@ -751,6 +746,22 @@
                 "key"
             ]
         },
+        "Spec.Distribution.Modules.Ingress.Nginx.TLS.ExternalDNS": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "privateIamRoleArn": {
+                    "$ref": "#/$defs/Types.AwsArn"
+                },
+                "publicIamRoleArn": {
+                    "$ref": "#/$defs/Types.AwsArn"
+                }
+            },
+            "required": [
+                "privateIamRoleArn",
+                "publicIamRoleArn"
+            ]
+        },
         "Spec.Distribution.Modules.Ingress.CERTManager": {
             "type": "object",
             "additionalProperties": false,
@@ -770,6 +781,10 @@
                 "name": {
                     "type": "string"
                 },
+                "email": {
+                    "type": "string",
+                    "format": "email"
+                },
                 "type": {
                     "type": "string",
                     "enum": ["dns01", "http01"]
@@ -780,7 +795,8 @@
             },
             "required": [
                 "name",
-                "type"
+                "type",
+                "email"
             ]
         },
         "Spec.Distribution.Modules.Ingress.ClusterIssuer.Route53": {
@@ -882,7 +898,7 @@
                 "resources": {
                     "$ref": "#/$defs/Types.KubeResources"
                 },
-                "storage_request": {
+                "storageSize": {
                     "type": "string"
                 }
             },
@@ -899,6 +915,9 @@
                 },
                 "prometheus": {
                     "$ref": "#/$defs/Spec.Distribution.Modules.Monitoring.Prometheus"
+                },
+                "alertmanager": {
+                    "$ref": "#/$defs/Spec.Distribution.Modules.Monitoring.AlertManager"
                 }
             }
         },
@@ -908,6 +927,27 @@
             "properties": {
                 "resources": {
                     "$ref": "#/$defs/Types.KubeResources"
+                },
+                "retentionTime": {
+                    "type": "string"
+                },
+                "retentionSize": {
+                    "type": "string"
+                },
+                "storageSize": {
+                    "type": "string"
+                }
+            }
+        },
+        "Spec.Distribution.Modules.Monitoring.AlertManager": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "deadManSwitchWebhookUrl": {
+                    "type": "string"
+                },
+                "slackWebhookUrl": {
+                    "type": "string"
                 }
             }
         },
@@ -998,7 +1038,7 @@
                     "$ref": "#/$defs/Types.KubeNodeSelector"
                 },
                 "tolerations": {
-                    "type": "array",
+                    "type": ["array", "null"],
                     "items": {
                         "$ref": "#/$defs/Types.KubeToleration"
                     }
@@ -1065,10 +1105,14 @@
             "properties": {
                 "secrets": {
                     "$ref": "#/$defs/Spec.Distribution.Modules.Auth.Pomerium.Secrets"
+                },
+                "policy": {
+                    "type": "string"
                 }
             },
             "required": [
-                "secrets"
+                "secrets",
+                "policy"
             ]
         },
         "Spec.Distribution.Modules.Auth.Pomerium.Secrets": {
@@ -1109,6 +1153,24 @@
                 },
                 "clusterAutoscaler": {
                     "$ref": "#/$defs/Spec.Distribution.Modules.Aws.ClusterAutoScaler"
+                },
+                "ebsCsiDriver": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                        "iamRoleArn": {
+                            "$ref": "#/$defs/Types.AwsArn"
+                        }
+                    }
+                },
+                "loadBalancerController": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                        "iamRoleArn": {
+                            "$ref": "#/$defs/Types.AwsArn"
+                        }
+                    }
                 }
             }
         },
@@ -1116,16 +1178,16 @@
             "type": "object",
             "additionalProperties": false,
             "properties": {
-                "nodeGroupAutoDiscovery": {
-                    "type": "string"
-                },
                 "iamRoleArn": {
                     "$ref": "#/$defs/Types.AwsArn"
+                },
+                "region": {
+                    "$ref": "#/$defs/Types.AwsRegion"
                 }
             },
             "required": [
                 "iamRoleArn",
-                "nodeGroupAutoDiscovery"
+                "region"
             ]
         },
 
@@ -1223,7 +1285,7 @@
             }
         },
         "Types.KubeNodeSelector": {
-            "type": "object",
+            "type": ["object", "null"],
             "additionalProperties": { "type": "string" }
         },
         "Types.KubeToleration": {
@@ -1285,7 +1347,7 @@
                     "$ref": "#/$defs/Types.KubeNodeSelector"
                 },
                 "tolerations": {
-                    "type": "array",
+                    "type": ["array", "null"],
                     "items": {
                         "$ref": "#/$defs/Types.KubeToleration"
                     }
