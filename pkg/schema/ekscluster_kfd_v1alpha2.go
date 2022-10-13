@@ -294,8 +294,8 @@ type SpecDistributionModulesIngressDNS struct {
 }
 
 type SpecDistributionModulesIngressDNSPrivate struct {
-	// Enabled corresponds to the JSON schema field "enabled".
-	Enabled bool `json:"enabled" yaml:"enabled"`
+	// Create corresponds to the JSON schema field "create".
+	Create bool `json:"create" yaml:"create"`
 
 	// Name corresponds to the JSON schema field "name".
 	Name string `json:"name" yaml:"name"`
@@ -307,9 +307,6 @@ type SpecDistributionModulesIngressDNSPrivate struct {
 type SpecDistributionModulesIngressDNSPublic struct {
 	// Create corresponds to the JSON schema field "create".
 	Create bool `json:"create" yaml:"create"`
-
-	// Enabled corresponds to the JSON schema field "enabled".
-	Enabled bool `json:"enabled" yaml:"enabled"`
 
 	// Name corresponds to the JSON schema field "name".
 	Name string `json:"name" yaml:"name"`
@@ -1495,9 +1492,6 @@ func (j *SpecDistributionModulesIngressDNSPublic) UnmarshalJSON(b []byte) error 
 	if v, ok := raw["create"]; !ok || v == nil {
 		return fmt.Errorf("field create in SpecDistributionModulesIngressDNSPublic: required")
 	}
-	if v, ok := raw["enabled"]; !ok || v == nil {
-		return fmt.Errorf("field enabled in SpecDistributionModulesIngressDNSPublic: required")
-	}
 	if v, ok := raw["name"]; !ok || v == nil {
 		return fmt.Errorf("field name in SpecDistributionModulesIngressDNSPublic: required")
 	}
@@ -1537,8 +1531,8 @@ func (j *SpecDistributionModulesIngressDNSPrivate) UnmarshalJSON(b []byte) error
 	if err := json.Unmarshal(b, &raw); err != nil {
 		return err
 	}
-	if v, ok := raw["enabled"]; !ok || v == nil {
-		return fmt.Errorf("field enabled in SpecDistributionModulesIngressDNSPrivate: required")
+	if v, ok := raw["create"]; !ok || v == nil {
+		return fmt.Errorf("field create in SpecDistributionModulesIngressDNSPrivate: required")
 	}
 	if v, ok := raw["name"]; !ok || v == nil {
 		return fmt.Errorf("field name in SpecDistributionModulesIngressDNSPrivate: required")
