@@ -839,9 +839,6 @@
             "type": "object",
             "additionalProperties": false,
             "properties": {
-                "enabled": {
-                    "type": "boolean"
-                },
                 "name": {
                     "type": "string"
                 },
@@ -850,7 +847,6 @@
                 }
             },
             "required": [
-                "enabled",
                 "name",
                 "create"
             ]
@@ -859,19 +855,19 @@
             "type": "object",
             "additionalProperties": false,
             "properties": {
-                "enabled": {
-                    "type": "boolean"
-                },
                 "name": {
                     "type": "string"
+                },
+                "create": {
+                    "type": "boolean"
                 },
                 "vpcId": {
                     "type": "string"
                 }
             },
             "required": [
-                "enabled",
                 "name",
+                "create",
                 "vpcId"
             ]
         },
