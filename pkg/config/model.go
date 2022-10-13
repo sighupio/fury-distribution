@@ -23,12 +23,13 @@ type KFD struct {
 }
 
 type KFDModules struct {
-	Auth       string `yaml:"auth" validate:"required,permissive-semver"`
-	Dr         string `yaml:"dr" validate:"required,permissive-semver"`
-	Ingress    string `yaml:"ingress" validate:"required,permissive-semver"`
-	Logging    string `yaml:"logging" validate:"required,permissive-semver"`
-	Monitoring string `yaml:"monitoring" validate:"required,permissive-semver"`
-	Opa        string `yaml:"opa" validate:"required,permissive-semver"`
+	Auth       string `yaml:"auth" validate:"required"`
+	Aws        string `yaml:"aws" validate:"required"`
+	Dr         string `yaml:"dr" validate:"required"`
+	Ingress    string `yaml:"ingress" validate:"required"`
+	Logging    string `yaml:"logging" validate:"required"`
+	Monitoring string `yaml:"monitoring" validate:"required"`
+	Opa        string `yaml:"opa" validate:"required"`
 }
 
 type KFDProvider struct {
