@@ -24,7 +24,7 @@ type KFD struct {
 
 type KFDModules struct {
 	Auth       string `yaml:"auth" validate:"required"`
-	Aws        string `yaml:"aws" validate:"required"`
+	Aws        string `yaml:"aws"`
 	Dr         string `yaml:"dr" validate:"required"`
 	Ingress    string `yaml:"ingress" validate:"required"`
 	Logging    string `yaml:"logging" validate:"required"`
