@@ -243,6 +243,9 @@ type SpecDistributionModulesIngress struct {
 	// Dns corresponds to the JSON schema field "dns".
 	Dns SpecDistributionModulesIngressDNS `json:"dns" yaml:"dns"`
 
+	// ExternalDns corresponds to the JSON schema field "externalDns".
+	ExternalDns SpecDistributionModulesIngressExternalDNS `json:"externalDns" yaml:"externalDns"`
+
 	// Nginx corresponds to the JSON schema field "nginx".
 	Nginx SpecDistributionModulesIngressNginx `json:"nginx" yaml:"nginx"`
 
@@ -312,6 +315,14 @@ type SpecDistributionModulesIngressDNSPublic struct {
 	Name string `json:"name" yaml:"name"`
 }
 
+type SpecDistributionModulesIngressExternalDNS struct {
+	// PrivateIamRoleArn corresponds to the JSON schema field "privateIamRoleArn".
+	PrivateIamRoleArn TypesAwsArn `json:"privateIamRoleArn" yaml:"privateIamRoleArn"`
+
+	// PublicIamRoleArn corresponds to the JSON schema field "publicIamRoleArn".
+	PublicIamRoleArn TypesAwsArn `json:"publicIamRoleArn" yaml:"publicIamRoleArn"`
+}
+
 type SpecDistributionModulesIngressNginx struct {
 	// Tls corresponds to the JSON schema field "tls".
 	Tls SpecDistributionModulesIngressNginxTLS `json:"tls" yaml:"tls"`
@@ -321,22 +332,11 @@ type SpecDistributionModulesIngressNginx struct {
 }
 
 type SpecDistributionModulesIngressNginxTLS struct {
-	// ExternalDns corresponds to the JSON schema field "externalDns".
-	ExternalDns SpecDistributionModulesIngressNginxTLSExternalDNS `json:"externalDns" yaml:"externalDns"`
-
 	// Provider corresponds to the JSON schema field "provider".
 	Provider SpecDistributionModulesIngressNginxTLSProvider `json:"provider" yaml:"provider"`
 
 	// Secret corresponds to the JSON schema field "secret".
 	Secret SpecDistributionModulesIngressNginxTLSSecret `json:"secret" yaml:"secret"`
-}
-
-type SpecDistributionModulesIngressNginxTLSExternalDNS struct {
-	// PrivateIamRoleArn corresponds to the JSON schema field "privateIamRoleArn".
-	PrivateIamRoleArn TypesAwsArn `json:"privateIamRoleArn" yaml:"privateIamRoleArn"`
-
-	// PublicIamRoleArn corresponds to the JSON schema field "publicIamRoleArn".
-	PublicIamRoleArn TypesAwsArn `json:"publicIamRoleArn" yaml:"publicIamRoleArn"`
 }
 
 type SpecDistributionModulesIngressNginxTLSProvider string
@@ -1214,6 +1214,9 @@ func (j *SpecDistributionModulesIngress) UnmarshalJSON(b []byte) error {
 	if v, ok := raw["dns"]; !ok || v == nil {
 		return fmt.Errorf("field dns in SpecDistributionModulesIngress: required")
 	}
+	if v, ok := raw["externalDns"]; !ok || v == nil {
+		return fmt.Errorf("field externalDns in SpecDistributionModulesIngress: required")
+	}
 	if v, ok := raw["nginx"]; !ok || v == nil {
 		return fmt.Errorf("field nginx in SpecDistributionModulesIngress: required")
 	}
@@ -1300,9 +1303,6 @@ func (j *SpecDistributionModulesIngressNginxTLS) UnmarshalJSON(b []byte) error {
 	var raw map[string]interface{}
 	if err := json.Unmarshal(b, &raw); err != nil {
 		return err
-	}
-	if v, ok := raw["externalDns"]; !ok || v == nil {
-		return fmt.Errorf("field externalDns in SpecDistributionModulesIngressNginxTLS: required")
 	}
 	if v, ok := raw["provider"]; !ok || v == nil {
 		return fmt.Errorf("field provider in SpecDistributionModulesIngressNginxTLS: required")
@@ -1418,23 +1418,23 @@ func (j *SpecKubernetesNodePoolAmi) UnmarshalJSON(b []byte) error {
 }
 
 // UnmarshalJSON implements json.Unmarshaler.
-func (j *SpecDistributionModulesIngressNginxTLSExternalDNS) UnmarshalJSON(b []byte) error {
+func (j *SpecDistributionModulesIngressExternalDNS) UnmarshalJSON(b []byte) error {
 	var raw map[string]interface{}
 	if err := json.Unmarshal(b, &raw); err != nil {
 		return err
 	}
 	if v, ok := raw["privateIamRoleArn"]; !ok || v == nil {
-		return fmt.Errorf("field privateIamRoleArn in SpecDistributionModulesIngressNginxTLSExternalDNS: required")
+		return fmt.Errorf("field privateIamRoleArn in SpecDistributionModulesIngressExternalDNS: required")
 	}
 	if v, ok := raw["publicIamRoleArn"]; !ok || v == nil {
-		return fmt.Errorf("field publicIamRoleArn in SpecDistributionModulesIngressNginxTLSExternalDNS: required")
+		return fmt.Errorf("field publicIamRoleArn in SpecDistributionModulesIngressExternalDNS: required")
 	}
-	type Plain SpecDistributionModulesIngressNginxTLSExternalDNS
+	type Plain SpecDistributionModulesIngressExternalDNS
 	var plain Plain
 	if err := json.Unmarshal(b, &plain); err != nil {
 		return err
 	}
-	*j = SpecDistributionModulesIngressNginxTLSExternalDNS(plain)
+	*j = SpecDistributionModulesIngressExternalDNS(plain)
 	return nil
 }
 
