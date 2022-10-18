@@ -669,6 +669,9 @@
                 },
                 "dns": {
                     "$ref": "#/$defs/Spec.Distribution.Modules.Ingress.DNS"
+                },
+                "externalDns": {
+                    "$ref": "#/$defs/Spec.Distribution.Modules.Ingress.ExternalDNS"
                 }
             },
             "required": [
@@ -676,7 +679,8 @@
                 "certManager",
                 "dns",
                 "nginx",
-                "overrides"
+                "overrides",
+                "externalDns"
             ]
         },
         "Spec.Distribution.Modules.Ingress.Overrides.Ingresses": {
@@ -715,15 +719,11 @@
                 },
                 "secret": {
                     "$ref": "#/$defs/Spec.Distribution.Modules.Ingress.Nginx.TLS.Secret"
-                },
-                "externalDns": {
-                    "$ref": "#/$defs/Spec.Distribution.Modules.Ingress.Nginx.TLS.ExternalDNS"
                 }
             },
             "required": [
                 "provider",
-                "secret",
-                "externalDns"
+                "secret"
             ]
         },
         "Spec.Distribution.Modules.Ingress.Nginx.TLS.Secret": {
@@ -746,7 +746,7 @@
                 "key"
             ]
         },
-        "Spec.Distribution.Modules.Ingress.Nginx.TLS.ExternalDNS": {
+        "Spec.Distribution.Modules.Ingress.ExternalDNS": {
             "type": "object",
             "additionalProperties": false,
             "properties": {
