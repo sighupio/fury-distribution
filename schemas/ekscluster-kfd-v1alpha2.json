@@ -1005,7 +1005,12 @@
                 "bucket": {
                     "type": "string"
                 }
-            }
+            },
+            "required": [
+                "iamRoleArn",
+                "region",
+                "bucket"
+            ]
         },
         "Spec.Distribution.Modules.Auth": {
             "type": "object",
@@ -1157,7 +1162,10 @@
                         "iamRoleArn": {
                             "$ref": "#/$defs/Types.AwsArn"
                         }
-                    }
+                    },
+                    "required": [
+                        "iamRoleArn"
+                    ]
                 },
                 "loadBalancerController": {
                     "type": "object",
@@ -1166,7 +1174,10 @@
                         "iamRoleArn": {
                             "$ref": "#/$defs/Types.AwsArn"
                         }
-                    }
+                    },
+                    "required": [
+                        "iamRoleArn"
+                    ]
                 }
             }
         },
