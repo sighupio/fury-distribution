@@ -201,12 +201,12 @@ type SpecDistributionModulesAwsClusterAutoScaler struct {
 
 type SpecDistributionModulesAwsEbsCsiDriver struct {
 	// IamRoleArn corresponds to the JSON schema field "iamRoleArn".
-	IamRoleArn *TypesAwsArn `json:"iamRoleArn,omitempty" yaml:"iamRoleArn,omitempty"`
+	IamRoleArn TypesAwsArn `json:"iamRoleArn" yaml:"iamRoleArn"`
 }
 
 type SpecDistributionModulesAwsLoadBalancerController struct {
 	// IamRoleArn corresponds to the JSON schema field "iamRoleArn".
-	IamRoleArn *TypesAwsArn `json:"iamRoleArn,omitempty" yaml:"iamRoleArn,omitempty"`
+	IamRoleArn TypesAwsArn `json:"iamRoleArn" yaml:"iamRoleArn"`
 }
 
 type SpecDistributionModulesDr struct {
@@ -224,13 +224,13 @@ type SpecDistributionModulesDrVelero struct {
 
 type SpecDistributionModulesDrVeleroEks struct {
 	// Bucket corresponds to the JSON schema field "bucket".
-	Bucket *string `json:"bucket,omitempty" yaml:"bucket,omitempty"`
+	Bucket string `json:"bucket" yaml:"bucket"`
 
 	// IamRoleArn corresponds to the JSON schema field "iamRoleArn".
-	IamRoleArn *TypesAwsArn `json:"iamRoleArn,omitempty" yaml:"iamRoleArn,omitempty"`
+	IamRoleArn TypesAwsArn `json:"iamRoleArn" yaml:"iamRoleArn"`
 
 	// Region corresponds to the JSON schema field "region".
-	Region *TypesAwsRegion `json:"region,omitempty" yaml:"region,omitempty"`
+	Region TypesAwsRegion `json:"region" yaml:"region"`
 }
 
 type SpecDistributionModulesIngress struct {
@@ -790,96 +790,262 @@ type TypesKubeResourcesRequests struct {
 	Memory *string `json:"memory,omitempty" yaml:"memory,omitempty"`
 }
 
-type TypesKubeTaints []string
-
-type TypesKubeToleration struct {
-	// Effect corresponds to the JSON schema field "effect".
-	Effect TypesKubeTolerationEffect `json:"effect" yaml:"effect"`
-
-	// Key corresponds to the JSON schema field "key".
-	Key string `json:"key" yaml:"key"`
-
-	// Value corresponds to the JSON schema field "value".
-	Value string `json:"value" yaml:"value"`
-}
-
-type TypesKubeTolerationEffect string
-
-const TypesKubeTolerationEffectNoExecute TypesKubeTolerationEffect = "NoExecute"
-const TypesKubeTolerationEffectNoSchedule TypesKubeTolerationEffect = "NoSchedule"
-const TypesKubeTolerationEffectPreferNoSchedule TypesKubeTolerationEffect = "PreferNoSchedule"
-
-type TypesSemVer string
-
-type TypesSshPubKey string
-
-type TypesTcpPort int
-
-type TypesUri string
-
-var enumValues_EksclusterKfdV1Alpha2Kind = []interface{}{
-	"EKSCluster",
-}
-var enumValues_SpecDistributionModulesAuthProviderType = []interface{}{
-	"none",
-	"basicAuth",
-	"sso",
-}
-var enumValues_SpecDistributionModulesIngressClusterIssuerType = []interface{}{
-	"dns01",
-	"http01",
-}
-var enumValues_SpecDistributionModulesIngressNginxTLSProvider = []interface{}{
-	"certManager",
-	"secret",
-	"none",
-}
-var enumValues_SpecDistributionModulesIngressNginxType = []interface{}{
-	"single",
-	"dual",
-}
-
 // UnmarshalJSON implements json.Unmarshaler.
-func (j *SpecInfrastructureVpc) UnmarshalJSON(b []byte) error {
-	var raw map[string]interface{}
-	if err := json.Unmarshal(b, &raw); err != nil {
-		return err
-	}
-	if v, ok := raw["network"]; !ok || v == nil {
-		return fmt.Errorf("field network in SpecInfrastructureVpc: required")
-	}
-	type Plain SpecInfrastructureVpc
-	var plain Plain
-	if err := json.Unmarshal(b, &plain); err != nil {
-		return err
-	}
-	*j = SpecInfrastructureVpc(plain)
-	return nil
-}
-
-var enumValues_SpecKubernetesAPIServerEndpointAccessType = []interface{}{
-	"public",
-	"private",
-	"public_and_private",
-}
-
-// UnmarshalJSON implements json.Unmarshaler.
-func (j *SpecKubernetesAPIServerEndpointAccessType) UnmarshalJSON(b []byte) error {
+func (j *SpecKubernetesNodePoolAdditionalFirewallRuleType) UnmarshalJSON(b []byte) error {
 	var v string
 	if err := json.Unmarshal(b, &v); err != nil {
 		return err
 	}
 	var ok bool
-	for _, expected := range enumValues_SpecKubernetesAPIServerEndpointAccessType {
+	for _, expected := range enumValues_SpecKubernetesNodePoolAdditionalFirewallRuleType {
 		if reflect.DeepEqual(v, expected) {
 			ok = true
 			break
 		}
 	}
 	if !ok {
-		return fmt.Errorf("invalid value (expected one of %#v): %#v", enumValues_SpecKubernetesAPIServerEndpointAccessType, v)
+		return fmt.Errorf("invalid value (expected one of %#v): %#v", enumValues_SpecKubernetesNodePoolAdditionalFirewallRuleType, v)
 	}
-	*j = SpecKubernetesAPIServerEndpointAccessType(v)
+	*j = SpecKubernetesNodePoolAdditionalFirewallRuleType(v)
+	return nil
+}
+
+// UnmarshalJSON implements json.Unmarshaler.
+func (j *SpecDistributionModules) UnmarshalJSON(b []byte) error {
+	var raw map[string]interface{}
+	if err := json.Unmarshal(b, &raw); err != nil {
+		return err
+	}
+	if v, ok := raw["auth"]; !ok || v == nil {
+		return fmt.Errorf("field auth in SpecDistributionModules: required")
+	}
+	if v, ok := raw["dr"]; !ok || v == nil {
+		return fmt.Errorf("field dr in SpecDistributionModules: required")
+	}
+	if v, ok := raw["ingress"]; !ok || v == nil {
+		return fmt.Errorf("field ingress in SpecDistributionModules: required")
+	}
+	if v, ok := raw["logging"]; !ok || v == nil {
+		return fmt.Errorf("field logging in SpecDistributionModules: required")
+	}
+	if v, ok := raw["monitoring"]; !ok || v == nil {
+		return fmt.Errorf("field monitoring in SpecDistributionModules: required")
+	}
+	if v, ok := raw["policy"]; !ok || v == nil {
+		return fmt.Errorf("field policy in SpecDistributionModules: required")
+	}
+	type Plain SpecDistributionModules
+	var plain Plain
+	if err := json.Unmarshal(b, &plain); err != nil {
+		return err
+	}
+	*j = SpecDistributionModules(plain)
+	return nil
+}
+
+// UnmarshalJSON implements json.Unmarshaler.
+func (j *SpecDistributionModulesDrVeleroEks) UnmarshalJSON(b []byte) error {
+	var raw map[string]interface{}
+	if err := json.Unmarshal(b, &raw); err != nil {
+		return err
+	}
+	if v, ok := raw["bucket"]; !ok || v == nil {
+		return fmt.Errorf("field bucket in SpecDistributionModulesDrVeleroEks: required")
+	}
+	if v, ok := raw["iamRoleArn"]; !ok || v == nil {
+		return fmt.Errorf("field iamRoleArn in SpecDistributionModulesDrVeleroEks: required")
+	}
+	if v, ok := raw["region"]; !ok || v == nil {
+		return fmt.Errorf("field region in SpecDistributionModulesDrVeleroEks: required")
+	}
+	type Plain SpecDistributionModulesDrVeleroEks
+	var plain Plain
+	if err := json.Unmarshal(b, &plain); err != nil {
+		return err
+	}
+	*j = SpecDistributionModulesDrVeleroEks(plain)
+	return nil
+}
+
+// UnmarshalJSON implements json.Unmarshaler.
+func (j *SpecDistribution) UnmarshalJSON(b []byte) error {
+	var raw map[string]interface{}
+	if err := json.Unmarshal(b, &raw); err != nil {
+		return err
+	}
+	if v, ok := raw["common"]; !ok || v == nil {
+		return fmt.Errorf("field common in SpecDistribution: required")
+	}
+	if v, ok := raw["modules"]; !ok || v == nil {
+		return fmt.Errorf("field modules in SpecDistribution: required")
+	}
+	type Plain SpecDistribution
+	var plain Plain
+	if err := json.Unmarshal(b, &plain); err != nil {
+		return err
+	}
+	*j = SpecDistribution(plain)
+	return nil
+}
+
+var enumValues_SpecDistributionModulesIngressClusterIssuerType = []interface{}{
+	"dns01",
+	"http01",
+}
+
+// UnmarshalJSON implements json.Unmarshaler.
+func (j *SpecDistributionModulesIngressClusterIssuerType) UnmarshalJSON(b []byte) error {
+	var v string
+	if err := json.Unmarshal(b, &v); err != nil {
+		return err
+	}
+	var ok bool
+	for _, expected := range enumValues_SpecDistributionModulesIngressClusterIssuerType {
+		if reflect.DeepEqual(v, expected) {
+			ok = true
+			break
+		}
+	}
+	if !ok {
+		return fmt.Errorf("invalid value (expected one of %#v): %#v", enumValues_SpecDistributionModulesIngressClusterIssuerType, v)
+	}
+	*j = SpecDistributionModulesIngressClusterIssuerType(v)
+	return nil
+}
+
+type TypesSemVer string
+
+// UnmarshalJSON implements json.Unmarshaler.
+func (j *SpecInfrastructureVpcNetworkSubnetsCidrs) UnmarshalJSON(b []byte) error {
+	var raw map[string]interface{}
+	if err := json.Unmarshal(b, &raw); err != nil {
+		return err
+	}
+	if v, ok := raw["private"]; !ok || v == nil {
+		return fmt.Errorf("field private in SpecInfrastructureVpcNetworkSubnetsCidrs: required")
+	}
+	if v, ok := raw["public"]; !ok || v == nil {
+		return fmt.Errorf("field public in SpecInfrastructureVpcNetworkSubnetsCidrs: required")
+	}
+	type Plain SpecInfrastructureVpcNetworkSubnetsCidrs
+	var plain Plain
+	if err := json.Unmarshal(b, &plain); err != nil {
+		return err
+	}
+	*j = SpecInfrastructureVpcNetworkSubnetsCidrs(plain)
+	return nil
+}
+
+// UnmarshalJSON implements json.Unmarshaler.
+func (j *SpecDistributionModulesIngressClusterIssuer) UnmarshalJSON(b []byte) error {
+	var raw map[string]interface{}
+	if err := json.Unmarshal(b, &raw); err != nil {
+		return err
+	}
+	if v, ok := raw["email"]; !ok || v == nil {
+		return fmt.Errorf("field email in SpecDistributionModulesIngressClusterIssuer: required")
+	}
+	if v, ok := raw["name"]; !ok || v == nil {
+		return fmt.Errorf("field name in SpecDistributionModulesIngressClusterIssuer: required")
+	}
+	if v, ok := raw["type"]; !ok || v == nil {
+		return fmt.Errorf("field type in SpecDistributionModulesIngressClusterIssuer: required")
+	}
+	type Plain SpecDistributionModulesIngressClusterIssuer
+	var plain Plain
+	if err := json.Unmarshal(b, &plain); err != nil {
+		return err
+	}
+	*j = SpecDistributionModulesIngressClusterIssuer(plain)
+	return nil
+}
+
+// UnmarshalJSON implements json.Unmarshaler.
+func (j *SpecInfrastructureVpcNetwork) UnmarshalJSON(b []byte) error {
+	var raw map[string]interface{}
+	if err := json.Unmarshal(b, &raw); err != nil {
+		return err
+	}
+	if v, ok := raw["cidr"]; !ok || v == nil {
+		return fmt.Errorf("field cidr in SpecInfrastructureVpcNetwork: required")
+	}
+	if v, ok := raw["subnetsCidrs"]; !ok || v == nil {
+		return fmt.Errorf("field subnetsCidrs in SpecInfrastructureVpcNetwork: required")
+	}
+	type Plain SpecInfrastructureVpcNetwork
+	var plain Plain
+	if err := json.Unmarshal(b, &plain); err != nil {
+		return err
+	}
+	*j = SpecInfrastructureVpcNetwork(plain)
+	return nil
+}
+
+type TypesTcpPort int
+
+// UnmarshalJSON implements json.Unmarshaler.
+func (j *TypesFuryModuleOverridesIngress) UnmarshalJSON(b []byte) error {
+	var raw map[string]interface{}
+	if err := json.Unmarshal(b, &raw); err != nil {
+		return err
+	}
+	if v, ok := raw["disableAuth"]; !ok || v == nil {
+		return fmt.Errorf("field disableAuth in TypesFuryModuleOverridesIngress: required")
+	}
+	if v, ok := raw["host"]; !ok || v == nil {
+		return fmt.Errorf("field host in TypesFuryModuleOverridesIngress: required")
+	}
+	if v, ok := raw["ingressClass"]; !ok || v == nil {
+		return fmt.Errorf("field ingressClass in TypesFuryModuleOverridesIngress: required")
+	}
+	type Plain TypesFuryModuleOverridesIngress
+	var plain Plain
+	if err := json.Unmarshal(b, &plain); err != nil {
+		return err
+	}
+	*j = TypesFuryModuleOverridesIngress(plain)
+	return nil
+}
+
+// UnmarshalJSON implements json.Unmarshaler.
+func (j *SpecInfrastructureVpcVpnSsh) UnmarshalJSON(b []byte) error {
+	var raw map[string]interface{}
+	if err := json.Unmarshal(b, &raw); err != nil {
+		return err
+	}
+	if v, ok := raw["allowedFromCidrs"]; !ok || v == nil {
+		return fmt.Errorf("field allowedFromCidrs in SpecInfrastructureVpcVpnSsh: required")
+	}
+	if v, ok := raw["githubUsersName"]; !ok || v == nil {
+		return fmt.Errorf("field githubUsersName in SpecInfrastructureVpcVpnSsh: required")
+	}
+	if v, ok := raw["publicKeys"]; !ok || v == nil {
+		return fmt.Errorf("field publicKeys in SpecInfrastructureVpcVpnSsh: required")
+	}
+	type Plain SpecInfrastructureVpcVpnSsh
+	var plain Plain
+	if err := json.Unmarshal(b, &plain); err != nil {
+		return err
+	}
+	*j = SpecInfrastructureVpcVpnSsh(plain)
+	return nil
+}
+
+// UnmarshalJSON implements json.Unmarshaler.
+func (j *SpecDistributionModulesIngressCERTManager) UnmarshalJSON(b []byte) error {
+	var raw map[string]interface{}
+	if err := json.Unmarshal(b, &raw); err != nil {
+		return err
+	}
+	if v, ok := raw["clusterIssuer"]; !ok || v == nil {
+		return fmt.Errorf("field clusterIssuer in SpecDistributionModulesIngressCERTManager: required")
+	}
+	type Plain SpecDistributionModulesIngressCERTManager
+	var plain Plain
+	if err := json.Unmarshal(b, &plain); err != nil {
+		return err
+	}
+	*j = SpecDistributionModulesIngressCERTManager(plain)
 	return nil
 }
 
@@ -923,68 +1089,187 @@ func (j *SpecInfrastructureVpcVpn) UnmarshalJSON(b []byte) error {
 }
 
 // UnmarshalJSON implements json.Unmarshaler.
-func (j *SpecInfrastructureVpcVpnSsh) UnmarshalJSON(b []byte) error {
+func (j *SpecDistributionModulesAwsLoadBalancerController) UnmarshalJSON(b []byte) error {
 	var raw map[string]interface{}
 	if err := json.Unmarshal(b, &raw); err != nil {
 		return err
 	}
-	if v, ok := raw["allowedFromCidrs"]; !ok || v == nil {
-		return fmt.Errorf("field allowedFromCidrs in SpecInfrastructureVpcVpnSsh: required")
+	if v, ok := raw["iamRoleArn"]; !ok || v == nil {
+		return fmt.Errorf("field iamRoleArn in SpecDistributionModulesAwsLoadBalancerController: required")
 	}
-	if v, ok := raw["githubUsersName"]; !ok || v == nil {
-		return fmt.Errorf("field githubUsersName in SpecInfrastructureVpcVpnSsh: required")
-	}
-	if v, ok := raw["publicKeys"]; !ok || v == nil {
-		return fmt.Errorf("field publicKeys in SpecInfrastructureVpcVpnSsh: required")
-	}
-	type Plain SpecInfrastructureVpcVpnSsh
+	type Plain SpecDistributionModulesAwsLoadBalancerController
 	var plain Plain
 	if err := json.Unmarshal(b, &plain); err != nil {
 		return err
 	}
-	*j = SpecInfrastructureVpcVpnSsh(plain)
+	*j = SpecDistributionModulesAwsLoadBalancerController(plain)
 	return nil
 }
 
 // UnmarshalJSON implements json.Unmarshaler.
-func (j *SpecInfrastructureVpcNetwork) UnmarshalJSON(b []byte) error {
+func (j *SpecInfrastructureVpc) UnmarshalJSON(b []byte) error {
 	var raw map[string]interface{}
 	if err := json.Unmarshal(b, &raw); err != nil {
 		return err
 	}
-	if v, ok := raw["cidr"]; !ok || v == nil {
-		return fmt.Errorf("field cidr in SpecInfrastructureVpcNetwork: required")
+	if v, ok := raw["network"]; !ok || v == nil {
+		return fmt.Errorf("field network in SpecInfrastructureVpc: required")
 	}
-	if v, ok := raw["subnetsCidrs"]; !ok || v == nil {
-		return fmt.Errorf("field subnetsCidrs in SpecInfrastructureVpcNetwork: required")
-	}
-	type Plain SpecInfrastructureVpcNetwork
+	type Plain SpecInfrastructureVpc
 	var plain Plain
 	if err := json.Unmarshal(b, &plain); err != nil {
 		return err
 	}
-	*j = SpecInfrastructureVpcNetwork(plain)
+	*j = SpecInfrastructureVpc(plain)
 	return nil
 }
 
 // UnmarshalJSON implements json.Unmarshaler.
-func (j *SpecInfrastructureVpcNetworkSubnetsCidrs) UnmarshalJSON(b []byte) error {
+func (j *SpecDistributionModulesAwsEbsCsiDriver) UnmarshalJSON(b []byte) error {
+	var raw map[string]interface{}
+	if err := json.Unmarshal(b, &raw); err != nil {
+		return err
+	}
+	if v, ok := raw["iamRoleArn"]; !ok || v == nil {
+		return fmt.Errorf("field iamRoleArn in SpecDistributionModulesAwsEbsCsiDriver: required")
+	}
+	type Plain SpecDistributionModulesAwsEbsCsiDriver
+	var plain Plain
+	if err := json.Unmarshal(b, &plain); err != nil {
+		return err
+	}
+	*j = SpecDistributionModulesAwsEbsCsiDriver(plain)
+	return nil
+}
+
+// UnmarshalJSON implements json.Unmarshaler.
+func (j *SpecDistributionModulesAwsClusterAutoScaler) UnmarshalJSON(b []byte) error {
+	var raw map[string]interface{}
+	if err := json.Unmarshal(b, &raw); err != nil {
+		return err
+	}
+	if v, ok := raw["iamRoleArn"]; !ok || v == nil {
+		return fmt.Errorf("field iamRoleArn in SpecDistributionModulesAwsClusterAutoScaler: required")
+	}
+	if v, ok := raw["region"]; !ok || v == nil {
+		return fmt.Errorf("field region in SpecDistributionModulesAwsClusterAutoScaler: required")
+	}
+	type Plain SpecDistributionModulesAwsClusterAutoScaler
+	var plain Plain
+	if err := json.Unmarshal(b, &plain); err != nil {
+		return err
+	}
+	*j = SpecDistributionModulesAwsClusterAutoScaler(plain)
+	return nil
+}
+
+var enumValues_SpecKubernetesAPIServerEndpointAccessType = []interface{}{
+	"public",
+	"private",
+	"public_and_private",
+}
+
+// UnmarshalJSON implements json.Unmarshaler.
+func (j *SpecKubernetesAPIServerEndpointAccessType) UnmarshalJSON(b []byte) error {
+	var v string
+	if err := json.Unmarshal(b, &v); err != nil {
+		return err
+	}
+	var ok bool
+	for _, expected := range enumValues_SpecKubernetesAPIServerEndpointAccessType {
+		if reflect.DeepEqual(v, expected) {
+			ok = true
+			break
+		}
+	}
+	if !ok {
+		return fmt.Errorf("invalid value (expected one of %#v): %#v", enumValues_SpecKubernetesAPIServerEndpointAccessType, v)
+	}
+	*j = SpecKubernetesAPIServerEndpointAccessType(v)
+	return nil
+}
+
+// UnmarshalJSON implements json.Unmarshaler.
+func (j *SpecDistributionModulesIngressDNSPrivate) UnmarshalJSON(b []byte) error {
+	var raw map[string]interface{}
+	if err := json.Unmarshal(b, &raw); err != nil {
+		return err
+	}
+	if v, ok := raw["create"]; !ok || v == nil {
+		return fmt.Errorf("field create in SpecDistributionModulesIngressDNSPrivate: required")
+	}
+	if v, ok := raw["name"]; !ok || v == nil {
+		return fmt.Errorf("field name in SpecDistributionModulesIngressDNSPrivate: required")
+	}
+	if v, ok := raw["vpcId"]; !ok || v == nil {
+		return fmt.Errorf("field vpcId in SpecDistributionModulesIngressDNSPrivate: required")
+	}
+	type Plain SpecDistributionModulesIngressDNSPrivate
+	var plain Plain
+	if err := json.Unmarshal(b, &plain); err != nil {
+		return err
+	}
+	*j = SpecDistributionModulesIngressDNSPrivate(plain)
+	return nil
+}
+
+// UnmarshalJSON implements json.Unmarshaler.
+func (j *SpecDistributionModulesIngressDNSPublic) UnmarshalJSON(b []byte) error {
+	var raw map[string]interface{}
+	if err := json.Unmarshal(b, &raw); err != nil {
+		return err
+	}
+	if v, ok := raw["create"]; !ok || v == nil {
+		return fmt.Errorf("field create in SpecDistributionModulesIngressDNSPublic: required")
+	}
+	if v, ok := raw["name"]; !ok || v == nil {
+		return fmt.Errorf("field name in SpecDistributionModulesIngressDNSPublic: required")
+	}
+	type Plain SpecDistributionModulesIngressDNSPublic
+	var plain Plain
+	if err := json.Unmarshal(b, &plain); err != nil {
+		return err
+	}
+	*j = SpecDistributionModulesIngressDNSPublic(plain)
+	return nil
+}
+
+// UnmarshalJSON implements json.Unmarshaler.
+func (j *SpecDistributionModulesLoggingOpensearch) UnmarshalJSON(b []byte) error {
+	var raw map[string]interface{}
+	if err := json.Unmarshal(b, &raw); err != nil {
+		return err
+	}
+	if v, ok := raw["type"]; !ok || v == nil {
+		return fmt.Errorf("field type in SpecDistributionModulesLoggingOpensearch: required")
+	}
+	type Plain SpecDistributionModulesLoggingOpensearch
+	var plain Plain
+	if err := json.Unmarshal(b, &plain); err != nil {
+		return err
+	}
+	*j = SpecDistributionModulesLoggingOpensearch(plain)
+	return nil
+}
+
+// UnmarshalJSON implements json.Unmarshaler.
+func (j *SpecDistributionModulesIngressDNS) UnmarshalJSON(b []byte) error {
 	var raw map[string]interface{}
 	if err := json.Unmarshal(b, &raw); err != nil {
 		return err
 	}
 	if v, ok := raw["private"]; !ok || v == nil {
-		return fmt.Errorf("field private in SpecInfrastructureVpcNetworkSubnetsCidrs: required")
+		return fmt.Errorf("field private in SpecDistributionModulesIngressDNS: required")
 	}
 	if v, ok := raw["public"]; !ok || v == nil {
-		return fmt.Errorf("field public in SpecInfrastructureVpcNetworkSubnetsCidrs: required")
+		return fmt.Errorf("field public in SpecDistributionModulesIngressDNS: required")
 	}
-	type Plain SpecInfrastructureVpcNetworkSubnetsCidrs
+	type Plain SpecDistributionModulesIngressDNS
 	var plain Plain
 	if err := json.Unmarshal(b, &plain); err != nil {
 		return err
 	}
-	*j = SpecInfrastructureVpcNetworkSubnetsCidrs(plain)
+	*j = SpecDistributionModulesIngressDNS(plain)
 	return nil
 }
 
@@ -1010,123 +1295,91 @@ func (j *SpecKubernetesAPIServerEndpointAccess) UnmarshalJSON(b []byte) error {
 }
 
 // UnmarshalJSON implements json.Unmarshaler.
-func (j *SpecDistribution) UnmarshalJSON(b []byte) error {
+func (j *SpecDistributionModulesIngressExternalDNS) UnmarshalJSON(b []byte) error {
 	var raw map[string]interface{}
 	if err := json.Unmarshal(b, &raw); err != nil {
 		return err
 	}
-	if v, ok := raw["common"]; !ok || v == nil {
-		return fmt.Errorf("field common in SpecDistribution: required")
+	if v, ok := raw["privateIamRoleArn"]; !ok || v == nil {
+		return fmt.Errorf("field privateIamRoleArn in SpecDistributionModulesIngressExternalDNS: required")
 	}
-	if v, ok := raw["modules"]; !ok || v == nil {
-		return fmt.Errorf("field modules in SpecDistribution: required")
+	if v, ok := raw["publicIamRoleArn"]; !ok || v == nil {
+		return fmt.Errorf("field publicIamRoleArn in SpecDistributionModulesIngressExternalDNS: required")
 	}
-	type Plain SpecDistribution
+	type Plain SpecDistributionModulesIngressExternalDNS
 	var plain Plain
 	if err := json.Unmarshal(b, &plain); err != nil {
 		return err
 	}
-	*j = SpecDistribution(plain)
+	*j = SpecDistributionModulesIngressExternalDNS(plain)
 	return nil
 }
 
 // UnmarshalJSON implements json.Unmarshaler.
-func (j *SpecKubernetesAwsAuthRole) UnmarshalJSON(b []byte) error {
+func (j *SpecKubernetesNodePoolSize) UnmarshalJSON(b []byte) error {
 	var raw map[string]interface{}
 	if err := json.Unmarshal(b, &raw); err != nil {
 		return err
 	}
-	if v, ok := raw["groups"]; !ok || v == nil {
-		return fmt.Errorf("field groups in SpecKubernetesAwsAuthRole: required")
+	if v, ok := raw["max"]; !ok || v == nil {
+		return fmt.Errorf("field max in SpecKubernetesNodePoolSize: required")
 	}
-	if v, ok := raw["rolearn"]; !ok || v == nil {
-		return fmt.Errorf("field rolearn in SpecKubernetesAwsAuthRole: required")
+	if v, ok := raw["min"]; !ok || v == nil {
+		return fmt.Errorf("field min in SpecKubernetesNodePoolSize: required")
 	}
-	if v, ok := raw["username"]; !ok || v == nil {
-		return fmt.Errorf("field username in SpecKubernetesAwsAuthRole: required")
-	}
-	type Plain SpecKubernetesAwsAuthRole
+	type Plain SpecKubernetesNodePoolSize
 	var plain Plain
 	if err := json.Unmarshal(b, &plain); err != nil {
 		return err
 	}
-	*j = SpecKubernetesAwsAuthRole(plain)
+	*j = SpecKubernetesNodePoolSize(plain)
 	return nil
 }
 
 // UnmarshalJSON implements json.Unmarshaler.
-func (j *SpecDistributionModules) UnmarshalJSON(b []byte) error {
+func (j *SpecDistributionModulesIngressNginxTLS) UnmarshalJSON(b []byte) error {
 	var raw map[string]interface{}
 	if err := json.Unmarshal(b, &raw); err != nil {
 		return err
 	}
-	if v, ok := raw["auth"]; !ok || v == nil {
-		return fmt.Errorf("field auth in SpecDistributionModules: required")
+	if v, ok := raw["provider"]; !ok || v == nil {
+		return fmt.Errorf("field provider in SpecDistributionModulesIngressNginxTLS: required")
 	}
-	if v, ok := raw["dr"]; !ok || v == nil {
-		return fmt.Errorf("field dr in SpecDistributionModules: required")
+	if v, ok := raw["secret"]; !ok || v == nil {
+		return fmt.Errorf("field secret in SpecDistributionModulesIngressNginxTLS: required")
 	}
-	if v, ok := raw["ingress"]; !ok || v == nil {
-		return fmt.Errorf("field ingress in SpecDistributionModules: required")
-	}
-	if v, ok := raw["logging"]; !ok || v == nil {
-		return fmt.Errorf("field logging in SpecDistributionModules: required")
-	}
-	if v, ok := raw["monitoring"]; !ok || v == nil {
-		return fmt.Errorf("field monitoring in SpecDistributionModules: required")
-	}
-	if v, ok := raw["policy"]; !ok || v == nil {
-		return fmt.Errorf("field policy in SpecDistributionModules: required")
-	}
-	type Plain SpecDistributionModules
+	type Plain SpecDistributionModulesIngressNginxTLS
 	var plain Plain
 	if err := json.Unmarshal(b, &plain); err != nil {
 		return err
 	}
-	*j = SpecDistributionModules(plain)
+	*j = SpecDistributionModulesIngressNginxTLS(plain)
 	return nil
 }
 
 // UnmarshalJSON implements json.Unmarshaler.
-func (j *SpecKubernetesAwsAuthUser) UnmarshalJSON(b []byte) error {
-	var raw map[string]interface{}
-	if err := json.Unmarshal(b, &raw); err != nil {
+func (j *SpecDistributionModulesAuthProviderType) UnmarshalJSON(b []byte) error {
+	var v string
+	if err := json.Unmarshal(b, &v); err != nil {
 		return err
 	}
-	if v, ok := raw["groups"]; !ok || v == nil {
-		return fmt.Errorf("field groups in SpecKubernetesAwsAuthUser: required")
+	var ok bool
+	for _, expected := range enumValues_SpecDistributionModulesAuthProviderType {
+		if reflect.DeepEqual(v, expected) {
+			ok = true
+			break
+		}
 	}
-	if v, ok := raw["userarn"]; !ok || v == nil {
-		return fmt.Errorf("field userarn in SpecKubernetesAwsAuthUser: required")
+	if !ok {
+		return fmt.Errorf("invalid value (expected one of %#v): %#v", enumValues_SpecDistributionModulesAuthProviderType, v)
 	}
-	if v, ok := raw["username"]; !ok || v == nil {
-		return fmt.Errorf("field username in SpecKubernetesAwsAuthUser: required")
-	}
-	type Plain SpecKubernetesAwsAuthUser
-	var plain Plain
-	if err := json.Unmarshal(b, &plain); err != nil {
-		return err
-	}
-	*j = SpecKubernetesAwsAuthUser(plain)
+	*j = SpecDistributionModulesAuthProviderType(v)
 	return nil
 }
 
-// UnmarshalJSON implements json.Unmarshaler.
-func (j *SpecDistributionModulesLoggingOpensearch) UnmarshalJSON(b []byte) error {
-	var raw map[string]interface{}
-	if err := json.Unmarshal(b, &raw); err != nil {
-		return err
-	}
-	if v, ok := raw["type"]; !ok || v == nil {
-		return fmt.Errorf("field type in SpecDistributionModulesLoggingOpensearch: required")
-	}
-	type Plain SpecDistributionModulesLoggingOpensearch
-	var plain Plain
-	if err := json.Unmarshal(b, &plain); err != nil {
-		return err
-	}
-	*j = SpecDistributionModulesLoggingOpensearch(plain)
-	return nil
+var enumValues_SpecDistributionModulesIngressNginxType = []interface{}{
+	"single",
+	"dual",
 }
 
 // UnmarshalJSON implements json.Unmarshaler.
@@ -1154,22 +1407,22 @@ func (j *SpecKubernetesAwsAuth) UnmarshalJSON(b []byte) error {
 }
 
 // UnmarshalJSON implements json.Unmarshaler.
-func (j *SpecDistributionModulesLoggingOpensearchType) UnmarshalJSON(b []byte) error {
+func (j *TypesAwsRegion) UnmarshalJSON(b []byte) error {
 	var v string
 	if err := json.Unmarshal(b, &v); err != nil {
 		return err
 	}
 	var ok bool
-	for _, expected := range enumValues_SpecDistributionModulesLoggingOpensearchType {
+	for _, expected := range enumValues_TypesAwsRegion {
 		if reflect.DeepEqual(v, expected) {
 			ok = true
 			break
 		}
 	}
 	if !ok {
-		return fmt.Errorf("invalid value (expected one of %#v): %#v", enumValues_SpecDistributionModulesLoggingOpensearchType, v)
+		return fmt.Errorf("invalid value (expected one of %#v): %#v", enumValues_TypesAwsRegion, v)
 	}
-	*j = SpecDistributionModulesLoggingOpensearchType(v)
+	*j = TypesAwsRegion(v)
 	return nil
 }
 
@@ -1194,62 +1447,52 @@ func (j *SpecKubernetesNodePoolAdditionalFirewallRulePorts) UnmarshalJSON(b []by
 	return nil
 }
 
-var enumValues_SpecDistributionModulesLoggingOpensearchType = []interface{}{
-	"single",
-	"triple",
+var enumValues_TypesAwsRegion = []interface{}{
+	"af-south-1",
+	"ap-east-1",
+	"ap-northeast-1",
+	"ap-northeast-2",
+	"ap-northeast-3",
+	"ap-south-1",
+	"ap-southeast-1",
+	"ap-southeast-2",
+	"ap-southeast-3",
+	"ca-central-1",
+	"eu-central-1",
+	"eu-north-1",
+	"eu-south-1",
+	"eu-west-1",
+	"eu-west-2",
+	"eu-west-3",
+	"me-central-1",
+	"me-south-1",
+	"sa-east-1",
+	"us-east-1",
+	"us-east-2",
+	"us-west-1",
+	"us-west-2",
+}
+var enumValues_SpecDistributionModulesIngressNginxTLSProvider = []interface{}{
+	"certManager",
+	"secret",
+	"none",
 }
 
 // UnmarshalJSON implements json.Unmarshaler.
-func (j *SpecDistributionModulesIngress) UnmarshalJSON(b []byte) error {
+func (j *SpecDistributionModulesAuthProvider) UnmarshalJSON(b []byte) error {
 	var raw map[string]interface{}
 	if err := json.Unmarshal(b, &raw); err != nil {
 		return err
-	}
-	if v, ok := raw["baseDomain"]; !ok || v == nil {
-		return fmt.Errorf("field baseDomain in SpecDistributionModulesIngress: required")
-	}
-	if v, ok := raw["certManager"]; !ok || v == nil {
-		return fmt.Errorf("field certManager in SpecDistributionModulesIngress: required")
-	}
-	if v, ok := raw["dns"]; !ok || v == nil {
-		return fmt.Errorf("field dns in SpecDistributionModulesIngress: required")
-	}
-	if v, ok := raw["externalDns"]; !ok || v == nil {
-		return fmt.Errorf("field externalDns in SpecDistributionModulesIngress: required")
-	}
-	if v, ok := raw["nginx"]; !ok || v == nil {
-		return fmt.Errorf("field nginx in SpecDistributionModulesIngress: required")
-	}
-	if v, ok := raw["overrides"]; !ok || v == nil {
-		return fmt.Errorf("field overrides in SpecDistributionModulesIngress: required")
-	}
-	type Plain SpecDistributionModulesIngress
-	var plain Plain
-	if err := json.Unmarshal(b, &plain); err != nil {
-		return err
-	}
-	*j = SpecDistributionModulesIngress(plain)
-	return nil
-}
-
-// UnmarshalJSON implements json.Unmarshaler.
-func (j *SpecDistributionModulesIngressNginx) UnmarshalJSON(b []byte) error {
-	var raw map[string]interface{}
-	if err := json.Unmarshal(b, &raw); err != nil {
-		return err
-	}
-	if v, ok := raw["tls"]; !ok || v == nil {
-		return fmt.Errorf("field tls in SpecDistributionModulesIngressNginx: required")
 	}
 	if v, ok := raw["type"]; !ok || v == nil {
-		return fmt.Errorf("field type in SpecDistributionModulesIngressNginx: required")
+		return fmt.Errorf("field type in SpecDistributionModulesAuthProvider: required")
 	}
-	type Plain SpecDistributionModulesIngressNginx
+	type Plain SpecDistributionModulesAuthProvider
 	var plain Plain
 	if err := json.Unmarshal(b, &plain); err != nil {
 		return err
 	}
-	*j = SpecDistributionModulesIngressNginx(plain)
+	*j = SpecDistributionModulesAuthProvider(plain)
 	return nil
 }
 
@@ -1259,87 +1502,77 @@ var enumValues_SpecKubernetesNodePoolAdditionalFirewallRuleType = []interface{}{
 }
 
 // UnmarshalJSON implements json.Unmarshaler.
-func (j *SpecKubernetesNodePoolAdditionalFirewallRuleType) UnmarshalJSON(b []byte) error {
-	var v string
-	if err := json.Unmarshal(b, &v); err != nil {
-		return err
-	}
-	var ok bool
-	for _, expected := range enumValues_SpecKubernetesNodePoolAdditionalFirewallRuleType {
-		if reflect.DeepEqual(v, expected) {
-			ok = true
-			break
-		}
-	}
-	if !ok {
-		return fmt.Errorf("invalid value (expected one of %#v): %#v", enumValues_SpecKubernetesNodePoolAdditionalFirewallRuleType, v)
-	}
-	*j = SpecKubernetesNodePoolAdditionalFirewallRuleType(v)
-	return nil
-}
-
-// UnmarshalJSON implements json.Unmarshaler.
-func (j *SpecDistributionModulesIngressNginxType) UnmarshalJSON(b []byte) error {
-	var v string
-	if err := json.Unmarshal(b, &v); err != nil {
-		return err
-	}
-	var ok bool
-	for _, expected := range enumValues_SpecDistributionModulesIngressNginxType {
-		if reflect.DeepEqual(v, expected) {
-			ok = true
-			break
-		}
-	}
-	if !ok {
-		return fmt.Errorf("invalid value (expected one of %#v): %#v", enumValues_SpecDistributionModulesIngressNginxType, v)
-	}
-	*j = SpecDistributionModulesIngressNginxType(v)
-	return nil
-}
-
-// UnmarshalJSON implements json.Unmarshaler.
-func (j *SpecDistributionModulesIngressNginxTLS) UnmarshalJSON(b []byte) error {
+func (j *SpecDistributionModulesIngressClusterIssuerRoute53) UnmarshalJSON(b []byte) error {
 	var raw map[string]interface{}
 	if err := json.Unmarshal(b, &raw); err != nil {
 		return err
 	}
-	if v, ok := raw["provider"]; !ok || v == nil {
-		return fmt.Errorf("field provider in SpecDistributionModulesIngressNginxTLS: required")
+	if v, ok := raw["hostedZoneId"]; !ok || v == nil {
+		return fmt.Errorf("field hostedZoneId in SpecDistributionModulesIngressClusterIssuerRoute53: required")
 	}
-	if v, ok := raw["secret"]; !ok || v == nil {
-		return fmt.Errorf("field secret in SpecDistributionModulesIngressNginxTLS: required")
+	if v, ok := raw["iamRoleArn"]; !ok || v == nil {
+		return fmt.Errorf("field iamRoleArn in SpecDistributionModulesIngressClusterIssuerRoute53: required")
 	}
-	type Plain SpecDistributionModulesIngressNginxTLS
+	if v, ok := raw["region"]; !ok || v == nil {
+		return fmt.Errorf("field region in SpecDistributionModulesIngressClusterIssuerRoute53: required")
+	}
+	type Plain SpecDistributionModulesIngressClusterIssuerRoute53
 	var plain Plain
 	if err := json.Unmarshal(b, &plain); err != nil {
 		return err
 	}
-	*j = SpecDistributionModulesIngressNginxTLS(plain)
+	*j = SpecDistributionModulesIngressClusterIssuerRoute53(plain)
 	return nil
 }
 
 // UnmarshalJSON implements json.Unmarshaler.
-func (j *SpecDistributionModulesIngressNginxTLSSecret) UnmarshalJSON(b []byte) error {
+func (j *SpecKubernetesAwsAuthUser) UnmarshalJSON(b []byte) error {
 	var raw map[string]interface{}
 	if err := json.Unmarshal(b, &raw); err != nil {
 		return err
 	}
-	if v, ok := raw["ca"]; !ok || v == nil {
-		return fmt.Errorf("field ca in SpecDistributionModulesIngressNginxTLSSecret: required")
+	if v, ok := raw["groups"]; !ok || v == nil {
+		return fmt.Errorf("field groups in SpecKubernetesAwsAuthUser: required")
 	}
-	if v, ok := raw["cert"]; !ok || v == nil {
-		return fmt.Errorf("field cert in SpecDistributionModulesIngressNginxTLSSecret: required")
+	if v, ok := raw["userarn"]; !ok || v == nil {
+		return fmt.Errorf("field userarn in SpecKubernetesAwsAuthUser: required")
 	}
-	if v, ok := raw["key"]; !ok || v == nil {
-		return fmt.Errorf("field key in SpecDistributionModulesIngressNginxTLSSecret: required")
+	if v, ok := raw["username"]; !ok || v == nil {
+		return fmt.Errorf("field username in SpecKubernetesAwsAuthUser: required")
 	}
-	type Plain SpecDistributionModulesIngressNginxTLSSecret
+	type Plain SpecKubernetesAwsAuthUser
 	var plain Plain
 	if err := json.Unmarshal(b, &plain); err != nil {
 		return err
 	}
-	*j = SpecDistributionModulesIngressNginxTLSSecret(plain)
+	*j = SpecKubernetesAwsAuthUser(plain)
+	return nil
+}
+
+var enumValues_SpecDistributionModulesAuthProviderType = []interface{}{
+	"none",
+	"basicAuth",
+	"sso",
+}
+
+// UnmarshalJSON implements json.Unmarshaler.
+func (j *SpecDistributionModulesAuthProviderBasicAuth) UnmarshalJSON(b []byte) error {
+	var raw map[string]interface{}
+	if err := json.Unmarshal(b, &raw); err != nil {
+		return err
+	}
+	if v, ok := raw["password"]; !ok || v == nil {
+		return fmt.Errorf("field password in SpecDistributionModulesAuthProviderBasicAuth: required")
+	}
+	if v, ok := raw["username"]; !ok || v == nil {
+		return fmt.Errorf("field username in SpecDistributionModulesAuthProviderBasicAuth: required")
+	}
+	type Plain SpecDistributionModulesAuthProviderBasicAuth
+	var plain Plain
+	if err := json.Unmarshal(b, &plain); err != nil {
+		return err
+	}
+	*j = SpecDistributionModulesAuthProviderBasicAuth(plain)
 	return nil
 }
 
@@ -1377,22 +1610,23 @@ func (j *SpecKubernetesNodePoolAdditionalFirewallRule) UnmarshalJSON(b []byte) e
 }
 
 // UnmarshalJSON implements json.Unmarshaler.
-func (j *SpecDistributionModulesIngressNginxTLSProvider) UnmarshalJSON(b []byte) error {
-	var v string
-	if err := json.Unmarshal(b, &v); err != nil {
+func (j *SpecDistributionModulesAuthPomerium) UnmarshalJSON(b []byte) error {
+	var raw map[string]interface{}
+	if err := json.Unmarshal(b, &raw); err != nil {
 		return err
 	}
-	var ok bool
-	for _, expected := range enumValues_SpecDistributionModulesIngressNginxTLSProvider {
-		if reflect.DeepEqual(v, expected) {
-			ok = true
-			break
-		}
+	if v, ok := raw["policy"]; !ok || v == nil {
+		return fmt.Errorf("field policy in SpecDistributionModulesAuthPomerium: required")
 	}
-	if !ok {
-		return fmt.Errorf("invalid value (expected one of %#v): %#v", enumValues_SpecDistributionModulesIngressNginxTLSProvider, v)
+	if v, ok := raw["secrets"]; !ok || v == nil {
+		return fmt.Errorf("field secrets in SpecDistributionModulesAuthPomerium: required")
 	}
-	*j = SpecDistributionModulesIngressNginxTLSProvider(v)
+	type Plain SpecDistributionModulesAuthPomerium
+	var plain Plain
+	if err := json.Unmarshal(b, &plain); err != nil {
+		return err
+	}
+	*j = SpecDistributionModulesAuthPomerium(plain)
 	return nil
 }
 
@@ -1418,23 +1652,26 @@ func (j *SpecKubernetesNodePoolAmi) UnmarshalJSON(b []byte) error {
 }
 
 // UnmarshalJSON implements json.Unmarshaler.
-func (j *SpecDistributionModulesIngressExternalDNS) UnmarshalJSON(b []byte) error {
+func (j *SpecDistributionModulesAuthPomeriumSecrets) UnmarshalJSON(b []byte) error {
 	var raw map[string]interface{}
 	if err := json.Unmarshal(b, &raw); err != nil {
 		return err
 	}
-	if v, ok := raw["privateIamRoleArn"]; !ok || v == nil {
-		return fmt.Errorf("field privateIamRoleArn in SpecDistributionModulesIngressExternalDNS: required")
+	if v, ok := raw["COOKIE_SECRET"]; !ok || v == nil {
+		return fmt.Errorf("field COOKIE_SECRET in SpecDistributionModulesAuthPomeriumSecrets: required")
 	}
-	if v, ok := raw["publicIamRoleArn"]; !ok || v == nil {
-		return fmt.Errorf("field publicIamRoleArn in SpecDistributionModulesIngressExternalDNS: required")
+	if v, ok := raw["IDP_CLIENT_SECRET"]; !ok || v == nil {
+		return fmt.Errorf("field IDP_CLIENT_SECRET in SpecDistributionModulesAuthPomeriumSecrets: required")
 	}
-	type Plain SpecDistributionModulesIngressExternalDNS
+	if v, ok := raw["SHARED_SECRET"]; !ok || v == nil {
+		return fmt.Errorf("field SHARED_SECRET in SpecDistributionModulesAuthPomeriumSecrets: required")
+	}
+	type Plain SpecDistributionModulesAuthPomeriumSecrets
 	var plain Plain
 	if err := json.Unmarshal(b, &plain); err != nil {
 		return err
 	}
-	*j = SpecDistributionModulesIngressExternalDNS(plain)
+	*j = SpecDistributionModulesAuthPomeriumSecrets(plain)
 	return nil
 }
 
@@ -1463,131 +1700,98 @@ func (j *SpecKubernetesNodePoolInstance) UnmarshalJSON(b []byte) error {
 }
 
 // UnmarshalJSON implements json.Unmarshaler.
-func (j *SpecDistributionModulesIngressDNS) UnmarshalJSON(b []byte) error {
-	var raw map[string]interface{}
-	if err := json.Unmarshal(b, &raw); err != nil {
+func (j *SpecDistributionModulesLoggingOpensearchType) UnmarshalJSON(b []byte) error {
+	var v string
+	if err := json.Unmarshal(b, &v); err != nil {
 		return err
 	}
-	if v, ok := raw["private"]; !ok || v == nil {
-		return fmt.Errorf("field private in SpecDistributionModulesIngressDNS: required")
+	var ok bool
+	for _, expected := range enumValues_SpecDistributionModulesLoggingOpensearchType {
+		if reflect.DeepEqual(v, expected) {
+			ok = true
+			break
+		}
 	}
-	if v, ok := raw["public"]; !ok || v == nil {
-		return fmt.Errorf("field public in SpecDistributionModulesIngressDNS: required")
+	if !ok {
+		return fmt.Errorf("invalid value (expected one of %#v): %#v", enumValues_SpecDistributionModulesLoggingOpensearchType, v)
 	}
-	type Plain SpecDistributionModulesIngressDNS
-	var plain Plain
-	if err := json.Unmarshal(b, &plain); err != nil {
-		return err
-	}
-	*j = SpecDistributionModulesIngressDNS(plain)
+	*j = SpecDistributionModulesLoggingOpensearchType(v)
 	return nil
 }
 
 // UnmarshalJSON implements json.Unmarshaler.
-func (j *SpecDistributionModulesIngressDNSPublic) UnmarshalJSON(b []byte) error {
+func (j *SpecDistributionModulesAuthOverridesIngress) UnmarshalJSON(b []byte) error {
 	var raw map[string]interface{}
 	if err := json.Unmarshal(b, &raw); err != nil {
 		return err
 	}
-	if v, ok := raw["create"]; !ok || v == nil {
-		return fmt.Errorf("field create in SpecDistributionModulesIngressDNSPublic: required")
+	if v, ok := raw["host"]; !ok || v == nil {
+		return fmt.Errorf("field host in SpecDistributionModulesAuthOverridesIngress: required")
 	}
-	if v, ok := raw["name"]; !ok || v == nil {
-		return fmt.Errorf("field name in SpecDistributionModulesIngressDNSPublic: required")
+	if v, ok := raw["ingressClass"]; !ok || v == nil {
+		return fmt.Errorf("field ingressClass in SpecDistributionModulesAuthOverridesIngress: required")
 	}
-	type Plain SpecDistributionModulesIngressDNSPublic
+	type Plain SpecDistributionModulesAuthOverridesIngress
 	var plain Plain
 	if err := json.Unmarshal(b, &plain); err != nil {
 		return err
 	}
-	*j = SpecDistributionModulesIngressDNSPublic(plain)
+	*j = SpecDistributionModulesAuthOverridesIngress(plain)
 	return nil
 }
 
 // UnmarshalJSON implements json.Unmarshaler.
-func (j *SpecKubernetesNodePoolSize) UnmarshalJSON(b []byte) error {
+func (j *SpecKubernetesAwsAuthRole) UnmarshalJSON(b []byte) error {
 	var raw map[string]interface{}
 	if err := json.Unmarshal(b, &raw); err != nil {
 		return err
 	}
-	if v, ok := raw["max"]; !ok || v == nil {
-		return fmt.Errorf("field max in SpecKubernetesNodePoolSize: required")
+	if v, ok := raw["groups"]; !ok || v == nil {
+		return fmt.Errorf("field groups in SpecKubernetesAwsAuthRole: required")
 	}
-	if v, ok := raw["min"]; !ok || v == nil {
-		return fmt.Errorf("field min in SpecKubernetesNodePoolSize: required")
+	if v, ok := raw["rolearn"]; !ok || v == nil {
+		return fmt.Errorf("field rolearn in SpecKubernetesAwsAuthRole: required")
 	}
-	type Plain SpecKubernetesNodePoolSize
+	if v, ok := raw["username"]; !ok || v == nil {
+		return fmt.Errorf("field username in SpecKubernetesAwsAuthRole: required")
+	}
+	type Plain SpecKubernetesAwsAuthRole
 	var plain Plain
 	if err := json.Unmarshal(b, &plain); err != nil {
 		return err
 	}
-	*j = SpecKubernetesNodePoolSize(plain)
+	*j = SpecKubernetesAwsAuthRole(plain)
 	return nil
 }
 
-// UnmarshalJSON implements json.Unmarshaler.
-func (j *SpecDistributionModulesIngressDNSPrivate) UnmarshalJSON(b []byte) error {
-	var raw map[string]interface{}
-	if err := json.Unmarshal(b, &raw); err != nil {
-		return err
-	}
-	if v, ok := raw["create"]; !ok || v == nil {
-		return fmt.Errorf("field create in SpecDistributionModulesIngressDNSPrivate: required")
-	}
-	if v, ok := raw["name"]; !ok || v == nil {
-		return fmt.Errorf("field name in SpecDistributionModulesIngressDNSPrivate: required")
-	}
-	if v, ok := raw["vpcId"]; !ok || v == nil {
-		return fmt.Errorf("field vpcId in SpecDistributionModulesIngressDNSPrivate: required")
-	}
-	type Plain SpecDistributionModulesIngressDNSPrivate
-	var plain Plain
-	if err := json.Unmarshal(b, &plain); err != nil {
-		return err
-	}
-	*j = SpecDistributionModulesIngressDNSPrivate(plain)
-	return nil
+var enumValues_SpecDistributionModulesLoggingOpensearchType = []interface{}{
+	"single",
+	"triple",
 }
 
-// UnmarshalJSON implements json.Unmarshaler.
-func (j *SpecDistributionModulesIngressCERTManager) UnmarshalJSON(b []byte) error {
-	var raw map[string]interface{}
-	if err := json.Unmarshal(b, &raw); err != nil {
-		return err
-	}
-	if v, ok := raw["clusterIssuer"]; !ok || v == nil {
-		return fmt.Errorf("field clusterIssuer in SpecDistributionModulesIngressCERTManager: required")
-	}
-	type Plain SpecDistributionModulesIngressCERTManager
-	var plain Plain
-	if err := json.Unmarshal(b, &plain); err != nil {
-		return err
-	}
-	*j = SpecDistributionModulesIngressCERTManager(plain)
-	return nil
-}
+type TypesKubeTaints []string
 
 // UnmarshalJSON implements json.Unmarshaler.
-func (j *SpecDistributionModulesIngressClusterIssuer) UnmarshalJSON(b []byte) error {
+func (j *SpecDistributionCommon) UnmarshalJSON(b []byte) error {
 	var raw map[string]interface{}
 	if err := json.Unmarshal(b, &raw); err != nil {
 		return err
 	}
-	if v, ok := raw["email"]; !ok || v == nil {
-		return fmt.Errorf("field email in SpecDistributionModulesIngressClusterIssuer: required")
+	if v, ok := raw["nodeSelector"]; !ok || v == nil {
+		return fmt.Errorf("field nodeSelector in SpecDistributionCommon: required")
 	}
-	if v, ok := raw["name"]; !ok || v == nil {
-		return fmt.Errorf("field name in SpecDistributionModulesIngressClusterIssuer: required")
+	if v, ok := raw["relativeVendorPath"]; !ok || v == nil {
+		return fmt.Errorf("field relativeVendorPath in SpecDistributionCommon: required")
 	}
-	if v, ok := raw["type"]; !ok || v == nil {
-		return fmt.Errorf("field type in SpecDistributionModulesIngressClusterIssuer: required")
+	if v, ok := raw["tolerations"]; !ok || v == nil {
+		return fmt.Errorf("field tolerations in SpecDistributionCommon: required")
 	}
-	type Plain SpecDistributionModulesIngressClusterIssuer
+	type Plain SpecDistributionCommon
 	var plain Plain
 	if err := json.Unmarshal(b, &plain); err != nil {
 		return err
 	}
-	*j = SpecDistributionModulesIngressClusterIssuer(plain)
+	*j = SpecDistributionCommon(plain)
 	return nil
 }
 
@@ -1637,46 +1841,46 @@ func (j *SpecKubernetesNodePool) UnmarshalJSON(b []byte) error {
 }
 
 // UnmarshalJSON implements json.Unmarshaler.
-func (j *SpecDistributionModulesIngressClusterIssuerType) UnmarshalJSON(b []byte) error {
+func (j *SpecDistributionModulesIngressNginxTLSProvider) UnmarshalJSON(b []byte) error {
 	var v string
 	if err := json.Unmarshal(b, &v); err != nil {
 		return err
 	}
 	var ok bool
-	for _, expected := range enumValues_SpecDistributionModulesIngressClusterIssuerType {
+	for _, expected := range enumValues_SpecDistributionModulesIngressNginxTLSProvider {
 		if reflect.DeepEqual(v, expected) {
 			ok = true
 			break
 		}
 	}
 	if !ok {
-		return fmt.Errorf("invalid value (expected one of %#v): %#v", enumValues_SpecDistributionModulesIngressClusterIssuerType, v)
+		return fmt.Errorf("invalid value (expected one of %#v): %#v", enumValues_SpecDistributionModulesIngressNginxTLSProvider, v)
 	}
-	*j = SpecDistributionModulesIngressClusterIssuerType(v)
+	*j = SpecDistributionModulesIngressNginxTLSProvider(v)
 	return nil
 }
 
 // UnmarshalJSON implements json.Unmarshaler.
-func (j *SpecDistributionModulesIngressClusterIssuerRoute53) UnmarshalJSON(b []byte) error {
+func (j *TypesKubeToleration) UnmarshalJSON(b []byte) error {
 	var raw map[string]interface{}
 	if err := json.Unmarshal(b, &raw); err != nil {
 		return err
 	}
-	if v, ok := raw["hostedZoneId"]; !ok || v == nil {
-		return fmt.Errorf("field hostedZoneId in SpecDistributionModulesIngressClusterIssuerRoute53: required")
+	if v, ok := raw["effect"]; !ok || v == nil {
+		return fmt.Errorf("field effect in TypesKubeToleration: required")
 	}
-	if v, ok := raw["iamRoleArn"]; !ok || v == nil {
-		return fmt.Errorf("field iamRoleArn in SpecDistributionModulesIngressClusterIssuerRoute53: required")
+	if v, ok := raw["key"]; !ok || v == nil {
+		return fmt.Errorf("field key in TypesKubeToleration: required")
 	}
-	if v, ok := raw["region"]; !ok || v == nil {
-		return fmt.Errorf("field region in SpecDistributionModulesIngressClusterIssuerRoute53: required")
+	if v, ok := raw["value"]; !ok || v == nil {
+		return fmt.Errorf("field value in TypesKubeToleration: required")
 	}
-	type Plain SpecDistributionModulesIngressClusterIssuerRoute53
+	type Plain TypesKubeToleration
 	var plain Plain
 	if err := json.Unmarshal(b, &plain); err != nil {
 		return err
 	}
-	*j = SpecDistributionModulesIngressClusterIssuerRoute53(plain)
+	*j = TypesKubeToleration(plain)
 	return nil
 }
 
@@ -1713,28 +1917,15 @@ func (j *SpecKubernetes) UnmarshalJSON(b []byte) error {
 	return nil
 }
 
-// UnmarshalJSON implements json.Unmarshaler.
-func (j *TypesFuryModuleOverridesIngress) UnmarshalJSON(b []byte) error {
-	var raw map[string]interface{}
-	if err := json.Unmarshal(b, &raw); err != nil {
-		return err
-	}
-	if v, ok := raw["disableAuth"]; !ok || v == nil {
-		return fmt.Errorf("field disableAuth in TypesFuryModuleOverridesIngress: required")
-	}
-	if v, ok := raw["host"]; !ok || v == nil {
-		return fmt.Errorf("field host in TypesFuryModuleOverridesIngress: required")
-	}
-	if v, ok := raw["ingressClass"]; !ok || v == nil {
-		return fmt.Errorf("field ingressClass in TypesFuryModuleOverridesIngress: required")
-	}
-	type Plain TypesFuryModuleOverridesIngress
-	var plain Plain
-	if err := json.Unmarshal(b, &plain); err != nil {
-		return err
-	}
-	*j = TypesFuryModuleOverridesIngress(plain)
-	return nil
+type TypesKubeToleration struct {
+	// Effect corresponds to the JSON schema field "effect".
+	Effect TypesKubeTolerationEffect `json:"effect" yaml:"effect"`
+
+	// Key corresponds to the JSON schema field "key".
+	Key string `json:"key" yaml:"key"`
+
+	// Value corresponds to the JSON schema field "value".
+	Value string `json:"value" yaml:"value"`
 }
 
 // UnmarshalJSON implements json.Unmarshaler.
@@ -1761,26 +1952,7 @@ func (j *SpecToolsConfigurationTerraformStateS3) UnmarshalJSON(b []byte) error {
 	return nil
 }
 
-// UnmarshalJSON implements json.Unmarshaler.
-func (j *SpecDistributionModulesAwsClusterAutoScaler) UnmarshalJSON(b []byte) error {
-	var raw map[string]interface{}
-	if err := json.Unmarshal(b, &raw); err != nil {
-		return err
-	}
-	if v, ok := raw["iamRoleArn"]; !ok || v == nil {
-		return fmt.Errorf("field iamRoleArn in SpecDistributionModulesAwsClusterAutoScaler: required")
-	}
-	if v, ok := raw["region"]; !ok || v == nil {
-		return fmt.Errorf("field region in SpecDistributionModulesAwsClusterAutoScaler: required")
-	}
-	type Plain SpecDistributionModulesAwsClusterAutoScaler
-	var plain Plain
-	if err := json.Unmarshal(b, &plain); err != nil {
-		return err
-	}
-	*j = SpecDistributionModulesAwsClusterAutoScaler(plain)
-	return nil
-}
+const TypesKubeTolerationEffectNoExecute TypesKubeTolerationEffect = "NoExecute"
 
 // UnmarshalJSON implements json.Unmarshaler.
 func (j *SpecToolsConfigurationTerraformState) UnmarshalJSON(b []byte) error {
@@ -1800,25 +1972,7 @@ func (j *SpecToolsConfigurationTerraformState) UnmarshalJSON(b []byte) error {
 	return nil
 }
 
-// UnmarshalJSON implements json.Unmarshaler.
-func (j *TypesAwsRegion) UnmarshalJSON(b []byte) error {
-	var v string
-	if err := json.Unmarshal(b, &v); err != nil {
-		return err
-	}
-	var ok bool
-	for _, expected := range enumValues_TypesAwsRegion {
-		if reflect.DeepEqual(v, expected) {
-			ok = true
-			break
-		}
-	}
-	if !ok {
-		return fmt.Errorf("invalid value (expected one of %#v): %#v", enumValues_TypesAwsRegion, v)
-	}
-	*j = TypesAwsRegion(v)
-	return nil
-}
+const TypesKubeTolerationEffectPreferNoSchedule TypesKubeTolerationEffect = "PreferNoSchedule"
 
 // UnmarshalJSON implements json.Unmarshaler.
 func (j *SpecToolsConfigurationTerraform) UnmarshalJSON(b []byte) error {
@@ -1838,31 +1992,7 @@ func (j *SpecToolsConfigurationTerraform) UnmarshalJSON(b []byte) error {
 	return nil
 }
 
-var enumValues_TypesAwsRegion = []interface{}{
-	"af-south-1",
-	"ap-east-1",
-	"ap-northeast-1",
-	"ap-northeast-2",
-	"ap-northeast-3",
-	"ap-south-1",
-	"ap-southeast-1",
-	"ap-southeast-2",
-	"ap-southeast-3",
-	"ca-central-1",
-	"eu-central-1",
-	"eu-north-1",
-	"eu-south-1",
-	"eu-west-1",
-	"eu-west-2",
-	"eu-west-3",
-	"me-central-1",
-	"me-south-1",
-	"sa-east-1",
-	"us-east-1",
-	"us-east-2",
-	"us-west-1",
-	"us-west-2",
-}
+const TypesKubeTolerationEffectNoSchedule TypesKubeTolerationEffect = "NoSchedule"
 
 // UnmarshalJSON implements json.Unmarshaler.
 func (j *SpecToolsConfiguration) UnmarshalJSON(b []byte) error {
@@ -1883,20 +2013,22 @@ func (j *SpecToolsConfiguration) UnmarshalJSON(b []byte) error {
 }
 
 // UnmarshalJSON implements json.Unmarshaler.
-func (j *SpecDistributionModulesAuthProvider) UnmarshalJSON(b []byte) error {
-	var raw map[string]interface{}
-	if err := json.Unmarshal(b, &raw); err != nil {
+func (j *TypesKubeTolerationEffect) UnmarshalJSON(b []byte) error {
+	var v string
+	if err := json.Unmarshal(b, &v); err != nil {
 		return err
 	}
-	if v, ok := raw["type"]; !ok || v == nil {
-		return fmt.Errorf("field type in SpecDistributionModulesAuthProvider: required")
+	var ok bool
+	for _, expected := range enumValues_TypesKubeTolerationEffect {
+		if reflect.DeepEqual(v, expected) {
+			ok = true
+			break
+		}
 	}
-	type Plain SpecDistributionModulesAuthProvider
-	var plain Plain
-	if err := json.Unmarshal(b, &plain); err != nil {
-		return err
+	if !ok {
+		return fmt.Errorf("invalid value (expected one of %#v): %#v", enumValues_TypesKubeTolerationEffect, v)
 	}
-	*j = SpecDistributionModulesAuthProvider(plain)
+	*j = TypesKubeTolerationEffect(v)
 	return nil
 }
 
@@ -1927,179 +2059,97 @@ func (j *Spec) UnmarshalJSON(b []byte) error {
 	return nil
 }
 
+var enumValues_TypesKubeTolerationEffect = []interface{}{
+	"NoSchedule",
+	"PreferNoSchedule",
+	"NoExecute",
+}
+
 // UnmarshalJSON implements json.Unmarshaler.
-func (j *SpecDistributionModulesAuthProviderType) UnmarshalJSON(b []byte) error {
+func (j *SpecDistributionModulesIngressNginxType) UnmarshalJSON(b []byte) error {
 	var v string
 	if err := json.Unmarshal(b, &v); err != nil {
 		return err
 	}
 	var ok bool
-	for _, expected := range enumValues_SpecDistributionModulesAuthProviderType {
+	for _, expected := range enumValues_SpecDistributionModulesIngressNginxType {
 		if reflect.DeepEqual(v, expected) {
 			ok = true
 			break
 		}
 	}
 	if !ok {
-		return fmt.Errorf("invalid value (expected one of %#v): %#v", enumValues_SpecDistributionModulesAuthProviderType, v)
+		return fmt.Errorf("invalid value (expected one of %#v): %#v", enumValues_SpecDistributionModulesIngressNginxType, v)
 	}
-	*j = SpecDistributionModulesAuthProviderType(v)
+	*j = SpecDistributionModulesIngressNginxType(v)
 	return nil
 }
 
 // UnmarshalJSON implements json.Unmarshaler.
-func (j *SpecDistributionModulesAuthProviderBasicAuth) UnmarshalJSON(b []byte) error {
+func (j *SpecDistributionModulesIngress) UnmarshalJSON(b []byte) error {
 	var raw map[string]interface{}
 	if err := json.Unmarshal(b, &raw); err != nil {
 		return err
 	}
-	if v, ok := raw["password"]; !ok || v == nil {
-		return fmt.Errorf("field password in SpecDistributionModulesAuthProviderBasicAuth: required")
+	if v, ok := raw["baseDomain"]; !ok || v == nil {
+		return fmt.Errorf("field baseDomain in SpecDistributionModulesIngress: required")
 	}
-	if v, ok := raw["username"]; !ok || v == nil {
-		return fmt.Errorf("field username in SpecDistributionModulesAuthProviderBasicAuth: required")
+	if v, ok := raw["certManager"]; !ok || v == nil {
+		return fmt.Errorf("field certManager in SpecDistributionModulesIngress: required")
 	}
-	type Plain SpecDistributionModulesAuthProviderBasicAuth
+	if v, ok := raw["dns"]; !ok || v == nil {
+		return fmt.Errorf("field dns in SpecDistributionModulesIngress: required")
+	}
+	if v, ok := raw["externalDns"]; !ok || v == nil {
+		return fmt.Errorf("field externalDns in SpecDistributionModulesIngress: required")
+	}
+	if v, ok := raw["nginx"]; !ok || v == nil {
+		return fmt.Errorf("field nginx in SpecDistributionModulesIngress: required")
+	}
+	if v, ok := raw["overrides"]; !ok || v == nil {
+		return fmt.Errorf("field overrides in SpecDistributionModulesIngress: required")
+	}
+	type Plain SpecDistributionModulesIngress
 	var plain Plain
 	if err := json.Unmarshal(b, &plain); err != nil {
 		return err
 	}
-	*j = SpecDistributionModulesAuthProviderBasicAuth(plain)
+	*j = SpecDistributionModulesIngress(plain)
 	return nil
 }
 
 // UnmarshalJSON implements json.Unmarshaler.
-func (j *SpecDistributionModulesAuthPomerium) UnmarshalJSON(b []byte) error {
+func (j *SpecDistributionModulesIngressNginxTLSSecret) UnmarshalJSON(b []byte) error {
 	var raw map[string]interface{}
 	if err := json.Unmarshal(b, &raw); err != nil {
 		return err
 	}
-	if v, ok := raw["policy"]; !ok || v == nil {
-		return fmt.Errorf("field policy in SpecDistributionModulesAuthPomerium: required")
+	if v, ok := raw["ca"]; !ok || v == nil {
+		return fmt.Errorf("field ca in SpecDistributionModulesIngressNginxTLSSecret: required")
 	}
-	if v, ok := raw["secrets"]; !ok || v == nil {
-		return fmt.Errorf("field secrets in SpecDistributionModulesAuthPomerium: required")
-	}
-	type Plain SpecDistributionModulesAuthPomerium
-	var plain Plain
-	if err := json.Unmarshal(b, &plain); err != nil {
-		return err
-	}
-	*j = SpecDistributionModulesAuthPomerium(plain)
-	return nil
-}
-
-// UnmarshalJSON implements json.Unmarshaler.
-func (j *SpecDistributionModulesAuthPomeriumSecrets) UnmarshalJSON(b []byte) error {
-	var raw map[string]interface{}
-	if err := json.Unmarshal(b, &raw); err != nil {
-		return err
-	}
-	if v, ok := raw["COOKIE_SECRET"]; !ok || v == nil {
-		return fmt.Errorf("field COOKIE_SECRET in SpecDistributionModulesAuthPomeriumSecrets: required")
-	}
-	if v, ok := raw["IDP_CLIENT_SECRET"]; !ok || v == nil {
-		return fmt.Errorf("field IDP_CLIENT_SECRET in SpecDistributionModulesAuthPomeriumSecrets: required")
-	}
-	if v, ok := raw["SHARED_SECRET"]; !ok || v == nil {
-		return fmt.Errorf("field SHARED_SECRET in SpecDistributionModulesAuthPomeriumSecrets: required")
-	}
-	type Plain SpecDistributionModulesAuthPomeriumSecrets
-	var plain Plain
-	if err := json.Unmarshal(b, &plain); err != nil {
-		return err
-	}
-	*j = SpecDistributionModulesAuthPomeriumSecrets(plain)
-	return nil
-}
-
-// UnmarshalJSON implements json.Unmarshaler.
-func (j *SpecDistributionModulesAuthOverridesIngress) UnmarshalJSON(b []byte) error {
-	var raw map[string]interface{}
-	if err := json.Unmarshal(b, &raw); err != nil {
-		return err
-	}
-	if v, ok := raw["host"]; !ok || v == nil {
-		return fmt.Errorf("field host in SpecDistributionModulesAuthOverridesIngress: required")
-	}
-	if v, ok := raw["ingressClass"]; !ok || v == nil {
-		return fmt.Errorf("field ingressClass in SpecDistributionModulesAuthOverridesIngress: required")
-	}
-	type Plain SpecDistributionModulesAuthOverridesIngress
-	var plain Plain
-	if err := json.Unmarshal(b, &plain); err != nil {
-		return err
-	}
-	*j = SpecDistributionModulesAuthOverridesIngress(plain)
-	return nil
-}
-
-// UnmarshalJSON implements json.Unmarshaler.
-func (j *SpecDistributionCommon) UnmarshalJSON(b []byte) error {
-	var raw map[string]interface{}
-	if err := json.Unmarshal(b, &raw); err != nil {
-		return err
-	}
-	if v, ok := raw["nodeSelector"]; !ok || v == nil {
-		return fmt.Errorf("field nodeSelector in SpecDistributionCommon: required")
-	}
-	if v, ok := raw["relativeVendorPath"]; !ok || v == nil {
-		return fmt.Errorf("field relativeVendorPath in SpecDistributionCommon: required")
-	}
-	if v, ok := raw["tolerations"]; !ok || v == nil {
-		return fmt.Errorf("field tolerations in SpecDistributionCommon: required")
-	}
-	type Plain SpecDistributionCommon
-	var plain Plain
-	if err := json.Unmarshal(b, &plain); err != nil {
-		return err
-	}
-	*j = SpecDistributionCommon(plain)
-	return nil
-}
-
-// UnmarshalJSON implements json.Unmarshaler.
-func (j *TypesKubeToleration) UnmarshalJSON(b []byte) error {
-	var raw map[string]interface{}
-	if err := json.Unmarshal(b, &raw); err != nil {
-		return err
-	}
-	if v, ok := raw["effect"]; !ok || v == nil {
-		return fmt.Errorf("field effect in TypesKubeToleration: required")
+	if v, ok := raw["cert"]; !ok || v == nil {
+		return fmt.Errorf("field cert in SpecDistributionModulesIngressNginxTLSSecret: required")
 	}
 	if v, ok := raw["key"]; !ok || v == nil {
-		return fmt.Errorf("field key in TypesKubeToleration: required")
+		return fmt.Errorf("field key in SpecDistributionModulesIngressNginxTLSSecret: required")
 	}
-	if v, ok := raw["value"]; !ok || v == nil {
-		return fmt.Errorf("field value in TypesKubeToleration: required")
-	}
-	type Plain TypesKubeToleration
+	type Plain SpecDistributionModulesIngressNginxTLSSecret
 	var plain Plain
 	if err := json.Unmarshal(b, &plain); err != nil {
 		return err
 	}
-	*j = TypesKubeToleration(plain)
+	*j = SpecDistributionModulesIngressNginxTLSSecret(plain)
 	return nil
 }
 
-// UnmarshalJSON implements json.Unmarshaler.
-func (j *TypesKubeTolerationEffect) UnmarshalJSON(b []byte) error {
-	var v string
-	if err := json.Unmarshal(b, &v); err != nil {
-		return err
-	}
-	var ok bool
-	for _, expected := range enumValues_TypesKubeTolerationEffect {
-		if reflect.DeepEqual(v, expected) {
-			ok = true
-			break
-		}
-	}
-	if !ok {
-		return fmt.Errorf("invalid value (expected one of %#v): %#v", enumValues_TypesKubeTolerationEffect, v)
-	}
-	*j = TypesKubeTolerationEffect(v)
-	return nil
+type TypesSshPubKey string
+
+type TypesUri string
+
+type TypesKubeTolerationEffect string
+
+var enumValues_EksclusterKfdV1Alpha2Kind = []interface{}{
+	"EKSCluster",
 }
 
 // UnmarshalJSON implements json.Unmarshaler.
@@ -2122,10 +2172,25 @@ func (j *EksclusterKfdV1Alpha2Kind) UnmarshalJSON(b []byte) error {
 	return nil
 }
 
-var enumValues_TypesKubeTolerationEffect = []interface{}{
-	"NoSchedule",
-	"PreferNoSchedule",
-	"NoExecute",
+// UnmarshalJSON implements json.Unmarshaler.
+func (j *SpecDistributionModulesIngressNginx) UnmarshalJSON(b []byte) error {
+	var raw map[string]interface{}
+	if err := json.Unmarshal(b, &raw); err != nil {
+		return err
+	}
+	if v, ok := raw["tls"]; !ok || v == nil {
+		return fmt.Errorf("field tls in SpecDistributionModulesIngressNginx: required")
+	}
+	if v, ok := raw["type"]; !ok || v == nil {
+		return fmt.Errorf("field type in SpecDistributionModulesIngressNginx: required")
+	}
+	type Plain SpecDistributionModulesIngressNginx
+	var plain Plain
+	if err := json.Unmarshal(b, &plain); err != nil {
+		return err
+	}
+	*j = SpecDistributionModulesIngressNginx(plain)
+	return nil
 }
 
 // UnmarshalJSON implements json.Unmarshaler.
