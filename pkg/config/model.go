@@ -5,7 +5,7 @@
 package config
 
 type Furyctl struct {
-	ApiVersion string      `yaml:"apiVersion" validate:"required,api-version"`
+	APIVersion string      `yaml:"apiVersion" validate:"required,api-version"`
 	Kind       string      `yaml:"kind" validate:"required,cluster-kind"`
 	Spec       FuryctlSpec `yaml:"spec" validate:"required"`
 }
@@ -46,7 +46,7 @@ type KFDSchemas struct {
 }
 
 type KFDSchema struct {
-	ApiVersion string `yaml:"apiVersion" validate:"required,api-version"`
+	APIVersion string `yaml:"apiVersion" validate:"required,api-version"`
 	Kind       string `yaml:"kind" validate:"required,cluster-kind"`
 }
 
