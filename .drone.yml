@@ -12,6 +12,7 @@ steps:
     commands:
       - go get -u github.com/google/addlicense
       - addlicense -c "SIGHUP s.r.l" -v -l bsd --check .
+
 ---
 kind: pipeline
 name: policeman
@@ -80,9 +81,9 @@ steps:
     image: quay.io/sighup/e2e-testing-drone-plugin:v0.13.0
     pull: always
     volumes:
-    - name: shared
-      path: /shared
-    depends_on: [ clone ]
+      - name: shared
+        path: /shared
+    depends_on: [clone]
     settings:
       action: custom-cluster-123
       pipeline_id: cluster-123
@@ -113,9 +114,9 @@ steps:
     image: quay.io/sighup/e2e-testing:1.1.0_0.2.2_2.16.1_1.9.4_1.23.0_3.8.7_2.4.1
     pull: always
     volumes:
-    - name: shared
-      path: /shared
-    depends_on: [ init ]
+      - name: shared
+        path: /shared
+    depends_on: [init]
     commands:
       - export KUBECONFIG=/shared/kube/kubeconfig-123
       - bats -t tests/install.sh
@@ -128,7 +129,7 @@ steps:
 
   - name: destroy
     image: quay.io/sighup/e2e-testing-drone-plugin:v0.13.0
-    depends_on: [ test ]
+    depends_on: [test]
     settings:
       action: destroy
       pipeline_id: cluster-123
@@ -153,12 +154,12 @@ steps:
         from_secret: dockerhub_password
     when:
       status:
-      - success
-      - failure
+        - success
+        - failure
 
 volumes:
-- name: shared
-  temp: {}
+  - name: shared
+    temp: {}
 
 ---
 kind: pipeline
@@ -180,7 +181,7 @@ steps:
   - name: prepare-canonical-json
     image: registry.sighup.io/poc/fury-repo-automations:v0.0.3
     pull: always
-    depends_on: [ clone ]
+    depends_on: [clone]
     commands:
       - spock distro-json -r=False -v=${DRONE_TAG}
     when:
@@ -191,7 +192,7 @@ steps:
   - name: prepare-release-manifests
     image: quay.io/sighup/e2e-testing:1.1.0_0.2.2_2.16.1_1.9.4_1.18.19_3.8.7_2.4.1
     pull: always
-    depends_on: [ clone ]
+    depends_on: [clone]
     environment:
       RELEASE_MANIFESTS_PATH: fury-distribution-${DRONE_TAG}.yml
     commands:
@@ -206,7 +207,7 @@ steps:
   - name: prepare-release-notes
     image: quay.io/sighup/fury-release-notes-plugin:3.7_2.8.4
     pull: always
-    depends_on: [ clone ]
+    depends_on: [clone]
     settings:
       release_notes_file_path: release-notes.md
     when:

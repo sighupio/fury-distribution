@@ -24,15 +24,30 @@ var (
 func NewValidator() *validator.Validate {
 	validate := validator.New()
 
-	validate.RegisterValidation("api-version", ValidateApiVersion)
-	validate.RegisterValidation("cluster-kind", ValidateClusterKind)
-	validate.RegisterValidation("eks-version", ValidateEksVersion)
-	validate.RegisterValidation("permissive-semver", ValidatePermissiveSemVer)
+	err := validate.RegisterValidation("api-version", ValidateAPIVersion)
+	if err != nil {
+		return nil
+	}
+
+	err = validate.RegisterValidation("cluster-kind", ValidateClusterKind)
+	if err != nil {
+		return nil
+	}
+
+	err = validate.RegisterValidation("eks-version", ValidateEksVersion)
+	if err != nil {
+		return nil
+	}
+
+	err = validate.RegisterValidation("permissive-semver", ValidatePermissiveSemVer)
+	if err != nil {
+		return nil
+	}
 
 	return validate
 }
 
-func ValidateApiVersion(fl validator.FieldLevel) bool {
+func ValidateAPIVersion(fl validator.FieldLevel) bool {
 	return apiVersionRegex.MatchString(fl.Field().String())
 }
 
