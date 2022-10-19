@@ -1,14 +1,14 @@
-{{- if eq .modules.auth.provider.type "none" -}}
+{{- if eq .spec.distribution.modules.auth.provider.type "none" -}}
 {{- else -}}
 ---
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 {{- end -}}
-{{- if eq .modules.auth.provider.type "sso" }}
+{{- if eq .spec.distribution.modules.auth.provider.type "sso" }}
 
 resources:
-  - {{ print "../" .common.relativeVendorPath "/katalog/auth/dex" }}
-  - {{ print "../" .common.relativeVendorPath "/katalog/auth/pomerium" }}
+  - {{ print "../" .spec.distribution.common.relativeVendorPath "/modules/auth/katalog/dex" }}
+  - {{ print "../" .spec.distribution.common.relativeVendorPath "/modules/auth/katalog/pomerium" }}
   - resources/ingress-infra.yml
 
 patchesStrategicMerge:
@@ -35,7 +35,7 @@ secretGenerator:
     envs:
       - secrets/pomerium.env
 {{- end -}}
-{{- if eq .modules.auth.provider.type "basicAuth" }}
+{{- if eq .spec.distribution.modules.auth.provider.type "basicAuth" }}
 
 resources:
   - secrets/basic-auth.yml

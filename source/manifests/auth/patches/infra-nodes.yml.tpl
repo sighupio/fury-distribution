@@ -1,18 +1,26 @@
 {{- define "nodeSelector" -}}
-  {{ if ne .modules.auth.overrides.nodeSelector nil -}}
-    {{ .modules.auth.overrides.nodeSelector | toYaml | indent 8 | trim }}
+  {{ $indent := 8 -}}
+  {{ if hasKey . "indent" -}}
+    {{ $indent = .indent -}}
+  {{- end -}}
+  {{ if ne .spec.distribution.modules.auth.overrides.nodeSelector nil -}}
+    {{ .spec.distribution.modules.auth.overrides.nodeSelector | toYaml | indent $indent | trim }}
   {{- else -}}
-    {{ template "commonNodeSelector" . }}
+    {{ template "commonNodeSelector" ( dict "spec" .spec "indent" $indent ) }}
   {{- end }}
 {{- end -}}
 {{- define "tolerations" -}}
-  {{ if ne .modules.auth.overrides.tolerations nil -}}
-    {{ .modules.auth.overrides.tolerations | toYaml | indent 8 | trim }}
+  {{ $indent := 8 -}}
+  {{ if hasKey . "indent" -}}
+    {{ $indent = .indent -}}
+  {{- end -}}
+  {{ if ne .spec.distribution.modules.auth.overrides.tolerations nil -}}
+    {{ .spec.distribution.modules.auth.overrides.tolerations | toYaml | indent $indent | trim }}
   {{- else -}}
-    {{ template "commonTolerations" . }}
+    {{ template "commonTolerations" ( dict "spec" .spec "indent" $indent ) }}
   {{- end }}
 {{- end -}}
-{{- if eq .modules.auth.provider.type "sso" -}}
+{{- if eq .spec.distribution.modules.auth.provider.type "sso" -}}
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -23,9 +31,9 @@ spec:
   template:
     spec:
       nodeSelector:
-        {{ template "nodeSelector" . }}
+        {{ template "nodeSelector" ( dict "spec" .spec ) }}
       tolerations:
-        {{ template "tolerations" . }}
+        {{ template "tolerations" ( dict "spec" .spec ) }}
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -36,7 +44,7 @@ spec:
   template:
     spec:
       nodeSelector:
-        {{ template "nodeSelector" . }}
+        {{ template "nodeSelector" ( dict "spec" .spec ) }}
       tolerations:
-        {{ template "tolerations" . }}
+        {{ template "tolerations" ( dict "spec" .spec ) }}
 {{- end }}
