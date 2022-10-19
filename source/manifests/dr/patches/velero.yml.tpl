@@ -3,7 +3,7 @@ apiVersion: v1
 kind: ServiceAccount
 metadata:
   annotations:
-    eks.amazonaws.com/role-arn: {{ .modules.dr.velero.eks.iamRoleArn }}
+    eks.amazonaws.com/role-arn: {{ .spec.distribution.modules.dr.velero.eks.iamRoleArn }}
   name: velero
   namespace: kube-system
 ---

@@ -1,4 +1,4 @@
-{{ if eq .modules.ingress.nginx.type "dual" -}}
+{{ if eq .spec.distribution.modules.ingress.nginx.type "dual" -}}
 ---
 apiVersion: v1
 kind: Service

@@ -1,15 +1,23 @@
 {{- define "nodeSelector" -}}
-  {{ if ne .modules.monitoring.overrides.nodeSelector nil -}}
-    {{ .modules.monitoring.overrides.nodeSelector | toYaml | indent 8 | trim }}
+  {{ $indent := 8 -}}
+  {{ if hasKey . "indent" -}}
+    {{ $indent = .indent -}}
+  {{- end -}}
+  {{ if ne .spec.distribution.modules.monitoring.overrides.nodeSelector nil -}}
+    {{ .spec.distribution.modules.monitoring.overrides.nodeSelector | toYaml | indent $indent | trim }}
   {{- else -}}
-    {{ template "commonNodeSelector" . }}
+    {{ template "commonNodeSelector" ( dict "spec" .spec "indent" $indent ) }}
   {{- end }}
 {{- end -}}
 {{- define "tolerations" -}}
-  {{ if ne .modules.monitoring.overrides.tolerations nil -}}
-    {{ .modules.monitoring.overrides.tolerations | toYaml | indent 8 | trim }}
+  {{ $indent := 8 -}}
+  {{ if hasKey . "indent" -}}
+    {{ $indent = .indent -}}
+  {{- end -}}
+  {{ if ne .spec.distribution.modules.monitoring.overrides.tolerations nil -}}
+    {{ .spec.distribution.modules.monitoring.overrides.tolerations | toYaml | indent $indent | trim }}
   {{- else -}}
-    {{ template "commonTolerations" . }}
+    {{ template "commonTolerations" ( dict "spec" .spec "indent" $indent ) }}
   {{- end }}
 {{- end -}}
 ---
@@ -22,9 +30,9 @@ spec:
   template:
     spec:
       nodeSelector:
-        {{ template "nodeSelector" . }}
+        {{ template "nodeSelector" ( dict "spec" .spec ) }}
       tolerations:
-        {{ template "tolerations" . }}
+        {{ template "tolerations" ( dict "spec" .spec ) }}
 ---
 apiVersion: apps/v1
 kind: StatefulSet
@@ -35,9 +43,9 @@ spec:
   template:
     spec:
       nodeSelector:
-        {{ template "nodeSelector" . }}
+        {{ template "nodeSelector" ( dict "spec" .spec ) }}
       tolerations:
-        {{ template "tolerations" . }}
+        {{ template "tolerations" ( dict "spec" .spec ) }}
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -48,9 +56,9 @@ spec:
   template:
     spec:
       nodeSelector:
-        {{ template "nodeSelector" . }}
+        {{ template "nodeSelector" ( dict "spec" .spec ) }}
       tolerations:
-        {{ template "tolerations" . }}
+        {{ template "tolerations" ( dict "spec" .spec ) }}
 ---
 apiVersion: apps/v1
 kind: StatefulSet
@@ -61,9 +69,9 @@ spec:
   template:
     spec:
       nodeSelector:
-        {{ template "nodeSelector" . }}
+        {{ template "nodeSelector" ( dict "spec" .spec ) }}
       tolerations:
-        {{ template "tolerations" . }}
+        {{ template "tolerations" ( dict "spec" .spec ) }}
 ---
 apiVersion: logging.banzaicloud.io/v1beta1
 kind: Logging
@@ -72,6 +80,6 @@ metadata:
 spec:
   fluentd:
     nodeSelector:
-      {{ template "nodeSelector" . }}
+      {{ template "nodeSelector" ( dict "spec" .spec ) }}
     tolerations:
-      {{ template "tolerations" . }}
+      {{ template "tolerations" ( dict "spec" .spec "indent" 6 ) }}

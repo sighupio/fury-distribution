@@ -1,4 +1,4 @@
-{{- if eq .modules.logging.opensearch.type "single" -}}
+{{- if eq .spec.distribution.modules.logging.opensearch.type "single" -}}
 {
   "index_patterns" : ["ingress-controller-*"],
   "settings": {

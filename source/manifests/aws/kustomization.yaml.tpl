@@ -2,13 +2,13 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 
-{{- $version := semver .metadata.distributionVersion }}
+{{- $version := semver .spec.distributionVersion }}
 
 resources:
-  - {{ print "../" .common.relativeVendorPath "/katalog/aws/cluster-autoscaler/v" $version.Major "." $version.Minor ".x" }}
-  - {{ print "../" .common.relativeVendorPath "/katalog/aws/ebs-csi-driver" }}
-  - {{ print "../" .common.relativeVendorPath "/katalog/aws/load-balancer-controller" }}
-  - {{ print "../" .common.relativeVendorPath "/katalog/aws/node-termination-handler" }}
+  - {{ print "../" .spec.distribution.common.relativeVendorPath "/modules/aws/katalog/cluster-autoscaler/v" $version.Major "." $version.Minor ".x" }}
+  - {{ print "../" .spec.distribution.common.relativeVendorPath "/modules/aws/katalog/ebs-csi-driver" }}
+  - {{ print "../" .spec.distribution.common.relativeVendorPath "/modules/aws/katalog/load-balancer-controller" }}
+  - {{ print "../" .spec.distribution.common.relativeVendorPath "/modules/aws/katalog/node-termination-handler" }}
   - resources/sc.yml
 
 patchesStrategicMerge:
