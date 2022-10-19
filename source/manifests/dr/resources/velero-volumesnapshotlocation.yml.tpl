@@ -7,4 +7,4 @@ metadata:
 spec:
   provider: velero.io/aws
   config:
-    region: {{ .modules.dr.velero.eks.region }}
+    region: {{ .spec.distribution.modules.dr.velero.eks.region }}

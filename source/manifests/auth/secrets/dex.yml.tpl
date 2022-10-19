@@ -1,18 +1,18 @@
 {{- define "dexHost" -}}
-  {{ if .modules.auth.overrides.ingresses.dex.host -}}
-    {{ print "https://" .modules.auth.overrides.ingresses.dex.host }}
+  {{ if .spec.distribution.modules.auth.overrides.ingresses.dex.host -}}
+    {{ print "https://" .spec.distribution.modules.auth.overrides.ingresses.dex.host }}
   {{- else -}}
-    {{ print "https://login." .modules.ingress.baseDomain }}
+    {{ print "https://login." .spec.distribution.modules.ingress.baseDomain }}
   {{- end }}
 {{- end -}}
 {{- define "pomeriumHost" }}
-  {{- if .modules.auth.overrides.ingresses.pomerium.host -}}
-    {{ print "https://" .modules.auth.overrides.ingresses.pomerium.host "/oauth2/callback" }}
+  {{- if .spec.distribution.modules.auth.overrides.ingresses.pomerium.host -}}
+    {{ print "https://" .spec.distribution.modules.auth.overrides.ingresses.pomerium.host "/oauth2/callback" }}
   {{- else -}}
-    {{ print "https://pomerium.internal." .modules.ingress.baseDomain "/oauth2/callback" }}
+    {{ print "https://pomerium.internal." .spec.distribution.modules.ingress.baseDomain "/oauth2/callback" }}
   {{- end }}
 {{- end -}}
-{{- if eq .modules.auth.provider.type "sso" -}}
+{{- if eq .spec.distribution.modules.auth.provider.type "sso" -}}
 issuer: {{ template "dexHost" . }}
 storage:
   type: kubernetes
@@ -23,7 +23,7 @@ web:
 telemetry:
   http: 0.0.0.0:5558
 connectors:
-{{ .modules.auth.dex.connectors | toYaml | indent 2 }}
+{{ .spec.distribution.modules.auth.dex.connectors | toYaml | indent 2 }}
 oauth2:
   skipApprovalScreen: true
 staticClients:
@@ -31,6 +31,6 @@ staticClients:
   redirectURIs:
   - {{ template "pomeriumHost" . }}
   name: 'Pomerium in-cluster SSO'
-  secret: {{ .modules.auth.pomerium.secrets.IDP_CLIENT_SECRET }}
+  secret: {{ .spec.distribution.modules.auth.pomerium.secrets.IDP_CLIENT_SECRET }}
 enablePasswordDB: false
 {{- end }}

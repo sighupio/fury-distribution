@@ -6,14 +6,14 @@ metadata:
     forecastle.stakater.com/expose: "true"
     forecastle.stakater.com/appName: "Forecastle"
     forecastle.stakater.com/icon: "https://raw.githubusercontent.com/stakater/Forecastle/master/assets/web/forecastle-round-100px.png"
-    {{ if not .modules.ingress.overrides.ingresses.forecastle.disableAuth }}{{ template "ingressAuth" . }}{{ end }}
+    {{ if not .spec.distribution.modules.ingress.overrides.ingresses.forecastle.disableAuth }}{{ template "ingressAuth" . }}{{ end }}
     {{ template "certManagerClusterIssuer" . }}
   name: forecastle
   namespace: ingress-nginx
 spec:
-  ingressClassName: {{ template "ingressClass" (dict "module" "ingress" "package" "forecastle" "type" "internal" "spec" .) }}
+  ingressClassName: {{ template "ingressClass" (dict "module" "ingress" "package" "forecastle" "type" "internal" "spec" .spec) }}
   rules:
-    - host: {{ template "ingressHost" (dict "module" "ingress" "package" "forecastle" "prefix" "directory.internal." "spec" .) }}
+    - host: {{ template "ingressHost" (dict "module" "ingress" "package" "forecastle" "prefix" "directory.internal." "spec" .spec) }}
       http:
         paths:
         - path: /
@@ -23,4 +23,4 @@ spec:
               name: forecastle
               port:
                 name: http
-{{- template "ingressTls" (dict "module" "ingress" "package" "forecastle" "prefix" "directory.internal." "spec" .) }}
+{{- template "ingressTls" (dict "module" "ingress" "package" "forecastle" "prefix" "directory.internal." "spec" .spec) }}

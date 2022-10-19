@@ -10,7 +10,7 @@ spec:
       containers:
       - name: elasticsearch
         resources:
-          {{ .modules.logging.opensearch.resources | toYaml | indent 4 | trim }}
+          {{ .spec.distribution.modules.logging.opensearch.resources | toYaml | indent 10 | trim }}
   volumeClaimTemplates:
   - metadata:
       name: es-data
@@ -19,4 +19,4 @@ spec:
       - ReadWriteOnce
       resources:
         requests:
-          storage: {{ .modules.logging.opensearch.storageSize }}
+          storage: {{ .spec.distribution.modules.logging.opensearch.storageSize }}

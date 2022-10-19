@@ -1,18 +1,18 @@
 {{- define "pomeriumHost" -}}
-  {{ if .modules.auth.overrides.ingresses.pomerium.host -}}
-    {{ .modules.auth.overrides.ingresses.pomerium.host }}
+  {{ if .spec.distribution.modules.auth.overrides.ingresses.pomerium.host -}}
+    {{ .spec.distribution.modules.auth.overrides.ingresses.pomerium.host }}
   {{- else -}}
-    {{ print "pomerium.internal." .modules.ingress.baseDomain }}
+    {{ print "pomerium.internal." .spec.distribution.modules.ingress.baseDomain }}
   {{- end }}
 {{- end -}}
 {{- define "dexHost" -}}
-  {{ if .modules.auth.overrides.ingresses.dex.host -}}
-    {{ print "https://" .modules.auth.overrides.ingresses.dex.host }}
+  {{ if .spec.distribution.modules.auth.overrides.ingresses.dex.host -}}
+    {{ print "https://" .spec.distribution.modules.auth.overrides.ingresses.dex.host }}
   {{- else -}}
-    {{ print "https://login" .modules.ingress.baseDomain }}
+    {{ print "https://login" .spec.distribution.modules.ingress.baseDomain }}
   {{- end }}
 {{- end -}}
-{{- if eq .modules.auth.provider.type "sso" -}}
+{{- if eq .spec.distribution.modules.auth.provider.type "sso" -}}
 FORWARD_AUTH_HOST={{ template "pomeriumHost" . }}
 AUTHENTICATE_SERVICE_HOST={{ template "pomeriumHost" . }}
 FORWARD_AUTH_URL=https://$(FORWARD_AUTH_HOST)

@@ -1,10 +1,10 @@
-{{- if eq .modules.ingress.nginx.type "dual" }}
+{{- if eq .spec.distribution.modules.ingress.nginx.type "dual" }}
 ---
 apiVersion: v1
 kind: ServiceAccount
 metadata:
   annotations:
-    eks.amazonaws.com/role-arn: {{ .modules.ingress.externalDns.publicIamRoleArn }}
+    eks.amazonaws.com/role-arn: {{ .spec.distribution.modules.ingress.externalDns.publicIamRoleArn }}
   name: external-dns-public
   namespace: ingress-nginx
 ---
@@ -27,13 +27,13 @@ spec:
           - --provider=$(PROVIDER)
           - --aws-zone-type=public
           - --txt-owner-id={{ .metadata.name}}-public
-          - --exclude-domains={{ .modules.ingress.baseDomain }}
+          - --exclude-domains={{ .spec.distribution.modules.ingress.baseDomain }}
 ---
 apiVersion: v1
 kind: ServiceAccount
 metadata:
   annotations:
-    eks.amazonaws.com/role-arn: {{ .modules.ingress.externalDns.privateIamRoleArn }}
+    eks.amazonaws.com/role-arn: {{ .spec.distribution.modules.ingress.externalDns.privateIamRoleArn }}
   name: external-dns-private
   namespace: ingress-nginx
 ---
@@ -58,13 +58,13 @@ spec:
           - --txt-owner-id={{ .metadata.name}}-private
 
 {{- end }}
-{{- if eq .modules.ingress.nginx.type "single" }}
+{{- if eq .spec.distribution.modules.ingress.nginx.type "single" }}
 ---
 apiVersion: v1
 kind: ServiceAccount
 metadata:
   annotations:
-    eks.amazonaws.com/role-arn: {{ .modules.ingress.externalDns.publicIamRoleArn }}
+    eks.amazonaws.com/role-arn: {{ .spec.distribution.modules.ingress.externalDns.publicIamRoleArn }}
   name: external-dns-public
   namespace: ingress-nginx
 ---

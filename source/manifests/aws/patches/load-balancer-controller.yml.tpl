@@ -17,6 +17,6 @@ apiVersion: v1
 kind: ServiceAccount
 metadata:
   annotations:
-    eks.amazonaws.com/role-arn: {{ .modules.aws.loadBalancerController.iamRoleArn }}
+    eks.amazonaws.com/role-arn: {{ .spec.distribution.modules.aws.loadBalancerController.iamRoleArn }}
   name: aws-load-balancer-controller
   namespace: kube-system
