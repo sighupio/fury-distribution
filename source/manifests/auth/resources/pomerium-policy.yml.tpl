@@ -1,3 +1,3 @@
-{{- if eq .modules.auth.provider.type "sso" -}}
-{{ .modules.auth.pomerium.policy }}
+{{- if eq .spec.distribution.modules.auth.provider.type "sso" -}}
+{{ .spec.distribution.modules.auth.pomerium.policy }}
 {{- end }}

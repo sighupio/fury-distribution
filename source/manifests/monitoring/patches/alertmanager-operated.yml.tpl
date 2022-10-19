@@ -5,4 +5,4 @@ metadata:
   name: main
   namespace: monitoring
 spec:
-  externalUrl: https://{{ template "alertmanagerUrl" . }}
+  externalUrl: https://{{ template "alertmanagerUrl" .spec }}

@@ -7,11 +7,11 @@ metadata:
 spec:
   externalLabels:
     k8s_cluster: {{ .metadata.name }}
-  externalUrl: https://{{ template "prometheusUrl" . }}
+  externalUrl: https://{{ template "prometheusUrl" .spec }}
   resources:
-    {{ .modules.monitoring.prometheus.resources | toYaml | indent 4 | trim }}
-  retention: {{ .modules.monitoring.prometheus.retentionTime }}
-  retentionSize: {{ .modules.monitoring.prometheus.retentionSize }}
+    {{ .spec.distribution.modules.monitoring.prometheus.resources | toYaml | indent 4 | trim }}
+  retention: {{ .spec.distribution.modules.monitoring.prometheus.retentionTime }}
+  retentionSize: {{ .spec.distribution.modules.monitoring.prometheus.retentionSize }}
   storage:
     volumeClaimTemplate:
       spec:
@@ -19,4 +19,4 @@ spec:
           - ReadWriteOnce
         resources:
           requests:
-            storage: {{ .modules.monitoring.prometheus.storageSize }}
+            storage: {{ .spec.distribution.modules.monitoring.prometheus.storageSize }}

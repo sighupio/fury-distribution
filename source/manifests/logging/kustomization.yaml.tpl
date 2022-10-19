@@ -3,15 +3,15 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 
 resources:
-  - {{ print "../" .common.relativeVendorPath "/katalog/logging/cerebro" }}
-  - {{ print "../" .common.relativeVendorPath "/katalog/logging/configs" }}
-  - {{ print "../" .common.relativeVendorPath "/katalog/logging/logging-operated" }}
-  - {{ print "../" .common.relativeVendorPath "/katalog/logging/logging-operator" }}
-  - {{ print "../" .common.relativeVendorPath "/katalog/logging/opensearch-dashboards" }}
-{{- if eq .modules.logging.opensearch.type "single" }}
-  - {{ print "../" .common.relativeVendorPath "/katalog/logging/opensearch-single" }}
-{{- else if eq .modules.logging.opensearch.type "triple" }}
-  - {{ print "../" .common.relativeVendorPath "/katalog/logging/opensearch-triple" }}
+  - {{ print "../" .spec.distribution.common.relativeVendorPath "/modules/logging/katalog/cerebro" }}
+  - {{ print "../" .spec.distribution.common.relativeVendorPath "/modules/logging/katalog/configs" }}
+  - {{ print "../" .spec.distribution.common.relativeVendorPath "/modules/logging/katalog/logging-operated" }}
+  - {{ print "../" .spec.distribution.common.relativeVendorPath "/modules/logging/katalog/logging-operator" }}
+  - {{ print "../" .spec.distribution.common.relativeVendorPath "/modules/logging/katalog/opensearch-dashboards" }}
+{{- if eq .spec.distribution.modules.logging.opensearch.type "single" }}
+  - {{ print "../" .spec.distribution.common.relativeVendorPath "/modules/logging/katalog/opensearch-single" }}
+{{- else if eq .spec.distribution.modules.logging.opensearch.type "triple" }}
+  - {{ print "../" .spec.distribution.common.relativeVendorPath "/modules/logging/katalog/opensearch-triple" }}
 {{- end }}
   - resources/ingress-infra.yml
 
@@ -19,7 +19,7 @@ patchesStrategicMerge:
   - patches/opensearch.yml
   - patches/infra-nodes.yml
 
-{{ if eq .modules.ingress.nginx.type "single" -}}
+{{ if eq .spec.distribution.modules.ingress.nginx.type "single" -}}
 secretGenerator:
   - name: kubernetes-index-template
     behavior: replace
