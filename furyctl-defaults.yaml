@@ -82,11 +82,15 @@ data:
         nodeSelector: null
         tolerations: null
         ingresses:
-          opensearch-dashboards:
+          opensearchDashboards:
             disableAuth: false
             host: ""
             ingressClass: ""
           cerebro:
+            disableAuth: false
+            host: ""
+            ingressClass: ""
+          minio:
             disableAuth: false
             host: ""
             ingressClass: ""
@@ -198,6 +202,9 @@ data:
         # see dex documentation for more information
         connectors: []
     aws:
+      overrides:
+        nodeSelector: null
+        tolerations: null
       ebsCsiDriver:
         iamRoleArn: arn:aws:iam::123456789012:role/ebs-csi-controller-role
       loadBalancerController:
