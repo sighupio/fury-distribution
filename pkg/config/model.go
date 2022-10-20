@@ -29,6 +29,7 @@ type KFDModules struct {
 	Ingress    string `yaml:"ingress" validate:"required"`
 	Logging    string `yaml:"logging" validate:"required"`
 	Monitoring string `yaml:"monitoring" validate:"required"`
+	Networking string `yaml:"networking" validate:"required"`
 	Opa        string `yaml:"opa" validate:"required"`
 }
 
