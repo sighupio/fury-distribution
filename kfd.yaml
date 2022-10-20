@@ -4,12 +4,13 @@
 
 version: v1.23.3
 modules:
-  auth: v0.0.1
+  auth: v0.0.2
   dr: v1.9.3
   ingress: v1.12.2
   logging: v2.0.3
   monitoring: v1.14.2
   opa: v1.7.0
+  networking: v1.10.0
 kubernetes:
   eks:
     version: 1.23
@@ -19,7 +20,7 @@ furyctlSchemas:
     - apiVersion: kfd.sighup.io/v1alpha2
       kind: EKSCluster
 tools:
-  ansible: 2.9.27
+  ansible: 2.13.4
   furyagent: 0.3.0
   kubectl: 1.23.10
   kustomize: 3.10.0
