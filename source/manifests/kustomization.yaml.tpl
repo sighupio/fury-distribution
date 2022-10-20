@@ -6,7 +6,7 @@ resources:
 {{- if ne .spec.distribution.modules.auth.provider.type "none" }}
   - auth
 {{- end }}
-{{- if eq .kind "EKSCluster" }}
+{{- if hasKeyAny .spec.distribution.modules "aws" }}
   - aws
 {{- end }}
   - dr
