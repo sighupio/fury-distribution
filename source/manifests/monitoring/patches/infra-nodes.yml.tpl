@@ -6,7 +6,7 @@
   {{ if ne .spec.distribution.modules.monitoring.overrides.nodeSelector nil -}}
     {{ .spec.distribution.modules.monitoring.overrides.nodeSelector | toYaml | indent $indent | trim }}
   {{- else -}}
-    {{ template "commonNodeSelector" ( dict "spec" .spec "indent" $indent ) }}
+    {{- template "commonNodeSelector" ( dict "spec" .spec "indent" $indent ) -}}
   {{- end }}
 {{- end -}}
 {{- define "tolerations" -}}
@@ -28,7 +28,7 @@ metadata:
   namespace: monitoring
 spec:
   nodeSelector:
-    {{ template "nodeSelector" ( dict "spec" .spec ) }}
+    {{ template "nodeSelector" ( dict "spec" .spec "indent" 4 ) }}
   tolerations:
     {{ template "tolerations" ( dict "spec" .spec "indent" 4 ) }}
 ---
@@ -91,7 +91,7 @@ metadata:
   namespace: monitoring
 spec:
   nodeSelector:
-    {{ template "nodeSelector" ( dict "spec" .spec ) }}
+    {{ template "nodeSelector" ( dict "spec" .spec "indent" 4) }}
   tolerations:
     {{ template "tolerations" ( dict "spec" .spec "indent" 4 ) }}
 ---
