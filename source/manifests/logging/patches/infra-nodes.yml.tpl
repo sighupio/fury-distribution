@@ -3,8 +3,8 @@
   {{ if hasKey . "indent" -}}
     {{ $indent = .indent -}}
   {{- end -}}
-  {{ if ne .spec.distribution.modules.monitoring.overrides.nodeSelector nil -}}
-    {{ .spec.distribution.modules.monitoring.overrides.nodeSelector | toYaml | indent $indent | trim }}
+  {{ if ne .spec.distribution.modules.logging.overrides.nodeSelector nil -}}
+    {{ .spec.distribution.modules.logging.overrides.nodeSelector | toYaml | indent $indent | trim }}
   {{- else -}}
     {{ template "commonNodeSelector" ( dict "spec" .spec "indent" $indent ) }}
   {{- end }}
@@ -14,8 +14,8 @@
   {{ if hasKey . "indent" -}}
     {{ $indent = .indent -}}
   {{- end -}}
-  {{ if ne .spec.distribution.modules.monitoring.overrides.tolerations nil -}}
-    {{ .spec.distribution.modules.monitoring.overrides.tolerations | toYaml | indent $indent | trim }}
+  {{ if ne .spec.distribution.modules.logging.overrides.tolerations nil -}}
+    {{ .spec.distribution.modules.logging.overrides.tolerations | toYaml | indent $indent | trim }}
   {{- else -}}
     {{ template "commonTolerations" ( dict "spec" .spec "indent" $indent ) }}
   {{- end }}

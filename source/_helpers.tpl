@@ -1,12 +1,12 @@
 {{ define "commonNodeSelector" }}
   {{- $indent := .indent | default 8 -}}
   {{ .spec.distribution.common.nodeSelector | toYaml | indent $indent | trim }}
-{{ end }}
+{{- end -}}
 
 {{ define "commonTolerations" }}
   {{- $indent := .indent | default 8 -}}
   {{ .spec.distribution.common.tolerations | toYaml | indent $indent | trim }}
-{{ end }}
+{{- end -}}
 
 {{ define "globalIngressClass" }}
   {{- if eq .spec.distribution.modules.ingress.nginx.type "single" -}}
