@@ -48,8 +48,12 @@ steps:
     depends_on:
       - clone
     commands:
+      - echo $${NETRC_FILE} > /root/.netrc
       - furyctl vendor -H
       - kustomize build . > distribution.yml
+    environment:
+      NETRC_FILE:
+        from_secret: NETRC_FILE
 
   - name: deprek8ion
     image: eu.gcr.io/swade1987/deprek8ion:1.1.34
