@@ -54,7 +54,7 @@
 {{- end -}}
 
 {{ define "pomeriumHost" }}
-  {{- template "ingressHost" (dict "module" "auth" "package" "pomerium" "prefix" "pomerium.internal." "spec" .) -}}
+  {{- template "ingressHost" (dict "module" "auth" "package" "pomerium" "prefix" "pomerium.internal." "spec" .spec) -}}
 {{ end }}
 
 {{ define "ingressAuthUrl" -}}
