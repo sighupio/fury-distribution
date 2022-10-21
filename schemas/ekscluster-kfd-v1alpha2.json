@@ -606,6 +606,9 @@
                         "$ref": "#/$defs/Types.KubeToleration"
                     }
                 },
+                "provider": {
+                    "$ref": "#/$defs/Spec.Distribution.Common.Provider"
+                },
                 "relativeVendorPath": {
                     "type": "string"
                 }
@@ -613,8 +616,18 @@
             "required": [
                 "nodeSelector",
                 "tolerations",
+                "provider",
                 "relativeVendorPath"
             ]
+        },
+        "Spec.Distribution.Common.Provider": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "type": {
+                    "type": "string"
+                }
+            }
         },
         "Spec.Distribution.Modules": {
             "type": "object",

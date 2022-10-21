@@ -7,6 +7,9 @@ data:
   common:
     # where all the KFD modules are downloaded
     relativeVendorPath: "../../vendor"
+    provider:
+      # can be eks for now, in the future we will add additional providers
+      type: eks
     # nodeSelector and tolerations will be used to select the nodes where the KFD will be installed
     nodeSelector:
       node.kubernetes.io/role: infra
