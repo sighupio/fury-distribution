@@ -4,12 +4,13 @@
 
 version: v1.23.3
 modules:
-  auth: v0.0.2
-  dr: v1.9.3
-  ingress: v1.12.2
-  logging: v2.0.3
-  monitoring: v1.14.2
-  opa: v1.7.0
+  auth: v0.0.1
+  aws: v2.0.0
+  dr: feat/add-iam-role-arn-as-output-on-aws-module
+  ingress: feat/add-external-dns-katalog-modules-and-cert-manager-iam-role
+  logging: v3.0.1
+  monitoring: v2.0.0
+  opa: v1.7.2
   networking: v1.10.0
 kubernetes:
   eks:
