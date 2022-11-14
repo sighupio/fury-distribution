@@ -29,7 +29,6 @@ resources:
   - ./vendor/katalog/logging/opensearch-single
   - ./vendor/katalog/logging/opensearch-dashboards
   - ./vendor/katalog/logging/cerebro
-  - ./vendor/katalog/logging/curator
   - ./vendor/katalog/logging/logging-operator
   - ./vendor/katalog/logging/logging-operated
   - ./vendor/katalog/logging/configs
