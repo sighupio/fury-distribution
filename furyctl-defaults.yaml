@@ -100,14 +100,6 @@ data:
       opensearch:
         # can be single or triple
         type: single
-        # if not set, no resource patch will be created
-        resources:
-          requests:
-            cpu: ""
-            memory: ""
-          limits:
-            cpu: ""
-            memory: ""
         # if set, it will override the volumeClaimTemplates in the opensearch statefulSet
         storageSize: 150Gi
       # override ingresses parameters
@@ -131,13 +123,6 @@ data:
             host: ""
             ingressClass: ""
       prometheus:
-        resources:
-          requests:
-            cpu: ""
-            memory: ""
-          limits:
-            cpu: ""
-            memory: ""
         retentionTime: 30d
         retentionSize: 120GB
         storageSize: 150Gi
