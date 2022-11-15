@@ -74,6 +74,7 @@ trigger:
     include:
       - refs/tags/**
       - refs/heads/master
+      - refs/heads/main
 
 steps:
   - name: init
