@@ -4,10 +4,10 @@
 
 version: v1.23.3
 modules:
-  auth: v0.0.1
+  auth: v0.0.2
   aws: v2.0.0
-  dr: feat/add-iam-role-arn-as-output-on-aws-module
-  ingress: feat/add-external-dns-katalog-modules-and-cert-manager-iam-role
+  dr: v1.10.1
+  ingress: v1.13.0
   logging: v3.0.1
   monitoring: v2.0.0
   opa: v1.7.2

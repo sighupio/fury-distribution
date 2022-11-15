@@ -8,7 +8,7 @@ spec:
   template:
     spec:
       containers:
-        - name: cluster-autoscaler
+        - name: aws-cluster-autoscaler
           env:
             - name: AWS_REGION
               value: {{ .spec.distribution.modules.aws.clusterAutoscaler.region }}

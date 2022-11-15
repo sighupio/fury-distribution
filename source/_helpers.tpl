@@ -48,7 +48,7 @@
     - hosts:
       - {{ template "ingressHost" . }}
     {{- if eq .spec.distribution.modules.ingress.nginx.tls.provider "certManager" }}
-      secretName: {{ .package }}-tls
+      secretName: {{ lower .package }}-tls
     {{- end }}
 {{- end }}
 {{- end -}}
