@@ -61,6 +61,7 @@ Core modules provides essential functionality to the distribution.
 | [Monitoring][monitoring-module] | ![Version][monitoring-version] | Monitoring and alerting functionality based on Prometheus, AlertManager and Grafana       |
 | [Disaster Recovery][dr-module]  | ![Version][dr-version]         | Backup and disaster recovery solution using Velero                                        |
 | [OPA][opa-module]               | ![Version][opa-version]        | Policy and Governance for your cluster using OPA Gatekeeper and Gatekeeper Policy Manager |
+| [Auth][auth-module]             | ![Version][auth-version]       | Improved auth for your Kubernetes Cluster and its applications                            |
 
 ### Add-on Modules 📦
 
@@ -125,6 +126,9 @@ Kubernetes Fury Distribution has been certified by the [CNCF] *(Cloud Native Com
     <a href="https://github.com/cncf/k8s-conformance/pull/1788">
         <img src="https://github.com/cncf/artwork/raw/master/projects/kubernetes/certified-kubernetes/1.23/color/certified-kubernetes-1.23-color.png" width="100" />
     </a>
+    <a href="https://github.com/cncf/k8s-conformance/pull/1788">
+        <img src="https://github.com/cncf/artwork/raw/master/projects/kubernetes/certified-kubernetes/1.24/color/certified-kubernetes-1.24-color.png" width="100" />
+    </a>
 </center>
 <!-- markdownlint-enable MD033 -->
 
@@ -139,6 +143,7 @@ KFD is open-source software and it's released under the following [LICENSE](LICE
 [monitoring-module]: https://github.com/sighupio/fury-kubernetes-monitoring
 [dr-module]: https://github.com/sighupio/fury-kubernetes-dr
 [opa-module]: https://github.com/sighupio/fury-kubernetes-opa
+[auth-module]: https://github.com/sighupio/fury-kubernetes-auth
 
 [networking-version]: https://img.shields.io/badge/release-v1.10.0-blue
 [ingress-version]: https://img.shields.io/badge/release-v1.13.0-blue
@@ -146,6 +151,8 @@ KFD is open-source software and it's released under the following [LICENSE](LICE
 [monitoring-version]: https://img.shields.io/badge/release-v2.0.0-blue
 [dr-version]: https://img.shields.io/badge/release-v1.10.1-blue
 [opa-version]: https://img.shields.io/badge/release-v1.7.2-blue
+[auth-version]: https://img.shields.io/badge/release-v0.0.2-blue
+
 [compatibility-matrix]: https://github.com/sighupio/fury-distribution/blob/master/docs/COMPATIBILITY_MATRIX.md
 [versioning]: https://github.com/sighupio/fury-distribution/blob/master/docs/VERSIONING.md
 
