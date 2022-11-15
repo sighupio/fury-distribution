@@ -7,20 +7,10 @@
 
 load ./helper
 
-@test "Goldpinger is Running" {
-    info
-    test() {
-        kubectl get pods -l k8s-app=goldpinger -o json -n monitoring |jq '.items[].status.containerStatuses[].ready' | uniq | grep -q true
-    }
-    loop_it test 60 10
-    status=${loop_it_result}
-    [ "$status" -eq 0 ]
-}
-
 @test "Grafana is Running" {
     info
     test() {
-        kubectl get pods -l app=grafana -o json -n monitoring |jq '.items[].status.containerStatuses[].ready' | uniq | grep -q true
+        kubectl get pods -l app.kubernetes.io/name=grafana -o json -n monitoring |jq '.items[].status.containerStatuses[].ready' | uniq | grep -q true
     }
     loop_it test 60 10
     status=${loop_it_result}
@@ -30,7 +20,7 @@ load ./helper
 @test "Prometheus Operator is Running" {
     info
     test() {
-        kubectl get pods -l k8s-app=prometheus-operator -o json -n monitoring |jq '.items[].status.containerStatuses[].ready' | uniq | grep -q true
+        kubectl get pods -l app.kubernetes.io/name=prometheus-operator -o json -n monitoring |jq '.items[].status.containerStatuses[].ready' | uniq | grep -q true
     }
     loop_it test 60 10
     status=${loop_it_result}
@@ -40,7 +30,7 @@ load ./helper
 @test "Kube State Metrics is Running" {
     info
     test() {
-        kubectl get pods -l app=kube-state-metrics -o json -n monitoring |jq '.items[].status.containerStatuses[].ready' | uniq | grep -q true
+        kubectl get pods -l app.kubernetes.io/name=kube-state-metrics -o json -n monitoring |jq '.items[].status.containerStatuses[].ready' | uniq | grep -q true
     }
     loop_it test 60 10
     status=${loop_it_result}
@@ -50,7 +40,7 @@ load ./helper
 @test "Node Exporter is Running" {
     info
     test() {
-        kubectl get pods -l app=node-exporter -o json -n monitoring |jq '.items[].status.containerStatuses[].ready' | uniq | grep -q true
+        kubectl get pods -l app.kubernetes.io/name=node-exporter -o json -n monitoring |jq '.items[].status.containerStatuses[].ready' | uniq | grep -q true
     }
     loop_it test 60 10
     status=${loop_it_result}
@@ -64,16 +54,6 @@ load ./helper
 
     }
     loop_it test 160 10
-    status=${loop_it_result}
-    [ "$status" -eq 0 ]
-}
-
-@test "metrics-server is Running" {
-    info
-    test() {
-        kubectl get pods -l app=metrics-server -o json -n kube-system |jq '.items[].status.containerStatuses[].ready' | uniq | grep -q true
-    }
-    loop_it test 60 10
     status=${loop_it_result}
     [ "$status" -eq 0 ]
 }
