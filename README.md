@@ -87,18 +87,24 @@ If the problem is related to a specific module, open the issue in the module rep
 
 If you are looking to run KFD in production and would like to learn more, SIGHUP (the company behind the Fury ecosystem) can help. Feel free to [email us](mailto:sales@sighup.io) or check out [our website](https://sighup.io).
 
-## Compatibility
+## Support & Compatibility
 
-| Kubernetes Version |   Compatibility    | Notes           |
-| ------------------ | :----------------: | --------------- |
-| `1.24.x`           | :white_check_mark: | No known issues |
+Current supported versions of KFD are:
 
-| Installer                                                              | Compatibility      | Notes                          |
-| ---------------------------------------------------------------------- | ------------------ | ------------------------------ |
-| [on-premises](https://github.com/sighupio/fury-kubernetes-on-premises) | :white_check_mark: | bring your own VMs             |
-| [EKS](https://github.com/sighupio/fury-eks-installer)                  | :x:                | upstream is not compatible yet |
-| [GKE](https://github.com/sighupio/fury-gke-installer)                  | :white_check_mark: |                                |
-| [AKS](https://github.com/sighupio/fury-aks-installer)                  | :white_check_mark: |                                |
+| Kubernetes Version | KFD Version    |
+| ------------------ | -------------- |
+| `1.25.x`           | in development |
+| `1.24.x`           | [1.24.0](https://github.com/sighupio/fury-distribution/releases/tag/v1.24.0)         |
+| `1.23.x`           | [1.23.3](https://github.com/sighupio/fury-distribution/releases/tag/v1.23.3)         |
+| `1.22.x`           | [1.22.1](https://github.com/sighupio/fury-distribution/releases/tag/v1.22.1)         |
+
+| Provider / KFD Version                                                 |       1.24.0       |       1.23.3       |       1.22.1       |
+| ---------------------------------------------------------------------- | :----------------: | :----------------: | :----------------: |
+| [on-premises](https://github.com/sighupio/fury-kubernetes-on-premises) | :white_check_mark: | :white_check_mark: | :white_check_mark: |
+| [EKS](https://github.com/sighupio/fury-eks-installer)                  | :white_check_mark: | :white_check_mark: | :white_check_mark: |
+| [GKE](https://github.com/sighupio/fury-gke-installer)                  | :white_check_mark: | :white_check_mark: | :white_check_mark: |
+| [AKS](https://github.com/sighupio/fury-aks-installer)                  | :white_check_mark: | :white_check_mark: | :white_check_mark: |
+| [OKE](https://github.com/sighupio/fury-oke-installer)                  |   in development   |   in development   |   in development   |
 
 Check the [compatibility matrix][compatibility-matrix] for additional information about previous releases of the Distribution.
 
@@ -126,8 +132,9 @@ Kubernetes Fury Distribution has been certified by the [CNCF] *(Cloud Native Com
     <a href="https://github.com/cncf/k8s-conformance/pull/1788">
         <img src="https://github.com/cncf/artwork/raw/master/projects/kubernetes/certified-kubernetes/1.23/color/certified-kubernetes-1.23-color.png" width="100" />
     </a>
-    <a href="https://github.com/cncf/k8s-conformance/pull/1788">
-        <img src="https://github.com/cncf/artwork/raw/master/projects/kubernetes/certified-kubernetes/1.24/color/certified-kubernetes-1.24-color.png" width="100" />
+    <!-- FIXME: This should be the 1.24 certified logo, but CNCF has not released it yet. See https://github.com/cncf/artwork/issues/368 -->
+    <a href="https://github.com/cncf/k8s-conformance/pull/2265">
+        <img src="https://github.com/cncf/artwork/raw/master/projects/kubernetes/certified-kubernetes/versionless/pantone/certified-kubernetes-pantone.png" width="100" />
     </a>
 </center>
 <!-- markdownlint-enable MD033 -->
