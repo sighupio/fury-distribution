@@ -36,7 +36,7 @@ Kubernetes Fury Distribution is structured on modules, and each module has a set
 - A package is a single unit of functionality.
 - A module groups packages that are functionally related together.
 
-> All modules are open source, widely used, easily customizable, and pre-configured with sane defaults.
+> All modules are open source, widely used, easily customizable, and pre-configured with sane defaults and tested to work well together.
 
 The standard way to deploy KFD is to:
 
@@ -45,7 +45,7 @@ The standard way to deploy KFD is to:
 
 ### Core Modules 📦
 
-Core modules provides essential functionality to the distribution.
+Core modules provide essential functionality to the distribution for production-grade clusters.
 
 <!-- markdownlint-disable MD033 -->
 <p align="center">
@@ -87,7 +87,7 @@ If the problem is related to a specific module, open the issue in the module rep
 
 If you are looking to run KFD in production and would like to learn more, SIGHUP (the company behind the Fury ecosystem) can help. Feel free to [email us](mailto:sales@sighup.io) or check out [our website](https://sighup.io).
 
-## Support & Compatibility
+## Support & Compatibility 🪢
 
 Current supported versions of KFD are:
 
