@@ -91,14 +91,14 @@ If you are looking to run KFD in production and would like to learn more, SIGHUP
 
 Current supported versions of KFD are:
 
-| Kubernetes Version | KFD Version                                                                  |
-| ------------------ | ---------------------------------------------------------------------------- |
-| `1.25.x`           | in development                                                               |
-| `1.24.x`           | [1.24.0](https://github.com/sighupio/fury-distribution/releases/tag/v1.24.0) |
-| `1.23.x`           | [1.23.3](https://github.com/sighupio/fury-distribution/releases/tag/v1.23.3) |
-| `1.22.x`           | [1.22.1](https://github.com/sighupio/fury-distribution/releases/tag/v1.22.1) |
+| Kubernetes Version |                                  KFD Version                                   |
+| :----------------: | :----------------------------------------------------------------------------: |
+|      `1.25.x`      |                                 in development                                 |
+|      `1.24.x`      | [`1.24.0`](https://github.com/sighupio/fury-distribution/releases/tag/v1.24.0) |
+|      `1.23.x`      | [`1.23.3`](https://github.com/sighupio/fury-distribution/releases/tag/v1.23.3) |
+|      `1.22.x`      | [`1.22.1`](https://github.com/sighupio/fury-distribution/releases/tag/v1.22.1) |
 
-| Installer / KFD Version                                                 |               1.24.0               |               1.23.3               |               1.22.1               |
+| Installer / KFD Version                                                |               1.24.0               |               1.23.3               |               1.22.1               |
 | ---------------------------------------------------------------------- | :--------------------------------: | :--------------------------------: | :--------------------------------: |
 | [on-premises](https://github.com/sighupio/fury-kubernetes-on-premises) |         :white_check_mark:         |         :white_check_mark:         |         :white_check_mark:         |
 | [EKS](https://github.com/sighupio/fury-eks-installer)                  |         :white_check_mark:         |         :white_check_mark:         |         :white_check_mark:         |
@@ -121,7 +121,7 @@ Kubernetes Fury Distribution has been certified by the [CNCF] (Cloud Native Comp
 <!-- markdownlint-disable MD033 -->
 <p align="center">
     <a href="https://github.com/cncf/k8s-conformance/pull/2265">
-        <img src="https://github.com/cncf/artwork/raw/master/projects/kubernetes/certified-kubernetes/versionless/pantone/certified-kubernetes-pantone.svg" width="120"/>
+        <img src="https://github.com/cncf/artwork/raw/master/projects/kubernetes/certified-kubernetes/versionless/pantone/certified-kubernetes-pantone.svg" width="120" alt="KFD is CNCF Certified Kubernetes 1.24 - click to see the certification PR"/>
     </a>
 </p>
 <!-- markdownlint-enable MD033 -->
