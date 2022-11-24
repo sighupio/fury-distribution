@@ -49,7 +49,7 @@ Core modules provide essential functionality to the distribution for production-
 
 <!-- markdownlint-disable MD033 -->
 <p align="center">
-  <img src="docs/assets/fury-core-modules.png" width="400px"/>
+  <img src="docs/assets/fury-core-modules.png" width="800px"/>
 </p>
 <!-- markdownlint-enable MD033 -->
 
