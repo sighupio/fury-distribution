@@ -110,13 +110,11 @@ Check the [compatibility matrix][compatibility-matrix] for additional informatio
 
 Also, check the [versioning documentation file][versioning] to know more about the versioning scheme of the distribution and the upgrade path.
 
-## Contributing 🤝
-
-If you wish to contribute please read the [Contributing Guidelines](docs/CONTRIBUTING.md).
-
 ## CNCF Certified 🎓
 
-Kubernetes Fury Distribution has been certified by the [CNCF] (Cloud Native Computing Foundation) as a *Certified Kubernetes Distribution* since [Kubernetes 1.12](https://github.com/cncf/k8s-conformance/pull/619). Certified solutions are validated to ensure a set of guarantees such as consistency, timely updates and confirmability.
+Kubernetes Fury Distribution has been certified by the [CNCF] (Cloud Native Computing Foundation) as a *Certified Kubernetes Distribution* for all Kubernetes versions since [Kubernetes 1.12](https://github.com/cncf/k8s-conformance/pull/619).
+
+Certified solutions are validated to ensure a set of guarantees such as consistency, timely updates and confirmability.
 
 <!-- markdownlint-disable MD033 -->
 <p align="center">
@@ -125,6 +123,10 @@ Kubernetes Fury Distribution has been certified by the [CNCF] (Cloud Native Comp
     </a>
 </p>
 <!-- markdownlint-enable MD033 -->
+
+## Contributing 🤝
+
+If you wish to contribute please read the [Contributing Guidelines](docs/CONTRIBUTING.md).
 
 ## License
 
