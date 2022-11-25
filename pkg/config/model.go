@@ -7,11 +7,16 @@ package config
 type Furyctl struct {
 	APIVersion string      `yaml:"apiVersion" validate:"required,api-version"`
 	Kind       string      `yaml:"kind" validate:"required,cluster-kind"`
+	Metadata   FuryctlMeta `yaml:"metadata" validate:"required"`
 	Spec       FuryctlSpec `yaml:"spec" validate:"required"`
 }
 
 type FuryctlSpec struct {
 	DistributionVersion string `yaml:"distributionVersion" validate:"required,permissive-semver"`
+}
+
+type FuryctlMeta struct {
+	Name string `yaml:"name" validate:"required"`
 }
 
 type KFD struct {
