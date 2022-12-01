@@ -4,7 +4,7 @@
   Kubernetes Fury Distribution
 </h1>
 
-<p align="center">Kubernetes Fury Distribution (KFD) is a certified battle-tested Kubernetes distribution based purely on upstream Kubernetes.</p>
+<p align="center">Kubernetes Fury Distribution (KFD) is a certified battle-tested Kubernetes distribution based purely on upstream Kubernetes developed by [SIGHUP][sighup-site].</p>
 <!-- markdownlint-enable MD033 -->
 
 [![Build Status](http://ci.sighup.io/api/badges/sighupio/fury-distribution/status.svg?ref=refs/tags/v1.24.0)](http://ci.sighup.io/sighupio/fury-distribution)
@@ -72,6 +72,7 @@ Add-on modules provide additional functionality to the distribution.
 | [Kong][kong-module]                 | ![Version][kong-version]         | Add Kong API Gateway for Kubernetes applications via Kong Ingress Controller |
 | [Service Mesh][service-mesh-module] | ![Version][service-mesh-version] | Deploy a service mesh on top of KFD                                          |
 | [Registry][registry-module]         | ![Version][registry-version]     | Integrate a Container Registry solution                                      |
+| [Storage][storage-module]           | ![Version][storage-version]      | Rook (Ceph Operator) based Storage solution on Kubernetes                    |
 
 ## Get started with KFD 🚀
 
@@ -91,20 +92,20 @@ If you are looking to run KFD in production and would like to learn more, SIGHUP
 
 Current supported versions of KFD are:
 
-| Kubernetes Version |                                  KFD Version                                   |
-| :----------------: | :----------------------------------------------------------------------------: |
-|      `1.25.x`      |                                 in development                                 |
-|      `1.24.x`      | [`1.24.0`](https://github.com/sighupio/fury-distribution/releases/tag/v1.24.0) |
-|      `1.23.x`      | [`1.23.3`](https://github.com/sighupio/fury-distribution/releases/tag/v1.23.3) |
-|      `1.22.x`      | [`1.22.1`](https://github.com/sighupio/fury-distribution/releases/tag/v1.22.1) |
+|                                  KFD Version                                   | Kubernetes Version |
+| :----------------------------------------------------------------------------: | :----------------: |
+|                                 in development                                 |      `1.25.x`      |
+| [`1.24.0`](https://github.com/sighupio/fury-distribution/releases/tag/v1.24.0) |      `1.24.x`      |
+| [`1.23.3`](https://github.com/sighupio/fury-distribution/releases/tag/v1.23.3) |      `1.23.x`      |
+| [`1.22.1`](https://github.com/sighupio/fury-distribution/releases/tag/v1.22.1) |      `1.22.x`      |
 
-| Installer / KFD Version                                                |               1.24.0               |               1.23.3               |               1.22.1               |
-| ---------------------------------------------------------------------- | :--------------------------------: | :--------------------------------: | :--------------------------------: |
-| [on-premises](https://github.com/sighupio/fury-kubernetes-on-premises) |         :white_check_mark:         |         :white_check_mark:         |         :white_check_mark:         |
-| [EKS](https://github.com/sighupio/fury-eks-installer)                  |         :white_check_mark:         |         :white_check_mark:         |         :white_check_mark:         |
-| [GKE](https://github.com/sighupio/fury-gke-installer)                  |         :white_check_mark:         |         :white_check_mark:         |         :white_check_mark:         |
-| [AKS](https://github.com/sighupio/fury-aks-installer)                  |         :white_check_mark:         |         :white_check_mark:         |         :white_check_mark:         |
-| [OKE](https://github.com/sighupio/fury-oke-installer)                  | :hammer_and_wrench: in development | :hammer_and_wrench: in development | :hammer_and_wrench: in development |
+| Installer / KFD Version                                                |                        1.24.0                         |               1.23.3               |               1.22.1               |
+| ---------------------------------------------------------------------- | :---------------------------------------------------: | :--------------------------------: | :--------------------------------: |
+| [on-premises](https://github.com/sighupio/fury-kubernetes-on-premises) |                  :white_check_mark:                   |         :white_check_mark:         |         :white_check_mark:         |
+| [EKS](https://github.com/sighupio/fury-eks-installer)                  |                  :white_check_mark:                   |         :white_check_mark:         |         :white_check_mark:         |
+| [GKE](https://github.com/sighupio/fury-gke-installer)                  |                  :white_check_mark:                   |         :white_check_mark:         |         :white_check_mark:         |
+| [AKS](https://github.com/sighupio/fury-aks-installer)                  |                  :white_check_mark:                   |         :white_check_mark:         |         :white_check_mark:         |
+| <!--                                                                   | [OKE](https://github.com/sighupio/fury-oke-installer) | :hammer_and_wrench: in development | :hammer_and_wrench: in development | :hammer_and_wrench: in development | --> |
 
 Check the [compatibility matrix][compatibility-matrix] for additional information about previous releases of the Distribution.
 
@@ -156,10 +157,12 @@ KFD is open-source software and it's released under the following [LICENSE](LICE
 [kong-module]: https://github.com/sighupio/fury-kubernetes-kong
 [service-mesh-module]: https://github.com/sighupio/fury-kubernetes-service-mesh
 [registry-module]: https://github.com/sighupio/fury-kubernetes-registry
+[storage-module]: https://github.com/sighupio/fury-kubernetes-storage
 
 [kong-version]: https://img.shields.io/github/v/release/sighupio/fury-kubernetes-kong
 [service-mesh-version]: https://img.shields.io/github/v/release/sighupio/fury-kubernetes-service-mesh
 [registry-version]: https://img.shields.io/github/v/release/sighupio/fury-kubernetes-registry
+[storage-version]: https://img.shields.io/github/v/release/sighupio/fury-kubernetes-storage
 
 <!-- Misc -->
 [sighup-site]: https:sighup.io
