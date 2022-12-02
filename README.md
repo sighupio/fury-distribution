@@ -40,8 +40,8 @@ Kubernetes Fury Distribution is structured on modules, and each module has a set
 
 The standard way to deploy KFD is to:
 
-- Deploy all the [Core Modules](#core-modules) of the distribution
-- Deploy (if needed) any of the [Addon modules](#addon-modules)
+- Deploy all the [Core Modules](#core-modules-) of the distribution
+- Deploy (if needed) any of the [Addon modules](#addon-modules-)
 
 ### Core Modules 📦
 
@@ -105,7 +105,6 @@ Current supported versions of KFD are:
 | [EKS](https://github.com/sighupio/fury-eks-installer)                  |                  :white_check_mark:                   |         :white_check_mark:         |         :white_check_mark:         |
 | [GKE](https://github.com/sighupio/fury-gke-installer)                  |                  :white_check_mark:                   |         :white_check_mark:         |         :white_check_mark:         |
 | [AKS](https://github.com/sighupio/fury-aks-installer)                  |                  :white_check_mark:                   |         :white_check_mark:         |         :white_check_mark:         |
-| <!--                                                                   | [OKE](https://github.com/sighupio/fury-oke-installer) | :hammer_and_wrench: in development | :hammer_and_wrench: in development | :hammer_and_wrench: in development | --> |
 
 Check the [compatibility matrix][compatibility-matrix] for additional information about previous releases of the Distribution.
 
