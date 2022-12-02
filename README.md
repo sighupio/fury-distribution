@@ -41,7 +41,7 @@ Kubernetes Fury Distribution is structured on modules, and each module has a set
 The standard way to deploy KFD is to:
 
 - Deploy all the [Core Modules](#core-modules-) of the distribution
-- Deploy (if needed) any of the [Addon modules](#addon-modules-)
+- Deploy (if needed) any of the [Addon modules](#add-on-modules-)
 
 ### Core Modules 📦
 
