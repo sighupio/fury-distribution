@@ -25,6 +25,7 @@ resources:
   - ./vendor/katalog/monitoring/node-exporter
   - ./vendor/katalog/monitoring/prometheus-adapter
   - ./vendor/katalog/monitoring/alertmanager-operated
+  - ./vendor/katalog/monitoring/blackbox-exporter
   # Logging
   - ./vendor/katalog/logging/opensearch-single
   - ./vendor/katalog/logging/opensearch-dashboards

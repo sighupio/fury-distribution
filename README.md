@@ -4,13 +4,13 @@
   Kubernetes Fury Distribution
 </h1>
 
-<p align="center">Kubernetes Fury Distribution (KFD) is a certified battle-tested Kubernetes distribution based purely on upstream Kubernetes.</p>
+<p align="center">Kubernetes Fury Distribution (KFD) is a certified battle-tested Kubernetes distribution based purely on upstream Kubernetes developed by [SIGHUP][sighup-site].</p>
 <!-- markdownlint-enable MD033 -->
 
-[![Build Status](http://ci.sighup.io/api/badges/sighupio/fury-distribution/status.svg?ref=refs/tags/v1.23.2)](http://ci.sighup.io/sighupio/fury-distribution)
-[![Release](https://img.shields.io/badge/release-v1.23.2-blue?label=FuryDistributionRelease)](https://github.com/sighupio/fury-distribution/releases/latest)
+[![Build Status](http://ci.sighup.io/api/badges/sighupio/fury-distribution/status.svg?ref=refs/tags/v1.24.0)](http://ci.sighup.io/sighupio/fury-distribution)
+[![Release](https://img.shields.io/badge/release-v1.24.0-blue?label=FuryDistributionRelease)](https://github.com/sighupio/fury-distribution/releases/latest)
 [![Slack](https://img.shields.io/badge/slack-@kubernetes/fury-yellow.svg?logo=slack)](https://kubernetes.slack.com/archives/C0154HYTAQH)
-[![License](https://img.shields.io/github/license/sighupio/fury-distribution)](https://github.com/sighupio/fury-distribution/blob/master/LICENSE)
+[![License](https://img.shields.io/github/license/sighupio/fury-distribution)](https://github.com/sighupio/fury-distribution/blob/main/LICENSE)
 
 ## Overview
 
@@ -36,20 +36,20 @@ Kubernetes Fury Distribution is structured on modules, and each module has a set
 - A package is a single unit of functionality.
 - A module groups packages that are functionally related together.
 
-> All modules are open source, widely used, easily customizable, and pre-configured with sane defaults.
+> All modules are open source, widely used, easily customizable, and pre-configured with sane defaults and tested to work well together.
 
 The standard way to deploy KFD is to:
 
-- Deploy all the [Core Modules](#core-modules) of the distribution
-- Deploy (if needed) any of the [Addon modules](#addon-modules)
+- Deploy all the [Core Modules](#core-modules-) of the distribution
+- Deploy (if needed) any of the [Addon modules](#add-on-modules-)
 
 ### Core Modules 📦
 
-Core modules provides essential functionality to the distribution.
+Core modules provide essential functionality to the distribution for production-grade clusters.
 
 <!-- markdownlint-disable MD033 -->
 <p align="center">
-  <img src="docs/assets/fury-core-modules.png" width="400px"/>
+  <img src="docs/assets/fury-core-modules.png" width="800px"/>
 </p>
 <!-- markdownlint-enable MD033 -->
 
@@ -61,6 +61,7 @@ Core modules provides essential functionality to the distribution.
 | [Monitoring][monitoring-module] | ![Version][monitoring-version] | Monitoring and alerting functionality based on Prometheus, AlertManager and Grafana       |
 | [Disaster Recovery][dr-module]  | ![Version][dr-version]         | Backup and disaster recovery solution using Velero                                        |
 | [OPA][opa-module]               | ![Version][opa-version]        | Policy and Governance for your cluster using OPA Gatekeeper and Gatekeeper Policy Manager |
+| [Auth][auth-module]             | ![Version][auth-version]       | Improved auth for your Kubernetes Cluster and its applications                            |
 
 ### Add-on Modules 📦
 
@@ -71,6 +72,7 @@ Add-on modules provide additional functionality to the distribution.
 | [Kong][kong-module]                 | ![Version][kong-version]         | Add Kong API Gateway for Kubernetes applications via Kong Ingress Controller |
 | [Service Mesh][service-mesh-module] | ![Version][service-mesh-version] | Deploy a service mesh on top of KFD                                          |
 | [Registry][registry-module]         | ![Version][registry-version]     | Integrate a Container Registry solution                                      |
+| [Storage][storage-module]           | ![Version][storage-version]      | Rook (Ceph Operator) based Storage solution on Kubernetes                    |
 
 ## Get started with KFD 🚀
 
@@ -86,40 +88,45 @@ If the problem is related to a specific module, open the issue in the module rep
 
 If you are looking to run KFD in production and would like to learn more, SIGHUP (the company behind the Fury ecosystem) can help. Feel free to [email us](mailto:sales@sighup.io) or check out [our website](https://sighup.io).
 
-## Compatibility
+## Support & Compatibility 🪢
 
-| Kubernetes Version |   Compatibility    | Notes           |
-| ------------------ | :----------------: | --------------- |
-| `1.23.x`           | :white_check_mark: | No known issues |
+Current supported versions of KFD are:
+
+|                                  KFD Version                                   | Kubernetes Version |
+| :----------------------------------------------------------------------------: | :----------------: |
+|                                 in development                                 |      `1.25.x`      |
+| [`1.24.0`](https://github.com/sighupio/fury-distribution/releases/tag/v1.24.0) |      `1.24.x`      |
+| [`1.23.3`](https://github.com/sighupio/fury-distribution/releases/tag/v1.23.3) |      `1.23.x`      |
+| [`1.22.1`](https://github.com/sighupio/fury-distribution/releases/tag/v1.22.1) |      `1.22.x`      |
+
+| Installer / KFD Version                                                |                        1.24.0                         |               1.23.3               |               1.22.1               |
+| ---------------------------------------------------------------------- | :---------------------------------------------------: | :--------------------------------: | :--------------------------------: |
+| [on-premises](https://github.com/sighupio/fury-kubernetes-on-premises) |                  :white_check_mark:                   |         :white_check_mark:         |         :white_check_mark:         |
+| [EKS](https://github.com/sighupio/fury-eks-installer)                  |                  :white_check_mark:                   |         :white_check_mark:         |         :white_check_mark:         |
+| [GKE](https://github.com/sighupio/fury-gke-installer)                  |                  :white_check_mark:                   |         :white_check_mark:         |         :white_check_mark:         |
+| [AKS](https://github.com/sighupio/fury-aks-installer)                  |                  :white_check_mark:                   |         :white_check_mark:         |         :white_check_mark:         |
 
 Check the [compatibility matrix][compatibility-matrix] for additional information about previous releases of the Distribution.
 
 Also, check the [versioning documentation file][versioning] to know more about the versioning scheme of the distribution and the upgrade path.
 
+## CNCF Certified 🎓
+
+Kubernetes Fury Distribution has been certified by the [CNCF] (Cloud Native Computing Foundation) as a *Certified Kubernetes Distribution* for all Kubernetes versions since [Kubernetes 1.12](https://github.com/cncf/k8s-conformance/pull/619).
+
+Certified solutions are validated to ensure a set of guarantees such as consistency, timely updates and confirmability.
+
+<!-- markdownlint-disable MD033 -->
+<p align="center">
+    <a href="https://github.com/cncf/k8s-conformance/pull/2265">
+        <img src="https://github.com/cncf/artwork/raw/master/projects/kubernetes/certified-kubernetes/versionless/pantone/certified-kubernetes-pantone.svg" width="120" alt="KFD is CNCF Certified Kubernetes 1.24 - click to see the certification PR"/>
+    </a>
+</p>
+<!-- markdownlint-enable MD033 -->
+
 ## Contributing 🤝
 
 If you wish to contribute please read the [Contributing Guidelines](docs/CONTRIBUTING.md).
-
-## CNCF Certified 🎓
-
-Kubernetes Fury Distribution has been certified by the [CNCF] *(Cloud Native Computing foundation)* as a *Certified Kubernetes Distribution*. Certified solutions are validated to ensure a set of guarantees as consistency, timely updates and confirmability.
-
-<!-- markdownlint-disable MD033 -->
-<center>
-    <a href="https://github.com/cncf/k8s-conformance/pull/1280">
-        <img src="https://github.com/cncf/artwork/raw/master/projects/kubernetes/certified-kubernetes/1.20/color/certified-kubernetes-1.20-color.png" width="100" />
-    </a>
-    <a href="https://github.com/cncf/k8s-conformance/pull/1495">
-        <img src="https://github.com/cncf/artwork/raw/master/projects/kubernetes/certified-kubernetes/1.21/color/certified-kubernetes-1.21-color.png" width="100" />
-    </a>
-    <a href="https://github.com/cncf/k8s-conformance/pull/1602">
-        <img src="https://github.com/cncf/artwork/raw/master/projects/kubernetes/certified-kubernetes/1.22/color/certified-kubernetes-1.22-color.png" width="100" />
-    </a>
-    <a href="https://github.com/cncf/k8s-conformance/pull/1788">
-        <img src="https://github.com/cncf/artwork/raw/master/projects/kubernetes/certified-kubernetes/1.23/color/certified-kubernetes-1.23-color.png" width="100" />
-    </a>
-</center>
-<!-- markdownlint-enable MD033 -->
 
 ## License
 
@@ -132,24 +139,29 @@ KFD is open-source software and it's released under the following [LICENSE](LICE
 [monitoring-module]: https://github.com/sighupio/fury-kubernetes-monitoring
 [dr-module]: https://github.com/sighupio/fury-kubernetes-dr
 [opa-module]: https://github.com/sighupio/fury-kubernetes-opa
+[auth-module]: https://github.com/sighupio/fury-kubernetes-auth
 
-[networking-version]: https://img.shields.io/badge/release-v1.9.0-blue
-[ingress-version]: https://img.shields.io/badge/release-v1.12.2-blue
-[logging-version]: https://img.shields.io/badge/release-v1.10.3-blue
-[monitoring-version]: https://img.shields.io/badge/release-v1.14.2-blue
-[dr-version]: https://img.shields.io/badge/release-v1.9.2-blue
-[opa-version]: https://img.shields.io/badge/release-v1.6.2-blue
-[compatibility-matrix]: https://github.com/sighupio/fury-distribution/blob/master/docs/COMPATIBILITY_MATRIX.md
-[versioning]: https://github.com/sighupio/fury-distribution/blob/master/docs/VERSIONING.md
+[networking-version]: https://img.shields.io/badge/release-v1.10.0-blue
+[ingress-version]: https://img.shields.io/badge/release-v1.13.0-blue
+[logging-version]: https://img.shields.io/badge/release-v3.0.1-blue
+[monitoring-version]: https://img.shields.io/badge/release-v2.0.0-blue
+[dr-version]: https://img.shields.io/badge/release-v1.10.1-blue
+[opa-version]: https://img.shields.io/badge/release-v1.7.2-blue
+[auth-version]: https://img.shields.io/badge/release-v0.0.2-blue
+
+[compatibility-matrix]: https://github.com/sighupio/fury-distribution/blob/main/docs/COMPATIBILITY_MATRIX.md
+[versioning]: https://github.com/sighupio/fury-distribution/blob/main/docs/VERSIONING.md
 
 <!-- Addon Modules -->
 [kong-module]: https://github.com/sighupio/fury-kubernetes-kong
 [service-mesh-module]: https://github.com/sighupio/fury-kubernetes-service-mesh
 [registry-module]: https://github.com/sighupio/fury-kubernetes-registry
+[storage-module]: https://github.com/sighupio/fury-kubernetes-storage
 
 [kong-version]: https://img.shields.io/github/v/release/sighupio/fury-kubernetes-kong
 [service-mesh-version]: https://img.shields.io/github/v/release/sighupio/fury-kubernetes-service-mesh
 [registry-version]: https://img.shields.io/github/v/release/sighupio/fury-kubernetes-registry
+[storage-version]: https://img.shields.io/github/v/release/sighupio/fury-kubernetes-storage
 
 <!-- Misc -->
 [sighup-site]: https:sighup.io

@@ -1,9 +1,10 @@
-# Copyright (c) 2022 SIGHUP s.r.l All rights reserved.
+# Copyright (c) 2017-present SIGHUP s.r.l All rights reserved.
 # Use of this source code is governed by a BSD-style
 # license that can be found in the LICENSE file.
 
-kind: pipeline
 name: license
+kind: pipeline
+type: docker
 
 steps:
   - name: check
@@ -11,10 +12,11 @@ steps:
     pull: always
     commands:
       - go get -u github.com/google/addlicense
-      - addlicense -c "SIGHUP s.r.l" -v -l bsd --check .
+      - addlicense -c "SIGHUP s.r.l" -v -l bsd -y "2017-present" --check .
 ---
-kind: pipeline
 name: policeman
+kind: pipeline
+type: docker
 
 depends_on:
   - license
@@ -39,7 +41,7 @@ steps:
       - clone
 
   - name: render
-    image: quay.io/sighup/e2e-testing:1.1.0_0.2.2_2.16.1_1.9.4_1.20.7_3.8.7_2.4.1
+    image: quay.io/sighup/e2e-testing:1.1.0_0.7.0_3.1.1_1.9.4_1.24.1_3.8.7_4.21.1
     pull: always
     depends_on:
       - clone
@@ -56,8 +58,9 @@ steps:
       - /conftest test -p /policies distribution.yml
 
 ---
+name: e2e-kubernetes-1.24
 kind: pipeline
-name: e2e-kubernetes-1.23
+type: docker
 
 node:
   runner: internal
@@ -78,17 +81,17 @@ trigger:
 
 steps:
   - name: init
-    image: quay.io/sighup/e2e-testing-drone-plugin:v0.13.0
+    image: quay.io/sighup/e2e-testing-drone-plugin:v1.24.0
     pull: always
     volumes:
     - name: shared
       path: /shared
     depends_on: [ clone ]
     settings:
-      action: custom-cluster-123
-      pipeline_id: cluster-123
+      action: custom-cluster-124
+      pipeline_id: cluster-124
       local_kind_config_path: tests/config/kind-config-custom
-      cluster_version: '1.23.0'
+      cluster_version: '1.24.0'
       instance_path: /shared
       instance_size: 2-extra-large
       aws_default_region:
@@ -111,14 +114,14 @@ steps:
         from_secret: dockerhub_password
 
   - name: test
-    image: quay.io/sighup/e2e-testing:1.1.0_0.2.2_2.16.1_1.9.4_1.23.0_3.8.7_2.4.1
+    image: quay.io/sighup/e2e-testing:1.1.0_0.7.0_3.1.1_1.9.4_1.24.1_3.8.7_4.21.1
     pull: always
     volumes:
     - name: shared
       path: /shared
     depends_on: [ init ]
     commands:
-      - export KUBECONFIG=/shared/kube/kubeconfig-123
+      - export KUBECONFIG=/shared/kube/kubeconfig-124
       - bats -t tests/install.sh
       - bats -t tests/networking.sh
       - bats -t tests/monitoring.sh
@@ -128,11 +131,11 @@ steps:
       - bats -t tests/opa.sh
 
   - name: destroy
-    image: quay.io/sighup/e2e-testing-drone-plugin:v0.13.0
+    image: quay.io/sighup/e2e-testing-drone-plugin:v1.24.0
     depends_on: [ test ]
     settings:
       action: destroy
-      pipeline_id: cluster-123
+      pipeline_id: cluster-124
       instance_size: 2-extra-large
       aws_default_region:
         from_secret: aws_region
@@ -162,11 +165,12 @@ volumes:
   temp: {}
 
 ---
-kind: pipeline
 name: release
+kind: pipeline
+type: docker
 
 depends_on:
-  - e2e-kubernetes-1.23
+  - e2e-kubernetes-1.24
 
 platform:
   os: linux
@@ -190,7 +194,7 @@ steps:
           - refs/tags/**
 
   - name: prepare-release-manifests
-    image: quay.io/sighup/e2e-testing:1.1.0_0.2.2_2.16.1_1.9.4_1.18.19_3.8.7_2.4.1
+    image: quay.io/sighup/e2e-testing:1.1.0_0.7.0_3.1.1_1.9.4_1.24.1_3.8.7_4.21.1
     pull: always
     depends_on: [ clone ]
     environment:
