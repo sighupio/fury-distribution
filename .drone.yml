@@ -58,7 +58,7 @@ steps:
       - /conftest test -p /policies distribution.yml
 
 ---
-name: e2e-kubernetes-1.24
+name: e2e-kubernetes-1.23
 kind: pipeline
 type: docker
 
@@ -89,10 +89,10 @@ steps:
       path: /shared
     depends_on: [ clone ]
     settings:
-      action: custom-cluster-124
-      pipeline_id: cluster-124
+      action: custom-cluster-123
+      pipeline_id: cluster-123
       local_kind_config_path: tests/config/kind-config-custom
-      cluster_version: '1.24.0'
+      cluster_version: '1.23.0'
       instance_path: /shared
       instance_size: 2-extra-large
       aws_default_region:
@@ -122,7 +122,7 @@ steps:
       path: /shared
     depends_on: [ init ]
     commands:
-      - export KUBECONFIG=/shared/kube/kubeconfig-124
+      - export KUBECONFIG=/shared/kube/kubeconfig-123
       - bats -t tests/install.sh
       - bats -t tests/networking.sh
       - bats -t tests/monitoring.sh
@@ -136,7 +136,7 @@ steps:
     depends_on: [ test ]
     settings:
       action: destroy
-      pipeline_id: cluster-124
+      pipeline_id: cluster-123
       instance_size: 2-extra-large
       aws_default_region:
         from_secret: aws_region
@@ -171,7 +171,7 @@ kind: pipeline
 type: docker
 
 depends_on:
-  - e2e-kubernetes-1.24
+  - e2e-kubernetes-1.23
 
 platform:
   os: linux
