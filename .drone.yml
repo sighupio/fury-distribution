@@ -89,10 +89,10 @@ steps:
       path: /shared
     depends_on: [ clone ]
     settings:
-      action: custom-cluster-124
-      pipeline_id: cluster-124
+      action: custom-cluster-122
+      pipeline_id: cluster-122
       local_kind_config_path: tests/config/kind-config-custom
-      cluster_version: '1.24.0'
+      cluster_version: '1.22.0'
       instance_path: /shared
       instance_size: 2-extra-large
       aws_default_region:
