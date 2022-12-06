@@ -142,11 +142,11 @@ KFD is open-source software and it's released under the following [LICENSE](LICE
 [auth-module]: https://github.com/sighupio/fury-kubernetes-auth
 
 [networking-version]: https://img.shields.io/badge/release-v1.10.0-blue
-[ingress-version]: https://img.shields.io/badge/release-v1.13.0-blue
+[ingress-version]: https://img.shields.io/badge/release-v1.13.1-blue
 [logging-version]: https://img.shields.io/badge/release-v3.0.1-blue
-[monitoring-version]: https://img.shields.io/badge/release-v2.0.0-blue
+[monitoring-version]: https://img.shields.io/badge/release-v2.0.1-blue
 [dr-version]: https://img.shields.io/badge/release-v1.10.1-blue
-[opa-version]: https://img.shields.io/badge/release-v1.7.2-blue
+[opa-version]: https://img.shields.io/badge/release-v1.7.3-blue
 [auth-version]: https://img.shields.io/badge/release-v0.0.2-blue
 
 [compatibility-matrix]: https://github.com/sighupio/fury-distribution/blob/main/docs/COMPATIBILITY_MATRIX.md
