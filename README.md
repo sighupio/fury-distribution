@@ -4,7 +4,7 @@
   Kubernetes Fury Distribution
 </h1>
 
-<p align="center">Kubernetes Fury Distribution (KFD) is a certified battle-tested Kubernetes distribution based purely on upstream Kubernetes developed by [SIGHUP][sighup-site].</p>
+<p align="center">Kubernetes Fury Distribution (KFD) is a certified battle-tested Kubernetes distribution based purely on upstream Kubernetes.</p>
 <!-- markdownlint-enable MD033 -->
 
 [![Build Status](http://ci.sighup.io/api/badges/sighupio/fury-distribution/status.svg?ref=refs/tags/v1.24.0)](http://ci.sighup.io/sighupio/fury-distribution)
@@ -16,7 +16,7 @@
 
 Kubernetes Fury Distribution (KFD) is a [CNCF certified](https://landscape.cncf.io/?selected=fury-distribution) battle-tested Kubernetes distribution based purely on upstream Kubernetes.
 
-It is developed and maintained by [SIGHUP](https://sighup.io/) and the community, and it is fully open source.
+It is developed and maintained by [SIGHUP][sighup-site] and the community, and it is fully open source.
 
 > 🎯 The goal of Fury is to turn any standard Kubernetes cluster into a fully-configured production-grade cluster.
 
@@ -164,5 +164,5 @@ KFD is open-source software and it's released under the following [LICENSE](LICE
 [storage-version]: https://img.shields.io/github/v/release/sighupio/fury-kubernetes-storage
 
 <!-- Misc -->
-[sighup-site]: https:sighup.io
+[sighup-site]: https://sighup.io
 [CNCF]: https://landscape.cncf.io/card-mode?category=certified-kubernetes-distribution&grouping=category&organization=sighup
