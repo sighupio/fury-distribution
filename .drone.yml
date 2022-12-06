@@ -78,6 +78,7 @@ trigger:
       - refs/tags/**
       - refs/heads/master
       - refs/heads/main
+      - refs/heads/release-v**
 
 steps:
   - name: init
