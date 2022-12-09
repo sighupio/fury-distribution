@@ -79,6 +79,8 @@ trigger:
       - refs/heads/master
       - refs/heads/main
       - refs/heads/release-v**
+    exclude:
+      - refs/tags/**-docs*
 
 steps:
   - name: init
@@ -181,6 +183,8 @@ trigger:
   ref:
     include:
       - refs/tags/**
+    exclude:
+      - refs/tags/**-docs*
 
 steps:
   - name: prepare-canonical-json
@@ -193,6 +197,8 @@ steps:
       ref:
         include:
           - refs/tags/**
+        exclude:
+          - refs/tags/**-docs*
 
   - name: prepare-release-manifests
     image: quay.io/sighup/e2e-testing:1.1.0_0.7.0_3.1.1_1.9.4_1.24.1_3.8.7_4.21.1
@@ -208,6 +214,8 @@ steps:
       ref:
         include:
           - refs/tags/**
+        exclude:
+          - refs/tags/**-docs*
 
   - name: prepare-release-notes
     image: quay.io/sighup/fury-release-notes-plugin:3.7_2.8.4
@@ -219,6 +227,8 @@ steps:
       ref:
         include:
           - refs/tags/**
+        exclude:
+          - refs/tags/**-docs*
 
   - name: publish-prerelease
     image: plugins/github-release
@@ -248,6 +258,8 @@ steps:
       ref:
         include:
           - refs/tags/v**-rc**
+        exclude:
+          - refs/tags/**-docs*
 
   - name: publish-stable
     image: plugins/github-release
@@ -277,5 +289,6 @@ steps:
       ref:
         exclude:
           - refs/tags/v**-rc**
+          - refs/tags/**-docs*
         include:
           - refs/tags/v**
