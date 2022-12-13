@@ -24,5 +24,6 @@ bases:
   - name: opa
 
 modules:
+  - name: aws
   - name: dr
   - name: ingress

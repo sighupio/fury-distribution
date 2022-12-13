@@ -7,10 +7,10 @@ modules:
   auth: v0.0.2
   aws: v2.0.0
   dr: v1.10.1
-  ingress: v1.13.0
+  ingress: v1.13.1
   logging: v3.0.1
   monitoring: v2.0.0
-  opa: v1.7.2
+  opa: v1.7.3
   networking: v1.10.0
 kubernetes:
   eks:
