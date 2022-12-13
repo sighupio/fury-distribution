@@ -4,26 +4,25 @@
 
 ---
 versions:
-  auth: v0.0.1
-  aws: feat/refactor-as-a-support-aws-module
-  dr: feat/add-iam-role-arn-as-output-on-aws-module
-  ingress: feat/add-external-dns-katalog-modules-and-cert-manager-iam-role
+  monitoring: v2.0.1
   logging: v3.0.0
-  monitoring: prepare-v2.0.0
-  networking: feat/add-tigera-operator
-  opa: feature/update-gpm-101
+  ingress: v1.13.1
+  dr: v1.10.1
+  opa: v1.7.3
+  auth: v0.0.2
+  aws: v2.0.0
 
 bases:
+  - name: networking
+  - name: monitoring
+  - name: logging
+  - name: ingress
+  - name: dr
+  - name: opa
   - name: auth
   - name: aws
-  - name: dr
-  - name: ingress
-  - name: logging
-  - name: monitoring
-  - name: networking
-  - name: opa
 
 modules:
-  - name: aws
-  - name: dr
   - name: ingress
+  - name: dr
+  - name: aws
