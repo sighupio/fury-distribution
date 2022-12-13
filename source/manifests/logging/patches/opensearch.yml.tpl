@@ -8,14 +8,14 @@ spec:
   template:
     spec:
       containers:
-      - name: elasticsearch
+      - name: opensearch
       {{- if hasKeyAny .spec.distribution.modules.logging.opensearch "resources" }}
         resources:
           {{ .spec.distribution.modules.logging.opensearch.resources | toYaml | indent 10 | trim }}
       {{- end }}
   volumeClaimTemplates:
   - metadata:
-      name: es-data
+      name: opensearch-cluster-master
     spec:
       accessModes:
       - ReadWriteOnce
