@@ -12,7 +12,7 @@ steps:
     pull: always
     commands:
       - go get -u github.com/google/addlicense
-      - addlicense -c "SIGHUP s.r.l" -v -l bsd -y "2017-present" --check .
+      - addlicense -c "SIGHUP s.r.l" -v -l bsd -y "2017-present"  -ignore 'source/**' --check .
 ---
 name: policeman
 kind: pipeline
@@ -37,6 +37,8 @@ steps:
       VALIDATE_JSCPD: "false"
       # Disable natural language checks
       VALIDATE_NATURAL_LANGUAGE: "false"
+      # Exclude template files from linting. The linter does not understand Go template.
+      FILTER_REGEX_EXCLUDE: (source/)
     depends_on:
       - clone
 
@@ -46,8 +48,12 @@ steps:
     depends_on:
       - clone
     commands:
+      - echo $${NETRC_FILE} > /root/.netrc
       - furyctl vendor -H
       - kustomize build . > distribution.yml
+    environment:
+      NETRC_FILE:
+        from_secret: NETRC_FILE
 
   - name: deprek8ion
     image: eu.gcr.io/swade1987/deprek8ion:1.1.34
@@ -134,13 +140,8 @@ steps:
       - bats -t tests/opa.sh
 
   - name: destroy
-<<<<<<< HEAD
     image: quay.io/sighup/e2e-testing-drone-plugin:v1.24.0
     depends_on: [ test ]
-=======
-    image: quay.io/sighup/e2e-testing-drone-plugin:v0.13.0
-    depends_on: [test]
->>>>>>> 5ca1640 (fix: linting)
     settings:
       action: destroy
       pipeline_id: cluster-124

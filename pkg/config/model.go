@@ -7,11 +7,16 @@ package config
 type Furyctl struct {
 	APIVersion string      `yaml:"apiVersion" validate:"required,api-version"`
 	Kind       string      `yaml:"kind" validate:"required,cluster-kind"`
+	Metadata   FuryctlMeta `yaml:"metadata" validate:"required"`
 	Spec       FuryctlSpec `yaml:"spec" validate:"required"`
 }
 
 type FuryctlSpec struct {
 	DistributionVersion string `yaml:"distributionVersion" validate:"required,permissive-semver"`
+}
+
+type FuryctlMeta struct {
+	Name string `yaml:"name" validate:"required"`
 }
 
 type KFD struct {
@@ -29,6 +34,7 @@ type KFDModules struct {
 	Ingress    string `yaml:"ingress" validate:"required"`
 	Logging    string `yaml:"logging" validate:"required"`
 	Monitoring string `yaml:"monitoring" validate:"required"`
+	Networking string `yaml:"networking" validate:"required"`
 	Opa        string `yaml:"opa" validate:"required"`
 }
 
