@@ -524,7 +524,7 @@ func (j *Metadata) UnmarshalJSON(b []byte) error {
 
 type SpecToolsConfiguration struct {
 	// Terraform corresponds to the JSON schema field "terraform".
-	Terraform SpecToolsConfigurationTerraform `json:"terrafor≤" yaml:"terraform"`
+	Terraform SpecToolsConfigurationTerraform `json:"terraform" yaml:"terraform"`
 }
 
 // UnmarshalJSON implements json.Unmarshaler.
