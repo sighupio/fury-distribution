@@ -64,20 +64,20 @@ type KFDTools struct {
 }
 
 type Common struct {
-	Furyagent Version `yaml:"furyagent" validate:"required"`
-	Kubectl   Version `yaml:"kubectl" validate:"required"`
-	Kustomize Version `yaml:"kustomize" validate:"required"`
-	Terraform Version `yaml:"terraform" validate:"required"`
+	Furyagent Tool `yaml:"furyagent" validate:"required"`
+	Kubectl   Tool `yaml:"kubectl" validate:"required"`
+	Kustomize Tool `yaml:"kustomize" validate:"required"`
+	Terraform Tool `yaml:"terraform" validate:"required"`
 }
 
 type Eks struct {
-	Awscli Version `yaml:"awscli" validate:"required"`
+	Awscli Tool `yaml:"awscli" validate:"required"`
 }
 
-type Version struct {
+type Tool struct {
 	Version string `yaml:"version" validate:"required,permissive-semver"`
 }
 
-func (v Version) String() string {
+func (v Tool) String() string {
 	return fmt.Sprintf("%s", v.Version)
 }
