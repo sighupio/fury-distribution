@@ -21,8 +21,15 @@ furyctlSchemas:
     - apiVersion: kfd.sighup.io/v1alpha2
       kind: EKSCluster
 tools:
-  ansible: 2.13.4
-  furyagent: 0.3.0
-  kubectl: 1.23.10
-  kustomize: 3.10.0
-  terraform: 0.15.4
+  common:
+    furyagent: 
+      version: 0.3.0
+    kubectl: 
+      version: 1.23.10
+    kustomize: 
+      version: 3.10.0
+    terraform: 
+      version: 0.15.4
+  eks:
+    awscli: 
+      version: 2.8.12
