@@ -57,7 +57,7 @@ Core modules provide essential functionality to the distribution for production-
 | ------------------------------- | ------------------------------ | ----------------------------------------------------------------------------------------- |
 | [Networking][networking-module] | ![Version][networking-version] | Networking functionality via Calico CNI                                                   |
 | [Ingress][ingress-module]       | ![Version][ingress-version]    | Fast and reliable Ingress Controller and TLS certificate management                       |
-| [Logging][logging-module]       | ![Version][logging-version]    | A centralized logging solution based on the EFK stack (Elastic, Fluentd and Kibana)       |
+| [Logging][logging-module]       | ![Version][logging-version]    | A centralized logging solution based on the OpenSearch stack )                            |
 | [Monitoring][monitoring-module] | ![Version][monitoring-version] | Monitoring and alerting functionality based on Prometheus, AlertManager and Grafana       |
 | [Disaster Recovery][dr-module]  | ![Version][dr-version]         | Backup and disaster recovery solution using Velero                                        |
 | [OPA][opa-module]               | ![Version][opa-version]        | Policy and Governance for your cluster using OPA Gatekeeper and Gatekeeper Policy Manager |
@@ -73,6 +73,7 @@ Add-on modules provide additional functionality to the distribution.
 | [Service Mesh][service-mesh-module] | ![Version][service-mesh-version] | Deploy a service mesh on top of KFD                                          |
 | [Registry][registry-module]         | ![Version][registry-version]     | Integrate a Container Registry solution                                      |
 | [Storage][storage-module]           | ![Version][storage-version]      | Rook (Ceph Operator) based Storage solution on Kubernetes                    |
+| [Kafka][kafka-module]               | ![Version][kafka-version]        | Apache Kafka event streaming for your Cluster                                |
 
 ## Get started with KFD 🚀
 
@@ -157,11 +158,13 @@ KFD is open-source software and it's released under the following [LICENSE](LICE
 [service-mesh-module]: https://github.com/sighupio/fury-kubernetes-service-mesh
 [registry-module]: https://github.com/sighupio/fury-kubernetes-registry
 [storage-module]: https://github.com/sighupio/fury-kubernetes-storage
+[kafka-module]: https://github.com/sighupio/fury-kubernetes-kafka
 
 [kong-version]: https://img.shields.io/github/v/release/sighupio/fury-kubernetes-kong
 [service-mesh-version]: https://img.shields.io/github/v/release/sighupio/fury-kubernetes-service-mesh
 [registry-version]: https://img.shields.io/github/v/release/sighupio/fury-kubernetes-registry
 [storage-version]: https://img.shields.io/github/v/release/sighupio/fury-kubernetes-storage
+[kafka-version]: https://img.shields.io/github/v/release/sighupio/fury-kubernetes-kafka
 
 <!-- Misc -->
 [sighup-site]: https://sighup.io
