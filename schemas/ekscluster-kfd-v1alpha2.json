@@ -75,19 +75,50 @@
                 "toolsConfiguration"
             ],
             "if": {
-                "properties": {
-                    "infrastructure": {
-                        "type": "object",
+                "anyOf": [
+                    {
                         "properties": {
-                            "vpc": {
-                                "$ref": "#/$defs/Spec.Infrastructure.Vpc"
+                            "infrastructure": {
+                                "type": "null"
                             }
-                        },
-                        "required": ["vpc"]
+                        }
+                    },
+                    {
+                        "properties": {
+                            "infrastructure": {
+                                "properties": {
+                                    "vpc": {
+                                        "type": "null"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    {
+                        "properties": {
+                            "infrastructure": {
+                                "properties": {
+                                    "vpc": {
+                                        "properties": {
+                                            "vpn": {
+                                                "type": "null"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                ]
+            },
+            "then": {
+                "properties": {
+                    "kubernetes": {
+                        "required": ["vpcId", "subnetIds"]
                     }
                 }
             },
-            "then": {
+            "else": {
                 "properties": {
                     "kubernetes": {
                         "type": "object",
@@ -99,22 +130,6 @@
                                 "type": "null"
                             }
                         }
-                    }
-                }
-            },
-            "else": {
-                "properties": {
-                    "kubernetes": {
-                        "type": "object",
-                        "properties": {
-                            "vpcId": {
-                                "type": "string"
-                            },
-                            "subnetIds": {
-                                "$ref": "#/$defs/Types.AwsSubnetId"
-                            }
-                        },
-                        "required": ["vpcId", "subnetIds"]
                     }
                 }
             }
@@ -589,22 +604,49 @@
                 "modules"
             ],
             "if": {
-                "properties": {
-                    "common": {
+                "allOf": [
+                    {
+                        "required": ["common"]
+                    },
+                    {
                         "properties": {
-                            "provider": {
-                                "const": "eks"
+                            "common": {
+                                "required": ["provider"]
+                            }
+                        }
+                    },
+                    {
+                        "properties": {
+                            "common": {
+                                "properties": {
+                                    "provider": {
+                                        "required": ["type"]
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    {
+                        "properties": {
+                            "common": {
+                                "properties": {
+                                    "provider": {
+                                        "properties": {
+                                            "type": {
+                                                "const": "eks"
+                                            }
+                                        }
+                                    }
+                                }
                             }
                         }
                     }
-                }
+                ]
             },
             "then": {
                 "properties": {
                     "modules": {
-                        "properties": {
-                            "required": ["aws"]
-                        }
+                        "required": ["aws"]
                     }
                 }
             },
@@ -612,7 +654,9 @@
                 "properties": {
                     "modules": {
                         "properties": {
-                            "type": "null"
+                            "aws": {
+                                "type": "null"
+                            }
                         }
                     }
                 }
@@ -1020,26 +1064,67 @@
                 }
             },
             "required": ["provider"],
-            "if": {
-                "properties": {
-                    "provider": {
-                        "const": "sso"
-                    }
-                }
-            },
-            "then": {
-                "required": ["dex", "pomerium"]
-            },
-            "else": {
-                "properties": {
-                    "dex": {
-                        "type": "null"
+            "allOf": [
+                {
+                    "if": {
+                        "properties": {
+                            "provider": {
+                                "properties": {
+                                    "type": {
+                                        "const": "sso"
+                                    }
+                                }
+                            }
+                        }
                     },
-                    "pomerium": {
-                        "type": "null"
+                    "then": {
+                        "properties": {
+                            "auth": {
+                                "required": ["dex", "pomerium"]
+                            }
+                        }
+                    },
+                    "else": {
+                        "properties": {
+                            "dex": {
+                                "type": "null"
+                            },
+                            "pomerium": {
+                                "type": "null"
+                            }
+                        }
+                    }
+                },
+                {
+                    "if": {
+                        "properties": {
+                            "provider": {
+                                "properties": {
+                                    "type": {
+                                        "const": "basicAuth"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "then": {
+                        "properties": {
+                            "provider": {
+                                "required": ["basicAuth"]
+                            }
+                        }
+                    },
+                    "else": {
+                        "properties": {
+                            "provider": {
+                                "basicAuth": {
+                                    "type": "null"
+                                }
+                            }
+                        }
                     }
                 }
-            }
+            ]
         },
         "Spec.Distribution.Modules.Auth.Overrides": {
             "type": "object",
