@@ -57,9 +57,25 @@ type KFDSchema struct {
 }
 
 type KFDTools struct {
-	Ansible   string `yaml:"ansible" validate:"required,permissive-semver"`
-	Furyagent string `yaml:"furyagent" validate:"required,permissive-semver"`
-	Kubectl   string `yaml:"kubectl" validate:"required,permissive-semver"`
-	Kustomize string `yaml:"kustomize" validate:"required,permissive-semver"`
-	Terraform string `yaml:"terraform" validate:"required,permissive-semver"`
+	Common Common `yaml:"common" validate:"required"`
+	Eks    Eks    `yaml:"eks" validate:"required"`
+}
+
+type Common struct {
+	Furyagent Tool `yaml:"furyagent" validate:"required"`
+	Kubectl   Tool `yaml:"kubectl" validate:"required"`
+	Kustomize Tool `yaml:"kustomize" validate:"required"`
+	Terraform Tool `yaml:"terraform" validate:"required"`
+}
+
+type Eks struct {
+	Awscli Tool `yaml:"awscli" validate:"required"`
+}
+
+type Tool struct {
+	Version string `yaml:"version" validate:"required,permissive-semver"`
+}
+
+func (t Tool) String() string {
+	return t.Version
 }
