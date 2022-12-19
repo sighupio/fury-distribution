@@ -4,8 +4,6 @@
 
 package config
 
-import "fmt"
-
 type Furyctl struct {
 	APIVersion string      `yaml:"apiVersion" validate:"required,api-version"`
 	Kind       string      `yaml:"kind" validate:"required,cluster-kind"`
@@ -78,6 +76,6 @@ type Tool struct {
 	Version string `yaml:"version" validate:"required,permissive-semver"`
 }
 
-func (v Tool) String() string {
-	return fmt.Sprintf("%s", v.Version)
+func (t Tool) String() string {
+	return t.Version
 }
