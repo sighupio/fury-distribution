@@ -61,8 +61,8 @@ test_schema() {
     expect() {
         expect_no "${1}"
 
-        local EXPECTED_ERROR_1='[S#/$defs/Spec/else/properties/kubernetes/properties/vpcId/type] expected null, but got string'
-        local EXPECTED_ERROR_2='[S#/$defs/Spec/else/properties/kubernetes/properties/subnetIds/type] expected null, but got array'
+        local EXPECTED_ERROR_1="[S#/\$defs/Spec/else/properties/kubernetes/properties/vpcId/type] expected null, but got string"
+        local EXPECTED_ERROR_2="[S#/\$defs/Spec/else/properties/kubernetes/properties/subnetIds/type] expected null, but got array"
 
         if [[ "${output}" != *"${EXPECTED_ERROR_1}"* ]]; then
             return 2
@@ -110,8 +110,8 @@ test_schema() {
     expect() {
         expect_no
 
-        local EXPECTED_ERROR_1='[S#/$defs/Spec.Distribution.Modules.Auth/allOf/0/else/properties/dex/type] expected null, but got object'
-        local EXPECTED_ERROR_2='[S#/$defs/Spec.Distribution.Modules.Auth/allOf/0/else/properties/pomerium/type] expected null, but got object'
+        local EXPECTED_ERROR_1="[S#/\$defs/Spec.Distribution.Modules.Auth/allOf/0/else/properties/dex/type] expected null, but got object"
+        local EXPECTED_ERROR_2="[S#/\$defs/Spec.Distribution.Modules.Auth/allOf/0/else/properties/pomerium/type] expected null, but got object"
 
         if [[ "${output}" != *"${EXPECTED_ERROR_1}"* ]]; then
             return 2
