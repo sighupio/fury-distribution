@@ -899,11 +899,15 @@
                 },
                 "create": {
                     "type": "boolean"
+                },
+                "vpcId": {
+                    "type": "string"
                 }
             },
             "required": [
                 "name",
-                "create"
+                "create",
+                "vpcId"
             ]
         },
         "Spec.Distribution.Modules.Logging": {
@@ -1247,8 +1251,52 @@
             "properties": {
                 "overrides": {
                     "$ref": "#/$defs/Types.FuryModuleOverrides"
+                },
+                "clusterAutoscaler": {
+                    "$ref": "#/$defs/Spec.Distribution.Modules.Aws.ClusterAutoScaler"
+                },
+                "ebsCsiDriver": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                        "iamRoleArn": {
+                            "$ref": "#/$defs/Types.AwsArn"
+                        }
+                    },
+                    "required": [
+                        "iamRoleArn"
+                    ]
+                },
+                "loadBalancerController": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                        "iamRoleArn": {
+                            "$ref": "#/$defs/Types.AwsArn"
+                        }
+                    },
+                    "required": [
+                        "iamRoleArn"
+                    ]
                 }
             }
+        },
+
+        "Spec.Distribution.Modules.Aws.ClusterAutoScaler": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "iamRoleArn": {
+                    "$ref": "#/$defs/Types.AwsArn"
+                },
+                "region": {
+                    "$ref": "#/$defs/Types.AwsRegion"
+                }
+            },
+            "required": [
+                "iamRoleArn",
+                "region"
+            ]
         },
 
         "Types.SemVer": {
