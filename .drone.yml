@@ -138,6 +138,7 @@ steps:
       - bats -t tests/ingress.sh
       - bats -t tests/dr.sh
       - bats -t tests/opa.sh
+      - bats -t tests/schema.sh
 
   - name: destroy
     image: quay.io/sighup/e2e-testing-drone-plugin:v1.24.0
