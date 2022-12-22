@@ -39,7 +39,7 @@ test_schema() {
     run "${verify_expectation}" "${validate_status}"
     verify_expectation_status="${status}"
 
-    # rm -rf "${TMPDIR}"
+    rm -rf "${TMPDIR}"
 
     if [ "${verify_expectation_status}" -ne 0 ]; then
         echo "${validate_output}" >&3
