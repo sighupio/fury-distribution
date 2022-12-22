@@ -745,6 +745,9 @@
                 },
                 "dns": {
                     "$ref": "#/$defs/Spec.Distribution.Modules.Ingress.DNS"
+                },
+                "externalDns": {
+                    "$ref": "#/$defs/Spec.Distribution.Modules.Ingress.ExternalDNS"
                 }
             },
             "required": [
@@ -850,12 +853,51 @@
                 "type": {
                     "type": "string",
                     "enum": ["dns01", "http01"]
+                },
+                "route53": {
+                    "$ref": "#/$defs/Spec.Distribution.Modules.Ingress.ClusterIssuer.Route53"
                 }
             },
             "required": [
                 "name",
                 "type",
                 "email"
+            ]
+        },
+        "Spec.Distribution.Modules.Ingress.ClusterIssuer.Route53": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "iamRoleArn": {
+                    "$ref": "#/$defs/Types.AwsArn"
+                },
+                "region": {
+                    "$ref": "#/$defs/Types.AwsRegion"
+                },
+                "hostedZoneId": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "hostedZoneId",
+                "iamRoleArn",
+                "region"
+            ]
+        },
+        "Spec.Distribution.Modules.Ingress.ExternalDNS": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "privateIamRoleArn": {
+                    "$ref": "#/$defs/Types.AwsArn"
+                },
+                "publicIamRoleArn": {
+                    "$ref": "#/$defs/Types.AwsArn"
+                }
+            },
+            "required": [
+                "privateIamRoleArn",
+                "publicIamRoleArn"
             ]
         },
         "Spec.Distribution.Modules.Ingress.DNS": {
@@ -1043,11 +1085,15 @@
                 },
                 "bucket": {
                     "type": "string"
+                },
+                "iamRoleArn": {
+                    "$ref": "#/$defs/Types.AwsArn"
                 }
             },
             "required": [
                 "region",
-                "bucket"
+                "bucket",
+                "iamRoleArn"
             ]
         },
         "Spec.Distribution.Modules.Auth": {
