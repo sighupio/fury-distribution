@@ -54,6 +54,7 @@ spec:
       provider:
         type: test
     modules:
+      aws: {}
       auth:
         provider:
           type: basicAuth
