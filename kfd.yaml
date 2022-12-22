@@ -2,7 +2,7 @@
 # Use of this source code is governed by a BSD-style
 # license that can be found in the LICENSE file.
 
-version: v1.23.3
+version: v1.24.1
 modules:
   auth: v0.0.2
   aws: v2.0.0
@@ -14,7 +14,7 @@ modules:
   networking: v1.10.0
 kubernetes:
   eks:
-    version: 1.23
+    version: 1.24
     installer: v1.10.0
 furyctlSchemas:
   eks:
@@ -25,9 +25,9 @@ tools:
     furyagent:
       version: 0.3.0
     kubectl:
-      version: 1.23.10
+      version: 1.24.9
     kustomize:
-      version: 3.10.0
+      version: 3.5.3
     terraform:
       version: 0.15.4
   eks:
