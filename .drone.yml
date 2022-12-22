@@ -12,7 +12,7 @@ steps:
     pull: always
     commands:
       - go get -u github.com/google/addlicense
-      - addlicense -c "SIGHUP s.r.l" -v -l bsd -y "2017-present"  -ignore 'source/**' --check .
+      - addlicense -c "SIGHUP s.r.l" -v -l bsd -y "2017-present"  -ignore 'templates/distribution/**' --check .
 ---
 name: policeman
 kind: pipeline
@@ -38,7 +38,7 @@ steps:
       # Disable natural language checks
       VALIDATE_NATURAL_LANGUAGE: "false"
       # Exclude template files from linting. The linter does not understand Go template.
-      FILTER_REGEX_EXCLUDE: (source/)
+      FILTER_REGEX_EXCLUDE: (templates/distribution/)
     depends_on:
       - clone
 
