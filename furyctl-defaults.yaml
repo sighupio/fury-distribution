@@ -198,7 +198,6 @@ data:
       loadBalancerController:
         iamRoleArn: arn:aws:iam::123456789012:role/example-load-balancer-controller
       clusterAutoscaler:
-        region: eu-west-1
         iamRoleArn: arn:aws:iam::123456789012:role/example-cluster-autoscaler
 templates:
   includes:
