@@ -11,7 +11,7 @@ spec:
         - name: aws-cluster-autoscaler
           env:
             - name: AWS_REGION
-              value: {{ .spec.distribution.modules.aws.clusterAutoscaler.region }}
+              value: {{ .spec.region }}
             - name: CLUSTER_NAME
               value: {{ .metadata.name }}
 ---
