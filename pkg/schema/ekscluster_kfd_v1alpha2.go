@@ -1935,6 +1935,9 @@ func (j *SpecKubernetesAPIServerEndpointAccess) UnmarshalJSON(b []byte) error {
 	if err := json.Unmarshal(b, &plain); err != nil {
 		return err
 	}
+	if len(plain.AllowedCidrs) < 1 {
+		return fmt.Errorf("field %s length: must be >= %d", "allowedCidrs", 1)
+	}
 	*j = SpecKubernetesAPIServerEndpointAccess(plain)
 	return nil
 }
