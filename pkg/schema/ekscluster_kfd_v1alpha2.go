@@ -744,9 +744,6 @@ func (j *SpecKubernetes) UnmarshalJSON(b []byte) error {
 	if err := json.Unmarshal(b, &raw); err != nil {
 		return err
 	}
-	if v, ok := raw["apiServerEndpointAccess"]; !ok || v == nil {
-		return fmt.Errorf("field apiServerEndpointAccess in SpecKubernetes: required")
-	}
 	if v, ok := raw["nodeAllowedSshPublicKey"]; !ok || v == nil {
 		return fmt.Errorf("field nodeAllowedSshPublicKey in SpecKubernetes: required")
 	}
@@ -789,7 +786,7 @@ func (j *TypesFuryModuleOverridesIngress) UnmarshalJSON(b []byte) error {
 type SpecKubernetes struct {
 	// ApiServerEndpointAccess corresponds to the JSON schema field
 	// "apiServerEndpointAccess".
-	ApiServerEndpointAccess SpecKubernetesAPIServerEndpointAccess `json:"apiServerEndpointAccess" yaml:"apiServerEndpointAccess"`
+	ApiServerEndpointAccess *SpecKubernetesAPIServerEndpointAccess `json:"apiServerEndpointAccess,omitempty" yaml:"apiServerEndpointAccess,omitempty"`
 
 	// AwsAuth corresponds to the JSON schema field "awsAuth".
 	AwsAuth *SpecKubernetesAwsAuth `json:"awsAuth,omitempty" yaml:"awsAuth,omitempty"`
