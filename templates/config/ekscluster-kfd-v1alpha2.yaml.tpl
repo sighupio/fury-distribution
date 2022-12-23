@@ -49,15 +49,6 @@ spec:
           allowedFromCidrs:
             - 0.0.0.0/0
   kubernetes:
-    vpcId: vpc-0123456789abcdef0
-    subnetIds:
-      - subnet-0123456789abcdef0
-      - subnet-0123456789abcdef1
-      - subnet-0123456789abcdef2
-    apiServerEndpointAccess:
-      type: private
-      allowedCidrs:
-        - 10.1.0.0/16
     nodeAllowedSshPublicKey: "ssh-ed25519 XYZ"
     nodePools:
       - name: worker
@@ -67,10 +58,6 @@ spec:
         size:
           min: 1
           max: 3
-        subnetIds:
-          - subnet-0123456789abcdef0
-          - subnet-0123456789abcdef1
-          - subnet-0123456789abcdef2
         instance:
           type: t3.micro
           spot: false
@@ -140,6 +127,7 @@ spec:
         certManager:
           clusterIssuer:
             name: letsencrypt-fury
+            email: example@sighup.io
             type: http01
         dns:
           public:
@@ -148,6 +136,7 @@ spec:
           private:
             name: "internal.example.dev"
             vpcId: "vpc-0123456789abcdef0"
+            create: false
       logging:
         overrides:
           nodeSelector: null
@@ -212,6 +201,11 @@ spec:
         gatekeeper:
           additionalExcludedNamespaces: []
       dr:
+        velero:
+          eks:
+            bucket: example-velero
+            iamRoleArn: arn:aws:iam::123456789012:role/example-velero
+            region: eu-west-1
         overrides:
           nodeSelector: null
           tolerations: null
@@ -231,20 +225,28 @@ spec:
           basicAuth:
             username: admin
             password: "{env://KFD_BASIC_AUTH_PASSWORD}"
-        pomerium:
-          secrets:
-            COOKIE_SECRET: "{env://KFD_AUTH_POMERIUM_COOKIE_SECRET}"
-            IDP_CLIENT_SECRET: "{env://KFD_AUTH_POMERIUM_IDP_CLIENT_SECRET}"
-            SHARED_SECRET: "{env://KFD_AUTH_POMERIUM_SHARED_SECRET}"
-        dex:
-          connectors:
-            - type: github
-              id: github
-              name: GitHub
-              config:
-                clientID: "{env://KFD_AUTH_DEX_CONNECTORS_GITHUB_CLIENT_ID}"
-                clientSecret: "{env://KFD_AUTH_DEX_CONNECTORS_GITHUB_CLIENT_SECRET}"
-                redirectURI: https://login.example.dev/callback
-                loadAllGroups: false
-                teamNameField: slug
-                useLoginAsID: false
+        # pomerium:
+        #   policy: |
+        #     - from: https://example.dev
+        #       to: https://localhost:8000
+        #       allowed_domains:
+        #         - example.dev
+        #       cors_allow_preflight: true
+        #       timeout: 30s
+        #   secrets:
+        #     COOKIE_SECRET: "{env://KFD_AUTH_POMERIUM_COOKIE_SECRET}"
+        #     IDP_CLIENT_SECRET: "{env://KFD_AUTH_POMERIUM_IDP_CLIENT_SECRET}"
+        #     SHARED_SECRET: "{env://KFD_AUTH_POMERIUM_SHARED_SECRET}"
+        # dex:
+        #   type:
+        #   connectors:
+        #     - type: github
+        #       id: github
+        #       name: GitHub
+        #       config:
+        #         clientID: "{env://KFD_AUTH_DEX_CONNECTORS_GITHUB_CLIENT_ID}"
+        #         clientSecret: "{env://KFD_AUTH_DEX_CONNECTORS_GITHUB_CLIENT_SECRET}"
+        #         redirectURI: https://login.example.dev/callback
+        #         loadAllGroups: false
+        #         teamNameField: slug
+        #         useLoginAsID: false
