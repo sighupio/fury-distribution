@@ -34,6 +34,7 @@ spec:
         velero:
           eks:
             bucket: example-velero
+            iamRoleArn: arn:aws:iam::123456789012:role/example-velero
             region: eu-west-1
       ingress:
         baseDomain: furyctl-demo.sighup.io
@@ -41,6 +42,7 @@ spec:
           private:
             create: true
             name: internal.furyctl-demo.sighup.io
+            vpcId: ""
           public:
             create: true
             name: furyctl-demo.sighup.io
