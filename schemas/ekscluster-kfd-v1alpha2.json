@@ -1365,14 +1365,10 @@
             "properties": {
                 "iamRoleArn": {
                     "$ref": "#/$defs/Types.AwsArn"
-                },
-                "region": {
-                    "$ref": "#/$defs/Types.AwsRegion"
                 }
             },
             "required": [
-                "iamRoleArn",
-                "region"
+                "iamRoleArn"
             ]
         },
 
