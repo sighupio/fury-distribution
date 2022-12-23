@@ -114,7 +114,7 @@
             "then": {
                 "properties": {
                     "kubernetes": {
-                        "required": ["vpcId", "subnetIds"]
+                        "required": ["vpcId", "subnetIds", "apiServerEndpointAccess"]
                     }
                 }
             },
@@ -127,6 +127,9 @@
                                 "type": "null"
                             },
                             "subnetIds": {
+                                "type": "null"
+                            },
+                            "apiServerEndpointAccess": {
                                 "type": "null"
                             }
                         }
@@ -363,7 +366,6 @@
                 }
             },
             "required": [
-                "apiServerEndpointAccess",
                 "nodeAllowedSshPublicKey",
                 "nodePools"
             ]
