@@ -1114,7 +1114,7 @@
                 "region": {
                     "$ref": "#/$defs/Types.AwsRegion"
                 },
-                "bucket": {
+                "bucketName": {
                     "type": "string"
                 },
                 "iamRoleArn": {
@@ -1123,7 +1123,7 @@
             },
             "required": [
                 "region",
-                "bucket",
+                "bucketName",
                 "iamRoleArn"
             ]
         },
