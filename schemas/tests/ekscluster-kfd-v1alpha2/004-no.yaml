@@ -57,7 +57,7 @@ spec:
       dr:
         velero:
           eks:
-            bucket: example-velero
+            bucketName: example-velero
             iamRoleArn: arn:aws:iam::123456789012:role/example-velero
             region: eu-west-1
       ingress:
