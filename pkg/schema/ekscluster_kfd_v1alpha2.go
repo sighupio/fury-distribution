@@ -987,8 +987,8 @@ const SpecKubernetesNodePoolAdditionalFirewallRuleTypeEgress SpecKubernetesNodeP
 const SpecKubernetesNodePoolAdditionalFirewallRuleTypeIngress SpecKubernetesNodePoolAdditionalFirewallRuleType = "ingress"
 
 type SpecDistributionModulesDrVeleroEks struct {
-	// Bucket corresponds to the JSON schema field "bucket".
-	Bucket string `json:"bucket" yaml:"bucket"`
+	// BucketName corresponds to the JSON schema field "bucketName".
+	BucketName string `json:"bucketName" yaml:"bucketName"`
 
 	// IamRoleArn corresponds to the JSON schema field "iamRoleArn".
 	IamRoleArn TypesAwsArn `json:"iamRoleArn" yaml:"iamRoleArn"`
@@ -1003,8 +1003,8 @@ func (j *SpecDistributionModulesDrVeleroEks) UnmarshalJSON(b []byte) error {
 	if err := json.Unmarshal(b, &raw); err != nil {
 		return err
 	}
-	if v, ok := raw["bucket"]; !ok || v == nil {
-		return fmt.Errorf("field bucket in SpecDistributionModulesDrVeleroEks: required")
+	if v, ok := raw["bucketName"]; !ok || v == nil {
+		return fmt.Errorf("field bucketName in SpecDistributionModulesDrVeleroEks: required")
 	}
 	if v, ok := raw["iamRoleArn"]; !ok || v == nil {
 		return fmt.Errorf("field iamRoleArn in SpecDistributionModulesDrVeleroEks: required")

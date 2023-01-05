@@ -7,6 +7,6 @@ metadata:
 spec:
   provider: velero.io/aws
   objectStorage:
-    bucket: {{ .spec.distribution.modules.dr.velero.eks.bucket }}
+    bucket: {{ .spec.distribution.modules.dr.velero.eks.bucketName }}
   config:
     region: {{ .spec.distribution.modules.dr.velero.eks.region }}
