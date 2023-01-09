@@ -49,13 +49,15 @@ steps:
       - furyctl vendor -H
       - kustomize build . > distribution.yml
 
-  - name: deprek8ion
-    image: eu.gcr.io/swade1987/deprek8ion:1.1.34
+  - name: check-deprecated-apis
+    image: us-docker.pkg.dev/fairwinds-ops/oss/pluto:v5
     pull: always
     depends_on:
       - render
     commands:
-      - /conftest test -p /policies distribution.yml
+      # we use --ignore-deprecations because we don't want the CI to fail when the API has not been removed yet.
+      - /pluto detect distribution.yml --ignore-deprecations --target-versions=k8s=v1.24.0
+
 
 ---
 name: e2e-kubernetes-1.24
