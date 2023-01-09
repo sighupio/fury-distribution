@@ -113,9 +113,9 @@ Also, check the [versioning documentation file][versioning] to know more about t
 
 ## CNCF Certified 🎓
 
-Kubernetes Fury Distribution has been certified by the [CNCF] (Cloud Native Computing Foundation) as a *Certified Kubernetes Distribution* for all Kubernetes versions since [Kubernetes 1.12](https://github.com/cncf/k8s-conformance/pull/619).
+Each version of the Kubernetes Fury Distribution that introduces compatibility with a new version of Kubernetes goes through a [conformance certification process with the CNCF][cncf-conformance]. Certified solutions are validated to ensure a set of guarantees such as consistency, timely updates and confirmability.
 
-Certified solutions are validated to ensure a set of guarantees such as consistency, timely updates and confirmability.
+KFD has been certified by the [CNCF] (Cloud Native Computing Foundation) as a *Certified Kubernetes Distribution* for all Kubernetes versions since [Kubernetes 1.12](https://github.com/cncf/k8s-conformance/pull/619). Clicking on the badge below you can see the certification process for the latest version of KFD:
 
 <!-- markdownlint-disable MD033 -->
 <p align="center">
@@ -169,3 +169,4 @@ KFD is open-source software and it's released under the following [LICENSE](LICE
 <!-- Misc -->
 [sighup-site]: https://sighup.io
 [CNCF]: https://landscape.cncf.io/card-mode?category=certified-kubernetes-distribution&grouping=category&organization=sighup
+[cncf-conformance]: https://www.cncf.io/certification/software-conformance/
