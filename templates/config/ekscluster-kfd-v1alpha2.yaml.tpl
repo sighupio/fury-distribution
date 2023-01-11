@@ -145,6 +145,8 @@ spec:
           groups:
             - example:masters
           rolearn: "arn:aws:iam::123456789012:role/k8s-example-role"
+    # Optional value if spec.infrastructure is left empty and not managed by furyctl
+    vpcId: "vpc-123456780"
   # This section describes how the KFD distribution will be installed
   distribution:
     # This common configuration will be applied to all the packages that will be installed in the cluster
@@ -216,9 +218,10 @@ spec:
           private:
             # the name of the zone
             name: "internal.example.dev"
-            vpcId: "vpc-0123456789abcdef0"
             # manage if we need to create the zone, or if it already exists and we only need to adopt/use it
             create: false
+            # This field is ignored, but needed. TBD better validation
+            vpcId: "dummyvalue"
       logging:
         overrides:
           nodeSelector: null
@@ -286,7 +289,8 @@ spec:
         velero:
           eks:
             bucketName: example-velero
-            iamRoleArn: arn:aws:iam::123456789012:role/example-velero
+            # This field is ignored, but needed. TBD better validation
+            iamRoleArn: dummyvalue
             region: eu-west-1
         overrides:
           nodeSelector: null
