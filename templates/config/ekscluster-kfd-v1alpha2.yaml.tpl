@@ -159,36 +159,65 @@ spec:
           value: infra
     # This section contains all the configurations for all the KFD core modules
     modules:
+      # This section contains all the configurations for the ingress module
       ingress:
+        # This optional key is used to override automatic parameters
         overrides:
+          # This key is used to override the spec.distribution.common.nodeSelector settings
           nodeSelector: null
+          # This key is used to override the spec.distribution.common.tolerations settings
           tolerations: null
+          # This key is used to override some parameters on the ingresses managed by this module
           ingresses:
             forecastle:
+              # if the authentication is enabled, it can be disabled
               disableAuth: false
+              # the host can be ovverridden, by default is forecastle.{.spec.distribution.modules.ingress.baseDomain}
               host: ""
+              # the ingressClass can be overriden if needed
               ingressClass: ""
-        baseDomain: example.dev
+        # the base domain used for all the KFD ingresses
+        baseDomain: internal.example.dev
+        # configurations for the nginx package
         nginx:
+          # type defines if the nginx should be configured as single or dual
           type: single
+          # the tls section defines how the tls for the ingresses should be managed
           tls:
+            # provider can be certManager, secret
             provider: certManager
+            # if provider is set as secret, this key will be used to create the certificate in the cluster
             secret:
+              # the certificate file, a file notation can be used to get the content from a file
               cert: "{file://relative/path/to/ssl.crt}"
+              # the key file, a file notation can be used to get the content from a file
               key: "{file://relative/path/to/ssl.key}"
+              # the ca file, a file notation can be used to get the content from a file
               ca: "{file://relative/path/to/ssl.ca}"
+        # configurations for the cert-manager package
         certManager:
+          # the configuration for the clusterIssuer that will be created
           clusterIssuer:
+            # the name of the clusterIssuer
             name: letsencrypt-fury
+            # the email used during issuing procedures
             email: example@sighup.io
+            # the type of the clusterIssuer, can be http01 or dns01, if dns01, the route53 integration will be used
             type: http01
+        # DNS definition, used in conjunction with externalDNS package to automate DNS management and certificates emission
         dns:
+          # the public DNS zone definition
           public:
+            # the name of the zone
             name: "example.dev"
+            # manage if we need to create the zone, or if it already exists and we only need to adopt/use it
             create: false
+          # the private DNS zone definition, that will be attached to the VPC
           private:
+            # the name of the zone
             name: "internal.example.dev"
             vpcId: "vpc-0123456789abcdef0"
+            # manage if we need to create the zone, or if it already exists and we only need to adopt/use it
             create: false
       logging:
         overrides:
