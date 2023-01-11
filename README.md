@@ -31,6 +31,12 @@ KFD uses an **un-distribution model**. This means that we:
 
 ## Architecture 🏗
 
+<!-- markdownlint-disable MD033 -->
+<p align="center">
+  <img src="docs/assets/kfd-architecture.png" width="800px"/>
+</p>
+<!-- markdownlint-enable MD033 -->
+
 Kubernetes Fury Distribution is structured on modules, and each module has a set of packages.
 
 - A package is a single unit of functionality.
@@ -46,12 +52,6 @@ The standard way to deploy KFD is to:
 ### Core Modules 📦
 
 Core modules provide essential functionality to the distribution for production-grade clusters.
-
-<!-- markdownlint-disable MD033 -->
-<p align="center">
-  <img src="docs/assets/fury-core-modules.png" width="800px"/>
-</p>
-<!-- markdownlint-enable MD033 -->
 
 | Module                          | Included Release               | Description                                                                               |
 | ------------------------------- | ------------------------------ | ----------------------------------------------------------------------------------------- |
