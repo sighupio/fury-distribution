@@ -74,41 +74,63 @@ spec:
           # The CIDR enabled in the security group that can access the bastions in SSH
           allowedFromCidrs:
             - 0.0.0.0/0
+  # This section describes how the EKS cluster will be created
   kubernetes:
+    # This key contains the ssh public key that can connect to the nodes via SSH using the ec2-user user
     nodeAllowedSshPublicKey: "ssh-ed25519 XYZ"
+    # This array contains the definition of the nodepools in the cluster
     nodePools:
+        # This is the name of the nodepool
       - name: worker
+        # This optional map defines a different AMI to use for the instances
         ami:
           id: ami-0123456789abcdef0
           owner: "123456789012"
+        # This map defines the max and min number of nodes in the nodepool autoscaling group
         size:
           min: 1
           max: 3
+        # This map defines the characteristics of the instance that will be used in the node
         instance:
+          # The instance type
           type: t3.micro
+          # If the instance is a spot instance
           spot: false
+          # The instance disk size in GB
           volumeSize: 50
+        # This optional array defines additional target groups to attach to the instances in the nodepool
         attachedTargetGroups:
           - arn:aws:elasticloadbalancing:eu-west-1:123456789012:targetgroup/example-external-nginx/0123456789abcdee
           - arn:aws:elasticloadbalancing:eu-west-1:123456789012:targetgroup/example-internal-nginx/0123456789abcdef
+        # Kubernetes labels that will be added to the nodes
         labels:
           nodepool: worker
           node.kubernetes.io/role: worker
+        # Kubernetes taints that will be added to the nodes
         taints:
           - node.kubernetes.io/role=worker:NoSchedule
+        # AWS tags that will be added to the ASG and ec2 instances, this examples show the labels needed by the cluster autoscaler
         tags:
           k8s.io/cluster-autoscaler/node-template/label/nodepool: "worker"
           k8s.io/cluster-autoscaler/node-template/label/node.kubernetes.io/role: "worker"
+        # Optional additional firewall rules that will be attached to the nodes
         additionalFirewallRules:
+            # The name of the rule
           - name: traffic_80_from_172_31_0_0_16
+            # The type of the rule, can be ingress or egress
             type: ingress
+            # The CIDR blocks 
             cidrBlocks:
               - 172.31.0.0/16
+            # The protocol
             protocol: TCP
+            # The ports range
             ports:
               from: 80
               to: 80
+            # Additional AWS tags
             tags: {}
+    # aws-auth configmap definition, see https://docs.aws.amazon.com/eks/latest/userguide/add-user-role.html for more informations
     awsAuth:
       additionalAccounts:
         - "777777777777"
@@ -123,14 +145,19 @@ spec:
           groups:
             - example:masters
           rolearn: "arn:aws:iam::123456789012:role/k8s-example-role"
+  # This section describes how the KFD distribution will be installed
   distribution:
+    # This common configuration will be applied to all the packages that will be installed in the cluster
     common:
+      # The node selector to use to place the pods for all the KFD packages
       nodeSelector:
         node.kubernetes.io/role: infra
+      # The tolerations that will be added to the pods for all the KFD packages
       tolerations:
         - effect: NoSchedule
           key: node.kubernetes.io/role
           value: infra
+    # This section contains all the configurations for all the KFD core modules
     modules:
       ingress:
         overrides:
