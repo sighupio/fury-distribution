@@ -65,7 +65,7 @@ Core modules provide essential functionality to the distribution for production-
 
 ### Add-on Modules 📦
 
-Add-on modules provide additional functionality to the distribution. Their release cycle is independent of KFD.
+Add-on modules provide additional functionality to the distribution. Their release cycle is independent of KFD's.
 
 | Module                              | Latest Release                   | Description                                                                  |
 | ----------------------------------- | -------------------------------- | ---------------------------------------------------------------------------- |
