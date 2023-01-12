@@ -222,21 +222,35 @@ spec:
             create: false
             # This field is ignored, but needed. TBD better validation
             vpcId: "dummyvalue"
+      # This section contains all the configurations for the logging module      
       logging:
+        # This optional key is used to override automatic parameters
         overrides:
+          # This key is used to override the spec.distribution.common.nodeSelector setting
           nodeSelector: null
+          # This key is used to override the spec.distribution.common.tolerations setting
           tolerations: null
+          # This key is used to override some parameters on the ingresses managed by this module
           ingresses:
             opensearch-dashboards:
+              # if the authentication is enabled, it can be disabled
               disableAuth: false
+              # the host can be ovverridden, by default is opensearch-dashboards.{.spec.distribution.modules.ingress.baseDomain}
               host: ""
+              # the ingressClass can be overriden if needed
               ingressClass: ""
             cerebro:
+              # if the authentication is enabled, it can be disabled
               disableAuth: false
+              # the host can be ovverridden, by default is cerebro.{.spec.distribution.modules.ingress.baseDomain}
               host: ""
+              # the ingressClass can be overriden if needed
               ingressClass: ""
+        # configurations for the opensearch package
         opensearch:
+          # the type of opensearch to install, can be single or triple
           type: single
+          # optional settings to override requests and limits
           resources:
             requests:
               cpu: ""
@@ -244,27 +258,37 @@ spec:
             limits:
               cpu: ""
               memory: ""
+          # the PVC size used by opensearch, for each pod
           storageSize: "150Gi"
       monitoring:
+        # This optional key is used to override automatic parameters
         overrides:
+          # This key is used to override the spec.distribution.common.nodeSelector setting
           nodeSelector: null
+          # This key is used to override the spec.distribution.common.tolerations setting
           tolerations: null
+          # This key is used to override some parameters on the ingresses managed by this module
           ingresses:
             prometheus:
+              # if the authentication is enabled, it can be disabled
               disableAuth: false
+              # the host can be ovverridden, by default is prometheus.{.spec.distribution.modules.ingress.baseDomain}
               host: ""
+              # the ingressClass can be overriden if needed
               ingressClass: ""
             alertmanager:
+              # if the authentication is enabled, it can be disabled
               disableAuth: false
+              # the host can be ovverridden, by default is alertmanager.{.spec.distribution.modules.ingress.baseDomain}
               host: ""
+              # the ingressClass can be overriden if needed
               ingressClass: ""
             grafana:
+              # if the authentication is enabled, it can be disabled
               disableAuth: false
+              # the host can be ovverridden, by default is grafana.{.spec.distribution.modules.ingress.baseDomain}
               host: ""
-              ingressClass: ""
-            goldpinger:
-              disableAuth: false
-              host: ""
+              # the ingressClass can be overriden if needed
               ingressClass: ""
         prometheus:
           resources:
