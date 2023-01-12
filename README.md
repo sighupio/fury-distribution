@@ -65,7 +65,7 @@ Core modules provide essential functionality to the distribution for production-
 
 ### Add-on Modules 📦
 
-Add-on modules provide additional functionality to the distribution.
+Add-on modules provide additional functionality to the distribution. Their release cycle is independent of KFD.
 
 | Module                              | Latest Release                   | Description                                                                  |
 | ----------------------------------- | -------------------------------- | ---------------------------------------------------------------------------- |
@@ -142,16 +142,13 @@ KFD is open-source software and it's released under the following [LICENSE](LICE
 [opa-module]: https://github.com/sighupio/fury-kubernetes-opa
 [auth-module]: https://github.com/sighupio/fury-kubernetes-auth
 
-[networking-version]: https://img.shields.io/badge/release-v1.10.0-blue
-[ingress-version]: https://img.shields.io/badge/release-v1.13.1-blue
-[logging-version]: https://img.shields.io/badge/release-v3.0.1-blue
-[monitoring-version]: https://img.shields.io/badge/release-v2.0.1-blue
-[dr-version]: https://img.shields.io/badge/release-v1.10.1-blue
-[opa-version]: https://img.shields.io/badge/release-v1.7.3-blue
-[auth-version]: https://img.shields.io/badge/release-v0.0.2-blue
-
-[compatibility-matrix]: https://github.com/sighupio/fury-distribution/blob/main/docs/COMPATIBILITY_MATRIX.md
-[versioning]: https://github.com/sighupio/fury-distribution/blob/main/docs/VERSIONING.md
+[networking-version]: https://img.shields.io/badge/release-v1.10.0-204F7A
+[ingress-version]: https://img.shields.io/badge/release-v1.13.1-204F7A
+[logging-version]: https://img.shields.io/badge/release-v3.0.1-204F7A
+[monitoring-version]: https://img.shields.io/badge/release-v2.0.1-204F7A
+[dr-version]: https://img.shields.io/badge/release-v1.10.1-204F7A
+[opa-version]: https://img.shields.io/badge/release-v1.7.3-204F7A
+[auth-version]: https://img.shields.io/badge/release-v0.0.2-204F7A
 
 <!-- Addon Modules -->
 [kong-module]: https://github.com/sighupio/fury-kubernetes-kong
@@ -160,11 +157,14 @@ KFD is open-source software and it's released under the following [LICENSE](LICE
 [storage-module]: https://github.com/sighupio/fury-kubernetes-storage
 [kafka-module]: https://github.com/sighupio/fury-kubernetes-kafka
 
-[kong-version]: https://img.shields.io/github/v/release/sighupio/fury-kubernetes-kong
-[service-mesh-version]: https://img.shields.io/github/v/release/sighupio/fury-kubernetes-service-mesh
-[registry-version]: https://img.shields.io/github/v/release/sighupio/fury-kubernetes-registry
-[storage-version]: https://img.shields.io/github/v/release/sighupio/fury-kubernetes-storage
-[kafka-version]: https://img.shields.io/github/v/release/sighupio/fury-kubernetes-kafka
+[kong-version]: https://img.shields.io/github/v/release/sighupio/fury-kubernetes-kong?color=6967D7
+[service-mesh-version]: https://img.shields.io/github/v/release/sighupio/fury-kubernetes-service-mesh?color=6967D7
+[registry-version]: https://img.shields.io/github/v/release/sighupio/fury-kubernetes-registry?color=6967D7
+[storage-version]: https://img.shields.io/github/v/release/sighupio/fury-kubernetes-storage?color=6967D7
+[kafka-version]: https://img.shields.io/github/v/release/sighupio/fury-kubernetes-kafka?color=6967D7
+
+[compatibility-matrix]: https://github.com/sighupio/fury-distribution/blob/main/docs/COMPATIBILITY_MATRIX.md
+[versioning]: https://github.com/sighupio/fury-distribution/blob/main/docs/VERSIONING.md
 
 <!-- Misc -->
 [sighup-site]: https://sighup.io
