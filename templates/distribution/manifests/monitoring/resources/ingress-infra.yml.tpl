@@ -9,7 +9,11 @@ metadata:
     {{ if not .spec.distribution.modules.ingress.overrides.ingresses.forecastle.disableAuth }}{{ template "ingressAuth" . }}{{ end }}
     {{ template "certManagerClusterIssuer" . }}
   name: alertmanager
+  {{ if and (not .spec.distribution.modules.policy.overrides.ingresses.gpm.disableAuth) (eq .spec.distribution.modules.auth.provider.type "sso") }}
+  namespace: pomerium
+  {{ else }}
   namespace: monitoring
+  {{ end }}
 spec:
   ingressClassName: {{ template "ingressClass" (dict "module" "monitoring" "package" "alertmanager" "type" "internal" "spec" .spec) }}
   rules:
@@ -19,11 +23,18 @@ spec:
           - path: /
             pathType: Prefix
             backend:
+            {{ if and (not .spec.distribution.modules.policy.overrides.ingresses.gpm.disableAuth) (eq .spec.distribution.modules.auth.provider.type "sso") }}
+              service:
+                name: pomerium
+                port:
+                  number: 80
+            {{ else }}
               service:
                 name: alertmanager-main
                 port:
                   name: web
-{{- template "ingressTls" (dict "module" "monitoring" "package" "alertmanager" "prefix" "alertmanager.internal." "spec" .spec) }}
+            {{ end }}
+{{- template "ingressTls" (dict "module" "monitoring" "package" "alertmanager" "prefix" "alertmanager." "spec" .spec) }}
 ---
 apiVersion: networking.k8s.io/v1
 kind: Ingress
@@ -35,21 +46,32 @@ metadata:
     {{ if not .spec.distribution.modules.ingress.overrides.ingresses.forecastle.disableAuth }}{{ template "ingressAuth" . }}{{ end }}
     {{ template "certManagerClusterIssuer" . }}
   name: grafana
+  {{ if and (not .spec.distribution.modules.policy.overrides.ingresses.gpm.disableAuth) (eq .spec.distribution.modules.auth.provider.type "sso") }}
+  namespace: pomerium
+  {{ else }}
   namespace: monitoring
+  {{ end }}
 spec:
   ingressClassName: {{ template "ingressClass" (dict "module" "monitoring" "package" "grafana" "type" "internal" "spec" .spec) }}
   rules:
-    - host: {{ template "ingressHost" (dict "module" "monitoring" "package" "grafana" "prefix" "grafana.internal." "spec" .spec) }}
+    - host: {{ template "grafanaUrl" .spec }}
       http:
         paths:
           - path: /
             pathType: Prefix
             backend:
+            {{ if and (not .spec.distribution.modules.policy.overrides.ingresses.gpm.disableAuth) (eq .spec.distribution.modules.auth.provider.type "sso") }}
+              service:
+                name: pomerium
+                port:
+                  number: 80
+            {{ else }}
               service:
                 name: grafana
                 port:
                   name: http
-{{- template "ingressTls" (dict "module" "monitoring" "package" "grafana" "prefix" "grafana.internal." "spec" .spec) }}
+            {{ end }}
+{{- template "ingressTls" (dict "module" "monitoring" "package" "grafana" "prefix" "grafana." "spec" .spec) }}
 ---
 apiVersion: networking.k8s.io/v1
 kind: Ingress
@@ -61,7 +83,11 @@ metadata:
     {{ if not .spec.distribution.modules.ingress.overrides.ingresses.forecastle.disableAuth }}{{ template "ingressAuth" . }}{{ end }}
     {{ template "certManagerClusterIssuer" . }}
   name: prometheus
+  {{ if and (not .spec.distribution.modules.policy.overrides.ingresses.gpm.disableAuth) (eq .spec.distribution.modules.auth.provider.type "sso") }}
+  namespace: pomerium
+  {{ else }}
   namespace: monitoring
+  {{ end }}
 spec:
   ingressClassName: {{ template "ingressClass" (dict "module" "monitoring" "package" "prometheus" "type" "internal" "spec" .spec) }}
   rules:
@@ -71,8 +97,15 @@ spec:
           - path: /
             pathType: Prefix
             backend:
+            {{ if and (not .spec.distribution.modules.policy.overrides.ingresses.gpm.disableAuth) (eq .spec.distribution.modules.auth.provider.type "sso") }}
+              service:
+                name: pomerium
+                port:
+                  number: 80
+            {{ else }}
               service:
                 name: prometheus-k8s
                 port:
                   name: web
-{{- template "ingressTls" (dict "module" "monitoring" "package" "prometheus" "prefix" "prometheus.internal." "spec" .spec) }}
+            {{ end }}
+{{- template "ingressTls" (dict "module" "monitoring" "package" "prometheus" "prefix" "prometheus." "spec" .spec) }}
