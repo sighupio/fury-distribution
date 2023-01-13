@@ -174,16 +174,16 @@ spec:
             forecastle:
               # if the authentication is enabled, it can be disabled
               disableAuth: false
-              # the host can be ovverridden, by default is forecastle.{.spec.distribution.modules.ingress.baseDomain}
+              # the host can be ovverridden, by default is directory.{.spec.distribution.modules.ingress.baseDomain}
               host: ""
               # the ingressClass can be overriden if needed
               ingressClass: ""
-        # the base domain used for all the KFD ingresses
+        # the base domain used for all the KFD ingresses, if in the nginx dual configuration, it should be the same as the .spec.distribution.modules.ingress.dns.private.name zone
         baseDomain: internal.example.dev
         # configurations for the nginx package
         nginx:
           # type defines if the nginx should be configured as single or dual
-          type: single
+          type: dual
           # the tls section defines how the tls for the ingresses should be managed
           tls:
             # provider can be certManager, secret
@@ -260,6 +260,7 @@ spec:
               memory: ""
           # the PVC size used by opensearch, for each pod
           storageSize: "150Gi"
+      # This section contains all the configurations for the monitoring module
       monitoring:
         # This optional key is used to override automatic parameters
         overrides:
@@ -290,7 +291,9 @@ spec:
               host: ""
               # the ingressClass can be overriden if needed
               ingressClass: ""
+        # configurations for the prometheus package
         prometheus:
+          # optional settings to override requests and limits
           resources:
             requests:
               cpu: ""
@@ -298,65 +301,104 @@ spec:
             limits:
               cpu: ""
               memory: ""
+        # configurations for the alertmanager package
+        alertmanager:
+          # The webhook url to send deadman switch monitoring, for example to use with healthchecks.io
+          deadManSwitchWebhookUrl: ""
+          # The slack webhook url to send alerts
+          slackWebhookUrl: https://slack.com
+      # This section contains all the configurations for the policy (opa) module
       policy:
+        # This optional key is used to override automatic parameters
         overrides:
+          # This key is used to override the spec.distribution.common.nodeSelector setting
           nodeSelector: null
+          # This key is used to override the spec.distribution.common.tolerations setting
           tolerations: null
+          # This key is used to override some parameters on the ingresses managed by this module
           ingresses:
             gpm:
+              # if the authentication is enabled, it can be disabled
               disableAuth: false
+              # the host can be ovverridden, by default is gpm.{.spec.distribution.modules.ingress.baseDomain}
               host: ""
+              # the ingressClass can be overriden if needed
               ingressClass: ""
+        # configurations for the gatekeeper package
         gatekeeper:
+          # This parameter adds namespaces to the gatekeeper whitelist. These namespaces will
           additionalExcludedNamespaces: []
+      # This section contains all the configurations for the dr module
       dr:
+        # Configurations for the velero package
         velero:
+          # Velero configurations for EKS cluster
           eks:
+            # The S3 bucket that will be created
             bucketName: example-velero
             # This field is ignored, but needed. TBD better validation
             iamRoleArn: dummyvalue
+            # The region where the bucket will be created (can be different from the overall region defined in .spec.region)
             region: eu-west-1
+        # This optional key is used to override automatic parameters
         overrides:
+          # This key is used to override the spec.distribution.common.nodeSelector setting
           nodeSelector: null
+          # This key is used to override the spec.distribution.common.tolerations setting
           tolerations: null
+      # This section contains all the configurations for the auth module
       auth:
+        # This optional key is used to override automatic parameters
         overrides:
+          # This key is used to override the spec.distribution.common.nodeSelector setting
           nodeSelector: null
+          # This key is used to override the spec.distribution.common.tolerations setting
+          tolerations: null
           ingresses:
             pomerium:
+              # the host can be ovverridden, by default is pomerium.{.spec.distribution.modules.ingress.baseDomain}
               host: ""
+              # the ingressClass can be overriden if needed
               ingressClass: ""
             dex:
+              # the host can be ovverridden, by default is login.{.spec.distribution.modules.ingress.baseDomain}
               host: ""
+              # the ingressClass can be overriden if needed
               ingressClass: ""
           tolerations: null
         provider:
+          # The authentication type used for the infrastructure ingresses (all the ingress for the distribution) can be none, basicAuth, sso
           type: none
+          # configuration for the basicAuth if .spec.distribution.modules.auth.provider.type is basicAuth
           basicAuth:
+            # The username
             username: admin
+            # The password
             password: "{env://KFD_BASIC_AUTH_PASSWORD}"
-        # pomerium:
-        #   policy: |
-        #     - from: https://example.dev
-        #       to: https://localhost:8000
-        #       allowed_domains:
-        #         - example.dev
-        #       cors_allow_preflight: true
-        #       timeout: 30s
-        #   secrets:
-        #     COOKIE_SECRET: "{env://KFD_AUTH_POMERIUM_COOKIE_SECRET}"
-        #     IDP_CLIENT_SECRET: "{env://KFD_AUTH_POMERIUM_IDP_CLIENT_SECRET}"
-        #     SHARED_SECRET: "{env://KFD_AUTH_POMERIUM_SHARED_SECRET}"
-        # dex:
-        #   type:
-        #   connectors:
-        #     - type: github
-        #       id: github
-        #       name: GitHub
-        #       config:
-        #         clientID: "{env://KFD_AUTH_DEX_CONNECTORS_GITHUB_CLIENT_ID}"
-        #         clientSecret: "{env://KFD_AUTH_DEX_CONNECTORS_GITHUB_CLIENT_SECRET}"
-        #         redirectURI: https://login.example.dev/callback
-        #         loadAllGroups: false
-        #         teamNameField: slug
-        #         useLoginAsID: false
+          # Configuration for the pomerium package, used only if .spec.distribution.modules.auth.provider.type is sso
+          pomerium:
+            # Additional policy configuration
+            policy: |
+              - from: https://myapp.example.dev
+                to: http://myapp.svc.cluster.local:8000
+                cors_allow_preflight: true
+                timeout: 30s
+            # Secrets configurations for pomerium and dex (pomerium connect to dex proxy for the SSO process)
+            secrets:
+              COOKIE_SECRET: "{env://KFD_AUTH_POMERIUM_COOKIE_SECRET}"
+              IDP_CLIENT_SECRET: "{env://KFD_AUTH_POMERIUM_IDP_CLIENT_SECRET}"
+              SHARED_SECRET: "{env://KFD_AUTH_POMERIUM_SHARED_SECRET}"
+          # Configuration for the pomerium package, used only if .spec.distribution.modules.auth.provider.type is sso
+          dex:
+            # Dex connectors configuration
+            connectors:
+              - type: github
+                id: github
+                name: GitHub
+                config:
+                  clientID: "{env://KFD_AUTH_DEX_CONNECTORS_GITHUB_CLIENT_ID}"
+                  clientSecret: "{env://KFD_AUTH_DEX_CONNECTORS_GITHUB_CLIENT_SECRET}"
+                  redirectURI: https://login.example.dev/callback
+                  loadAllGroups: false
+                  teamNameField: slug
+                  useLoginAsID: false
