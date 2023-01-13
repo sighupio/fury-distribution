@@ -31,6 +31,12 @@ KFD uses an **un-distribution model**. This means that we:
 
 ## Architecture 🏗
 
+<!-- markdownlint-disable MD033 -->
+<p align="center">
+  <img src="docs/assets/kfd-architecture.png" width="800px"/>
+</p>
+<!-- markdownlint-enable MD033 -->
+
 Kubernetes Fury Distribution is structured on modules, and each module has a set of packages.
 
 - A package is a single unit of functionality.
@@ -47,12 +53,6 @@ The standard way to deploy KFD is to:
 
 Core modules provide essential functionality to the distribution for production-grade clusters.
 
-<!-- markdownlint-disable MD033 -->
-<p align="center">
-  <img src="docs/assets/fury-core-modules.png" width="800px"/>
-</p>
-<!-- markdownlint-enable MD033 -->
-
 | Module                          | Included Release               | Description                                                                               |
 | ------------------------------- | ------------------------------ | ----------------------------------------------------------------------------------------- |
 | [Networking][networking-module] | ![Version][networking-version] | Networking functionality via Calico CNI                                                   |
@@ -65,7 +65,7 @@ Core modules provide essential functionality to the distribution for production-
 
 ### Add-on Modules 📦
 
-Add-on modules provide additional functionality to the distribution.
+Add-on modules provide additional functionality to the distribution. Their release cycle is independent of KFD's.
 
 | Module                              | Latest Release                   | Description                                                                  |
 | ----------------------------------- | -------------------------------- | ---------------------------------------------------------------------------- |
@@ -150,9 +150,6 @@ KFD is open-source software and it's released under the following [LICENSE](LICE
 [opa-version]: https://img.shields.io/badge/release-v1.7.3-blue
 [auth-version]: https://img.shields.io/badge/release-v0.0.2-blue
 
-[compatibility-matrix]: https://github.com/sighupio/fury-distribution/blob/main/docs/COMPATIBILITY_MATRIX.md
-[versioning]: https://github.com/sighupio/fury-distribution/blob/main/docs/VERSIONING.md
-
 <!-- Addon Modules -->
 [kong-module]: https://github.com/sighupio/fury-kubernetes-kong
 [service-mesh-module]: https://github.com/sighupio/fury-kubernetes-service-mesh
@@ -165,6 +162,9 @@ KFD is open-source software and it's released under the following [LICENSE](LICE
 [registry-version]: https://img.shields.io/github/v/release/sighupio/fury-kubernetes-registry
 [storage-version]: https://img.shields.io/github/v/release/sighupio/fury-kubernetes-storage
 [kafka-version]: https://img.shields.io/github/v/release/sighupio/fury-kubernetes-kafka
+
+[compatibility-matrix]: https://github.com/sighupio/fury-distribution/blob/main/docs/COMPATIBILITY_MATRIX.md
+[versioning]: https://github.com/sighupio/fury-distribution/blob/main/docs/VERSIONING.md
 
 <!-- Misc -->
 [sighup-site]: https://sighup.io
