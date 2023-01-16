@@ -282,7 +282,7 @@ spec:
               disableAuth: false
               # the host can be overridden, by default is alertmanager.{.spec.distribution.modules.ingress.baseDomain}
               host: ""
-              # the ingressClass can be overriden if needed
+              # the ingressClass can be overridden if needed
               ingressClass: ""
             grafana:
               # if the authentication is enabled, it can be disabled
