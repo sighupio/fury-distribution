@@ -289,7 +289,7 @@ spec:
               disableAuth: false
               # the host can be overridden, by default is grafana.{.spec.distribution.modules.ingress.baseDomain}
               host: ""
-              # the ingressClass can be overriden if needed
+              # the ingressClass can be overridden if needed
               ingressClass: ""
         # configurations for the prometheus package
         prometheus:
