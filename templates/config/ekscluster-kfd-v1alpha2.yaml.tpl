@@ -350,7 +350,7 @@ spec:
       auth:
         # This optional key is used to override automatic parameters
         overrides:
-          # This key is used to override the spec.distribution.common.nodeSelector setting
+          # This key is used to override the spec.distribution.common.nodeSelector setting. Set to a custom value or use an empty object {} to not add the common node selector.
           nodeSelector: null
           # This key is used to override the spec.distribution.common.tolerations setting
           tolerations: null
