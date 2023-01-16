@@ -287,7 +287,7 @@ spec:
             grafana:
               # if the authentication is enabled, it can be disabled
               disableAuth: false
-              # the host can be ovverridden, by default is grafana.{.spec.distribution.modules.ingress.baseDomain}
+              # the host can be overridden, by default is grafana.{.spec.distribution.modules.ingress.baseDomain}
               host: ""
               # the ingressClass can be overriden if needed
               ingressClass: ""
