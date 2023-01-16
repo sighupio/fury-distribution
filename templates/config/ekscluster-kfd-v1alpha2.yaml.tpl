@@ -352,7 +352,7 @@ spec:
         overrides:
           # This key is used to override the spec.distribution.common.nodeSelector setting. Set to a custom value or use an empty object {} to not add the common node selector.
           nodeSelector: null
-          # This key is used to override the spec.distribution.common.tolerations setting
+          # This key is used to override the spec.distribution.common.tolerations setting. Set to a custom value or use an empty object {} to not add the common tolerations.
           tolerations: null
           ingresses:
             pomerium:
