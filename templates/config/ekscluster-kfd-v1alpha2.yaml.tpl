@@ -361,7 +361,7 @@ spec:
               # the ingressClass can be overridden if needed
               ingressClass: ""
             dex:
-              # the host can be ovverridden, by default is login.{.spec.distribution.modules.ingress.baseDomain}
+              # the host can be overridden, by default is login.{.spec.distribution.modules.ingress.baseDomain}
               host: ""
               # the ingressClass can be overridden if needed
               ingressClass: ""
