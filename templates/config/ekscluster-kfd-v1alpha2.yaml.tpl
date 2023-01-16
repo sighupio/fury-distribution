@@ -22,7 +22,7 @@ spec:
           keyPrefix: example-cluster/
           # This value defines in which region the bucket is
           region: eu-west-1
-  # This value defines which region will be used to install the cluster and all the related resources
+  # This value defines in which AWS region the cluster and all the related resources will be created
   region: eu-west-1
   # This map defines which will be the common tags that will be added to all the resources created on AWS
   tags:
