@@ -365,7 +365,6 @@ spec:
               host: ""
               # the ingressClass can be overridden if needed
               ingressClass: ""
-          tolerations: null
         provider:
           # The authentication type used for the infrastructure ingresses (all the ingress for the distribution) can be none, basicAuth, sso
           type: none
