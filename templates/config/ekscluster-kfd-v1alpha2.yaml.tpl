@@ -176,7 +176,7 @@ spec:
               disableAuth: false
               # the host can be overridden, by default is directory.{.spec.distribution.modules.ingress.baseDomain}
               host: ""
-              # the ingressClass can be overriden if needed
+              # the ingressClass can be overridden if needed
               ingressClass: ""
         # the base domain used for all the KFD ingresses, if in the nginx dual configuration, it should be the same as the .spec.distribution.modules.ingress.dns.private.name zone
         baseDomain: internal.example.dev
