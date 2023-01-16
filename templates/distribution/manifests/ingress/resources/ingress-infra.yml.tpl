@@ -9,7 +9,7 @@ metadata:
     {{ if not .spec.distribution.modules.ingress.overrides.ingresses.forecastle.disableAuth }}{{ template "ingressAuth" . }}{{ end }}
     {{ template "certManagerClusterIssuer" . }}
   name: forecastle
-  {{ if and (not .spec.distribution.modules.policy.overrides.ingresses.gpm.disableAuth) (eq .spec.distribution.modules.auth.provider.type "sso") }}
+  {{ if and (not .spec.distribution.modules.ingress.overrides.ingresses.forecastle.disableAuth) (eq .spec.distribution.modules.auth.provider.type "sso") }}
   namespace: pomerium
   {{ else }}
   namespace: ingress-nginx
@@ -23,7 +23,7 @@ spec:
         - path: /
           pathType: Prefix
           backend:
-          {{ if and (not .spec.distribution.modules.policy.overrides.ingresses.gpm.disableAuth) (eq .spec.distribution.modules.auth.provider.type "sso") }}
+          {{ if and (not .spec.distribution.modules.ingress.overrides.ingresses.forecastle.disableAuth) (eq .spec.distribution.modules.auth.provider.type "sso") }}
             service:
               name: pomerium
               port:

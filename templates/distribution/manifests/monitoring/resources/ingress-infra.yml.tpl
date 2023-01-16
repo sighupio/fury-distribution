@@ -9,7 +9,7 @@ metadata:
     {{ if not .spec.distribution.modules.ingress.overrides.ingresses.forecastle.disableAuth }}{{ template "ingressAuth" . }}{{ end }}
     {{ template "certManagerClusterIssuer" . }}
   name: alertmanager
-  {{ if and (not .spec.distribution.modules.policy.overrides.ingresses.gpm.disableAuth) (eq .spec.distribution.modules.auth.provider.type "sso") }}
+  {{ if and (not .spec.distribution.modules.monitoring.overrides.ingresses.alertmanager.disableAuth) (eq .spec.distribution.modules.auth.provider.type "sso") }}
   namespace: pomerium
   {{ else }}
   namespace: monitoring
@@ -23,7 +23,7 @@ spec:
           - path: /
             pathType: Prefix
             backend:
-            {{ if and (not .spec.distribution.modules.policy.overrides.ingresses.gpm.disableAuth) (eq .spec.distribution.modules.auth.provider.type "sso") }}
+            {{ if and (not .spec.distribution.modules.monitoring.overrides.ingresses.alertmanager.disableAuth) (eq .spec.distribution.modules.auth.provider.type "sso") }}
               service:
                 name: pomerium
                 port:
@@ -46,7 +46,7 @@ metadata:
     {{ if not .spec.distribution.modules.ingress.overrides.ingresses.forecastle.disableAuth }}{{ template "ingressAuth" . }}{{ end }}
     {{ template "certManagerClusterIssuer" . }}
   name: grafana
-  {{ if and (not .spec.distribution.modules.policy.overrides.ingresses.gpm.disableAuth) (eq .spec.distribution.modules.auth.provider.type "sso") }}
+  {{ if and (not .spec.distribution.modules.monitoring.overrides.ingresses.grafana.disableAuth) (eq .spec.distribution.modules.auth.provider.type "sso") }}
   namespace: pomerium
   {{ else }}
   namespace: monitoring
@@ -60,7 +60,7 @@ spec:
           - path: /
             pathType: Prefix
             backend:
-            {{ if and (not .spec.distribution.modules.policy.overrides.ingresses.gpm.disableAuth) (eq .spec.distribution.modules.auth.provider.type "sso") }}
+            {{ if and (not .spec.distribution.modules.monitoring.overrides.ingresses.grafana.disableAuth) (eq .spec.distribution.modules.auth.provider.type "sso") }}
               service:
                 name: pomerium
                 port:
@@ -83,7 +83,7 @@ metadata:
     {{ if not .spec.distribution.modules.ingress.overrides.ingresses.forecastle.disableAuth }}{{ template "ingressAuth" . }}{{ end }}
     {{ template "certManagerClusterIssuer" . }}
   name: prometheus
-  {{ if and (not .spec.distribution.modules.policy.overrides.ingresses.gpm.disableAuth) (eq .spec.distribution.modules.auth.provider.type "sso") }}
+  {{ if and (not .spec.distribution.modules.monitoring.overrides.ingresses.prometheus.disableAuth) (eq .spec.distribution.modules.auth.provider.type "sso") }}
   namespace: pomerium
   {{ else }}
   namespace: monitoring
@@ -97,7 +97,7 @@ spec:
           - path: /
             pathType: Prefix
             backend:
-            {{ if and (not .spec.distribution.modules.policy.overrides.ingresses.gpm.disableAuth) (eq .spec.distribution.modules.auth.provider.type "sso") }}
+            {{ if and (not .spec.distribution.modules.monitoring.overrides.ingresses.prometheus.disableAuth) (eq .spec.distribution.modules.auth.provider.type "sso") }}
               service:
                 name: pomerium
                 port:

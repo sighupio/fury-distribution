@@ -9,7 +9,7 @@ metadata:
     {{ if not .spec.distribution.modules.logging.overrides.ingresses.cerebro.disableAuth }}{{ template "ingressAuth" . }}{{ end }}
     {{ template "certManagerClusterIssuer" . }}
   name: cerebro
-  {{ if and (not .spec.distribution.modules.policy.overrides.ingresses.gpm.disableAuth) (eq .spec.distribution.modules.auth.provider.type "sso") }}
+  {{ if and (not .spec.distribution.modules.logging.overrides.ingresses.cerebro.disableAuth) (eq .spec.distribution.modules.auth.provider.type "sso") }}
   namespace: pomerium
   {{ else }}
   namespace: logging
@@ -23,7 +23,7 @@ spec:
           - path: /
             pathType: Prefix
             backend:
-            {{ if and (not .spec.distribution.modules.policy.overrides.ingresses.gpm.disableAuth) (eq .spec.distribution.modules.auth.provider.type "sso") }}
+            {{ if and (not .spec.distribution.modules.logging.overrides.ingresses.cerebro.disableAuth) (eq .spec.distribution.modules.auth.provider.type "sso") }}
               service:
                 name: pomerium
                 port:
@@ -46,7 +46,7 @@ metadata:
     {{ if not .spec.distribution.modules.logging.overrides.ingresses.opensearchDashboards.disableAuth }}{{ template "ingressAuth" . }}{{ end }}
     {{ template "certManagerClusterIssuer" . }}
   name: opensearch-dashboards
-  {{ if and (not .spec.distribution.modules.policy.overrides.ingresses.gpm.disableAuth) (eq .spec.distribution.modules.auth.provider.type "sso") }}
+  {{ if and (not .spec.distribution.modules.logging.overrides.ingresses.opensearch-dashboards.disableAuth) (eq .spec.distribution.modules.auth.provider.type "sso") }}
   namespace: pomerium
   {{ else }}
   namespace: logging
@@ -60,7 +60,7 @@ spec:
           - path: /
             pathType: Prefix
             backend:
-            {{ if and (not .spec.distribution.modules.policy.overrides.ingresses.gpm.disableAuth) (eq .spec.distribution.modules.auth.provider.type "sso") }}
+            {{ if and (not .spec.distribution.modules.logging.overrides.ingresses.opensearch-dashboards.disableAuth) (eq .spec.distribution.modules.auth.provider.type "sso") }}
               service:
                 name: pomerium
                 port:
@@ -83,7 +83,7 @@ metadata:
     {{ if not .spec.distribution.modules.logging.overrides.ingresses.minio.disableAuth }}{{ template "ingressAuth" . }}{{ end }}
     {{ template "certManagerClusterIssuer" . }}
   name: minio
-  {{ if and (not .spec.distribution.modules.policy.overrides.ingresses.gpm.disableAuth) (eq .spec.distribution.modules.auth.provider.type "sso") }}
+  {{ if and (not .spec.distribution.modules.logging.overrides.ingresses.minio.disableAuth) (eq .spec.distribution.modules.auth.provider.type "sso") }}
   namespace: pomerium
   {{ else }}
   namespace: logging
@@ -97,7 +97,7 @@ spec:
           - path: /
             pathType: Prefix
             backend:
-            {{ if and (not .spec.distribution.modules.policy.overrides.ingresses.gpm.disableAuth) (eq .spec.distribution.modules.auth.provider.type "sso") }}
+            {{ if and (not .spec.distribution.modules.logging.overrides.ingresses.minio.disableAuth) (eq .spec.distribution.modules.auth.provider.type "sso") }}
               service:
                 name: pomerium
                 port:
