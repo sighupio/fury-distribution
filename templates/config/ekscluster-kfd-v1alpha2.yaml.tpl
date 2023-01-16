@@ -356,7 +356,7 @@ spec:
           tolerations: null
           ingresses:
             pomerium:
-              # the host can be ovverridden, by default is pomerium.{.spec.distribution.modules.ingress.baseDomain}
+              # the host can be overridden, by default is pomerium.{.spec.distribution.modules.ingress.baseDomain}
               host: ""
               # the ingressClass can be overriden if needed
               ingressClass: ""
