@@ -65,9 +65,8 @@ spec:
         vpnClientsSubnetCidr: 172.16.0.0/16
         # ssh access settings
         ssh:
-          publicKeys:
-            - "ssh-ed25519 XYZ"
-            - "{file://relative/path/to/ssh.pub}"
+          # Not yet supported
+          publicKeys: []
           # The github user name list that will be used to get the ssh public key that will be added as authorized key to the operatorName user
           githubUsersName:
             - johndoe
