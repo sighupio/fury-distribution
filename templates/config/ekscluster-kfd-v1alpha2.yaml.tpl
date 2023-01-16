@@ -6,7 +6,7 @@
 apiVersion: kfd.sighup.io/v1alpha2
 kind: EKSCluster
 metadata:
-  # The name of the cluster, and the prefix for all the other resources created on AWS
+  # The name of the cluster, will be also used as a prefix for all the other resources created on AWS
   name: {{.Name}}
 spec:
   # This value defines which KFD version to use to install the cluster
