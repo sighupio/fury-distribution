@@ -244,7 +244,7 @@ spec:
               disableAuth: false
               # the host can be overridden, by default is cerebro.{.spec.distribution.modules.ingress.baseDomain}
               host: ""
-              # the ingressClass can be overriden if needed
+              # the ingressClass can be overridden if needed
               ingressClass: ""
         # configurations for the opensearch package
         opensearch:
