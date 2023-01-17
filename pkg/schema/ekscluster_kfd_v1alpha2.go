@@ -448,6 +448,9 @@ func (j *SpecDistributionModulesAuthProvider) UnmarshalJSON(b []byte) error {
 }
 
 type SpecDistributionModulesAuth struct {
+	// BaseDomain corresponds to the JSON schema field "baseDomain".
+	BaseDomain *string `json:"baseDomain,omitempty" yaml:"baseDomain,omitempty"`
+
 	// Dex corresponds to the JSON schema field "dex".
 	Dex *SpecDistributionModulesAuthDex `json:"dex,omitempty" yaml:"dex,omitempty"`
 

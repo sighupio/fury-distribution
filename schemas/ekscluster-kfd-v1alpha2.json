@@ -1137,6 +1137,9 @@
                 "provider": {
                     "$ref": "#/$defs/Spec.Distribution.Modules.Auth.Provider"
                 },
+                "baseDomain": {
+                    "type": "string"
+                },
                 "pomerium": {
                     "$ref": "#/$defs/Spec.Distribution.Modules.Auth.Pomerium"
                 },
@@ -1161,7 +1164,7 @@
                     "then": {
                         "properties": {
                             "auth": {
-                                "required": ["dex", "pomerium"]
+                                "required": ["dex", "pomerium", "baseDomain"]
                             }
                         }
                     },
