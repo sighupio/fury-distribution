@@ -40,6 +40,18 @@
   {{- end -}}
 {{ end }}
 
+{{/* ingressHostAuth { module: <module>, package: <package>, prefix: <prefix>, spec: "." } */}}
+{{ define "ingressHostAuth" }}
+  {{- $module := index .spec.distribution.modules .module -}}
+  {{- $package := index $module.overrides.ingresses .package -}}
+  {{- $host := $package.host -}}
+  {{- if $host -}}
+    {{ $host }}
+  {{- else -}}
+    {{ print .prefix .spec.distribution.modules.auth.baseDomain }}
+  {{- end -}}
+{{ end }}
+
 {{/* ingressTls { module: <module>, package: <package>, prefix: <prefix>, spec: "." } */}}
 {{- define "ingressTls" -}}
 {{ if eq .spec.distribution.modules.ingress.nginx.tls.provider "none" -}}
@@ -53,23 +65,25 @@
 {{- end }}
 {{- end -}}
 
+{{/* ingressTlsAuth { module: <module>, package: <package>, prefix: <prefix>, spec: "." } */}}
+{{- define "ingressTlsAuth" -}}
+{{ if eq .spec.distribution.modules.ingress.nginx.tls.provider "none" -}}
+  {{ else }}
+  tls:
+    - hosts:
+      - {{ template "ingressHostAuth" . }}
+    {{- if eq .spec.distribution.modules.ingress.nginx.tls.provider "certManager" }}
+      secretName: {{ lower .package }}-tls
+    {{- end }}
+{{- end }}
+{{- end -}}
+
 {{ define "pomeriumHost" }}
-  {{- template "ingressHost" (dict "module" "auth" "package" "pomerium" "prefix" "pomerium.internal." "spec" .spec) -}}
+  {{- template "ingressHost" (dict "module" "auth" "package" "pomerium" "prefix" "pomerium." "spec" .spec) -}}
 {{ end }}
 
-{{ define "ingressAuthUrl" -}}
-"https://{{ template "pomeriumHost" . }}/verify?uri=$scheme://$host$request_uri"
-{{- end }}
-
-{{ define "ingressAuthSignin" -}}
-"https://{{ template "pomeriumHost" . }}/?uri=$scheme://$host$request_uri"
-{{- end }}
-
 {{ define "ingressAuth" }}
-{{- if eq .spec.distribution.modules.auth.provider.type "sso" -}}
-    nginx.ingress.kubernetes.io/auth-url: {{ template "ingressAuthUrl" . }}
-    nginx.ingress.kubernetes.io/auth-signin: {{ template "ingressAuthSignin" . }}
-{{- else if eq .spec.distribution.modules.auth.provider.type "basicAuth" -}}
+{{- if eq .spec.distribution.modules.auth.provider.type "basicAuth" -}}
     nginx.ingress.kubernetes.io/auth-type: basic
     nginx.ingress.kubernetes.io/auth-secret: basic-auth
     nginx.ingress.kubernetes.io/auth-realm: 'Authentication Required'
@@ -83,9 +97,41 @@ cert-manager.io/cluster-issuer: {{ .spec.distribution.modules.ingress.certManage
 {{ end }}
 
 {{ define "alertmanagerUrl" }}
-  {{- template "ingressHost" (dict "module" "monitoring" "package" "alertmanager" "prefix" "alertmanager.internal." "spec" .) -}}
+  {{- template "ingressHost" (dict "module" "monitoring" "package" "alertmanager" "prefix" "alertmanager." "spec" .) -}}
 {{ end }}
 
 {{ define "prometheusUrl" }}
-  {{- template "ingressHost" (dict "module" "monitoring" "package" "prometheus" "prefix" "prometheus.internal." "spec" .) -}}
+  {{- template "ingressHost" (dict "module" "monitoring" "package" "prometheus" "prefix" "prometheus." "spec" .) -}}
+{{ end }}
+
+{{ define "grafanaUrl" }}
+  {{- template "ingressHost" (dict "module" "monitoring" "package" "grafana" "prefix" "grafana." "spec" .) -}}
+{{ end }}
+
+{{ define "minioUrl" }}
+  {{- template "ingressHost" (dict "module" "logging" "package" "minio" "prefix" "minio." "spec" .) -}}
+{{ end }}
+
+{{ define "opensearchDashboardsUrl" }}
+  {{- template "ingressHost" (dict "module" "logging" "package" "opensearchDashboards" "prefix" "opensearch-dashboards." "spec" .) -}}
+{{ end }}
+
+{{ define "forecastleUrl" }}
+  {{- template "ingressHost" (dict "module" "ingress" "package" "forecastle" "prefix" "directory." "spec" .) -}}
+{{ end }}
+
+{{ define "cerebroUrl" }}
+  {{- template "ingressHost" (dict "module" "logging" "package" "cerebro" "prefix" "cerebro." "spec" .) -}}
+{{ end }}
+
+{{ define "gpmUrl" }}
+  {{- template "ingressHost" (dict "module" "policy" "package" "gpm" "prefix" "gpm." "spec" .) -}}
+{{ end }}
+
+{{ define "pomeriumUrl" }}
+  {{- template "ingressHostAuth" (dict "module" "auth" "package" "pomerium" "prefix" "pomerium." "spec" .) -}}
+{{ end }}
+
+{{ define "dexUrl" }}
+  {{- template "ingressHostAuth" (dict "module" "auth" "package" "dex" "prefix" "login." "spec" .) -}}
 {{ end }}

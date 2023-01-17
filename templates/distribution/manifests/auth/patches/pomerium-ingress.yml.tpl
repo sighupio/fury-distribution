@@ -10,9 +10,10 @@ metadata:
   name: pomerium
   namespace: pomerium
 spec:
-  ingressClassName: {{ template "ingressClass" (dict "module" "auth" "package" "pomerium" "type" "internal" "spec" .spec) }}
+  # Needs to be externally available if the user wants to protect other applications in the cluster
+  ingressClassName: {{ template "ingressClass" (dict "module" "auth" "package" "pomerium" "type" "external" "spec" .spec) }}
   rules:
-    - host: {{ template "pomeriumHost" . }}
+    - host: {{ template "pomeriumUrl" .spec }}
       http:
         paths:
           - path: /
@@ -22,5 +23,5 @@ spec:
                 name: pomerium
                 port:
                   number: 80
-{{- template "ingressTls" (dict "module" "auth" "package" "pomerium" "prefix" "pomerium.internal." "spec" .spec) }}
+{{- template "ingressTlsAuth" (dict "module" "auth" "package" "pomerium" "prefix" "pomerium." "spec" .spec) }}
 {{- end }}
