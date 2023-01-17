@@ -2,7 +2,7 @@
   {{ if .spec.distribution.modules.auth.overrides.ingresses.pomerium.host -}}
     {{ .spec.distribution.modules.auth.overrides.ingresses.pomerium.host }}
   {{- else -}}
-    {{ print "pomerium.internal." .spec.distribution.modules.ingress.baseDomain }}
+    {{ print "pomerium." .spec.distribution.modules.ingress.baseDomain }}
   {{- end }}
 {{- end -}}
 {{- define "dexHost" -}}

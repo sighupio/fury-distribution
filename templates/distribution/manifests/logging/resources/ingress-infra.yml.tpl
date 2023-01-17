@@ -9,21 +9,32 @@ metadata:
     {{ if not .spec.distribution.modules.logging.overrides.ingresses.cerebro.disableAuth }}{{ template "ingressAuth" . }}{{ end }}
     {{ template "certManagerClusterIssuer" . }}
   name: cerebro
+  {{ if and (not .spec.distribution.modules.logging.overrides.ingresses.cerebro.disableAuth) (eq .spec.distribution.modules.auth.provider.type "sso") }}
+  namespace: pomerium
+  {{ else }}
   namespace: logging
+  {{ end }}
 spec:
   ingressClassName: {{ template "ingressClass" (dict "module" "logging" "package" "cerebro" "type" "internal" "spec" .spec) }}
   rules:
-    - host: {{ template "ingressHost" (dict "module" "logging" "package" "cerebro" "prefix" "cerebro.internal." "spec" .spec) }}
+    - host: {{ template "cerebroUrl" .spec }}
       http:
         paths:
           - path: /
             pathType: Prefix
             backend:
+            {{ if and (not .spec.distribution.modules.logging.overrides.ingresses.cerebro.disableAuth) (eq .spec.distribution.modules.auth.provider.type "sso") }}
+              service:
+                name: pomerium
+                port:
+                  number: 80
+            {{ else }}
               service:
                 name: cerebro
                 port:
                   name: http
-{{- template "ingressTls" (dict "module" "logging" "package" "cerebro" "prefix" "cerebro.internal." "spec" .spec) }}
+            {{ end }}
+{{- template "ingressTls" (dict "module" "logging" "package" "cerebro" "prefix" "cerebro." "spec" .spec) }}
 ---
 apiVersion: networking.k8s.io/v1
 kind: Ingress
@@ -35,21 +46,32 @@ metadata:
     {{ if not .spec.distribution.modules.logging.overrides.ingresses.opensearchDashboards.disableAuth }}{{ template "ingressAuth" . }}{{ end }}
     {{ template "certManagerClusterIssuer" . }}
   name: opensearch-dashboards
+  {{ if and (not .spec.distribution.modules.logging.overrides.ingresses.opensearch-dashboards.disableAuth) (eq .spec.distribution.modules.auth.provider.type "sso") }}
+  namespace: pomerium
+  {{ else }}
   namespace: logging
+  {{ end }}
 spec:
   ingressClassName: {{ template "ingressClass" (dict "module" "logging" "package" "opensearchDashboards" "type" "internal" "spec" .spec) }}
   rules:
-    - host: {{ template "ingressHost" (dict "module" "logging" "package" "opensearchDashboards" "prefix" "opensearch-dashboards.internal." "spec" .spec) }}
+    - host: {{ template "opensearchDashboardsUrl" .spec }}
       http:
         paths:
           - path: /
             pathType: Prefix
             backend:
+            {{ if and (not .spec.distribution.modules.logging.overrides.ingresses.opensearch-dashboards.disableAuth) (eq .spec.distribution.modules.auth.provider.type "sso") }}
+              service:
+                name: pomerium
+                port:
+                  number: 80
+            {{ else }}
               service:
                 name: opensearch-dashboards
                 port:
                   name: http
-{{- template "ingressTls" (dict "module" "logging" "package" "opensearchDashboards" "prefix" "opensearch-dashboards.internal." "spec" .spec) }}
+            {{ end }}
+{{- template "ingressTls" (dict "module" "logging" "package" "opensearchDashboards" "prefix" "opensearch-dashboards." "spec" .spec) }}
 ---
 apiVersion: networking.k8s.io/v1
 kind: Ingress
@@ -61,18 +83,29 @@ metadata:
     {{ if not .spec.distribution.modules.logging.overrides.ingresses.minio.disableAuth }}{{ template "ingressAuth" . }}{{ end }}
     {{ template "certManagerClusterIssuer" . }}
   name: minio
+  {{ if and (not .spec.distribution.modules.logging.overrides.ingresses.minio.disableAuth) (eq .spec.distribution.modules.auth.provider.type "sso") }}
+  namespace: pomerium
+  {{ else }}
   namespace: logging
+  {{ end }}
 spec:
   ingressClassName: {{ template "ingressClass" (dict "module" "logging" "package" "minio" "type" "internal" "spec" .spec) }}
   rules:
-    - host: {{ template "ingressHost" (dict "module" "logging" "package" "minio" "prefix" "minio.internal." "spec" .spec) }}
+    - host: {{ template "minioUrl" .spec }}
       http:
         paths:
           - path: /
             pathType: Prefix
             backend:
+            {{ if and (not .spec.distribution.modules.logging.overrides.ingresses.minio.disableAuth) (eq .spec.distribution.modules.auth.provider.type "sso") }}
+              service:
+                name: pomerium
+                port:
+                  number: 80
+            {{ else }}
               service:
                 name: minio
                 port:
                   name: minio
-{{- template "ingressTls" (dict "module" "logging" "package" "minio" "prefix" "minio.internal." "spec" .spec) }}
+            {{ end }}
+{{- template "ingressTls" (dict "module" "logging" "package" "minio" "prefix" "minio." "spec" .spec) }}

@@ -67,7 +67,7 @@ patchesJson6902:
       name: nginx-ingress-controller-internal
       namespace: ingress-nginx
     path: patchesJson/ingress-nginx.yml
-  {{- else if .spec.distribution.modules.ingress.nginx.type "single" -}}
+  {{- else if eq .spec.distribution.modules.ingress.nginx.type "single" -}}
   - target:
       group: apps
       version: v1

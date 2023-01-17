@@ -9,18 +9,29 @@ metadata:
     {{ if not .spec.distribution.modules.policy.overrides.ingresses.gpm.disableAuth }}{{ template "ingressAuth" . }}{{ end }}
     {{ template "certManagerClusterIssuer" . }}
   name: gpm
+  {{ if and (not .spec.distribution.modules.policy.overrides.ingresses.gpm.disableAuth) (eq .spec.distribution.modules.auth.provider.type "sso") }}
+  namespace: pomerium
+  {{ else }}
   namespace: gatekeeper-system
+  {{ end }}
 spec:
   ingressClassName: {{ template "ingressClass" (dict "module" "policy" "package" "gpm" "type" "internal" "spec" .spec) }}
   rules:
-    - host: {{ template "ingressHost" (dict "module" "policy" "package" "gpm" "prefix" "gpm.internal." "spec" .spec) }}
+    - host: {{ template "gpmUrl" .spec }}
       http:
         paths:
         - path: /
           pathType: Prefix
           backend:
+          {{ if and (not .spec.distribution.modules.policy.overrides.ingresses.gpm.disableAuth) (eq .spec.distribution.modules.auth.provider.type "sso") }}
+            service:
+              name: pomerium
+              port:
+                number: 80
+          {{ else }}
             service:
               name: gatekeeper-policy-manager
               port:
                 name: http
-{{- template "ingressTls" (dict "module" "policy" "package" "gpm" "prefix" "gpm.internal." "spec" .spec) }}
+          {{ end }}
+{{- template "ingressTls" (dict "module" "policy" "package" "gpm" "prefix" "gpm." "spec" .spec) }}
