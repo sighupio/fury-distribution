@@ -231,7 +231,7 @@ spec:
           tolerations: null
           # This key is used to override some parameters on the ingresses managed by this module
           ingresses:
-            opensearch-dashboards:
+            opensearchDashboards:
               # if authentication is globally enabled, it can be disabled for this ingress.
               disableAuth: false
               # the host can be overridden, by default is opensearch-dashboards.{.spec.distribution.modules.ingress.baseDomain}
@@ -373,30 +373,32 @@ spec:
             username: admin
             # The password
             password: "{env://KFD_BASIC_AUTH_PASSWORD}"
-          # Configuration for the pomerium package, used only if .spec.distribution.modules.auth.provider.type is sso
-          pomerium:
-            # Additional policy configuration
-            policy: |
-              - from: https://myapp.example.dev
-                to: http://myapp.svc.cluster.local:8000
-                cors_allow_preflight: true
-                timeout: 30s
-            # Secrets configurations for pomerium and dex (pomerium connect to dex proxy for the SSO process)
-            secrets:
-              COOKIE_SECRET: "{env://KFD_AUTH_POMERIUM_COOKIE_SECRET}"
-              IDP_CLIENT_SECRET: "{env://KFD_AUTH_POMERIUM_IDP_CLIENT_SECRET}"
-              SHARED_SECRET: "{env://KFD_AUTH_POMERIUM_SHARED_SECRET}"
-          # Configuration for the pomerium package, used only if .spec.distribution.modules.auth.provider.type is sso
-          dex:
-            # Dex connectors configuration
-            connectors:
-              - type: github
-                id: github
-                name: GitHub
-                config:
-                  clientID: "{env://KFD_AUTH_DEX_CONNECTORS_GITHUB_CLIENT_ID}"
-                  clientSecret: "{env://KFD_AUTH_DEX_CONNECTORS_GITHUB_CLIENT_SECRET}"
-                  redirectURI: https://login.example.dev/callback
-                  loadAllGroups: false
-                  teamNameField: slug
-                  useLoginAsID: false
+        # The base domain used for all the auth ingresses, if in the nginx dual configuration, it should be the same as the .spec.distribution.modules.ingress.dns.public.name zone
+        baseDomain: example.dev
+        # Configuration for the pomerium package, used only if .spec.distribution.modules.auth.provider.type is sso
+        pomerium:
+          # Additional policy configuration
+          policy: |
+            - from: https://myapp.example.dev
+              to: http://myapp.svc.cluster.local:8000
+              cors_allow_preflight: true
+              timeout: 30s
+          # Secrets configurations for pomerium and dex (pomerium connect to dex proxy for the SSO process)
+          secrets:
+            COOKIE_SECRET: "{env://KFD_AUTH_POMERIUM_COOKIE_SECRET}"
+            IDP_CLIENT_SECRET: "{env://KFD_AUTH_POMERIUM_IDP_CLIENT_SECRET}"
+            SHARED_SECRET: "{env://KFD_AUTH_POMERIUM_SHARED_SECRET}"
+        # Configuration for the pomerium package, used only if .spec.distribution.modules.auth.provider.type is sso
+        dex:
+          # Dex connectors configuration
+          connectors:
+            - type: github
+              id: github
+              name: GitHub
+              config:
+                clientID: "{env://KFD_AUTH_DEX_CONNECTORS_GITHUB_CLIENT_ID}"
+                clientSecret: "{env://KFD_AUTH_DEX_CONNECTORS_GITHUB_CLIENT_SECRET}"
+                redirectURI: https://login.example.dev/callback
+                loadAllGroups: false
+                teamNameField: slug
+                useLoginAsID: false
