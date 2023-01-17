@@ -13,7 +13,7 @@ spec:
   # Needs to be externally available in order to act as callback from GitHub.
   ingressClassName: {{ template "ingressClass" (dict "module" "auth" "package" "dex" "type" "external" "spec" .spec) }}
   rules:
-    - host: {{ template "ingressHost" (dict "module" "auth" "package" "dex" "prefix" "login." "spec" .spec) }}
+    - host: {{ template "dexUrl" .spec }}
       http:
         paths:
           - path: /
@@ -23,5 +23,5 @@ spec:
                 name: dex
                 port:
                   name: http
-{{- template "ingressTls" (dict "module" "auth" "package" "dex" "prefix" "login." "spec" .spec) }}
+{{- template "ingressTlsAuth" (dict "module" "auth" "package" "dex" "prefix" "login." "spec" .spec) }}
 {{- end }}
