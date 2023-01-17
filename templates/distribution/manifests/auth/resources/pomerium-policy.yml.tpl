@@ -31,5 +31,5 @@ policy:
   - from: https://{{ template "gpmUrl" .spec }}
     to: http://gatekeeper-policy-manager.gatekeeper-system.svc.cluster.local
     allow_any_authenticated_user: true
-{{ .spec.distribution.modules.auth.provider.pomerium.policy | indent 2 }}
+{{ .spec.distribution.modules.auth.pomerium.policy | indent 2 }}
 {{- end }}
