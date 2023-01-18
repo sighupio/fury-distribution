@@ -35,7 +35,7 @@ output "aws_route53_zone_public_id" {
 resource "aws_route53_zone" "private" {
   name = "{{ .spec.distribution.modules.ingress.dns.private.name }}"
   vpc {
-    vpc_id = "{ .spec.distribution.modules.ingress.dns.private.vpcId }"
+    vpc_id = "{{ .spec.distribution.modules.ingress.dns.private.vpcId }}"
   }
 }
 
@@ -49,7 +49,7 @@ output "aws_route53_zone_private_id" {
 
 data "aws_route53_zone" "private" {
   name = "{{ .spec.distribution.modules.ingress.dns.private.name }}"
-  vpc_id = "{ .spec.distribution.modules.ingress.dns.private.vpcId }"
+  vpc_id = "{{ .spec.distribution.modules.ingress.dns.private.vpcId }}"
 }
 
 output "aws_route53_zone_private_id" {
