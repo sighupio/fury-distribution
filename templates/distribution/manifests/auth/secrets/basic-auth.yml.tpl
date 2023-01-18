@@ -10,7 +10,7 @@ metadata:
   name: basic-auth
   namespace: {{ $namespace }}
 type: kubernetes.io/basic-auth
-data:
+stringData:
   auth: {{ htpasswd $username $password }}
 {{ end }}
 {{- end -}}
