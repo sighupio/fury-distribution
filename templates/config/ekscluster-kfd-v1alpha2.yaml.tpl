@@ -336,7 +336,7 @@ spec:
             # The S3 bucket that will be created to store the backups
             bucketName: example-velero
             # This field is ignored, but needed. TBD better validation
-            iamRoleArn: dummyvalue
+            iamRoleArn: arn:aws:iam::123456789012:role/dummy-value
             # The region where the bucket will be created (can be different from the overall region defined in .spec.region)
             region: eu-west-1
         # This optional key is used to override automatic parameters
