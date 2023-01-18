@@ -794,9 +794,6 @@ func (j *SpecKubernetesNodePool) UnmarshalJSON(b []byte) error {
 	if err := json.Unmarshal(b, &raw); err != nil {
 		return err
 	}
-	if v, ok := raw["ami"]; !ok || v == nil {
-		return fmt.Errorf("field ami in SpecKubernetesNodePool: required")
-	}
 	if v, ok := raw["instance"]; !ok || v == nil {
 		return fmt.Errorf("field instance in SpecKubernetesNodePool: required")
 	}
@@ -821,7 +818,7 @@ type SpecKubernetesNodePool struct {
 	AdditionalFirewallRules []SpecKubernetesNodePoolAdditionalFirewallRule `json:"additionalFirewallRules,omitempty" yaml:"additionalFirewallRules,omitempty"`
 
 	// Ami corresponds to the JSON schema field "ami".
-	Ami SpecKubernetesNodePoolAmi `json:"ami" yaml:"ami"`
+	Ami *SpecKubernetesNodePoolAmi `json:"ami,omitempty" yaml:"ami,omitempty"`
 
 	// AttachedTargetGroups corresponds to the JSON schema field
 	// "attachedTargetGroups".
