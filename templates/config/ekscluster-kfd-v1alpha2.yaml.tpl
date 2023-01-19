@@ -80,11 +80,11 @@ spec:
     # This array contains the definition of the nodepools in the cluster
     nodePools:
         # This is the name of the nodepool
-      - name: worker
+      - name: infra
         # This optional map defines a different AMI to use for the instances
-        ami:
-          id: ami-0123456789abcdef0
-          owner: "123456789012"
+        #ami:
+        #  id: ami-0123456789abcdef0
+        #  owner: "123456789012"
         # This map defines the max and min number of nodes in the nodepool autoscaling group
         size:
           min: 1
@@ -92,58 +92,58 @@ spec:
         # This map defines the characteristics of the instance that will be used in the node pool
         instance:
           # The instance type
-          type: t3.micro
+          type: t3.xlarge
           # If the instance is a spot instance
           spot: false
           # The instance disk size in GB
           volumeSize: 50
         # This optional array defines additional target groups to attach to the instances in the node pool
-        attachedTargetGroups:
-          - arn:aws:elasticloadbalancing:eu-west-1:123456789012:targetgroup/example-external-nginx/0123456789abcdee
-          - arn:aws:elasticloadbalancing:eu-west-1:123456789012:targetgroup/example-internal-nginx/0123456789abcdef
+        #attachedTargetGroups:
+        #  - arn:aws:elasticloadbalancing:eu-west-1:123456789012:targetgroup/example-external-nginx/0123456789abcdee
+        #  - arn:aws:elasticloadbalancing:eu-west-1:123456789012:targetgroup/example-internal-nginx/0123456789abcdef
         # Kubernetes labels that will be added to the nodes
         labels:
-          nodepool: worker
-          node.kubernetes.io/role: worker
+          nodepool: infra
+          node.kubernetes.io/role: infra
         # Kubernetes taints that will be added to the nodes
         taints:
-          - node.kubernetes.io/role=worker:NoSchedule
+          - node.kubernetes.io/role=infra:NoSchedule
         # AWS tags that will be added to the ASG and EC2 instances, the example shows the labels needed by cluster autoscaler
         tags:
           k8s.io/cluster-autoscaler/node-template/label/nodepool: "worker"
           k8s.io/cluster-autoscaler/node-template/label/node.kubernetes.io/role: "worker"
         # Optional additional firewall rules that will be attached to the nodes
-        additionalFirewallRules:
-            # The name of the rule
-          - name: traffic_80_from_172_31_0_0_16
-            # The type of the rule, can be ingress or egress
-            type: ingress
-            # The CIDR blocks 
-            cidrBlocks:
-              - 172.31.0.0/16
-            # The protocol
-            protocol: TCP
-            # The ports range
-            ports:
-              from: 80
-              to: 80
-            # Additional AWS tags
-            tags: {}
+        #additionalFirewallRules:
+        #    # The name of the rule
+        #  - name: traffic_80_from_172_31_0_0_16
+        #    # The type of the rule, can be ingress or egress
+        #    type: ingress
+        #    # The CIDR blocks 
+        #    cidrBlocks:
+        #      - 172.31.0.0/16
+        #    # The protocol
+        #    protocol: TCP
+        #    # The ports range
+        #    ports:
+        #      from: 80
+        #      to: 80
+        #    # Additional AWS tags
+        #    tags: {}
     # aws-auth configmap definition, see https://docs.aws.amazon.com/eks/latest/userguide/add-user-role.html for more informations
-    awsAuth:
-      additionalAccounts:
-        - "777777777777"
-        - "88888888888"
-      users:
-        - username: "johndoe"
-          groups:
-            - system:masters
-          userarn: "arn:aws:iam::123456789012:user/johndoe"
-      roles:
-        - username: "example"
-          groups:
-            - example:masters
-          rolearn: "arn:aws:iam::123456789012:role/k8s-example-role"
+    awsAuth: {}
+    #  additionalAccounts:
+    #    - "777777777777"
+    #    - "88888888888"
+    #  users:
+    #    - username: "johndoe"
+    #      groups:
+    #        - system:masters
+    #      userarn: "arn:aws:iam::123456789012:user/johndoe"
+    #  roles:
+    #    - username: "example"
+    #      groups:
+    #        - example:masters
+    #      rolearn: "arn:aws:iam::123456789012:role/k8s-example-role"
     # Optional. Use when spec.infrastructure is left empty and the VPC is not managed by furyctl
     vpcId: "vpc-123456780"
   # This section describes how the KFD distribution will be installed
@@ -163,20 +163,20 @@ spec:
       # This section contains all the configurations for the ingress module
       ingress:
         # This optional key is used to override automatic parameters
-        overrides:
-          # This key is used to override the spec.distribution.common.nodeSelector settings. Set to a custom value or use an empty object {} to not add the common node selector.
-          nodeSelector: null
-          # This key is used to override the spec.distribution.common.tolerations settings. Set to a custom value or use an empty object {} to not add the common tolerations.
-          tolerations: null
-          # This key is used to override some parameters on the ingresses managed by this module
-          ingresses:
-            forecastle:
-              # if authentication is globally enabled, it can be disabled for this ingress.
-              disableAuth: false
-              # the host can be overridden, by default is directory.{.spec.distribution.modules.ingress.baseDomain}
-              host: ""
-              # the ingressClass can be overridden if needed
-              ingressClass: ""
+        #overrides:
+        #  # This key is used to override the spec.distribution.common.nodeSelector settings. Set to a custom value or use an empty object {} to not add the common node selector.
+        #  nodeSelector: null
+        #  # This key is used to override the spec.distribution.common.tolerations settings. Set to a custom value or use an empty object {} to not add the common tolerations.
+        #  tolerations: null
+        #  # This key is used to override some parameters on the ingresses managed by this module
+        #  ingresses:
+        #    forecastle:
+        #      # if authentication is globally enabled, it can be disabled for this ingress.
+        #      disableAuth: false
+        #      # the host can be overridden, by default is directory.{.spec.distribution.modules.ingress.baseDomain}
+        #      host: ""
+        #      # the ingressClass can be overridden if needed
+        #      ingressClass: ""
         # the base domain used for all the KFD ingresses, if in the nginx dual configuration, it should be the same as the .spec.distribution.modules.ingress.dns.private.name zone
         baseDomain: internal.example.dev
         # configurations for the nginx ingress controller package
@@ -224,82 +224,82 @@ spec:
       # This section contains all the configurations for the logging module      
       logging:
         # This optional key is used to override automatic parameters
-        overrides:
-          # This key is used to override the spec.distribution.common.nodeSelector setting. Set to a custom value or use an empty object {} to not add the common node selector.
-          nodeSelector: null
-          # This key is used to override the spec.distribution.common.tolerations setting. Set to a custom value or use an empty object {} to not add the common tolerations.
-          tolerations: null
-          # This key is used to override some parameters on the ingresses managed by this module
-          ingresses:
-            opensearchDashboards:
-              # if authentication is globally enabled, it can be disabled for this ingress.
-              disableAuth: false
-              # the host can be overridden, by default is opensearch-dashboards.{.spec.distribution.modules.ingress.baseDomain}
-              host: ""
-              # the ingressClass can be overridden if needed
-              ingressClass: ""
-            cerebro:
-              # if authentication is globally enabled, it can be disabled for this ingress.
-              disableAuth: false
-              # the host can be overridden, by default is cerebro.{.spec.distribution.modules.ingress.baseDomain}
-              host: ""
-              # the ingressClass can be overridden if needed
-              ingressClass: ""
+        #overrides:
+        #  # This key is used to override the spec.distribution.common.nodeSelector setting. Set to a custom value or use an empty object {} to not add the common node selector.
+        #  nodeSelector: null
+        #  # This key is used to override the spec.distribution.common.tolerations setting. Set to a custom value or use an empty object {} to not add the common tolerations.
+        #  tolerations: null
+        #  # This key is used to override some parameters on the ingresses managed by this module
+        #  ingresses:
+        #    opensearchDashboards:
+        #      # if authentication is globally enabled, it can be disabled for this ingress.
+        #      disableAuth: false
+        #      # the host can be overridden, by default is opensearch-dashboards.{.spec.distribution.modules.ingress.baseDomain}
+        #      host: ""
+        #      # the ingressClass can be overridden if needed
+        #      ingressClass: ""
+        #    cerebro:
+        #      # if authentication is globally enabled, it can be disabled for this ingress.
+        #      disableAuth: false
+        #      # the host can be overridden, by default is cerebro.{.spec.distribution.modules.ingress.baseDomain}
+        #      host: ""
+        #      # the ingressClass can be overridden if needed
+        #      ingressClass: ""
         # configurations for the opensearch package
         opensearch:
           # the type of opensearch to install, can be single or triple
           type: single
-          # optional settings to override requests and limits
-          resources:
-            requests:
-              cpu: ""
-              memory: ""
-            limits:
-              cpu: ""
+        #  # optional settings to override requests and limits
+        #  resources:
+        #    requests:
+        #      cpu: ""
+        #      memory: ""
+        #    limits:
+        #      cpu: ""
               memory: ""
           # the PVC size used by opensearch, for each pod
           storageSize: "150Gi"
       # This section contains all the configurations for the monitoring module
       monitoring:
         # This optional key is used to override automatic parameters
-        overrides:
-          # This key is used to override the spec.distribution.common.nodeSelector setting. Set to a custom value or use an empty object {} to not add the common node selector.
-          nodeSelector: null
-          # This key is used to override the spec.distribution.common.tolerations setting. Set to a custom value or use an empty object {} to not add the common tolerations.
-          tolerations: null
-          # This key is used to override some parameters on the ingresses managed by this module
-          ingresses:
-            prometheus:
-              # if authentication is globally enabled, it can be disabled for this ingress.
-              disableAuth: false
-              # the host can be overridden, by default is prometheus.{.spec.distribution.modules.ingress.baseDomain}
-              host: ""
-              # the ingressClass can be overridden if needed
-              ingressClass: ""
-            alertmanager:
-              # if authentication is globally enabled, it can be disabled for this ingress.
-              disableAuth: false
-              # the host can be overridden, by default is alertmanager.{.spec.distribution.modules.ingress.baseDomain}
-              host: ""
-              # the ingressClass can be overridden if needed
-              ingressClass: ""
-            grafana:
-              # if authentication is globally enabled, it can be disabled for this ingress.
-              disableAuth: false
-              # the host can be overridden, by default is grafana.{.spec.distribution.modules.ingress.baseDomain}
-              host: ""
-              # the ingressClass can be overridden if needed
-              ingressClass: ""
+        #overrides:
+        #  # This key is used to override the spec.distribution.common.nodeSelector setting. Set to a custom value or use an empty object {} to not add the common node selector.
+        #  nodeSelector: null
+        #  # This key is used to override the spec.distribution.common.tolerations setting. Set to a custom value or use an empty object {} to not add the common tolerations.
+        #  tolerations: null
+        #  # This key is used to override some parameters on the ingresses managed by this module
+        #  ingresses:
+        #    prometheus:
+        #      # if authentication is globally enabled, it can be disabled for this ingress.
+        #      disableAuth: false
+        #      # the host can be overridden, by default is prometheus.{.spec.distribution.modules.ingress.baseDomain}
+        #      host: ""
+        #      # the ingressClass can be overridden if needed
+        #      ingressClass: ""
+        #    alertmanager:
+        #      # if authentication is globally enabled, it can be disabled for this ingress.
+        #      disableAuth: false
+        #      # the host can be overridden, by default is alertmanager.{.spec.distribution.modules.ingress.baseDomain}
+        #      host: ""
+        #      # the ingressClass can be overridden if needed
+        #      ingressClass: ""
+        #    grafana:
+        #      # if authentication is globally enabled, it can be disabled for this ingress.
+        #      disableAuth: false
+        #      # the host can be overridden, by default is grafana.{.spec.distribution.modules.ingress.baseDomain}
+        #      host: ""
+        #      # the ingressClass can be overridden if needed
+        #      ingressClass: ""
         # configurations for the prometheus package
-        prometheus:
-          # optional settings to override requests and limits
-          resources:
-            requests:
-              cpu: ""
-              memory: ""
-            limits:
-              cpu: ""
-              memory: ""
+        #prometheus:
+        #  # optional settings to override requests and limits
+        #  resources:
+        #    requests:
+        #      cpu: ""
+        #      memory: ""
+        #    limits:
+        #      cpu: ""
+        #      memory: ""
         # configurations for the alertmanager package
         alertmanager:
           # The webhook url to send deadman switch monitoring, for example to use with healthchecks.io
@@ -309,20 +309,20 @@ spec:
       # This section contains all the configurations for the policy (opa) module
       policy:
         # This optional key is used to override automatic parameters
-        overrides:
-          # This key is used to override the spec.distribution.common.nodeSelector setting. Set to a custom value or use an empty object {} to not add the common node selector.
-          nodeSelector: null
-          # This key is used to override the spec.distribution.common.tolerations setting. Set to a custom value or use an empty object {} to not add the common tolerations.
-          tolerations: null
-          # This key is used to override some parameters on the ingresses managed by this module
-          ingresses:
-            gpm:
-              # if authentication is globally enabled, it can be disabled for this ingress.
-              disableAuth: false
-              # the host can be overridden, by default is gpm.{.spec.distribution.modules.ingress.baseDomain}
-              host: ""
-              # the ingressClass can be overridden if needed
-              ingressClass: ""
+        #overrides:
+        #  # This key is used to override the spec.distribution.common.nodeSelector setting. Set to a custom value or use an empty object {} to not add the common node selector.
+        #  nodeSelector: null
+        #  # This key is used to override the spec.distribution.common.tolerations setting. Set to a custom value or use an empty object {} to not add the common tolerations.
+        #  tolerations: null
+        #  # This key is used to override some parameters on the ingresses managed by this module
+        #  ingresses:
+        #    gpm:
+        #      # if authentication is globally enabled, it can be disabled for this ingress.
+        #      disableAuth: false
+        #      # the host can be overridden, by default is gpm.{.spec.distribution.modules.ingress.baseDomain}
+        #      host: ""
+        #      # the ingressClass can be overridden if needed
+        #      ingressClass: ""
         # configurations for the gatekeeper package
         gatekeeper:
           # This parameter adds namespaces to Gatekeeper's exemption list, so it will not enforce the constraints on them.
@@ -340,30 +340,30 @@ spec:
             # The region where the bucket will be created (can be different from the overall region defined in .spec.region)
             region: eu-west-1
         # This optional key is used to override automatic parameters
-        overrides:
-          # This key is used to override the spec.distribution.common.nodeSelector setting. Set to a custom value or use an empty object {} to not add the common node selector.
-          nodeSelector: null
-          # This key is used to override the spec.distribution.common.tolerations setting. Set to a custom value or use an empty object {} to not add the common tolerations.
-          tolerations: null
+        #overrides:
+        #  # This key is used to override the spec.distribution.common.nodeSelector setting. Set to a custom value or use an empty object {} to not add the common node selector.
+        #  nodeSelector: null
+        #  # This key is used to override the spec.distribution.common.tolerations setting. Set to a custom value or use an empty object {} to not add the common tolerations.
+        #  tolerations: null
       # This section contains all the configurations for the auth module
       auth:
         # This optional key is used to override automatic parameters
-        overrides:
-          # This key is used to override the spec.distribution.common.nodeSelector setting. Set to a custom value or use an empty object {} to not add the common node selector.
-          nodeSelector: null
-          # This key is used to override the spec.distribution.common.tolerations setting. Set to a custom value or use an empty object {} to not add the common tolerations.
-          tolerations: null
-          ingresses:
-            pomerium:
-              # the host can be overridden, by default is pomerium.{.spec.distribution.modules.ingress.baseDomain}
-              host: ""
-              # the ingressClass can be overridden if needed
-              ingressClass: ""
-            dex:
-              # the host can be overridden, by default is login.{.spec.distribution.modules.ingress.baseDomain}
-              host: ""
-              # the ingressClass can be overridden if needed
-              ingressClass: ""
+        #overrides:
+        #  # This key is used to override the spec.distribution.common.nodeSelector setting. Set to a custom value or use an empty object {} to not add the common node selector.
+        #  nodeSelector: null
+        #  # This key is used to override the spec.distribution.common.tolerations setting. Set to a custom value or use an empty object {} to not add the common tolerations.
+        #  tolerations: null
+        #  ingresses:
+        #    pomerium:
+        #      # the host can be overridden, by default is pomerium.{.spec.distribution.modules.ingress.baseDomain}
+        #      host: ""
+        #      # the ingressClass can be overridden if needed
+        #      ingressClass: ""
+        #    dex:
+        #      # the host can be overridden, by default is login.{.spec.distribution.modules.ingress.baseDomain}
+        #      host: ""
+        #      # the ingressClass can be overridden if needed
+        #      ingressClass: ""
         provider:
           # The authentication type used for the infrastructure ingresses (all the ingress for the distribution) can be none, basicAuth, sso
           type: none
@@ -376,29 +376,29 @@ spec:
         # The base domain used for all the auth ingresses, if in the nginx dual configuration, it should be the same as the .spec.distribution.modules.ingress.dns.public.name zone
         baseDomain: example.dev
         # Configuration for the pomerium package, used only if .spec.distribution.modules.auth.provider.type is sso
-        pomerium:
-          # Additional policy configuration
-          policy: |
-            - from: https://myapp.example.dev
-              to: http://myapp.svc.cluster.local:8000
-              cors_allow_preflight: true
-              timeout: 30s
-          # Secrets configurations for pomerium and dex (pomerium connect to dex proxy for the SSO process)
-          secrets:
-            COOKIE_SECRET: "{env://KFD_AUTH_POMERIUM_COOKIE_SECRET}"
-            IDP_CLIENT_SECRET: "{env://KFD_AUTH_POMERIUM_IDP_CLIENT_SECRET}"
-            SHARED_SECRET: "{env://KFD_AUTH_POMERIUM_SHARED_SECRET}"
-        # Configuration for the pomerium package, used only if .spec.distribution.modules.auth.provider.type is sso
-        dex:
-          # Dex connectors configuration
-          connectors:
-            - type: github
-              id: github
-              name: GitHub
-              config:
-                clientID: "{env://KFD_AUTH_DEX_CONNECTORS_GITHUB_CLIENT_ID}"
-                clientSecret: "{env://KFD_AUTH_DEX_CONNECTORS_GITHUB_CLIENT_SECRET}"
-                redirectURI: https://login.example.dev/callback
-                loadAllGroups: false
-                teamNameField: slug
-                useLoginAsID: false
+        #pomerium:
+        #  # Additional policy configuration
+        #  policy: |
+        #    - from: https://myapp.example.dev
+        #      to: http://myapp.svc.cluster.local:8000
+        #      cors_allow_preflight: true
+        #      timeout: 30s
+        #  # Secrets configurations for pomerium and dex (pomerium connect to dex proxy for the SSO process)
+        #  secrets:
+        #    COOKIE_SECRET: "{env://KFD_AUTH_POMERIUM_COOKIE_SECRET}"
+        #    IDP_CLIENT_SECRET: "{env://KFD_AUTH_POMERIUM_IDP_CLIENT_SECRET}"
+        #    SHARED_SECRET: "{env://KFD_AUTH_POMERIUM_SHARED_SECRET}"
+        ## Configuration for the pomerium package, used only if .spec.distribution.modules.auth.provider.type is sso
+        #dex:
+        #  # Dex connectors configuration
+        #  connectors:
+        #    - type: github
+        #      id: github
+        #      name: GitHub
+        #      config:
+        #        clientID: "{env://KFD_AUTH_DEX_CONNECTORS_GITHUB_CLIENT_ID}"
+        #        clientSecret: "{env://KFD_AUTH_DEX_CONNECTORS_GITHUB_CLIENT_SECRET}"
+        #        redirectURI: https://login.example.dev/callback
+        #        loadAllGroups: false
+        #        teamNameField: slug
+        #        useLoginAsID: false
