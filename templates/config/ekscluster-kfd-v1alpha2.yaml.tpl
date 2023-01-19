@@ -249,14 +249,14 @@ spec:
         opensearch:
           # the type of opensearch to install, can be single or triple
           type: single
-        #  # optional settings to override requests and limits
-        #  resources:
-        #    requests:
-        #      cpu: ""
-        #      memory: ""
-        #    limits:
-        #      cpu: ""
-              memory: ""
+          ## optional settings to override requests and limits
+          #resources:
+          #  requests:
+          #    cpu: ""
+          #    memory: ""
+          #  limits:
+          #    cpu: ""
+          #    memory: ""
           # the PVC size used by opensearch, for each pod
           storageSize: "150Gi"
       # This section contains all the configurations for the monitoring module
