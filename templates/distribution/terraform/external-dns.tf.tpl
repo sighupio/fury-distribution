@@ -26,8 +26,10 @@ module "external_dns" {
 {{- end }}
 {{- if (.spec.distribution.modules.ingress.dns.private.create)}}
     private_zone_id = aws_route53_zone.private.zone_id
+    enable_private  = true
 {{- else }}
     private_zone_id = data.aws_route53_zone.private.zone_id
+    enable_private  = true
 {{- end }}
     cluster_name    = "{{ .metadata.name }}"
 }
