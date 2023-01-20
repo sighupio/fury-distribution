@@ -515,7 +515,8 @@
                     "type": "array",
                     "items": {
                         "$ref": "#/$defs/Types.Cidr"
-                    }
+                    },
+                    "minItems": 1
                 },
                 "protocol": {
                     "$ref": "#/$defs/Types.AwsIpProtocol"

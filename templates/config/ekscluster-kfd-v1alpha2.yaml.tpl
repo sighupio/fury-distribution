@@ -118,7 +118,7 @@ spec:
         #  - name: traffic_80_from_172_31_0_0_16
         #    # The type of the rule, can be ingress or egress
         #    type: ingress
-        #    # The CIDR blocks 
+        #    # The CIDR blocks, at the moment only one is supported, others will be ignored
         #    cidrBlocks:
         #      - 172.31.0.0/16
         #    # The protocol

@@ -959,6 +959,9 @@ func (j *SpecKubernetesNodePoolAdditionalFirewallRule) UnmarshalJSON(b []byte) e
 	if err := json.Unmarshal(b, &plain); err != nil {
 		return err
 	}
+	if len(plain.CidrBlocks) < 1 {
+		return fmt.Errorf("field %s length: must be >= %d", "cidrBlocks", 1)
+	}
 	*j = SpecKubernetesNodePoolAdditionalFirewallRule(plain)
 	return nil
 }
