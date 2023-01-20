@@ -118,7 +118,7 @@ spec:
         #  - name: traffic_80_from_172_31_0_0_16
         #    # The type of the rule, can be ingress or egress
         #    type: ingress
-        #    # The CIDR blocks 
+        #    # The CIDR blocks for the FW rule. At the moment the first item of the list will be used, others will be ignored. See https://github.com/sighupio/fury-eks-installer/issues/46
         #    cidrBlocks:
         #      - 172.31.0.0/16
         #    # The protocol
