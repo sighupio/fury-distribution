@@ -77,6 +77,10 @@ spec:
   kubernetes:
     # This key contains the ssh public key that can connect to the nodes via SSH using the ec2-user user
     nodeAllowedSshPublicKey: "ssh-ed25519 XYZ"
+    # Either `launch_configurations`, `launch_templates` or `both`. For new clusters use `launch_templates`, for existing cluster you'll need to migrate from `launch_configurations` to `launch_templates` using `both` as interim.
+    nodePoolsLaunchKind: "launch_templates"
+    # Optional Kubernetes Cluster log retention in days. Defaults to 90 days.
+    # logRetentionDays: 90
     # This array contains the definition of the nodepools in the cluster
     nodePools:
         # This is the name of the nodepool
