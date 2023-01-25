@@ -355,6 +355,17 @@
                         }
                     ]
                 },
+                "nodePoolsLaunchKind": {
+                    "type": "string",
+                    "enum": [
+                        "launch_configurations",
+                        "launch_templates",
+                        "both"
+                    ]
+                },
+                "logRetentionDays": {
+                    "type": "integer"
+                },
                 "nodePools": {
                     "type": "array",
                     "items": {
@@ -367,7 +378,8 @@
             },
             "required": [
                 "nodeAllowedSshPublicKey",
-                "nodePools"
+                "nodePools",
+                "nodePoolsLaunchKind"
             ]
         },
         "Spec.Kubernetes.APIServerEndpointAccess": {
