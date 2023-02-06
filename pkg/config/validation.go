@@ -12,16 +12,14 @@ import (
 )
 
 const (
-	apiVersionString   = "^kfd\\.sighup\\.io\\/v\\d+((alpha|beta)\\d+)?$"
-	eksVersionString   = "^\\d+\\.\\d+$"
-	s3BucketNameString = "(?!(^xn--|.+-s3alias$))^[a-z0-9][a-z0-9-]{1,61}[a-z0-9]$"
+	apiVersionString = "^kfd\\.sighup\\.io\\/v\\d+((alpha|beta)\\d+)?$"
+	eksVersionString = "^\\d+\\.\\d+$"
 )
 
 var (
-	apiVersionRegex   = regexp.MustCompile(apiVersionString)
-	eksVersionRegex   = regexp.MustCompile(eksVersionString)
-	s3BucketNameRegex = regexp.MustCompile(s3BucketNameString)
-	awsRegions        = map[string]bool{
+	apiVersionRegex = regexp.MustCompile(apiVersionString)
+	eksVersionRegex = regexp.MustCompile(eksVersionString)
+	awsRegions      = map[string]bool{
 		"af-south-1":     true,
 		"ap-east-1":      true,
 		"ap-northeast-1": true,
@@ -71,16 +69,6 @@ func NewValidator() *validator.Validate {
 		return nil
 	}
 
-	err = validate.RegisterValidation("s3-bucket-name", ValidateS3BucketName)
-	if err != nil {
-		return nil
-	}
-
-	err = validate.RegisterValidation("s3-key-length", ValidateS3KeyLength)
-	if err != nil {
-		return nil
-	}
-
 	err = validate.RegisterValidation("aws-region", ValidateAwsRegion)
 	if err != nil {
 		return nil
@@ -107,14 +95,6 @@ func ValidatePermissiveSemVer(fl validator.FieldLevel) bool {
 
 func ValidateEksVersion(fl validator.FieldLevel) bool {
 	return eksVersionRegex.MatchString(fl.Field().String())
-}
-
-func ValidateS3BucketName(fl validator.FieldLevel) bool {
-	return s3BucketNameRegex.MatchString(fl.Field().String())
-}
-
-func ValidateS3KeyLength(fl validator.FieldLevel) bool {
-	return len(fl.Field().String()) <= 37
 }
 
 func ValidateAwsRegion(fl validator.FieldLevel) bool {

@@ -29,8 +29,8 @@ type State struct {
 }
 
 type S3 struct {
-	BucketName string `yaml:"bucketName" validate:"required,s3-bucket-name"`
-	KeyPrefix  string `yaml:"keyPrefix" validate:"required,s3-key-length"`
+	BucketName string `yaml:"bucketName" validate:"required"`
+	KeyPrefix  string `yaml:"keyPrefix" validate:"required,max=37"`
 	Region     string `yaml:"region" validate:"required,aws-region"`
 }
 
