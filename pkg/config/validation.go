@@ -69,8 +69,7 @@ func NewValidator() *validator.Validate {
 		return nil
 	}
 
-	err = validate.RegisterValidation("aws-region", ValidateAwsRegion)
-	if err != nil {
+	if err = validate.RegisterValidation("aws-region", ValidateAwsRegion); err != nil {
 		return nil
 	}
 
