@@ -14,11 +14,13 @@ import (
 const (
 	apiVersionString = "^kfd\\.sighup\\.io\\/v\\d+((alpha|beta)\\d+)?$"
 	eksVersionString = "^\\d+\\.\\d+$"
+	semverString     = "^(\\*)$|^((~|\\^|<=|<|>|>=)?(?P<major>0|[1-9]\\d*)\\.(?P<minor>0|[1-9]\\d*)\\.(?P<patch>0|[1-9]\\d*)(?:-(?P<prerelease>(?:0|[1-9]\\d*|\\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\\.(?:0|[1-9]\\d*|\\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\\+(?P<buildmetadata>[0-9a-zA-Z-]+(?:\\.[0-9a-zA-Z-]+)*))?)$"
 )
 
 var (
 	apiVersionRegex = regexp.MustCompile(apiVersionString)
 	eksVersionRegex = regexp.MustCompile(eksVersionString)
+	semverRegex     = regexp.MustCompile(semverString)
 	awsRegions      = map[string]bool{
 		"af-south-1":     true,
 		"ap-east-1":      true,
@@ -87,9 +89,7 @@ func ValidateClusterKind(fl validator.FieldLevel) bool {
 func ValidatePermissiveSemVer(fl validator.FieldLevel) bool {
 	version := strings.TrimPrefix(fl.Field().String(), "v")
 
-	err := validator.New().Var(version, "semver")
-
-	return err == nil
+	return semverRegex.MatchString(version)
 }
 
 func ValidateEksVersion(fl validator.FieldLevel) bool {
