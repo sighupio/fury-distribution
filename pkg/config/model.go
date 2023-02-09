@@ -59,7 +59,7 @@ type KFDModules struct {
 
 type KFDProvider struct {
 	Version   string `yaml:"version" validate:"required"`
-	Installer string `yaml:"installer" validate:"required,permissive-semver"`
+	Installer string `yaml:"installer" validate:"required"`
 }
 
 type KFDKubernetes struct {
@@ -92,7 +92,7 @@ type Eks struct {
 }
 
 type Tool struct {
-	Version string `yaml:"version" validate:"required,permissive-semver"`
+	Version string `yaml:"version" validate:"required,permissive-constraint"`
 }
 
 func (t Tool) String() string {

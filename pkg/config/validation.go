@@ -8,19 +8,18 @@ import (
 	"regexp"
 	"strings"
 
+	"github.com/Al-Pragliola/go-version"
 	"github.com/go-playground/validator/v10"
 )
 
 const (
 	apiVersionString = "^kfd\\.sighup\\.io\\/v\\d+((alpha|beta)\\d+)?$"
 	eksVersionString = "^\\d+\\.\\d+$"
-	semverString     = "^(\\*)$|^((~|\\^|<=|<|>|>=)?(?P<major>0|[1-9]\\d*)\\.(?P<minor>0|[1-9]\\d*)\\.(?P<patch>0|[1-9]\\d*)(?:-(?P<prerelease>(?:0|[1-9]\\d*|\\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\\.(?:0|[1-9]\\d*|\\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\\+(?P<buildmetadata>[0-9a-zA-Z-]+(?:\\.[0-9a-zA-Z-]+)*))?)$"
 )
 
 var (
 	apiVersionRegex = regexp.MustCompile(apiVersionString)
 	eksVersionRegex = regexp.MustCompile(eksVersionString)
-	semverRegex     = regexp.MustCompile(semverString)
 	awsRegions      = map[string]bool{
 		"af-south-1":     true,
 		"ap-east-1":      true,
@@ -71,6 +70,11 @@ func NewValidator() *validator.Validate {
 		return nil
 	}
 
+	err = validate.RegisterValidation("permissive-constraint", ValidatePermissiveConstraint)
+	if err != nil {
+		return nil
+	}
+
 	if err = validate.RegisterValidation("aws-region", ValidateAwsRegion); err != nil {
 		return nil
 	}
@@ -87,9 +91,19 @@ func ValidateClusterKind(fl validator.FieldLevel) bool {
 }
 
 func ValidatePermissiveSemVer(fl validator.FieldLevel) bool {
-	version := strings.TrimPrefix(fl.Field().String(), "v")
+	v := strings.TrimPrefix(fl.Field().String(), "v")
 
-	return semverRegex.MatchString(version)
+	_, err := version.NewVersion(v)
+
+	return err == nil
+}
+
+func ValidatePermissiveConstraint(fl validator.FieldLevel) bool {
+	c := strings.TrimPrefix(fl.Field().String(), "v")
+
+	_, err := version.NewConstraint(c)
+
+	return err == nil
 }
 
 func ValidateEksVersion(fl validator.FieldLevel) bool {
