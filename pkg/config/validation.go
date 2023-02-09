@@ -48,30 +48,27 @@ var (
 )
 
 func NewValidator() *validator.Validate {
+	var err error
+
 	validate := validator.New()
 
-	err := validate.RegisterValidation("api-version", ValidateAPIVersion)
-	if err != nil {
+	if err = validate.RegisterValidation("api-version", ValidateAPIVersion); err != nil {
 		return nil
 	}
 
-	err = validate.RegisterValidation("cluster-kind", ValidateClusterKind)
-	if err != nil {
+	if err = validate.RegisterValidation("cluster-kind", ValidateClusterKind); err != nil {
 		return nil
 	}
 
-	err = validate.RegisterValidation("eks-version", ValidateEksVersion)
-	if err != nil {
+	if err = validate.RegisterValidation("eks-version", ValidateEksVersion); err != nil {
 		return nil
 	}
 
-	err = validate.RegisterValidation("permissive-semver", ValidatePermissiveSemVer)
-	if err != nil {
+	if err = validate.RegisterValidation("permissive-semver", ValidatePermissiveSemVer); err != nil {
 		return nil
 	}
 
-	err = validate.RegisterValidation("permissive-constraint", ValidatePermissiveConstraint)
-	if err != nil {
+	if err = validate.RegisterValidation("permissive-constraint", ValidatePermissiveConstraint); err != nil {
 		return nil
 	}
 
