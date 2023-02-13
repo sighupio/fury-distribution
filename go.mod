@@ -2,7 +2,11 @@ module github.com/sighupio/fury-distribution
 
 go 1.19
 
-require github.com/go-playground/validator/v10 v10.11.1
+require (
+	github.com/Al-Pragliola/go-version v1.6.2
+	github.com/go-playground/validator/v10 v10.11.1
+	github.com/jsonmaur/aws-regions/v2 v2.3.1
+)
 
 require (
 	github.com/go-playground/locales v0.14.0 // indirect

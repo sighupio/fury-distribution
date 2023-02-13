@@ -8,7 +8,9 @@ import (
 	"regexp"
 	"strings"
 
+	"github.com/Al-Pragliola/go-version"
 	"github.com/go-playground/validator/v10"
+	regions "github.com/jsonmaur/aws-regions/v2"
 )
 
 const (
@@ -22,25 +24,31 @@ var (
 )
 
 func NewValidator() *validator.Validate {
+	var err error
+
 	validate := validator.New()
 
-	err := validate.RegisterValidation("api-version", ValidateAPIVersion)
-	if err != nil {
+	if err = validate.RegisterValidation("api-version", ValidateAPIVersion); err != nil {
 		return nil
 	}
 
-	err = validate.RegisterValidation("cluster-kind", ValidateClusterKind)
-	if err != nil {
+	if err = validate.RegisterValidation("cluster-kind", ValidateClusterKind); err != nil {
 		return nil
 	}
 
-	err = validate.RegisterValidation("eks-version", ValidateEksVersion)
-	if err != nil {
+	if err = validate.RegisterValidation("eks-version", ValidateEksVersion); err != nil {
 		return nil
 	}
 
-	err = validate.RegisterValidation("permissive-semver", ValidatePermissiveSemVer)
-	if err != nil {
+	if err = validate.RegisterValidation("permissive-semver", ValidatePermissiveSemVer); err != nil {
+		return nil
+	}
+
+	if err = validate.RegisterValidation("permissive-constraint", ValidatePermissiveConstraint); err != nil {
+		return nil
+	}
+
+	if err = validate.RegisterValidation("aws-region", ValidateAwsRegion); err != nil {
 		return nil
 	}
 
@@ -56,13 +64,27 @@ func ValidateClusterKind(fl validator.FieldLevel) bool {
 }
 
 func ValidatePermissiveSemVer(fl validator.FieldLevel) bool {
-	version := strings.TrimPrefix(fl.Field().String(), "v")
+	v := strings.TrimPrefix(fl.Field().String(), "v")
 
-	err := validator.New().Var(version, "semver")
+	_, err := version.NewVersion(v)
+
+	return err == nil
+}
+
+func ValidatePermissiveConstraint(fl validator.FieldLevel) bool {
+	c := strings.TrimPrefix(fl.Field().String(), "v")
+
+	_, err := version.NewConstraint(c)
 
 	return err == nil
 }
 
 func ValidateEksVersion(fl validator.FieldLevel) bool {
 	return eksVersionRegex.MatchString(fl.Field().String())
+}
+
+func ValidateAwsRegion(fl validator.FieldLevel) bool {
+	_, err := regions.LookupByCode(fl.Field().String())
+
+	return err == nil
 }
