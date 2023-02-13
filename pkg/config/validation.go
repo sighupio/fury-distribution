@@ -84,7 +84,7 @@ func ValidateEksVersion(fl validator.FieldLevel) bool {
 }
 
 func ValidateAwsRegion(fl validator.FieldLevel) bool {
-	_, err := regions.LookupByName(fl.Field().String())
+	_, err := regions.LookupByCode(fl.Field().String())
 
 	return err == nil
 }
