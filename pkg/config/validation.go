@@ -10,6 +10,7 @@ import (
 
 	"github.com/Al-Pragliola/go-version"
 	"github.com/go-playground/validator/v10"
+	regions "github.com/jsonmaur/aws-regions/v2"
 )
 
 const (
@@ -20,31 +21,6 @@ const (
 var (
 	apiVersionRegex = regexp.MustCompile(apiVersionString)
 	eksVersionRegex = regexp.MustCompile(eksVersionString)
-	awsRegions      = map[string]bool{
-		"af-south-1":     true,
-		"ap-east-1":      true,
-		"ap-northeast-1": true,
-		"ap-northeast-2": true,
-		"ap-northeast-3": true,
-		"ap-south-1":     true,
-		"ap-southeast-1": true,
-		"ap-southeast-2": true,
-		"ap-southeast-3": true,
-		"ca-central-1":   true,
-		"eu-central-1":   true,
-		"eu-north-1":     true,
-		"eu-south-1":     true,
-		"eu-west-1":      true,
-		"eu-west-2":      true,
-		"eu-west-3":      true,
-		"me-central-1":   true,
-		"me-south-1":     true,
-		"sa-east-1":      true,
-		"us-east-1":      true,
-		"us-east-2":      true,
-		"us-west-1":      true,
-		"us-west-2":      true,
-	}
 )
 
 func NewValidator() *validator.Validate {
@@ -108,5 +84,7 @@ func ValidateEksVersion(fl validator.FieldLevel) bool {
 }
 
 func ValidateAwsRegion(fl validator.FieldLevel) bool {
-	return awsRegions[fl.Field().String()]
+	_, err := regions.LookupByName(fl.Field().String())
+
+	return err == nil
 }
