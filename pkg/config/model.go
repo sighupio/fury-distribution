@@ -12,7 +12,26 @@ type Furyctl struct {
 }
 
 type FuryctlSpec struct {
-	DistributionVersion string `yaml:"distributionVersion" validate:"required,permissive-semver"`
+	DistributionVersion string             `yaml:"distributionVersion" validate:"required,permissive-semver"`
+	ToolsConfiguration  ToolsConfiguration `yaml:"toolsConfiguration" validate:"required"`
+}
+
+type ToolsConfiguration struct {
+	Terraform Terraform `yaml:"terraform" validate:"required"`
+}
+
+type Terraform struct {
+	State State `yaml:"state" validate:"required"`
+}
+
+type State struct {
+	S3 S3 `yaml:"s3" validate:"required"`
+}
+
+type S3 struct {
+	BucketName string `yaml:"bucketName" validate:"required"`
+	KeyPrefix  string `yaml:"keyPrefix" validate:"required,max=37"`
+	Region     string `yaml:"region" validate:"required,aws-region"`
 }
 
 type FuryctlMeta struct {
@@ -40,7 +59,7 @@ type KFDModules struct {
 
 type KFDProvider struct {
 	Version   string `yaml:"version" validate:"required"`
-	Installer string `yaml:"installer" validate:"required,permissive-semver"`
+	Installer string `yaml:"installer" validate:"required"`
 }
 
 type KFDKubernetes struct {
@@ -73,7 +92,7 @@ type Eks struct {
 }
 
 type Tool struct {
-	Version string `yaml:"version" validate:"required,permissive-semver"`
+	Version string `yaml:"version" validate:"required,permissive-constraint"`
 }
 
 func (t Tool) String() string {
