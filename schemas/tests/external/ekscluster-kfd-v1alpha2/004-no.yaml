@@ -4,10 +4,10 @@
 
 # Tests the following cases:
 
-# Given "spec.distribution.modules.ingress.nginx.tls.provider" is "secret"
-# And "spec.distribution.modules.ingress.nginx.tls.secret" is specified in full
+# Given "spec.distribution.modules.auth.provider.type" is "basicAuth"
+# And "spec.distribution.modules.auth.provider.basicAuth" is not specified
 # When I validate the config against the schema
-# Then no errors are returned
+# Then the error "missing properties: 'basicAuth'" is returned
 
 ---
 apiVersion: kfd.sighup.io/v1alpha2
@@ -39,6 +39,7 @@ spec:
         vpnClientsSubnetCidr: 192.168.200.0/24
   kubernetes:
     nodeAllowedSshPublicKey: ssh-ed25519 SomethingSomething engineering@sighup.io
+    nodePoolsLaunchKind: both
     nodePools:
       - ami:
           id: ami-01234567890123456
@@ -51,6 +52,9 @@ spec:
           min: 2
   distribution:
     modules:
+      auth:
+        provider:
+          type: basicAuth
       dr:
         velero:
           eks:
@@ -69,15 +73,6 @@ spec:
             name: furyctl-demo.sighup.io
         nginx:
           type: single
-          tls:
-            provider: secret
-            secret:
-              ca: |
-                value
-              cert: |
-                value
-              key: |
-                value
       logging:
         opensearch:
           type: single

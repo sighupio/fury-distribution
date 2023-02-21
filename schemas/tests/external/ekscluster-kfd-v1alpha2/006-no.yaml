@@ -4,10 +4,11 @@
 
 # Tests the following cases:
 
-# Given "spec.distribution.common.provider.type" is "eks"
-# And "spec.distribution.modules.aws" is not specified
+# Given "spec.distribution.modules.ingress.nginx.tls.provider" is "secret"
+# And "spec.distribution.modules.ingress.nginx.tls.secret" is not specified
 # When I validate the config against the schema
-# Then an error "missing properties: 'aws'" is returned
+# Then the error "missing properties: 'secret'" is returned
+# And the error "missing properties: 'aws'" is returned
 
 ---
   apiVersion: kfd.sighup.io/v1alpha2
@@ -39,6 +40,7 @@
           vpnClientsSubnetCidr: 192.168.200.0/24
     kubernetes:
       nodeAllowedSshPublicKey: ssh-ed25519 SomethingSomething engineering@sighup.io
+      nodePoolsLaunchKind: both
       nodePools:
         - ami:
             id: ami-01234567890123456
@@ -78,6 +80,8 @@
               name: furyctl-demo.sighup.io
           nginx:
             type: single
+            tls:
+              provider: secret
         logging:
           opensearch:
             type: single
