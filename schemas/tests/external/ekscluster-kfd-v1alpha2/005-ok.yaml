@@ -4,10 +4,10 @@
 
 # Tests the following cases:
 
-# Given "spec.distribution.common.provider.type" is "test"
-# And "spec.distribution.modules.aws" is specified
+# Given "spec.distribution.common.provider.type" is "eks"
+# And "spec.distribution.modules.aws" is specified in full
 # When I validate the config against the schema
-# Then the error "expected null, but got object" are returned
+# Then no errors are returned
 
 ---
 apiVersion: kfd.sighup.io/v1alpha2
@@ -39,6 +39,7 @@ spec:
         vpnClientsSubnetCidr: 192.168.200.0/24
   kubernetes:
     nodeAllowedSshPublicKey: ssh-ed25519 SomethingSomething engineering@sighup.io
+    nodePoolsLaunchKind: both
     nodePools:
       - ami:
           id: ami-01234567890123456
@@ -50,17 +51,7 @@ spec:
           max: 3
           min: 2
   distribution:
-    common:
-      provider:
-        type: test
     modules:
-      aws: {}
-      auth:
-        provider:
-          type: basicAuth
-          basicAuth:
-            password: admin
-            username: admin
       dr:
         velero:
           eks:
