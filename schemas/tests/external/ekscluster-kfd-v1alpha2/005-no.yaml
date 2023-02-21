@@ -4,10 +4,10 @@
 
 # Tests the following cases:
 
-# Given "spec.distribution.modules.auth.provider.type" is "basicAuth"
-# And "spec.distribution.modules.auth.provider.basicAuth" is specified in full
+# Given "spec.distribution.common.provider.type" is "test"
+# And "spec.distribution.modules.aws" is specified
 # When I validate the config against the schema
-# Then no errors are returned
+# Then the error "expected null, but got object" are returned
 
 ---
 apiVersion: kfd.sighup.io/v1alpha2
@@ -39,6 +39,7 @@ spec:
         vpnClientsSubnetCidr: 192.168.200.0/24
   kubernetes:
     nodeAllowedSshPublicKey: ssh-ed25519 SomethingSomething engineering@sighup.io
+    nodePoolsLaunchKind: both
     nodePools:
       - ami:
           id: ami-01234567890123456
@@ -50,7 +51,11 @@ spec:
           max: 3
           min: 2
   distribution:
+    common:
+      provider:
+        type: test
     modules:
+      aws: {}
       auth:
         provider:
           type: basicAuth
