@@ -192,13 +192,13 @@ spec:
             # provider can be certManager, secret
             provider: certManager
             # if provider is set as secret, this key will be used to create the certificate in the cluster
-            secret:
+            # secret:
               # the certificate file content or you can use the file notation to get the content from a file
-              cert: "{file://relative/path/to/ssl.crt}"
+              # cert: "{file://relative/path/to/ssl.crt}"
               # the key file, a file notation can be used to get the content from a file
-              key: "{file://relative/path/to/ssl.key}"
+              # key: "{file://relative/path/to/ssl.key}"
               # the ca file, a file notation can be used to get the content from a file
-              ca: "{file://relative/path/to/ssl.ca}"
+              # ca: "{file://relative/path/to/ssl.ca}"
         # configuration for the cert-manager package
         certManager:
           # the configuration for the clusterIssuer that will be created
