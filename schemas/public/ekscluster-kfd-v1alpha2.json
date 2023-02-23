@@ -93,21 +93,6 @@
                                 }
                             }
                         }
-                    },
-                    {
-                        "properties": {
-                            "infrastructure": {
-                                "properties": {
-                                    "vpc": {
-                                        "properties": {
-                                            "vpn": {
-                                                "type": "null"
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        }
                     }
                 ]
             },
@@ -179,11 +164,10 @@
             "additionalProperties": false,
             "properties": {
                 "bucketName": {
-                    "type": "string"
+                    "$ref": "#/$defs/Types.AwsS3BucketName"
                 },
                 "keyPrefix": {
-                    "type": "string",
-                    "maxLength": 37
+                    "$ref": "#/$defs/Types.AwsS3KeyPrefix"
                 },
                 "region": {
                     "$ref": "#/$defs/Types.AwsRegion"
@@ -313,7 +297,8 @@
                     "type": "array",
                     "items": {
                         "type": "string"
-                    }
+                    },
+                    "minItems": 1
                 },
                 "allowedFromCidrs": {
                     "type": "array",
@@ -775,7 +760,7 @@
             "additionalProperties": false,
             "properties": {
                 "overrides": {
-                    "$ref": "#/$defs/Types.FuryModuleOverrides"
+                    "$ref": "#/$defs/Spec.Distribution.Modules.Ingress.Overrides"
                 },
                 "baseDomain": {
                     "type": "string"
@@ -795,6 +780,24 @@
                 "dns",
                 "nginx"
             ]
+        },
+        "Spec.Distribution.Modules.Ingress.Overrides": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "ingresses": {
+                    "$ref": "#/$defs/Spec.Distribution.Modules.Ingress.Overrides.Ingresses"
+                },
+                "nodeSelector": {
+                    "$ref": "#/$defs/Types.KubeNodeSelector"
+                },
+                "tolerations": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/$defs/Types.KubeToleration"
+                    }
+                }
+            }
         },
         "Spec.Distribution.Modules.Ingress.Overrides.Ingresses": {
             "type": "object",
@@ -1081,7 +1084,8 @@
                     "$ref": "#/$defs/Types.AwsRegion"
                 },
                 "bucketName": {
-                    "type": "string"
+                    "$ref": "#/$defs/Types.AwsS3BucketName",
+                    "maxLength": 49
                 }
             },
             "required": [
@@ -1124,11 +1128,7 @@
                         }
                     },
                     "then": {
-                        "properties": {
-                            "auth": {
-                                "required": ["dex", "pomerium", "baseDomain"]
-                            }
-                        }
+                        "required": ["dex", "pomerium", "baseDomain"]
                     },
                     "else": {
                         "properties": {
@@ -1366,6 +1366,10 @@
             "type": "string",
             "pattern": "^vpc\\-([0-9a-f]{8}|[0-9a-f]{17})$"
         },
+        "Types.AwsSshPubKey": {
+            "type": "string",
+            "pattern": "^ssh\\-(ed25519|rsa)\\s+"
+        },
         "Types.AwsSubnetId": {
             "type": "string",
             "pattern": "^subnet\\-[0-9a-f]{17}$"
@@ -1378,6 +1382,24 @@
             "type": "string",
             "pattern": "^(?i)(tcp|udp|icmp|icmpv6|-1)$",
             "$comment": "this value should be lowercase, but we rely on terraform to do the conversion to make it a bit more user friendly"
+        },
+        "Types.AwsS3BucketName": {
+            "type": "string",
+            "allOf": [
+                {
+                    "pattern": "^[a-z0-9][a-z0-9-.]{1,61}[a-z0-9]$"
+                },
+                {
+                    "not": {
+                        "pattern": "^xn--|-s3alias$"
+                    }
+                }
+            ]
+        },
+        "Types.AwsS3KeyPrefix": {
+            "type": "string",
+            "pattern": "^[A-z0-9][A-z0-9!-_.*'()]+$",
+            "maxLength": 960
         },
         "Types.KubeLabels": {
             "type": "object",

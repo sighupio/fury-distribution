@@ -64,6 +64,7 @@ spec:
             SHARED_SECRET: "test"
         provider:
           type: sso
+        baseDomain: furyctl-demo.sighup.io
       dr:
         velero:
           eks:
