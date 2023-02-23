@@ -54,6 +54,7 @@ spec:
   distribution:
     modules:
       auth:
+        baseDomain: furyctl-demo.sighup.io
         dex:
           connectors: []
         pomerium:
