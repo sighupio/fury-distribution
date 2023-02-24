@@ -2,17 +2,6 @@
 # Use of this source code is governed by a BSD-style
 # license that can be found in the LICENSE file.
 
-name: license
-kind: pipeline
-type: docker
-
-steps:
-  - name: check
-    image: docker.io/library/golang:1.19.6
-    pull: always
-    commands:
-      - go install github.com/google/addlicense@v1.1.1
-      - addlicense -c "SIGHUP s.r.l" -v -l bsd -y "2017-present"  -ignore 'templates/distribution/**' --check .
 ---
 name: policeman
 kind: pipeline
@@ -26,6 +15,20 @@ platform:
   arch: amd64
 
 steps:
+  - name: license-check
+    image: quay.io/sighup/golang:1.19.4
+    commands:
+      - addlicense -c "SIGHUP s.r.l" -v -l bsd -y "2017-present"  -ignore 'templates/distribution/**' --check .
+
+  - name: schema-check
+    image: quay.io/sighup/golang:1.19.4
+    commands:
+      - |-
+        cat schemas/public/ekscluster-kfd-v1alpha2.json | \
+        json-patch -p schemas/private/patch.json | \
+        jq -r > /tmp/schemas-private-ekscluster-kfd-v1alpha2.json
+      - diff schemas/private/ekscluster-kfd-v1alpha2.json /tmp/schemas-private-ekscluster-kfd-v1alpha2.json
+
   - name: lint
     image: quay.io/sighup/policeman
     pull: always
@@ -202,7 +205,6 @@ trigger:
 steps:
   - name: prepare-canonical-json
     image: registry.sighup.io/poc/fury-repo-automations:v0.0.3
-    pull: always
     depends_on: [clone]
     commands:
       - spock distro-json -r=False -v=${DRONE_TAG}
@@ -215,7 +217,6 @@ steps:
 
   - name: prepare-release-manifests
     image: quay.io/sighup/e2e-testing:1.1.0_0.7.0_3.1.1_1.9.4_1.24.1_3.8.7_4.21.1
-    pull: always
     depends_on: [clone]
     environment:
       RELEASE_MANIFESTS_PATH: fury-distribution-${DRONE_TAG}.yml
@@ -232,7 +233,6 @@ steps:
 
   - name: prepare-release-notes
     image: quay.io/sighup/fury-release-notes-plugin:3.7_2.8.4
-    pull: always
     depends_on: [clone]
     settings:
       release_notes_file_path: release-notes.md
