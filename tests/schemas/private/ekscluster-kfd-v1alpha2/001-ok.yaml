@@ -4,10 +4,11 @@
 
 # Tests the following cases:
 
-# Given "spec.distribution.modules.auth.provider.type" is "basicAuth"
-# And "spec.distribution.modules.auth.provider.basicAuth" is not specified
+# Given "spec.infrastructure.vpc" is specified
+# And "spec.kubernetes.subnetIds" is not specified
+# And "spec.kubernetes.vpcId" is not specified
 # When I validate the config against the schema
-# Then the error "missing properties: 'basicAuth'" is returned
+# Then no errors are returned
 
 ---
 apiVersion: kfd.sighup.io/v1alpha2
@@ -39,6 +40,7 @@ spec:
         vpnClientsSubnetCidr: 192.168.200.0/24
   kubernetes:
     nodeAllowedSshPublicKey: ssh-ed25519 SomethingSomething engineering@sighup.io
+    nodePoolsLaunchKind: both
     nodePools:
       - ami:
           id: ami-01234567890123456
@@ -52,8 +54,16 @@ spec:
   distribution:
     modules:
       auth:
+        dex:
+          connectors: []
+        pomerium:
+          policy: "test"
+          secrets:
+            COOKIE_SECRET: "test"
+            IDP_CLIENT_SECRET: "test"
+            SHARED_SECRET: "test"
         provider:
-          type: basicAuth
+          type: sso
       dr:
         velero:
           eks:

@@ -8,6 +8,7 @@
 # And "spec.distribution.modules.ingress.nginx.tls.secret" is not specified
 # When I validate the config against the schema
 # Then the error "missing properties: 'secret'" is returned
+# And the error "missing properties: 'aws'" is returned
 
 ---
   apiVersion: kfd.sighup.io/v1alpha2
@@ -39,6 +40,7 @@
           vpnClientsSubnetCidr: 192.168.200.0/24
     kubernetes:
       nodeAllowedSshPublicKey: ssh-ed25519 SomethingSomething engineering@sighup.io
+      nodePoolsLaunchKind: both
       nodePools:
         - ami:
             id: ami-01234567890123456

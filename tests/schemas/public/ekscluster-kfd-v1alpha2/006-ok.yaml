@@ -4,12 +4,10 @@
 
 # Tests the following cases:
 
-# Given "spec.infrastructure.vpc" is specified
-# And "spec.kubernetes.subnetIds" is specified
-# And "spec.kubernetes.vpcId" is specified
+# Given "spec.distribution.modules.ingress.nginx.tls.provider" is "secret"
+# And "spec.distribution.modules.ingress.nginx.tls.secret" is specified in full
 # When I validate the config against the schema
-# Then the error "expected null, but got string" is returned
-# Then the error "expected null, but got array" is returned
+# Then no errors are returned
 
 ---
 apiVersion: kfd.sighup.io/v1alpha2
@@ -40,12 +38,8 @@ spec:
           - ssh-ed25519 SomethingSomething engineering@sighup.io
         vpnClientsSubnetCidr: 192.168.200.0/24
   kubernetes:
-    vpcId: vpc-0123456789abcdef0
-    subnetIds:
-      - subnet-0123456789abcdef0
-      - subnet-0123456789abcdef1
-      - subnet-0123456789abcdef2
     nodeAllowedSshPublicKey: ssh-ed25519 SomethingSomething engineering@sighup.io
+    nodePoolsLaunchKind: both
     nodePools:
       - ami:
           id: ami-01234567890123456
@@ -62,7 +56,6 @@ spec:
         velero:
           eks:
             bucketName: example-velero
-            iamRoleArn: arn:aws:iam::123456789012:role/example-velero
             region: eu-west-1
       ingress:
         baseDomain: furyctl-demo.sighup.io
@@ -70,12 +63,20 @@ spec:
           private:
             create: true
             name: internal.furyctl-demo.sighup.io
-            vpcId: ""
           public:
             create: true
             name: furyctl-demo.sighup.io
         nginx:
           type: single
+          tls:
+            provider: secret
+            secret:
+              ca: |
+                value
+              cert: |
+                value
+              key: |
+                value
       logging:
         opensearch:
           type: single

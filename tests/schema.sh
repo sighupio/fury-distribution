@@ -1,5 +1,5 @@
 #!/usr/bin/env bats
-# Copyright (c) 2020 SIGHUP s.r.l All rights reserved.
+# Copyright (c) 2017-present SIGHUP s.r.l All rights reserved.
 # Use of this source code is governed by a BSD-style
 # license that can be found in the LICENSE file.
 
@@ -14,21 +14,22 @@ expect_no() {
 }
 
 test_schema() {
-    local APIVER=${1}
-    local EXAMPLE=${2}
-    local verify_expectation=${3}
+    local KIND=${1}
+    local APIVER=${2}
+    local EXAMPLE=${3}
+    local verify_expectation=${4}
     local validate_status=""
     local validate_output=""
     local verify_expectation_status=""
 
     TMPDIR=$(mktemp -d -t "fury-distribution-test")
 
-    mkdir -p "${TMPDIR}/schemas/tests/${APIVER}"
+    mkdir -p "${TMPDIR}/tests/schemas/${KIND}/${APIVER}"
 
-    yq "schemas/tests/${APIVER}/${EXAMPLE}.yaml" -o json  > "${TMPDIR}/schemas/tests/${APIVER}/${EXAMPLE}.json"
+    yq "tests/schemas/${KIND}/${APIVER}/${EXAMPLE}.yaml" -o json  > "${TMPDIR}/tests/schemas/${KIND}/${APIVER}/${EXAMPLE}.json"
 
     validate() {
-        jv "schemas/${APIVER}.json" "${TMPDIR}/schemas/tests/${APIVER}/${EXAMPLE}.json"
+        jv "schemas/${KIND}/${APIVER}.json" "${TMPDIR}/tests/schemas/${KIND}/${APIVER}/${EXAMPLE}.json"
     }
 
     run validate
@@ -38,7 +39,7 @@ test_schema() {
     run "${verify_expectation}" "${validate_status}"
     verify_expectation_status="${status}"
 
-    rm -rf "${TMPDIR}"
+    # rm -rf "${TMPDIR}"
 
     if [ "${verify_expectation_status}" -ne 0 ]; then
         echo "${validate_output}" >&3
@@ -52,7 +53,8 @@ test_schema() {
 @test "001 - ok" {
     info
 
-    test_schema "ekscluster-kfd-v1alpha2" "001-ok" expect_ok
+    test_schema "private" "ekscluster-kfd-v1alpha2" "001-ok" expect_ok
+    test_schema "public" "ekscluster-kfd-v1alpha2" "001-ok" expect_ok
 }
 
 @test "001 - no" {
@@ -73,13 +75,15 @@ test_schema() {
         fi
     }
 
-    test_schema "ekscluster-kfd-v1alpha2" "001-no" expect
+    test_schema "private" "ekscluster-kfd-v1alpha2" "001-no" expect
+    test_schema "public" "ekscluster-kfd-v1alpha2" "001-no" expect
 }
 
 @test "002 - ok" {
     info
 
-    test_schema "ekscluster-kfd-v1alpha2" "002-ok" expect_ok
+    test_schema "private" "ekscluster-kfd-v1alpha2" "002-ok" expect_ok
+    test_schema "public" "ekscluster-kfd-v1alpha2" "002-ok" expect_ok
 }
 
 @test "002 - no" {
@@ -95,13 +99,15 @@ test_schema() {
         fi
     }
 
-    test_schema "ekscluster-kfd-v1alpha2" "002-no" expect
+    test_schema "private" "ekscluster-kfd-v1alpha2" "002-no" expect
+    test_schema "public" "ekscluster-kfd-v1alpha2" "002-no" expect
 }
 
 @test "003 - ok" {
     info
 
-    test_schema "ekscluster-kfd-v1alpha2" "003-ok" expect_ok
+    test_schema "private" "ekscluster-kfd-v1alpha2" "003-ok" expect_ok
+    test_schema "public" "ekscluster-kfd-v1alpha2" "003-ok" expect_ok
 }
 
 @test "003 - no" {
@@ -122,13 +128,15 @@ test_schema() {
         fi
     }
 
-    test_schema "ekscluster-kfd-v1alpha2" "003-no" expect
+    test_schema "private" "ekscluster-kfd-v1alpha2" "003-no" expect
+    test_schema "public" "ekscluster-kfd-v1alpha2" "003-no" expect
 }
 
 @test "004 - ok" {
     info
 
-    test_schema "ekscluster-kfd-v1alpha2" "004-ok" expect_ok
+    test_schema "private" "ekscluster-kfd-v1alpha2" "004-ok" expect_ok
+    test_schema "public" "ekscluster-kfd-v1alpha2" "004-ok" expect_ok
 }
 
 @test "004 - no" {
@@ -144,13 +152,15 @@ test_schema() {
         fi
     }
 
-    test_schema "ekscluster-kfd-v1alpha2" "004-no" expect
+    test_schema "private" "ekscluster-kfd-v1alpha2" "004-no" expect
+    test_schema "public" "ekscluster-kfd-v1alpha2" "004-no" expect
 }
 
 @test "005 - ok" {
     info
 
-    test_schema "ekscluster-kfd-v1alpha2" "005-ok" expect_ok
+    test_schema "private" "ekscluster-kfd-v1alpha2" "005-ok" expect_ok
+    test_schema "public" "ekscluster-kfd-v1alpha2" "005-ok" expect_ok
 }
 
 @test "005 - no" {
@@ -166,13 +176,15 @@ test_schema() {
         fi
     }
 
-    test_schema "ekscluster-kfd-v1alpha2" "005-no" expect
+    test_schema "private" "ekscluster-kfd-v1alpha2" "005-no" expect
+    test_schema "public" "ekscluster-kfd-v1alpha2" "005-no" expect
 }
 
 @test "006 - ok" {
     info
 
-    test_schema "ekscluster-kfd-v1alpha2" "006-ok" expect_ok
+    test_schema "private" "ekscluster-kfd-v1alpha2" "006-ok" expect_ok
+    test_schema "public" "ekscluster-kfd-v1alpha2" "006-ok" expect_ok
 }
 
 @test "006 - no" {
@@ -193,13 +205,15 @@ test_schema() {
         fi
     }
 
-    test_schema "ekscluster-kfd-v1alpha2" "006-no" expect
+    test_schema "private" "ekscluster-kfd-v1alpha2" "006-no" expect
+    test_schema "public" "ekscluster-kfd-v1alpha2" "006-no" expect
 }
 
 @test "007 - ok" {
     info
 
-    test_schema "ekscluster-kfd-v1alpha2" "007-ok" expect_ok
+    test_schema "private" "ekscluster-kfd-v1alpha2" "007-ok" expect_ok
+    test_schema "public" "ekscluster-kfd-v1alpha2" "007-ok" expect_ok
 }
 
 @test "007 - no" {
@@ -215,5 +229,6 @@ test_schema() {
         fi
     }
 
-    test_schema "ekscluster-kfd-v1alpha2" "007-no" expect
+    test_schema "private" "ekscluster-kfd-v1alpha2" "007-no" expect
+    test_schema "public" "ekscluster-kfd-v1alpha2" "007-no" expect
 }

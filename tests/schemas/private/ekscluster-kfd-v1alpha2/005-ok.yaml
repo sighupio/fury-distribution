@@ -39,6 +39,7 @@ spec:
         vpnClientsSubnetCidr: 192.168.200.0/24
   kubernetes:
     nodeAllowedSshPublicKey: ssh-ed25519 SomethingSomething engineering@sighup.io
+    nodePoolsLaunchKind: both
     nodePools:
       - ami:
           id: ami-01234567890123456

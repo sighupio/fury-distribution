@@ -5,10 +5,11 @@
 # Tests the following cases:
 
 # Given "spec.infrastructure.vpc" is specified
-# And "spec.kubernetes.subnetIds" is not specified
-# And "spec.kubernetes.vpcId" is not specified
+# And "spec.kubernetes.subnetIds" is specified
+# And "spec.kubernetes.vpcId" is specified
 # When I validate the config against the schema
-# Then no errors are returned
+# Then the error "expected null, but got string" is returned
+# Then the error "expected null, but got array" is returned
 
 ---
 apiVersion: kfd.sighup.io/v1alpha2
@@ -39,7 +40,13 @@ spec:
           - ssh-ed25519 SomethingSomething engineering@sighup.io
         vpnClientsSubnetCidr: 192.168.200.0/24
   kubernetes:
+    vpcId: vpc-0123456789abcdef0
+    subnetIds:
+      - subnet-0123456789abcdef0
+      - subnet-0123456789abcdef1
+      - subnet-0123456789abcdef2
     nodeAllowedSshPublicKey: ssh-ed25519 SomethingSomething engineering@sighup.io
+    nodePoolsLaunchKind: both
     nodePools:
       - ami:
           id: ami-01234567890123456
@@ -52,22 +59,10 @@ spec:
           min: 2
   distribution:
     modules:
-      auth:
-        dex:
-          connectors: []
-        pomerium:
-          policy: "test"
-          secrets:
-            COOKIE_SECRET: "test"
-            IDP_CLIENT_SECRET: "test"
-            SHARED_SECRET: "test"
-        provider:
-          type: sso
       dr:
         velero:
           eks:
             bucketName: example-velero
-            iamRoleArn: arn:aws:iam::123456789012:role/example-velero
             region: eu-west-1
       ingress:
         baseDomain: furyctl-demo.sighup.io
@@ -75,7 +70,6 @@ spec:
           private:
             create: true
             name: internal.furyctl-demo.sighup.io
-            vpcId: ""
           public:
             create: true
             name: furyctl-demo.sighup.io

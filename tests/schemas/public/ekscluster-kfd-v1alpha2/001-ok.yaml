@@ -4,11 +4,11 @@
 
 # Tests the following cases:
 
-# Given "spec.distribution.modules.auth.provider.type" is "none"
-# And "spec.distribution.modules.auth.dex" is specified in full
-# And "spec.distribution.modules.auth.pomerium" is specified in full
+# Given "spec.infrastructure.vpc" is specified
+# And "spec.kubernetes.subnetIds" is not specified
+# And "spec.kubernetes.vpcId" is not specified
 # When I validate the config against the schema
-# Then 2 errors "expected null, but got object" are returned
+# Then no errors are returned
 
 ---
 apiVersion: kfd.sighup.io/v1alpha2
@@ -40,6 +40,7 @@ spec:
         vpnClientsSubnetCidr: 192.168.200.0/24
   kubernetes:
     nodeAllowedSshPublicKey: ssh-ed25519 SomethingSomething engineering@sighup.io
+    nodePoolsLaunchKind: both
     nodePools:
       - ami:
           id: ami-01234567890123456
@@ -62,12 +63,11 @@ spec:
             IDP_CLIENT_SECRET: "test"
             SHARED_SECRET: "test"
         provider:
-          type: none
+          type: sso
       dr:
         velero:
           eks:
             bucketName: example-velero
-            iamRoleArn: arn:aws:iam::123456789012:role/example-velero
             region: eu-west-1
       ingress:
         baseDomain: furyctl-demo.sighup.io
@@ -75,7 +75,6 @@ spec:
           private:
             create: true
             name: internal.furyctl-demo.sighup.io
-            vpcId: ""
           public:
             create: true
             name: furyctl-demo.sighup.io
