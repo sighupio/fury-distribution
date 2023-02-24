@@ -12,19 +12,7 @@
             "additionalProperties": false,
             "properties": {
                 "clusterAutoscaler": {
-                    "type": "object",
-                    "additionalProperties": false,
-                    "properties": {
-                        "iamRoleArn": {
-                            "$ref": "#/$defs/Types.AwsArn"
-                        },
-                        "overrides": {
-                            "$ref": "#/$defs/Types.FuryModuleComponentOverrides"
-                        }
-                    },
-                    "required": [
-                        "iamRoleArn"
-                    ]
+                    "$ref": "#/$defs/Spec.Distribution.Modules.Aws.ClusterAutoscaler"
                 },
                 "ebsCsiDriver": {
                     "type": "object",
@@ -133,6 +121,25 @@
         "value": "externalDns"
     },
 
+    {
+        "op": "add",
+        "path": "/$defs/Spec.Distribution.Modules.Aws.ClusterAutoscaler",
+        "value": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "iamRoleArn": {
+                    "$ref": "#/$defs/Types.AwsArn"
+                },
+                "overrides": {
+                    "$ref": "#/$defs/Types.FuryModuleComponentOverrides"
+                }
+            },
+            "required": [
+                "iamRoleArn"
+            ]
+        }
+    },
     {
         "op": "add",
         "path": "/$defs/Spec.Distribution.Modules.Ingress.ClusterIssuer.Route53",
