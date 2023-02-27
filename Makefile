@@ -18,6 +18,11 @@ license-check:
 	-ignore 'vendor/**' \
 	--check .
 
+.PHONY: lint-go
+
+lint-go:
+	@golangci-lint -v run --color=always --config=.rules/.golangci.yml ./...
+
 .PHONY: generate-private-schema dump-go-models
 
 generate-go-models: dump-private-schema
