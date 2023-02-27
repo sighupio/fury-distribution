@@ -1,6 +1,11 @@
 [
     {
         "op": "replace",
+        "path": "/$id",
+        "value": "https://schema.sighup.io/kfd/ekscluster-kfd-v1alpha2-private.json"
+    },
+    {
+        "op": "replace",
         "path": "/$defs/Spec.Distribution.Modules.Aws",
         "value": {
             "type": "object",
