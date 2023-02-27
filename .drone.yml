@@ -36,17 +36,22 @@ steps:
       VALIDATE_JSCPD: "false"
       # Disable natural language checks
       VALIDATE_NATURAL_LANGUAGE: "false"
+      # Disable go linting, we use the one included in the go image
+      VALIDATE_GO: "false"
       # Exclude template files from linting. The linter does not understand Go template.
       FILTER_REGEX_EXCLUDE: (templates/distribution/)
     depends_on:
-      - clone
+      - license-check
+      - schema-check
+
+  - name: lint-go
+    image: quay.io/sighup/golang:1.19.6
+
 
   - name: render
     # KUBECTL 1.25.3 - KUSTOMIZE 3.5.3 - HELM 3.1.1 - YQ 4.21.1 - ISTIOCTL 1.9.4 - FURYCTL 0.9.0 - BATS 1.1.0
     image: quay.io/sighup/e2e-testing:1.1.0_0.9.0_3.1.1_1.9.4_1.25.3_3.5.3_4.21.1
     pull: always
-    depends_on:
-      - clone
     commands:
       - echo $${NETRC_FILE} > /root/.netrc
       - furyctl vendor -H
@@ -54,6 +59,9 @@ steps:
     environment:
       NETRC_FILE:
         from_secret: NETRC_FILE
+    depends_on:
+      - license-check
+      - schema-check
 
   - name: check-deprecated-apis
     image: us-docker.pkg.dev/fairwinds-ops/oss/pluto:v5
@@ -63,7 +71,6 @@ steps:
     commands:
       # we use --ignore-deprecations because we don't want the CI to fail when the API has not been removed yet.
       - /pluto detect distribution.yml --ignore-deprecations --target-versions=k8s=v1.25.0
-
 
 ---
 name: e2e-kubernetes-1.25
