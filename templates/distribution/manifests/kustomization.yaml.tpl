@@ -15,3 +15,19 @@ resources:
   - monitoring
   - networking
   - opa
+  
+{{- if .spec.overrides.patchStrategicMerge }}
+patchesStrategicMerge: {{ .spec.overrides.patchStrategicMerge }}
+{{- end }}
+
+{{- if .spec.overrides.patchesJson6902 }}
+patchesJson6902: {{ .spec.overrides.patchesJson6902 }}
+{{- end }}
+
+{{- if .spec.overrides.secretGenerator }}
+secretGenerator: {{ .spec.overrides.secretGenerator }}
+{{- end }}
+
+{{- if .spec.overrides.secretGenerator }}
+configGenerator: {{ .spec.overrides.secretGenerator }}
+{{- end }}
