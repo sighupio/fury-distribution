@@ -12,12 +12,12 @@ platform:
 
 steps:
   - name: license-check
-    image: quay.io/sighup/golang:1.19.4
+    image: quay.io/sighup/golang:1.19.6
     commands:
       - addlicense -c "SIGHUP s.r.l" -v -l bsd -y "2017-present"  -ignore 'templates/distribution/**' --check .
 
   - name: schema-check
-    image: quay.io/sighup/golang:1.19.4
+    image: quay.io/sighup/golang:1.19.6
     commands:
       - |-
         cat schemas/public/ekscluster-kfd-v1alpha2.json | \
