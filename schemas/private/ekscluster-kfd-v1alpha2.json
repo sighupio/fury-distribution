@@ -1644,7 +1644,7 @@
       "pattern": "^(http|https)\\:\\/\\/.+$"
     }
   },
-  "$id": "https://schema.sighup.io/kfd/ekscluster-kfd-v1alpha2-public.json",
+  "$id": "https://schema.sighup.io/kfd/ekscluster-kfd-v1alpha2-private.json",
   "$schema": "http://json-schema.org/draft-07/schema#",
   "additionalProperties": false,
   "description": "A Fury Cluster deployed through AWS's Elastic Kubernetes Service",
