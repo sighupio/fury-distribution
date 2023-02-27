@@ -6,9 +6,6 @@ name: qa
 kind: pipeline
 type: docker
 
-depends_on:
-  - license
-
 platform:
   os: linux
   arch: amd64
