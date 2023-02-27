@@ -77,7 +77,7 @@ node:
   runner: internal
 
 depends_on:
-  - policeman
+  - qa
 
 platform:
   os: linux
