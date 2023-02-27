@@ -38,6 +38,9 @@
         },
         "distribution": {
           "$ref": "#/$defs/Spec.Distribution"
+        },
+        "overrides": {
+          "$ref": "#/$defs/Spec.Overrides"
         }
       },
       "required": [
@@ -1518,6 +1521,52 @@
         "max",
         "min"
       ]
+    },
+    "Spec.Overrides": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "configGenerator": {
+          "$ref": "#/$defs/Spec.Overrides.ConfigGenerator"
+        },
+        "secretsGenerator": {
+          "$ref": "#/$defs/Spec.Overrides.SecretsGenerator"
+        },
+        "patchesJson6902": {
+          "$ref": "#/$defs/Spec.Overrides.PatchesJson6902"
+        },
+        "patchesStrategicMerge": {
+          "$ref": "#/$defs/Spec.Overrides.PatchesStrategicMerge"
+        }
+      }
+    },
+    "Spec.Overrides.ConfigGenerator": {
+      "type": "array",
+      "additionalProperties": false,
+      "items": {
+        "type": "string"
+      }
+    },
+    "Spec.Overrides.PatchesJson6902": {
+      "type": "array",
+      "additionalProperties": false,
+      "items": {
+        "type": "string"
+      }
+    },
+    "Spec.Overrides.PatchesStrategicMerge": {
+      "type": "array",
+      "additionalProperties": false,
+      "items": {
+        "type": "string"
+      }
+    },
+    "Spec.Overrides.SecretsGenerator": {
+      "type": "array",
+      "additionalProperties": false,
+      "items": {
+        "type": "string"
+      }
     },
     "Spec.ToolsConfiguration": {
       "type": "object",
