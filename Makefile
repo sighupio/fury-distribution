@@ -1,3 +1,23 @@
+.PHONY: license-add license-check
+
+license-add:
+	@addlicense \
+	-c "SIGHUP s.r.l" \
+	-v -l bsd -y "2017-present" \
+	-ignore 'templates/distribution/**' \
+	-ignore 'target/**' \
+	-ignore 'vendor/**' \
+	.
+
+license-check:
+	@addlicense \
+	-c "SIGHUP s.r.l" \
+	-v -l bsd -y "2017-present" \
+	-ignore 'templates/distribution/**' \
+	-ignore 'target/**' \
+	-ignore 'vendor/**' \
+	--check .
+
 .PHONY: generate-private-schema dump-go-models
 
 generate-go-models: dump-private-schema
