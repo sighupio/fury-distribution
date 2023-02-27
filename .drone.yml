@@ -46,7 +46,11 @@ steps:
 
   - name: lint-go
     image: quay.io/sighup/golang:1.19.6
-
+    commands:
+      - make lint-go
+    depends_on:
+      - license-check
+      - schema-check
 
   - name: render
     image: quay.io/sighup/e2e-testing:1.1.0_0.7.0_3.1.1_1.9.4_1.24.1_3.8.7_4.21.1
