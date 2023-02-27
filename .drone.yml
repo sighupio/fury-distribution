@@ -36,15 +36,20 @@ steps:
       VALIDATE_JSCPD: "false"
       # Disable natural language checks
       VALIDATE_NATURAL_LANGUAGE: "false"
+      # Disable go linting, we use the one included in the go image
+      VALIDATE_GO: "false"
       # Exclude template files from linting. The linter does not understand Go template.
       FILTER_REGEX_EXCLUDE: (templates/distribution/)
     depends_on:
-      - clone
+      - license-check
+      - schema-check
+
+  - name: lint-go
+    image: quay.io/sighup/golang:1.19.6
+
 
   - name: render
     image: quay.io/sighup/e2e-testing:1.1.0_0.7.0_3.1.1_1.9.4_1.24.1_3.8.7_4.21.1
-    depends_on:
-      - clone
     commands:
       - echo $${NETRC_FILE} > /root/.netrc
       - furyctl vendor -H
@@ -52,14 +57,16 @@ steps:
     environment:
       NETRC_FILE:
         from_secret: NETRC_FILE
+    depends_on:
+      - license-check
+      - schema-check
 
   - name: deprek8ion
     image: eu.gcr.io/swade1987/deprek8ion:1.1.34
-    pull: always
-    depends_on:
-      - render
     commands:
       - /conftest test -p /policies distribution.yml
+    depends_on:
+      - render
 
 ---
 name: e2e-kubernetes-1.24
