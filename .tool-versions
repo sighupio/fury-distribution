@@ -1,2 +1,4 @@
 bats 1.8.2
-golang 1.19.1
+drone 1.7.0
+golang 1.19.6
+golangci-lint 1.51.2

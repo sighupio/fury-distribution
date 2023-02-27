@@ -2,30 +2,29 @@
 # Use of this source code is governed by a BSD-style
 # license that can be found in the LICENSE file.
 
-name: license
+name: qa
 kind: pipeline
 type: docker
-
-steps:
-  - name: check
-    image: docker.io/library/golang:1.19.6
-    pull: always
-    commands:
-      - go install github.com/google/addlicense@v1.1.1
-      - addlicense -c "SIGHUP s.r.l" -v -l bsd -y "2017-present"  -ignore 'templates/distribution/**' --check .
----
-name: policeman
-kind: pipeline
-type: docker
-
-depends_on:
-  - license
 
 platform:
   os: linux
   arch: amd64
 
 steps:
+  - name: license-check
+    image: quay.io/sighup/golang:1.19.6
+    commands:
+      - make license-check
+
+  - name: schema-check
+    image: quay.io/sighup/golang:1.19.6
+    commands:
+      - |-
+        cat schemas/public/ekscluster-kfd-v1alpha2.json | \
+        json-patch -p schemas/private/patch.json | \
+        jq -r > /tmp/schemas-private-ekscluster-kfd-v1alpha2.json
+      - diff schemas/private/ekscluster-kfd-v1alpha2.json /tmp/schemas-private-ekscluster-kfd-v1alpha2.json
+
   - name: lint
     image: quay.io/sighup/policeman
     pull: always
@@ -37,16 +36,24 @@ steps:
       VALIDATE_JSCPD: "false"
       # Disable natural language checks
       VALIDATE_NATURAL_LANGUAGE: "false"
+      # Disable go linting, we use the one included in the go image
+      VALIDATE_GO: "false"
       # Exclude template files from linting. The linter does not understand Go template.
       FILTER_REGEX_EXCLUDE: (templates/distribution/)
     depends_on:
-      - clone
+      - license-check
+      - schema-check
+
+  - name: lint-go
+    image: quay.io/sighup/golang:1.19.6
+    commands:
+      - make lint-go
+    depends_on:
+      - license-check
+      - schema-check
 
   - name: render
     image: quay.io/sighup/e2e-testing:1.1.0_0.7.0_3.1.1_1.9.4_1.24.1_3.8.7_4.21.1
-    pull: always
-    depends_on:
-      - clone
     commands:
       - echo $${NETRC_FILE} > /root/.netrc
       - furyctl vendor -H
@@ -54,14 +61,16 @@ steps:
     environment:
       NETRC_FILE:
         from_secret: NETRC_FILE
+    depends_on:
+      - license-check
+      - schema-check
 
   - name: deprek8ion
     image: eu.gcr.io/swade1987/deprek8ion:1.1.34
-    pull: always
-    depends_on:
-      - render
     commands:
       - /conftest test -p /policies distribution.yml
+    depends_on:
+      - render
 
 ---
 name: e2e-kubernetes-1.24
@@ -72,7 +81,7 @@ node:
   runner: internal
 
 depends_on:
-  - policeman
+  - qa
 
 platform:
   os: linux
@@ -91,7 +100,6 @@ trigger:
 steps:
   - name: init
     image: quay.io/sighup/e2e-testing-drone-plugin:v1.24.0
-    pull: always
     volumes:
       - name: shared
         path: /shared
@@ -124,7 +132,6 @@ steps:
 
   - name: test
     image: quay.io/sighup/e2e-testing:1.1.0_0.7.0_3.1.1_1.9.4_1.24.1_3.8.7_4.21.1
-    pull: always
     volumes:
       - name: shared
         path: /shared
@@ -196,7 +203,6 @@ trigger:
 steps:
   - name: prepare-canonical-json
     image: registry.sighup.io/poc/fury-repo-automations:v0.0.3
-    pull: always
     depends_on: [clone]
     commands:
       - spock distro-json -r=False -v=${DRONE_TAG}
@@ -209,7 +215,6 @@ steps:
 
   - name: prepare-release-manifests
     image: quay.io/sighup/e2e-testing:1.1.0_0.7.0_3.1.1_1.9.4_1.24.1_3.8.7_4.21.1
-    pull: always
     depends_on: [clone]
     environment:
       RELEASE_MANIFESTS_PATH: fury-distribution-${DRONE_TAG}.yml
@@ -226,7 +231,6 @@ steps:
 
   - name: prepare-release-notes
     image: quay.io/sighup/fury-release-notes-plugin:3.7_2.8.4
-    pull: always
     depends_on: [clone]
     settings:
       release_notes_file_path: release-notes.md
