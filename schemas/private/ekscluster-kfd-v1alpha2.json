@@ -461,7 +461,19 @@
       "additionalProperties": false,
       "properties": {
         "clusterAutoscaler": {
-          "$ref": "#/$defs/Spec.Distribution.Modules.Aws.ClusterAutoscaler"
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "iamRoleArn": {
+              "$ref": "#/$defs/Types.AwsArn"
+            },
+            "overrides": {
+              "$ref": "#/$defs/Types.FuryModuleComponentOverrides"
+            }
+          },
+          "required": [
+            "iamRoleArn"
+          ]
         },
         "ebsCsiDriver": {
           "type": "object",
@@ -469,6 +481,9 @@
           "properties": {
             "iamRoleArn": {
               "$ref": "#/$defs/Types.AwsArn"
+            },
+            "overrides": {
+              "$ref": "#/$defs/Types.FuryModuleComponentOverrides"
             }
           },
           "required": [
@@ -481,11 +496,23 @@
           "properties": {
             "iamRoleArn": {
               "$ref": "#/$defs/Types.AwsArn"
+            },
+            "overrides": {
+              "$ref": "#/$defs/Types.FuryModuleComponentOverrides"
             }
           },
           "required": [
             "iamRoleArn"
           ]
+        },
+        "snapshotController": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "overrides": {
+              "$ref": "#/$defs/Types.FuryModuleComponentOverrides"
+            }
+          }
         },
         "overrides": {
           "$ref": "#/$defs/Types.FuryModuleOverrides"
@@ -496,18 +523,6 @@
         "ebsCsiDriver",
         "loadBalancerController",
         "overrides"
-      ]
-    },
-    "Spec.Distribution.Modules.Aws.ClusterAutoscaler": {
-      "type": "object",
-      "additionalProperties": false,
-      "properties": {
-        "iamRoleArn": {
-          "$ref": "#/$defs/Types.AwsArn"
-        }
-      },
-      "required": [
-        "iamRoleArn"
       ]
     },
     "Spec.Distribution.Modules.Dr": {
@@ -1500,6 +1515,24 @@
     "Types.FileRef": {
       "type": "string",
       "pattern": "^\\{file\\:\\/\\/.+\\}$"
+    },
+    "Types.FuryModuleComponentOverrides": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "nodeSelector": {
+          "$ref": "#/$defs/Types.KubeNodeSelector"
+        },
+        "tolerations": {
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "$ref": "#/$defs/Types.KubeToleration"
+          }
+        }
+      }
     },
     "Types.FuryModuleOverrides": {
       "type": "object",
