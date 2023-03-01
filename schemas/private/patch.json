@@ -12,7 +12,19 @@
             "additionalProperties": false,
             "properties": {
                 "clusterAutoscaler": {
-                    "$ref": "#/$defs/Spec.Distribution.Modules.Aws.ClusterAutoscaler"
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                        "iamRoleArn": {
+                            "$ref": "#/$defs/Types.AwsArn"
+                        },
+                        "overrides": {
+                            "$ref": "#/$defs/Types.FuryModuleComponentOverrides"
+                        }
+                    },
+                    "required": [
+                        "iamRoleArn"
+                    ]
                 },
                 "ebsCsiDriver": {
                     "type": "object",
@@ -20,6 +32,9 @@
                     "properties": {
                         "iamRoleArn": {
                             "$ref": "#/$defs/Types.AwsArn"
+                        },
+                        "overrides": {
+                            "$ref": "#/$defs/Types.FuryModuleComponentOverrides"
                         }
                     },
                     "required": [
@@ -32,11 +47,23 @@
                     "properties": {
                         "iamRoleArn": {
                             "$ref": "#/$defs/Types.AwsArn"
+                        },
+                        "overrides": {
+                            "$ref": "#/$defs/Types.FuryModuleComponentOverrides"
                         }
                     },
                     "required": [
                         "iamRoleArn"
                     ]
+                },
+                "snapshotController": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                        "overrides": {
+                            "$ref": "#/$defs/Types.FuryModuleComponentOverrides"
+                        }
+                    }
                 },
                 "overrides": {
                     "$ref": "#/$defs/Types.FuryModuleOverrides"
@@ -106,22 +133,6 @@
         "value": "externalDns"
     },
 
-    {
-        "op": "add",
-        "path": "/$defs/Spec.Distribution.Modules.Aws.ClusterAutoscaler",
-        "value": {
-            "type": "object",
-            "additionalProperties": false,
-            "properties": {
-                "iamRoleArn": {
-                    "$ref": "#/$defs/Types.AwsArn"
-                }
-            },
-            "required": [
-                "iamRoleArn"
-            ]
-        }
-    },
     {
         "op": "add",
         "path": "/$defs/Spec.Distribution.Modules.Ingress.ClusterIssuer.Route53",

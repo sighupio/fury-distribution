@@ -1291,6 +1291,42 @@
             "type": "object",
             "additionalProperties": false,
             "properties": {
+                "clusterAutoscaler": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                        "overrides": {
+                            "$ref": "#/$defs/Types.FuryModuleComponentOverrides"
+                        }
+                    }
+                },
+                "ebsCsiDriver": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                        "overrides": {
+                            "$ref": "#/$defs/Types.FuryModuleComponentOverrides"
+                        }
+                    }
+                },
+                "loadBalancerController": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                        "overrides": {
+                            "$ref": "#/$defs/Types.FuryModuleComponentOverrides"
+                        }
+                    }
+                },
+                "snapshotController": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                        "overrides": {
+                            "$ref": "#/$defs/Types.FuryModuleComponentOverrides"
+                        }
+                    }
+                },
                 "overrides": {
                     "$ref": "#/$defs/Types.FuryModuleOverrides"
                 }
@@ -1484,6 +1520,21 @@
                     "type": "object",
                     "additionalProperties": {
                         "$ref": "#/$defs/Types.FuryModuleOverridesIngress"
+                    }
+                }
+            }
+        },
+        "Types.FuryModuleComponentOverrides": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "nodeSelector": {
+                    "$ref": "#/$defs/Types.KubeNodeSelector"
+                },
+                "tolerations": {
+                    "type": ["array", "null"],
+                    "items": {
+                        "$ref": "#/$defs/Types.KubeToleration"
                     }
                 }
             }

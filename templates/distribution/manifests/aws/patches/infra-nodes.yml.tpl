@@ -1,25 +1,8 @@
-{{- define "nodeSelector" -}}
-  {{ $indent := 8 -}}
-  {{ if hasKey . "indent" -}}
-    {{ $indent = .indent -}}
-  {{- end -}}
-  {{ if ne .spec.distribution.modules.aws.overrides.nodeSelector nil -}}
-    {{ .spec.distribution.modules.aws.overrides.nodeSelector | toYaml | indent $indent | trim }}
-  {{- else -}}
-    {{ template "commonNodeSelector" ( dict "spec" .spec "indent" $indent ) }}
-  {{- end }}
-{{- end -}}
-{{- define "tolerations" -}}
-  {{ $indent := 8 -}}
-  {{ if hasKey . "indent" -}}
-    {{ $indent = .indent -}}
-  {{- end -}}
-  {{ if ne .spec.distribution.modules.aws.overrides.tolerations nil -}}
-    {{ .spec.distribution.modules.aws.overrides.tolerations | toYaml | indent $indent | trim }}
-  {{- else -}}
-    {{ template "commonTolerations" ( dict "spec" .spec "indent" $indent ) }}
-  {{- end }}
-{{- end -}}
+{{- $lbcArgs := dict "module" "aws" "spec" .spec "component" "loadBalancerController" -}}
+{{- $caArgs := dict "module" "aws" "spec" .spec "component" "clusterAutoscaler" -}}
+{{- $ecdArgs := dict "module" "aws" "spec" .spec "component" "ebsCsiDriver" -}}
+{{- $scArgs := dict "module" "aws" "spec" .spec "component" "snapshotController" -}}
+
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -30,9 +13,9 @@ spec:
   template:
     spec:
       nodeSelector:
-        {{ template "nodeSelector" ( dict "spec" .spec ) }}
+        {{ template "nodeSelector" $lbcArgs }}
       tolerations:
-        {{ template "tolerations" ( dict "spec" .spec ) }}
+        {{ template "tolerations" $lbcArgs }}
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -43,9 +26,9 @@ spec:
   template:
     spec:
       nodeSelector:
-        {{ template "nodeSelector" ( dict "spec" .spec ) }}
+        {{ template "nodeSelector" $caArgs }}
       tolerations:
-        {{ template "tolerations" ( dict "spec" .spec ) }}
+        {{ template "tolerations" $caArgs }}
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -56,9 +39,9 @@ spec:
   template:
     spec:
       nodeSelector:
-        {{ template "nodeSelector" ( dict "spec" .spec ) }}
+        {{ template "nodeSelector" merge $ecdArgs }}
       tolerations:
-        {{ template "tolerations" ( dict "spec" .spec ) }}
+        {{ template "tolerations" merge $ecdArgs }}
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -69,6 +52,6 @@ spec:
   template:
     spec:
       nodeSelector:
-        {{ template "nodeSelector" ( dict "spec" .spec ) }}
+        {{ template "nodeSelector" merge $scArgs }}
       tolerations:
-        {{ template "tolerations" ( dict "spec" .spec ) }}
+        {{ template "tolerations" merge $scArgs }}
