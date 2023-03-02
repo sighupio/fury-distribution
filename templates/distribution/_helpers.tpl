@@ -1,13 +1,3 @@
-{{ define "commonNodeSelector" }}
-  {{- $indent := .indent | default 8 -}}
-  {{ .spec.distribution.common.nodeSelector | toYaml | indent $indent | trim }}
-{{- end -}}
-
-{{ define "commonTolerations" }}
-  {{- $indent := .indent | default 8 -}}
-  {{ .spec.distribution.common.tolerations | toYaml | indent $indent | trim }}
-{{- end -}}
-
 {{- define "nodeSelector" -}}
   {{- $indent := .indent | default 8 -}}
 
