@@ -1,25 +1,6 @@
-{{- define "nodeSelector" -}}
-  {{ $indent := 8 -}}
-  {{ if hasKey . "indent" -}}
-    {{ $indent = .indent -}}
-  {{- end -}}
-  {{ if ne .spec.distribution.modules.auth.overrides.nodeSelector nil -}}
-    {{ .spec.distribution.modules.auth.overrides.nodeSelector | toYaml | indent $indent | trim }}
-  {{- else -}}
-    {{ template "commonNodeSelector" ( dict "spec" .spec "indent" $indent ) }}
-  {{- end }}
-{{- end -}}
-{{- define "tolerations" -}}
-  {{ $indent := 8 -}}
-  {{ if hasKey . "indent" -}}
-    {{ $indent = .indent -}}
-  {{- end -}}
-  {{ if ne .spec.distribution.modules.auth.overrides.tolerations nil -}}
-    {{ .spec.distribution.modules.auth.overrides.tolerations | toYaml | indent $indent | trim }}
-  {{- else -}}
-    {{ template "commonTolerations" ( dict "spec" .spec "indent" $indent ) }}
-  {{- end }}
-{{- end -}}
+{{- $dexArgs := dict "module" "auth" "spec" .spec "component" "dex" -}}
+{{- $pomeriumArgs := dict "module" "auth" "spec" .spec "component" "pomerium" -}}
+
 {{- if eq .spec.distribution.modules.auth.provider.type "sso" -}}
 ---
 apiVersion: apps/v1
@@ -31,9 +12,9 @@ spec:
   template:
     spec:
       nodeSelector:
-        {{ template "nodeSelector" ( dict "spec" .spec ) }}
+        {{ template "nodeSelector" $dexArgs  }}
       tolerations:
-        {{ template "tolerations" ( dict "spec" .spec ) }}
+        {{ template "tolerations" $dexArgs }}
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -44,7 +25,7 @@ spec:
   template:
     spec:
       nodeSelector:
-        {{ template "nodeSelector" ( dict "spec" .spec ) }}
+        {{ template "nodeSelector" $pomeriumArgs }}
       tolerations:
-        {{ template "tolerations" ( dict "spec" .spec ) }}
+        {{ template "tolerations" $pomeriumArgs }}
 {{- end }}
