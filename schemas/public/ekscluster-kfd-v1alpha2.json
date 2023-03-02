@@ -982,6 +982,15 @@
                 },
                 "opensearch": {
                     "$ref": "#/$defs/Spec.Distribution.Modules.Logging.Opensearch"
+                },
+                "cerebro": {
+                    "$ref": "#/$defs/Spec.Distribution.Modules.Logging.Cerebro"
+                },
+                "minio": {
+                    "$ref": "#/$defs/Spec.Distribution.Modules.Logging.Minio"
+                },
+                "banzai": {
+                    "$ref": "#/$defs/Spec.Distribution.Modules.Logging.Banzai"
                 }
             },
             "required": ["opensearch"]
@@ -999,11 +1008,41 @@
                 },
                 "storageSize": {
                     "type": "string"
+                },
+                "overrides": {
+                    "$ref": "#/$defs/Types.FuryModuleComponentOverrides"
                 }
             },
             "required": [
                 "type"
             ]
+        },
+        "Spec.Distribution.Modules.Logging.Cerebro": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "overrides": {
+                    "$ref": "#/$defs/Types.FuryModuleComponentOverrides"
+                }
+            }
+        },
+        "Spec.Distribution.Modules.Logging.Minio": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "overrides": {
+                    "$ref": "#/$defs/Types.FuryModuleComponentOverrides"
+                }
+            }
+        },
+        "Spec.Distribution.Modules.Logging.Banzai": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "overrides": {
+                    "$ref": "#/$defs/Types.FuryModuleComponentOverrides"
+                }
+            }
         },
         "Spec.Distribution.Modules.Monitoring": {
             "type": "object",
@@ -1017,6 +1056,15 @@
                 },
                 "alertmanager": {
                     "$ref": "#/$defs/Spec.Distribution.Modules.Monitoring.AlertManager"
+                },
+                "grafana": {
+                    "$ref": "#/$defs/Spec.Distribution.Modules.Monitoring.Grafana"
+                },
+                "blackboxExporter": {
+                    "$ref": "#/$defs/Spec.Distribution.Modules.Monitoring.BlackboxExporter"
+                },
+                "kubeStateMetrics": {
+                    "$ref": "#/$defs/Spec.Distribution.Modules.Monitoring.KubeStateMetrics"
                 }
             }
         },
@@ -1047,6 +1095,33 @@
                 },
                 "slackWebhookUrl": {
                     "type": "string"
+                }
+            }
+        },
+        "Spec.Distribution.Modules.Monitoring.Grafana": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "overrides": {
+                    "$ref": "#/$defs/Types.FuryModuleComponentOverrides"
+                }
+            }
+        },
+        "Spec.Distribution.Modules.Monitoring.BlackboxExporter": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "overrides": {
+                    "$ref": "#/$defs/Types.FuryModuleComponentOverrides"
+                }
+            }
+        },
+        "Spec.Distribution.Modules.Monitoring.KubeStateMetrics": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "overrides": {
+                    "$ref": "#/$defs/Types.FuryModuleComponentOverrides"
                 }
             }
         },
