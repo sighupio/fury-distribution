@@ -1072,6 +1072,9 @@
             "properties": {
                 "eks": {
                     "$ref": "#/$defs/Spec.Distribution.Modules.Dr.Velero.Eks"
+                },
+                "overrides": {
+                    "$ref": "#/$defs/Types.FuryModuleComponentOverrides"
                 }
             },
             "required": ["eks"]
