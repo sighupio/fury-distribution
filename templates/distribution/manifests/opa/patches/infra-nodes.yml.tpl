@@ -1,25 +1,5 @@
-{{- define "nodeSelector" -}}
-  {{ $indent := 8 -}}
-  {{ if hasKey . "indent" -}}
-    {{ $indent = .indent -}}
-  {{- end -}}
-  {{ if ne .spec.distribution.modules.policy.overrides.nodeSelector nil -}}
-    {{ .spec.distribution.modules.policy.overrides.nodeSelector | toYaml | indent $indent | trim }}
-  {{- else -}}
-    {{ template "commonNodeSelector" ( dict "spec" .spec "indent" $indent ) }}
-  {{- end }}
-{{- end -}}
-{{- define "tolerations" -}}
-  {{ $indent := 8 -}}
-  {{ if hasKey . "indent" -}}
-    {{ $indent = .indent -}}
-  {{- end -}}
-  {{ if ne .spec.distribution.modules.policy.overrides.tolerations nil -}}
-    {{ .spec.distribution.modules.policy.overrides.tolerations | toYaml | indent $indent | trim }}
-  {{- else -}}
-    {{ template "commonTolerations" ( dict "spec" .spec "indent" $indent ) }}
-  {{- end }}
-{{- end -}}
+{{- $gArgs := dict "module" "policy" "spec" .spec "component" "gatekeeper" -}}
+
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -30,9 +10,9 @@ spec:
   template:
     spec:
       nodeSelector:
-        {{ template "nodeSelector" ( dict "spec" .spec ) }}
+        {{ template "nodeSelector" $gArgs }}
       tolerations:
-        {{ template "tolerations" ( dict "spec" .spec ) }}
+        {{ template "tolerations" $gArgs }}
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -43,6 +23,6 @@ spec:
   template:
     spec:
       nodeSelector:
-        {{ template "nodeSelector" ( dict "spec" .spec ) }}
+        {{ template "nodeSelector" $gArgs }}
       tolerations:
-        {{ template "tolerations" ( dict "spec" .spec ) }}
+        {{ template "tolerations" $gArgs }}
