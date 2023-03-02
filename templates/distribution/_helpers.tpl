@@ -9,49 +9,35 @@
 {{- end -}}
 
 {{- define "nodeSelector" -}}
-  {{ $indent := 8 -}}
-  {{ if hasKey . "indent" -}}
-    {{ $indent = .indent -}}
+  {{- $indent := .indent | default 8 -}}
+
+  {{- $module := index .spec.distribution.modules .module -}}
+  {{- $component := dict -}}
+  {{- if $module -}}
+    {{- $component = index $module .component -}}
   {{- end -}}
 
-  {{ $module := index .spec.distribution.modules .module -}}
-  {{ $component := dict -}}
-  {{ if $module -}}
-    {{ $component = index $module .component }}
-  {{- end }}
-
-  {{- if $component -}}
-    {{- $component.overrides.nodeSelector | toYaml | indent $indent | trim -}}
-  {{- else -}}
-    {{- if $module.overrides.nodeSelector -}}
-      {{- $module.overrides.nodeSelector | toYaml | indent $indent | trim -}}
-    {{- else -}}
-      {{ .spec.distribution.common.nodeSelector | toYaml | indent $indent | trim }}
-    {{- end }}
-  {{- end }}
+  {{- $nodeSelector := coalesce
+        $component.overrides.nodeSelector
+        $module.overrides.nodeSelector
+        .spec.distribution.common.nodeSelector -}}
+  {{- $nodeSelector | toYaml | indent $indent | trim -}}
 {{- end -}}
 
 {{- define "tolerations" -}}
-  {{ $indent := 8 -}}
-  {{ if hasKey . "indent" -}}
-    {{ $indent = .indent -}}
+  {{- $indent := .indent | default 8 -}}
+
+  {{- $module := index .spec.distribution.modules .module -}}
+  {{- $component := dict -}}
+  {{- if $module -}}
+    {{- $component = index $module .component -}}
   {{- end -}}
 
-  {{ $module := index .spec.distribution.modules .module -}}
-  {{ $component := dict -}}
-  {{ if ne $module nil -}}
-    {{ $component = index $module .component }}
-  {{- end }}
-
-  {{- if $component -}}
-    {{- $component.overrides.tolerations | toYaml | indent $indent | trim -}}
-  {{- else -}}
-    {{- if $module.overrides.tolerations -}}
-      {{- $module.overrides.tolerations | toYaml | indent $indent | trim -}}
-    {{- else -}}
-      {{ .spec.distribution.common.tolerations | toYaml | indent $indent | trim }}
-    {{- end -}}
-  {{- end -}}
+  {{- $tolerations := coalesce
+        $component.overrides.tolerations
+        $module.overrides.tolerations
+        .spec.distribution.common.tolerations -}}
+  {{- $tolerations | toYaml | indent $indent | trim -}}
 {{- end -}}
 
 {{ define "globalIngressClass" }}
