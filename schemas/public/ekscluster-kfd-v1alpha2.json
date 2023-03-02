@@ -773,6 +773,9 @@
                 },
                 "dns": {
                     "$ref": "#/$defs/Spec.Distribution.Modules.Ingress.DNS"
+                },
+                "forecastle": {
+                    "$ref": "#/$defs/Spec.Distribution.Modules.Ingress.Forecastle"
                 }
             },
             "required": [
@@ -808,6 +811,15 @@
                 }
             }
         },
+        "Spec.Distribution.Modules.Ingress.Forecastle": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "overrides": {
+                    "$ref": "#/$defs/Types.FuryModuleComponentOverrides"
+                }
+            }
+        },
         "Spec.Distribution.Modules.Ingress.Nginx": {
             "type": "object",
             "additionalProperties": false,
@@ -818,6 +830,9 @@
                 },
                 "tls": {
                     "$ref": "#/$defs/Spec.Distribution.Modules.Ingress.Nginx.TLS"
+                },
+                "overrides": {
+                    "$ref": "#/$defs/Types.FuryModuleComponentOverrides"
                 }
             },
             "required": [
@@ -876,6 +891,9 @@
             "properties": {
                 "clusterIssuer": {
                     "$ref": "#/$defs/Spec.Distribution.Modules.Ingress.CertManager.ClusterIssuer"
+                },
+                "overrides": {
+                    "$ref": "#/$defs/Types.FuryModuleComponentOverrides"
                 }
             },
             "required": [
@@ -913,6 +931,9 @@
                 },
                 "private": {
                     "$ref": "#/$defs/Spec.Distribution.Modules.Ingress.DNS.Private"
+                },
+                "overrides": {
+                    "$ref": "#/$defs/Types.FuryModuleComponentOverrides"
                 }
             },
             "required": [
