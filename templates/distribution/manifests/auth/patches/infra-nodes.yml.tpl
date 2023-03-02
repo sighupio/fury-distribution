@@ -1,5 +1,5 @@
-{{- $dexArgs := dict "module" "auth" "spec" .spec "component" "dex" -}}
-{{- $pomeriumArgs := dict "module" "auth" "spec" .spec "component" "pomerium" -}}
+{{- $dexArgs := dict "module" "auth" "spec" .spec "package" "dex" -}}
+{{- $pomeriumArgs := dict "module" "auth" "spec" .spec "package" "pomerium" -}}
 
 {{- if eq .spec.distribution.modules.auth.provider.type "sso" -}}
 ---

@@ -1,4 +1,4 @@
-{{- $gArgs := dict "module" "policy" "spec" .spec "component" "gatekeeper" -}}
+{{- $gArgs := dict "module" "policy" "spec" .spec "package" "gatekeeper" -}}
 
 ---
 apiVersion: apps/v1
