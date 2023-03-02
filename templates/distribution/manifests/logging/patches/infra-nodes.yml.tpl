@@ -1,7 +1,7 @@
-{{- $cArgs := dict "module" "logging" "spec" .spec "component" "cerebro" -}}
-{{- $osArgs := dict "module" "logging" "spec" .spec "component" "opensearch" -}}
-{{- $mArgs := dict "module" "logging" "spec" .spec "component" "minio" -}}
-{{- $bArgs := dict "module" "logging" "spec" .spec "component" "banzai" -}}
+{{- $cArgs := dict "module" "logging" "spec" .spec "package" "cerebro" -}}
+{{- $osArgs := dict "module" "logging" "spec" .spec "package" "opensearch" -}}
+{{- $mArgs := dict "module" "logging" "spec" .spec "package" "minio" -}}
+{{- $bArgs := dict "module" "logging" "spec" .spec "package" "banzai" -}}
 
 ---
 apiVersion: apps/v1

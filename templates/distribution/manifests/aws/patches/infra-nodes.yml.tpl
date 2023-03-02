@@ -1,7 +1,7 @@
-{{- $lbcArgs := dict "module" "aws" "spec" .spec "component" "loadBalancerController" -}}
-{{- $caArgs := dict "module" "aws" "spec" .spec "component" "clusterAutoscaler" -}}
-{{- $ecdArgs := dict "module" "aws" "spec" .spec "component" "ebsCsiDriver" -}}
-{{- $scArgs := dict "module" "aws" "spec" .spec "component" "snapshotController" -}}
+{{- $lbcArgs := dict "module" "aws" "spec" .spec "package" "loadBalancerController" -}}
+{{- $caArgs := dict "module" "aws" "spec" .spec "package" "clusterAutoscaler" -}}
+{{- $ecdArgs := dict "module" "aws" "spec" .spec "package" "ebsCsiDriver" -}}
+{{- $scArgs := dict "module" "aws" "spec" .spec "package" "snapshotController" -}}
 
 ---
 apiVersion: apps/v1
