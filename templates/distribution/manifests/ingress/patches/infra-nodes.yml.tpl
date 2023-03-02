@@ -1,7 +1,7 @@
-{{- $cmArgs := dict "module" "ingress" "spec" .spec "component" "certManager" -}}
-{{- $nArgs := dict "module" "ingress" "spec" .spec "component" "nginx" -}}
-{{- $dArgs := dict "module" "ingress" "spec" .spec "component" "dns" -}}
-{{- $fArgs := dict "module" "ingress" "spec" .spec "component" "forecastle" -}}
+{{- $cmArgs := dict "module" "ingress" "spec" .spec "package" "certManager" -}}
+{{- $nArgs := dict "module" "ingress" "spec" .spec "package" "nginx" -}}
+{{- $dArgs := dict "module" "ingress" "spec" .spec "package" "dns" -}}
+{{- $fArgs := dict "module" "ingress" "spec" .spec "package" "forecastle" -}}
 
 {{ if eq .spec.distribution.modules.ingress.nginx.tls.provider "certManager" -}}
 ---
