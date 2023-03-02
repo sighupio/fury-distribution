@@ -1250,6 +1250,9 @@
                 },
                 "policy": {
                     "type": "string"
+                },
+                "overrides": {
+                    "$ref": "#/$defs/Types.FuryModuleComponentOverrides"
                 }
             },
             "required": [
@@ -1283,6 +1286,9 @@
             "properties": {
                 "connectors": {
                     "type": "array"
+                },
+                "overrides": {
+                    "$ref": "#/$defs/Types.FuryModuleComponentOverrides"
                 }
             },
             "required": ["connectors"]
