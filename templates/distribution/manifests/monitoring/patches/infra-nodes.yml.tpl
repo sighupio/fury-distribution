@@ -1,8 +1,8 @@
-{{- $amArgs := dict "module" "monitoring" "spec" .spec "component" "alertmanager" -}}
-{{- $beArgs := dict "module" "monitoring" "spec" .spec "component" "blackboxExporter" -}}
-{{- $gArgs := dict "module" "monitoring" "spec" .spec "component" "grafana" -}}
-{{- $ksmArgs := dict "module" "monitoring" "spec" .spec "component" "kubeStateMetrics" -}}
-{{- $pArgs := dict "module" "monitoring" "spec" .spec "component" "prometheus" -}}
+{{- $amArgs := dict "module" "monitoring" "spec" .spec "package" "alertmanager" -}}
+{{- $beArgs := dict "module" "monitoring" "spec" .spec "package" "blackboxExporter" -}}
+{{- $gArgs := dict "module" "monitoring" "spec" .spec "package" "grafana" -}}
+{{- $ksmArgs := dict "module" "monitoring" "spec" .spec "package" "kubeStateMetrics" -}}
+{{- $pArgs := dict "module" "monitoring" "spec" .spec "package" "prometheus" -}}
 
 ---
 apiVersion: monitoring.coreos.com/v1

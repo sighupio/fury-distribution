@@ -1,4 +1,4 @@
-{{- $veleroArgs := dict "module" "dr" "spec" .spec "component" "velero" -}}
+{{- $veleroArgs := dict "module" "dr" "spec" .spec "package" "velero" -}}
 
 ---
 apiVersion: apps/v1

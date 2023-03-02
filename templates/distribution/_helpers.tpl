@@ -2,13 +2,13 @@
   {{- $indent := .indent | default 8 -}}
 
   {{- $module := index .spec.distribution.modules .module -}}
-  {{- $component := dict -}}
+  {{- $package := dict -}}
   {{- if $module -}}
-    {{- $component = index $module .component -}}
+    {{- $package = index $module .package -}}
   {{- end -}}
 
   {{- $nodeSelector := coalesce
-        $component.overrides.nodeSelector
+        $package.overrides.nodeSelector
         $module.overrides.nodeSelector
         .spec.distribution.common.nodeSelector -}}
   {{- $nodeSelector | toYaml | indent $indent | trim -}}
@@ -18,13 +18,13 @@
   {{- $indent := .indent | default 8 -}}
 
   {{- $module := index .spec.distribution.modules .module -}}
-  {{- $component := dict -}}
+  {{- $package := dict -}}
   {{- if $module -}}
-    {{- $component = index $module .component -}}
+    {{- $package = index $module .package -}}
   {{- end -}}
 
   {{- $tolerations := coalesce
-        $component.overrides.tolerations
+        $package.overrides.tolerations
         $module.overrides.tolerations
         .spec.distribution.common.tolerations -}}
   {{- $tolerations | toYaml | indent $indent | trim -}}
