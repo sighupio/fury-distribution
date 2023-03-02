@@ -1,25 +1,8 @@
-{{- define "nodeSelector" -}}
-  {{ $indent := 8 -}}
-  {{ if hasKey . "indent" -}}
-    {{ $indent = .indent -}}
-  {{- end -}}
-  {{ if ne .spec.distribution.modules.ingress.overrides.nodeSelector nil -}}
-    {{ .spec.distribution.modules.ingress.overrides.nodeSelector | toYaml | indent $indent | trim }}
-  {{- else -}}
-    {{ template "commonNodeSelector" ( dict "spec" .spec "indent" $indent ) }}
-  {{- end }}
-{{- end -}}
-{{- define "tolerations" -}}
-  {{ $indent := 8 -}}
-  {{ if hasKey . "indent" -}}
-    {{ $indent = .indent -}}
-  {{- end -}}
-  {{ if ne .spec.distribution.modules.ingress.overrides.tolerations nil -}}
-    {{ .spec.distribution.modules.ingress.overrides.tolerations | toYaml | indent $indent | trim }}
-  {{- else -}}
-    {{ template "commonTolerations" ( dict "spec" .spec "indent" $indent ) }}
-  {{- end }}
-{{- end -}}
+{{- $cmArgs := dict "module" "ingress" "spec" .spec "component" "certManager" -}}
+{{- $nArgs := dict "module" "ingress" "spec" .spec "component" "nginx" -}}
+{{- $dArgs := dict "module" "ingress" "spec" .spec "component" "dns" -}}
+{{- $fArgs := dict "module" "ingress" "spec" .spec "component" "forecastle" -}}
+
 {{ if eq .spec.distribution.modules.ingress.nginx.tls.provider "certManager" -}}
 ---
 apiVersion: apps/v1
@@ -31,9 +14,9 @@ spec:
   template:
     spec:
       nodeSelector:
-        {{ template "nodeSelector" ( dict "spec" .spec ) }}
+        {{ template "nodeSelector" $cmArgs }}
       tolerations:
-        {{ template "tolerations" ( dict "spec" .spec ) }}
+        {{ template "tolerations" $cmArgs }}
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -44,9 +27,9 @@ spec:
   template:
     spec:
       nodeSelector:
-        {{ template "nodeSelector" ( dict "spec" .spec ) }}
+        {{ template "nodeSelector" $cmArgs }}
       tolerations:
-        {{ template "tolerations" ( dict "spec" .spec ) }}
+        {{ template "tolerations" $cmArgs }}
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -57,9 +40,9 @@ spec:
   template:
     spec:
       nodeSelector:
-        {{ template "nodeSelector" ( dict "spec" .spec ) }}
+        {{ template "nodeSelector" $cmArgs }}
       tolerations:
-        {{ template "tolerations" ( dict "spec" .spec ) }}
+        {{ template "tolerations" $cmArgs }}
 {{- end }}
 ---
 apiVersion: apps/v1
@@ -71,9 +54,9 @@ spec:
   template:
     spec:
       nodeSelector:
-        {{ template "nodeSelector" ( dict "spec" .spec ) }}
+        {{ template "nodeSelector" $fArgs }}
       tolerations:
-        {{ template "tolerations" ( dict "spec" .spec ) }}
+        {{ template "tolerations" $fArgs }}
 {{ if eq .spec.distribution.modules.ingress.nginx.type "dual" -}}
 ---
 apiVersion: apps/v1
@@ -85,9 +68,9 @@ spec:
   template:
     spec:
       nodeSelector:
-        {{ template "nodeSelector" ( dict "spec" .spec ) }}
+        {{ template "nodeSelector" $nArgs }}
       tolerations:
-        {{ template "tolerations" ( dict "spec" .spec ) }}
+        {{ template "tolerations" $nArgs }}
 ---
 apiVersion: apps/v1
 kind: DaemonSet
@@ -98,9 +81,9 @@ spec:
   template:
     spec:
       nodeSelector:
-        {{ template "nodeSelector" ( dict "spec" .spec ) }}
+        {{ template "nodeSelector" $nArgs }}
       tolerations:
-        {{ template "tolerations" ( dict "spec" .spec ) }}
+        {{ template "tolerations" $nArgs }}
 {{- else if eq .spec.distribution.modules.ingress.nginx.type "single" -}}
 ---
 apiVersion: apps/v1
@@ -112,9 +95,9 @@ spec:
   template:
     spec:
       nodeSelector:
-        {{ template "nodeSelector" ( dict "spec" .spec ) }}
+        {{ template "nodeSelector" $nArgs }}
       tolerations:
-        {{ template "tolerations" ( dict "spec" .spec ) }}
+        {{ template "tolerations" $nArgs }}
 {{- end }}
 
 {{ if eq .spec.distribution.modules.ingress.nginx.type "dual" -}}
@@ -128,9 +111,9 @@ spec:
   template:
     spec:
       nodeSelector:
-        {{ template "nodeSelector" ( dict "spec" .spec ) }}
+        {{ template "nodeSelector" $dArgs }}
       tolerations:
-        {{ template "tolerations" ( dict "spec" .spec ) }}
+        {{ template "tolerations" $dArgs }}
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -141,9 +124,9 @@ spec:
   template:
     spec:
       nodeSelector:
-        {{ template "nodeSelector" ( dict "spec" .spec ) }}
+        {{ template "nodeSelector" $dArgs }}
       tolerations:
-        {{ template "tolerations" ( dict "spec" .spec ) }}
+        {{ template "tolerations" $dArgs }}
 {{- else if eq .spec.distribution.modules.ingress.nginx.type "single" -}}
 ---
 apiVersion: apps/v1
@@ -155,7 +138,7 @@ spec:
   template:
     spec:
       nodeSelector:
-        {{ template "nodeSelector" ( dict "spec" .spec ) }}
+        {{ template "nodeSelector" $dArgs }}
       tolerations:
-        {{ template "tolerations" ( dict "spec" .spec ) }}
+        {{ template "tolerations" $dArgs }}
 {{- end }}
