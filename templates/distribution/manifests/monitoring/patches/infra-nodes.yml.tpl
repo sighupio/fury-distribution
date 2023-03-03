@@ -1,8 +1,8 @@
-{{- $amArgs := dict "module" "monitoring" "spec" .spec "package" "alertmanager" -}}
-{{- $beArgs := dict "module" "monitoring" "spec" .spec "package" "blackboxExporter" -}}
-{{- $gArgs := dict "module" "monitoring" "spec" .spec "package" "grafana" -}}
-{{- $ksmArgs := dict "module" "monitoring" "spec" .spec "package" "kubeStateMetrics" -}}
-{{- $pArgs := dict "module" "monitoring" "spec" .spec "package" "prometheus" -}}
+{{- $alertmanagerArgs := dict "module" "monitoring" "package" "alertmanager" "spec" .spec -}}
+{{- $blackboxExporterArgs := dict "module" "monitoring" "package" "blackboxExporter" "spec" .spec -}}
+{{- $grafanaArgs := dict "module" "monitoring" "package" "grafana" "spec" .spec -}}
+{{- $kubeStateMetricsArgs := dict "module" "monitoring" "package" "kubeStateMetrics" "spec" .spec -}}
+{{- $prometheusArgs := dict "module" "monitoring" "package" "prometheus" "spec" .spec -}}
 
 ---
 apiVersion: monitoring.coreos.com/v1
@@ -12,9 +12,9 @@ metadata:
   namespace: monitoring
 spec:
   nodeSelector:
-    {{ template "nodeSelector" ( merge $amArgs (dict "indent" 4) ) }}
+    {{ template "nodeSelector" ( merge $alertmanagerArgs (dict "indent" 4) ) }}
   tolerations:
-    {{ template "tolerations" ( merge $amArgs (dict "indent" 4) ) }}
+    {{ template "tolerations" ( merge $alertmanagerArgs (dict "indent" 4) ) }}
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -25,9 +25,9 @@ spec:
   template:
     spec:
       nodeSelector:
-        {{ template "nodeSelector" $beArgs }}
+        {{ template "nodeSelector" $blackboxExporterArgs }}
       tolerations:
-        {{ template "tolerations" $beArgs }}
+        {{ template "tolerations" $blackboxExporterArgs }}
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -38,9 +38,9 @@ spec:
   template:
     spec:
       nodeSelector:
-        {{ template "nodeSelector" $gArgs }}
+        {{ template "nodeSelector" $grafanaArgs }}
       tolerations:
-        {{ template "tolerations" $gArgs }}
+        {{ template "tolerations" $grafanaArgs }}
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -51,9 +51,9 @@ spec:
   template:
     spec:
       nodeSelector:
-        {{ template "nodeSelector" $ksmArgs }}
+        {{ template "nodeSelector" $kubeStateMetricsArgs }}
       tolerations:
-        {{ template "tolerations" $ksmArgs }}
+        {{ template "tolerations" $kubeStateMetricsArgs }}
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -64,9 +64,9 @@ spec:
   template:
     spec:
       nodeSelector:
-        {{ template "nodeSelector" $pArgs }}
+        {{ template "nodeSelector" $prometheusArgs }}
       tolerations:
-        {{ template "tolerations" $pArgs }}
+        {{ template "tolerations" $prometheusArgs }}
 ---
 apiVersion: monitoring.coreos.com/v1
 kind: Prometheus
@@ -75,9 +75,9 @@ metadata:
   namespace: monitoring
 spec:
   nodeSelector:
-    {{ template "nodeSelector" merge $pArgs (dict "indent" 4) }}
+    {{ template "nodeSelector" merge $prometheusArgs (dict "indent" 4) }}
   tolerations:
-    {{ template "tolerations" merge $pArgs (dict "indent" 4) }}
+    {{ template "tolerations" merge $prometheusArgs (dict "indent" 4) }}
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -88,6 +88,6 @@ spec:
   template:
     spec:
       nodeSelector:
-        {{ template "nodeSelector" $pArgs }}
+        {{ template "nodeSelector" $prometheusArgs }}
       tolerations:
-        {{ template "tolerations" $pArgs }}
+        {{ template "tolerations" $prometheusArgs }}
