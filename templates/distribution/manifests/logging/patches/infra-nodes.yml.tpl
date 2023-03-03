@@ -1,7 +1,7 @@
-{{- $cArgs := dict "module" "logging" "spec" .spec "package" "cerebro" -}}
-{{- $osArgs := dict "module" "logging" "spec" .spec "package" "opensearch" -}}
-{{- $mArgs := dict "module" "logging" "spec" .spec "package" "minio" -}}
-{{- $bArgs := dict "module" "logging" "spec" .spec "package" "banzai" -}}
+{{- $cerebroArgs := dict "module" "logging" "package" "cerebro" "spec" .spec -}}
+{{- $opensearchArgs := dict "module" "logging" "package" "opensearch" "spec" .spec -}}
+{{- $minioArgs := dict "module" "logging" "package" "minio" "spec" .spec -}}
+{{- $banzaiArgs := dict "module" "logging" "package" "banzai" "spec" .spec -}}
 
 ---
 apiVersion: apps/v1
@@ -13,9 +13,9 @@ spec:
   template:
     spec:
       nodeSelector:
-        {{ template "nodeSelector" $cArgs }}
+        {{ template "nodeSelector" $cerebroArgs }}
       tolerations:
-        {{ template "tolerations" $cArgs }}
+        {{ template "tolerations" $cerebroArgs }}
 ---
 apiVersion: apps/v1
 kind: StatefulSet
@@ -26,9 +26,9 @@ spec:
   template:
     spec:
       nodeSelector:
-        {{ template "nodeSelector" $osArgs }}
+        {{ template "nodeSelector" $opensearchArgs }}
       tolerations:
-        {{ template "tolerations" $osArgs }}
+        {{ template "tolerations" $opensearchArgs }}
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -39,9 +39,9 @@ spec:
   template:
     spec:
       nodeSelector:
-        {{ template "nodeSelector" $osArgs }}
+        {{ template "nodeSelector" $opensearchArgs }}
       tolerations:
-        {{ template "tolerations" $osArgs }}
+        {{ template "tolerations" $opensearchArgs }}
 ---
 apiVersion: apps/v1
 kind: StatefulSet
@@ -52,9 +52,9 @@ spec:
   template:
     spec:
       nodeSelector:
-        {{ template "nodeSelector" $mArgs }}
+        {{ template "nodeSelector" $minioArgs }}
       tolerations:
-        {{ template "tolerations" $mArgs }}
+        {{ template "tolerations" $minioArgs }}
 ---
 apiVersion: logging.banzaicloud.io/v1beta1
 kind: Logging
@@ -63,6 +63,6 @@ metadata:
 spec:
   fluentd:
     nodeSelector:
-      {{ template "nodeSelector" $bArgs }}
+      {{ template "nodeSelector" $banzaiArgs }}
     tolerations:
-      {{ template "tolerations" ( merge $bArgs (dict "indent" 6) ) }}
+      {{ template "tolerations" ( merge $banzaiArgs (dict "indent" 6) ) }}
