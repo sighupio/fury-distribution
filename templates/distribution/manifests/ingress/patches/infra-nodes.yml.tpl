@@ -1,7 +1,7 @@
-{{- $cmArgs := dict "module" "ingress" "spec" .spec "package" "certManager" -}}
-{{- $nArgs := dict "module" "ingress" "spec" .spec "package" "nginx" -}}
-{{- $dArgs := dict "module" "ingress" "spec" .spec "package" "dns" -}}
-{{- $fArgs := dict "module" "ingress" "spec" .spec "package" "forecastle" -}}
+{{- $certManagerArgs := dict "module" "package" "certManager" "ingress" "spec" .spec -}}
+{{- $nginxArgs := dict "module" "package" "nginx" "ingress" "spec" .spec -}}
+{{- $dnsArgs := dict "module" "package" "dns" "ingress" "spec" .spec -}}
+{{- $forecastleArgs := dict "module" "package" "forecastle" "ingress" "spec" .spec -}}
 
 {{ if eq .spec.distribution.modules.ingress.nginx.tls.provider "certManager" -}}
 ---
@@ -14,9 +14,9 @@ spec:
   template:
     spec:
       nodeSelector:
-        {{ template "nodeSelector" $cmArgs }}
+        {{ template "nodeSelector" $certManagerArgs }}
       tolerations:
-        {{ template "tolerations" $cmArgs }}
+        {{ template "tolerations" $certManagerArgs }}
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -27,9 +27,9 @@ spec:
   template:
     spec:
       nodeSelector:
-        {{ template "nodeSelector" $cmArgs }}
+        {{ template "nodeSelector" $certManagerArgs }}
       tolerations:
-        {{ template "tolerations" $cmArgs }}
+        {{ template "tolerations" $certManagerArgs }}
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -40,9 +40,9 @@ spec:
   template:
     spec:
       nodeSelector:
-        {{ template "nodeSelector" $cmArgs }}
+        {{ template "nodeSelector" $certManagerArgs }}
       tolerations:
-        {{ template "tolerations" $cmArgs }}
+        {{ template "tolerations" $certManagerArgs }}
 {{- end }}
 ---
 apiVersion: apps/v1
@@ -54,9 +54,9 @@ spec:
   template:
     spec:
       nodeSelector:
-        {{ template "nodeSelector" $fArgs }}
+        {{ template "nodeSelector" $forecastleArgs }}
       tolerations:
-        {{ template "tolerations" $fArgs }}
+        {{ template "tolerations" $forecastleArgs }}
 {{ if eq .spec.distribution.modules.ingress.nginx.type "dual" -}}
 ---
 apiVersion: apps/v1
@@ -68,9 +68,9 @@ spec:
   template:
     spec:
       nodeSelector:
-        {{ template "nodeSelector" $nArgs }}
+        {{ template "nodeSelector" $nginxArgs }}
       tolerations:
-        {{ template "tolerations" $nArgs }}
+        {{ template "tolerations" $nginxArgs }}
 ---
 apiVersion: apps/v1
 kind: DaemonSet
@@ -81,9 +81,9 @@ spec:
   template:
     spec:
       nodeSelector:
-        {{ template "nodeSelector" $nArgs }}
+        {{ template "nodeSelector" $nginxArgs }}
       tolerations:
-        {{ template "tolerations" $nArgs }}
+        {{ template "tolerations" $nginxArgs }}
 {{- else if eq .spec.distribution.modules.ingress.nginx.type "single" -}}
 ---
 apiVersion: apps/v1
@@ -95,9 +95,9 @@ spec:
   template:
     spec:
       nodeSelector:
-        {{ template "nodeSelector" $nArgs }}
+        {{ template "nodeSelector" $nginxArgs }}
       tolerations:
-        {{ template "tolerations" $nArgs }}
+        {{ template "tolerations" $nginxArgs }}
 {{- end }}
 
 {{ if eq .spec.distribution.modules.ingress.nginx.type "dual" -}}
@@ -111,9 +111,9 @@ spec:
   template:
     spec:
       nodeSelector:
-        {{ template "nodeSelector" $dArgs }}
+        {{ template "nodeSelector" $dnsArgs }}
       tolerations:
-        {{ template "tolerations" $dArgs }}
+        {{ template "tolerations" $dnsArgs }}
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -124,9 +124,9 @@ spec:
   template:
     spec:
       nodeSelector:
-        {{ template "nodeSelector" $dArgs }}
+        {{ template "nodeSelector" $dnsArgs }}
       tolerations:
-        {{ template "tolerations" $dArgs }}
+        {{ template "tolerations" $dnsArgs }}
 {{- else if eq .spec.distribution.modules.ingress.nginx.type "single" -}}
 ---
 apiVersion: apps/v1
@@ -138,7 +138,7 @@ spec:
   template:
     spec:
       nodeSelector:
-        {{ template "nodeSelector" $dArgs }}
+        {{ template "nodeSelector" $dnsArgs }}
       tolerations:
-        {{ template "tolerations" $dArgs }}
+        {{ template "tolerations" $dnsArgs }}
 {{- end }}

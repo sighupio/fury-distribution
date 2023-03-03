@@ -1,7 +1,7 @@
-{{- $lbcArgs := dict "module" "aws" "spec" .spec "package" "loadBalancerController" -}}
-{{- $caArgs := dict "module" "aws" "spec" .spec "package" "clusterAutoscaler" -}}
-{{- $ecdArgs := dict "module" "aws" "spec" .spec "package" "ebsCsiDriver" -}}
-{{- $scArgs := dict "module" "aws" "spec" .spec "package" "snapshotController" -}}
+{{- $loadBalancerArgs := dict "module" "aws" "package" "loadBalancerController" "spec" .spec -}}
+{{- $clusterAutoscalerArgs := dict "module" "aws" "package" "clusterAutoscaler" "spec" .spec -}}
+{{- $ebsCsiDriverArgs := dict "module" "aws" "package" "ebsCsiDriver" "spec" .spec -}}
+{{- $snapshotControllerArgs := dict "module" "aws" "package" "snapshotController" "spec" .spec -}}
 
 ---
 apiVersion: apps/v1
@@ -13,9 +13,9 @@ spec:
   template:
     spec:
       nodeSelector:
-        {{ template "nodeSelector" $lbcArgs }}
+        {{ template "nodeSelector" $loadBalancerArgs }}
       tolerations:
-        {{ template "tolerations" $lbcArgs }}
+        {{ template "tolerations" $loadBalancerArgs }}
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -26,9 +26,9 @@ spec:
   template:
     spec:
       nodeSelector:
-        {{ template "nodeSelector" $caArgs }}
+        {{ template "nodeSelector" $clusterAutoscalerArgs }}
       tolerations:
-        {{ template "tolerations" $caArgs }}
+        {{ template "tolerations" $clusterAutoscalerArgs }}
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -39,9 +39,9 @@ spec:
   template:
     spec:
       nodeSelector:
-        {{ template "nodeSelector" merge $ecdArgs }}
+        {{ template "nodeSelector" merge $ebsCsiDriverArgs }}
       tolerations:
-        {{ template "tolerations" merge $ecdArgs }}
+        {{ template "tolerations" merge $ebsCsiDriverArgs }}
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -52,6 +52,6 @@ spec:
   template:
     spec:
       nodeSelector:
-        {{ template "nodeSelector" merge $scArgs }}
+        {{ template "nodeSelector" merge $snapshotControllerArgs }}
       tolerations:
-        {{ template "tolerations" merge $scArgs }}
+        {{ template "tolerations" merge $snapshotControllerArgs }}

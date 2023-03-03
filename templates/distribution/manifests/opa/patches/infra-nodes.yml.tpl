@@ -1,4 +1,4 @@
-{{- $gArgs := dict "module" "policy" "spec" .spec "package" "gatekeeper" -}}
+{{- $gatekeeperArgs := dict "module" "policy" "package" "gatekeeper" "spec" .spec -}}
 
 ---
 apiVersion: apps/v1
@@ -10,9 +10,9 @@ spec:
   template:
     spec:
       nodeSelector:
-        {{ template "nodeSelector" $gArgs }}
+        {{ template "nodeSelector" $gatekeeperArgs }}
       tolerations:
-        {{ template "tolerations" $gArgs }}
+        {{ template "tolerations" $gatekeeperArgs }}
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -23,6 +23,6 @@ spec:
   template:
     spec:
       nodeSelector:
-        {{ template "nodeSelector" $gArgs }}
+        {{ template "nodeSelector" $gatekeeperArgs }}
       tolerations:
-        {{ template "tolerations" $gArgs }}
+        {{ template "tolerations" $gatekeeperArgs }}
