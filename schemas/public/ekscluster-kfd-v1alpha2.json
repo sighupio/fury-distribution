@@ -65,9 +65,6 @@
                 },
                 "distribution": {
                     "$ref": "#/$defs/Spec.Distribution"
-                },
-                "overrides": {
-                    "$ref": "#/$defs/Spec.Overrides"
                 }
             },
             "required": [
@@ -125,46 +122,46 @@
                 }
             }
         },
-        "Spec.Overrides": {
+        "Spec.Distribution.CustomPatches": {
             "type": "object",
             "additionalProperties": false,
             "properties": {
-                "configGenerator": {
-                    "$ref": "#/$defs/Spec.Overrides.ConfigGenerator"
+                "configMapGenerator": {
+                    "$ref": "#/$defs/Spec.Distribution.CustomPatches.ConfigMapGenerator"
                 },
                 "secretsGenerator": {
-                    "$ref": "#/$defs/Spec.Overrides.SecretsGenerator"
+                    "$ref": "#/$defs/Spec.Distribution.CustomPatches.SecretsGenerator"
                 },
                 "patchesJson6902": {
-                    "$ref": "#/$defs/Spec.Overrides.PatchesJson6902"
+                    "$ref": "#/$defs/Spec.Distribution.CustomPatches.PatchesJson6902"
                 },
                 "patchesStrategicMerge": {
-                    "$ref": "#/$defs/Spec.Overrides.PatchesStrategicMerge"
+                    "$ref": "#/$defs/Spec.Distribution.CustomPatches.PatchesStrategicMerge"
                 }
             }
         },
-        "Spec.Overrides.ConfigGenerator": {
+        "Spec.Distribution.CustomPatches.ConfigMapGenerator": {
             "type": "array",
             "additionalProperties": false,
             "items": {
-                "type": "string"
+                "type": "object"
             }
         },
-        "Spec.Overrides.SecretsGenerator": {
+        "Spec.Distribution.CustomPatches.SecretsGenerator": {
             "type": "array",
             "additionalProperties": false,
             "items": {
-                "type": "string"
+                "type": "object"
             }
         },
-        "Spec.Overrides.PatchesJson6902": {
+        "Spec.Distribution.CustomPatches.PatchesJson6902": {
             "type": "array",
             "additionalProperties": false,
             "items": {
-                "type": "string"
+                "type": "object"
             }
         },
-        "Spec.Overrides.PatchesStrategicMerge": {
+        "Spec.Distribution.CustomPatches.PatchesStrategicMerge": {
             "type": "array",
             "additionalProperties": false,
             "items": {
@@ -674,6 +671,9 @@
                 },
                 "modules": {
                     "$ref": "#/$defs/Spec.Distribution.Modules"
+                },
+                "customPathces": {
+                    "$ref": "#/$defs/Spec.Distribution.CustomPatches"
                 }
             },
             "required": [
