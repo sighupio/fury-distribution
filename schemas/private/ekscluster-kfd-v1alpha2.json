@@ -101,7 +101,6 @@
     },
     "Spec.Distribution": {
       "type": "object",
-      "additionalProperties": false,
       "properties": {
         "common": {
           "$ref": "#/$defs/Spec.Distribution.Common"
@@ -109,7 +108,7 @@
         "modules": {
           "$ref": "#/$defs/Spec.Distribution.Modules"
         },
-        "customPathces": {
+        "customPatches": {
           "$ref": "#/$defs/Spec.Distribution.CustomPatches"
         }
       },
@@ -218,7 +217,6 @@
     },
     "Spec.Distribution.CustomPatches": {
       "type": "object",
-      "additionalProperties": false,
       "properties": {
         "configMapGenerator": {
           "$ref": "#/$defs/Spec.Distribution.CustomPatches.ConfigMapGenerator"
@@ -226,8 +224,8 @@
         "secretsGenerator": {
           "$ref": "#/$defs/Spec.Distribution.CustomPatches.SecretsGenerator"
         },
-        "patchesJson6902": {
-          "$ref": "#/$defs/Spec.Distribution.CustomPatches.PatchesJson6902"
+        "patches": {
+          "$ref": "#/$defs/Spec.Distribution.CustomPatches.Patches"
         },
         "patchesStrategicMerge": {
           "$ref": "#/$defs/Spec.Distribution.CustomPatches.PatchesStrategicMerge"
@@ -236,30 +234,95 @@
     },
     "Spec.Distribution.CustomPatches.ConfigMapGenerator": {
       "type": "array",
-      "additionalProperties": false,
       "items": {
         "type": "object"
       }
     },
-    "Spec.Distribution.CustomPatches.PatchesJson6902": {
-      "type": "array",
+    "Spec.Distribution.CustomPatches.Patch": {
+      "type": "object",
       "additionalProperties": false,
+      "properties": {
+        "target": {
+          "$ref": "#/$defs/Spec.Distribution.CustomPatches.Patch.Target"
+        },
+        "path": {
+          "type": "string"
+        },
+        "patch": {
+          "type": "array",
+          "items": {
+            "type": "object"
+          }
+        }
+      },
+      "required": [
+        "target"
+      ]
+    },
+    "Spec.Distribution.CustomPatches.Patch.Target": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "group": {
+          "type": "string"
+        },
+        "version": {
+          "type": "string"
+        },
+        "kind": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "group",
+        "version",
+        "kind",
+        "name"
+      ]
+    },
+    "Spec.Distribution.CustomPatches.Patches": {
+      "type": "array",
       "items": {
-        "type": "object"
+        "$ref": "#/$defs/Spec.Distribution.CustomPatches.Patch"
       }
     },
     "Spec.Distribution.CustomPatches.PatchesStrategicMerge": {
       "type": "array",
-      "additionalProperties": false,
       "items": {
         "type": "string"
       }
     },
+    "Spec.Distribution.CustomPatches.SecretGenerator": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "files": {
+          "type": "array",
+          "items": {
+            "type": "object"
+          }
+        },
+        "envs": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "required": [
+        "name"
+      ]
+    },
     "Spec.Distribution.CustomPatches.SecretsGenerator": {
       "type": "array",
-      "additionalProperties": false,
       "items": {
-        "type": "object"
+        "$ref": "#/$defs/Spec.Distribution.CustomPatches.SecretGenerator"
       }
     },
     "Spec.Distribution.Modules": {
