@@ -511,7 +511,7 @@
             "iamRoleArn"
           ]
         },
-        "snapshotController": {
+        "ebsSnapshotController": {
           "type": "object",
           "additionalProperties": false,
           "properties": {
@@ -877,22 +877,13 @@
         "minio": {
           "$ref": "#/$defs/Spec.Distribution.Modules.Logging.Minio"
         },
-        "banzai": {
-          "$ref": "#/$defs/Spec.Distribution.Modules.Logging.Banzai"
+        "operator": {
+          "$ref": "#/$defs/Spec.Distribution.Modules.Logging.Operator"
         }
       },
       "required": [
         "opensearch"
       ]
-    },
-    "Spec.Distribution.Modules.Logging.Banzai": {
-      "type": "object",
-      "additionalProperties": false,
-      "properties": {
-        "overrides": {
-          "$ref": "#/$defs/Types.FuryModuleComponentOverrides"
-        }
-      }
     },
     "Spec.Distribution.Modules.Logging.Cerebro": {
       "type": "object",
@@ -936,6 +927,15 @@
       "required": [
         "type"
       ]
+    },
+    "Spec.Distribution.Modules.Logging.Operator": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "overrides": {
+          "$ref": "#/$defs/Types.FuryModuleComponentOverrides"
+        }
+      }
     },
     "Spec.Distribution.Modules.Monitoring": {
       "type": "object",

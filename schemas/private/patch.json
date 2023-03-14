@@ -56,7 +56,7 @@
                         "iamRoleArn"
                     ]
                 },
-                "snapshotController": {
+                "ebsSnapshotController": {
                     "type": "object",
                     "additionalProperties": false,
                     "properties": {

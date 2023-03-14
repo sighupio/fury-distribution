@@ -200,15 +200,16 @@ type SpecDistributionModulesAws struct {
 	// EbsCsiDriver corresponds to the JSON schema field "ebsCsiDriver".
 	EbsCsiDriver *SpecDistributionModulesAwsEbsCsiDriver `json:"ebsCsiDriver,omitempty" yaml:"ebsCsiDriver,omitempty"`
 
+	// EbsSnapshotController corresponds to the JSON schema field
+	// "ebsSnapshotController".
+	EbsSnapshotController *SpecDistributionModulesAwsEbsSnapshotController `json:"ebsSnapshotController,omitempty" yaml:"ebsSnapshotController,omitempty"`
+
 	// LoadBalancerController corresponds to the JSON schema field
 	// "loadBalancerController".
 	LoadBalancerController *SpecDistributionModulesAwsLoadBalancerController `json:"loadBalancerController,omitempty" yaml:"loadBalancerController,omitempty"`
 
 	// Overrides corresponds to the JSON schema field "overrides".
 	Overrides *TypesFuryModuleOverrides `json:"overrides,omitempty" yaml:"overrides,omitempty"`
-
-	// SnapshotController corresponds to the JSON schema field "snapshotController".
-	SnapshotController *SpecDistributionModulesAwsSnapshotController `json:"snapshotController,omitempty" yaml:"snapshotController,omitempty"`
 }
 
 type SpecDistributionModulesAwsClusterAutoscaler struct {
@@ -221,12 +222,12 @@ type SpecDistributionModulesAwsEbsCsiDriver struct {
 	Overrides *TypesFuryModuleComponentOverrides `json:"overrides,omitempty" yaml:"overrides,omitempty"`
 }
 
-type SpecDistributionModulesAwsLoadBalancerController struct {
+type SpecDistributionModulesAwsEbsSnapshotController struct {
 	// Overrides corresponds to the JSON schema field "overrides".
 	Overrides *TypesFuryModuleComponentOverrides `json:"overrides,omitempty" yaml:"overrides,omitempty"`
 }
 
-type SpecDistributionModulesAwsSnapshotController struct {
+type SpecDistributionModulesAwsLoadBalancerController struct {
 	// Overrides corresponds to the JSON schema field "overrides".
 	Overrides *TypesFuryModuleComponentOverrides `json:"overrides,omitempty" yaml:"overrides,omitempty"`
 }
@@ -389,9 +390,6 @@ type SpecDistributionModulesIngressOverridesIngresses struct {
 }
 
 type SpecDistributionModulesLogging struct {
-	// Banzai corresponds to the JSON schema field "banzai".
-	Banzai *SpecDistributionModulesLoggingBanzai `json:"banzai,omitempty" yaml:"banzai,omitempty"`
-
 	// Cerebro corresponds to the JSON schema field "cerebro".
 	Cerebro *SpecDistributionModulesLoggingCerebro `json:"cerebro,omitempty" yaml:"cerebro,omitempty"`
 
@@ -401,13 +399,11 @@ type SpecDistributionModulesLogging struct {
 	// Opensearch corresponds to the JSON schema field "opensearch".
 	Opensearch SpecDistributionModulesLoggingOpensearch `json:"opensearch" yaml:"opensearch"`
 
+	// Operator corresponds to the JSON schema field "operator".
+	Operator *SpecDistributionModulesLoggingOperator `json:"operator,omitempty" yaml:"operator,omitempty"`
+
 	// Overrides corresponds to the JSON schema field "overrides".
 	Overrides *TypesFuryModuleOverrides `json:"overrides,omitempty" yaml:"overrides,omitempty"`
-}
-
-type SpecDistributionModulesLoggingBanzai struct {
-	// Overrides corresponds to the JSON schema field "overrides".
-	Overrides *TypesFuryModuleComponentOverrides `json:"overrides,omitempty" yaml:"overrides,omitempty"`
 }
 
 type SpecDistributionModulesLoggingCerebro struct {
@@ -438,6 +434,11 @@ type SpecDistributionModulesLoggingOpensearchType string
 
 const SpecDistributionModulesLoggingOpensearchTypeSingle SpecDistributionModulesLoggingOpensearchType = "single"
 const SpecDistributionModulesLoggingOpensearchTypeTriple SpecDistributionModulesLoggingOpensearchType = "triple"
+
+type SpecDistributionModulesLoggingOperator struct {
+	// Overrides corresponds to the JSON schema field "overrides".
+	Overrides *TypesFuryModuleComponentOverrides `json:"overrides,omitempty" yaml:"overrides,omitempty"`
+}
 
 type SpecDistributionModulesMonitoring struct {
 	// Alertmanager corresponds to the JSON schema field "alertmanager".
@@ -1003,7 +1004,6 @@ func (j *SpecDistributionModulesIngress) UnmarshalJSON(b []byte) error {
 
 const TypesAwsRegionApSoutheast2 TypesAwsRegion = "ap-southeast-2"
 const TypesAwsRegionApSoutheast1 TypesAwsRegion = "ap-southeast-1"
-const TypesAwsRegionApSouth1 TypesAwsRegion = "ap-south-1"
 
 type TypesKubeResourcesLimits struct {
 	// Cpu corresponds to the JSON schema field "cpu".
@@ -1029,7 +1029,7 @@ type TypesKubeResources struct {
 	Requests *TypesKubeResourcesRequests `json:"requests,omitempty" yaml:"requests,omitempty"`
 }
 
-const TypesAwsRegionApNortheast3 TypesAwsRegion = "ap-northeast-3"
+const TypesAwsRegionApSouth1 TypesAwsRegion = "ap-south-1"
 
 var enumValues_SpecDistributionModulesLoggingOpensearchType = []interface{}{
 	"single",
@@ -1056,9 +1056,9 @@ func (j *SpecDistributionModulesLoggingOpensearchType) UnmarshalJSON(b []byte) e
 	return nil
 }
 
+const TypesAwsRegionApNortheast3 TypesAwsRegion = "ap-northeast-3"
 const TypesAwsRegionApNortheast2 TypesAwsRegion = "ap-northeast-2"
 const TypesAwsRegionApNortheast1 TypesAwsRegion = "ap-northeast-1"
-const TypesAwsRegionApEast1 TypesAwsRegion = "ap-east-1"
 
 // UnmarshalJSON implements json.Unmarshaler.
 func (j *SpecDistributionModulesLoggingOpensearch) UnmarshalJSON(b []byte) error {
@@ -1078,6 +1078,7 @@ func (j *SpecDistributionModulesLoggingOpensearch) UnmarshalJSON(b []byte) error
 	return nil
 }
 
+const TypesAwsRegionApEast1 TypesAwsRegion = "ap-east-1"
 const TypesAwsRegionAfSouth1 TypesAwsRegion = "af-south-1"
 
 // UnmarshalJSON implements json.Unmarshaler.
