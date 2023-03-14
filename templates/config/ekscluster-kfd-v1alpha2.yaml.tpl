@@ -407,7 +407,7 @@ spec:
         #        teamNameField: slug
         #        useLoginAsID: false
     customPatches:
-        configMapGenerator: []
-        patchesJson6902: []
-        patchesStrategicMerge: []  
-        secretsGenerator: []
+        configMapGenerator: 
+        patchesJson6902: 
+        patchesStrategicMerge:
+        secretsGenerator: 
