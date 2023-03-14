@@ -1,7 +1,7 @@
 {{- $cerebroArgs := dict "module" "logging" "package" "cerebro" "spec" .spec -}}
 {{- $opensearchArgs := dict "module" "logging" "package" "opensearch" "spec" .spec -}}
 {{- $minioArgs := dict "module" "logging" "package" "minio" "spec" .spec -}}
-{{- $banzaiArgs := dict "module" "logging" "package" "banzai" "spec" .spec -}}
+{{- $operatorArgs := dict "module" "logging" "package" "operator" "spec" .spec -}}
 
 ---
 apiVersion: apps/v1
@@ -63,6 +63,60 @@ metadata:
 spec:
   fluentd:
     nodeSelector:
-      {{ template "nodeSelector" $banzaiArgs }}
+      {{ template "nodeSelector" $operatorArgs }}
     tolerations:
-      {{ template "tolerations" ( merge $banzaiArgs (dict "indent" 6) ) }}
+      {{ template "tolerations" ( merge $operatorArgs (dict "indent" 6) ) }}
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: logging-operator
+  namespace: logging
+spec:
+  template:
+    spec:
+      nodeSelector:
+      {{ template "nodeSelector" $operatorArgs }}
+    tolerations:
+      {{ template "tolerations" $operatorArgs }}
+---
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: ism-policy-cronjob
+  namespace: logging
+spec:
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          nodeSelector:
+            {{ template "tolerations" ( merge $operatorArgs (dict "indent" 10) ) }}
+          tolerations:
+            {{ template "tolerations" ( merge $operatorArgs (dict "indent" 10) ) }}
+---
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: index-patterns-cronjob
+  namespace: logging
+spec:
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          nodeSelector:
+            {{ template "tolerations" ( merge $operatorArgs (dict "indent" 10) ) }}
+          tolerations:
+            {{ template "tolerations" ( merge $operatorArgs (dict "indent" 10) ) }}
+ ---
+apiVersion: logging-extensions.banzaicloud.io/v1alpha1
+kind: EventTailer
+metadata:
+  name: kubernetes
+spec:
+  workloadOverrides:
+    nodeSelector:
+      {{ template "nodeSelector" $operatorArgs }}
+    tolerations:
+      {{ template "tolerations" ( merge $operatorArgs (dict "indent" 6) ) }}

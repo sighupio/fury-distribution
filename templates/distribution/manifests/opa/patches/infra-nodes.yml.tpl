@@ -26,3 +26,15 @@ spec:
         {{ template "nodeSelector" $gatekeeperArgs }}
       tolerations:
         {{ template "tolerations" $gatekeeperArgs }}
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: gatekeeper-policy-manager
+spec:
+  template:
+    spec:
+      nodeSelector:
+        {{ template "nodeSelector" $gatekeeperArgs }}
+      tolerations:
+        {{ template "tolerations" $gatekeeperArgs }}

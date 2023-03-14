@@ -543,6 +543,11 @@ func (j *SpecDistributionModulesAwsEbsCsiDriver) UnmarshalJSON(b []byte) error {
 	return nil
 }
 
+type SpecDistributionModulesAwsEbsSnapshotController struct {
+	// Overrides corresponds to the JSON schema field "overrides".
+	Overrides *TypesFuryModuleComponentOverrides `json:"overrides,omitempty" yaml:"overrides,omitempty"`
+}
+
 type SpecDistributionModulesAwsLoadBalancerController struct {
 	// IamRoleArn corresponds to the JSON schema field "iamRoleArn".
 	IamRoleArn TypesAwsArn `json:"iamRoleArn" yaml:"iamRoleArn"`
@@ -634,11 +639,6 @@ func (j *SpecToolsConfigurationTerraformState) UnmarshalJSON(b []byte) error {
 	return nil
 }
 
-type SpecDistributionModulesAwsSnapshotController struct {
-	// Overrides corresponds to the JSON schema field "overrides".
-	Overrides *TypesFuryModuleComponentOverrides `json:"overrides,omitempty" yaml:"overrides,omitempty"`
-}
-
 type SpecDistributionModulesAws struct {
 	// ClusterAutoscaler corresponds to the JSON schema field "clusterAutoscaler".
 	ClusterAutoscaler SpecDistributionModulesAwsClusterAutoscaler `json:"clusterAutoscaler" yaml:"clusterAutoscaler"`
@@ -646,15 +646,16 @@ type SpecDistributionModulesAws struct {
 	// EbsCsiDriver corresponds to the JSON schema field "ebsCsiDriver".
 	EbsCsiDriver SpecDistributionModulesAwsEbsCsiDriver `json:"ebsCsiDriver" yaml:"ebsCsiDriver"`
 
+	// EbsSnapshotController corresponds to the JSON schema field
+	// "ebsSnapshotController".
+	EbsSnapshotController *SpecDistributionModulesAwsEbsSnapshotController `json:"ebsSnapshotController,omitempty" yaml:"ebsSnapshotController,omitempty"`
+
 	// LoadBalancerController corresponds to the JSON schema field
 	// "loadBalancerController".
 	LoadBalancerController SpecDistributionModulesAwsLoadBalancerController `json:"loadBalancerController" yaml:"loadBalancerController"`
 
 	// Overrides corresponds to the JSON schema field "overrides".
 	Overrides TypesFuryModuleOverrides `json:"overrides" yaml:"overrides"`
-
-	// SnapshotController corresponds to the JSON schema field "snapshotController".
-	SnapshotController *SpecDistributionModulesAwsSnapshotController `json:"snapshotController,omitempty" yaml:"snapshotController,omitempty"`
 }
 
 // UnmarshalJSON implements json.Unmarshaler.
@@ -1622,11 +1623,6 @@ func (j *SpecDistributionModulesIngress) UnmarshalJSON(b []byte) error {
 	return nil
 }
 
-type SpecDistributionModulesLoggingBanzai struct {
-	// Overrides corresponds to the JSON schema field "overrides".
-	Overrides *TypesFuryModuleComponentOverrides `json:"overrides,omitempty" yaml:"overrides,omitempty"`
-}
-
 type SpecDistributionModulesLoggingCerebro struct {
 	// Overrides corresponds to the JSON schema field "overrides".
 	Overrides *TypesFuryModuleComponentOverrides `json:"overrides,omitempty" yaml:"overrides,omitempty"`
@@ -1727,10 +1723,12 @@ func (j *SpecDistributionModulesLoggingOpensearch) UnmarshalJSON(b []byte) error
 	return nil
 }
 
-type SpecDistributionModulesLogging struct {
-	// Banzai corresponds to the JSON schema field "banzai".
-	Banzai *SpecDistributionModulesLoggingBanzai `json:"banzai,omitempty" yaml:"banzai,omitempty"`
+type SpecDistributionModulesLoggingOperator struct {
+	// Overrides corresponds to the JSON schema field "overrides".
+	Overrides *TypesFuryModuleComponentOverrides `json:"overrides,omitempty" yaml:"overrides,omitempty"`
+}
 
+type SpecDistributionModulesLogging struct {
 	// Cerebro corresponds to the JSON schema field "cerebro".
 	Cerebro *SpecDistributionModulesLoggingCerebro `json:"cerebro,omitempty" yaml:"cerebro,omitempty"`
 
@@ -1739,6 +1737,9 @@ type SpecDistributionModulesLogging struct {
 
 	// Opensearch corresponds to the JSON schema field "opensearch".
 	Opensearch SpecDistributionModulesLoggingOpensearch `json:"opensearch" yaml:"opensearch"`
+
+	// Operator corresponds to the JSON schema field "operator".
+	Operator *SpecDistributionModulesLoggingOperator `json:"operator,omitempty" yaml:"operator,omitempty"`
 
 	// Overrides corresponds to the JSON schema field "overrides".
 	Overrides *TypesFuryModuleOverrides `json:"overrides,omitempty" yaml:"overrides,omitempty"`
