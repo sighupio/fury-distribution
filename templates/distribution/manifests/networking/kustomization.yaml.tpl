@@ -5,3 +5,5 @@ kind: Kustomization
 resources:
   - {{ print "../" .spec.distribution.common.relativeVendorPath "/modules/networking/katalog/tigera/eks-policy-only" }}
 
+patchesStrategicMerge:
+  - patches/infra-nodes.yaml
