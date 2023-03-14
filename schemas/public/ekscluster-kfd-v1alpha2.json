@@ -989,8 +989,8 @@
                 "minio": {
                     "$ref": "#/$defs/Spec.Distribution.Modules.Logging.Minio"
                 },
-                "banzai": {
-                    "$ref": "#/$defs/Spec.Distribution.Modules.Logging.Banzai"
+                "operator": {
+                    "$ref": "#/$defs/Spec.Distribution.Modules.Logging.Operator"
                 }
             },
             "required": ["opensearch"]
@@ -1035,7 +1035,7 @@
                 }
             }
         },
-        "Spec.Distribution.Modules.Logging.Banzai": {
+        "Spec.Distribution.Modules.Logging.Operator": {
             "type": "object",
             "additionalProperties": false,
             "properties": {
@@ -1426,7 +1426,7 @@
                         }
                     }
                 },
-                "snapshotController": {
+                "ebsSnapshotController": {
                     "type": "object",
                     "additionalProperties": false,
                     "properties": {
