@@ -338,6 +338,9 @@
       "properties": {
         "connectors": {
           "type": "array"
+        },
+        "overrides": {
+          "$ref": "#/$defs/Types.FuryModuleComponentOverrides"
         }
       },
       "required": [
@@ -393,6 +396,9 @@
         },
         "policy": {
           "type": "string"
+        },
+        "overrides": {
+          "$ref": "#/$defs/Types.FuryModuleComponentOverrides"
         }
       },
       "required": [
@@ -461,7 +467,19 @@
       "additionalProperties": false,
       "properties": {
         "clusterAutoscaler": {
-          "$ref": "#/$defs/Spec.Distribution.Modules.Aws.ClusterAutoscaler"
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "iamRoleArn": {
+              "$ref": "#/$defs/Types.AwsArn"
+            },
+            "overrides": {
+              "$ref": "#/$defs/Types.FuryModuleComponentOverrides"
+            }
+          },
+          "required": [
+            "iamRoleArn"
+          ]
         },
         "ebsCsiDriver": {
           "type": "object",
@@ -469,6 +487,9 @@
           "properties": {
             "iamRoleArn": {
               "$ref": "#/$defs/Types.AwsArn"
+            },
+            "overrides": {
+              "$ref": "#/$defs/Types.FuryModuleComponentOverrides"
             }
           },
           "required": [
@@ -481,11 +502,23 @@
           "properties": {
             "iamRoleArn": {
               "$ref": "#/$defs/Types.AwsArn"
+            },
+            "overrides": {
+              "$ref": "#/$defs/Types.FuryModuleComponentOverrides"
             }
           },
           "required": [
             "iamRoleArn"
           ]
+        },
+        "ebsSnapshotController": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "overrides": {
+              "$ref": "#/$defs/Types.FuryModuleComponentOverrides"
+            }
+          }
         },
         "overrides": {
           "$ref": "#/$defs/Types.FuryModuleOverrides"
@@ -496,18 +529,6 @@
         "ebsCsiDriver",
         "loadBalancerController",
         "overrides"
-      ]
-    },
-    "Spec.Distribution.Modules.Aws.ClusterAutoscaler": {
-      "type": "object",
-      "additionalProperties": false,
-      "properties": {
-        "iamRoleArn": {
-          "$ref": "#/$defs/Types.AwsArn"
-        }
-      },
-      "required": [
-        "iamRoleArn"
       ]
     },
     "Spec.Distribution.Modules.Dr": {
@@ -531,6 +552,9 @@
       "properties": {
         "eks": {
           "$ref": "#/$defs/Spec.Distribution.Modules.Dr.Velero.Eks"
+        },
+        "overrides": {
+          "$ref": "#/$defs/Types.FuryModuleComponentOverrides"
         }
       },
       "required": [
@@ -573,6 +597,9 @@
         "externalDns": {
           "$ref": "#/$defs/Spec.Distribution.Modules.Ingress.ExternalDNS"
         },
+        "forecastle": {
+          "$ref": "#/$defs/Spec.Distribution.Modules.Ingress.Forecastle"
+        },
         "nginx": {
           "$ref": "#/$defs/Spec.Distribution.Modules.Ingress.Nginx"
         },
@@ -595,6 +622,9 @@
       "properties": {
         "clusterIssuer": {
           "$ref": "#/$defs/Spec.Distribution.Modules.Ingress.CertManager.ClusterIssuer"
+        },
+        "overrides": {
+          "$ref": "#/$defs/Types.FuryModuleComponentOverrides"
         }
       },
       "required": [
@@ -659,6 +689,9 @@
         },
         "private": {
           "$ref": "#/$defs/Spec.Distribution.Modules.Ingress.DNS.Private"
+        },
+        "overrides": {
+          "$ref": "#/$defs/Types.FuryModuleComponentOverrides"
         }
       },
       "required": [
@@ -718,6 +751,15 @@
         "publicIamRoleArn"
       ]
     },
+    "Spec.Distribution.Modules.Ingress.Forecastle": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "overrides": {
+          "$ref": "#/$defs/Types.FuryModuleComponentOverrides"
+        }
+      }
+    },
     "Spec.Distribution.Modules.Ingress.Nginx": {
       "type": "object",
       "additionalProperties": false,
@@ -731,6 +773,9 @@
         },
         "tls": {
           "$ref": "#/$defs/Spec.Distribution.Modules.Ingress.Nginx.TLS"
+        },
+        "overrides": {
+          "$ref": "#/$defs/Types.FuryModuleComponentOverrides"
         }
       },
       "required": [
@@ -825,11 +870,38 @@
         },
         "opensearch": {
           "$ref": "#/$defs/Spec.Distribution.Modules.Logging.Opensearch"
+        },
+        "cerebro": {
+          "$ref": "#/$defs/Spec.Distribution.Modules.Logging.Cerebro"
+        },
+        "minio": {
+          "$ref": "#/$defs/Spec.Distribution.Modules.Logging.Minio"
+        },
+        "operator": {
+          "$ref": "#/$defs/Spec.Distribution.Modules.Logging.Operator"
         }
       },
       "required": [
         "opensearch"
       ]
+    },
+    "Spec.Distribution.Modules.Logging.Cerebro": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "overrides": {
+          "$ref": "#/$defs/Types.FuryModuleComponentOverrides"
+        }
+      }
+    },
+    "Spec.Distribution.Modules.Logging.Minio": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "overrides": {
+          "$ref": "#/$defs/Types.FuryModuleComponentOverrides"
+        }
+      }
     },
     "Spec.Distribution.Modules.Logging.Opensearch": {
       "type": "object",
@@ -847,11 +919,23 @@
         },
         "storageSize": {
           "type": "string"
+        },
+        "overrides": {
+          "$ref": "#/$defs/Types.FuryModuleComponentOverrides"
         }
       },
       "required": [
         "type"
       ]
+    },
+    "Spec.Distribution.Modules.Logging.Operator": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "overrides": {
+          "$ref": "#/$defs/Types.FuryModuleComponentOverrides"
+        }
+      }
     },
     "Spec.Distribution.Modules.Monitoring": {
       "type": "object",
@@ -865,6 +949,15 @@
         },
         "alertmanager": {
           "$ref": "#/$defs/Spec.Distribution.Modules.Monitoring.AlertManager"
+        },
+        "grafana": {
+          "$ref": "#/$defs/Spec.Distribution.Modules.Monitoring.Grafana"
+        },
+        "blackboxExporter": {
+          "$ref": "#/$defs/Spec.Distribution.Modules.Monitoring.BlackboxExporter"
+        },
+        "kubeStateMetrics": {
+          "$ref": "#/$defs/Spec.Distribution.Modules.Monitoring.KubeStateMetrics"
         }
       }
     },
@@ -877,6 +970,33 @@
         },
         "slackWebhookUrl": {
           "type": "string"
+        }
+      }
+    },
+    "Spec.Distribution.Modules.Monitoring.BlackboxExporter": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "overrides": {
+          "$ref": "#/$defs/Types.FuryModuleComponentOverrides"
+        }
+      }
+    },
+    "Spec.Distribution.Modules.Monitoring.Grafana": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "overrides": {
+          "$ref": "#/$defs/Types.FuryModuleComponentOverrides"
+        }
+      }
+    },
+    "Spec.Distribution.Modules.Monitoring.KubeStateMetrics": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "overrides": {
+          "$ref": "#/$defs/Types.FuryModuleComponentOverrides"
         }
       }
     },
@@ -919,6 +1039,9 @@
           "items": {
             "type": "string"
           }
+        },
+        "overrides": {
+          "$ref": "#/$defs/Types.FuryModuleComponentOverrides"
         }
       }
     },
@@ -1500,6 +1623,24 @@
     "Types.FileRef": {
       "type": "string",
       "pattern": "^\\{file\\:\\/\\/.+\\}$"
+    },
+    "Types.FuryModuleComponentOverrides": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "nodeSelector": {
+          "$ref": "#/$defs/Types.KubeNodeSelector"
+        },
+        "tolerations": {
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "$ref": "#/$defs/Types.KubeToleration"
+          }
+        }
+      }
     },
     "Types.FuryModuleOverrides": {
       "type": "object",

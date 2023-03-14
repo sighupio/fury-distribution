@@ -1,11 +1,33 @@
-{{ define "commonNodeSelector" }}
+{{- define "nodeSelector" -}}
   {{- $indent := .indent | default 8 -}}
-  {{ .spec.distribution.common.nodeSelector | toYaml | indent $indent | trim }}
+
+  {{- $module := index .spec.distribution.modules .module -}}
+  {{- $package := dict -}}
+  {{- if $module -}}
+    {{- $package = index $module .package -}}
+  {{- end -}}
+
+  {{- $nodeSelector := coalesce
+        $package.overrides.nodeSelector
+        $module.overrides.nodeSelector
+        .spec.distribution.common.nodeSelector -}}
+  {{- $nodeSelector | toYaml | indent $indent | trim -}}
 {{- end -}}
 
-{{ define "commonTolerations" }}
+{{- define "tolerations" -}}
   {{- $indent := .indent | default 8 -}}
-  {{ .spec.distribution.common.tolerations | toYaml | indent $indent | trim }}
+
+  {{- $module := index .spec.distribution.modules .module -}}
+  {{- $package := dict -}}
+  {{- if $module -}}
+    {{- $package = index $module .package -}}
+  {{- end -}}
+
+  {{- $tolerations := coalesce
+        $package.overrides.tolerations
+        $module.overrides.tolerations
+        .spec.distribution.common.tolerations -}}
+  {{- $tolerations | toYaml | indent $indent | trim -}}
 {{- end -}}
 
 {{ define "globalIngressClass" }}
