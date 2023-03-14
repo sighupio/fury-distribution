@@ -1,5 +1,8 @@
 {{- define "nodeSelector" -}}
-  {{- $indent := .indent | default 8 -}}
+  {{- $indent := 8 -}}
+  {{- if .indent -}}
+    {{- $indent = .indent -}}
+  {{- end -}}
 
   {{- $module := index .spec.distribution.modules .module -}}
   {{- $package := dict -}}
@@ -15,7 +18,10 @@
 {{- end -}}
 
 {{- define "tolerations" -}}
-  {{- $indent := .indent | default 8 -}}
+  {{- $indent := 8 -}}
+  {{- if .indent -}}
+    {{- $indent = .indent -}}
+  {{- end -}}
 
   {{- $module := index .spec.distribution.modules .module -}}
   {{- $package := dict -}}
