@@ -16,18 +16,22 @@ resources:
   - networking
   - opa
   
-{{- if .spec.overrides.patchStrategicMerge }}
-patchesStrategicMerge: {{ .spec.overrides.patchStrategicMerge }}
+{{- if .spec.distribution.customPatches.patchesStrategicMerge }}
+patchesStrategicMerge: 
+  {{- "\n"}}{{- .spec.distribution.customPatches.patchesStrategicMerge | toYaml}}
 {{- end }}
 
-{{- if .spec.overrides.patchesJson6902 }}
-patchesJson6902: {{ .spec.overrides.patchesJson6902 }}
+{{- if .spec.distribution.customPatches.patches }}
+patches: 
+  {{- "\n"}}{{- .spec.distribution.customPatches.patches | toYaml}}
 {{- end }}
 
-{{- if .spec.overrides.secretGenerator }}
-secretGenerator: {{ .spec.overrides.secretGenerator }}
+{{- if .spec.distribution.customPatches.secretsGenerator }}
+secretsGenerator:
+  {{- "\n"}}{{- .spec.distribution.customPatches.secretsGenerator | toYaml}}
 {{- end }}
 
-{{- if .spec.overrides.secretGenerator }}
-configGenerator: {{ .spec.overrides.secretGenerator }}
+{{- if .spec.distribution.customPatches.configMapGenerator }}
+configMapGenerator:
+  {{- "\n"}}{{- .spec.distribution.customPatches.configMapGenerator | toYaml}}
 {{- end }}
