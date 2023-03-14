@@ -745,6 +745,9 @@
                 "monitoring": {
                     "$ref": "#/$defs/Spec.Distribution.Modules.Monitoring"
                 },
+                "networking": {
+                    "$ref": "#/$defs/Spec.Distribution.Modules.Networking"
+                },
                 "policy": {
                     "$ref": "#/$defs/Spec.Distribution.Modules.Policy"
                 }
@@ -1065,6 +1068,9 @@
                 },
                 "kubeStateMetrics": {
                     "$ref": "#/$defs/Spec.Distribution.Modules.Monitoring.KubeStateMetrics"
+                },
+                "x509Exporter": {
+                    "$ref": "#/$defs/Spec.Distribution.Modules.Monitoring.X509Exporter"
                 }
             }
         },
@@ -1117,6 +1123,36 @@
             }
         },
         "Spec.Distribution.Modules.Monitoring.KubeStateMetrics": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "overrides": {
+                    "$ref": "#/$defs/Types.FuryModuleComponentOverrides"
+                }
+            }
+        },
+        "Spec.Distribution.Modules.Monitoring.X509Exporter": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "overrides": {
+                    "$ref": "#/$defs/Types.FuryModuleComponentOverrides"
+                }
+            }
+        },
+        "Spec.Distribution.Modules.Networking": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "overrides": {
+                    "$ref": "#/$defs/Types.FuryModuleComponentOverrides"
+                },
+                "tigeraOperator": {
+                    "$ref": "#/$defs/Spec.Distribution.Modules.Networking.TigeraOperator"
+                }
+            }
+        },
+        "Spec.Distribution.Modules.Networking.TigeraOperator": {
             "type": "object",
             "additionalProperties": false,
             "properties": {
