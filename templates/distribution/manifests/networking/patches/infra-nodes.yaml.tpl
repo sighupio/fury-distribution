@@ -8,6 +8,6 @@ metadata:
 spec:
   controlPlaneNodeSelector:
     nodeSelector:
-      {{ template "nodeSelector" ( merge $alertManagerArgs (dict "indent" 6) ) }}
+      {{ template "nodeSelector" ( merge $tigeraOperatorArgs (dict "indent" 6) ) }}
     tolerations:
-      {{ template "tolerations" ( merge $alertManagerArgs (dict "indent" 6) ) }}
+      {{ template "tolerations" ( merge $tigeraOperatorArgs (dict "indent" 6) ) }}
