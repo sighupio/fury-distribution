@@ -1,7 +1,7 @@
 {{- $loadBalancerArgs := dict "module" "aws" "package" "loadBalancerController" "spec" .spec -}}
 {{- $clusterAutoscalerArgs := dict "module" "aws" "package" "clusterAutoscaler" "spec" .spec -}}
 {{- $ebsCsiDriverArgs := dict "module" "aws" "package" "ebsCsiDriver" "spec" .spec -}}
-{{- $snapshotControllerArgs := dict "module" "aws" "package" "snapshotController" "spec" .spec -}}
+{{- $ebsSnapshotControllerArgs := dict "module" "aws" "package" "ebsSnapshotController" "spec" .spec -}}
 
 ---
 apiVersion: apps/v1
@@ -52,6 +52,6 @@ spec:
   template:
     spec:
       nodeSelector:
-        {{ template "nodeSelector" merge $snapshotControllerArgs }}
+        {{ template "nodeSelector" merge $ebsSnapshotControllerArgs }}
       tolerations:
-        {{ template "tolerations" merge $snapshotControllerArgs }}
+        {{ template "tolerations" merge $ebsSnapshotControllerArgs }}
