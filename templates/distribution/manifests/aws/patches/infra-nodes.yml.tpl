@@ -39,9 +39,9 @@ spec:
   template:
     spec:
       nodeSelector:
-        {{ template "nodeSelector" merge $ebsCsiDriverArgs }}
+        {{ template "nodeSelector" $ebsCsiDriverArgs }}
       tolerations:
-        {{ template "tolerations" merge $ebsCsiDriverArgs }}
+        {{ template "tolerations" $ebsCsiDriverArgs }}
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -52,6 +52,6 @@ spec:
   template:
     spec:
       nodeSelector:
-        {{ template "nodeSelector" merge $ebsSnapshotControllerArgs }}
+        {{ template "nodeSelector" $ebsSnapshotControllerArgs }}
       tolerations:
-        {{ template "tolerations" merge $ebsSnapshotControllerArgs }}
+        {{ template "tolerations" $ebsSnapshotControllerArgs }}
