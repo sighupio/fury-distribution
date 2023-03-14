@@ -129,6 +129,11 @@ data:
       alertmanager:
         deadManSwitchWebhookUrl: ""
         slackWebhookUrl: ""
+    # networking module configuration
+    networking:
+      overrides:
+        nodeSelector: null
+        tolerations: null
     # policy module configuration
     policy:
       overrides:

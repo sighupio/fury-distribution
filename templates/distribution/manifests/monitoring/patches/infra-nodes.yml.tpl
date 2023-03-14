@@ -1,8 +1,9 @@
-{{- $alertmanagerArgs := dict "module" "monitoring" "package" "alertmanager" "spec" .spec -}}
+{{- $alertManagerArgs := dict "module" "monitoring" "package" "alertmanager" "spec" .spec -}}
 {{- $blackboxExporterArgs := dict "module" "monitoring" "package" "blackboxExporter" "spec" .spec -}}
 {{- $grafanaArgs := dict "module" "monitoring" "package" "grafana" "spec" .spec -}}
 {{- $kubeStateMetricsArgs := dict "module" "monitoring" "package" "kubeStateMetrics" "spec" .spec -}}
 {{- $prometheusArgs := dict "module" "monitoring" "package" "prometheus" "spec" .spec -}}
+{{- $x509ExporterArgs := dict "module" "monitoring" "package" "x509Exporter" "spec" .spec -}}
 
 ---
 apiVersion: monitoring.coreos.com/v1
@@ -12,9 +13,9 @@ metadata:
   namespace: monitoring
 spec:
   nodeSelector:
-    {{ template "nodeSelector" ( merge $alertmanagerArgs (dict "indent" 4) ) }}
+    {{ template "nodeSelector" ( merge $alertManagerArgs (dict "indent" 4) ) }}
   tolerations:
-    {{ template "tolerations" ( merge $alertmanagerArgs (dict "indent" 4) ) }}
+    {{ template "tolerations" ( merge $alertManagerArgs (dict "indent" 4) ) }}
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -91,3 +92,29 @@ spec:
         {{ template "nodeSelector" $prometheusArgs }}
       tolerations:
         {{ template "tolerations" $prometheusArgs }}
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: x509-certificate-exporter
+  namespace: monitoring
+spec:
+  template:
+    spec:
+      nodeSelector:
+        {{ template "nodeSelector" $x509ExporterArgs }}
+      tolerations:
+        {{ template "tolerations" $x509ExporterArgs }}
+---
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: x509-certificate-exporter-data-plane
+  namespace: monitoring
+spec:
+  template:
+    spec:
+      nodeSelector:
+        {{ template "nodeSelector" $x509ExporterArgs }}
+      tolerations:
+        {{ template "tolerations" $x509ExporterArgs }}
