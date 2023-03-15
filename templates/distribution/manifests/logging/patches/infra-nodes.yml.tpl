@@ -109,7 +109,7 @@ spec:
             {{ template "tolerations" ( merge $operatorArgs (dict "indent" 12) ) }}
           tolerations:
             {{ template "tolerations" ( merge $operatorArgs (dict "indent" 12) ) }}
- ---
+---
 apiVersion: logging-extensions.banzaicloud.io/v1alpha1
 kind: EventTailer
 metadata:
