@@ -7,3 +7,4 @@ resources:
 
 patchesStrategicMerge:
   - patches/infra-nodes.yaml
+
