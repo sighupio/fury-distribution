@@ -91,7 +91,7 @@ spec:
       template:
         spec:
           nodeSelector:
-            {{ template "tolerations" ( merge $operatorArgs (dict "indent" 12) ) }}
+            {{ template "nodeSelector" $operatorArgs }}
           tolerations:
             {{ template "tolerations" ( merge $operatorArgs (dict "indent" 12) ) }}
 ---
@@ -106,7 +106,7 @@ spec:
       template:
         spec:
           nodeSelector:
-            {{ template "tolerations" ( merge $operatorArgs (dict "indent" 12) ) }}
+            {{ template "nodeSelector" $operatorArgs }}
           tolerations:
             {{ template "tolerations" ( merge $operatorArgs (dict "indent" 12) ) }}
 ---
