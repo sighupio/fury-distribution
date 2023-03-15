@@ -13,9 +13,9 @@ metadata:
   namespace: monitoring
 spec:
   nodeSelector:
-    {{ template "nodeSelector" ( merge $alertManagerArgs (dict "indent" 4) ) }}
+    {{ template "nodeSelector" ( merge (dict "indent" 4) $alertManagerArgs ) }}
   tolerations:
-    {{ template "tolerations" ( merge $alertManagerArgs (dict "indent" 4) ) }}
+    {{ template "tolerations" ( merge (dict "indent" 4) $alertManagerArgs ) }}
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -76,9 +76,9 @@ metadata:
   namespace: monitoring
 spec:
   nodeSelector:
-    {{ template "nodeSelector" merge $prometheusArgs (dict "indent" 4) }}
+    {{ template "nodeSelector" merge (dict "indent" 4) $prometheusArgs }}
   tolerations:
-    {{ template "tolerations" merge $prometheusArgs (dict "indent" 4) }}
+    {{ template "tolerations" merge (dict "indent" 4) $prometheusArgs }}
 ---
 apiVersion: apps/v1
 kind: Deployment
