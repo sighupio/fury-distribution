@@ -76,9 +76,9 @@ spec:
   template:
     spec:
       nodeSelector:
-      {{ template "nodeSelector" $operatorArgs }}
-    tolerations:
-      {{ template "tolerations" $operatorArgs }}
+        {{ template "nodeSelector" $operatorArgs }}
+      tolerations:
+        {{ template "tolerations" $operatorArgs }}
 ---
 apiVersion: batch/v1
 kind: CronJob
