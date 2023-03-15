@@ -65,7 +65,7 @@ spec:
     nodeSelector:
       {{ template "nodeSelector" $operatorArgs }}
     tolerations:
-      {{ template "tolerations" ( merge $operatorArgs (dict "indent" 6) ) }}
+      {{ template "tolerations" ( merge (dict "indent" 6)  $operatorArgs) }}
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -93,7 +93,7 @@ spec:
           nodeSelector:
             {{ template "nodeSelector" $operatorArgs }}
           tolerations:
-            {{ template "tolerations" ( merge $operatorArgs (dict "indent" 12) ) }}
+            {{ template "tolerations" ( merge (dict "indent" 12) $operatorArgs ) }}
 ---
 apiVersion: batch/v1
 kind: CronJob
@@ -108,7 +108,7 @@ spec:
           nodeSelector:
             {{ template "nodeSelector" $operatorArgs }}
           tolerations:
-            {{ template "tolerations" ( merge $operatorArgs (dict "indent" 12) ) }}
+            {{ template "tolerations" ( merge (dict "indent" 12) $operatorArgs ) }}
 ---
 apiVersion: logging-extensions.banzaicloud.io/v1alpha1
 kind: EventTailer
@@ -119,4 +119,4 @@ spec:
     nodeSelector:
       {{ template "nodeSelector" $operatorArgs }}
     tolerations:
-      {{ template "tolerations" ( merge $operatorArgs (dict "indent" 6) ) }}
+      {{ template "tolerations" ( merge (dict "indent" 6)  $operatorArgs) }}
