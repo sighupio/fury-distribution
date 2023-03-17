@@ -907,7 +907,12 @@ const TypesAwsRegionCaCentral1 TypesAwsRegion = "ca-central-1"
 const TypesAwsRegionEuCentral1 TypesAwsRegion = "eu-central-1"
 const TypesAwsRegionEuNorth1 TypesAwsRegion = "eu-north-1"
 const TypesAwsRegionEuSouth1 TypesAwsRegion = "eu-south-1"
-const TypesAwsRegionEuWest1 TypesAwsRegion = "eu-west-1"
+
+type Metadata struct {
+	// Name corresponds to the JSON schema field "name".
+	Name string `json:"name" yaml:"name"`
+}
+
 const TypesAwsRegionEuWest2 TypesAwsRegion = "eu-west-2"
 const TypesAwsRegionEuWest3 TypesAwsRegion = "eu-west-3"
 const TypesAwsRegionMeCentral1 TypesAwsRegion = "me-central-1"
@@ -2033,64 +2038,17 @@ type SpecInfrastructure struct {
 	Vpn *SpecInfrastructureVpn `json:"vpn,omitempty" yaml:"vpn,omitempty"`
 }
 
-type SpecKubernetesAPIServerEndpointAccessType string
+type SpecKubernetesAPIServer struct {
+	// PrivateAccess corresponds to the JSON schema field "privateAccess".
+	PrivateAccess *bool `json:"privateAccess,omitempty" yaml:"privateAccess,omitempty"`
 
 const SpecKubernetesNodePoolsLaunchKindLaunchConfigurations SpecKubernetesNodePoolsLaunchKind = "launch_configurations"
 
-// UnmarshalJSON implements json.Unmarshaler.
-func (j *SpecKubernetesAPIServerEndpointAccessType) UnmarshalJSON(b []byte) error {
-	var v string
-	if err := json.Unmarshal(b, &v); err != nil {
-		return err
-	}
-	var ok bool
-	for _, expected := range enumValues_SpecKubernetesAPIServerEndpointAccessType {
-		if reflect.DeepEqual(v, expected) {
-			ok = true
-			break
-		}
-	}
-	if !ok {
-		return fmt.Errorf("invalid value (expected one of %#v): %#v", enumValues_SpecKubernetesAPIServerEndpointAccessType, v)
-	}
-	*j = SpecKubernetesAPIServerEndpointAccessType(v)
-	return nil
-}
+	// PublicAccess corresponds to the JSON schema field "publicAccess".
+	PublicAccess *bool `json:"publicAccess,omitempty" yaml:"publicAccess,omitempty"`
 
-const SpecKubernetesAPIServerEndpointAccessTypePublic SpecKubernetesAPIServerEndpointAccessType = "public"
-const SpecKubernetesAPIServerEndpointAccessTypePrivate SpecKubernetesAPIServerEndpointAccessType = "private"
-const SpecKubernetesAPIServerEndpointAccessTypePublicAndPrivate SpecKubernetesAPIServerEndpointAccessType = "public_and_private"
-
-type SpecKubernetesAPIServerEndpointAccess struct {
-	// AllowedCidrs corresponds to the JSON schema field "allowedCidrs".
-	AllowedCidrs []TypesCidr `json:"allowedCidrs" yaml:"allowedCidrs"`
-
-	// Type corresponds to the JSON schema field "type".
-	Type SpecKubernetesAPIServerEndpointAccessType `json:"type" yaml:"type"`
-}
-
-// UnmarshalJSON implements json.Unmarshaler.
-func (j *SpecKubernetesAPIServerEndpointAccess) UnmarshalJSON(b []byte) error {
-	var raw map[string]interface{}
-	if err := json.Unmarshal(b, &raw); err != nil {
-		return err
-	}
-	if v, ok := raw["allowedCidrs"]; !ok || v == nil {
-		return fmt.Errorf("field allowedCidrs in SpecKubernetesAPIServerEndpointAccess: required")
-	}
-	if v, ok := raw["type"]; !ok || v == nil {
-		return fmt.Errorf("field type in SpecKubernetesAPIServerEndpointAccess: required")
-	}
-	type Plain SpecKubernetesAPIServerEndpointAccess
-	var plain Plain
-	if err := json.Unmarshal(b, &plain); err != nil {
-		return err
-	}
-	if len(plain.AllowedCidrs) < 1 {
-		return fmt.Errorf("field %s length: must be >= %d", "allowedCidrs", 1)
-	}
-	*j = SpecKubernetesAPIServerEndpointAccess(plain)
-	return nil
+	// PublicAccessCidrs corresponds to the JSON schema field "publicAccessCidrs".
+	PublicAccessCidrs []TypesCidr `json:"publicAccessCidrs,omitempty" yaml:"publicAccessCidrs,omitempty"`
 }
 
 type SpecKubernetesAwsAuthRole struct {
@@ -2463,7 +2421,28 @@ var enumValues_SpecDistributionModulesIngressCertManagerClusterIssuerType = []in
 	"http01",
 }
 
-type TypesKubeTolerationEffect string
+type Spec struct {
+	// Distribution corresponds to the JSON schema field "distribution".
+	Distribution SpecDistribution `json:"distribution" yaml:"distribution"`
+
+	// DistributionVersion corresponds to the JSON schema field "distributionVersion".
+	DistributionVersion TypesSemVer `json:"distributionVersion" yaml:"distributionVersion"`
+
+	// Infrastructure corresponds to the JSON schema field "infrastructure".
+	Infrastructure *SpecInfrastructure `json:"infrastructure,omitempty" yaml:"infrastructure,omitempty"`
+
+	// Kubernetes corresponds to the JSON schema field "kubernetes".
+	Kubernetes SpecKubernetes `json:"kubernetes" yaml:"kubernetes"`
+
+	// Region corresponds to the JSON schema field "region".
+	Region TypesAwsRegion `json:"region" yaml:"region"`
+
+	// Tags corresponds to the JSON schema field "tags".
+	Tags TypesAwsTags `json:"tags,omitempty" yaml:"tags,omitempty"`
+
+	// ToolsConfiguration corresponds to the JSON schema field "toolsConfiguration".
+	ToolsConfiguration SpecToolsConfiguration `json:"toolsConfiguration" yaml:"toolsConfiguration"`
+}
 
 const TypesKubeTolerationEffectNoSchedule TypesKubeTolerationEffect = "NoSchedule"
 

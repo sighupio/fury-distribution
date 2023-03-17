@@ -1697,31 +1697,11 @@ type SpecInfrastructure struct {
 
 type SpecKubernetesAPIServerEndpointAccessType string
 
-var enumValues_SpecKubernetesAPIServerEndpointAccessType = []interface{}{
-	"public",
-	"private",
-	"public_and_private",
-}
+type TypesAwsArn string
 
-// UnmarshalJSON implements json.Unmarshaler.
-func (j *SpecKubernetesAPIServerEndpointAccessType) UnmarshalJSON(b []byte) error {
-	var v string
-	if err := json.Unmarshal(b, &v); err != nil {
-		return err
-	}
-	var ok bool
-	for _, expected := range enumValues_SpecKubernetesAPIServerEndpointAccessType {
-		if reflect.DeepEqual(v, expected) {
-			ok = true
-			break
-		}
-	}
-	if !ok {
-		return fmt.Errorf("invalid value (expected one of %#v): %#v", enumValues_SpecKubernetesAPIServerEndpointAccessType, v)
-	}
-	*j = SpecKubernetesAPIServerEndpointAccessType(v)
-	return nil
-}
+type SpecKubernetesAwsAuthRole struct {
+	// Groups corresponds to the JSON schema field "groups".
+	Groups []string `json:"groups" yaml:"groups"`
 
 const SpecKubernetesAPIServerEndpointAccessTypePublic SpecKubernetesAPIServerEndpointAccessType = "public"
 const SpecDistributionModulesIngressNginxTypeDual SpecDistributionModulesIngressNginxType = "dual"

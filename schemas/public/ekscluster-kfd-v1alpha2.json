@@ -559,8 +559,8 @@
                         "$ref": "#/$defs/Types.AwsSubnetId"
                     }
                 },
-                "apiServerEndpointAccess": {
-                    "$ref": "#/$defs/Spec.Kubernetes.APIServerEndpointAccess"
+                "apiServer": {
+                    "$ref": "#/$defs/Spec.Kubernetes.APIServer"
                 },
                 "nodeAllowedSshPublicKey": {
                     "anyOf": [
@@ -599,24 +599,29 @@
                 "nodePoolsLaunchKind"
             ]
         },
-        "Spec.Kubernetes.APIServerEndpointAccess": {
+        "Spec.Kubernetes.APIServer": {
             "type": "object",
             "additionalProperties": false,
             "properties": {
-                "type": {
-                    "type": "string",
-                    "enum": [
-                        "public",
-                        "private",
-                        "public_and_private"
-                    ]
+                "privateAccess": {
+                    "type": "boolean"
                 },
-                "allowedCidrs": {
+                "privateAccessCidrs": {
                     "type": "array",
                     "items": {
                         "$ref": "#/$defs/Types.Cidr"
                     },
-                    "minItems": 1
+                    "minItems": 0
+                },
+                "publicAccessCidrs": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/$defs/Types.Cidr"
+                    },
+                    "minItems": 0
+                },
+                "publicAccess": {
+                    "type": "boolean"
                 }
             },
             "required": [
