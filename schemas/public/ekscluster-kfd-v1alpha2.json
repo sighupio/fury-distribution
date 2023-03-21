@@ -728,6 +728,7 @@
 
         "Spec.Distribution": {
             "type": "object",
+            "additionalProperties": false,
             "properties": {
                 "common": {
                     "$ref": "#/$defs/Spec.Distribution.Common"
