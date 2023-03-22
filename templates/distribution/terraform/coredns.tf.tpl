@@ -1,5 +1,5 @@
 locals {
-  patch_data = {
+  coredns_scheduling_patch = {
     spec = {
       template = {
         spec = {
@@ -21,14 +21,15 @@ locals {
       }
     }
   }
+ coredns_scheduling_patch_as_json = jsonencode(local.patch_data)
 }
 
 resource "null_resource" "patch_coredns" {
   triggers = {
-    run_once = jsonencode(local.patch_data)
+    run_once = local.coredns_scheduling_patch_as_json
   }
 
   provisioner "local-exec" {
-    command = "${var.kubectl_path} patch deployment/coredns -n kube-system -p '${jsonencode(local.patch_data)}'"
+    command = "${var.kubectl_path} patch deployment/coredns -n kube-system -p '${local.coredns_scheduling_patch_as_json}'"
   }
 }
