@@ -395,7 +395,7 @@ type SpecDistributionCustomPatchesPatches []SpecDistributionCustomPatchesPatch
 
 type SpecDistributionCustomPatchesPatchesStrategicMerge []string
 
-type SpecDistributionCustomPatchesSecretsGenerator []interface{}
+type SpecDistributionCustomPatchesSecretGenerator []interface{}
 
 type SpecDistributionCustomPatches struct {
 	// ConfigMapGenerator corresponds to the JSON schema field "configMapGenerator".
@@ -408,8 +408,8 @@ type SpecDistributionCustomPatches struct {
 	// "patchesStrategicMerge".
 	PatchesStrategicMerge SpecDistributionCustomPatchesPatchesStrategicMerge `json:"patchesStrategicMerge,omitempty" yaml:"patchesStrategicMerge,omitempty"`
 
-	// SecretsGenerator corresponds to the JSON schema field "secretsGenerator".
-	SecretsGenerator SpecDistributionCustomPatchesSecretsGenerator `json:"secretsGenerator,omitempty" yaml:"secretsGenerator,omitempty"`
+	// SecretGenerator corresponds to the JSON schema field "secretGenerator".
+	SecretGenerator SpecDistributionCustomPatchesSecretGenerator `json:"secretGenerator,omitempty" yaml:"secretGenerator,omitempty"`
 }
 
 // UnmarshalJSON implements json.Unmarshaler.
