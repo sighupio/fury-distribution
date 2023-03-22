@@ -142,26 +142,40 @@
         "Spec.Distribution.CustomPatches.ConfigMapGenerator": {
             "type": "array",
             "items": {
-                "type": "object"
+                "$ref": "#/$defs/Spec.Distribution.CustomPatches.ResourceGenerator"
             }
         },
         "Spec.Distribution.CustomPatches.SecretsGenerator": {
             "type": "array",
             "items": {
-                "$ref": "#/$defs/Spec.Distribution.CustomPatches.SecretGenerator"
+                "allOf": [
+                    {
+                        "$ref": "#/$defs/Spec.Distribution.CustomPatches.ResourceGenerator"
+                    },
+                    {
+                        "type": "object",
+                        "properties": {
+                            "type": "string"
+                        }
+                    }
+                ]
             }
         },
-        "Spec.Distribution.CustomPatches.SecretGenerator": {
+        "Spec.Distribution.CustomPatches.ResourceGenerator": {
             "type": "object",
             "additionalProperties": false,
             "properties": {
                 "name": {
                     "type": "string"
                 },
+                "behavior": {
+                    "type": "string",
+                    "enum": ["create", "replace", "merge"]
+                },
                 "files": {
                     "type": "array",
                     "items": {
-                        "type": "object"
+                        "type": "string"
                     }
                 },
                 "envs": {
@@ -169,11 +183,36 @@
                     "items": {
                         "type": "string"
                     }
+                },
+                "literals": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "namespace": {
+                    "type": "string"
+                },
+                "options": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                        "labels": {
+                            "$ref": "#/$defs/Types.KubeLabels"
+                        },
+                        "annotations": {
+                            "$ref": "#/$defs/Types.KubeLabels"
+                        },
+                        "disableNameSuffixHash": {
+                            "type": "boolean"
+                        },
+                        "immutable": {
+                            "type": "boolean"
+                        }
+                    }
                 }
             },
-            "required": [
-                "name"
-            ]
+            "required": ["name"]
         },
         "Spec.Distribution.CustomPatches.Patches": {
             "type": "array",
@@ -194,19 +233,35 @@
                 "target": {
                     "$ref": "#/$defs/Spec.Distribution.CustomPatches.Patch.Target"
                 },
-                "path": {
-                    "type": "string"
-                },
-                "patch": {
-                    "type": "array",
-                    "items": {
-                        "type": "object"
+                "options": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                        "allowNameChange": {
+                            "type": "boolean"
+                        },
+                        "allowKindChange": {
+                            "type": "boolean"
+                        }
                     }
-                }
-            },
-            "required": [
-                "target"
-            ]
+                },
+                "oneOf": [
+                    {
+                        "properties": {
+                            "path": {
+                                "type": "string"
+                            }
+                        }
+                    },
+                    {
+                        "properties": {
+                            "patch": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                ]
+            }
         },
         "Spec.Distribution.CustomPatches.Patch.Target": {
             "type": "object",
@@ -223,14 +278,14 @@
                 },
                 "name": {
                     "type": "string"
+                },
+                "labelSelector": {
+                    "type": "string"
+                },
+                "annotationSelector": {
+                    "type": "string"
                 }
-            },
-            "required": [
-                "group",
-                "version",
-                "kind",
-                "name"
-            ]
+            }
         },
         "Spec.ToolsConfiguration": {
             "type": "object",
