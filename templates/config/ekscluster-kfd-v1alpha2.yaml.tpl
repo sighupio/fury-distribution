@@ -406,8 +406,37 @@ spec:
         #        loadAllGroups: false
         #        teamNameField: slug
         #        useLoginAsID: false
-    customPatches:
-        configMapGenerator: 
-        patchesJson6902: 
-        patchesStrategicMerge:
-        secretsGenerator: 
+    # Custom Patches to add or override fields in the generated manifests
+    #customPatches:
+    #  configMapGenerator:
+    #  - name: a-configmap
+    #    files:
+    #      - /path/to/config.example
+    #  - name: b-configmap
+    #    envs:
+    #      - /path/to/envs.env
+    #  patches:
+    #  - target:
+    #      group: ""
+    #      version: v1
+    #      kind: Service
+    #      name: cluster-autoscaler
+    #      namespace: kube-system
+    #    path: /path/to/patch.yaml
+    #  patchesStrategicMerge:
+    #  - |
+    #    ---
+    #    apiVersion: v1
+    #    kind: Service
+    #    metadata:
+    #      labels:
+    #        label1: value1
+    #      name: cluster-autoscaler
+    #      namespace: kube-system
+    #  secretsGenerator:
+    #  - name: a-secret
+    #    files:
+    #      - /path/to/config.example
+    #  - name: b-secret
+    #    envs:
+    #      -  /path/to/envs.env
