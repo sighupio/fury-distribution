@@ -58,6 +58,18 @@ spec:
             name: furyctl-demo.sighup.io
         nginx:
           type: single
+        certManager:
+          clusterIssuer:
+            name: letsencrypt-fury
+            email: email@test.it
+            type: http01
+            route53:
+              region: eu-west-1
+              hostedZoneId: Z1234567890
+              iamRoleArn: arn:aws:iam::123456789012:role/cert-manager
+        externalDns:
+          privateIamRoleArn: arn:aws:iam::123456789012:role/external-dns-private
+          publicIamRoleArn: arn:aws:iam::123456789012:role/external-dns-public
       logging:
         opensearch:
           type: single
