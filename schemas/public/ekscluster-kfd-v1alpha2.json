@@ -148,17 +148,12 @@
         "Spec.Distribution.CustomPatches.SecretsGenerator": {
             "type": "array",
             "items": {
-                "allOf": [
-                    {
-                        "$ref": "#/$defs/Spec.Distribution.CustomPatches.ResourceGenerator"
-                    },
-                    {
-                        "type": "object",
-                        "properties": {
-                            "type": "string"
-                        }
+                "allOf": [{ "$ref": "#/$defs/Spec.Distribution.CustomPatches.ResourceGenerator" }],
+                "properties": {
+                    "type": {
+                        "type": "string"
                     }
-                ]
+                }
             }
         },
         "Spec.Distribution.CustomPatches.ResourceGenerator": {
@@ -245,23 +240,21 @@
                         }
                     }
                 },
-                "oneOf": [
-                    {
-                        "properties": {
-                            "path": {
-                                "type": "string"
-                            }
-                        }
-                    },
-                    {
-                        "properties": {
-                            "patch": {
-                                "type": "string"
-                            }
-                        }
-                    }
-                ]
-            }
+                "path": {
+                    "type": "string"
+                },
+                "patch": {
+                    "type": "string"
+                }
+            },
+            "oneOf": [
+                {
+                    "required": ["path"]
+                },
+                {
+                    "required": ["patch"]
+                }
+            ]
         },
         "Spec.Distribution.CustomPatches.Patch.Target": {
             "type": "object",
@@ -277,6 +270,9 @@
                     "type": "string"
                 },
                 "name": {
+                    "type": "string"
+                },
+                "namespace": {
                     "type": "string"
                 },
                 "labelSelector": {

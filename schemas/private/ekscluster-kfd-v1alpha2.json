@@ -258,23 +258,25 @@
             }
           }
         },
-        "oneOf": [
-          {
-            "properties": {
-              "path": {
-                "type": "string"
-              }
-            }
-          },
-          {
-            "properties": {
-              "patch": {
-                "type": "string"
-              }
-            }
-          }
-        ]
-      }
+        "path": {
+          "type": "string"
+        },
+        "patch": {
+          "type": "string"
+        }
+      },
+      "oneOf": [
+        {
+          "required": [
+            "path"
+          ]
+        },
+        {
+          "required": [
+            "patch"
+          ]
+        }
+      ]
     },
     "Spec.Distribution.CustomPatches.Patch.Target": {
       "type": "object",
@@ -290,6 +292,9 @@
           "type": "string"
         },
         "name": {
+          "type": "string"
+        },
+        "namespace": {
           "type": "string"
         },
         "labelSelector": {
@@ -377,14 +382,13 @@
         "allOf": [
           {
             "$ref": "#/$defs/Spec.Distribution.CustomPatches.ResourceGenerator"
-          },
-          {
-            "type": "object",
-            "properties": {
-              "type": "string"
-            }
           }
-        ]
+        ],
+        "properties": {
+          "type": {
+            "type": "string"
+          }
+        }
       }
     },
     "Spec.Distribution.Modules": {
