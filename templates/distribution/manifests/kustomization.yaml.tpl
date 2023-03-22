@@ -18,20 +18,20 @@ resources:
   
 {{- if .spec.distribution.customPatches.patchesStrategicMerge }}
 patchesStrategicMerge: 
-  {{- "\n"}}{{- .spec.distribution.customPatches.patchesStrategicMerge | toYaml}}
+  {{ .spec.distribution.customPatches.patchesStrategicMerge | toYaml | indent 2 | trim -}}
 {{- end }}
 
 {{- if .spec.distribution.customPatches.patches }}
 patches: 
-  {{- "\n"}}{{- .spec.distribution.customPatches.patches | toYaml}}
+  {{ .spec.distribution.customPatches.patches | toYaml | indent 2 | trim -}}
 {{- end }}
 
-{{- if .spec.distribution.customPatches.secretsGenerator }}
+{{- if .spec.distribution.customPatches.secretGenerator }}
 secretsGenerator:
-  {{- "\n"}}{{- .spec.distribution.customPatches.secretsGenerator | toYaml}}
+  {{ .spec.distribution.customPatches.secretGenerator | toYaml | indent 2 | trim -}}
 {{- end }}
 
 {{- if .spec.distribution.customPatches.configMapGenerator }}
 configMapGenerator:
-  {{- "\n"}}{{- .spec.distribution.customPatches.configMapGenerator | toYaml}}
+  {{ .spec.distribution.customPatches.configMapGenerator | toYaml | indent 2 | trim  -}}
 {{- end }}

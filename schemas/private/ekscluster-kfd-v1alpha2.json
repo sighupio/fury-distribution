@@ -222,8 +222,8 @@
         "configMapGenerator": {
           "$ref": "#/$defs/Spec.Distribution.CustomPatches.ConfigMapGenerator"
         },
-        "secretsGenerator": {
-          "$ref": "#/$defs/Spec.Distribution.CustomPatches.SecretsGenerator"
+        "secretGenerator": {
+          "$ref": "#/$defs/Spec.Distribution.CustomPatches.SecretGenerator"
         },
         "patches": {
           "$ref": "#/$defs/Spec.Distribution.CustomPatches.Patches"
@@ -376,7 +376,7 @@
         "name"
       ]
     },
-    "Spec.Distribution.CustomPatches.SecretsGenerator": {
+    "Spec.Distribution.CustomPatches.SecretGenerator": {
       "type": "array",
       "items": {
         "allOf": [
