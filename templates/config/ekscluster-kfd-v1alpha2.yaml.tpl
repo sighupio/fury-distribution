@@ -433,7 +433,7 @@ spec:
     #        label1: value1
     #      name: cluster-autoscaler
     #      namespace: kube-system
-    #  secretsGenerator:
+    #  secretGenerator:
     #  - name: a-secret
     #    files:
     #      - /path/to/config.example

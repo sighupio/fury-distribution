@@ -94,8 +94,8 @@ type SpecDistributionCustomPatches struct {
 	// "patchesStrategicMerge".
 	PatchesStrategicMerge SpecDistributionCustomPatchesPatchesStrategicMerge `json:"patchesStrategicMerge,omitempty" yaml:"patchesStrategicMerge,omitempty"`
 
-	// SecretsGenerator corresponds to the JSON schema field "secretsGenerator".
-	SecretsGenerator SpecDistributionCustomPatchesSecretsGenerator `json:"secretsGenerator,omitempty" yaml:"secretsGenerator,omitempty"`
+	// SecretGenerator corresponds to the JSON schema field "secretGenerator".
+	SecretGenerator SpecDistributionCustomPatchesSecretGenerator `json:"secretGenerator,omitempty" yaml:"secretGenerator,omitempty"`
 }
 
 type SpecDistributionCustomPatchesConfigMapGenerator []SpecDistributionCustomPatchesResourceGenerator
@@ -193,7 +193,7 @@ type SpecDistributionCustomPatchesResourceGeneratorOptions struct {
 	Labels TypesKubeLabels `json:"labels,omitempty" yaml:"labels,omitempty"`
 }
 
-type SpecDistributionCustomPatchesSecretsGenerator []interface{}
+type SpecDistributionCustomPatchesSecretGenerator []interface{}
 
 type SpecDistributionModules struct {
 	// Auth corresponds to the JSON schema field "auth".

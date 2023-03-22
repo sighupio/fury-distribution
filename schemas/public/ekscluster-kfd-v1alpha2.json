@@ -128,8 +128,8 @@
                 "configMapGenerator": {
                     "$ref": "#/$defs/Spec.Distribution.CustomPatches.ConfigMapGenerator"
                 },
-                "secretsGenerator": {
-                    "$ref": "#/$defs/Spec.Distribution.CustomPatches.SecretsGenerator"
+                "secretGenerator": {
+                    "$ref": "#/$defs/Spec.Distribution.CustomPatches.SecretGenerator"
                 },
                 "patches": {
                     "$ref": "#/$defs/Spec.Distribution.CustomPatches.Patches"
@@ -145,7 +145,7 @@
                 "$ref": "#/$defs/Spec.Distribution.CustomPatches.ResourceGenerator"
             }
         },
-        "Spec.Distribution.CustomPatches.SecretsGenerator": {
+        "Spec.Distribution.CustomPatches.SecretGenerator": {
             "type": "array",
             "items": {
                 "allOf": [{ "$ref": "#/$defs/Spec.Distribution.CustomPatches.ResourceGenerator" }],
