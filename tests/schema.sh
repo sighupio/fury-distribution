@@ -232,3 +232,10 @@ test_schema() {
     test_schema "private" "ekscluster-kfd-v1alpha2" "007-no" expect
     test_schema "public" "ekscluster-kfd-v1alpha2" "007-no" expect
 }
+
+@test "008 - ok" {
+    info
+
+    test_schema "private" "ekscluster-kfd-v1alpha2" "008-ok" expect_ok
+    test_schema "public" "ekscluster-kfd-v1alpha2" "008-ok" expect_ok
+}
