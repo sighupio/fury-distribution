@@ -26,7 +26,7 @@ test_schema() {
 
     mkdir -p "${TMPDIR}/tests/schemas/${KIND}/${APIVER}"
 
-    yq r -j "tests/schemas/${KIND}/${APIVER}/${EXAMPLE}.yaml"  > "${TMPDIR}/tests/schemas/${KIND}/${APIVER}/${EXAMPLE}.json"
+    yq "tests/schemas/${KIND}/${APIVER}/${EXAMPLE}.yaml" -o json  > "${TMPDIR}/tests/schemas/${KIND}/${APIVER}/${EXAMPLE}.json"
 
     validate() {
         jv "schemas/${KIND}/${APIVER}.json" "${TMPDIR}/tests/schemas/${KIND}/${APIVER}/${EXAMPLE}.json"
