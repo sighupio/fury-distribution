@@ -26,7 +26,7 @@ test_schema() {
 
     mkdir -p "${TMPDIR}/tests/schemas/${KIND}/${APIVER}"
 
-    yq "tests/schemas/${KIND}/${APIVER}/${EXAMPLE}.yaml" -o json  > "${TMPDIR}/tests/schemas/${KIND}/${APIVER}/${EXAMPLE}.json"
+    yq r -j "tests/schemas/${KIND}/${APIVER}/${EXAMPLE}.yaml"  > "${TMPDIR}/tests/schemas/${KIND}/${APIVER}/${EXAMPLE}.json"
 
     validate() {
         jv "schemas/${KIND}/${APIVER}.json" "${TMPDIR}/tests/schemas/${KIND}/${APIVER}/${EXAMPLE}.json"
@@ -238,4 +238,45 @@ test_schema() {
 
     test_schema "private" "ekscluster-kfd-v1alpha2" "008-ok" expect_ok
     test_schema "public" "ekscluster-kfd-v1alpha2" "008-ok" expect_ok
+}
+
+@test "008 - no" {
+    info
+
+    expect() {
+        expect_no
+
+        local EXPECTED_ERROR_1="[S#/\$defs/Spec.Distribution.CustomPatches.Patch/oneOf] valid against schemas at indexes 0 and 1"
+
+        if [[ "${output}" != *"${EXPECTED_ERROR_1}"* ]]; then
+            return 2
+        fi
+    }
+
+    test_schema "private" "ekscluster-kfd-v1alpha2" "008-no" expect
+    test_schema "public" "ekscluster-kfd-v1alpha2" "008-no" expect
+}
+
+@test "009 - ok" {
+    info
+
+    test_schema "private" "ekscluster-kfd-v1alpha2" "009-ok" expect_ok
+    test_schema "public" "ekscluster-kfd-v1alpha2" "009-ok" expect_ok
+}
+
+@test "009 - no" {
+    info
+
+    expect() {
+        expect_no
+
+        local EXPECTED_ERROR_1="additionalProperties 'type' not allowed"
+
+        if [[ "${output}" != *"${EXPECTED_ERROR_1}"* ]]; then
+            return 2
+        fi
+    }
+
+    test_schema "private" "ekscluster-kfd-v1alpha2" "009-no" expect
+    test_schema "public" "ekscluster-kfd-v1alpha2" "009-no" expect
 }
