@@ -21,7 +21,7 @@ locals {
       }
     }
   }
- coredns_scheduling_patch_as_json = jsonencode(local.patch_data)
+ coredns_scheduling_patch_as_json = jsonencode(local.coredns_scheduling_patch)
 }
 
 resource "null_resource" "patch_coredns" {
