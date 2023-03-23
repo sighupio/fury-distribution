@@ -98,14 +98,13 @@ Current supported versions of KFD are:
 | [`1.25.0`](https://github.com/sighupio/fury-distribution/releases/tag/v1.25.0) |      `1.25.x`      |
 | [`1.24.0`](https://github.com/sighupio/fury-distribution/releases/tag/v1.24.0) |      `1.24.x`      |
 | [`1.23.3`](https://github.com/sighupio/fury-distribution/releases/tag/v1.23.3) |      `1.23.x`      |
-| [`1.22.1`](https://github.com/sighupio/fury-distribution/releases/tag/v1.22.1) |      `1.22.x`      |
 
-| Installer / KFD Version                                                |       1.25.0       |       1.24.0       |       1.23.3       |       1.22.1       |
-| ---------------------------------------------------------------------- | :----------------: | :----------------: | :----------------: | :----------------: |
-| [on-premises](https://github.com/sighupio/fury-kubernetes-on-premises) | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: |
-| [EKS](https://github.com/sighupio/fury-eks-installer)                  | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: |
-| [GKE](https://github.com/sighupio/fury-gke-installer)                  | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: |
-| [AKS](https://github.com/sighupio/fury-aks-installer)                  | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: |
+| Installer / KFD Version                                                |       1.25.0       |       1.24.0       |       1.23.3       |
+| ---------------------------------------------------------------------- | :----------------: | :----------------: | :----------------: |
+| [on-premises](https://github.com/sighupio/fury-kubernetes-on-premises) | :white_check_mark: | :white_check_mark: | :white_check_mark: |
+| [EKS](https://github.com/sighupio/fury-eks-installer)                  | :white_check_mark: | :white_check_mark: | :white_check_mark: |
+| [GKE](https://github.com/sighupio/fury-gke-installer)                  | :white_check_mark: | :white_check_mark: | :white_check_mark: |
+| [AKS](https://github.com/sighupio/fury-aks-installer)                  | :white_check_mark: | :white_check_mark: | :white_check_mark: |
 
 Check the [compatibility matrix][compatibility-matrix] for additional information about previous releases of the Distribution.
 
