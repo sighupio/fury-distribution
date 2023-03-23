@@ -141,7 +141,7 @@ steps:
 
   - name: destroy
     image: quay.io/sighup/e2e-testing-drone-plugin:v1.25.3
-    depends_on: [ test ]
+    depends_on: [ e2e ]
     settings:
       action: destroy
       pipeline_id: cluster-125
