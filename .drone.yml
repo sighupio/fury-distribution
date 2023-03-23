@@ -87,7 +87,7 @@ trigger:
 
 steps:
   - name: init
-    image: quay.io/sighup/e2e-testing-drone-plugin:v1.25.0
+    image: quay.io/sighup/e2e-testing-drone-plugin:v1.25.3
     pull: always
     volumes:
     - name: shared
@@ -138,7 +138,7 @@ steps:
       - bats -t tests/opa.sh
 
   - name: destroy
-    image: quay.io/sighup/e2e-testing-drone-plugin:v1.25.0
+    image: quay.io/sighup/e2e-testing-drone-plugin:v1.25.3
     depends_on: [ test ]
     settings:
       action: destroy
