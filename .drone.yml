@@ -119,7 +119,7 @@ steps:
       dockerhub_password:
         from_secret: dockerhub_password
 
-  - name: test
+  - name: e2e
     # KUBECTL 1.25.3 - KUSTOMIZE 3.5.3 - HELM 3.1.1 - YQ 4.21.1 - ISTIOCTL 1.9.4 - FURYCTL 0.9.0 - BATS 1.1.0
     image: quay.io/sighup/e2e-testing:1.1.0_0.9.0_3.1.1_1.9.4_1.25.3_3.5.3_4.21.1
     pull: always
@@ -128,6 +128,8 @@ steps:
       path: /shared
     depends_on: [ init ]
     commands:
+      - ls -la /shared/
+      - ls -la /shared/kube/
       - export KUBECONFIG=/shared/kube/kubeconfig-125
       - bats -t tests/install.sh
       - bats -t tests/networking.sh
