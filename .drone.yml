@@ -97,7 +97,7 @@ steps:
       action: custom-cluster-125
       pipeline_id: cluster-125
       local_kind_config_path: tests/config/kind-config-custom
-      cluster_version: '1.25.0'
+      cluster_version: '1.25.3'
       instance_path: /shared
       instance_size: 2-extra-large
       aws_default_region:
