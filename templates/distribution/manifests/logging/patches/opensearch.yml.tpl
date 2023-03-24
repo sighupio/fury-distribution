@@ -1,3 +1,4 @@
+{{- if eq .spec.distribution.modules.logging.type "opensearch" }}
 ---
 apiVersion: apps/v1
 kind: StatefulSet
@@ -22,3 +23,4 @@ spec:
       resources:
         requests:
           storage: {{ .spec.distribution.modules.logging.opensearch.storageSize }}
+{{- end }}
