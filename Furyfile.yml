@@ -6,7 +6,7 @@ versions:
   networking: v1.12.1
   monitoring: v2.1.0-rc10
   logging: v3.1.1
-  ingress: v1.14.0
+  ingress: v1.14.1
   dr: v1.11.0
   opa: v1.8.0
   auth: v0.0.3
