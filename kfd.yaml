@@ -7,7 +7,7 @@ modules:
   auth: v0.0.3
   aws: v2.2.0
   dr: v1.11.0
-  ingress: feat/change-behaviour-on-externaldns-module # v1.14.1 when released
+  ingress: v1.14.1
   logging: v3.1.1
   monitoring: v2.1.0-rc10
   opa: v1.8.0
