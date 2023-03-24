@@ -18,7 +18,7 @@ resources:
   - {{ print "../" .spec.distribution.common.relativeVendorPath "/modules/logging/katalog/opensearch-triple" }}
 {{- end }}
 {{- end }}
-{{- if eq .spec.distribution.modules.logging.type "opensearch" }}
+{{- if eq .spec.distribution.modules.logging.type "loki" }}
   - {{ print "../" .spec.distribution.common.relativeVendorPath "/modules/logging/katalog/loki-configs" }}
   - {{ print "../" .spec.distribution.common.relativeVendorPath "/modules/logging/katalog/loki-distributed" }}
 {{- end }}
