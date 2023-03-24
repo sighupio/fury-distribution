@@ -249,6 +249,15 @@ spec:
         #      host: ""
         #      # the ingressClass can be overridden if needed
         #      ingressClass: ""
+        #    minio:
+        #      # if authentication is globally enabled, it can be disabled for this ingress.
+        #      disableAuth: false
+        #      # the host can be overridden, by default is minio.{.spec.distribution.modules.ingress.baseDomain}
+        #      host: ""
+        #      # the ingressClass can be overridden if needed
+        #      ingressClass: ""
+        # can be opensearch or loki
+        type: opensearch
         # configurations for the opensearch package
         opensearch:
           # the type of opensearch to install, can be single or triple
@@ -263,6 +272,20 @@ spec:
           #    memory: ""
           # the PVC size used by opensearch, for each pod
           storageSize: "150Gi"
+        # configurations for the minio-ha package
+        minio:
+          # the PVC size for each minio disk, 6 disks total
+          storageSize: "20Gi"
+        # configurations for the loki package
+        loki:
+          ## optional settings to override requests and limits, common for each component
+          #resources:
+          #  requests:
+          #    cpu: ""
+          #    memory: ""
+          #  limits:
+          #    cpu: ""
+          #    memory: ""
       # This section contains all the configurations for the monitoring module
       monitoring:
         # This optional key is used to override automatic parameters
