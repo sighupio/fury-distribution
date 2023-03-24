@@ -2,19 +2,19 @@
 # Use of this source code is governed by a BSD-style
 # license that can be found in the LICENSE file.
 
-version: v1.24.1
+version: v1.25.0
 modules:
-  auth: v0.0.2
-  aws: v2.1.0
-  dr: v1.10.1
-  ingress: feat/change-behaviour-on-externaldns-module
-  logging: v3.0.1
-  monitoring: v2.0.0
-  opa: v1.7.3
-  networking: v1.10.0
+  auth: v0.0.3
+  aws: v2.2.0
+  dr: v1.11.0
+  ingress: feat/change-behaviour-on-externaldns-module # v1.14.1 when released
+  logging: v3.1.1
+  monitoring: v2.1.0-rc10
+  opa: v1.8.0
+  networking: v1.12.1
 kubernetes:
   eks:
-    version: 1.24
+    version: 1.25
     installer: v1.10.0
 furyctlSchemas:
   eks:
@@ -25,7 +25,7 @@ tools:
     furyagent:
       version: 0.3.0
     kubectl:
-      version: 1.24.9
+      version: 1.25.8
     kustomize:
       version: 3.5.3
     terraform:
