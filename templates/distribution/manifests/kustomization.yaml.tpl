@@ -15,19 +15,19 @@ resources:
   - monitoring
   - networking
   - opa
-  
+
 {{- if .spec.distribution.customPatches.patchesStrategicMerge }}
-patchesStrategicMerge: 
+patchesStrategicMerge:
   {{ .spec.distribution.customPatches.patchesStrategicMerge | toYaml | indent 2 | trim -}}
 {{- end }}
 
 {{- if .spec.distribution.customPatches.patches }}
-patches: 
+patches:
   {{ .spec.distribution.customPatches.patches | toYaml | indent 2 | trim -}}
 {{- end }}
 
 {{- if .spec.distribution.customPatches.secretGenerator }}
-secretsGenerator:
+secretGenerator:
   {{ .spec.distribution.customPatches.secretGenerator | toYaml | indent 2 | trim -}}
 {{- end }}
 
