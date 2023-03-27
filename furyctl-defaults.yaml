@@ -3,6 +3,11 @@
 # license that can be found in the LICENSE file.
 
 data:
+  customPatches:
+    configMapGenerator: []
+    secretGenerator: []
+    patches: []
+    patchesStrategicMerge: []
   # the common section will be used by all the templates in all modules, everything defined here is something used by all the KFD modules.
   common:
     # where all the KFD modules are downloaded
