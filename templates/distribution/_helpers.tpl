@@ -1,34 +1,59 @@
 {{- define "nodeSelector" -}}
-  {{- $indent := .indent | default 8 -}}
+  {{- $indent := default 8 (index . "indent") -}}
 
   {{- $module := index .spec.distribution.modules .module -}}
+
   {{- $package := dict -}}
   {{- if $module -}}
     {{- $package = index $module .package -}}
   {{- end -}}
 
+  {{- $packageNodeSelector := dict -}}
+  {{- if and ($package) (index $package "overrides") -}}
+    {{- $packageNodeSelector = index $package.overrides "nodeSelector" -}}
+  {{- end -}}
+
+  {{- $moduleNodeSelector := dict -}}
+  {{- if and ($module) (index $module "overrides") -}}
+    {{- $moduleNodeSelector = index $module.overrides "nodeSelector" -}}
+  {{- end -}}
+
   {{- $nodeSelector := coalesce
-        $package.overrides.nodeSelector
-        $module.overrides.nodeSelector
-        .spec.distribution.common.nodeSelector -}}
+        $packageNodeSelector
+        $moduleNodeSelector
+        (index .spec.distribution.common "nodeSelector") -}}
+
   {{- $nodeSelector | toYaml | indent $indent | trim -}}
 {{- end -}}
 
 {{- define "tolerations" -}}
-  {{- $indent := .indent | default 8 -}}
+  {{- $indent := default 8 (index . "indent") -}}
 
   {{- $module := index .spec.distribution.modules .module -}}
+
   {{- $package := dict -}}
   {{- if $module -}}
     {{- $package = index $module .package -}}
   {{- end -}}
 
+  {{- $packageTolerations := dict -}}
+  {{- if and ($package) (index $package "overrides") -}}
+    {{- $packageTolerations = index $package.overrides "tolerations" -}}
+  {{- end -}}
+
+  {{- $moduleTolerations := dict -}}
+  {{- if and ($module) (index $module "overrides") -}}
+    {{- $moduleTolerations = index $module.overrides "tolerations" -}}
+  {{- end -}}
+
   {{- $tolerations := coalesce
-        $package.overrides.tolerations
-        $module.overrides.tolerations
-        .spec.distribution.common.tolerations -}}
+        $packageTolerations
+        $moduleTolerations
+        (index .spec.distribution.common "tolerations") -}}
+
   {{- $tolerations | toYaml | indent $indent | trim -}}
 {{- end -}}
+
 
 {{ define "globalIngressClass" }}
   {{- if eq .spec.distribution.modules.ingress.nginx.type "single" -}}

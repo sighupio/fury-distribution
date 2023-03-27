@@ -1,4 +1,6 @@
 {{ if eq .spec.distribution.modules.ingress.nginx.tls.provider "certManager" -}}
+{{- $certManagerArgs := dict "module" "package" "certManager" "ingress" "spec" .spec -}}
+
 ---
 apiVersion: cert-manager.io/v1
 kind: ClusterIssuer
@@ -20,5 +22,11 @@ spec:
     - http01:
         ingress:
           class: {{ template "globalIngressClass" (dict "type" "external" "spec" .spec) }}
+          podTemplate:
+            spec:
+              nodeSelector:
+                {{ template "nodeSelector" $certManagerArgs }}
+              tolerations:
+                {{ template "tolerations" ( merge (dict "indent" 16) $certManagerArgs ) }}
 {{- end -}}
 {{- end -}}
