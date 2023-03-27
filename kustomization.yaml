@@ -1,4 +1,4 @@
-# Copyright (c) 2022 SIGHUP s.r.l All rights reserved.
+# Copyright (c) 2017-present SIGHUP s.r.l All rights reserved.
 # Use of this source code is governed by a BSD-style
 # license that can be found in the LICENSE file.
 
@@ -14,6 +14,7 @@ resources:
   # OPA
   - ./vendor/katalog/opa/gatekeeper/core
   - ./vendor/katalog/opa/gatekeeper/rules/templates
+  - ./vendor/katalog/opa/gatekeeper/rules/config
   - ./vendor/katalog/opa/gatekeeper/gpm
   # Monitoring
   - ./vendor/katalog/monitoring/prometheus-operator
