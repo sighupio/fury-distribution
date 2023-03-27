@@ -594,6 +594,7 @@
                 }
             },
             "required": [
+                "apiServer",
                 "nodeAllowedSshPublicKey",
                 "nodePools",
                 "nodePoolsLaunchKind"
@@ -625,8 +626,10 @@
                 }
             },
             "required": [
-                "allowedCidrs",
-                "type"
+                "privateAccess",
+                "privateAccessCidrs",
+                "publicAccessCidrs",
+                "publicAccess"
             ]
         },
         "Spec.Kubernetes.NodePool": {

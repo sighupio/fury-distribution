@@ -15,7 +15,7 @@ modules:
 kubernetes:
   eks:
     version: 1.25
-    installer: v1.10.1
+    installer: feat/g-iannelli/137-support-public-cluster
 furyctlSchemas:
   eks:
     - apiVersion: kfd.sighup.io/v1alpha2
