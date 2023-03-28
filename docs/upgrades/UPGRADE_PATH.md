@@ -8,6 +8,10 @@ Next is the current supported and recommended upgrade path for most recent versi
 
 Once you have identified the path you want to follow, refer to the [relevant upgrade guide](./) for the required versions or to the release notes in case the upgrade guide is missing (for older versions of KFD).
 
+## From 1.24.x to 1.25.0
+
+1.24.0 -> 1.25.0
+
 ## From 1.23.x to 1.24.0
 
 1.23.3 -> 1.24.0

@@ -7,8 +7,8 @@
 <p align="center">Kubernetes Fury Distribution (KFD) is a certified battle-tested Kubernetes distribution based purely on upstream Kubernetes.</p>
 <!-- markdownlint-enable MD033 -->
 
-[![Build Status](http://ci.sighup.io/api/badges/sighupio/fury-distribution/status.svg?ref=refs/tags/v1.24.0)](http://ci.sighup.io/sighupio/fury-distribution)
-[![Release](https://img.shields.io/badge/release-v1.24.0-blue?label=FuryDistributionRelease)](https://github.com/sighupio/fury-distribution/releases/latest)
+[![Build Status](http://ci.sighup.io/api/badges/sighupio/fury-distribution/status.svg?ref=refs/tags/v1.25.0)](http://ci.sighup.io/sighupio/fury-distribution)
+[![Release](https://img.shields.io/badge/release-v1.25.0-blue?label=FuryDistributionRelease)](https://github.com/sighupio/fury-distribution/releases/latest)
 [![Slack](https://img.shields.io/badge/slack-@kubernetes/fury-yellow.svg?logo=slack)](https://kubernetes.slack.com/archives/C0154HYTAQH)
 [![License](https://img.shields.io/github/license/sighupio/fury-distribution)](https://github.com/sighupio/fury-distribution/blob/main/LICENSE)
 
@@ -95,12 +95,11 @@ Current supported versions of KFD are:
 
 |                                  KFD Version                                   | Kubernetes Version |
 | :----------------------------------------------------------------------------: | :----------------: |
-|                                 in development                                 |      `1.25.x`      |
-| [`1.24.0`](https://github.com/sighupio/fury-distribution/releases/tag/v1.24.0) |      `1.24.x`      |
-| [`1.23.3`](https://github.com/sighupio/fury-distribution/releases/tag/v1.23.3) |      `1.23.x`      |
-| [`1.22.1`](https://github.com/sighupio/fury-distribution/releases/tag/v1.22.1) |      `1.22.x`      |
+| [`1.25.0`](https://github.com/sighupio/fury-distribution/releases/tag/v1.25.0) |      `1.25.x`      |
+| [`1.24.1`](https://github.com/sighupio/fury-distribution/releases/tag/v1.24.1) |      `1.24.x`      |
+| [`1.23.4`](https://github.com/sighupio/fury-distribution/releases/tag/v1.23.3) |      `1.23.x`      |
 
-| Installer / KFD Version                                                |       1.24.0       |       1.23.3       |       1.22.1       |
+| Installer / KFD Version                                                |       1.25.0       |       1.24.1       |       1.23.3       |
 | ---------------------------------------------------------------------- | :----------------: | :----------------: | :----------------: |
 | [on-premises](https://github.com/sighupio/fury-kubernetes-on-premises) | :white_check_mark: | :white_check_mark: | :white_check_mark: |
 | [EKS](https://github.com/sighupio/fury-eks-installer)                  | :white_check_mark: | :white_check_mark: | :white_check_mark: |
@@ -142,13 +141,13 @@ KFD is open-source software and it's released under the following [LICENSE](LICE
 [opa-module]: https://github.com/sighupio/fury-kubernetes-opa
 [auth-module]: https://github.com/sighupio/fury-kubernetes-auth
 
-[networking-version]: https://img.shields.io/badge/release-v1.10.0-blue
-[ingress-version]: https://img.shields.io/badge/release-v1.13.1-blue
-[logging-version]: https://img.shields.io/badge/release-v3.0.1-blue
-[monitoring-version]: https://img.shields.io/badge/release-v2.0.1-blue
-[dr-version]: https://img.shields.io/badge/release-v1.10.1-blue
-[opa-version]: https://img.shields.io/badge/release-v1.7.3-blue
-[auth-version]: https://img.shields.io/badge/release-v0.0.2-blue
+[networking-version]: https://img.shields.io/badge/release-v1.12.1-blue
+[ingress-version]: https://img.shields.io/badge/release-v1.14.1-blue
+[logging-version]: https://img.shields.io/badge/release-v3.1.3-blue
+[monitoring-version]: https://img.shields.io/badge/release-v2.1.0-blue
+[dr-version]: https://img.shields.io/badge/release-v1.11.0-blue
+[opa-version]: https://img.shields.io/badge/release-v1.8.0-blue
+[auth-version]: https://img.shields.io/badge/release-v0.0.3-blue
 
 <!-- Addon Modules -->
 [kong-module]: https://github.com/sighupio/fury-kubernetes-kong
