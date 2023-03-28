@@ -144,7 +144,7 @@ KFD is open-source software and it's released under the following [LICENSE](LICE
 [networking-version]: https://img.shields.io/badge/release-v1.12.1-blue
 [ingress-version]: https://img.shields.io/badge/release-v1.14.1-blue
 [logging-version]: https://img.shields.io/badge/release-v3.1.3-blue
-[monitoring-version]: https://img.shields.io/badge/release-v2.1.1-blue
+[monitoring-version]: https://img.shields.io/badge/release-v2.1.0-blue
 [dr-version]: https://img.shields.io/badge/release-v1.11.0-blue
 [opa-version]: https://img.shields.io/badge/release-v1.8.0-blue
 [auth-version]: https://img.shields.io/badge/release-v0.0.3-blue
