@@ -33,6 +33,7 @@ resources:
   - ./vendor/katalog/logging/logging-operator
   - ./vendor/katalog/logging/logging-operated
   - ./vendor/katalog/logging/minio-ha
+  - ./vendor/katalog/logging/loki-distributed
   - ./vendor/katalog/logging/configs
   # Ingress
   - ./vendor/katalog/ingress/cert-manager
