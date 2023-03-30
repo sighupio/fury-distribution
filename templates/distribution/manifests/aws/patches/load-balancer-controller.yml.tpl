@@ -1,3 +1,5 @@
+{{- $module := index .spec.distribution.modules "aws" -}}
+
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -17,6 +19,8 @@ apiVersion: v1
 kind: ServiceAccount
 metadata:
   annotations:
-    eks.amazonaws.com/role-arn: {{ .spec.distribution.modules.aws.loadBalancerController.iamRoleArn }}
+    {{- if $module -}}
+    eks.amazonaws.com/role-arn: {{ $module.loadBalancerController.iamRoleArn }}
+    {{- end -}}
   name: aws-load-balancer-controller
   namespace: kube-system
