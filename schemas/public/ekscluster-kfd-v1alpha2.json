@@ -1143,6 +1143,10 @@
             "type": "object",
             "additionalProperties": false,
             "properties": {
+                "type": {
+                    "type": "string",
+                    "enum": ["opensearch", "loki"]
+                },
                 "overrides": {
                     "$ref": "#/$defs/Types.FuryModuleOverrides"
                 },
@@ -1196,8 +1200,20 @@
             "type": "object",
             "additionalProperties": false,
             "properties": {
+                "storageSize": {
+                    "type": "string"
+                },
                 "overrides": {
                     "$ref": "#/$defs/Types.FuryModuleComponentOverrides"
+                }
+            }
+        },
+        "Spec.Distribution.Modules.Logging.Loki": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "resources": {
+                    "$ref": "#/$defs/Types.KubeResources"
                 }
             }
         },
