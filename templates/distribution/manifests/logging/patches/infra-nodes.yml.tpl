@@ -170,7 +170,7 @@ spec:
         {{ template "tolerations" $minioArgs }}
 ---
 apiVersion: batch/v1
-kind: CronJob
+kind: Job
 metadata:
   name: minio-logging-buckets-setup
   namespace: logging
