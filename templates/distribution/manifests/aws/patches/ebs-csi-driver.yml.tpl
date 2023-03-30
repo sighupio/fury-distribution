@@ -1,12 +1,8 @@
-{{- $module := index .spec.distribution.modules "aws" -}}
-
 ---
 apiVersion: v1
 kind: ServiceAccount
 metadata:
   annotations:
-    {{- if $module -}}
-    eks.amazonaws.com/role-arn: {{ $module.ebsCsiDriver.iamRoleArn }}
-    {{- end -}}
+    eks.amazonaws.com/role-arn: {{ template "iamRoleArn" (dict "package" "ebsCsiDriver" "spec" .spec) }}
   name: ebs-csi-controller-sa
   namespace: kube-system

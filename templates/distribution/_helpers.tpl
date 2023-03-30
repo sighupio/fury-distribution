@@ -1,3 +1,18 @@
+{{- define "iamRoleArn" -}}
+  {{- $roleArn := "__UNKNOWN__" -}}
+  {{- $module := index .spec.distribution.modules "aws" -}}
+
+  {{- if $module -}}
+    {{- $package := index .spec.distribution.modules.aws (index . "package") -}}
+
+    {{- if $package -}}
+      {{- $roleArn = $module.clusterAutoscaler.iamRoleArn -}}
+    {{- end -}}
+  {{- end -}}
+
+  {{- $roleArn -}}
+{{ end }}
+
 {{- define "nodeSelector" -}}
   {{- $indent := default 8 (index . "indent") -}}
 
@@ -53,7 +68,6 @@
 
   {{- $tolerations | toYaml | indent $indent | trim -}}
 {{- end -}}
-
 
 {{ define "globalIngressClass" }}
   {{- if eq .spec.distribution.modules.ingress.nginx.type "single" -}}
