@@ -1,4 +1,6 @@
-{{- if eq .spec.distribution.modules.logging.type "loki" }}
+{{- $package := index .spec.distribution.modules.logging "loki" -}}
+
+{{- if and (eq .spec.distribution.modules.logging.type "loki") (hasKeyAny $package "resources") }}
 ---
 apiVersion: apps/v1
 kind: StatefulSet
@@ -9,26 +11,9 @@ spec:
   template:
     spec:
       containers:
-      - name:
-      {{- if hasKeyAny .spec.distribution.modules.logging.loki "resources" }}
+      - name: ingester
         resources:
-          {{ .spec.distribution.modules.logging.loki.resources | toYaml | indent 10 | trim }}
-      {{- end }}
----
-apiVersion: apps/v1
-kind: StatefulSet
-metadata:
-  name: loki-distributed-ingester
-  namespace: logging
-spec:
-  template:
-    spec:
-      containers:
-      - name:
-      {{- if hasKeyAny .spec.distribution.modules.logging.loki "resources" }}
-        resources:
-          {{ .spec.distribution.modules.logging.loki.resources | toYaml | indent 10 | trim }}
-      {{- end }}
+          {{ $package.resources | toYaml | indent 10 | trim }}
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -39,11 +24,9 @@ spec:
   template:
     spec:
       containers:
-      - name:
-      {{- if hasKeyAny .spec.distribution.modules.logging.loki "resources" }}
+      - name: compactor
         resources:
-          {{ .spec.distribution.modules.logging.loki.resources | toYaml | indent 10 | trim }}
-      {{- end }}
+          {{ $package.resources | toYaml | indent 10 | trim }}
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -54,11 +37,9 @@ spec:
   template:
     spec:
       containers:
-      - name:
-      {{- if hasKeyAny .spec.distribution.modules.logging.loki "resources" }}
+      - name: distributor
         resources:
-          {{ .spec.distribution.modules.logging.loki.resources | toYaml | indent 10 | trim }}
-      {{- end }}
+          {{ $package.resources | toYaml | indent 10 | trim }}
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -69,11 +50,9 @@ spec:
   template:
     spec:
       containers:
-      - name:
-      {{- if hasKeyAny .spec.distribution.modules.logging.loki "resources" }}
+      - name: nginx
         resources:
-          {{ .spec.distribution.modules.logging.loki.resources | toYaml | indent 10 | trim }}
-      {{- end }}
+          {{ $package.resources | toYaml | indent 10 | trim }}
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -84,9 +63,7 @@ spec:
   template:
     spec:
       containers:
-      - name:
-      {{- if hasKeyAny .spec.distribution.modules.logging.loki "resources" }}
+      - name: query-frontend
         resources:
-          {{ .spec.distribution.modules.logging.loki.resources | toYaml | indent 10 | trim }}
-      {{- end }}
+          {{ $package.resources | toYaml | indent 10 | trim }}
 {{- end }}
