@@ -175,14 +175,12 @@ metadata:
   name: minio-logging-buckets-setup
   namespace: logging
 spec:
-  jobTemplate:
+  template:
     spec:
-      template:
-        spec:
-          nodeSelector:
-            {{ template "nodeSelector" $minioArgs }}
-          tolerations:
-            {{ template "tolerations" ( merge (dict "indent" 12) $minioArgs ) }}
+      nodeSelector:
+        {{ template "nodeSelector" $minioArgs }}
+      tolerations:
+        {{ template "tolerations" $minioArgs }}
 ---
 apiVersion: logging.banzaicloud.io/v1beta1
 kind: Logging
