@@ -1153,6 +1153,9 @@
                 "opensearch": {
                     "$ref": "#/$defs/Spec.Distribution.Modules.Logging.Opensearch"
                 },
+                "loki": {
+                    "$ref": "#/$defs/Spec.Distribution.Modules.Logging.Loki"
+                },
                 "cerebro": {
                     "$ref": "#/$defs/Spec.Distribution.Modules.Logging.Cerebro"
                 },
@@ -1163,7 +1166,20 @@
                     "$ref": "#/$defs/Spec.Distribution.Modules.Logging.Operator"
                 }
             },
-            "required": ["opensearch"]
+            "allOf": [
+                {
+                    "if": {
+                        "properties": {
+                            "type": {
+                                "const": "opensearch"
+                            }
+                        }
+                    },
+                    "then": {
+                        "required": ["opensearch"]
+                    }
+                }
+            ]
         },
         "Spec.Distribution.Modules.Logging.Opensearch": {
             "type": "object",
