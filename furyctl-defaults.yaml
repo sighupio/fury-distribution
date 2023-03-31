@@ -102,11 +102,16 @@ data:
             disableAuth: false
             host: ""
             ingressClass: ""
+      # can be opensearch or loki
+      type: opensearch
       opensearch:
         # can be single or triple
         type: single
         # if set, it will override the volumeClaimTemplates in the opensearch statefulSet
         storageSize: 150Gi
+      minio:
+        # define the size for each minio disk, total disks to be created: 6
+        storageSize: 20Gi
       # override ingresses parameters
     # monitoring module configuration
     monitoring:

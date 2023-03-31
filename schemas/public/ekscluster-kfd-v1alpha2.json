@@ -1143,11 +1143,18 @@
             "type": "object",
             "additionalProperties": false,
             "properties": {
+                "type": {
+                    "type": "string",
+                    "enum": ["opensearch", "loki"]
+                },
                 "overrides": {
                     "$ref": "#/$defs/Types.FuryModuleOverrides"
                 },
                 "opensearch": {
                     "$ref": "#/$defs/Spec.Distribution.Modules.Logging.Opensearch"
+                },
+                "loki": {
+                    "$ref": "#/$defs/Spec.Distribution.Modules.Logging.Loki"
                 },
                 "cerebro": {
                     "$ref": "#/$defs/Spec.Distribution.Modules.Logging.Cerebro"
@@ -1159,7 +1166,20 @@
                     "$ref": "#/$defs/Spec.Distribution.Modules.Logging.Operator"
                 }
             },
-            "required": ["opensearch"]
+            "allOf": [
+                {
+                    "if": {
+                        "properties": {
+                            "type": {
+                                "const": "opensearch"
+                            }
+                        }
+                    },
+                    "then": {
+                        "required": ["opensearch"]
+                    }
+                }
+            ]
         },
         "Spec.Distribution.Modules.Logging.Opensearch": {
             "type": "object",
@@ -1196,8 +1216,20 @@
             "type": "object",
             "additionalProperties": false,
             "properties": {
+                "storageSize": {
+                    "type": "string"
+                },
                 "overrides": {
                     "$ref": "#/$defs/Types.FuryModuleComponentOverrides"
+                }
+            }
+        },
+        "Spec.Distribution.Modules.Logging.Loki": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "resources": {
+                    "$ref": "#/$defs/Types.KubeResources"
                 }
             }
         },

@@ -1,3 +1,22 @@
+# Copyright (c) 2017-present SIGHUP s.r.l All rights reserved.
+# Use of this source code is governed by a BSD-style
+# license that can be found in the LICENSE file.
+
+{{- define "iamRoleArn" -}}
+  {{- $roleArn := "__UNKNOWN__" -}}
+  {{- $module := index .spec.distribution.modules "aws" -}}
+
+  {{- if $module -}}
+    {{- $package := index .spec.distribution.modules.aws (index . "package") -}}
+
+    {{- if $package -}}
+      {{- $roleArn = $package.iamRoleArn -}}
+    {{- end -}}
+  {{- end -}}
+
+  {{- $roleArn -}}
+{{ end }}
+
 {{- define "nodeSelector" -}}
   {{- $indent := default 8 (index . "indent") -}}
 
@@ -53,7 +72,6 @@
 
   {{- $tolerations | toYaml | indent $indent | trim -}}
 {{- end -}}
-
 
 {{ define "globalIngressClass" }}
   {{- if eq .spec.distribution.modules.ingress.nginx.type "single" -}}

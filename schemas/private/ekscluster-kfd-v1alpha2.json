@@ -648,19 +648,7 @@
       "additionalProperties": false,
       "properties": {
         "clusterAutoscaler": {
-          "type": "object",
-          "additionalProperties": false,
-          "properties": {
-            "iamRoleArn": {
-              "$ref": "#/$defs/Types.AwsArn"
-            },
-            "overrides": {
-              "$ref": "#/$defs/Types.FuryModuleComponentOverrides"
-            }
-          },
-          "required": [
-            "iamRoleArn"
-          ]
+          "$ref": "#/$defs/Spec.Distribution.Modules.Aws.ClusterAutoscaler"
         },
         "ebsCsiDriver": {
           "type": "object",
@@ -710,6 +698,21 @@
         "ebsCsiDriver",
         "loadBalancerController",
         "overrides"
+      ]
+    },
+    "Spec.Distribution.Modules.Aws.ClusterAutoscaler": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "iamRoleArn": {
+          "$ref": "#/$defs/Types.AwsArn"
+        },
+        "overrides": {
+          "$ref": "#/$defs/Types.FuryModuleComponentOverrides"
+        }
+      },
+      "required": [
+        "iamRoleArn"
       ]
     },
     "Spec.Distribution.Modules.Dr": {
@@ -1046,11 +1049,21 @@
       "type": "object",
       "additionalProperties": false,
       "properties": {
+        "type": {
+          "type": "string",
+          "enum": [
+            "opensearch",
+            "loki"
+          ]
+        },
         "overrides": {
           "$ref": "#/$defs/Types.FuryModuleOverrides"
         },
         "opensearch": {
           "$ref": "#/$defs/Spec.Distribution.Modules.Logging.Opensearch"
+        },
+        "loki": {
+          "$ref": "#/$defs/Spec.Distribution.Modules.Logging.Loki"
         },
         "cerebro": {
           "$ref": "#/$defs/Spec.Distribution.Modules.Logging.Cerebro"
@@ -1062,8 +1075,21 @@
           "$ref": "#/$defs/Spec.Distribution.Modules.Logging.Operator"
         }
       },
-      "required": [
-        "opensearch"
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "type": {
+                "const": "opensearch"
+              }
+            }
+          },
+          "then": {
+            "required": [
+              "opensearch"
+            ]
+          }
+        }
       ]
     },
     "Spec.Distribution.Modules.Logging.Cerebro": {
@@ -1075,10 +1101,22 @@
         }
       }
     },
+    "Spec.Distribution.Modules.Logging.Loki": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "resources": {
+          "$ref": "#/$defs/Types.KubeResources"
+        }
+      }
+    },
     "Spec.Distribution.Modules.Logging.Minio": {
       "type": "object",
       "additionalProperties": false,
       "properties": {
+        "storageSize": {
+          "type": "string"
+        },
         "overrides": {
           "$ref": "#/$defs/Types.FuryModuleComponentOverrides"
         }

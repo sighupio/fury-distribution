@@ -1,3 +1,8 @@
+# Copyright (c) 2017-present SIGHUP s.r.l All rights reserved.
+# Use of this source code is governed by a BSD-style
+# license that can be found in the LICENSE file.
+
+{{- if eq .spec.distribution.modules.logging.type "opensearch" }}
 ---
 apiVersion: networking.k8s.io/v1
 kind: Ingress
@@ -72,6 +77,7 @@ spec:
                   name: http
             {{ end }}
 {{- template "ingressTls" (dict "module" "logging" "package" "opensearchDashboards" "prefix" "opensearch-dashboards." "spec" .spec) }}
+{{- end }}
 ---
 apiVersion: networking.k8s.io/v1
 kind: Ingress
@@ -104,8 +110,8 @@ spec:
                   number: 80
             {{ else }}
               service:
-                name: minio
+                name: minio-logging-console
                 port:
-                  name: minio
+                  name: http
             {{ end }}
 {{- template "ingressTls" (dict "module" "logging" "package" "minio" "prefix" "minio." "spec" .spec) }}
