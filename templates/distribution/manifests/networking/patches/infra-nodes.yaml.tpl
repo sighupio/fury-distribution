@@ -31,4 +31,3 @@ spec:
         {{ template "nodeSelector" $tigeraOperatorArgs }}
       tolerations:
         {{ template "tolerations" $tigeraOperatorArgs }}
-
