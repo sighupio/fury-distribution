@@ -6,7 +6,7 @@
     {{- $package := index .spec.distribution.modules.aws (index . "package") -}}
 
     {{- if $package -}}
-      {{- $roleArn = $module.clusterAutoscaler.iamRoleArn -}}
+      {{- $roleArn = $package.iamRoleArn -}}
     {{- end -}}
   {{- end -}}
 
