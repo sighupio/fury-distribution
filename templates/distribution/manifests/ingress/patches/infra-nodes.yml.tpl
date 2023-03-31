@@ -1,3 +1,7 @@
+# Copyright (c) 2017-present SIGHUP s.r.l All rights reserved.
+# Use of this source code is governed by a BSD-style
+# license that can be found in the LICENSE file.
+
 {{- $certManagerArgs := dict "module" "package" "certManager" "ingress" "spec" .spec -}}
 {{- $nginxArgs := dict "module" "package" "nginx" "ingress" "spec" .spec -}}
 {{- $dnsArgs := dict "module" "package" "dns" "ingress" "spec" .spec -}}
