@@ -18,6 +18,7 @@
 | v1.23.1                  |                    |                    |                    |                    |                    |                    | :white_check_mark: | :white_check_mark: | :white_check_mark: |     :warning:      |                    |
 | v1.23.2                  |                    |                    |                    |                    |                    |                    |                    |                    |                    | :white_check_mark: |                    |
 | v1.23.3                  |                    |                    |                    |                    |                    |                    |                    |                    |                    | :white_check_mark: | :white_check_mark: |
+| v1.23.4                  |                    |                    |                    |                    |                    |                    |                    |                    |                    | :white_check_mark: | :white_check_mark: |
 | v1.24.0                  |                    |                    |                    |                    |                    |                    |                    |                    |                    |                    | :white_check_mark: |
 
 :white_check_mark: Compatible

@@ -7,8 +7,8 @@
 <p align="center">Kubernetes Fury Distribution (KFD) is a certified battle-tested Kubernetes distribution based purely on upstream Kubernetes.</p>
 <!-- markdownlint-enable MD033 -->
 
-[![Build Status](http://ci.sighup.io/api/badges/sighupio/fury-distribution/status.svg?ref=refs/tags/v1.23.3)](http://ci.sighup.io/sighupio/fury-distribution)
-[![Release](https://img.shields.io/badge/release-v1.23.3-blue?label=FuryDistributionRelease)](https://github.com/sighupio/fury-distribution/releases/latest)
+[![Build Status](http://ci.sighup.io/api/badges/sighupio/fury-distribution/status.svg?ref=refs/tags/v1.23.4)](http://ci.sighup.io/sighupio/fury-distribution)
+[![Release](https://img.shields.io/badge/release-v1.23.4-blue?label=FuryDistributionRelease)](https://github.com/sighupio/fury-distribution/releases/latest)
 [![Slack](https://img.shields.io/badge/slack-@kubernetes/fury-yellow.svg?logo=slack)](https://kubernetes.slack.com/archives/C0154HYTAQH)
 [![License](https://img.shields.io/github/license/sighupio/fury-distribution)](https://github.com/sighupio/fury-distribution/blob/main/LICENSE)
 
@@ -31,6 +31,12 @@ KFD uses an **un-distribution model**. This means that we:
 
 ## Architecture 🏗
 
+<!-- markdownlint-disable MD033 -->
+<p align="center">
+  <img src="docs/assets/kfd-architecture.png" width="800px"/>
+</p>
+<!-- markdownlint-enable MD033 -->
+
 Kubernetes Fury Distribution is structured on modules, and each module has a set of packages.
 
 - A package is a single unit of functionality.
@@ -47,12 +53,6 @@ The standard way to deploy KFD is to:
 
 Core modules provide essential functionality to the distribution for production-grade clusters.
 
-<!-- markdownlint-disable MD033 -->
-<p align="center">
-  <img src="docs/assets/fury-core-modules.png" width="800px"/>
-</p>
-<!-- markdownlint-enable MD033 -->
-
 | Module                          | Included Release               | Description                                                                               |
 | ------------------------------- | ------------------------------ | ----------------------------------------------------------------------------------------- |
 | [Networking][networking-module] | ![Version][networking-version] | Networking functionality via Calico CNI                                                   |
@@ -65,7 +65,7 @@ Core modules provide essential functionality to the distribution for production-
 
 ### Add-on Modules 📦
 
-Add-on modules provide additional functionality to the distribution.
+Add-on modules provide additional functionality to the distribution. Their release cycle is independent of KFD's.
 
 | Module                              | Latest Release                   | Description                                                                  |
 | ----------------------------------- | -------------------------------- | ---------------------------------------------------------------------------- |
@@ -95,12 +95,11 @@ Current supported versions of KFD are:
 
 |                                  KFD Version                                   | Kubernetes Version |
 | :----------------------------------------------------------------------------: | :----------------: |
-|                                 in development                                 |      `1.25.x`      |
-| [`1.24.0`](https://github.com/sighupio/fury-distribution/releases/tag/v1.24.0) |      `1.24.x`      |
-| [`1.23.3`](https://github.com/sighupio/fury-distribution/releases/tag/v1.23.3) |      `1.23.x`      |
-| [`1.22.1`](https://github.com/sighupio/fury-distribution/releases/tag/v1.22.1) |      `1.22.x`      |
+| [`1.25.1`](https://github.com/sighupio/fury-distribution/releases/tag/v1.25.1) |      `1.25.x`      |
+| [`1.24.1`](https://github.com/sighupio/fury-distribution/releases/tag/v1.24.1) |      `1.24.x`      |
+| [`1.23.4`](https://github.com/sighupio/fury-distribution/releases/tag/v1.23.3) |      `1.23.x`      |
 
-| Installer / KFD Version                                                |       1.24.0       |       1.23.3       |       1.22.1       |
+| Installer / KFD Version                                                |       1.25.1       |       1.24.1       |       1.23.4       |
 | ---------------------------------------------------------------------- | :----------------: | :----------------: | :----------------: |
 | [on-premises](https://github.com/sighupio/fury-kubernetes-on-premises) | :white_check_mark: | :white_check_mark: | :white_check_mark: |
 | [EKS](https://github.com/sighupio/fury-eks-installer)                  | :white_check_mark: | :white_check_mark: | :white_check_mark: |
@@ -113,14 +112,14 @@ Also, check the [versioning documentation file][versioning] to know more about t
 
 ## CNCF Certified 🎓
 
-Kubernetes Fury Distribution has been certified by the [CNCF] (Cloud Native Computing Foundation) as a *Certified Kubernetes Distribution* for all Kubernetes versions since [Kubernetes 1.12](https://github.com/cncf/k8s-conformance/pull/619).
+Each version of the Kubernetes Fury Distribution that introduces compatibility with a new version of Kubernetes goes through a [conformance certification process with the CNCF][cncf-conformance]. Certified solutions are validated to ensure a set of guarantees such as consistency, timely updates and confirmability.
 
-Certified solutions are validated to ensure a set of guarantees such as consistency, timely updates and confirmability.
+KFD has been certified by the [CNCF] (Cloud Native Computing Foundation) as a *Certified Kubernetes Distribution* for all Kubernetes versions since [Kubernetes 1.12](https://github.com/cncf/k8s-conformance/pull/619). Clicking on the badge below you can see the certification process for the latest version of KFD:
 
 <!-- markdownlint-disable MD033 -->
 <p align="center">
-    <a href="https://github.com/cncf/k8s-conformance/pull/2265">
-        <img src="https://github.com/cncf/artwork/raw/master/projects/kubernetes/certified-kubernetes/versionless/pantone/certified-kubernetes-pantone.svg" width="120" alt="KFD is CNCF Certified Kubernetes 1.24 - click to see the certification PR"/>
+    <a href="https://github.com/cncf/k8s-conformance/pull/2509">
+        <img src="https://github.com/cncf/artwork/raw/master/projects/kubernetes/certified-kubernetes/versionless/pantone/certified-kubernetes-pantone.svg" width="120" alt="KFD is CNCF Certified Kubernetes 1.25 - click to see the certification PR"/>
     </a>
 </p>
 <!-- markdownlint-enable MD033 -->
@@ -142,16 +141,13 @@ KFD is open-source software and it's released under the following [LICENSE](LICE
 [opa-module]: https://github.com/sighupio/fury-kubernetes-opa
 [auth-module]: https://github.com/sighupio/fury-kubernetes-auth
 
-[networking-version]: https://img.shields.io/badge/release-v1.10.0-blue
-[ingress-version]: https://img.shields.io/badge/release-v1.13.1-blue
-[logging-version]: https://img.shields.io/badge/release-v3.0.1-blue
-[monitoring-version]: https://img.shields.io/badge/release-v2.0.1-blue
-[dr-version]: https://img.shields.io/badge/release-v1.10.1-blue
-[opa-version]: https://img.shields.io/badge/release-v1.7.3-blue
-[auth-version]: https://img.shields.io/badge/release-v0.0.2-blue
-
-[compatibility-matrix]: https://github.com/sighupio/fury-distribution/blob/main/docs/COMPATIBILITY_MATRIX.md
-[versioning]: https://github.com/sighupio/fury-distribution/blob/main/docs/VERSIONING.md
+[networking-version]: https://img.shields.io/badge/release-v1.12.2-blue
+[ingress-version]: https://img.shields.io/badge/release-v1.14.1-blue
+[logging-version]: https://img.shields.io/badge/release-v3.1.3-blue
+[monitoring-version]: https://img.shields.io/badge/release-v2.1.0-blue
+[dr-version]: https://img.shields.io/badge/release-v1.11.0-blue
+[opa-version]: https://img.shields.io/badge/release-v1.8.0-blue
+[auth-version]: https://img.shields.io/badge/release-v0.0.3-blue
 
 <!-- Addon Modules -->
 [kong-module]: https://github.com/sighupio/fury-kubernetes-kong
@@ -166,6 +162,10 @@ KFD is open-source software and it's released under the following [LICENSE](LICE
 [storage-version]: https://img.shields.io/github/v/release/sighupio/fury-kubernetes-storage
 [kafka-version]: https://img.shields.io/github/v/release/sighupio/fury-kubernetes-kafka
 
+[compatibility-matrix]: https://github.com/sighupio/fury-distribution/blob/main/docs/COMPATIBILITY_MATRIX.md
+[versioning]: https://github.com/sighupio/fury-distribution/blob/main/docs/VERSIONING.md
+
 <!-- Misc -->
 [sighup-site]: https://sighup.io
 [CNCF]: https://landscape.cncf.io/card-mode?category=certified-kubernetes-distribution&grouping=category&organization=sighup
+[cncf-conformance]: https://www.cncf.io/certification/software-conformance/
