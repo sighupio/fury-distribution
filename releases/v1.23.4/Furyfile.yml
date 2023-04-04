@@ -1,0 +1,25 @@
+# Copyright (c) 2023 SIGHUP s.r.l All rights reserved.
+# Use of this source code is governed by a BSD-style
+# license that can be found in the LICENSE file.
+
+versions:
+  networking: v1.12.2
+  monitoring: v2.0.1
+  logging: v3.1.3
+  ingress: v1.14.1
+  dr: v1.11.0
+  opa: v1.8.0
+  auth: v0.0.3
+
+bases:
+  - name: networking
+  - name: monitoring
+  - name: logging
+  - name: ingress
+  - name: dr
+  - name: opa
+  - name: auth
+
+modules:
+  - name: ingress
+  - name: dr
