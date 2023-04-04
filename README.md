@@ -98,7 +98,7 @@ Current supported versions of KFD are:
 | [`1.24.1`](https://github.com/sighupio/fury-distribution/releases/tag/v1.24.1) |      `1.24.x`      |
 | [`1.23.4`](https://github.com/sighupio/fury-distribution/releases/tag/v1.23.3) |      `1.23.x`      |
 
-| Installer / KFD Version                                                |       1.25.1       |       1.24.1       |       1.23.3       |
+| Installer / KFD Version                                                |       1.25.1       |       1.24.1       |       1.23.4       |
 | ---------------------------------------------------------------------- | :----------------: | :----------------: | :----------------: |
 | [on-premises](https://github.com/sighupio/fury-kubernetes-on-premises) | :white_check_mark: | :white_check_mark: | :white_check_mark: |
 | [EKS](https://github.com/sighupio/fury-eks-installer)                  | :white_check_mark: | :white_check_mark: | :white_check_mark: |
