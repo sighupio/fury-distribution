@@ -1386,6 +1386,9 @@
         },
         "ssh": {
           "$ref": "#/$defs/Spec.Infrastructure.Vpn.Ssh"
+        },
+        "vpcId": {
+          "$ref": "#/$defs/Types.AwsVpcId"
         }
       },
       "required": [

@@ -1846,6 +1846,8 @@ func (j *SpecInfrastructureVpnSsh) UnmarshalJSON(b []byte) error {
 	return nil
 }
 
+type TypesAwsVpcId string
+
 type SpecInfrastructureVpn struct {
 	// DhParamsBits corresponds to the JSON schema field "dhParamsBits".
 	DhParamsBits *int `json:"dhParamsBits,omitempty" yaml:"dhParamsBits,omitempty"`
@@ -1867,6 +1869,9 @@ type SpecInfrastructureVpn struct {
 
 	// Ssh corresponds to the JSON schema field "ssh".
 	Ssh SpecInfrastructureVpnSsh `json:"ssh" yaml:"ssh"`
+
+	// VpcId corresponds to the JSON schema field "vpcId".
+	VpcId *TypesAwsVpcId `json:"vpcId,omitempty" yaml:"vpcId,omitempty"`
 
 	// VpnClientsSubnetCidr corresponds to the JSON schema field
 	// "vpnClientsSubnetCidr".
@@ -2343,8 +2348,6 @@ func (j *SpecKubernetesNodePoolsLaunchKind) UnmarshalJSON(b []byte) error {
 const SpecKubernetesNodePoolsLaunchKindLaunchConfigurations SpecKubernetesNodePoolsLaunchKind = "launch_configurations"
 const SpecKubernetesNodePoolsLaunchKindLaunchTemplates SpecKubernetesNodePoolsLaunchKind = "launch_templates"
 const SpecKubernetesNodePoolsLaunchKindBoth SpecKubernetesNodePoolsLaunchKind = "both"
-
-type TypesAwsVpcId string
 
 type SpecKubernetes struct {
 	// ApiServerEndpointAccess corresponds to the JSON schema field
