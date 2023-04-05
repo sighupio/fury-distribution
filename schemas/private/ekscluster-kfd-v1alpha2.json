@@ -1303,6 +1303,9 @@
       "properties": {
         "vpc": {
           "$ref": "#/$defs/Spec.Infrastructure.Vpc"
+        },
+        "vpn": {
+          "$ref": "#/$defs/Spec.Infrastructure.Vpn"
         }
       }
     },
@@ -1312,9 +1315,6 @@
       "properties": {
         "network": {
           "$ref": "#/$defs/Spec.Infrastructure.Vpc.Network"
-        },
-        "vpn": {
-          "$ref": "#/$defs/Spec.Infrastructure.Vpc.Vpn"
         }
       },
       "required": [
@@ -1359,7 +1359,7 @@
         "public"
       ]
     },
-    "Spec.Infrastructure.Vpc.Vpn": {
+    "Spec.Infrastructure.Vpn": {
       "type": "object",
       "additionalProperties": false,
       "properties": {
@@ -1385,7 +1385,7 @@
           "$ref": "#/$defs/Types.Cidr"
         },
         "ssh": {
-          "$ref": "#/$defs/Spec.Infrastructure.Vpc.Vpn.Ssh"
+          "$ref": "#/$defs/Spec.Infrastructure.Vpn.Ssh"
         }
       },
       "required": [
@@ -1393,7 +1393,7 @@
         "vpnClientsSubnetCidr"
       ]
     },
-    "Spec.Infrastructure.Vpc.Vpn.Ssh": {
+    "Spec.Infrastructure.Vpn.Ssh": {
       "type": "object",
       "additionalProperties": false,
       "properties": {
