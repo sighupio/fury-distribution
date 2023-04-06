@@ -30,15 +30,15 @@ spec:
           - 10.0.20.0/24
           - 10.0.30.0/24
           - 10.0.40.0/24
-      vpn:
-        ssh:
-          allowedFromCidrs:
-          - 0.0.0.0/0
-          githubUsersName:
-          - jnardiello
-          publicKeys:
-          - ssh-ed25519 SomethingSomething engineering@sighup.io
-        vpnClientsSubnetCidr: 192.168.200.0/24
+    vpn:
+      ssh:
+        allowedFromCidrs:
+        - 0.0.0.0/0
+        githubUsersName:
+        - jnardiello
+        publicKeys:
+        - ssh-ed25519 SomethingSomething engineering@sighup.io
+      vpnClientsSubnetCidr: 192.168.200.0/24
   kubernetes:
     vpcId: vpc-0123456789abcdef0
     subnetIds:
