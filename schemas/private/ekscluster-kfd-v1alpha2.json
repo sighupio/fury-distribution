@@ -1670,6 +1670,13 @@
         "ami": {
           "$ref": "#/$defs/Spec.Kubernetes.NodePool.Ami"
         },
+        "containerRuntime": {
+          "type": "string",
+          "enum": [
+            "docker",
+            "containerd"
+          ]
+        },
         "size": {
           "$ref": "#/$defs/Spec.Kubernetes.NodePool.Size"
         },
