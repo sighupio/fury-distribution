@@ -58,7 +58,9 @@ steps:
     volumes:
       - name: shared
         path: /shared
-    depends_on: [init]
+    depends_on:
+      - license-check
+      - schema-check
     commands:
       - bats -t tests/schema.sh
 
