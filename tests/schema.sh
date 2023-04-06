@@ -280,3 +280,51 @@ test_schema() {
     test_schema "private" "ekscluster-kfd-v1alpha2" "009-no" expect
     test_schema "public" "ekscluster-kfd-v1alpha2" "009-no" expect
 }
+
+@test "010 - ok" {
+    info
+
+    test_schema "private" "ekscluster-kfd-v1alpha2" "010-ok" expect_ok
+    test_schema "public" "ekscluster-kfd-v1alpha2" "010-ok" expect_ok
+}
+
+@test "010 - no" {
+    info
+
+    expect() {
+        expect_no
+
+        local EXPECTED_ERROR_1="expected null, but got string"
+
+        if [[ "${output}" != *"${EXPECTED_ERROR_1}"* ]]; then
+            return 2
+        fi
+    }
+
+    test_schema "private" "ekscluster-kfd-v1alpha2" "010-no" expect
+    test_schema "public" "ekscluster-kfd-v1alpha2" "010-no" expect
+}
+
+@test "011 - ok" {
+    info
+
+    test_schema "private" "ekscluster-kfd-v1alpha2" "011-ok" expect_ok
+    test_schema "public" "ekscluster-kfd-v1alpha2" "011-ok" expect_ok
+}
+
+@test "011 - no" {
+    info
+
+    expect() {
+        expect_no
+
+        local EXPECTED_ERROR_1="missing properties: 'vpcId'"
+
+        if [[ "${output}" != *"${EXPECTED_ERROR_1}"* ]]; then
+            return 2
+        fi
+    }
+
+    test_schema "private" "ekscluster-kfd-v1alpha2" "011-no" expect
+    test_schema "public" "ekscluster-kfd-v1alpha2" "011-no" expect
+}

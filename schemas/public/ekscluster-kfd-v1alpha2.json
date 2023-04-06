@@ -350,7 +350,77 @@
                 "vpn": {
                     "$ref": "#/$defs/Spec.Infrastructure.Vpn"
                 }
-            }
+            },
+            "allOf": [
+                {
+                    "if": {
+                        "allOf": [
+                            {
+                                "properties": {
+                                    "vpc": {
+                                        "type": "null"
+                                    }
+                                }
+                            },
+                            {
+                                "not": {
+                                    "properties": {
+                                        "vpn": {
+                                            "type": "null"
+                                        }
+                                    }
+                                }
+                            }
+                        ]
+                    },
+                    "then": {
+                        "properties": {
+                            "vpn": {
+                                "required": ["vpcId"]
+                            }
+                        }
+                    }
+                },
+                {
+                    "if": {
+                        "allOf": [
+                            {
+                                "not": {
+                                    "properties": {
+                                        "vpc": {
+                                            "type": "null"
+                                        }
+                                    }
+                                }
+                            },
+                            {
+                                "not": {
+                                    "properties": {
+                                        "vpn": {
+                                            "properties": {
+                                                "vpcId": {
+                                                    "type": "null"
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        ]
+                    },
+                    "then": {
+                        "properties": {
+                            "vpn": {
+                                "properties": {
+                                    "vpcId": {
+                                        "type": "null"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            ]
         },
         "Spec.Infrastructure.Vpc": {
             "type": "object",

@@ -52,6 +52,16 @@ steps:
       - license-check
       - schema-check
 
+  - name: test-schema
+    # KUBECTL 1.25.3 - KUSTOMIZE 3.5.3 - HELM 3.1.1 - YQ 4.21.1 - ISTIOCTL 1.9.4 - FURYCTL 0.9.0 - BATS 1.1.0
+    image: quay.io/sighup/e2e-testing:1.1.0_0.9.0_3.1.1_1.9.4_1.25.3_3.5.3_4.21.1
+    volumes:
+      - name: shared
+        path: /shared
+    depends_on: [init]
+    commands:
+      - bats -t tests/schema.sh
+
   - name: render
     # KUBECTL 1.25.3 - KUSTOMIZE 3.5.3 - HELM 3.1.1 - YQ 4.21.1 - ISTIOCTL 1.9.4 - FURYCTL 0.9.0 - BATS 1.1.0
     image: quay.io/sighup/e2e-testing:1.1.0_0.9.0_3.1.1_1.9.4_1.25.3_3.5.3_4.21.1
