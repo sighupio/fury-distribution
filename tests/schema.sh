@@ -22,7 +22,7 @@ test_schema() {
     local validate_output=""
     local verify_expectation_status=""
 
-    TMPDIR=$(mktemp -d -t "fury-distribution-test")
+    TMPDIR=$(mktemp -d -t "fury-distribution-tes-XXXXXXXXXX")
 
     mkdir -p "${TMPDIR}/tests/schemas/${KIND}/${APIVER}"
 
