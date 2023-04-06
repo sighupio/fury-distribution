@@ -47,32 +47,32 @@ spec:
             - 10.1.48.0/24
             - 10.1.49.0/24
             - 10.1.50.0/24
-      # This section defines the creation of VPN bastions
-      vpn:
-        # The number of instance to create, 0 to skip the creation
-        instances: 2
-        # The port used by the OpenVPN server
-        port: 1194
-        # The size of the AWS ec2 instance
-        instanceType: t3.micro
-        # The size of the disk in GB
-        diskSize: 50
-        # The username of the account to create in the bastion's operating system
-        operatorName: sighup
-        # The dhParamsBits size used for the creation of the .pem file that will  be used in the dh openvpn server.conf file
-        dhParamsBits: 2048
-        # The CIDR that will be used to assign IP addresses to the VPN clients when connected
-        vpnClientsSubnetCidr: 172.16.0.0/16
-        # ssh access settings
-        ssh:
-          # Not yet supported
-          publicKeys: []
-          # The github user name list that will be used to get the ssh public key that will be added as authorized key to the operatorName user
-          githubUsersName:
-            - johndoe
-          # The CIDR enabled in the security group that can access the bastions in SSH
-          allowedFromCidrs:
-            - 0.0.0.0/0
+    # This section defines the creation of VPN bastions
+    vpn:
+      # The number of instance to create, 0 to skip the creation
+      instances: 2
+      # The port used by the OpenVPN server
+      port: 1194
+      # The size of the AWS ec2 instance
+      instanceType: t3.micro
+      # The size of the disk in GB
+      diskSize: 50
+      # The username of the account to create in the bastion's operating system
+      operatorName: sighup
+      # The dhParamsBits size used for the creation of the .pem file that will  be used in the dh openvpn server.conf file
+      dhParamsBits: 2048
+      # The CIDR that will be used to assign IP addresses to the VPN clients when connected
+      vpnClientsSubnetCidr: 172.16.0.0/16
+      # ssh access settings
+      ssh:
+        # Not yet supported
+        publicKeys: []
+        # The github user name list that will be used to get the ssh public key that will be added as authorized key to the operatorName user
+        githubUsersName:
+          - johndoe
+        # The CIDR enabled in the security group that can access the bastions in SSH
+        allowedFromCidrs:
+          - 0.0.0.0/0
   # This section describes how the EKS cluster will be created
   kubernetes:
     # This key contains the ssh public key that can connect to the nodes via SSH using the ec2-user user
@@ -225,7 +225,7 @@ spec:
             create: false
             # This field is ignored, but needed. TBD better validation
             vpcId: "dummyvalue"
-      # This section contains all the configurations for the logging module      
+      # This section contains all the configurations for the logging module
       logging:
         # This optional key is used to override automatic parameters
         #overrides:

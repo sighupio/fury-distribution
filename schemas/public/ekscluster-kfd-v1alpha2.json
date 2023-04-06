@@ -346,8 +346,81 @@
             "properties": {
                 "vpc": {
                     "$ref": "#/$defs/Spec.Infrastructure.Vpc"
+                },
+                "vpn": {
+                    "$ref": "#/$defs/Spec.Infrastructure.Vpn"
                 }
-            }
+            },
+            "allOf": [
+                {
+                    "if": {
+                        "allOf": [
+                            {
+                                "properties": {
+                                    "vpc": {
+                                        "type": "null"
+                                    }
+                                }
+                            },
+                            {
+                                "not": {
+                                    "properties": {
+                                        "vpn": {
+                                            "type": "null"
+                                        }
+                                    }
+                                }
+                            }
+                        ]
+                    },
+                    "then": {
+                        "properties": {
+                            "vpn": {
+                                "required": ["vpcId"]
+                            }
+                        }
+                    }
+                },
+                {
+                    "if": {
+                        "allOf": [
+                            {
+                                "not": {
+                                    "properties": {
+                                        "vpc": {
+                                            "type": "null"
+                                        }
+                                    }
+                                }
+                            },
+                            {
+                                "not": {
+                                    "properties": {
+                                        "vpn": {
+                                            "properties": {
+                                                "vpcId": {
+                                                    "type": "null"
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        ]
+                    },
+                    "then": {
+                        "properties": {
+                            "vpn": {
+                                "properties": {
+                                    "vpcId": {
+                                        "type": "null"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            ]
         },
         "Spec.Infrastructure.Vpc": {
             "type": "object",
@@ -355,9 +428,6 @@
             "properties": {
                 "network": {
                     "$ref": "#/$defs/Spec.Infrastructure.Vpc.Network"
-                },
-                "vpn": {
-                    "$ref": "#/$defs/Spec.Infrastructure.Vpc.Vpn"
                 }
             },
             "required": [
@@ -402,7 +472,7 @@
                 "public"
             ]
         },
-        "Spec.Infrastructure.Vpc.Vpn": {
+        "Spec.Infrastructure.Vpn": {
             "type": "object",
             "additionalProperties": false,
             "properties": {
@@ -428,7 +498,10 @@
                     "$ref": "#/$defs/Types.Cidr"
                 },
                 "ssh": {
-                    "$ref": "#/$defs/Spec.Infrastructure.Vpc.Vpn.Ssh"
+                    "$ref": "#/$defs/Spec.Infrastructure.Vpn.Ssh"
+                },
+                "vpcId": {
+                    "$ref": "#/$defs/Types.AwsVpcId"
                 }
             },
             "required": [
@@ -436,7 +509,7 @@
                 "vpnClientsSubnetCidr"
             ]
         },
-        "Spec.Infrastructure.Vpc.Vpn.Ssh": {
+        "Spec.Infrastructure.Vpn.Ssh": {
             "type": "object",
             "additionalProperties": false,
             "properties": {

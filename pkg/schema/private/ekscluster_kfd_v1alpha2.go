@@ -1783,100 +1783,9 @@ func (j *SpecInfrastructureVpcNetwork) UnmarshalJSON(b []byte) error {
 	return nil
 }
 
-type TypesTcpPort int
-
-type SpecInfrastructureVpcVpnSsh struct {
-	// AllowedFromCidrs corresponds to the JSON schema field "allowedFromCidrs".
-	AllowedFromCidrs []TypesCidr `json:"allowedFromCidrs" yaml:"allowedFromCidrs"`
-
-	// GithubUsersName corresponds to the JSON schema field "githubUsersName".
-	GithubUsersName []string `json:"githubUsersName" yaml:"githubUsersName"`
-
-	// PublicKeys corresponds to the JSON schema field "publicKeys".
-	PublicKeys []interface{} `json:"publicKeys" yaml:"publicKeys"`
-}
-
-// UnmarshalJSON implements json.Unmarshaler.
-func (j *SpecInfrastructureVpcVpnSsh) UnmarshalJSON(b []byte) error {
-	var raw map[string]interface{}
-	if err := json.Unmarshal(b, &raw); err != nil {
-		return err
-	}
-	if v, ok := raw["allowedFromCidrs"]; !ok || v == nil {
-		return fmt.Errorf("field allowedFromCidrs in SpecInfrastructureVpcVpnSsh: required")
-	}
-	if v, ok := raw["githubUsersName"]; !ok || v == nil {
-		return fmt.Errorf("field githubUsersName in SpecInfrastructureVpcVpnSsh: required")
-	}
-	if v, ok := raw["publicKeys"]; !ok || v == nil {
-		return fmt.Errorf("field publicKeys in SpecInfrastructureVpcVpnSsh: required")
-	}
-	type Plain SpecInfrastructureVpcVpnSsh
-	var plain Plain
-	if err := json.Unmarshal(b, &plain); err != nil {
-		return err
-	}
-	if len(plain.GithubUsersName) < 1 {
-		return fmt.Errorf("field %s length: must be >= %d", "githubUsersName", 1)
-	}
-	*j = SpecInfrastructureVpcVpnSsh(plain)
-	return nil
-}
-
-type SpecInfrastructureVpcVpn struct {
-	// DhParamsBits corresponds to the JSON schema field "dhParamsBits".
-	DhParamsBits *int `json:"dhParamsBits,omitempty" yaml:"dhParamsBits,omitempty"`
-
-	// DiskSize corresponds to the JSON schema field "diskSize".
-	DiskSize *int `json:"diskSize,omitempty" yaml:"diskSize,omitempty"`
-
-	// InstanceType corresponds to the JSON schema field "instanceType".
-	InstanceType *string `json:"instanceType,omitempty" yaml:"instanceType,omitempty"`
-
-	// Instances corresponds to the JSON schema field "instances".
-	Instances *int `json:"instances,omitempty" yaml:"instances,omitempty"`
-
-	// OperatorName corresponds to the JSON schema field "operatorName".
-	OperatorName *string `json:"operatorName,omitempty" yaml:"operatorName,omitempty"`
-
-	// Port corresponds to the JSON schema field "port".
-	Port *TypesTcpPort `json:"port,omitempty" yaml:"port,omitempty"`
-
-	// Ssh corresponds to the JSON schema field "ssh".
-	Ssh SpecInfrastructureVpcVpnSsh `json:"ssh" yaml:"ssh"`
-
-	// VpnClientsSubnetCidr corresponds to the JSON schema field
-	// "vpnClientsSubnetCidr".
-	VpnClientsSubnetCidr TypesCidr `json:"vpnClientsSubnetCidr" yaml:"vpnClientsSubnetCidr"`
-}
-
-// UnmarshalJSON implements json.Unmarshaler.
-func (j *SpecInfrastructureVpcVpn) UnmarshalJSON(b []byte) error {
-	var raw map[string]interface{}
-	if err := json.Unmarshal(b, &raw); err != nil {
-		return err
-	}
-	if v, ok := raw["ssh"]; !ok || v == nil {
-		return fmt.Errorf("field ssh in SpecInfrastructureVpcVpn: required")
-	}
-	if v, ok := raw["vpnClientsSubnetCidr"]; !ok || v == nil {
-		return fmt.Errorf("field vpnClientsSubnetCidr in SpecInfrastructureVpcVpn: required")
-	}
-	type Plain SpecInfrastructureVpcVpn
-	var plain Plain
-	if err := json.Unmarshal(b, &plain); err != nil {
-		return err
-	}
-	*j = SpecInfrastructureVpcVpn(plain)
-	return nil
-}
-
 type SpecInfrastructureVpc struct {
 	// Network corresponds to the JSON schema field "network".
 	Network SpecInfrastructureVpcNetwork `json:"network" yaml:"network"`
-
-	// Vpn corresponds to the JSON schema field "vpn".
-	Vpn *SpecInfrastructureVpcVpn `json:"vpn,omitempty" yaml:"vpn,omitempty"`
 }
 
 // UnmarshalJSON implements json.Unmarshaler.
@@ -1897,9 +1806,105 @@ func (j *SpecInfrastructureVpc) UnmarshalJSON(b []byte) error {
 	return nil
 }
 
+type TypesTcpPort int
+
+type SpecInfrastructureVpnSsh struct {
+	// AllowedFromCidrs corresponds to the JSON schema field "allowedFromCidrs".
+	AllowedFromCidrs []TypesCidr `json:"allowedFromCidrs" yaml:"allowedFromCidrs"`
+
+	// GithubUsersName corresponds to the JSON schema field "githubUsersName".
+	GithubUsersName []string `json:"githubUsersName" yaml:"githubUsersName"`
+
+	// PublicKeys corresponds to the JSON schema field "publicKeys".
+	PublicKeys []interface{} `json:"publicKeys" yaml:"publicKeys"`
+}
+
+// UnmarshalJSON implements json.Unmarshaler.
+func (j *SpecInfrastructureVpnSsh) UnmarshalJSON(b []byte) error {
+	var raw map[string]interface{}
+	if err := json.Unmarshal(b, &raw); err != nil {
+		return err
+	}
+	if v, ok := raw["allowedFromCidrs"]; !ok || v == nil {
+		return fmt.Errorf("field allowedFromCidrs in SpecInfrastructureVpnSsh: required")
+	}
+	if v, ok := raw["githubUsersName"]; !ok || v == nil {
+		return fmt.Errorf("field githubUsersName in SpecInfrastructureVpnSsh: required")
+	}
+	if v, ok := raw["publicKeys"]; !ok || v == nil {
+		return fmt.Errorf("field publicKeys in SpecInfrastructureVpnSsh: required")
+	}
+	type Plain SpecInfrastructureVpnSsh
+	var plain Plain
+	if err := json.Unmarshal(b, &plain); err != nil {
+		return err
+	}
+	if len(plain.GithubUsersName) < 1 {
+		return fmt.Errorf("field %s length: must be >= %d", "githubUsersName", 1)
+	}
+	*j = SpecInfrastructureVpnSsh(plain)
+	return nil
+}
+
+type TypesAwsVpcId string
+
+type SpecInfrastructureVpn struct {
+	// DhParamsBits corresponds to the JSON schema field "dhParamsBits".
+	DhParamsBits *int `json:"dhParamsBits,omitempty" yaml:"dhParamsBits,omitempty"`
+
+	// DiskSize corresponds to the JSON schema field "diskSize".
+	DiskSize *int `json:"diskSize,omitempty" yaml:"diskSize,omitempty"`
+
+	// InstanceType corresponds to the JSON schema field "instanceType".
+	InstanceType *string `json:"instanceType,omitempty" yaml:"instanceType,omitempty"`
+
+	// Instances corresponds to the JSON schema field "instances".
+	Instances *int `json:"instances,omitempty" yaml:"instances,omitempty"`
+
+	// OperatorName corresponds to the JSON schema field "operatorName".
+	OperatorName *string `json:"operatorName,omitempty" yaml:"operatorName,omitempty"`
+
+	// Port corresponds to the JSON schema field "port".
+	Port *TypesTcpPort `json:"port,omitempty" yaml:"port,omitempty"`
+
+	// Ssh corresponds to the JSON schema field "ssh".
+	Ssh SpecInfrastructureVpnSsh `json:"ssh" yaml:"ssh"`
+
+	// VpcId corresponds to the JSON schema field "vpcId".
+	VpcId *TypesAwsVpcId `json:"vpcId,omitempty" yaml:"vpcId,omitempty"`
+
+	// VpnClientsSubnetCidr corresponds to the JSON schema field
+	// "vpnClientsSubnetCidr".
+	VpnClientsSubnetCidr TypesCidr `json:"vpnClientsSubnetCidr" yaml:"vpnClientsSubnetCidr"`
+}
+
+// UnmarshalJSON implements json.Unmarshaler.
+func (j *SpecInfrastructureVpn) UnmarshalJSON(b []byte) error {
+	var raw map[string]interface{}
+	if err := json.Unmarshal(b, &raw); err != nil {
+		return err
+	}
+	if v, ok := raw["ssh"]; !ok || v == nil {
+		return fmt.Errorf("field ssh in SpecInfrastructureVpn: required")
+	}
+	if v, ok := raw["vpnClientsSubnetCidr"]; !ok || v == nil {
+		return fmt.Errorf("field vpnClientsSubnetCidr in SpecInfrastructureVpn: required")
+	}
+	type Plain SpecInfrastructureVpn
+	var plain Plain
+	if err := json.Unmarshal(b, &plain); err != nil {
+		return err
+	}
+	*j = SpecInfrastructureVpn(plain)
+	return nil
+}
+
 type SpecInfrastructure struct {
 	// Vpc corresponds to the JSON schema field "vpc".
 	Vpc *SpecInfrastructureVpc `json:"vpc,omitempty" yaml:"vpc,omitempty"`
+
+	// Vpn corresponds to the JSON schema field "vpn".
+	Vpn *SpecInfrastructureVpn `json:"vpn,omitempty" yaml:"vpn,omitempty"`
 }
 
 type SpecKubernetesAPIServerEndpointAccessType string
@@ -2343,8 +2348,6 @@ func (j *SpecKubernetesNodePoolsLaunchKind) UnmarshalJSON(b []byte) error {
 const SpecKubernetesNodePoolsLaunchKindLaunchConfigurations SpecKubernetesNodePoolsLaunchKind = "launch_configurations"
 const SpecKubernetesNodePoolsLaunchKindLaunchTemplates SpecKubernetesNodePoolsLaunchKind = "launch_templates"
 const SpecKubernetesNodePoolsLaunchKindBoth SpecKubernetesNodePoolsLaunchKind = "both"
-
-type TypesAwsVpcId string
 
 type SpecKubernetes struct {
 	// ApiServerEndpointAccess corresponds to the JSON schema field
