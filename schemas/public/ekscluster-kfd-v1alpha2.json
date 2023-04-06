@@ -742,6 +742,33 @@
             "type": "object",
             "additionalProperties": false,
             "properties": {
+                "cidrBlocks": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/$defs/Spec.Kubernetes.NodePool.AdditionalFirewallRule.CidrBlock"
+                    },
+                    "minItems": 1
+                },
+                "sourceSecurityGroupId": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/$defs/Spec.Kubernetes.NodePool.AdditionalFirewallRule.CidrBlock"
+                    },
+                    "minItems": 1
+                },
+                "self": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/$defs/Spec.Kubernetes.NodePool.AdditionalFirewallRule.CidrBlock"
+                    },
+                    "minItems": 1
+                }
+            }
+        },
+        "Spec.Kubernetes.NodePool.AdditionalFirewallRule.CidrBlock": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
                 "name": {
                     "type": "string"
                 },
@@ -768,6 +795,70 @@
             },
             "required": [
                 "cidrBlocks",
+                "name",
+                "ports",
+                "protocol",
+                "type"
+            ]
+        },
+        "Spec.Kubernetes.NodePool.AdditionalFirewallRule.SourceSecurityGroupId": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "name": {
+                    "type": "string"
+                },
+                "type": {
+                    "type": "string",
+                    "enum": ["ingress", "egress"]
+                },
+                "tags": {
+                    "$ref": "#/$defs/Types.AwsTags"
+                },
+                "sourceSecurityGroupId": {
+                    "type": "string"
+                },
+                "protocol": {
+                    "$ref": "#/$defs/Types.AwsIpProtocol"
+                },
+                "ports": {
+                    "$ref": "#/$defs/Spec.Kubernetes.NodePool.AdditionalFirewallRule.Ports"
+                }
+            },
+            "required": [
+                "sourceSecurityGroupId",
+                "name",
+                "ports",
+                "protocol",
+                "type"
+            ]
+        },
+        "Spec.Kubernetes.NodePool.AdditionalFirewallRule.Self": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "name": {
+                    "type": "string"
+                },
+                "type": {
+                    "type": "string",
+                    "enum": ["ingress", "egress"]
+                },
+                "tags": {
+                    "$ref": "#/$defs/Types.AwsTags"
+                },
+                "self": {
+                    "type": "boolean"
+                },
+                "protocol": {
+                    "$ref": "#/$defs/Types.AwsIpProtocol"
+                },
+                "ports": {
+                    "$ref": "#/$defs/Spec.Kubernetes.NodePool.AdditionalFirewallRule.Ports"
+                }
+            },
+            "required": [
+                "self",
                 "name",
                 "ports",
                 "protocol",
