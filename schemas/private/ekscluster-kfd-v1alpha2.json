@@ -1705,10 +1705,7 @@
           }
         },
         "additionalFirewallRules": {
-          "type": "array",
-          "items": {
-            "$ref": "#/$defs/Spec.Kubernetes.NodePool.AdditionalFirewallRule"
-          }
+          "$ref": "#/$defs/Spec.Kubernetes.NodePool.AdditionalFirewallRules"
         }
       },
       "required": [
@@ -1716,33 +1713,6 @@
         "name",
         "size"
       ]
-    },
-    "Spec.Kubernetes.NodePool.AdditionalFirewallRule": {
-      "type": "object",
-      "additionalProperties": false,
-      "properties": {
-        "cidrBlocks": {
-          "type": "array",
-          "items": {
-            "$ref": "#/$defs/Spec.Kubernetes.NodePool.AdditionalFirewallRule.CidrBlock"
-          },
-          "minItems": 1
-        },
-        "sourceSecurityGroupId": {
-          "type": "array",
-          "items": {
-            "$ref": "#/$defs/Spec.Kubernetes.NodePool.AdditionalFirewallRule.CidrBlock"
-          },
-          "minItems": 1
-        },
-        "self": {
-          "type": "array",
-          "items": {
-            "$ref": "#/$defs/Spec.Kubernetes.NodePool.AdditionalFirewallRule.CidrBlock"
-          },
-          "minItems": 1
-        }
-      }
     },
     "Spec.Kubernetes.NodePool.AdditionalFirewallRule.CidrBlock": {
       "type": "object",
@@ -1868,6 +1838,33 @@
         "protocol",
         "type"
       ]
+    },
+    "Spec.Kubernetes.NodePool.AdditionalFirewallRules": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "cidrBlocks": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/Spec.Kubernetes.NodePool.AdditionalFirewallRule.CidrBlock"
+          },
+          "minItems": 1
+        },
+        "sourceSecurityGroupId": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/Spec.Kubernetes.NodePool.AdditionalFirewallRule.CidrBlock"
+          },
+          "minItems": 1
+        },
+        "self": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/Spec.Kubernetes.NodePool.AdditionalFirewallRule.CidrBlock"
+          },
+          "minItems": 1
+        }
+      }
     },
     "Spec.Kubernetes.NodePool.Ami": {
       "type": "object",

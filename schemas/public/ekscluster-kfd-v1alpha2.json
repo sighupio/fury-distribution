@@ -674,10 +674,7 @@
                     }
                 },
                 "additionalFirewallRules": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/$defs/Spec.Kubernetes.NodePool.AdditionalFirewallRule"
-                    }
+                    "$ref": "#/$defs/Spec.Kubernetes.NodePool.AdditionalFirewallRules"
                 }
             },
             "required": [
@@ -738,7 +735,7 @@
                 "min"
             ]
         },
-        "Spec.Kubernetes.NodePool.AdditionalFirewallRule": {
+        "Spec.Kubernetes.NodePool.AdditionalFirewallRules": {
             "type": "object",
             "additionalProperties": false,
             "properties": {

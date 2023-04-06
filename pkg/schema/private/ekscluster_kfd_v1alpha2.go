@@ -860,7 +860,7 @@ type SpecKubernetesAwsAuthUser struct {
 type SpecKubernetesNodePool struct {
 	// AdditionalFirewallRules corresponds to the JSON schema field
 	// "additionalFirewallRules".
-	AdditionalFirewallRules []SpecKubernetesNodePoolAdditionalFirewallRule `json:"additionalFirewallRules,omitempty" yaml:"additionalFirewallRules,omitempty"`
+	AdditionalFirewallRules *SpecKubernetesNodePoolAdditionalFirewallRules `json:"additionalFirewallRules,omitempty" yaml:"additionalFirewallRules,omitempty"`
 
 	// Ami corresponds to the JSON schema field "ami".
 	Ami *SpecKubernetesNodePoolAmi `json:"ami,omitempty" yaml:"ami,omitempty"`
@@ -892,18 +892,6 @@ type SpecKubernetesNodePool struct {
 
 	// Taints corresponds to the JSON schema field "taints".
 	Taints TypesKubeTaints `json:"taints,omitempty" yaml:"taints,omitempty"`
-}
-
-type SpecKubernetesNodePoolAdditionalFirewallRule struct {
-	// CidrBlocks corresponds to the JSON schema field "cidrBlocks".
-	CidrBlocks []SpecKubernetesNodePoolAdditionalFirewallRuleCidrBlock `json:"cidrBlocks,omitempty" yaml:"cidrBlocks,omitempty"`
-
-	// Self corresponds to the JSON schema field "self".
-	Self []SpecKubernetesNodePoolAdditionalFirewallRuleCidrBlock `json:"self,omitempty" yaml:"self,omitempty"`
-
-	// SourceSecurityGroupId corresponds to the JSON schema field
-	// "sourceSecurityGroupId".
-	SourceSecurityGroupId []SpecKubernetesNodePoolAdditionalFirewallRuleCidrBlock `json:"sourceSecurityGroupId,omitempty" yaml:"sourceSecurityGroupId,omitempty"`
 }
 
 type SpecKubernetesNodePoolAdditionalFirewallRuleCidrBlock struct {
@@ -989,6 +977,18 @@ type SpecKubernetesNodePoolAdditionalFirewallRuleSourceSecurityGroupIdType strin
 
 const SpecKubernetesNodePoolAdditionalFirewallRuleSourceSecurityGroupIdTypeEgress SpecKubernetesNodePoolAdditionalFirewallRuleSourceSecurityGroupIdType = "egress"
 const SpecKubernetesNodePoolAdditionalFirewallRuleSourceSecurityGroupIdTypeIngress SpecKubernetesNodePoolAdditionalFirewallRuleSourceSecurityGroupIdType = "ingress"
+
+type SpecKubernetesNodePoolAdditionalFirewallRules struct {
+	// CidrBlocks corresponds to the JSON schema field "cidrBlocks".
+	CidrBlocks []SpecKubernetesNodePoolAdditionalFirewallRuleCidrBlock `json:"cidrBlocks,omitempty" yaml:"cidrBlocks,omitempty"`
+
+	// Self corresponds to the JSON schema field "self".
+	Self []SpecKubernetesNodePoolAdditionalFirewallRuleCidrBlock `json:"self,omitempty" yaml:"self,omitempty"`
+
+	// SourceSecurityGroupId corresponds to the JSON schema field
+	// "sourceSecurityGroupId".
+	SourceSecurityGroupId []SpecKubernetesNodePoolAdditionalFirewallRuleCidrBlock `json:"sourceSecurityGroupId,omitempty" yaml:"sourceSecurityGroupId,omitempty"`
+}
 
 type SpecKubernetesNodePoolAmi struct {
 	// Id corresponds to the JSON schema field "id".
@@ -1857,12 +1857,12 @@ var enumValues_SpecDistributionModulesIngressNginxTLSProvider = []interface{}{
 }
 
 // UnmarshalJSON implements json.Unmarshaler.
-func (j *SpecKubernetesNodePoolAdditionalFirewallRule) UnmarshalJSON(b []byte) error {
+func (j *SpecKubernetesNodePoolAdditionalFirewallRules) UnmarshalJSON(b []byte) error {
 	var raw map[string]interface{}
 	if err := json.Unmarshal(b, &raw); err != nil {
 		return err
 	}
-	type Plain SpecKubernetesNodePoolAdditionalFirewallRule
+	type Plain SpecKubernetesNodePoolAdditionalFirewallRules
 	var plain Plain
 	if err := json.Unmarshal(b, &plain); err != nil {
 		return err
@@ -1876,7 +1876,7 @@ func (j *SpecKubernetesNodePoolAdditionalFirewallRule) UnmarshalJSON(b []byte) e
 	if len(plain.SourceSecurityGroupId) < 1 {
 		return fmt.Errorf("field %s length: must be >= %d", "sourceSecurityGroupId", 1)
 	}
-	*j = SpecKubernetesNodePoolAdditionalFirewallRule(plain)
+	*j = SpecKubernetesNodePoolAdditionalFirewallRules(plain)
 	return nil
 }
 
