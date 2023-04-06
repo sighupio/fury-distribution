@@ -1853,14 +1853,14 @@
         "sourceSecurityGroupId": {
           "type": "array",
           "items": {
-            "$ref": "#/$defs/Spec.Kubernetes.NodePool.AdditionalFirewallRule.CidrBlock"
+            "$ref": "#/$defs/Spec.Kubernetes.NodePool.AdditionalFirewallRule.SourceSecurityGroupId"
           },
           "minItems": 1
         },
         "self": {
           "type": "array",
           "items": {
-            "$ref": "#/$defs/Spec.Kubernetes.NodePool.AdditionalFirewallRule.CidrBlock"
+            "$ref": "#/$defs/Spec.Kubernetes.NodePool.AdditionalFirewallRule.Self"
           },
           "minItems": 1
         }
