@@ -16,7 +16,7 @@
     {{ print "https://pomerium." .spec.distribution.modules.auth.baseDomain "/oauth2/callback" }}
   {{- end }}
 {{- end -}}
-{{- if eq .spec.distribution.modules.auth.provider.type "sso" -}}
+{{ if eq .spec.distribution.modules.auth.provider.type "sso" }}
 issuer: {{ template "dexHost" . }}
 storage:
   type: kubernetes
@@ -37,4 +37,4 @@ staticClients:
   name: 'Pomerium in-cluster SSO'
   secret: {{ .spec.distribution.modules.auth.pomerium.secrets.IDP_CLIENT_SECRET }}
 enablePasswordDB: false
-{{- end }}
+{{ end }}

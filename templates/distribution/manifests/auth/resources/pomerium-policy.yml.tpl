@@ -2,7 +2,7 @@
 # Use of this source code is governed by a BSD-style
 # license that can be found in the LICENSE file.
 
-{{- if eq .spec.distribution.modules.auth.provider.type "sso" -}}
+{{ if eq .spec.distribution.modules.auth.provider.type "sso" }}
 address: ":8080"
 metrics_address: ":9090"
 
@@ -51,4 +51,4 @@ routes:
       and:
         - authenticated_user: true
 {{ .spec.distribution.modules.auth.pomerium.policy | indent 2 }}
-{{- end }}
+{{ end }}
