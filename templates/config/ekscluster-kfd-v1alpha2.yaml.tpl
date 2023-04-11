@@ -81,6 +81,13 @@ spec:
     nodePoolsLaunchKind: "launch_templates"
     # Optional Kubernetes Cluster log retention in days. Defaults to 90 days.
     # logRetentionDays: 90
+    # This map defines the access to the Kubernetes API server
+    apiServer:
+      privateAccess: true
+      publicAccess: false
+      privateAccessCidrs: ['0.0.0.0/0']
+      publicAccessCidrs: ['0.0.0.0/0']
+    # logRetentionDays: 90
     # This array contains the definition of the nodepools in the cluster
     nodePools:
         # This is the name of the nodepool
