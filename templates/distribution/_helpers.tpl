@@ -143,10 +143,6 @@
 {{- end }}
 {{- end -}}
 
-{{ define "pomeriumHost" }}
-  {{- template "ingressHost" (dict "module" "auth" "package" "pomerium" "prefix" "pomerium." "spec" .spec) -}}
-{{ end }}
-
 {{ define "ingressAuth" }}
 {{- if eq .spec.distribution.modules.auth.provider.type "basicAuth" -}}
     nginx.ingress.kubernetes.io/auth-type: basic

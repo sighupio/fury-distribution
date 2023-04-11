@@ -6,14 +6,14 @@
   {{ if .spec.distribution.modules.auth.overrides.ingresses.pomerium.host -}}
     {{ .spec.distribution.modules.auth.overrides.ingresses.pomerium.host }}
   {{- else -}}
-    {{ print "pomerium." .spec.distribution.modules.ingress.baseDomain }}
+    {{ print "pomerium." .spec.distribution.modules.auth.baseDomain }}
   {{- end }}
 {{- end -}}
 {{- define "dexHost" -}}
   {{ if .spec.distribution.modules.auth.overrides.ingresses.dex.host -}}
     {{ print "https://" .spec.distribution.modules.auth.overrides.ingresses.dex.host }}
   {{- else -}}
-    {{ print "https://login" .spec.distribution.modules.ingress.baseDomain }}
+    {{ print "https://login." .spec.distribution.modules.auth.baseDomain }}
   {{- end }}
 {{- end -}}
 {{ if eq .spec.distribution.modules.auth.provider.type "sso" }}
