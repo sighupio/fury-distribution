@@ -156,7 +156,7 @@ spec:
     #        - example:masters
     #      rolearn: "arn:aws:iam::123456789012:role/k8s-example-role"
     # Optional. Use when spec.infrastructure is left empty and the VPC is not managed by furyctl
-    vpcId: "vpc-123456780"
+    # vpcId: "vpc-123456780"
   # This section describes how the KFD distribution will be installed
   distribution:
     # This common configuration will be applied to all the packages that will be installed in the cluster
@@ -230,8 +230,6 @@ spec:
             name: "internal.example.dev"
             # defines if we need to create the zone, or if it already exists and we only need to adopt/use it
             create: false
-            # This field is ignored, but needed. TBD better validation
-            vpcId: "dummyvalue"
       # This section contains all the configurations for the logging module
       logging:
         # This optional key is used to override automatic parameters
@@ -284,7 +282,7 @@ spec:
           # the PVC size for each minio disk, 6 disks total
           storageSize: "20Gi"
         # configurations for the loki package
-        loki:
+        # loki:
           ## optional settings to override requests and limits, common for each component
           #resources:
           #  requests:
@@ -369,8 +367,6 @@ spec:
           eks:
             # The S3 bucket that will be created to store the backups
             bucketName: example-velero
-            # This field is ignored, but needed. TBD better validation
-            iamRoleArn: arn:aws:iam::123456789012:role/dummy-value
             # The region where the bucket will be created (can be different from the overall region defined in .spec.region)
             region: eu-west-1
         # This optional key is used to override automatic parameters
