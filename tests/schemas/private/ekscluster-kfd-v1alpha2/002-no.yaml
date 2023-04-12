@@ -8,7 +8,7 @@
 # And "spec.kubernetes.subnetIds" is not specified
 # And "spec.kubernetes.vpcId" is not specified
 # When I validate the config against the schema
-# Then the error "missing properties: 'vpcId', 'subnetIds', 'apiServerEndpointAccess'" is returned
+# Then the error "missing properties: 'vpcId', 'subnetIds', 'apiServer'" is returned
 
 ---
 apiVersion: kfd.sighup.io/v1alpha2

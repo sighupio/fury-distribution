@@ -4,10 +4,9 @@
 
 # Tests the following cases:
 
-# Given "spec.distribution.customPatches" is filled
-# With a patch with both path and patch
+# Given "spec.infrastructure.vpc" is not filled and "spec.infrastructure.vpn.vpcId" is filled
 # When I validate the config against the schema
-# Then an error "valid against schemas at indexes 0 and 1" is returned
+# Then no errors are returned
 
 ---
 apiVersion: kfd.sighup.io/v1alpha2
@@ -16,19 +15,8 @@ metadata:
   name: furyctl-dev-aws-al
 spec:
   infrastructure:
-    vpc:
-      network:
-        cidr: 10.0.0.0/16
-        subnetsCidrs:
-          private:
-          - 10.0.182.0/24
-          - 10.0.172.0/24
-          - 10.0.162.0/24
-          public:
-          - 10.0.20.0/24
-          - 10.0.30.0/24
-          - 10.0.40.0/24
     vpn:
+      vpcId: vpc-0123456789abcdef0
       ssh:
         allowedFromCidrs:
         - 0.0.0.0/0
@@ -40,9 +28,14 @@ spec:
   kubernetes:
     apiServer:
       privateAccess: true
-      privateAccessCidrs: ["0.0.0.0/0"]
-      publicAccessCidrs: []
-      publicAccess: false
+      privateAccessCidrs: ["10.0.0.3/16"]
+      publicAccessCidrs: ["90.80.70.60/32"]
+      publicAccess: true
+    vpcId: vpc-0123456789abcdef0
+    subnetIds:
+      - subnet-0123456789abcdef0
+      - subnet-0123456789abcdef1
+      - subnet-0123456789abcdef2
     nodeAllowedSshPublicKey: ssh-ed25519 SomethingSomething engineering@sighup.io
     nodePoolsLaunchKind: both
     nodePools:
@@ -72,11 +65,6 @@ spec:
           name: cluster-autoscaler
           namespace: kube-system
         path: /path/to/patch.yaml
-        patch: |
-          - op: add
-            path: /metadata/labels
-            value:
-              label1: value1
       patchesStrategicMerge:
       - |
         ---

@@ -74,8 +74,7 @@
           "kubernetes": {
             "required": [
               "vpcId",
-              "subnetIds",
-              "apiServerEndpointAccess"
+              "subnetIds"
             ]
           }
         }
@@ -89,9 +88,6 @@
                 "type": "null"
               },
               "subnetIds": {
-                "type": "null"
-              },
-              "apiServerEndpointAccess": {
                 "type": "null"
               }
             }
@@ -1517,8 +1513,8 @@
             "$ref": "#/$defs/Types.AwsSubnetId"
           }
         },
-        "apiServerEndpointAccess": {
-          "$ref": "#/$defs/Spec.Kubernetes.APIServerEndpointAccess"
+        "apiServer": {
+          "$ref": "#/$defs/Spec.Kubernetes.APIServer"
         },
         "nodeAllowedSshPublicKey": {
           "anyOf": [
@@ -1552,34 +1548,80 @@
         }
       },
       "required": [
+        "apiServer",
         "nodeAllowedSshPublicKey",
         "nodePools",
         "nodePoolsLaunchKind"
       ]
     },
-    "Spec.Kubernetes.APIServerEndpointAccess": {
+    "Spec.Kubernetes.APIServer": {
       "type": "object",
       "additionalProperties": false,
       "properties": {
-        "type": {
-          "type": "string",
-          "enum": [
-            "public",
-            "private",
-            "public_and_private"
-          ]
+        "privateAccess": {
+          "type": "boolean"
         },
-        "allowedCidrs": {
+        "privateAccessCidrs": {
           "type": "array",
           "items": {
             "$ref": "#/$defs/Types.Cidr"
           },
-          "minItems": 1
+          "minItems": 0
+        },
+        "publicAccessCidrs": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/Types.Cidr"
+          },
+          "minItems": 0
+        },
+        "publicAccess": {
+          "type": "boolean"
         }
       },
       "required": [
-        "allowedCidrs",
-        "type"
+        "privateAccess",
+        "publicAccess"
+      ],
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "privateAccess": {
+                "const": true
+              }
+            }
+          },
+          "then": {
+            "required": [
+              "privateAccessCidrs"
+            ],
+            "properties": {
+              "privateAccessCidrs": {
+                "minItems": 1
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "publicAccess": {
+                "const": true
+              }
+            }
+          },
+          "then": {
+            "required": [
+              "publicAccessCidrs"
+            ],
+            "properties": {
+              "publicAccessCidrs": {
+                "minItems": 1
+              }
+            }
+          }
+        }
       ]
     },
     "Spec.Kubernetes.AwsAuth": {
@@ -1662,6 +1704,13 @@
         "ami": {
           "$ref": "#/$defs/Spec.Kubernetes.NodePool.Ami"
         },
+        "containerRuntime": {
+          "type": "string",
+          "enum": [
+            "docker",
+            "containerd"
+          ]
+        },
         "size": {
           "$ref": "#/$defs/Spec.Kubernetes.NodePool.Size"
         },
@@ -1690,10 +1739,7 @@
           }
         },
         "additionalFirewallRules": {
-          "type": "array",
-          "items": {
-            "$ref": "#/$defs/Spec.Kubernetes.NodePool.AdditionalFirewallRule"
-          }
+          "$ref": "#/$defs/Spec.Kubernetes.NodePool.AdditionalFirewallRules"
         }
       },
       "required": [
@@ -1702,7 +1748,7 @@
         "size"
       ]
     },
-    "Spec.Kubernetes.NodePool.AdditionalFirewallRule": {
+    "Spec.Kubernetes.NodePool.AdditionalFirewallRule.CidrBlock": {
       "type": "object",
       "additionalProperties": false,
       "properties": {
@@ -1756,6 +1802,103 @@
         "from",
         "to"
       ]
+    },
+    "Spec.Kubernetes.NodePool.AdditionalFirewallRule.Self": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "type": {
+          "type": "string",
+          "enum": [
+            "ingress",
+            "egress"
+          ]
+        },
+        "tags": {
+          "$ref": "#/$defs/Types.AwsTags"
+        },
+        "self": {
+          "type": "boolean"
+        },
+        "protocol": {
+          "$ref": "#/$defs/Types.AwsIpProtocol"
+        },
+        "ports": {
+          "$ref": "#/$defs/Spec.Kubernetes.NodePool.AdditionalFirewallRule.Ports"
+        }
+      },
+      "required": [
+        "self",
+        "name",
+        "ports",
+        "protocol",
+        "type"
+      ]
+    },
+    "Spec.Kubernetes.NodePool.AdditionalFirewallRule.SourceSecurityGroupId": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "type": {
+          "type": "string",
+          "enum": [
+            "ingress",
+            "egress"
+          ]
+        },
+        "tags": {
+          "$ref": "#/$defs/Types.AwsTags"
+        },
+        "sourceSecurityGroupId": {
+          "type": "string"
+        },
+        "protocol": {
+          "$ref": "#/$defs/Types.AwsIpProtocol"
+        },
+        "ports": {
+          "$ref": "#/$defs/Spec.Kubernetes.NodePool.AdditionalFirewallRule.Ports"
+        }
+      },
+      "required": [
+        "sourceSecurityGroupId",
+        "name",
+        "ports",
+        "protocol",
+        "type"
+      ]
+    },
+    "Spec.Kubernetes.NodePool.AdditionalFirewallRules": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "cidrBlocks": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/Spec.Kubernetes.NodePool.AdditionalFirewallRule.CidrBlock"
+          },
+          "minItems": 1
+        },
+        "sourceSecurityGroupId": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/Spec.Kubernetes.NodePool.AdditionalFirewallRule.SourceSecurityGroupId"
+          },
+          "minItems": 1
+        },
+        "self": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/Spec.Kubernetes.NodePool.AdditionalFirewallRule.Self"
+          },
+          "minItems": 1
+        }
+      }
     },
     "Spec.Kubernetes.NodePool.Ami": {
       "type": "object",

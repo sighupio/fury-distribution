@@ -4,10 +4,10 @@
 
 # Tests the following cases:
 
-# Given "spec.distribution.customPatches" is filled
-# With a patch with both path and patch
+# Given "spec.kubernetes.apiServer" is filled but both private and public accessCidrs are missing
 # When I validate the config against the schema
-# Then an error "valid against schemas at indexes 0 and 1" is returned
+# Then an error "[S#/$defs/Spec.Kubernetes.APIServer/allOf/0/then/properties/privateAccessCidrs/minItems] minimum 1 items required, but found 0 items" is returned
+# And an error "[S#/$defs/Spec.Kubernetes.APIServer/allOf/1/then/properties/publicAccessCidrs/minItems] minimum 1 items required, but found 0 items" is returned
 
 ---
 apiVersion: kfd.sighup.io/v1alpha2
@@ -16,19 +16,8 @@ metadata:
   name: furyctl-dev-aws-al
 spec:
   infrastructure:
-    vpc:
-      network:
-        cidr: 10.0.0.0/16
-        subnetsCidrs:
-          private:
-          - 10.0.182.0/24
-          - 10.0.172.0/24
-          - 10.0.162.0/24
-          public:
-          - 10.0.20.0/24
-          - 10.0.30.0/24
-          - 10.0.40.0/24
     vpn:
+      vpcId: vpc-0123456789abcdef0
       ssh:
         allowedFromCidrs:
         - 0.0.0.0/0
@@ -40,9 +29,14 @@ spec:
   kubernetes:
     apiServer:
       privateAccess: true
-      privateAccessCidrs: ["0.0.0.0/0"]
+      privateAccessCidrs: []
       publicAccessCidrs: []
-      publicAccess: false
+      publicAccess: true
+    vpcId: vpc-0123456789abcdef0
+    subnetIds:
+      - subnet-0123456789abcdef0
+      - subnet-0123456789abcdef1
+      - subnet-0123456789abcdef2
     nodeAllowedSshPublicKey: ssh-ed25519 SomethingSomething engineering@sighup.io
     nodePoolsLaunchKind: both
     nodePools:
@@ -72,11 +66,6 @@ spec:
           name: cluster-autoscaler
           namespace: kube-system
         path: /path/to/patch.yaml
-        patch: |
-          - op: add
-            path: /metadata/labels
-            value:
-              label1: value1
       patchesStrategicMerge:
       - |
         ---
