@@ -1607,7 +1607,7 @@ type SpecInfrastructureVpnSsh struct {
 	GithubUsersName []string `json:"githubUsersName" yaml:"githubUsersName"`
 
 	// PublicKeys corresponds to the JSON schema field "publicKeys".
-	PublicKeys []interface{} `json:"publicKeys" yaml:"publicKeys"`
+	PublicKeys []interface{} `json:"publicKeys,omitempty" yaml:"publicKeys,omitempty"`
 }
 
 // UnmarshalJSON implements json.Unmarshaler.
@@ -1621,9 +1621,6 @@ func (j *SpecInfrastructureVpnSsh) UnmarshalJSON(b []byte) error {
 	}
 	if v, ok := raw["githubUsersName"]; !ok || v == nil {
 		return fmt.Errorf("field githubUsersName in SpecInfrastructureVpnSsh: required")
-	}
-	if v, ok := raw["publicKeys"]; !ok || v == nil {
-		return fmt.Errorf("field publicKeys in SpecInfrastructureVpnSsh: required")
 	}
 	type Plain SpecInfrastructureVpnSsh
 	var plain Plain

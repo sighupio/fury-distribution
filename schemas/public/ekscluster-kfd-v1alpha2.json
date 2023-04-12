@@ -542,8 +542,7 @@
             },
             "required": [
                 "allowedFromCidrs",
-                "githubUsersName",
-                "publicKeys"
+                "githubUsersName"
             ]
         },
 
