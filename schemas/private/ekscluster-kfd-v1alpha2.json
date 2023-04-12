@@ -2006,12 +2006,7 @@
         "ingressClass": {
           "type": "string"
         }
-      },
-      "required": [
-        "disableAuth",
-        "host",
-        "ingressClass"
-      ]
+      }
     },
     "Types.IpAddress": {
       "type": "string",

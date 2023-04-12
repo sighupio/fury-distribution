@@ -1964,12 +1964,7 @@
                 "ingressClass": {
                     "type": "string"
                 }
-            },
-            "required": [
-                "disableAuth",
-                "host",
-                "ingressClass"
-            ]
+            }
         }
     }
 }
