@@ -1692,13 +1692,13 @@ type SpecKubernetesAPIServer struct {
 	PrivateAccess bool `json:"privateAccess" yaml:"privateAccess"`
 
 	// PrivateAccessCidrs corresponds to the JSON schema field "privateAccessCidrs".
-	PrivateAccessCidrs []TypesCidr `json:"privateAccessCidrs" yaml:"privateAccessCidrs"`
+	PrivateAccessCidrs []TypesCidr `json:"privateAccessCidrs,omitempty" yaml:"privateAccessCidrs,omitempty"`
 
 	// PublicAccess corresponds to the JSON schema field "publicAccess".
 	PublicAccess bool `json:"publicAccess" yaml:"publicAccess"`
 
 	// PublicAccessCidrs corresponds to the JSON schema field "publicAccessCidrs".
-	PublicAccessCidrs []TypesCidr `json:"publicAccessCidrs" yaml:"publicAccessCidrs"`
+	PublicAccessCidrs []TypesCidr `json:"publicAccessCidrs,omitempty" yaml:"publicAccessCidrs,omitempty"`
 }
 
 // UnmarshalJSON implements json.Unmarshaler.
@@ -1710,14 +1710,8 @@ func (j *SpecKubernetesAPIServer) UnmarshalJSON(b []byte) error {
 	if v, ok := raw["privateAccess"]; !ok || v == nil {
 		return fmt.Errorf("field privateAccess in SpecKubernetesAPIServer: required")
 	}
-	if v, ok := raw["privateAccessCidrs"]; !ok || v == nil {
-		return fmt.Errorf("field privateAccessCidrs in SpecKubernetesAPIServer: required")
-	}
 	if v, ok := raw["publicAccess"]; !ok || v == nil {
 		return fmt.Errorf("field publicAccess in SpecKubernetesAPIServer: required")
-	}
-	if v, ok := raw["publicAccessCidrs"]; !ok || v == nil {
-		return fmt.Errorf("field publicAccessCidrs in SpecKubernetesAPIServer: required")
 	}
 	type Plain SpecKubernetesAPIServer
 	var plain Plain

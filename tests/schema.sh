@@ -332,23 +332,28 @@ test_schema() {
 @test "012 - ok" {
     info
 
-    # test_schema "private" "ekscluster-kfd-v1alpha2" "012-ok" expect_ok
+    test_schema "private" "ekscluster-kfd-v1alpha2" "012-ok" expect_ok
     test_schema "public" "ekscluster-kfd-v1alpha2" "012-ok" expect_ok
 }
 
-# @test "012 - no" {
-#     info
+@test "012 - no" {
+    info
 
-#     expect() {
-#         expect_no
+    expect() {
+        expect_no
 
-#         local EXPECTED_ERROR_1="missing properties: 'vpcId'"
+        local EXPECTED_ERROR_1="[S#/\$defs/Spec.Kubernetes.APIServer/allOf/0/then/properties/privateAccessCidrs/minItems] minimum 1 items required, but found 0 items"
+        local EXPECTED_ERROR_2="[S#/\$defs/Spec.Kubernetes.APIServer/allOf/1/then/properties/publicAccessCidrs/minItems] minimum 1 items required, but found 0 items"
 
-#         if [[ "${output}" != *"${EXPECTED_ERROR_1}"* ]]; then
-#             return 2
-#         fi
-#     }
+        if [[ "${output}" != *"${EXPECTED_ERROR_1}"* ]]; then
+            return 2
+        fi
 
-#     test_schema "private" "ekscluster-kfd-v1alpha2" "012-no" expect
-#     test_schema "public" "ekscluster-kfd-v1alpha2" "012-no" expect
-# }
+        if [[ "${output}" != *"${EXPECTED_ERROR_2}"* ]]; then
+            return 2
+        fi
+    }
+
+    test_schema "private" "ekscluster-kfd-v1alpha2" "012-no" expect
+    test_schema "public" "ekscluster-kfd-v1alpha2" "012-no" expect
+}
