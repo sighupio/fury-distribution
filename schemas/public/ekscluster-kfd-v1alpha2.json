@@ -99,7 +99,7 @@
             "then": {
                 "properties": {
                     "kubernetes": {
-                        "required": ["vpcId", "subnetIds", "apiServerEndpointAccess"]
+                        "required": ["vpcId", "subnetIds"]
                     }
                 }
             },
@@ -112,9 +112,6 @@
                                 "type": "null"
                             },
                             "subnetIds": {
-                                "type": "null"
-                            },
-                            "apiServerEndpointAccess": {
                                 "type": "null"
                             }
                         }

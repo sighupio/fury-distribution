@@ -74,8 +74,7 @@
           "kubernetes": {
             "required": [
               "vpcId",
-              "subnetIds",
-              "apiServerEndpointAccess"
+              "subnetIds"
             ]
           }
         }
@@ -89,9 +88,6 @@
                 "type": "null"
               },
               "subnetIds": {
-                "type": "null"
-              },
-              "apiServerEndpointAccess": {
                 "type": "null"
               }
             }

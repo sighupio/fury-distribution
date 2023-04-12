@@ -26,15 +26,16 @@ spec:
         - ssh-ed25519 SomethingSomething engineering@sighup.io
       vpnClientsSubnetCidr: 192.168.200.0/24
   kubernetes:
+    apiServer:
+      privateAccess: true
+      privateAccessCidrs: ["10.0.0.3/16"]
+      publicAccessCidrs: []
+      publicAccess: false
     vpcId: vpc-0123456789abcdef0
     subnetIds:
       - subnet-0123456789abcdef0
       - subnet-0123456789abcdef1
       - subnet-0123456789abcdef2
-    apiServerEndpointAccess:
-      allowedCidrs:
-      - 10.0.0.3/16
-      type: private
     nodeAllowedSshPublicKey: ssh-ed25519 SomethingSomething engineering@sighup.io
     nodePoolsLaunchKind: both
     nodePools:

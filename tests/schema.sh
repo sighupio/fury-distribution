@@ -22,7 +22,7 @@ test_schema() {
     local validate_output=""
     local verify_expectation_status=""
 
-    TMPDIR=$(mktemp -d -t "fury-distribution-tes-XXXXXXXXXX")
+    TMPDIR=$(mktemp -d -t "fury-distribution-test-XXXXXXXXXX")
 
     mkdir -p "${TMPDIR}/tests/schemas/${KIND}/${APIVER}"
 
@@ -328,3 +328,27 @@ test_schema() {
     test_schema "private" "ekscluster-kfd-v1alpha2" "011-no" expect
     test_schema "public" "ekscluster-kfd-v1alpha2" "011-no" expect
 }
+
+@test "012 - ok" {
+    info
+
+    # test_schema "private" "ekscluster-kfd-v1alpha2" "012-ok" expect_ok
+    test_schema "public" "ekscluster-kfd-v1alpha2" "012-ok" expect_ok
+}
+
+# @test "012 - no" {
+#     info
+
+#     expect() {
+#         expect_no
+
+#         local EXPECTED_ERROR_1="missing properties: 'vpcId'"
+
+#         if [[ "${output}" != *"${EXPECTED_ERROR_1}"* ]]; then
+#             return 2
+#         fi
+#     }
+
+#     test_schema "private" "ekscluster-kfd-v1alpha2" "012-no" expect
+#     test_schema "public" "ekscluster-kfd-v1alpha2" "012-no" expect
+# }
