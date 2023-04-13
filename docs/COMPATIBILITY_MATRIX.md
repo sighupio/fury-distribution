@@ -2,8 +2,9 @@
 
 ## Maintained releases
 
-Below is a table with the KFD releases that are under active maintenance and their compatibility with current Kubernetes versions.
-For a complete list of all KFD releases and their compatibility with Kubernetes versions please see the [unmaintained releases section](#unmaintained-releases-) below.
+Next is a table with the KFD releases that are under active maintenance and their compatibility with current Kubernetes versions.
+
+For a complete list of all KFD releases and their compatibility with Kubernetes versions please see the [unmaintained releases section](#unmaintained-releases-%EF%B8%8F) below.
 
 ℹ️ **Use the latest patch release for your desired version whenever it's possible**. See [the versioning file](VERSIONING.md) for more information.
 
@@ -19,11 +20,11 @@ For a complete list of all KFD releases and their compatibility with Kubernetes 
 | [v1.23.1](https://github.com/sighupio/fury-distribution/releases/tag/v1.23.1) |                    |                    |     :warning:      |
 | [v1.23.0](https://github.com/sighupio/fury-distribution/releases/tag/v1.23.0) |                    |                    |        :x:         |
 
-|       Legend       | Meaning      |
-| :----------------: | ------------ |
-| :white_check_mark: | Compatible   |
-|     :warning:      | Has issues   |
-|        :x:         | Incompatible |
+|       Legend       | Meaning          |
+| :----------------: | ---------------- |
+| :white_check_mark: | Compatible       |
+|     :warning:      | Has known issues |
+|        :x:         | Incompatible     |
 
 ### Warnings
 
@@ -48,8 +49,8 @@ In the following table, you can check the compatibility of KFD releases that are
 | [v1.2.0](https://github.com/sighupio/fury-distribution/releases/tag/v1.2.0)   |                    |                    |                    |                    |                    |                    |                    | :white_check_mark: | :white_check_mark: | :white_check_mark: |
 | [v1.1.0](https://github.com/sighupio/fury-distribution/releases/tag/v1.1.0)   |                    |                    |                    |                    |                    |                    |                    | :white_check_mark: | :white_check_mark: | :white_check_mark: |
 
-|       Legend       | Meaning      |
-| :----------------: | ------------ |
-| :white_check_mark: | Compatible   |
-|     :warning:      | Has issues   |
-|        :x:         | Incompatible |
+|       Legend       | Meaning          |
+| :----------------: | ---------------- |
+| :white_check_mark: | Compatible       |
+|     :warning:      | Has known issues |
+|        :x:         | Incompatible     |
