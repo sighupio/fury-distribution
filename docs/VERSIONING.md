@@ -4,7 +4,7 @@ KFD follows closely Kubernetes versioning.
 
 Starting from the 1.21.0 KFD release, the versioning scheme has changed.
 
-We are now versioning KFD using the same minor version than the supported Kubernetes version.
+We are now versioning KFD using the same minor version as the supported Kubernetes version.
 This means that each KFD version will have a 1:1 compatibility with a specific Kubernetes version.
 
 For example:
