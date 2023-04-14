@@ -313,6 +313,7 @@ steps:
         - Furyfile.yml
         - kustomization.yaml
         - kfd-canonical-definition-${DRONE_TAG}.json
+        - kfd.yaml
       prerelease: false
       overwrite: true
       title: "Release ${DRONE_TAG}"
