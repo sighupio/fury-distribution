@@ -1,0 +1,35 @@
+# Copyright (c) 2017-present SIGHUP s.r.l All rights reserved.
+# Use of this source code is governed by a BSD-style
+# license that can be found in the LICENSE file.
+
+version: v1.25.2
+modules:
+  auth: v0.0.3
+  aws: v2.2.0
+  dr: v1.11.0
+  ingress: v1.14.1
+  logging: v3.1.3
+  monitoring: v2.1.0
+  opa: v1.8.0
+  networking: v1.12.2
+kubernetes:
+  eks:
+    version: 1.25
+    installer: v2.0.0-alpha.1
+furyctlSchemas:
+  eks:
+    - apiVersion: kfd.sighup.io/v1alpha2
+      kind: EKSCluster
+tools:
+  common:
+    furyagent:
+      version: 0.3.0
+    kubectl:
+      version: 1.25.8
+    kustomize:
+      version: 3.5.3
+    terraform:
+      version: 0.15.4
+  eks:
+    awscli:
+      version: 2.8.12
