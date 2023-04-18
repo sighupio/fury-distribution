@@ -625,46 +625,6 @@
             "required": [
                 "privateAccess",
                 "publicAccess"
-            ],
-            "allOf":[
-                {
-                    "if": {
-                        "properties": {
-                            "privateAccess": {
-                                "const": true
-                            }
-                        }
-                    },
-                    "then": {
-                        "required": [
-                            "privateAccessCidrs"
-                        ],
-                        "properties": {
-                            "privateAccessCidrs": {
-                                "minItems": 1
-                            }
-                        }
-                    }
-                },
-                {
-                    "if": {
-                        "properties": {
-                            "publicAccess": {
-                                "const": true
-                            }
-                        }
-                    },
-                    "then": {
-                        "required": [
-                            "publicAccessCidrs"
-                        ],
-                        "properties": {
-                            "publicAccessCidrs": {
-                                "minItems": 1
-                            }
-                        }
-                    }
-                }
             ]
         },
         "Spec.Kubernetes.NodePool": {
