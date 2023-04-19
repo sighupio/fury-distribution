@@ -4,3 +4,4 @@ golang 1.19.6
 golangci-lint 1.51.2
 yq 4.33.3
 jq 1.6
+make 4.4.1
