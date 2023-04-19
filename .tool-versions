@@ -2,3 +2,5 @@ bats 1.8.2
 drone 1.7.0
 golang 1.19.6
 golangci-lint 1.51.2
+yq 4.33.3
+jq 1.6
