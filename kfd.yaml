@@ -24,12 +24,32 @@ tools:
   common:
     furyagent:
       version: 0.3.0
+      checksums:
+        darwin/amd64: 4d5c714264a83c02a049b1f60f3773afc4a547be680ada2a8e26471f254f9302
+        darwin/arm64: 5066db14678565d7d932084c574b29fca95b4c4b38047d0754880ecf76dcc9a5
+        linux/amd64: f6d7d0f5caac5b42d5d162a5ed64eb44a7beedb208eae8a12ee73538d5de58d6
+        linux/arm64: 17719f88e9a7c0e55876f027333a92682b1c6de29963cc61335f954d0d27289d
     kubectl:
       version: 1.25.8
+      checksums:
+        darwin/amd64: 4fc94a62065d25f8048272da096e1c5e3bd22676752fb3a24537e4ad62a33382
+        darwin/arm64: 6519e273017590bd8b193d650af7a6765708f1fed35dcbcaffafe5f33872dfb4
+        linux/amd64: 80e70448455f3d19c3cb49bd6ff6fc913677f4f240d368fa2b9f0d400c8cd16e
+        linux/arm64: 28cf5f666cb0c11a8a2b3e5ae4bf93e56b74ab6051720c72bb231887bfc1a7c6
     kustomize:
       version: 3.5.3
+      checksums:
+        darwin/amd64: 9f001854652cb78fd0eb1903df1e9dcc216a4184acd77f8c143fda908206cf74
+        darwin/arm64: ""
+        linux/amd64: e0b86d6fc5f46b83b9ee339e98bf265354b66d1ea9bf168a2077d6b5914afd78
+        linux/arm64: ""
     terraform:
       version: 0.15.4
+      checksums:
+        darwin/amd64: 9092c017257ead94223418dac7165541228e773463b476e0803848be4f3169a4
+        darwin/arm64: ""
+        linux/amd64: ddf9b409599b8c3b44d4e7c080da9a106befc1ff9e53b57364622720114e325c
+        linux/arm64: 8bbbaf8b48f857b4044983cc757c5f05da5ab877449b9d9847c680b8955edc85
   eks:
     awscli:
       version: 2.8.12
