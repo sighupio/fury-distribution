@@ -28,8 +28,7 @@ type KFDFile struct {
 }
 
 func main() {
-	err := run()
-	if err != nil {
+	if err := run(); err != nil {
 		fmt.Printf("error: %s\n", err.Error())
 		os.Exit(1)
 	}
@@ -48,7 +47,11 @@ func run() error {
 
 	for toolName, tool := range kfdFile.Tools.Common {
 		for checksumOSAndArch := range tool.Checksums {
-			checksumOS, checksumArch, _ := strings.Cut(checksumOSAndArch, "/")
+			checksumOS, checksumArch, found := strings.Cut(checksumOSAndArch, "/")
+			if !found {
+				fmt.Printf("ERROR: unable to split OS and arch from: %s\n", checksumOSAndArch)
+				continue
+			}
 
 			fmt.Printf("Downloading %s version %s for %s %s...\n", toolName, tool.Version, checksumOS, checksumArch)
 
@@ -65,11 +68,11 @@ func run() error {
 			}
 
 			if url == "" {
-				fmt.Printf("error: unsupported tool\n")
+				fmt.Printf("WARNING: unsupported tool: %s\n", toolName)
 				continue
 			}
 
-			fmt.Printf("URL: %s\n", url)
+			fmt.Printf("DEBUG: url: %s\n", url)
 
 			headResponse, err := http.Head(url)
 			if err != nil {
@@ -107,7 +110,7 @@ func run() error {
 			fileChecksumBytes := sha256.Sum256(fileBytes)
 			fileChecksum := hex.EncodeToString(fileChecksumBytes[:])
 
-			fmt.Printf("Checksum is %s\n", fileChecksum)
+			fmt.Printf("DEBUG: checksum is %s\n", fileChecksum)
 
 			tool.Checksums[checksumOSAndArch] = fileChecksum
 		}
