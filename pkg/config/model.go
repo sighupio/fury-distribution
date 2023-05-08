@@ -12,7 +12,7 @@ type Furyctl struct {
 }
 
 type FuryctlSpec struct {
-	DistributionVersion string             `yaml:"distributionVersion" validate:"required,permissive-semver"`
+	DistributionVersion string             `yaml:"distributionVersion" validate:"required"`
 	ToolsConfiguration  ToolsConfiguration `yaml:"toolsConfiguration" validate:"required"`
 }
 
