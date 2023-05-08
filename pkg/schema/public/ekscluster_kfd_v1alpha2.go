@@ -1145,7 +1145,16 @@ type SpecDistributionModulesIngressOverridesIngresses struct {
 	Forecastle *TypesFuryModuleOverridesIngress `json:"forecastle,omitempty" yaml:"forecastle,omitempty"`
 }
 
-type TypesAwsS3KeyPrefix string
+type SpecToolsConfigurationTerraformStateS3 struct {
+	// BucketName corresponds to the JSON schema field "bucketName".
+	BucketName TypesAwsS3BucketName `json:"bucketName" yaml:"bucketName"`
+
+	// KeyPrefix corresponds to the JSON schema field "keyPrefix".
+	KeyPrefix TypesAwsS3KeyPrefix `json:"keyPrefix" yaml:"keyPrefix"`
+
+	// Region corresponds to the JSON schema field "region".
+	Region TypesAwsRegion `json:"region" yaml:"region"`
+}
 
 // UnmarshalJSON implements json.Unmarshaler.
 func (j *Metadata) UnmarshalJSON(b []byte) error {
@@ -1503,8 +1512,6 @@ func (j *SpecDistribution) UnmarshalJSON(b []byte) error {
 	*j = SpecDistribution(plain)
 	return nil
 }
-
-type TypesSemVer string
 
 type TypesCidr string
 
@@ -2386,6 +2393,8 @@ func (j *SpecKubernetes) UnmarshalJSON(b []byte) error {
 	return nil
 }
 
+type TypesAwsS3KeyPrefix string
+
 type SpecDistributionModulesIngressOverrides struct {
 	// Ingresses corresponds to the JSON schema field "ingresses".
 	Ingresses *SpecDistributionModulesIngressOverridesIngresses `json:"ingresses,omitempty" yaml:"ingresses,omitempty"`
@@ -2395,17 +2404,6 @@ type SpecDistributionModulesIngressOverrides struct {
 
 	// Tolerations corresponds to the JSON schema field "tolerations".
 	Tolerations []TypesKubeToleration `json:"tolerations,omitempty" yaml:"tolerations,omitempty"`
-}
-
-type SpecToolsConfigurationTerraformStateS3 struct {
-	// BucketName corresponds to the JSON schema field "bucketName".
-	BucketName TypesAwsS3BucketName `json:"bucketName" yaml:"bucketName"`
-
-	// KeyPrefix corresponds to the JSON schema field "keyPrefix".
-	KeyPrefix TypesAwsS3KeyPrefix `json:"keyPrefix" yaml:"keyPrefix"`
-
-	// Region corresponds to the JSON schema field "region".
-	Region TypesAwsRegion `json:"region" yaml:"region"`
 }
 
 // UnmarshalJSON implements json.Unmarshaler.
@@ -2506,7 +2504,7 @@ type Spec struct {
 	Distribution SpecDistribution `json:"distribution" yaml:"distribution"`
 
 	// DistributionVersion corresponds to the JSON schema field "distributionVersion".
-	DistributionVersion TypesSemVer `json:"distributionVersion" yaml:"distributionVersion"`
+	DistributionVersion string `json:"distributionVersion" yaml:"distributionVersion"`
 
 	// Infrastructure corresponds to the JSON schema field "infrastructure".
 	Infrastructure *SpecInfrastructure `json:"infrastructure,omitempty" yaml:"infrastructure,omitempty"`
@@ -2561,6 +2559,8 @@ type TypesEnvRef string
 type TypesFileRef string
 
 type TypesIpAddress string
+
+type TypesSemVer string
 
 type TypesSshPubKey string
 

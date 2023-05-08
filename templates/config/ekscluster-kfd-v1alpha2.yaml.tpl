@@ -9,7 +9,8 @@ metadata:
   # The name of the cluster, will be also used as a prefix for all the other resources created on AWS
   name: {{.Name}}
 spec:
-  # This value defines which KFD version will be installed and in consequence the Kubernetes version to use to create the cluster
+  # This value defines which KFD version will be installed and in consequence the Kubernetes version to use to create the cluster,
+  # it supports git tags and branches
   distributionVersion: {{.DistributionVersion}}
   # This sections defines where to store the terraform state files used by furyctl
   toolsConfiguration:
