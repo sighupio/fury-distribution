@@ -28,14 +28,27 @@ type KFDFile struct {
 }
 
 func main() {
-	if err := run(); err != nil {
+	kfdYAMLPath := "kfd.yaml"
+
+	if len(os.Args) == 2 {
+		kfdYAMLPath = os.Args[1]
+	}
+
+	if len(os.Args) > 2 {
+		fmt.Printf("usage: %s [/path/to/kfd.yaml]\n", os.Args[0])
+
+		os.Exit(1)
+	}
+
+	if err := run(kfdYAMLPath); err != nil {
 		fmt.Printf("error: %s\n", err.Error())
+
 		os.Exit(1)
 	}
 }
 
-func run() error {
-	data, err := os.ReadFile("kfd.yaml")
+func run(kfdYAMLPath string) error {
+	data, err := os.ReadFile(kfdYAMLPath)
 	if err != nil {
 		return err
 	}
