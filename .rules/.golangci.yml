@@ -47,6 +47,8 @@ linters:
     - gomnd
     # todo
     - gochecknoglobals
+    - gomoddirectives
+    - musttag
 
 linters-settings:
   decorder:
