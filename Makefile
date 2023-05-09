@@ -21,7 +21,7 @@ license-check:
 .PHONY: lint-go
 
 lint-go:
-	@golangci-lint -v run --color=always --config=.rules/.golangci.yml --modules-download-mode=mod ./...
+	@golangci-lint -v run --color=always --config=.rules/.golangci.yml ./...
 
 .PHONY: tools-go
 
