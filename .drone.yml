@@ -47,6 +47,7 @@ steps:
   - name: lint-go
     image: quay.io/sighup/golang:1.19.6
     commands:
+      - rm -rf vendor/
       - make lint-go
     depends_on:
       - license-check
