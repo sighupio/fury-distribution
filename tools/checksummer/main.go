@@ -5,6 +5,10 @@
 package main
 
 import (
+	"archive/tar"
+	"archive/zip"
+	"bytes"
+	"compress/gzip"
 	"crypto/sha256"
 	"encoding/hex"
 	"fmt"
@@ -120,12 +124,73 @@ func run(kfdYAMLPath string) error {
 
 			bar.Finish()
 
-			fileChecksumBytes := sha256.Sum256(fileBytes)
-			fileChecksum := hex.EncodeToString(fileChecksumBytes[:])
+			var checksum string
+			switch toolName {
+			case "terraform":
+				zipReader, err := zip.NewReader(bytes.NewReader(fileBytes), int64(len(fileBytes)))
+				if err != nil {
+					return err
+				}
 
-			fmt.Printf("DEBUG: checksum is %s\n", fileChecksum)
+				for _, file := range zipReader.File {
+					if file.Name == "terraform" {
+						rc, err := file.Open()
+						if err != nil {
+							return err
+						}
 
-			tool.Checksums[checksumOSAndArch] = fileChecksum
+						terraformBytes, err := io.ReadAll(rc)
+						if err != nil {
+							return err
+						}
+
+						checksumBytes := sha256.Sum256(terraformBytes)
+						checksum = hex.EncodeToString(checksumBytes[:])
+
+						if err := rc.Close(); err != nil {
+							return err
+						}
+					}
+				}
+
+			case "kustomize":
+				gzipReader, err := gzip.NewReader(bytes.NewReader(fileBytes))
+				if err != nil {
+					return err
+				}
+
+				tarReader := tar.NewReader(gzipReader)
+				for true {
+					header, err := tarReader.Next()
+					if err == io.EOF {
+						break
+					}
+					if err != nil {
+						return err
+					}
+
+					switch header.Typeflag {
+					case tar.TypeReg:
+						if header.Name == "kustomize" {
+							kustomizeBytes, err := io.ReadAll(tarReader)
+							if err != nil {
+								return err
+							}
+
+							checksumBytes := sha256.Sum256(kustomizeBytes)
+							checksum = hex.EncodeToString(checksumBytes[:])
+						}
+					}
+				}
+
+			default:
+				checksumBytes := sha256.Sum256(fileBytes)
+				checksum = hex.EncodeToString(checksumBytes[:])
+			}
+
+			fmt.Printf("DEBUG: checksum is %s\n", checksum)
+
+			tool.Checksums[checksumOSAndArch] = checksum
 		}
 	}
 

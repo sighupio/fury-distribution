@@ -39,17 +39,17 @@ tools:
     kustomize:
       version: 3.5.3
       checksums:
-        darwin/amd64: 9f001854652cb78fd0eb1903df1e9dcc216a4184acd77f8c143fda908206cf74
+        darwin/amd64: cd820a4918a0674bfe34990d44673e7522588bfb277bd0848f27bcf11b795b6b
         darwin/arm64: ""
-        linux/amd64: e0b86d6fc5f46b83b9ee339e98bf265354b66d1ea9bf168a2077d6b5914afd78
+        linux/amd64: dc17dfbae6e14f2dd03e664702b5bcfd9cfcfc435fe1a35f3e8efc9a6cee0d42
         linux/arm64: ""
     terraform:
       version: 0.15.4
       checksums:
-        darwin/amd64: 9092c017257ead94223418dac7165541228e773463b476e0803848be4f3169a4
+        darwin/amd64: 069362d5d4084c03329621ec3bd5f2a336ba32a31ef4fcbef8d5bad050c599ea
         darwin/arm64: ""
-        linux/amd64: ddf9b409599b8c3b44d4e7c080da9a106befc1ff9e53b57364622720114e325c
-        linux/arm64: 8bbbaf8b48f857b4044983cc757c5f05da5ab877449b9d9847c680b8955edc85
+        linux/amd64: 278a0f66c7404ceb426e6f2db7f0f3a1b5b3d8373e7024640e7bc238389bab74
+        linux/arm64: e80a745a56e0e803c757b2d56c9d6aaf673adbc72a69858a9da064edb776551c
   eks:
     awscli:
       version: 2.8.12
