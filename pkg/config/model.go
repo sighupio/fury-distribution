@@ -92,7 +92,8 @@ type Eks struct {
 }
 
 type Tool struct {
-	Version string `yaml:"version" validate:"required,permissive-constraint"`
+	Version   string            `yaml:"version" validate:"required,permissive-constraint"`
+	Checksums map[string]string `yaml:"checksums"`
 }
 
 func (t Tool) String() string {
