@@ -5,8 +5,8 @@
 version: v1.25.2
 modules:
   auth: v0.0.3
-  aws: feat/product-management/39-upgrade-terraform-to-1.4
-  dr: feat/product-management/39-upgrade-terraform-to-1.4
+  aws: main
+  dr: main
   ingress: v1.14.1
   logging: v3.1.3
   monitoring: v2.1.0
