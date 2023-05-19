@@ -61,15 +61,20 @@ generate-go-models: dump-private-schema
 	@go-jsonschema \
 		--package public \
 		--resolve-extension json \
-		--output pkg/schema/public/ekscluster_kfd_v1alpha2.go \
+		--output pkg/apis/ekscluster/v1alpha2/public/schema.go \
 		schemas/public/ekscluster-kfd-v1alpha2.json
 	@go-jsonschema \
 		--package private \
 		--resolve-extension json \
-		--output pkg/schema/private/ekscluster_kfd_v1alpha2.go \
+		--output pkg/apis/ekscluster/v1alpha2/private/schema.go \
 		schemas/private/ekscluster-kfd-v1alpha2.json
+	@go-jsonschema \
+		--package public \
+		--resolve-extension json \
+		--output pkg/apis/kfddistribution/v1alpha2/public/schema.go \
+		schemas/public/kfddistribution-kfd-v1alpha2.json
 
 dump-private-schema:
 	@cat schemas/public/ekscluster-kfd-v1alpha2.json | \
-	json-patch -p schemas/private/patch.json | \
+	json-patch -p schemas/private/ekscluster-kfd-v1alpha2.patch.json | \
 	jq -r > schemas/private/ekscluster-kfd-v1alpha2.json
