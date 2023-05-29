@@ -12,23 +12,23 @@ type Furyctl struct {
 }
 
 type FuryctlSpec struct {
-	DistributionVersion string             `yaml:"distributionVersion" validate:"required"`
-	ToolsConfiguration  ToolsConfiguration `yaml:"toolsConfiguration" validate:"required"`
+	DistributionVersion string              `yaml:"distributionVersion" validate:"required"`
+	ToolsConfiguration  *ToolsConfiguration `yaml:"toolsConfiguration"`
 }
 
 type ToolsConfiguration struct {
-	Terraform Terraform `yaml:"terraform" validate:"required"`
+	Terraform ToolsConfigurationTerraform `yaml:"terraform" validate:"required"`
 }
 
-type Terraform struct {
-	State State `yaml:"state" validate:"required"`
+type ToolsConfigurationTerraform struct {
+	State ToolsConfigurationTerrraformState `yaml:"state" validate:"required"`
 }
 
-type State struct {
-	S3 S3 `yaml:"s3" validate:"required"`
+type ToolsConfigurationTerrraformState struct {
+	S3 ToolsConfigurationTerrraformStateS3 `yaml:"s3" validate:"required"`
 }
 
-type S3 struct {
+type ToolsConfigurationTerrraformStateS3 struct {
 	BucketName string `yaml:"bucketName" validate:"required"`
 	KeyPrefix  string `yaml:"keyPrefix" validate:"required,max=37"`
 	Region     string `yaml:"region" validate:"required,aws-region"`
