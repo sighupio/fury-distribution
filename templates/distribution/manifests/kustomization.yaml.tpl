@@ -17,7 +17,9 @@ resources:
   - ingress
   - logging
   - monitoring
+{{- if ne .spec.distribution.common.provider.type "none" }}
   - networking
+{{- end }}
   - opa
 
 {{- if .spec.distribution.customPatches.patchesStrategicMerge }}

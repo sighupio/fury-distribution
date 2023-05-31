@@ -2,6 +2,7 @@
 # Use of this source code is governed by a BSD-style
 # license that can be found in the LICENSE file.
 
+{{- if eq .spec.distribution.common.provider.type "eks" }}
 ---
 apiVersion: velero.io/v1
 kind: BackupStorageLocation
@@ -14,3 +15,4 @@ spec:
     bucket: {{ .spec.distribution.modules.dr.velero.eks.bucketName }}
   config:
     region: {{ .spec.distribution.modules.dr.velero.eks.region }}
+{{- end }}

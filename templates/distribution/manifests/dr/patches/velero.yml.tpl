@@ -6,8 +6,10 @@
 apiVersion: v1
 kind: ServiceAccount
 metadata:
+{{- if eq .spec.distribution.common.provider.type "eks" }}
   annotations:
     eks.amazonaws.com/role-arn: {{ .spec.distribution.modules.dr.velero.eks.iamRoleArn }}
+{{- end }}
   name: velero
   namespace: kube-system
 ---

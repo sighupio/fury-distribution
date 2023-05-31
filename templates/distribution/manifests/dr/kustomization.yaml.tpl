@@ -7,10 +7,16 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 
 resources:
+{{- if eq .spec.distribution.common.provider.type "eks" }}
   - {{ print "../" .spec.distribution.common.relativeVendorPath "/modules/dr/katalog/velero/velero-aws" }}
+{{- else }}
+  - {{ print "../" .spec.distribution.common.relativeVendorPath "/modules/dr/katalog/velero/velero-on-prem" }}
+{{- end }}
   - {{ print "../" .spec.distribution.common.relativeVendorPath "/modules/dr/katalog/velero/velero-schedules" }}
+{{- if eq .spec.distribution.common.provider.type "eks" }}
   - resources/velero-backupstoragelocation.yml
   - resources/velero-volumesnapshotlocation.yml
+{{- end }}
 
 patchesStrategicMerge:
   - patches/infra-nodes.yml
