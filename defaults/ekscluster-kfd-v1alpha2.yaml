@@ -13,16 +13,7 @@ data:
     # where all the KFD modules are downloaded
     relativeVendorPath: "../../vendor"
     provider:
-      # can be eks for now, in the future we will add additional providers
       type: eks
-    # nodeSelector and tolerations will be used to select the nodes where the KFD will be installed
-    nodeSelector:
-      node.kubernetes.io/role: infra
-    tolerations:
-      - effect: NoSchedule
-        key: node.kubernetes.io/role
-        value: infra
-    # this section will contain the authentication configuration that will be used to protect the KFD infrastructural ingresses
 
   # the module section will be used to fine tune each module behaviour and configuration
   modules:
