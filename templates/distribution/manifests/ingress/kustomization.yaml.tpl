@@ -21,8 +21,8 @@ resources:
 {{- end }}
 {{- end }}
   - {{ print "../" .spec.distribution.common.relativeVendorPath "/modules/ingress/katalog/forecastle" }}
-{{- if eq .spec.distribution.modules.ingress.nginx.tls.provider "certManager" }}
   - {{ print "../" .spec.distribution.common.relativeVendorPath "/modules/ingress/katalog/cert-manager" }}
+{{- if eq .spec.distribution.modules.ingress.nginx.tls.provider "certManager" }}
   - resources/cert-manager-clusterissuer.yml
 {{- end }}
   - resources/ingress-infra.yml
