@@ -32,11 +32,13 @@ patchesStrategicMerge:
   - patches/cert-manager.yml
 {{- end }}
   - patches/infra-nodes.yml
+{{- if eq .spec.distribution.common.provider.type "eks" }}
 {{- if eq .spec.distribution.modules.ingress.nginx.type "dual" }}
-  - patches/ingress-nginx-external.yml
-  - patches/ingress-nginx-internal.yml
+  - patches/eks-ingress-nginx-external.yml
+  - patches/eks-ingress-nginx-internal.yml
 {{- else if eq .spec.distribution.modules.ingress.nginx.type "single" }}
-  - patches/ingress-nginx.yml
+  - patches/eks-ingress-nginx.yml
+{{- end }}
 {{- end }}
 {{- if eq .spec.distribution.common.provider.type "eks" }}
   - patches/external-dns.yml
