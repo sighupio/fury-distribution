@@ -20,6 +20,9 @@ furyctlSchemas:
   eks:
     - apiVersion: kfd.sighup.io/v1alpha2
       kind: EKSCluster
+  kfddistribution:
+    - apiVersion: kfd.sighup.io/v1alpha2
+      kind: KFDDistribution
 tools:
   common:
     furyagent:
