@@ -814,6 +814,18 @@
     },
     "Spec.Distribution.Modules.Ingress.CertManager.ClusterIssuer": {
       "additionalProperties": false,
+      "oneOf": [
+        {
+          "required": [
+            "type"
+          ]
+        },
+        {
+          "required": [
+            "solvers"
+          ]
+        }
+      ],
       "properties": {
         "email": {
           "type": "string",
@@ -824,6 +836,9 @@
         },
         "route53": {
           "$ref": "#/$defs/Spec.Distribution.Modules.Ingress.ClusterIssuer.Route53"
+        },
+        "solvers": {
+          "type": "array"
         },
         "type": {
           "type": "string",
@@ -836,7 +851,6 @@
       "required": [
         "route53",
         "name",
-        "type",
         "email"
       ],
       "type": "object"

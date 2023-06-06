@@ -65,7 +65,6 @@ data:
         clusterIssuer:
           name: letsencrypt-fury
           email: engineering+fury-distribution@sighup.io
-          type: http01
     # logging module configuration
     logging:
       overrides:

@@ -68,8 +68,6 @@ data:
         clusterIssuer:
           name: letsencrypt-fury
           email: engineering+fury-distribution@sighup.io
-          # can be dns01 or http01 , if http01 we need to extrapolate the ingress type. If single the class will be nginx, if dual the class will be external
-          type: http01
           # if auth type is route53, we need to provide the following configurations
           route53:
             iamRoleArn: arn:aws:iam::123456789012:role/example-route53

@@ -215,8 +215,13 @@ spec:
             name: letsencrypt-fury
             # the email used during issuing procedures
             email: example@sighup.io
-            # the type of the clusterIssuer, can be http01 or dns01, if dns01, the route53 integration will be used
+            # you can configure the clusterIssuer by specifing type (can be http01 or dns01, if dns01 the route53 integration will be used) or custom solvers
             type: http01
+            # the custom solvers configurations
+            # solvers:
+            #   - http01:
+            #       ingress:
+            #         class: nginx
         # DNS definition, used in conjunction with externalDNS package to automate DNS management and certificates emission
         dns:
           # the public DNS zone definition

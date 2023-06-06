@@ -16,6 +16,7 @@ spec:
     privateKeySecretRef:
       name: {{ .spec.distribution.modules.ingress.certManager.clusterIssuer.name }}
     server: https://acme-v02.api.letsencrypt.org/directory
+{{- if .spec.distribution.modules.ingress.certManager.clusterIssuer.type }}
     solvers:
 {{- if eq .spec.distribution.modules.ingress.certManager.clusterIssuer.type "dns01" }}
     - dns01:
@@ -33,4 +34,8 @@ spec:
               tolerations:
                 {{ template "tolerations" ( merge (dict "indent" 16) $certManagerArgs ) }}
 {{- end -}}
+{{- else if .spec.distribution.modules.ingress.certManager.clusterIssuer.solvers }}
+    solvers:
+      {{ .spec.distribution.modules.ingress.certManager.clusterIssuer.solvers | toYaml | nindent 6 }}
+{{- end }}
 {{- end -}}

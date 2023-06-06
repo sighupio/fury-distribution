@@ -69,8 +69,13 @@ spec:
             name: letsencrypt-fury
             # the email used during issuing procedures
             email: example@sighup.io
-            # the type of the clusterIssuer, can be only http01, dns01 integration is not yet supported
+            # you can configure the clusterIssuer by specifing type (can be only http01) or custom solvers
             type: http01
+            # the custom solvers configurations
+            # solvers:
+            #   - http01:
+            #       ingress:
+            #         class: nginx
       # This section contains all the configurations for the logging module
       logging:
         # This optional key is used to override automatic parameters
