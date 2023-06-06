@@ -15,15 +15,15 @@ spec:
   # This section describes how the KFD distribution will be installed
   distribution:
     # This common configuration will be applied to all the packages that will be installed in the cluster
-    common:
-      # The node selector to use to place the pods for all the KFD packages
-      nodeSelector:
-        node.kubernetes.io/role: infra
-      # The tolerations that will be added to the pods for all the KFD packages
-      tolerations:
-        - effect: NoSchedule
-          key: node.kubernetes.io/role
-          value: infra
+    # common:
+    #   # The node selector to use to place the pods for all the KFD packages
+    #   nodeSelector:
+    #     node.kubernetes.io/role: infra
+    #   # The tolerations that will be added to the pods for all the KFD packages
+    #   tolerations:
+    #     - effect: NoSchedule
+    #       key: node.kubernetes.io/role
+    #       value: infra
     # This section contains all the configurations for all the KFD core modules
     modules:
       # This section contains all the configurations for the ingress module
