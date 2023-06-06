@@ -759,6 +759,9 @@ type SpecInfrastructureVpcNetworkSubnetsCidrs struct {
 }
 
 type SpecInfrastructureVpn struct {
+	// BucketNamePrefix corresponds to the JSON schema field "bucketNamePrefix".
+	BucketNamePrefix *TypesAwsS3BucketName `json:"bucketNamePrefix,omitempty" yaml:"bucketNamePrefix,omitempty"`
+
 	// DhParamsBits corresponds to the JSON schema field "dhParamsBits".
 	DhParamsBits *int `json:"dhParamsBits,omitempty" yaml:"dhParamsBits,omitempty"`
 

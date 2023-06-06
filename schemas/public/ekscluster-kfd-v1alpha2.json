@@ -500,6 +500,9 @@
                 },
                 "vpcId": {
                     "$ref": "#/$defs/Types.AwsVpcId"
+                },
+                "bucketNamePrefix": {
+                    "$ref": "#/$defs/Types.AwsS3BucketName"
                 }
             },
             "required": [
