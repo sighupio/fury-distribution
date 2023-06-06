@@ -8,11 +8,9 @@ import (
 	"testing"
 
 	"github.com/go-playground/validator/v10"
+
 	"github.com/sighupio/fury-distribution/pkg/config"
 )
-
-type fieldLevel struct {
-}
 
 func TestValidateAwsRegion(t *testing.T) {
 	t.Parallel()
