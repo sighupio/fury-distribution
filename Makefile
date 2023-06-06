@@ -27,6 +27,7 @@ lint-go:
 
 tools-go:
 	@go install github.com/evanphx/json-patch/cmd/json-patch@v5.6.0
+	@go install github.com/google/addlicense@v1.1.1
 
 .PHONY: generate-private-schema dump-go-models
 
