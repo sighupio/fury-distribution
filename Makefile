@@ -23,6 +23,11 @@ license-check:
 lint-go:
 	@golangci-lint -v run --color=always --config=.rules/.golangci.yml ./...
 
+.PHONY: tools-go
+
+tools-go:
+	@go install github.com/evanphx/json-patch/cmd/json-patch@v5.6.0
+
 .PHONY: generate-private-schema dump-go-models
 
 generate-go-models: dump-private-schema
