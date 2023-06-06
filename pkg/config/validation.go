@@ -10,7 +10,7 @@ import (
 
 	"github.com/Al-Pragliola/go-version"
 	"github.com/go-playground/validator/v10"
-	regions "github.com/jsonmaur/aws-regions/v2"
+	"golang.org/x/exp/slices"
 )
 
 const (
@@ -21,6 +21,39 @@ const (
 var (
 	apiVersionRegex = regexp.MustCompile(apiVersionString)
 	eksVersionRegex = regexp.MustCompile(eksVersionString)
+	awsRegions      = []string{
+		"af-south-1",
+		"ap-east-1",
+		"ap-northeast-1",
+		"ap-northeast-2",
+		"ap-northeast-3",
+		"ap-south-1",
+		"ap-south-2",
+		"ap-southeast-1",
+		"ap-southeast-2",
+		"ap-southeast-3",
+		"ap-southeast-4",
+		"ca-central-1",
+		"cn-north-1",
+		"cn-northwest-1",
+		"eu-central-1",
+		"eu-central-2",
+		"eu-north-1",
+		"eu-south-1",
+		"eu-south-2",
+		"eu-west-1",
+		"eu-west-2",
+		"eu-west-3",
+		"me-central-1",
+		"me-south-1",
+		"sa-east-1",
+		"us-east-1",
+		"us-east-2",
+		"us-gov-east-1",
+		"us-gov-west-1",
+		"us-west-1",
+		"us-west-2",
+	}
 )
 
 func NewValidator() *validator.Validate {
@@ -84,7 +117,7 @@ func ValidateEksVersion(fl validator.FieldLevel) bool {
 }
 
 func ValidateAwsRegion(fl validator.FieldLevel) bool {
-	_, err := regions.LookupByCode(fl.Field().String())
+	reg := strings.ToLower(fl.Field().String())
 
-	return err == nil
+	return slices.Contains(awsRegions, reg)
 }
