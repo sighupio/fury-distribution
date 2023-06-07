@@ -73,9 +73,3 @@ dump-private-schema:
 	@cat schemas/public/ekscluster-kfd-v1alpha2.json | \
 	json-patch -p schemas/private/patch.json | \
 	jq -r > schemas/private/ekscluster-kfd-v1alpha2.json
-
-.PHONY: generate-deps-checksums
-
-generate-deps-checksums:
-	@cd tools/checksummer; \
-	go run main.go ../../kfd.yaml
