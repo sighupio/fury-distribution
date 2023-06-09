@@ -12,26 +12,7 @@ type Furyctl struct {
 }
 
 type FuryctlSpec struct {
-	DistributionVersion string              `yaml:"distributionVersion" validate:"required"`
-	ToolsConfiguration  *ToolsConfiguration `yaml:"toolsConfiguration"`
-}
-
-type ToolsConfiguration struct {
-	Terraform ToolsConfigurationTerraform `yaml:"terraform" validate:"required"`
-}
-
-type ToolsConfigurationTerraform struct {
-	State ToolsConfigurationTerrraformState `yaml:"state" validate:"required"`
-}
-
-type ToolsConfigurationTerrraformState struct {
-	S3 ToolsConfigurationTerrraformStateS3 `yaml:"s3" validate:"required"`
-}
-
-type ToolsConfigurationTerrraformStateS3 struct {
-	BucketName string `yaml:"bucketName" validate:"required"`
-	KeyPrefix  string `yaml:"keyPrefix" validate:"required,max=37"`
-	Region     string `yaml:"region" validate:"required,aws-region"`
+	DistributionVersion string `yaml:"distributionVersion" validate:"required"`
 }
 
 type FuryctlMeta struct {
@@ -76,26 +57,22 @@ type KFDSchema struct {
 }
 
 type KFDTools struct {
-	Common Common `yaml:"common" validate:"required"`
-	Eks    Eks    `yaml:"eks" validate:"required"`
+	Common KFDToolsCommon `yaml:"common" validate:"required"`
+	Eks    KFDToolsEks    `yaml:"eks" validate:"required"`
 }
 
-type Common struct {
-	Furyagent Tool `yaml:"furyagent" validate:"required"`
-	Kubectl   Tool `yaml:"kubectl" validate:"required"`
-	Kustomize Tool `yaml:"kustomize" validate:"required"`
-	Terraform Tool `yaml:"terraform" validate:"required"`
+type KFDToolsCommon struct {
+	Furyagent KFDTool `yaml:"furyagent" validate:"required"`
+	Kubectl   KFDTool `yaml:"kubectl" validate:"required"`
+	Kustomize KFDTool `yaml:"kustomize" validate:"required"`
+	Terraform KFDTool `yaml:"terraform" validate:"required"`
 }
 
-type Eks struct {
-	Awscli Tool `yaml:"awscli" validate:"required"`
+type KFDToolsEks struct {
+	Awscli KFDTool `yaml:"awscli" validate:"required"`
 }
 
-type Tool struct {
+type KFDTool struct {
 	Version   string            `yaml:"version" validate:"required,permissive-constraint"`
 	Checksums map[string]string `yaml:"checksums"`
-}
-
-func (t Tool) String() string {
-	return t.Version
 }
