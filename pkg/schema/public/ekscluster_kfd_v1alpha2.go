@@ -2,11 +2,9 @@
 
 package public
 
-import (
-	"encoding/json"
-	"fmt"
-	"reflect"
-)
+import "encoding/json"
+import "fmt"
+import "reflect"
 
 // UnmarshalJSON implements json.Unmarshaler.
 func (j *SpecDistributionModulesIngressNginx) UnmarshalJSON(b []byte) error {
@@ -48,7 +46,7 @@ func (j *SpecDistributionCustomPatchesResourceGeneratorBehavior) UnmarshalJSON(b
 
 type SpecDistributionCommonProvider struct {
 	// Type corresponds to the JSON schema field "type".
-	Type string `json:"type" yaml:"type"`
+	Type string `json:"type" yaml:"type" mapstructure:"type"`
 }
 
 type TypesKubeNodeSelector map[string]string
@@ -101,20 +99,18 @@ func (j *TypesKubeTolerationEffect) UnmarshalJSON(b []byte) error {
 
 type TypesKubeToleration struct {
 	// Effect corresponds to the JSON schema field "effect".
-	Effect TypesKubeTolerationEffect `json:"effect" yaml:"effect"`
+	Effect TypesKubeTolerationEffect `json:"effect" yaml:"effect" mapstructure:"effect"`
 
 	// Key corresponds to the JSON schema field "key".
-	Key string `json:"key" yaml:"key"`
+	Key string `json:"key" yaml:"key" mapstructure:"key"`
 
 	// Value corresponds to the JSON schema field "value".
-	Value string `json:"value" yaml:"value"`
+	Value string `json:"value" yaml:"value" mapstructure:"value"`
 }
 
-const (
-	TypesKubeTolerationEffectNoExecute        TypesKubeTolerationEffect = "NoExecute"
-	TypesKubeTolerationEffectNoSchedule       TypesKubeTolerationEffect = "NoSchedule"
-	TypesKubeTolerationEffectPreferNoSchedule TypesKubeTolerationEffect = "PreferNoSchedule"
-)
+const TypesKubeTolerationEffectNoExecute TypesKubeTolerationEffect = "NoExecute"
+const TypesKubeTolerationEffectNoSchedule TypesKubeTolerationEffect = "NoSchedule"
+const TypesKubeTolerationEffectPreferNoSchedule TypesKubeTolerationEffect = "PreferNoSchedule"
 
 // UnmarshalJSON implements json.Unmarshaler.
 func (j *TypesKubeToleration) UnmarshalJSON(b []byte) error {
@@ -142,16 +138,16 @@ func (j *TypesKubeToleration) UnmarshalJSON(b []byte) error {
 
 type SpecDistributionCommon struct {
 	// NodeSelector corresponds to the JSON schema field "nodeSelector".
-	NodeSelector TypesKubeNodeSelector `json:"nodeSelector,omitempty" yaml:"nodeSelector,omitempty"`
+	NodeSelector TypesKubeNodeSelector `json:"nodeSelector,omitempty" yaml:"nodeSelector,omitempty" mapstructure:"nodeSelector,omitempty"`
 
 	// Provider corresponds to the JSON schema field "provider".
-	Provider *SpecDistributionCommonProvider `json:"provider,omitempty" yaml:"provider,omitempty"`
+	Provider *SpecDistributionCommonProvider `json:"provider,omitempty" yaml:"provider,omitempty" mapstructure:"provider,omitempty"`
 
 	// RelativeVendorPath corresponds to the JSON schema field "relativeVendorPath".
-	RelativeVendorPath *string `json:"relativeVendorPath,omitempty" yaml:"relativeVendorPath,omitempty"`
+	RelativeVendorPath *string `json:"relativeVendorPath,omitempty" yaml:"relativeVendorPath,omitempty" mapstructure:"relativeVendorPath,omitempty"`
 
 	// Tolerations corresponds to the JSON schema field "tolerations".
-	Tolerations []TypesKubeToleration `json:"tolerations,omitempty" yaml:"tolerations,omitempty"`
+	Tolerations []TypesKubeToleration `json:"tolerations,omitempty" yaml:"tolerations,omitempty" mapstructure:"tolerations,omitempty"`
 }
 
 type SpecDistributionCustomPatchesResourceGeneratorBehavior string
@@ -164,51 +160,49 @@ var enumValues_SpecDistributionCustomPatchesResourceGeneratorBehavior = []interf
 
 type SpecDistributionModulesIngressOverridesIngresses struct {
 	// Forecastle corresponds to the JSON schema field "forecastle".
-	Forecastle *TypesFuryModuleOverridesIngress `json:"forecastle,omitempty" yaml:"forecastle,omitempty"`
+	Forecastle *TypesFuryModuleOverridesIngress `json:"forecastle,omitempty" yaml:"forecastle,omitempty" mapstructure:"forecastle,omitempty"`
 }
 
-const (
-	SpecDistributionCustomPatchesResourceGeneratorBehaviorCreate  SpecDistributionCustomPatchesResourceGeneratorBehavior = "create"
-	SpecDistributionCustomPatchesResourceGeneratorBehaviorMerge   SpecDistributionCustomPatchesResourceGeneratorBehavior = "merge"
-	SpecDistributionCustomPatchesResourceGeneratorBehaviorReplace SpecDistributionCustomPatchesResourceGeneratorBehavior = "replace"
-)
+const SpecDistributionCustomPatchesResourceGeneratorBehaviorCreate SpecDistributionCustomPatchesResourceGeneratorBehavior = "create"
+const SpecDistributionCustomPatchesResourceGeneratorBehaviorMerge SpecDistributionCustomPatchesResourceGeneratorBehavior = "merge"
+const SpecDistributionCustomPatchesResourceGeneratorBehaviorReplace SpecDistributionCustomPatchesResourceGeneratorBehavior = "replace"
 
 type SpecDistributionCustomPatchesResourceGeneratorOptions struct {
 	// Annotations corresponds to the JSON schema field "annotations".
-	Annotations TypesKubeLabels `json:"annotations,omitempty" yaml:"annotations,omitempty"`
+	Annotations TypesKubeLabels `json:"annotations,omitempty" yaml:"annotations,omitempty" mapstructure:"annotations,omitempty"`
 
 	// DisableNameSuffixHash corresponds to the JSON schema field
 	// "disableNameSuffixHash".
-	DisableNameSuffixHash *bool `json:"disableNameSuffixHash,omitempty" yaml:"disableNameSuffixHash,omitempty"`
+	DisableNameSuffixHash *bool `json:"disableNameSuffixHash,omitempty" yaml:"disableNameSuffixHash,omitempty" mapstructure:"disableNameSuffixHash,omitempty"`
 
 	// Immutable corresponds to the JSON schema field "immutable".
-	Immutable *bool `json:"immutable,omitempty" yaml:"immutable,omitempty"`
+	Immutable *bool `json:"immutable,omitempty" yaml:"immutable,omitempty" mapstructure:"immutable,omitempty"`
 
 	// Labels corresponds to the JSON schema field "labels".
-	Labels TypesKubeLabels `json:"labels,omitempty" yaml:"labels,omitempty"`
+	Labels TypesKubeLabels `json:"labels,omitempty" yaml:"labels,omitempty" mapstructure:"labels,omitempty"`
 }
 
 type SpecDistributionCustomPatchesResourceGenerator struct {
 	// Behavior corresponds to the JSON schema field "behavior".
-	Behavior *SpecDistributionCustomPatchesResourceGeneratorBehavior `json:"behavior,omitempty" yaml:"behavior,omitempty"`
+	Behavior *SpecDistributionCustomPatchesResourceGeneratorBehavior `json:"behavior,omitempty" yaml:"behavior,omitempty" mapstructure:"behavior,omitempty"`
 
 	// Envs corresponds to the JSON schema field "envs".
-	Envs []string `json:"envs,omitempty" yaml:"envs,omitempty"`
+	Envs []string `json:"envs,omitempty" yaml:"envs,omitempty" mapstructure:"envs,omitempty"`
 
 	// Files corresponds to the JSON schema field "files".
-	Files []string `json:"files,omitempty" yaml:"files,omitempty"`
+	Files []string `json:"files,omitempty" yaml:"files,omitempty" mapstructure:"files,omitempty"`
 
 	// Literals corresponds to the JSON schema field "literals".
-	Literals []string `json:"literals,omitempty" yaml:"literals,omitempty"`
+	Literals []string `json:"literals,omitempty" yaml:"literals,omitempty" mapstructure:"literals,omitempty"`
 
 	// Name corresponds to the JSON schema field "name".
-	Name string `json:"name" yaml:"name"`
+	Name string `json:"name" yaml:"name" mapstructure:"name"`
 
 	// Namespace corresponds to the JSON schema field "namespace".
-	Namespace *string `json:"namespace,omitempty" yaml:"namespace,omitempty"`
+	Namespace *string `json:"namespace,omitempty" yaml:"namespace,omitempty" mapstructure:"namespace,omitempty"`
 
 	// Options corresponds to the JSON schema field "options".
-	Options *SpecDistributionCustomPatchesResourceGeneratorOptions `json:"options,omitempty" yaml:"options,omitempty"`
+	Options *SpecDistributionCustomPatchesResourceGeneratorOptions `json:"options,omitempty" yaml:"options,omitempty" mapstructure:"options,omitempty"`
 }
 
 type TypesKubeLabels map[string]string
@@ -235,47 +229,47 @@ type SpecDistributionCustomPatchesConfigMapGenerator []SpecDistributionCustomPat
 
 type SpecDistributionCustomPatchesPatchOptions struct {
 	// AllowKindChange corresponds to the JSON schema field "allowKindChange".
-	AllowKindChange *bool `json:"allowKindChange,omitempty" yaml:"allowKindChange,omitempty"`
+	AllowKindChange *bool `json:"allowKindChange,omitempty" yaml:"allowKindChange,omitempty" mapstructure:"allowKindChange,omitempty"`
 
 	// AllowNameChange corresponds to the JSON schema field "allowNameChange".
-	AllowNameChange *bool `json:"allowNameChange,omitempty" yaml:"allowNameChange,omitempty"`
+	AllowNameChange *bool `json:"allowNameChange,omitempty" yaml:"allowNameChange,omitempty" mapstructure:"allowNameChange,omitempty"`
 }
 
 type SpecDistributionCustomPatchesPatchTarget struct {
 	// AnnotationSelector corresponds to the JSON schema field "annotationSelector".
-	AnnotationSelector *string `json:"annotationSelector,omitempty" yaml:"annotationSelector,omitempty"`
+	AnnotationSelector *string `json:"annotationSelector,omitempty" yaml:"annotationSelector,omitempty" mapstructure:"annotationSelector,omitempty"`
 
 	// Group corresponds to the JSON schema field "group".
-	Group *string `json:"group,omitempty" yaml:"group,omitempty"`
+	Group *string `json:"group,omitempty" yaml:"group,omitempty" mapstructure:"group,omitempty"`
 
 	// Kind corresponds to the JSON schema field "kind".
-	Kind *string `json:"kind,omitempty" yaml:"kind,omitempty"`
+	Kind *string `json:"kind,omitempty" yaml:"kind,omitempty" mapstructure:"kind,omitempty"`
 
 	// LabelSelector corresponds to the JSON schema field "labelSelector".
-	LabelSelector *string `json:"labelSelector,omitempty" yaml:"labelSelector,omitempty"`
+	LabelSelector *string `json:"labelSelector,omitempty" yaml:"labelSelector,omitempty" mapstructure:"labelSelector,omitempty"`
 
 	// Name corresponds to the JSON schema field "name".
-	Name *string `json:"name,omitempty" yaml:"name,omitempty"`
+	Name *string `json:"name,omitempty" yaml:"name,omitempty" mapstructure:"name,omitempty"`
 
 	// Namespace corresponds to the JSON schema field "namespace".
-	Namespace *string `json:"namespace,omitempty" yaml:"namespace,omitempty"`
+	Namespace *string `json:"namespace,omitempty" yaml:"namespace,omitempty" mapstructure:"namespace,omitempty"`
 
 	// Version corresponds to the JSON schema field "version".
-	Version *string `json:"version,omitempty" yaml:"version,omitempty"`
+	Version *string `json:"version,omitempty" yaml:"version,omitempty" mapstructure:"version,omitempty"`
 }
 
 type SpecDistributionCustomPatchesPatch struct {
 	// Options corresponds to the JSON schema field "options".
-	Options *SpecDistributionCustomPatchesPatchOptions `json:"options,omitempty" yaml:"options,omitempty"`
+	Options *SpecDistributionCustomPatchesPatchOptions `json:"options,omitempty" yaml:"options,omitempty" mapstructure:"options,omitempty"`
 
 	// Patch corresponds to the JSON schema field "patch".
-	Patch *string `json:"patch,omitempty" yaml:"patch,omitempty"`
+	Patch *string `json:"patch,omitempty" yaml:"patch,omitempty" mapstructure:"patch,omitempty"`
 
 	// Path corresponds to the JSON schema field "path".
-	Path *string `json:"path,omitempty" yaml:"path,omitempty"`
+	Path *string `json:"path,omitempty" yaml:"path,omitempty" mapstructure:"path,omitempty"`
 
 	// Target corresponds to the JSON schema field "target".
-	Target *SpecDistributionCustomPatchesPatchTarget `json:"target,omitempty" yaml:"target,omitempty"`
+	Target *SpecDistributionCustomPatchesPatchTarget `json:"target,omitempty" yaml:"target,omitempty" mapstructure:"target,omitempty"`
 }
 
 type SpecDistributionCustomPatchesPatches []SpecDistributionCustomPatchesPatch
@@ -286,33 +280,33 @@ type SpecDistributionCustomPatchesSecretGenerator []interface{}
 
 type SpecDistributionCustomPatches struct {
 	// ConfigMapGenerator corresponds to the JSON schema field "configMapGenerator".
-	ConfigMapGenerator SpecDistributionCustomPatchesConfigMapGenerator `json:"configMapGenerator,omitempty" yaml:"configMapGenerator,omitempty"`
+	ConfigMapGenerator SpecDistributionCustomPatchesConfigMapGenerator `json:"configMapGenerator,omitempty" yaml:"configMapGenerator,omitempty" mapstructure:"configMapGenerator,omitempty"`
 
 	// Patches corresponds to the JSON schema field "patches".
-	Patches SpecDistributionCustomPatchesPatches `json:"patches,omitempty" yaml:"patches,omitempty"`
+	Patches SpecDistributionCustomPatchesPatches `json:"patches,omitempty" yaml:"patches,omitempty" mapstructure:"patches,omitempty"`
 
 	// PatchesStrategicMerge corresponds to the JSON schema field
 	// "patchesStrategicMerge".
-	PatchesStrategicMerge SpecDistributionCustomPatchesPatchesStrategicMerge `json:"patchesStrategicMerge,omitempty" yaml:"patchesStrategicMerge,omitempty"`
+	PatchesStrategicMerge SpecDistributionCustomPatchesPatchesStrategicMerge `json:"patchesStrategicMerge,omitempty" yaml:"patchesStrategicMerge,omitempty" mapstructure:"patchesStrategicMerge,omitempty"`
 
 	// SecretGenerator corresponds to the JSON schema field "secretGenerator".
-	SecretGenerator SpecDistributionCustomPatchesSecretGenerator `json:"secretGenerator,omitempty" yaml:"secretGenerator,omitempty"`
+	SecretGenerator SpecDistributionCustomPatchesSecretGenerator `json:"secretGenerator,omitempty" yaml:"secretGenerator,omitempty" mapstructure:"secretGenerator,omitempty"`
 }
 
 type TypesFuryModuleComponentOverrides struct {
 	// NodeSelector corresponds to the JSON schema field "nodeSelector".
-	NodeSelector TypesKubeNodeSelector `json:"nodeSelector,omitempty" yaml:"nodeSelector,omitempty"`
+	NodeSelector TypesKubeNodeSelector `json:"nodeSelector,omitempty" yaml:"nodeSelector,omitempty" mapstructure:"nodeSelector,omitempty"`
 
 	// Tolerations corresponds to the JSON schema field "tolerations".
-	Tolerations []TypesKubeToleration `json:"tolerations,omitempty" yaml:"tolerations,omitempty"`
+	Tolerations []TypesKubeToleration `json:"tolerations,omitempty" yaml:"tolerations,omitempty" mapstructure:"tolerations,omitempty"`
 }
 
 type SpecDistributionModulesAuthDex struct {
 	// Connectors corresponds to the JSON schema field "connectors".
-	Connectors []interface{} `json:"connectors" yaml:"connectors"`
+	Connectors []interface{} `json:"connectors" yaml:"connectors" mapstructure:"connectors"`
 
 	// Overrides corresponds to the JSON schema field "overrides".
-	Overrides *TypesFuryModuleComponentOverrides `json:"overrides,omitempty" yaml:"overrides,omitempty"`
+	Overrides *TypesFuryModuleComponentOverrides `json:"overrides,omitempty" yaml:"overrides,omitempty" mapstructure:"overrides,omitempty"`
 }
 
 // UnmarshalJSON implements json.Unmarshaler.
@@ -335,10 +329,10 @@ func (j *SpecDistributionModulesAuthDex) UnmarshalJSON(b []byte) error {
 
 type SpecDistributionModulesAuthOverridesIngress struct {
 	// Host corresponds to the JSON schema field "host".
-	Host string `json:"host" yaml:"host"`
+	Host string `json:"host" yaml:"host" mapstructure:"host"`
 
 	// IngressClass corresponds to the JSON schema field "ingressClass".
-	IngressClass string `json:"ingressClass" yaml:"ingressClass"`
+	IngressClass string `json:"ingressClass" yaml:"ingressClass" mapstructure:"ingressClass"`
 }
 
 // UnmarshalJSON implements json.Unmarshaler.
@@ -366,24 +360,24 @@ type SpecDistributionModulesAuthOverridesIngresses map[string]SpecDistributionMo
 
 type SpecDistributionModulesAuthOverrides struct {
 	// Ingresses corresponds to the JSON schema field "ingresses".
-	Ingresses SpecDistributionModulesAuthOverridesIngresses `json:"ingresses,omitempty" yaml:"ingresses,omitempty"`
+	Ingresses SpecDistributionModulesAuthOverridesIngresses `json:"ingresses,omitempty" yaml:"ingresses,omitempty" mapstructure:"ingresses,omitempty"`
 
 	// NodeSelector corresponds to the JSON schema field "nodeSelector".
-	NodeSelector TypesKubeNodeSelector `json:"nodeSelector,omitempty" yaml:"nodeSelector,omitempty"`
+	NodeSelector TypesKubeNodeSelector `json:"nodeSelector,omitempty" yaml:"nodeSelector,omitempty" mapstructure:"nodeSelector,omitempty"`
 
 	// Tolerations corresponds to the JSON schema field "tolerations".
-	Tolerations []TypesKubeToleration `json:"tolerations,omitempty" yaml:"tolerations,omitempty"`
+	Tolerations []TypesKubeToleration `json:"tolerations,omitempty" yaml:"tolerations,omitempty" mapstructure:"tolerations,omitempty"`
 }
 
 type SpecDistributionModulesAuthPomeriumSecrets struct {
 	// COOKIESECRET corresponds to the JSON schema field "COOKIE_SECRET".
-	COOKIESECRET string `json:"COOKIE_SECRET" yaml:"COOKIE_SECRET"`
+	COOKIESECRET string `json:"COOKIE_SECRET" yaml:"COOKIE_SECRET" mapstructure:"COOKIE_SECRET"`
 
 	// IDPCLIENTSECRET corresponds to the JSON schema field "IDP_CLIENT_SECRET".
-	IDPCLIENTSECRET string `json:"IDP_CLIENT_SECRET" yaml:"IDP_CLIENT_SECRET"`
+	IDPCLIENTSECRET string `json:"IDP_CLIENT_SECRET" yaml:"IDP_CLIENT_SECRET" mapstructure:"IDP_CLIENT_SECRET"`
 
 	// SHAREDSECRET corresponds to the JSON schema field "SHARED_SECRET".
-	SHAREDSECRET string `json:"SHARED_SECRET" yaml:"SHARED_SECRET"`
+	SHAREDSECRET string `json:"SHARED_SECRET" yaml:"SHARED_SECRET" mapstructure:"SHARED_SECRET"`
 }
 
 // UnmarshalJSON implements json.Unmarshaler.
@@ -412,13 +406,13 @@ func (j *SpecDistributionModulesAuthPomeriumSecrets) UnmarshalJSON(b []byte) err
 
 type SpecDistributionModulesAuthPomerium struct {
 	// Overrides corresponds to the JSON schema field "overrides".
-	Overrides *TypesFuryModuleComponentOverrides `json:"overrides,omitempty" yaml:"overrides,omitempty"`
+	Overrides *TypesFuryModuleComponentOverrides `json:"overrides,omitempty" yaml:"overrides,omitempty" mapstructure:"overrides,omitempty"`
 
 	// Policy corresponds to the JSON schema field "policy".
-	Policy string `json:"policy" yaml:"policy"`
+	Policy string `json:"policy" yaml:"policy" mapstructure:"policy"`
 
 	// Secrets corresponds to the JSON schema field "secrets".
-	Secrets SpecDistributionModulesAuthPomeriumSecrets `json:"secrets" yaml:"secrets"`
+	Secrets SpecDistributionModulesAuthPomeriumSecrets `json:"secrets" yaml:"secrets" mapstructure:"secrets"`
 }
 
 // UnmarshalJSON implements json.Unmarshaler.
@@ -444,10 +438,10 @@ func (j *SpecDistributionModulesAuthPomerium) UnmarshalJSON(b []byte) error {
 
 type SpecDistributionModulesAuthProviderBasicAuth struct {
 	// Password corresponds to the JSON schema field "password".
-	Password string `json:"password" yaml:"password"`
+	Password string `json:"password" yaml:"password" mapstructure:"password"`
 
 	// Username corresponds to the JSON schema field "username".
-	Username string `json:"username" yaml:"username"`
+	Username string `json:"username" yaml:"username" mapstructure:"username"`
 }
 
 // UnmarshalJSON implements json.Unmarshaler.
@@ -499,18 +493,16 @@ func (j *SpecDistributionModulesAuthProviderType) UnmarshalJSON(b []byte) error 
 	return nil
 }
 
-const (
-	SpecDistributionModulesAuthProviderTypeNone      SpecDistributionModulesAuthProviderType = "none"
-	SpecDistributionModulesAuthProviderTypeBasicAuth SpecDistributionModulesAuthProviderType = "basicAuth"
-	SpecDistributionModulesAuthProviderTypeSso       SpecDistributionModulesAuthProviderType = "sso"
-)
+const SpecDistributionModulesAuthProviderTypeNone SpecDistributionModulesAuthProviderType = "none"
+const SpecDistributionModulesAuthProviderTypeBasicAuth SpecDistributionModulesAuthProviderType = "basicAuth"
+const SpecDistributionModulesAuthProviderTypeSso SpecDistributionModulesAuthProviderType = "sso"
 
 type SpecDistributionModulesAuthProvider struct {
 	// BasicAuth corresponds to the JSON schema field "basicAuth".
-	BasicAuth *SpecDistributionModulesAuthProviderBasicAuth `json:"basicAuth,omitempty" yaml:"basicAuth,omitempty"`
+	BasicAuth *SpecDistributionModulesAuthProviderBasicAuth `json:"basicAuth,omitempty" yaml:"basicAuth,omitempty" mapstructure:"basicAuth,omitempty"`
 
 	// Type corresponds to the JSON schema field "type".
-	Type SpecDistributionModulesAuthProviderType `json:"type" yaml:"type"`
+	Type SpecDistributionModulesAuthProviderType `json:"type" yaml:"type" mapstructure:"type"`
 }
 
 // UnmarshalJSON implements json.Unmarshaler.
@@ -533,19 +525,19 @@ func (j *SpecDistributionModulesAuthProvider) UnmarshalJSON(b []byte) error {
 
 type SpecDistributionModulesAuth struct {
 	// BaseDomain corresponds to the JSON schema field "baseDomain".
-	BaseDomain *string `json:"baseDomain,omitempty" yaml:"baseDomain,omitempty"`
+	BaseDomain *string `json:"baseDomain,omitempty" yaml:"baseDomain,omitempty" mapstructure:"baseDomain,omitempty"`
 
 	// Dex corresponds to the JSON schema field "dex".
-	Dex *SpecDistributionModulesAuthDex `json:"dex,omitempty" yaml:"dex,omitempty"`
+	Dex *SpecDistributionModulesAuthDex `json:"dex,omitempty" yaml:"dex,omitempty" mapstructure:"dex,omitempty"`
 
 	// Overrides corresponds to the JSON schema field "overrides".
-	Overrides *SpecDistributionModulesAuthOverrides `json:"overrides,omitempty" yaml:"overrides,omitempty"`
+	Overrides *SpecDistributionModulesAuthOverrides `json:"overrides,omitempty" yaml:"overrides,omitempty" mapstructure:"overrides,omitempty"`
 
 	// Pomerium corresponds to the JSON schema field "pomerium".
-	Pomerium *SpecDistributionModulesAuthPomerium `json:"pomerium,omitempty" yaml:"pomerium,omitempty"`
+	Pomerium *SpecDistributionModulesAuthPomerium `json:"pomerium,omitempty" yaml:"pomerium,omitempty" mapstructure:"pomerium,omitempty"`
 
 	// Provider corresponds to the JSON schema field "provider".
-	Provider SpecDistributionModulesAuthProvider `json:"provider" yaml:"provider"`
+	Provider SpecDistributionModulesAuthProvider `json:"provider" yaml:"provider" mapstructure:"provider"`
 }
 
 // UnmarshalJSON implements json.Unmarshaler.
@@ -568,65 +560,65 @@ func (j *SpecDistributionModulesAuth) UnmarshalJSON(b []byte) error {
 
 type SpecDistributionModulesAwsClusterAutoscaler struct {
 	// Overrides corresponds to the JSON schema field "overrides".
-	Overrides *TypesFuryModuleComponentOverrides `json:"overrides,omitempty" yaml:"overrides,omitempty"`
+	Overrides *TypesFuryModuleComponentOverrides `json:"overrides,omitempty" yaml:"overrides,omitempty" mapstructure:"overrides,omitempty"`
 }
 
 type SpecDistributionModulesAwsEbsCsiDriver struct {
 	// Overrides corresponds to the JSON schema field "overrides".
-	Overrides *TypesFuryModuleComponentOverrides `json:"overrides,omitempty" yaml:"overrides,omitempty"`
+	Overrides *TypesFuryModuleComponentOverrides `json:"overrides,omitempty" yaml:"overrides,omitempty" mapstructure:"overrides,omitempty"`
 }
 
 type SpecDistributionModulesAwsEbsSnapshotController struct {
 	// Overrides corresponds to the JSON schema field "overrides".
-	Overrides *TypesFuryModuleComponentOverrides `json:"overrides,omitempty" yaml:"overrides,omitempty"`
+	Overrides *TypesFuryModuleComponentOverrides `json:"overrides,omitempty" yaml:"overrides,omitempty" mapstructure:"overrides,omitempty"`
 }
 
 type SpecDistributionModulesAwsLoadBalancerController struct {
 	// Overrides corresponds to the JSON schema field "overrides".
-	Overrides *TypesFuryModuleComponentOverrides `json:"overrides,omitempty" yaml:"overrides,omitempty"`
+	Overrides *TypesFuryModuleComponentOverrides `json:"overrides,omitempty" yaml:"overrides,omitempty" mapstructure:"overrides,omitempty"`
 }
 
 type TypesFuryModuleOverridesIngress struct {
 	// DisableAuth corresponds to the JSON schema field "disableAuth".
-	DisableAuth *bool `json:"disableAuth,omitempty" yaml:"disableAuth,omitempty"`
+	DisableAuth *bool `json:"disableAuth,omitempty" yaml:"disableAuth,omitempty" mapstructure:"disableAuth,omitempty"`
 
 	// Host corresponds to the JSON schema field "host".
-	Host *string `json:"host,omitempty" yaml:"host,omitempty"`
+	Host *string `json:"host,omitempty" yaml:"host,omitempty" mapstructure:"host,omitempty"`
 
 	// IngressClass corresponds to the JSON schema field "ingressClass".
-	IngressClass *string `json:"ingressClass,omitempty" yaml:"ingressClass,omitempty"`
+	IngressClass *string `json:"ingressClass,omitempty" yaml:"ingressClass,omitempty" mapstructure:"ingressClass,omitempty"`
 }
 
 type TypesFuryModuleOverridesIngresses map[string]TypesFuryModuleOverridesIngress
 
 type TypesFuryModuleOverrides struct {
 	// Ingresses corresponds to the JSON schema field "ingresses".
-	Ingresses TypesFuryModuleOverridesIngresses `json:"ingresses,omitempty" yaml:"ingresses,omitempty"`
+	Ingresses TypesFuryModuleOverridesIngresses `json:"ingresses,omitempty" yaml:"ingresses,omitempty" mapstructure:"ingresses,omitempty"`
 
 	// NodeSelector corresponds to the JSON schema field "nodeSelector".
-	NodeSelector TypesKubeNodeSelector `json:"nodeSelector,omitempty" yaml:"nodeSelector,omitempty"`
+	NodeSelector TypesKubeNodeSelector `json:"nodeSelector,omitempty" yaml:"nodeSelector,omitempty" mapstructure:"nodeSelector,omitempty"`
 
 	// Tolerations corresponds to the JSON schema field "tolerations".
-	Tolerations []TypesKubeToleration `json:"tolerations,omitempty" yaml:"tolerations,omitempty"`
+	Tolerations []TypesKubeToleration `json:"tolerations,omitempty" yaml:"tolerations,omitempty" mapstructure:"tolerations,omitempty"`
 }
 
 type SpecDistributionModulesAws struct {
 	// ClusterAutoscaler corresponds to the JSON schema field "clusterAutoscaler".
-	ClusterAutoscaler *SpecDistributionModulesAwsClusterAutoscaler `json:"clusterAutoscaler,omitempty" yaml:"clusterAutoscaler,omitempty"`
+	ClusterAutoscaler *SpecDistributionModulesAwsClusterAutoscaler `json:"clusterAutoscaler,omitempty" yaml:"clusterAutoscaler,omitempty" mapstructure:"clusterAutoscaler,omitempty"`
 
 	// EbsCsiDriver corresponds to the JSON schema field "ebsCsiDriver".
-	EbsCsiDriver *SpecDistributionModulesAwsEbsCsiDriver `json:"ebsCsiDriver,omitempty" yaml:"ebsCsiDriver,omitempty"`
+	EbsCsiDriver *SpecDistributionModulesAwsEbsCsiDriver `json:"ebsCsiDriver,omitempty" yaml:"ebsCsiDriver,omitempty" mapstructure:"ebsCsiDriver,omitempty"`
 
 	// EbsSnapshotController corresponds to the JSON schema field
 	// "ebsSnapshotController".
-	EbsSnapshotController *SpecDistributionModulesAwsEbsSnapshotController `json:"ebsSnapshotController,omitempty" yaml:"ebsSnapshotController,omitempty"`
+	EbsSnapshotController *SpecDistributionModulesAwsEbsSnapshotController `json:"ebsSnapshotController,omitempty" yaml:"ebsSnapshotController,omitempty" mapstructure:"ebsSnapshotController,omitempty"`
 
 	// LoadBalancerController corresponds to the JSON schema field
 	// "loadBalancerController".
-	LoadBalancerController *SpecDistributionModulesAwsLoadBalancerController `json:"loadBalancerController,omitempty" yaml:"loadBalancerController,omitempty"`
+	LoadBalancerController *SpecDistributionModulesAwsLoadBalancerController `json:"loadBalancerController,omitempty" yaml:"loadBalancerController,omitempty" mapstructure:"loadBalancerController,omitempty"`
 
 	// Overrides corresponds to the JSON schema field "overrides".
-	Overrides *TypesFuryModuleOverrides `json:"overrides,omitempty" yaml:"overrides,omitempty"`
+	Overrides *TypesFuryModuleOverrides `json:"overrides,omitempty" yaml:"overrides,omitempty" mapstructure:"overrides,omitempty"`
 }
 
 type TypesAwsS3BucketName string
@@ -685,44 +677,42 @@ func (j *TypesAwsRegion) UnmarshalJSON(b []byte) error {
 	return nil
 }
 
-const (
-	TypesAwsRegionAfSouth1     TypesAwsRegion = "af-south-1"
-	TypesAwsRegionApEast1      TypesAwsRegion = "ap-east-1"
-	TypesAwsRegionApNortheast1 TypesAwsRegion = "ap-northeast-1"
-	TypesAwsRegionApNortheast2 TypesAwsRegion = "ap-northeast-2"
-	TypesAwsRegionApNortheast3 TypesAwsRegion = "ap-northeast-3"
-	TypesAwsRegionApSouth1     TypesAwsRegion = "ap-south-1"
-	TypesAwsRegionApSouth2     TypesAwsRegion = "ap-south-2"
-	TypesAwsRegionApSoutheast1 TypesAwsRegion = "ap-southeast-1"
-	TypesAwsRegionApSoutheast2 TypesAwsRegion = "ap-southeast-2"
-	TypesAwsRegionApSoutheast3 TypesAwsRegion = "ap-southeast-3"
-	TypesAwsRegionApSoutheast4 TypesAwsRegion = "ap-southeast-4"
-	TypesAwsRegionCaCentral1   TypesAwsRegion = "ca-central-1"
-	TypesAwsRegionEuCentral1   TypesAwsRegion = "eu-central-1"
-	TypesAwsRegionEuCentral2   TypesAwsRegion = "eu-central-2"
-	TypesAwsRegionEuNorth1     TypesAwsRegion = "eu-north-1"
-	TypesAwsRegionEuSouth1     TypesAwsRegion = "eu-south-1"
-	TypesAwsRegionEuSouth2     TypesAwsRegion = "eu-south-2"
-	TypesAwsRegionEuWest1      TypesAwsRegion = "eu-west-1"
-	TypesAwsRegionEuWest2      TypesAwsRegion = "eu-west-2"
-	TypesAwsRegionEuWest3      TypesAwsRegion = "eu-west-3"
-	TypesAwsRegionMeCentral1   TypesAwsRegion = "me-central-1"
-	TypesAwsRegionMeSouth1     TypesAwsRegion = "me-south-1"
-	TypesAwsRegionSaEast1      TypesAwsRegion = "sa-east-1"
-	TypesAwsRegionUsEast1      TypesAwsRegion = "us-east-1"
-	TypesAwsRegionUsEast2      TypesAwsRegion = "us-east-2"
-	TypesAwsRegionUsGovEast1   TypesAwsRegion = "us-gov-east-1"
-	TypesAwsRegionUsGovWest1   TypesAwsRegion = "us-gov-west-1"
-	TypesAwsRegionUsWest1      TypesAwsRegion = "us-west-1"
-	TypesAwsRegionUsWest2      TypesAwsRegion = "us-west-2"
-)
+const TypesAwsRegionAfSouth1 TypesAwsRegion = "af-south-1"
+const TypesAwsRegionApEast1 TypesAwsRegion = "ap-east-1"
+const TypesAwsRegionApNortheast1 TypesAwsRegion = "ap-northeast-1"
+const TypesAwsRegionApNortheast2 TypesAwsRegion = "ap-northeast-2"
+const TypesAwsRegionApNortheast3 TypesAwsRegion = "ap-northeast-3"
+const TypesAwsRegionApSouth1 TypesAwsRegion = "ap-south-1"
+const TypesAwsRegionApSouth2 TypesAwsRegion = "ap-south-2"
+const TypesAwsRegionApSoutheast1 TypesAwsRegion = "ap-southeast-1"
+const TypesAwsRegionApSoutheast2 TypesAwsRegion = "ap-southeast-2"
+const TypesAwsRegionApSoutheast3 TypesAwsRegion = "ap-southeast-3"
+const TypesAwsRegionApSoutheast4 TypesAwsRegion = "ap-southeast-4"
+const TypesAwsRegionCaCentral1 TypesAwsRegion = "ca-central-1"
+const TypesAwsRegionEuCentral1 TypesAwsRegion = "eu-central-1"
+const TypesAwsRegionEuCentral2 TypesAwsRegion = "eu-central-2"
+const TypesAwsRegionEuNorth1 TypesAwsRegion = "eu-north-1"
+const TypesAwsRegionEuSouth1 TypesAwsRegion = "eu-south-1"
+const TypesAwsRegionEuSouth2 TypesAwsRegion = "eu-south-2"
+const TypesAwsRegionEuWest1 TypesAwsRegion = "eu-west-1"
+const TypesAwsRegionEuWest2 TypesAwsRegion = "eu-west-2"
+const TypesAwsRegionEuWest3 TypesAwsRegion = "eu-west-3"
+const TypesAwsRegionMeCentral1 TypesAwsRegion = "me-central-1"
+const TypesAwsRegionMeSouth1 TypesAwsRegion = "me-south-1"
+const TypesAwsRegionSaEast1 TypesAwsRegion = "sa-east-1"
+const TypesAwsRegionUsEast1 TypesAwsRegion = "us-east-1"
+const TypesAwsRegionUsEast2 TypesAwsRegion = "us-east-2"
+const TypesAwsRegionUsGovEast1 TypesAwsRegion = "us-gov-east-1"
+const TypesAwsRegionUsGovWest1 TypesAwsRegion = "us-gov-west-1"
+const TypesAwsRegionUsWest1 TypesAwsRegion = "us-west-1"
+const TypesAwsRegionUsWest2 TypesAwsRegion = "us-west-2"
 
 type SpecDistributionModulesDrVeleroEks struct {
 	// BucketName corresponds to the JSON schema field "bucketName".
-	BucketName TypesAwsS3BucketName `json:"bucketName" yaml:"bucketName"`
+	BucketName TypesAwsS3BucketName `json:"bucketName" yaml:"bucketName" mapstructure:"bucketName"`
 
 	// Region corresponds to the JSON schema field "region".
-	Region TypesAwsRegion `json:"region" yaml:"region"`
+	Region TypesAwsRegion `json:"region" yaml:"region" mapstructure:"region"`
 }
 
 // UnmarshalJSON implements json.Unmarshaler.
@@ -748,10 +738,10 @@ func (j *SpecDistributionModulesDrVeleroEks) UnmarshalJSON(b []byte) error {
 
 type SpecDistributionModulesDrVelero struct {
 	// Eks corresponds to the JSON schema field "eks".
-	Eks SpecDistributionModulesDrVeleroEks `json:"eks" yaml:"eks"`
+	Eks SpecDistributionModulesDrVeleroEks `json:"eks" yaml:"eks" mapstructure:"eks"`
 
 	// Overrides corresponds to the JSON schema field "overrides".
-	Overrides *TypesFuryModuleComponentOverrides `json:"overrides,omitempty" yaml:"overrides,omitempty"`
+	Overrides *TypesFuryModuleComponentOverrides `json:"overrides,omitempty" yaml:"overrides,omitempty" mapstructure:"overrides,omitempty"`
 }
 
 // UnmarshalJSON implements json.Unmarshaler.
@@ -774,10 +764,10 @@ func (j *SpecDistributionModulesDrVelero) UnmarshalJSON(b []byte) error {
 
 type SpecDistributionModulesDr struct {
 	// Overrides corresponds to the JSON schema field "overrides".
-	Overrides *TypesFuryModuleOverrides `json:"overrides,omitempty" yaml:"overrides,omitempty"`
+	Overrides *TypesFuryModuleOverrides `json:"overrides,omitempty" yaml:"overrides,omitempty" mapstructure:"overrides,omitempty"`
 
 	// Velero corresponds to the JSON schema field "velero".
-	Velero SpecDistributionModulesDrVelero `json:"velero" yaml:"velero"`
+	Velero SpecDistributionModulesDrVelero `json:"velero" yaml:"velero" mapstructure:"velero"`
 }
 
 // UnmarshalJSON implements json.Unmarshaler.
@@ -825,20 +815,18 @@ func (j *SpecDistributionModulesIngressCertManagerClusterIssuerType) UnmarshalJS
 	return nil
 }
 
-const (
-	SpecDistributionModulesIngressCertManagerClusterIssuerTypeDns01  SpecDistributionModulesIngressCertManagerClusterIssuerType = "dns01"
-	SpecDistributionModulesIngressCertManagerClusterIssuerTypeHttp01 SpecDistributionModulesIngressCertManagerClusterIssuerType = "http01"
-)
+const SpecDistributionModulesIngressCertManagerClusterIssuerTypeDns01 SpecDistributionModulesIngressCertManagerClusterIssuerType = "dns01"
+const SpecDistributionModulesIngressCertManagerClusterIssuerTypeHttp01 SpecDistributionModulesIngressCertManagerClusterIssuerType = "http01"
 
 type SpecDistributionModulesIngressCertManagerClusterIssuer struct {
 	// Email corresponds to the JSON schema field "email".
-	Email string `json:"email" yaml:"email"`
+	Email string `json:"email" yaml:"email" mapstructure:"email"`
 
 	// Name corresponds to the JSON schema field "name".
-	Name string `json:"name" yaml:"name"`
+	Name string `json:"name" yaml:"name" mapstructure:"name"`
 
 	// Type corresponds to the JSON schema field "type".
-	Type SpecDistributionModulesIngressCertManagerClusterIssuerType `json:"type" yaml:"type"`
+	Type SpecDistributionModulesIngressCertManagerClusterIssuerType `json:"type" yaml:"type" mapstructure:"type"`
 }
 
 // UnmarshalJSON implements json.Unmarshaler.
@@ -867,10 +855,10 @@ func (j *SpecDistributionModulesIngressCertManagerClusterIssuer) UnmarshalJSON(b
 
 type SpecDistributionModulesIngressCertManager struct {
 	// ClusterIssuer corresponds to the JSON schema field "clusterIssuer".
-	ClusterIssuer SpecDistributionModulesIngressCertManagerClusterIssuer `json:"clusterIssuer" yaml:"clusterIssuer"`
+	ClusterIssuer SpecDistributionModulesIngressCertManagerClusterIssuer `json:"clusterIssuer" yaml:"clusterIssuer" mapstructure:"clusterIssuer"`
 
 	// Overrides corresponds to the JSON schema field "overrides".
-	Overrides *TypesFuryModuleComponentOverrides `json:"overrides,omitempty" yaml:"overrides,omitempty"`
+	Overrides *TypesFuryModuleComponentOverrides `json:"overrides,omitempty" yaml:"overrides,omitempty" mapstructure:"overrides,omitempty"`
 }
 
 // UnmarshalJSON implements json.Unmarshaler.
@@ -893,10 +881,10 @@ func (j *SpecDistributionModulesIngressCertManager) UnmarshalJSON(b []byte) erro
 
 type SpecDistributionModulesIngressDNSPrivate struct {
 	// Create corresponds to the JSON schema field "create".
-	Create bool `json:"create" yaml:"create"`
+	Create bool `json:"create" yaml:"create" mapstructure:"create"`
 
 	// Name corresponds to the JSON schema field "name".
-	Name string `json:"name" yaml:"name"`
+	Name string `json:"name" yaml:"name" mapstructure:"name"`
 }
 
 // UnmarshalJSON implements json.Unmarshaler.
@@ -922,10 +910,10 @@ func (j *SpecDistributionModulesIngressDNSPrivate) UnmarshalJSON(b []byte) error
 
 type SpecDistributionModulesIngressDNSPublic struct {
 	// Create corresponds to the JSON schema field "create".
-	Create bool `json:"create" yaml:"create"`
+	Create bool `json:"create" yaml:"create" mapstructure:"create"`
 
 	// Name corresponds to the JSON schema field "name".
-	Name string `json:"name" yaml:"name"`
+	Name string `json:"name" yaml:"name" mapstructure:"name"`
 }
 
 // UnmarshalJSON implements json.Unmarshaler.
@@ -951,13 +939,13 @@ func (j *SpecDistributionModulesIngressDNSPublic) UnmarshalJSON(b []byte) error 
 
 type SpecDistributionModulesIngressDNS struct {
 	// Overrides corresponds to the JSON schema field "overrides".
-	Overrides *TypesFuryModuleComponentOverrides `json:"overrides,omitempty" yaml:"overrides,omitempty"`
+	Overrides *TypesFuryModuleComponentOverrides `json:"overrides,omitempty" yaml:"overrides,omitempty" mapstructure:"overrides,omitempty"`
 
 	// Private corresponds to the JSON schema field "private".
-	Private SpecDistributionModulesIngressDNSPrivate `json:"private" yaml:"private"`
+	Private SpecDistributionModulesIngressDNSPrivate `json:"private" yaml:"private" mapstructure:"private"`
 
 	// Public corresponds to the JSON schema field "public".
-	Public SpecDistributionModulesIngressDNSPublic `json:"public" yaml:"public"`
+	Public SpecDistributionModulesIngressDNSPublic `json:"public" yaml:"public" mapstructure:"public"`
 }
 
 // UnmarshalJSON implements json.Unmarshaler.
@@ -983,7 +971,7 @@ func (j *SpecDistributionModulesIngressDNS) UnmarshalJSON(b []byte) error {
 
 type SpecDistributionModulesIngressForecastle struct {
 	// Overrides corresponds to the JSON schema field "overrides".
-	Overrides *TypesFuryModuleComponentOverrides `json:"overrides,omitempty" yaml:"overrides,omitempty"`
+	Overrides *TypesFuryModuleComponentOverrides `json:"overrides,omitempty" yaml:"overrides,omitempty" mapstructure:"overrides,omitempty"`
 }
 
 type SpecDistributionModulesIngressNginxTLSProvider string
@@ -1014,21 +1002,19 @@ func (j *SpecDistributionModulesIngressNginxTLSProvider) UnmarshalJSON(b []byte)
 	return nil
 }
 
-const (
-	SpecDistributionModulesIngressNginxTLSProviderCertManager SpecDistributionModulesIngressNginxTLSProvider = "certManager"
-	SpecDistributionModulesIngressNginxTLSProviderSecret      SpecDistributionModulesIngressNginxTLSProvider = "secret"
-	SpecDistributionModulesIngressNginxTLSProviderNone        SpecDistributionModulesIngressNginxTLSProvider = "none"
-)
+const SpecDistributionModulesIngressNginxTLSProviderCertManager SpecDistributionModulesIngressNginxTLSProvider = "certManager"
+const SpecDistributionModulesIngressNginxTLSProviderSecret SpecDistributionModulesIngressNginxTLSProvider = "secret"
+const SpecDistributionModulesIngressNginxTLSProviderNone SpecDistributionModulesIngressNginxTLSProvider = "none"
 
 type SpecDistributionModulesIngressNginxTLSSecret struct {
 	// Ca corresponds to the JSON schema field "ca".
-	Ca string `json:"ca" yaml:"ca"`
+	Ca string `json:"ca" yaml:"ca" mapstructure:"ca"`
 
 	// Cert corresponds to the JSON schema field "cert".
-	Cert string `json:"cert" yaml:"cert"`
+	Cert string `json:"cert" yaml:"cert" mapstructure:"cert"`
 
 	// Key corresponds to the JSON schema field "key".
-	Key string `json:"key" yaml:"key"`
+	Key string `json:"key" yaml:"key" mapstructure:"key"`
 }
 
 // UnmarshalJSON implements json.Unmarshaler.
@@ -1057,10 +1043,10 @@ func (j *SpecDistributionModulesIngressNginxTLSSecret) UnmarshalJSON(b []byte) e
 
 type SpecDistributionModulesIngressNginxTLS struct {
 	// Provider corresponds to the JSON schema field "provider".
-	Provider SpecDistributionModulesIngressNginxTLSProvider `json:"provider" yaml:"provider"`
+	Provider SpecDistributionModulesIngressNginxTLSProvider `json:"provider" yaml:"provider" mapstructure:"provider"`
 
 	// Secret corresponds to the JSON schema field "secret".
-	Secret *SpecDistributionModulesIngressNginxTLSSecret `json:"secret,omitempty" yaml:"secret,omitempty"`
+	Secret *SpecDistributionModulesIngressNginxTLSSecret `json:"secret,omitempty" yaml:"secret,omitempty" mapstructure:"secret,omitempty"`
 }
 
 // UnmarshalJSON implements json.Unmarshaler.
@@ -1108,20 +1094,18 @@ func (j *SpecDistributionModulesIngressNginxType) UnmarshalJSON(b []byte) error 
 	return nil
 }
 
-const (
-	SpecDistributionModulesIngressNginxTypeSingle SpecDistributionModulesIngressNginxType = "single"
-	SpecDistributionModulesIngressNginxTypeDual   SpecDistributionModulesIngressNginxType = "dual"
-)
+const SpecDistributionModulesIngressNginxTypeSingle SpecDistributionModulesIngressNginxType = "single"
+const SpecDistributionModulesIngressNginxTypeDual SpecDistributionModulesIngressNginxType = "dual"
 
 type SpecDistributionModulesIngressNginx struct {
 	// Overrides corresponds to the JSON schema field "overrides".
-	Overrides *TypesFuryModuleComponentOverrides `json:"overrides,omitempty" yaml:"overrides,omitempty"`
+	Overrides *TypesFuryModuleComponentOverrides `json:"overrides,omitempty" yaml:"overrides,omitempty" mapstructure:"overrides,omitempty"`
 
 	// Tls corresponds to the JSON schema field "tls".
-	Tls *SpecDistributionModulesIngressNginxTLS `json:"tls,omitempty" yaml:"tls,omitempty"`
+	Tls *SpecDistributionModulesIngressNginxTLS `json:"tls,omitempty" yaml:"tls,omitempty" mapstructure:"tls,omitempty"`
 
 	// Type corresponds to the JSON schema field "type".
-	Type SpecDistributionModulesIngressNginxType `json:"type" yaml:"type"`
+	Type SpecDistributionModulesIngressNginxType `json:"type" yaml:"type" mapstructure:"type"`
 }
 
 type TypesAwsArn string
@@ -1164,22 +1148,22 @@ func (j *SpecToolsConfigurationTerraform) UnmarshalJSON(b []byte) error {
 
 type SpecDistributionModulesIngress struct {
 	// BaseDomain corresponds to the JSON schema field "baseDomain".
-	BaseDomain string `json:"baseDomain" yaml:"baseDomain"`
+	BaseDomain string `json:"baseDomain" yaml:"baseDomain" mapstructure:"baseDomain"`
 
 	// CertManager corresponds to the JSON schema field "certManager".
-	CertManager *SpecDistributionModulesIngressCertManager `json:"certManager,omitempty" yaml:"certManager,omitempty"`
+	CertManager *SpecDistributionModulesIngressCertManager `json:"certManager,omitempty" yaml:"certManager,omitempty" mapstructure:"certManager,omitempty"`
 
 	// Dns corresponds to the JSON schema field "dns".
-	Dns SpecDistributionModulesIngressDNS `json:"dns" yaml:"dns"`
+	Dns SpecDistributionModulesIngressDNS `json:"dns" yaml:"dns" mapstructure:"dns"`
 
 	// Forecastle corresponds to the JSON schema field "forecastle".
-	Forecastle *SpecDistributionModulesIngressForecastle `json:"forecastle,omitempty" yaml:"forecastle,omitempty"`
+	Forecastle *SpecDistributionModulesIngressForecastle `json:"forecastle,omitempty" yaml:"forecastle,omitempty" mapstructure:"forecastle,omitempty"`
 
 	// Nginx corresponds to the JSON schema field "nginx".
-	Nginx SpecDistributionModulesIngressNginx `json:"nginx" yaml:"nginx"`
+	Nginx SpecDistributionModulesIngressNginx `json:"nginx" yaml:"nginx" mapstructure:"nginx"`
 
 	// Overrides corresponds to the JSON schema field "overrides".
-	Overrides *SpecDistributionModulesIngressOverrides `json:"overrides,omitempty" yaml:"overrides,omitempty"`
+	Overrides *SpecDistributionModulesIngressOverrides `json:"overrides,omitempty" yaml:"overrides,omitempty" mapstructure:"overrides,omitempty"`
 }
 
 // UnmarshalJSON implements json.Unmarshaler.
@@ -1208,44 +1192,44 @@ func (j *SpecDistributionModulesIngress) UnmarshalJSON(b []byte) error {
 
 type SpecDistributionModulesLoggingCerebro struct {
 	// Overrides corresponds to the JSON schema field "overrides".
-	Overrides *TypesFuryModuleComponentOverrides `json:"overrides,omitempty" yaml:"overrides,omitempty"`
+	Overrides *TypesFuryModuleComponentOverrides `json:"overrides,omitempty" yaml:"overrides,omitempty" mapstructure:"overrides,omitempty"`
 }
 
 type TypesKubeResourcesLimits struct {
 	// Cpu corresponds to the JSON schema field "cpu".
-	Cpu *string `json:"cpu,omitempty" yaml:"cpu,omitempty"`
+	Cpu *string `json:"cpu,omitempty" yaml:"cpu,omitempty" mapstructure:"cpu,omitempty"`
 
 	// Memory corresponds to the JSON schema field "memory".
-	Memory *string `json:"memory,omitempty" yaml:"memory,omitempty"`
+	Memory *string `json:"memory,omitempty" yaml:"memory,omitempty" mapstructure:"memory,omitempty"`
 }
 
 type TypesKubeResourcesRequests struct {
 	// Cpu corresponds to the JSON schema field "cpu".
-	Cpu *string `json:"cpu,omitempty" yaml:"cpu,omitempty"`
+	Cpu *string `json:"cpu,omitempty" yaml:"cpu,omitempty" mapstructure:"cpu,omitempty"`
 
 	// Memory corresponds to the JSON schema field "memory".
-	Memory *string `json:"memory,omitempty" yaml:"memory,omitempty"`
+	Memory *string `json:"memory,omitempty" yaml:"memory,omitempty" mapstructure:"memory,omitempty"`
 }
 
 type TypesKubeResources struct {
 	// Limits corresponds to the JSON schema field "limits".
-	Limits *TypesKubeResourcesLimits `json:"limits,omitempty" yaml:"limits,omitempty"`
+	Limits *TypesKubeResourcesLimits `json:"limits,omitempty" yaml:"limits,omitempty" mapstructure:"limits,omitempty"`
 
 	// Requests corresponds to the JSON schema field "requests".
-	Requests *TypesKubeResourcesRequests `json:"requests,omitempty" yaml:"requests,omitempty"`
+	Requests *TypesKubeResourcesRequests `json:"requests,omitempty" yaml:"requests,omitempty" mapstructure:"requests,omitempty"`
 }
 
 type SpecDistributionModulesLoggingLoki struct {
 	// Resources corresponds to the JSON schema field "resources".
-	Resources *TypesKubeResources `json:"resources,omitempty" yaml:"resources,omitempty"`
+	Resources *TypesKubeResources `json:"resources,omitempty" yaml:"resources,omitempty" mapstructure:"resources,omitempty"`
 }
 
 type SpecDistributionModulesLoggingMinio struct {
 	// Overrides corresponds to the JSON schema field "overrides".
-	Overrides *TypesFuryModuleComponentOverrides `json:"overrides,omitempty" yaml:"overrides,omitempty"`
+	Overrides *TypesFuryModuleComponentOverrides `json:"overrides,omitempty" yaml:"overrides,omitempty" mapstructure:"overrides,omitempty"`
 
 	// StorageSize corresponds to the JSON schema field "storageSize".
-	StorageSize *string `json:"storageSize,omitempty" yaml:"storageSize,omitempty"`
+	StorageSize *string `json:"storageSize,omitempty" yaml:"storageSize,omitempty" mapstructure:"storageSize,omitempty"`
 }
 
 type SpecDistributionModulesLoggingOpensearchType string
@@ -1275,23 +1259,21 @@ func (j *SpecDistributionModulesLoggingOpensearchType) UnmarshalJSON(b []byte) e
 	return nil
 }
 
-const (
-	SpecDistributionModulesLoggingOpensearchTypeSingle SpecDistributionModulesLoggingOpensearchType = "single"
-	SpecDistributionModulesLoggingOpensearchTypeTriple SpecDistributionModulesLoggingOpensearchType = "triple"
-)
+const SpecDistributionModulesLoggingOpensearchTypeSingle SpecDistributionModulesLoggingOpensearchType = "single"
+const SpecDistributionModulesLoggingOpensearchTypeTriple SpecDistributionModulesLoggingOpensearchType = "triple"
 
 type SpecDistributionModulesLoggingOpensearch struct {
 	// Overrides corresponds to the JSON schema field "overrides".
-	Overrides *TypesFuryModuleComponentOverrides `json:"overrides,omitempty" yaml:"overrides,omitempty"`
+	Overrides *TypesFuryModuleComponentOverrides `json:"overrides,omitempty" yaml:"overrides,omitempty" mapstructure:"overrides,omitempty"`
 
 	// Resources corresponds to the JSON schema field "resources".
-	Resources *TypesKubeResources `json:"resources,omitempty" yaml:"resources,omitempty"`
+	Resources *TypesKubeResources `json:"resources,omitempty" yaml:"resources,omitempty" mapstructure:"resources,omitempty"`
 
 	// StorageSize corresponds to the JSON schema field "storageSize".
-	StorageSize *string `json:"storageSize,omitempty" yaml:"storageSize,omitempty"`
+	StorageSize *string `json:"storageSize,omitempty" yaml:"storageSize,omitempty" mapstructure:"storageSize,omitempty"`
 
 	// Type corresponds to the JSON schema field "type".
-	Type SpecDistributionModulesLoggingOpensearchType `json:"type" yaml:"type"`
+	Type SpecDistributionModulesLoggingOpensearchType `json:"type" yaml:"type" mapstructure:"type"`
 }
 
 // UnmarshalJSON implements json.Unmarshaler.
@@ -1314,7 +1296,7 @@ func (j *SpecDistributionModulesLoggingOpensearch) UnmarshalJSON(b []byte) error
 
 type SpecDistributionModulesLoggingOperator struct {
 	// Overrides corresponds to the JSON schema field "overrides".
-	Overrides *TypesFuryModuleComponentOverrides `json:"overrides,omitempty" yaml:"overrides,omitempty"`
+	Overrides *TypesFuryModuleComponentOverrides `json:"overrides,omitempty" yaml:"overrides,omitempty" mapstructure:"overrides,omitempty"`
 }
 
 type SpecDistributionModulesLoggingType string
@@ -1344,154 +1326,152 @@ func (j *SpecDistributionModulesLoggingType) UnmarshalJSON(b []byte) error {
 	return nil
 }
 
-const (
-	SpecDistributionModulesLoggingTypeOpensearch SpecDistributionModulesLoggingType = "opensearch"
-	SpecDistributionModulesLoggingTypeLoki       SpecDistributionModulesLoggingType = "loki"
-)
+const SpecDistributionModulesLoggingTypeOpensearch SpecDistributionModulesLoggingType = "opensearch"
+const SpecDistributionModulesLoggingTypeLoki SpecDistributionModulesLoggingType = "loki"
 
 type SpecDistributionModulesLogging struct {
 	// Cerebro corresponds to the JSON schema field "cerebro".
-	Cerebro *SpecDistributionModulesLoggingCerebro `json:"cerebro,omitempty" yaml:"cerebro,omitempty"`
+	Cerebro *SpecDistributionModulesLoggingCerebro `json:"cerebro,omitempty" yaml:"cerebro,omitempty" mapstructure:"cerebro,omitempty"`
 
 	// Loki corresponds to the JSON schema field "loki".
-	Loki *SpecDistributionModulesLoggingLoki `json:"loki,omitempty" yaml:"loki,omitempty"`
+	Loki *SpecDistributionModulesLoggingLoki `json:"loki,omitempty" yaml:"loki,omitempty" mapstructure:"loki,omitempty"`
 
 	// Minio corresponds to the JSON schema field "minio".
-	Minio *SpecDistributionModulesLoggingMinio `json:"minio,omitempty" yaml:"minio,omitempty"`
+	Minio *SpecDistributionModulesLoggingMinio `json:"minio,omitempty" yaml:"minio,omitempty" mapstructure:"minio,omitempty"`
 
 	// Opensearch corresponds to the JSON schema field "opensearch".
-	Opensearch *SpecDistributionModulesLoggingOpensearch `json:"opensearch,omitempty" yaml:"opensearch,omitempty"`
+	Opensearch *SpecDistributionModulesLoggingOpensearch `json:"opensearch,omitempty" yaml:"opensearch,omitempty" mapstructure:"opensearch,omitempty"`
 
 	// Operator corresponds to the JSON schema field "operator".
-	Operator *SpecDistributionModulesLoggingOperator `json:"operator,omitempty" yaml:"operator,omitempty"`
+	Operator *SpecDistributionModulesLoggingOperator `json:"operator,omitempty" yaml:"operator,omitempty" mapstructure:"operator,omitempty"`
 
 	// Overrides corresponds to the JSON schema field "overrides".
-	Overrides *TypesFuryModuleOverrides `json:"overrides,omitempty" yaml:"overrides,omitempty"`
+	Overrides *TypesFuryModuleOverrides `json:"overrides,omitempty" yaml:"overrides,omitempty" mapstructure:"overrides,omitempty"`
 
 	// Type corresponds to the JSON schema field "type".
-	Type *SpecDistributionModulesLoggingType `json:"type,omitempty" yaml:"type,omitempty"`
+	Type *SpecDistributionModulesLoggingType `json:"type,omitempty" yaml:"type,omitempty" mapstructure:"type,omitempty"`
 }
 
 type SpecDistributionModulesMonitoringAlertManager struct {
 	// DeadManSwitchWebhookUrl corresponds to the JSON schema field
 	// "deadManSwitchWebhookUrl".
-	DeadManSwitchWebhookUrl *string `json:"deadManSwitchWebhookUrl,omitempty" yaml:"deadManSwitchWebhookUrl,omitempty"`
+	DeadManSwitchWebhookUrl *string `json:"deadManSwitchWebhookUrl,omitempty" yaml:"deadManSwitchWebhookUrl,omitempty" mapstructure:"deadManSwitchWebhookUrl,omitempty"`
 
 	// SlackWebhookUrl corresponds to the JSON schema field "slackWebhookUrl".
-	SlackWebhookUrl *string `json:"slackWebhookUrl,omitempty" yaml:"slackWebhookUrl,omitempty"`
+	SlackWebhookUrl *string `json:"slackWebhookUrl,omitempty" yaml:"slackWebhookUrl,omitempty" mapstructure:"slackWebhookUrl,omitempty"`
 }
 
 type SpecDistributionModulesMonitoringBlackboxExporter struct {
 	// Overrides corresponds to the JSON schema field "overrides".
-	Overrides *TypesFuryModuleComponentOverrides `json:"overrides,omitempty" yaml:"overrides,omitempty"`
+	Overrides *TypesFuryModuleComponentOverrides `json:"overrides,omitempty" yaml:"overrides,omitempty" mapstructure:"overrides,omitempty"`
 }
 
 type SpecDistributionModulesMonitoringGrafana struct {
 	// Overrides corresponds to the JSON schema field "overrides".
-	Overrides *TypesFuryModuleComponentOverrides `json:"overrides,omitempty" yaml:"overrides,omitempty"`
+	Overrides *TypesFuryModuleComponentOverrides `json:"overrides,omitempty" yaml:"overrides,omitempty" mapstructure:"overrides,omitempty"`
 }
 
 type SpecDistributionModulesMonitoringKubeStateMetrics struct {
 	// Overrides corresponds to the JSON schema field "overrides".
-	Overrides *TypesFuryModuleComponentOverrides `json:"overrides,omitempty" yaml:"overrides,omitempty"`
+	Overrides *TypesFuryModuleComponentOverrides `json:"overrides,omitempty" yaml:"overrides,omitempty" mapstructure:"overrides,omitempty"`
 }
 
 type SpecDistributionModulesMonitoringPrometheus struct {
 	// Resources corresponds to the JSON schema field "resources".
-	Resources *TypesKubeResources `json:"resources,omitempty" yaml:"resources,omitempty"`
+	Resources *TypesKubeResources `json:"resources,omitempty" yaml:"resources,omitempty" mapstructure:"resources,omitempty"`
 
 	// RetentionSize corresponds to the JSON schema field "retentionSize".
-	RetentionSize *string `json:"retentionSize,omitempty" yaml:"retentionSize,omitempty"`
+	RetentionSize *string `json:"retentionSize,omitempty" yaml:"retentionSize,omitempty" mapstructure:"retentionSize,omitempty"`
 
 	// RetentionTime corresponds to the JSON schema field "retentionTime".
-	RetentionTime *string `json:"retentionTime,omitempty" yaml:"retentionTime,omitempty"`
+	RetentionTime *string `json:"retentionTime,omitempty" yaml:"retentionTime,omitempty" mapstructure:"retentionTime,omitempty"`
 
 	// StorageSize corresponds to the JSON schema field "storageSize".
-	StorageSize *string `json:"storageSize,omitempty" yaml:"storageSize,omitempty"`
+	StorageSize *string `json:"storageSize,omitempty" yaml:"storageSize,omitempty" mapstructure:"storageSize,omitempty"`
 }
 
 type SpecDistributionModulesMonitoringX509Exporter struct {
 	// Overrides corresponds to the JSON schema field "overrides".
-	Overrides *TypesFuryModuleComponentOverrides `json:"overrides,omitempty" yaml:"overrides,omitempty"`
+	Overrides *TypesFuryModuleComponentOverrides `json:"overrides,omitempty" yaml:"overrides,omitempty" mapstructure:"overrides,omitempty"`
 }
 
 type SpecDistributionModulesMonitoring struct {
 	// Alertmanager corresponds to the JSON schema field "alertmanager".
-	Alertmanager *SpecDistributionModulesMonitoringAlertManager `json:"alertmanager,omitempty" yaml:"alertmanager,omitempty"`
+	Alertmanager *SpecDistributionModulesMonitoringAlertManager `json:"alertmanager,omitempty" yaml:"alertmanager,omitempty" mapstructure:"alertmanager,omitempty"`
 
 	// BlackboxExporter corresponds to the JSON schema field "blackboxExporter".
-	BlackboxExporter *SpecDistributionModulesMonitoringBlackboxExporter `json:"blackboxExporter,omitempty" yaml:"blackboxExporter,omitempty"`
+	BlackboxExporter *SpecDistributionModulesMonitoringBlackboxExporter `json:"blackboxExporter,omitempty" yaml:"blackboxExporter,omitempty" mapstructure:"blackboxExporter,omitempty"`
 
 	// Grafana corresponds to the JSON schema field "grafana".
-	Grafana *SpecDistributionModulesMonitoringGrafana `json:"grafana,omitempty" yaml:"grafana,omitempty"`
+	Grafana *SpecDistributionModulesMonitoringGrafana `json:"grafana,omitempty" yaml:"grafana,omitempty" mapstructure:"grafana,omitempty"`
 
 	// KubeStateMetrics corresponds to the JSON schema field "kubeStateMetrics".
-	KubeStateMetrics *SpecDistributionModulesMonitoringKubeStateMetrics `json:"kubeStateMetrics,omitempty" yaml:"kubeStateMetrics,omitempty"`
+	KubeStateMetrics *SpecDistributionModulesMonitoringKubeStateMetrics `json:"kubeStateMetrics,omitempty" yaml:"kubeStateMetrics,omitempty" mapstructure:"kubeStateMetrics,omitempty"`
 
 	// Overrides corresponds to the JSON schema field "overrides".
-	Overrides *TypesFuryModuleOverrides `json:"overrides,omitempty" yaml:"overrides,omitempty"`
+	Overrides *TypesFuryModuleOverrides `json:"overrides,omitempty" yaml:"overrides,omitempty" mapstructure:"overrides,omitempty"`
 
 	// Prometheus corresponds to the JSON schema field "prometheus".
-	Prometheus *SpecDistributionModulesMonitoringPrometheus `json:"prometheus,omitempty" yaml:"prometheus,omitempty"`
+	Prometheus *SpecDistributionModulesMonitoringPrometheus `json:"prometheus,omitempty" yaml:"prometheus,omitempty" mapstructure:"prometheus,omitempty"`
 
 	// X509Exporter corresponds to the JSON schema field "x509Exporter".
-	X509Exporter *SpecDistributionModulesMonitoringX509Exporter `json:"x509Exporter,omitempty" yaml:"x509Exporter,omitempty"`
+	X509Exporter *SpecDistributionModulesMonitoringX509Exporter `json:"x509Exporter,omitempty" yaml:"x509Exporter,omitempty" mapstructure:"x509Exporter,omitempty"`
 }
 
 type SpecDistributionModulesNetworkingTigeraOperator struct {
 	// Overrides corresponds to the JSON schema field "overrides".
-	Overrides *TypesFuryModuleComponentOverrides `json:"overrides,omitempty" yaml:"overrides,omitempty"`
+	Overrides *TypesFuryModuleComponentOverrides `json:"overrides,omitempty" yaml:"overrides,omitempty" mapstructure:"overrides,omitempty"`
 }
 
 type SpecDistributionModulesNetworking struct {
 	// Overrides corresponds to the JSON schema field "overrides".
-	Overrides *TypesFuryModuleComponentOverrides `json:"overrides,omitempty" yaml:"overrides,omitempty"`
+	Overrides *TypesFuryModuleComponentOverrides `json:"overrides,omitempty" yaml:"overrides,omitempty" mapstructure:"overrides,omitempty"`
 
 	// TigeraOperator corresponds to the JSON schema field "tigeraOperator".
-	TigeraOperator *SpecDistributionModulesNetworkingTigeraOperator `json:"tigeraOperator,omitempty" yaml:"tigeraOperator,omitempty"`
+	TigeraOperator *SpecDistributionModulesNetworkingTigeraOperator `json:"tigeraOperator,omitempty" yaml:"tigeraOperator,omitempty" mapstructure:"tigeraOperator,omitempty"`
 }
 
 type SpecDistributionModulesPolicyGatekeeper struct {
 	// AdditionalExcludedNamespaces corresponds to the JSON schema field
 	// "additionalExcludedNamespaces".
-	AdditionalExcludedNamespaces []string `json:"additionalExcludedNamespaces,omitempty" yaml:"additionalExcludedNamespaces,omitempty"`
+	AdditionalExcludedNamespaces []string `json:"additionalExcludedNamespaces,omitempty" yaml:"additionalExcludedNamespaces,omitempty" mapstructure:"additionalExcludedNamespaces,omitempty"`
 
 	// Overrides corresponds to the JSON schema field "overrides".
-	Overrides *TypesFuryModuleComponentOverrides `json:"overrides,omitempty" yaml:"overrides,omitempty"`
+	Overrides *TypesFuryModuleComponentOverrides `json:"overrides,omitempty" yaml:"overrides,omitempty" mapstructure:"overrides,omitempty"`
 }
 
 type SpecDistributionModulesPolicy struct {
 	// Gatekeeper corresponds to the JSON schema field "gatekeeper".
-	Gatekeeper *SpecDistributionModulesPolicyGatekeeper `json:"gatekeeper,omitempty" yaml:"gatekeeper,omitempty"`
+	Gatekeeper *SpecDistributionModulesPolicyGatekeeper `json:"gatekeeper,omitempty" yaml:"gatekeeper,omitempty" mapstructure:"gatekeeper,omitempty"`
 
 	// Overrides corresponds to the JSON schema field "overrides".
-	Overrides *TypesFuryModuleOverrides `json:"overrides,omitempty" yaml:"overrides,omitempty"`
+	Overrides *TypesFuryModuleOverrides `json:"overrides,omitempty" yaml:"overrides,omitempty" mapstructure:"overrides,omitempty"`
 }
 
 type SpecDistributionModules struct {
 	// Auth corresponds to the JSON schema field "auth".
-	Auth *SpecDistributionModulesAuth `json:"auth,omitempty" yaml:"auth,omitempty"`
+	Auth *SpecDistributionModulesAuth `json:"auth,omitempty" yaml:"auth,omitempty" mapstructure:"auth,omitempty"`
 
 	// Aws corresponds to the JSON schema field "aws".
-	Aws *SpecDistributionModulesAws `json:"aws,omitempty" yaml:"aws,omitempty"`
+	Aws *SpecDistributionModulesAws `json:"aws,omitempty" yaml:"aws,omitempty" mapstructure:"aws,omitempty"`
 
 	// Dr corresponds to the JSON schema field "dr".
-	Dr SpecDistributionModulesDr `json:"dr" yaml:"dr"`
+	Dr SpecDistributionModulesDr `json:"dr" yaml:"dr" mapstructure:"dr"`
 
 	// Ingress corresponds to the JSON schema field "ingress".
-	Ingress SpecDistributionModulesIngress `json:"ingress" yaml:"ingress"`
+	Ingress SpecDistributionModulesIngress `json:"ingress" yaml:"ingress" mapstructure:"ingress"`
 
 	// Logging corresponds to the JSON schema field "logging".
-	Logging SpecDistributionModulesLogging `json:"logging" yaml:"logging"`
+	Logging SpecDistributionModulesLogging `json:"logging" yaml:"logging" mapstructure:"logging"`
 
 	// Monitoring corresponds to the JSON schema field "monitoring".
-	Monitoring *SpecDistributionModulesMonitoring `json:"monitoring,omitempty" yaml:"monitoring,omitempty"`
+	Monitoring *SpecDistributionModulesMonitoring `json:"monitoring,omitempty" yaml:"monitoring,omitempty" mapstructure:"monitoring,omitempty"`
 
 	// Networking corresponds to the JSON schema field "networking".
-	Networking *SpecDistributionModulesNetworking `json:"networking,omitempty" yaml:"networking,omitempty"`
+	Networking *SpecDistributionModulesNetworking `json:"networking,omitempty" yaml:"networking,omitempty" mapstructure:"networking,omitempty"`
 
 	// Policy corresponds to the JSON schema field "policy".
-	Policy *SpecDistributionModulesPolicy `json:"policy,omitempty" yaml:"policy,omitempty"`
+	Policy *SpecDistributionModulesPolicy `json:"policy,omitempty" yaml:"policy,omitempty" mapstructure:"policy,omitempty"`
 }
 
 // UnmarshalJSON implements json.Unmarshaler.
@@ -1520,13 +1500,13 @@ func (j *SpecDistributionModules) UnmarshalJSON(b []byte) error {
 
 type SpecDistribution struct {
 	// Common corresponds to the JSON schema field "common".
-	Common *SpecDistributionCommon `json:"common,omitempty" yaml:"common,omitempty"`
+	Common *SpecDistributionCommon `json:"common,omitempty" yaml:"common,omitempty" mapstructure:"common,omitempty"`
 
 	// CustomPatches corresponds to the JSON schema field "customPatches".
-	CustomPatches *SpecDistributionCustomPatches `json:"customPatches,omitempty" yaml:"customPatches,omitempty"`
+	CustomPatches *SpecDistributionCustomPatches `json:"customPatches,omitempty" yaml:"customPatches,omitempty" mapstructure:"customPatches,omitempty"`
 
 	// Modules corresponds to the JSON schema field "modules".
-	Modules SpecDistributionModules `json:"modules" yaml:"modules"`
+	Modules SpecDistributionModules `json:"modules" yaml:"modules" mapstructure:"modules"`
 }
 
 // UnmarshalJSON implements json.Unmarshaler.
@@ -1551,10 +1531,10 @@ type TypesCidr string
 
 type SpecInfrastructureVpcNetworkSubnetsCidrs struct {
 	// Private corresponds to the JSON schema field "private".
-	Private []TypesCidr `json:"private" yaml:"private"`
+	Private []TypesCidr `json:"private" yaml:"private" mapstructure:"private"`
 
 	// Public corresponds to the JSON schema field "public".
-	Public []TypesCidr `json:"public" yaml:"public"`
+	Public []TypesCidr `json:"public" yaml:"public" mapstructure:"public"`
 }
 
 // UnmarshalJSON implements json.Unmarshaler.
@@ -1580,10 +1560,10 @@ func (j *SpecInfrastructureVpcNetworkSubnetsCidrs) UnmarshalJSON(b []byte) error
 
 type SpecInfrastructureVpcNetwork struct {
 	// Cidr corresponds to the JSON schema field "cidr".
-	Cidr TypesCidr `json:"cidr" yaml:"cidr"`
+	Cidr TypesCidr `json:"cidr" yaml:"cidr" mapstructure:"cidr"`
 
 	// SubnetsCidrs corresponds to the JSON schema field "subnetsCidrs".
-	SubnetsCidrs SpecInfrastructureVpcNetworkSubnetsCidrs `json:"subnetsCidrs" yaml:"subnetsCidrs"`
+	SubnetsCidrs SpecInfrastructureVpcNetworkSubnetsCidrs `json:"subnetsCidrs" yaml:"subnetsCidrs" mapstructure:"subnetsCidrs"`
 }
 
 // UnmarshalJSON implements json.Unmarshaler.
@@ -1609,7 +1589,7 @@ func (j *SpecInfrastructureVpcNetwork) UnmarshalJSON(b []byte) error {
 
 type SpecInfrastructureVpc struct {
 	// Network corresponds to the JSON schema field "network".
-	Network SpecInfrastructureVpcNetwork `json:"network" yaml:"network"`
+	Network SpecInfrastructureVpcNetwork `json:"network" yaml:"network" mapstructure:"network"`
 }
 
 // UnmarshalJSON implements json.Unmarshaler.
@@ -1634,13 +1614,13 @@ type TypesTcpPort int
 
 type SpecInfrastructureVpnSsh struct {
 	// AllowedFromCidrs corresponds to the JSON schema field "allowedFromCidrs".
-	AllowedFromCidrs []TypesCidr `json:"allowedFromCidrs" yaml:"allowedFromCidrs"`
+	AllowedFromCidrs []TypesCidr `json:"allowedFromCidrs" yaml:"allowedFromCidrs" mapstructure:"allowedFromCidrs"`
 
 	// GithubUsersName corresponds to the JSON schema field "githubUsersName".
-	GithubUsersName []string `json:"githubUsersName" yaml:"githubUsersName"`
+	GithubUsersName []string `json:"githubUsersName" yaml:"githubUsersName" mapstructure:"githubUsersName"`
 
 	// PublicKeys corresponds to the JSON schema field "publicKeys".
-	PublicKeys []interface{} `json:"publicKeys,omitempty" yaml:"publicKeys,omitempty"`
+	PublicKeys []interface{} `json:"publicKeys,omitempty" yaml:"publicKeys,omitempty" mapstructure:"publicKeys,omitempty"`
 }
 
 // UnmarshalJSON implements json.Unmarshaler.
@@ -1671,35 +1651,35 @@ type TypesAwsVpcId string
 
 type SpecInfrastructureVpn struct {
 	// BucketNamePrefix corresponds to the JSON schema field "bucketNamePrefix".
-	BucketNamePrefix *TypesAwsS3BucketName `json:"bucketNamePrefix,omitempty" yaml:"bucketNamePrefix,omitempty"`
+	BucketNamePrefix *TypesAwsS3BucketName `json:"bucketNamePrefix,omitempty" yaml:"bucketNamePrefix,omitempty" mapstructure:"bucketNamePrefix,omitempty"`
 
 	// DhParamsBits corresponds to the JSON schema field "dhParamsBits".
-	DhParamsBits *int `json:"dhParamsBits,omitempty" yaml:"dhParamsBits,omitempty"`
+	DhParamsBits *int `json:"dhParamsBits,omitempty" yaml:"dhParamsBits,omitempty" mapstructure:"dhParamsBits,omitempty"`
 
 	// DiskSize corresponds to the JSON schema field "diskSize".
-	DiskSize *int `json:"diskSize,omitempty" yaml:"diskSize,omitempty"`
+	DiskSize *int `json:"diskSize,omitempty" yaml:"diskSize,omitempty" mapstructure:"diskSize,omitempty"`
 
 	// InstanceType corresponds to the JSON schema field "instanceType".
-	InstanceType *string `json:"instanceType,omitempty" yaml:"instanceType,omitempty"`
+	InstanceType *string `json:"instanceType,omitempty" yaml:"instanceType,omitempty" mapstructure:"instanceType,omitempty"`
 
 	// Instances corresponds to the JSON schema field "instances".
-	Instances *int `json:"instances,omitempty" yaml:"instances,omitempty"`
+	Instances *int `json:"instances,omitempty" yaml:"instances,omitempty" mapstructure:"instances,omitempty"`
 
 	// OperatorName corresponds to the JSON schema field "operatorName".
-	OperatorName *string `json:"operatorName,omitempty" yaml:"operatorName,omitempty"`
+	OperatorName *string `json:"operatorName,omitempty" yaml:"operatorName,omitempty" mapstructure:"operatorName,omitempty"`
 
 	// Port corresponds to the JSON schema field "port".
-	Port *TypesTcpPort `json:"port,omitempty" yaml:"port,omitempty"`
+	Port *TypesTcpPort `json:"port,omitempty" yaml:"port,omitempty" mapstructure:"port,omitempty"`
 
 	// Ssh corresponds to the JSON schema field "ssh".
-	Ssh SpecInfrastructureVpnSsh `json:"ssh" yaml:"ssh"`
+	Ssh SpecInfrastructureVpnSsh `json:"ssh" yaml:"ssh" mapstructure:"ssh"`
 
 	// VpcId corresponds to the JSON schema field "vpcId".
-	VpcId *TypesAwsVpcId `json:"vpcId,omitempty" yaml:"vpcId,omitempty"`
+	VpcId *TypesAwsVpcId `json:"vpcId,omitempty" yaml:"vpcId,omitempty" mapstructure:"vpcId,omitempty"`
 
 	// VpnClientsSubnetCidr corresponds to the JSON schema field
 	// "vpnClientsSubnetCidr".
-	VpnClientsSubnetCidr TypesCidr `json:"vpnClientsSubnetCidr" yaml:"vpnClientsSubnetCidr"`
+	VpnClientsSubnetCidr TypesCidr `json:"vpnClientsSubnetCidr" yaml:"vpnClientsSubnetCidr" mapstructure:"vpnClientsSubnetCidr"`
 }
 
 // UnmarshalJSON implements json.Unmarshaler.
@@ -1725,24 +1705,24 @@ func (j *SpecInfrastructureVpn) UnmarshalJSON(b []byte) error {
 
 type SpecInfrastructure struct {
 	// Vpc corresponds to the JSON schema field "vpc".
-	Vpc *SpecInfrastructureVpc `json:"vpc,omitempty" yaml:"vpc,omitempty"`
+	Vpc *SpecInfrastructureVpc `json:"vpc,omitempty" yaml:"vpc,omitempty" mapstructure:"vpc,omitempty"`
 
 	// Vpn corresponds to the JSON schema field "vpn".
-	Vpn *SpecInfrastructureVpn `json:"vpn,omitempty" yaml:"vpn,omitempty"`
+	Vpn *SpecInfrastructureVpn `json:"vpn,omitempty" yaml:"vpn,omitempty" mapstructure:"vpn,omitempty"`
 }
 
 type SpecKubernetesAPIServer struct {
 	// PrivateAccess corresponds to the JSON schema field "privateAccess".
-	PrivateAccess bool `json:"privateAccess" yaml:"privateAccess"`
+	PrivateAccess bool `json:"privateAccess" yaml:"privateAccess" mapstructure:"privateAccess"`
 
 	// PrivateAccessCidrs corresponds to the JSON schema field "privateAccessCidrs".
-	PrivateAccessCidrs []TypesCidr `json:"privateAccessCidrs,omitempty" yaml:"privateAccessCidrs,omitempty"`
+	PrivateAccessCidrs []TypesCidr `json:"privateAccessCidrs,omitempty" yaml:"privateAccessCidrs,omitempty" mapstructure:"privateAccessCidrs,omitempty"`
 
 	// PublicAccess corresponds to the JSON schema field "publicAccess".
-	PublicAccess bool `json:"publicAccess" yaml:"publicAccess"`
+	PublicAccess bool `json:"publicAccess" yaml:"publicAccess" mapstructure:"publicAccess"`
 
 	// PublicAccessCidrs corresponds to the JSON schema field "publicAccessCidrs".
-	PublicAccessCidrs []TypesCidr `json:"publicAccessCidrs,omitempty" yaml:"publicAccessCidrs,omitempty"`
+	PublicAccessCidrs []TypesCidr `json:"publicAccessCidrs,omitempty" yaml:"publicAccessCidrs,omitempty" mapstructure:"publicAccessCidrs,omitempty"`
 }
 
 // UnmarshalJSON implements json.Unmarshaler.
@@ -1768,18 +1748,18 @@ func (j *SpecKubernetesAPIServer) UnmarshalJSON(b []byte) error {
 
 type Metadata struct {
 	// Name corresponds to the JSON schema field "name".
-	Name string `json:"name" yaml:"name"`
+	Name string `json:"name" yaml:"name" mapstructure:"name"`
 }
 
 type SpecKubernetesAwsAuthRole struct {
 	// Groups corresponds to the JSON schema field "groups".
-	Groups []string `json:"groups" yaml:"groups"`
+	Groups []string `json:"groups" yaml:"groups" mapstructure:"groups"`
 
 	// Rolearn corresponds to the JSON schema field "rolearn".
-	Rolearn TypesAwsArn `json:"rolearn" yaml:"rolearn"`
+	Rolearn TypesAwsArn `json:"rolearn" yaml:"rolearn" mapstructure:"rolearn"`
 
 	// Username corresponds to the JSON schema field "username".
-	Username string `json:"username" yaml:"username"`
+	Username string `json:"username" yaml:"username" mapstructure:"username"`
 }
 
 // UnmarshalJSON implements json.Unmarshaler.
@@ -1808,13 +1788,13 @@ func (j *SpecKubernetesAwsAuthRole) UnmarshalJSON(b []byte) error {
 
 type SpecKubernetesAwsAuthUser struct {
 	// Groups corresponds to the JSON schema field "groups".
-	Groups []string `json:"groups" yaml:"groups"`
+	Groups []string `json:"groups" yaml:"groups" mapstructure:"groups"`
 
 	// Userarn corresponds to the JSON schema field "userarn".
-	Userarn TypesAwsArn `json:"userarn" yaml:"userarn"`
+	Userarn TypesAwsArn `json:"userarn" yaml:"userarn" mapstructure:"userarn"`
 
 	// Username corresponds to the JSON schema field "username".
-	Username string `json:"username" yaml:"username"`
+	Username string `json:"username" yaml:"username" mapstructure:"username"`
 }
 
 // UnmarshalJSON implements json.Unmarshaler.
@@ -1843,21 +1823,21 @@ func (j *SpecKubernetesAwsAuthUser) UnmarshalJSON(b []byte) error {
 
 type SpecKubernetesAwsAuth struct {
 	// AdditionalAccounts corresponds to the JSON schema field "additionalAccounts".
-	AdditionalAccounts []string `json:"additionalAccounts,omitempty" yaml:"additionalAccounts,omitempty"`
+	AdditionalAccounts []string `json:"additionalAccounts,omitempty" yaml:"additionalAccounts,omitempty" mapstructure:"additionalAccounts,omitempty"`
 
 	// Roles corresponds to the JSON schema field "roles".
-	Roles []SpecKubernetesAwsAuthRole `json:"roles,omitempty" yaml:"roles,omitempty"`
+	Roles []SpecKubernetesAwsAuthRole `json:"roles,omitempty" yaml:"roles,omitempty" mapstructure:"roles,omitempty"`
 
 	// Users corresponds to the JSON schema field "users".
-	Users []SpecKubernetesAwsAuthUser `json:"users,omitempty" yaml:"users,omitempty"`
+	Users []SpecKubernetesAwsAuthUser `json:"users,omitempty" yaml:"users,omitempty" mapstructure:"users,omitempty"`
 }
 
 type SpecKubernetesNodePoolAdditionalFirewallRulePorts struct {
 	// From corresponds to the JSON schema field "from".
-	From TypesTcpPort `json:"from" yaml:"from"`
+	From TypesTcpPort `json:"from" yaml:"from" mapstructure:"from"`
 
 	// To corresponds to the JSON schema field "to".
-	To TypesTcpPort `json:"to" yaml:"to"`
+	To TypesTcpPort `json:"to" yaml:"to" mapstructure:"to"`
 }
 
 // UnmarshalJSON implements json.Unmarshaler.
@@ -1912,29 +1892,27 @@ func (j *SpecKubernetesNodePoolAdditionalFirewallRuleCidrBlockType) UnmarshalJSO
 	return nil
 }
 
-const (
-	SpecKubernetesNodePoolAdditionalFirewallRuleCidrBlockTypeIngress SpecKubernetesNodePoolAdditionalFirewallRuleCidrBlockType = "ingress"
-	SpecKubernetesNodePoolAdditionalFirewallRuleCidrBlockTypeEgress  SpecKubernetesNodePoolAdditionalFirewallRuleCidrBlockType = "egress"
-)
+const SpecKubernetesNodePoolAdditionalFirewallRuleCidrBlockTypeIngress SpecKubernetesNodePoolAdditionalFirewallRuleCidrBlockType = "ingress"
+const SpecKubernetesNodePoolAdditionalFirewallRuleCidrBlockTypeEgress SpecKubernetesNodePoolAdditionalFirewallRuleCidrBlockType = "egress"
 
 type SpecKubernetesNodePoolAdditionalFirewallRuleCidrBlock struct {
 	// CidrBlocks corresponds to the JSON schema field "cidrBlocks".
-	CidrBlocks []TypesCidr `json:"cidrBlocks" yaml:"cidrBlocks"`
+	CidrBlocks []TypesCidr `json:"cidrBlocks" yaml:"cidrBlocks" mapstructure:"cidrBlocks"`
 
 	// Name corresponds to the JSON schema field "name".
-	Name string `json:"name" yaml:"name"`
+	Name string `json:"name" yaml:"name" mapstructure:"name"`
 
 	// Ports corresponds to the JSON schema field "ports".
-	Ports SpecKubernetesNodePoolAdditionalFirewallRulePorts `json:"ports" yaml:"ports"`
+	Ports SpecKubernetesNodePoolAdditionalFirewallRulePorts `json:"ports" yaml:"ports" mapstructure:"ports"`
 
 	// Protocol corresponds to the JSON schema field "protocol".
-	Protocol TypesAwsIpProtocol `json:"protocol" yaml:"protocol"`
+	Protocol TypesAwsIpProtocol `json:"protocol" yaml:"protocol" mapstructure:"protocol"`
 
 	// Tags corresponds to the JSON schema field "tags".
-	Tags TypesAwsTags `json:"tags,omitempty" yaml:"tags,omitempty"`
+	Tags TypesAwsTags `json:"tags,omitempty" yaml:"tags,omitempty" mapstructure:"tags,omitempty"`
 
 	// Type corresponds to the JSON schema field "type".
-	Type SpecKubernetesNodePoolAdditionalFirewallRuleCidrBlockType `json:"type" yaml:"type"`
+	Type SpecKubernetesNodePoolAdditionalFirewallRuleCidrBlockType `json:"type" yaml:"type" mapstructure:"type"`
 }
 
 // UnmarshalJSON implements json.Unmarshaler.
@@ -1997,29 +1975,27 @@ func (j *SpecKubernetesNodePoolAdditionalFirewallRuleSelfType) UnmarshalJSON(b [
 	return nil
 }
 
-const (
-	SpecKubernetesNodePoolAdditionalFirewallRuleSelfTypeIngress SpecKubernetesNodePoolAdditionalFirewallRuleSelfType = "ingress"
-	SpecKubernetesNodePoolAdditionalFirewallRuleSelfTypeEgress  SpecKubernetesNodePoolAdditionalFirewallRuleSelfType = "egress"
-)
+const SpecKubernetesNodePoolAdditionalFirewallRuleSelfTypeIngress SpecKubernetesNodePoolAdditionalFirewallRuleSelfType = "ingress"
+const SpecKubernetesNodePoolAdditionalFirewallRuleSelfTypeEgress SpecKubernetesNodePoolAdditionalFirewallRuleSelfType = "egress"
 
 type SpecKubernetesNodePoolAdditionalFirewallRuleSelf struct {
 	// Name corresponds to the JSON schema field "name".
-	Name string `json:"name" yaml:"name"`
+	Name string `json:"name" yaml:"name" mapstructure:"name"`
 
 	// Ports corresponds to the JSON schema field "ports".
-	Ports SpecKubernetesNodePoolAdditionalFirewallRulePorts `json:"ports" yaml:"ports"`
+	Ports SpecKubernetesNodePoolAdditionalFirewallRulePorts `json:"ports" yaml:"ports" mapstructure:"ports"`
 
 	// Protocol corresponds to the JSON schema field "protocol".
-	Protocol TypesAwsIpProtocol `json:"protocol" yaml:"protocol"`
+	Protocol TypesAwsIpProtocol `json:"protocol" yaml:"protocol" mapstructure:"protocol"`
 
 	// Self corresponds to the JSON schema field "self".
-	Self bool `json:"self" yaml:"self"`
+	Self bool `json:"self" yaml:"self" mapstructure:"self"`
 
 	// Tags corresponds to the JSON schema field "tags".
-	Tags TypesAwsTags `json:"tags,omitempty" yaml:"tags,omitempty"`
+	Tags TypesAwsTags `json:"tags,omitempty" yaml:"tags,omitempty" mapstructure:"tags,omitempty"`
 
 	// Type corresponds to the JSON schema field "type".
-	Type SpecKubernetesNodePoolAdditionalFirewallRuleSelfType `json:"type" yaml:"type"`
+	Type SpecKubernetesNodePoolAdditionalFirewallRuleSelfType `json:"type" yaml:"type" mapstructure:"type"`
 }
 
 // UnmarshalJSON implements json.Unmarshaler.
@@ -2079,30 +2055,28 @@ func (j *SpecKubernetesNodePoolAdditionalFirewallRuleSourceSecurityGroupIdType) 
 	return nil
 }
 
-const (
-	SpecKubernetesNodePoolAdditionalFirewallRuleSourceSecurityGroupIdTypeIngress SpecKubernetesNodePoolAdditionalFirewallRuleSourceSecurityGroupIdType = "ingress"
-	SpecKubernetesNodePoolAdditionalFirewallRuleSourceSecurityGroupIdTypeEgress  SpecKubernetesNodePoolAdditionalFirewallRuleSourceSecurityGroupIdType = "egress"
-)
+const SpecKubernetesNodePoolAdditionalFirewallRuleSourceSecurityGroupIdTypeIngress SpecKubernetesNodePoolAdditionalFirewallRuleSourceSecurityGroupIdType = "ingress"
+const SpecKubernetesNodePoolAdditionalFirewallRuleSourceSecurityGroupIdTypeEgress SpecKubernetesNodePoolAdditionalFirewallRuleSourceSecurityGroupIdType = "egress"
 
 type SpecKubernetesNodePoolAdditionalFirewallRuleSourceSecurityGroupId struct {
 	// Name corresponds to the JSON schema field "name".
-	Name string `json:"name" yaml:"name"`
+	Name string `json:"name" yaml:"name" mapstructure:"name"`
 
 	// Ports corresponds to the JSON schema field "ports".
-	Ports SpecKubernetesNodePoolAdditionalFirewallRulePorts `json:"ports" yaml:"ports"`
+	Ports SpecKubernetesNodePoolAdditionalFirewallRulePorts `json:"ports" yaml:"ports" mapstructure:"ports"`
 
 	// Protocol corresponds to the JSON schema field "protocol".
-	Protocol TypesAwsIpProtocol `json:"protocol" yaml:"protocol"`
+	Protocol TypesAwsIpProtocol `json:"protocol" yaml:"protocol" mapstructure:"protocol"`
 
 	// SourceSecurityGroupId corresponds to the JSON schema field
 	// "sourceSecurityGroupId".
-	SourceSecurityGroupId string `json:"sourceSecurityGroupId" yaml:"sourceSecurityGroupId"`
+	SourceSecurityGroupId string `json:"sourceSecurityGroupId" yaml:"sourceSecurityGroupId" mapstructure:"sourceSecurityGroupId"`
 
 	// Tags corresponds to the JSON schema field "tags".
-	Tags TypesAwsTags `json:"tags,omitempty" yaml:"tags,omitempty"`
+	Tags TypesAwsTags `json:"tags,omitempty" yaml:"tags,omitempty" mapstructure:"tags,omitempty"`
 
 	// Type corresponds to the JSON schema field "type".
-	Type SpecKubernetesNodePoolAdditionalFirewallRuleSourceSecurityGroupIdType `json:"type" yaml:"type"`
+	Type SpecKubernetesNodePoolAdditionalFirewallRuleSourceSecurityGroupIdType `json:"type" yaml:"type" mapstructure:"type"`
 }
 
 // UnmarshalJSON implements json.Unmarshaler.
@@ -2137,14 +2111,14 @@ func (j *SpecKubernetesNodePoolAdditionalFirewallRuleSourceSecurityGroupId) Unma
 
 type SpecKubernetesNodePoolAdditionalFirewallRules struct {
 	// CidrBlocks corresponds to the JSON schema field "cidrBlocks".
-	CidrBlocks []SpecKubernetesNodePoolAdditionalFirewallRuleCidrBlock `json:"cidrBlocks,omitempty" yaml:"cidrBlocks,omitempty"`
+	CidrBlocks []SpecKubernetesNodePoolAdditionalFirewallRuleCidrBlock `json:"cidrBlocks,omitempty" yaml:"cidrBlocks,omitempty" mapstructure:"cidrBlocks,omitempty"`
 
 	// Self corresponds to the JSON schema field "self".
-	Self []SpecKubernetesNodePoolAdditionalFirewallRuleSelf `json:"self,omitempty" yaml:"self,omitempty"`
+	Self []SpecKubernetesNodePoolAdditionalFirewallRuleSelf `json:"self,omitempty" yaml:"self,omitempty" mapstructure:"self,omitempty"`
 
 	// SourceSecurityGroupId corresponds to the JSON schema field
 	// "sourceSecurityGroupId".
-	SourceSecurityGroupId []SpecKubernetesNodePoolAdditionalFirewallRuleSourceSecurityGroupId `json:"sourceSecurityGroupId,omitempty" yaml:"sourceSecurityGroupId,omitempty"`
+	SourceSecurityGroupId []SpecKubernetesNodePoolAdditionalFirewallRuleSourceSecurityGroupId `json:"sourceSecurityGroupId,omitempty" yaml:"sourceSecurityGroupId,omitempty" mapstructure:"sourceSecurityGroupId,omitempty"`
 }
 
 // UnmarshalJSON implements json.Unmarshaler.
@@ -2173,10 +2147,10 @@ func (j *SpecKubernetesNodePoolAdditionalFirewallRules) UnmarshalJSON(b []byte) 
 
 type SpecKubernetesNodePoolAmi struct {
 	// Id corresponds to the JSON schema field "id".
-	Id string `json:"id" yaml:"id"`
+	Id string `json:"id" yaml:"id" mapstructure:"id"`
 
 	// Owner corresponds to the JSON schema field "owner".
-	Owner string `json:"owner" yaml:"owner"`
+	Owner string `json:"owner" yaml:"owner" mapstructure:"owner"`
 }
 
 // UnmarshalJSON implements json.Unmarshaler.
@@ -2227,20 +2201,18 @@ func (j *SpecKubernetesNodePoolContainerRuntime) UnmarshalJSON(b []byte) error {
 	return nil
 }
 
-const (
-	SpecKubernetesNodePoolContainerRuntimeDocker     SpecKubernetesNodePoolContainerRuntime = "docker"
-	SpecKubernetesNodePoolContainerRuntimeContainerd SpecKubernetesNodePoolContainerRuntime = "containerd"
-)
+const SpecKubernetesNodePoolContainerRuntimeDocker SpecKubernetesNodePoolContainerRuntime = "docker"
+const SpecKubernetesNodePoolContainerRuntimeContainerd SpecKubernetesNodePoolContainerRuntime = "containerd"
 
 type SpecKubernetesNodePoolInstance struct {
 	// Spot corresponds to the JSON schema field "spot".
-	Spot *bool `json:"spot,omitempty" yaml:"spot,omitempty"`
+	Spot *bool `json:"spot,omitempty" yaml:"spot,omitempty" mapstructure:"spot,omitempty"`
 
 	// Type corresponds to the JSON schema field "type".
-	Type string `json:"type" yaml:"type"`
+	Type string `json:"type" yaml:"type" mapstructure:"type"`
 
 	// VolumeSize corresponds to the JSON schema field "volumeSize".
-	VolumeSize *int `json:"volumeSize,omitempty" yaml:"volumeSize,omitempty"`
+	VolumeSize *int `json:"volumeSize,omitempty" yaml:"volumeSize,omitempty" mapstructure:"volumeSize,omitempty"`
 }
 
 // UnmarshalJSON implements json.Unmarshaler.
@@ -2263,10 +2235,10 @@ func (j *SpecKubernetesNodePoolInstance) UnmarshalJSON(b []byte) error {
 
 type SpecKubernetesNodePoolSize struct {
 	// Max corresponds to the JSON schema field "max".
-	Max int `json:"max" yaml:"max"`
+	Max int `json:"max" yaml:"max" mapstructure:"max"`
 
 	// Min corresponds to the JSON schema field "min".
-	Min int `json:"min" yaml:"min"`
+	Min int `json:"min" yaml:"min" mapstructure:"min"`
 }
 
 // UnmarshalJSON implements json.Unmarshaler.
@@ -2297,38 +2269,38 @@ type TypesKubeTaints []string
 type SpecKubernetesNodePool struct {
 	// AdditionalFirewallRules corresponds to the JSON schema field
 	// "additionalFirewallRules".
-	AdditionalFirewallRules *SpecKubernetesNodePoolAdditionalFirewallRules `json:"additionalFirewallRules,omitempty" yaml:"additionalFirewallRules,omitempty"`
+	AdditionalFirewallRules *SpecKubernetesNodePoolAdditionalFirewallRules `json:"additionalFirewallRules,omitempty" yaml:"additionalFirewallRules,omitempty" mapstructure:"additionalFirewallRules,omitempty"`
 
 	// Ami corresponds to the JSON schema field "ami".
-	Ami *SpecKubernetesNodePoolAmi `json:"ami,omitempty" yaml:"ami,omitempty"`
+	Ami *SpecKubernetesNodePoolAmi `json:"ami,omitempty" yaml:"ami,omitempty" mapstructure:"ami,omitempty"`
 
 	// AttachedTargetGroups corresponds to the JSON schema field
 	// "attachedTargetGroups".
-	AttachedTargetGroups []TypesAwsArn `json:"attachedTargetGroups,omitempty" yaml:"attachedTargetGroups,omitempty"`
+	AttachedTargetGroups []TypesAwsArn `json:"attachedTargetGroups,omitempty" yaml:"attachedTargetGroups,omitempty" mapstructure:"attachedTargetGroups,omitempty"`
 
 	// ContainerRuntime corresponds to the JSON schema field "containerRuntime".
-	ContainerRuntime *SpecKubernetesNodePoolContainerRuntime `json:"containerRuntime,omitempty" yaml:"containerRuntime,omitempty"`
+	ContainerRuntime *SpecKubernetesNodePoolContainerRuntime `json:"containerRuntime,omitempty" yaml:"containerRuntime,omitempty" mapstructure:"containerRuntime,omitempty"`
 
 	// Instance corresponds to the JSON schema field "instance".
-	Instance SpecKubernetesNodePoolInstance `json:"instance" yaml:"instance"`
+	Instance SpecKubernetesNodePoolInstance `json:"instance" yaml:"instance" mapstructure:"instance"`
 
 	// Labels corresponds to the JSON schema field "labels".
-	Labels TypesKubeLabels `json:"labels,omitempty" yaml:"labels,omitempty"`
+	Labels TypesKubeLabels `json:"labels,omitempty" yaml:"labels,omitempty" mapstructure:"labels,omitempty"`
 
 	// Name corresponds to the JSON schema field "name".
-	Name string `json:"name" yaml:"name"`
+	Name string `json:"name" yaml:"name" mapstructure:"name"`
 
 	// Size corresponds to the JSON schema field "size".
-	Size SpecKubernetesNodePoolSize `json:"size" yaml:"size"`
+	Size SpecKubernetesNodePoolSize `json:"size" yaml:"size" mapstructure:"size"`
 
 	// SubnetIds corresponds to the JSON schema field "subnetIds".
-	SubnetIds []TypesAwsSubnetId `json:"subnetIds,omitempty" yaml:"subnetIds,omitempty"`
+	SubnetIds []TypesAwsSubnetId `json:"subnetIds,omitempty" yaml:"subnetIds,omitempty" mapstructure:"subnetIds,omitempty"`
 
 	// Tags corresponds to the JSON schema field "tags".
-	Tags TypesAwsTags `json:"tags,omitempty" yaml:"tags,omitempty"`
+	Tags TypesAwsTags `json:"tags,omitempty" yaml:"tags,omitempty" mapstructure:"tags,omitempty"`
 
 	// Taints corresponds to the JSON schema field "taints".
-	Taints TypesKubeTaints `json:"taints,omitempty" yaml:"taints,omitempty"`
+	Taints TypesKubeTaints `json:"taints,omitempty" yaml:"taints,omitempty" mapstructure:"taints,omitempty"`
 }
 
 // UnmarshalJSON implements json.Unmarshaler.
@@ -2383,37 +2355,38 @@ func (j *SpecKubernetesNodePoolsLaunchKind) UnmarshalJSON(b []byte) error {
 	return nil
 }
 
-const (
-	SpecKubernetesNodePoolsLaunchKindLaunchConfigurations SpecKubernetesNodePoolsLaunchKind = "launch_configurations"
-	SpecKubernetesNodePoolsLaunchKindLaunchTemplates      SpecKubernetesNodePoolsLaunchKind = "launch_templates"
-	SpecKubernetesNodePoolsLaunchKindBoth                 SpecKubernetesNodePoolsLaunchKind = "both"
-)
+const SpecKubernetesNodePoolsLaunchKindLaunchConfigurations SpecKubernetesNodePoolsLaunchKind = "launch_configurations"
+const SpecKubernetesNodePoolsLaunchKindLaunchTemplates SpecKubernetesNodePoolsLaunchKind = "launch_templates"
+const SpecKubernetesNodePoolsLaunchKindBoth SpecKubernetesNodePoolsLaunchKind = "both"
 
 type SpecKubernetes struct {
 	// ApiServer corresponds to the JSON schema field "apiServer".
-	ApiServer SpecKubernetesAPIServer `json:"apiServer" yaml:"apiServer"`
+	ApiServer SpecKubernetesAPIServer `json:"apiServer" yaml:"apiServer" mapstructure:"apiServer"`
 
 	// AwsAuth corresponds to the JSON schema field "awsAuth".
-	AwsAuth *SpecKubernetesAwsAuth `json:"awsAuth,omitempty" yaml:"awsAuth,omitempty"`
+	AwsAuth *SpecKubernetesAwsAuth `json:"awsAuth,omitempty" yaml:"awsAuth,omitempty" mapstructure:"awsAuth,omitempty"`
 
 	// LogRetentionDays corresponds to the JSON schema field "logRetentionDays".
-	LogRetentionDays *int `json:"logRetentionDays,omitempty" yaml:"logRetentionDays,omitempty"`
+	LogRetentionDays *int `json:"logRetentionDays,omitempty" yaml:"logRetentionDays,omitempty" mapstructure:"logRetentionDays,omitempty"`
 
 	// NodeAllowedSshPublicKey corresponds to the JSON schema field
 	// "nodeAllowedSshPublicKey".
-	NodeAllowedSshPublicKey interface{} `json:"nodeAllowedSshPublicKey" yaml:"nodeAllowedSshPublicKey"`
+	NodeAllowedSshPublicKey interface{} `json:"nodeAllowedSshPublicKey" yaml:"nodeAllowedSshPublicKey" mapstructure:"nodeAllowedSshPublicKey"`
 
 	// NodePools corresponds to the JSON schema field "nodePools".
-	NodePools []SpecKubernetesNodePool `json:"nodePools" yaml:"nodePools"`
+	NodePools []SpecKubernetesNodePool `json:"nodePools" yaml:"nodePools" mapstructure:"nodePools"`
 
 	// NodePoolsLaunchKind corresponds to the JSON schema field "nodePoolsLaunchKind".
-	NodePoolsLaunchKind SpecKubernetesNodePoolsLaunchKind `json:"nodePoolsLaunchKind" yaml:"nodePoolsLaunchKind"`
+	NodePoolsLaunchKind SpecKubernetesNodePoolsLaunchKind `json:"nodePoolsLaunchKind" yaml:"nodePoolsLaunchKind" mapstructure:"nodePoolsLaunchKind"`
+
+	// ServiceIpV4Cidr corresponds to the JSON schema field "serviceIpV4Cidr".
+	ServiceIpV4Cidr *TypesCidr `json:"serviceIpV4Cidr,omitempty" yaml:"serviceIpV4Cidr,omitempty" mapstructure:"serviceIpV4Cidr,omitempty"`
 
 	// SubnetIds corresponds to the JSON schema field "subnetIds".
-	SubnetIds []TypesAwsSubnetId `json:"subnetIds,omitempty" yaml:"subnetIds,omitempty"`
+	SubnetIds []TypesAwsSubnetId `json:"subnetIds,omitempty" yaml:"subnetIds,omitempty" mapstructure:"subnetIds,omitempty"`
 
 	// VpcId corresponds to the JSON schema field "vpcId".
-	VpcId *TypesAwsVpcId `json:"vpcId,omitempty" yaml:"vpcId,omitempty"`
+	VpcId *TypesAwsVpcId `json:"vpcId,omitempty" yaml:"vpcId,omitempty" mapstructure:"vpcId,omitempty"`
 }
 
 // UnmarshalJSON implements json.Unmarshaler.
@@ -2447,13 +2420,13 @@ type TypesAwsS3KeyPrefix string
 
 type SpecToolsConfigurationTerraformStateS3 struct {
 	// BucketName corresponds to the JSON schema field "bucketName".
-	BucketName TypesAwsS3BucketName `json:"bucketName" yaml:"bucketName"`
+	BucketName TypesAwsS3BucketName `json:"bucketName" yaml:"bucketName" mapstructure:"bucketName"`
 
 	// KeyPrefix corresponds to the JSON schema field "keyPrefix".
-	KeyPrefix TypesAwsS3KeyPrefix `json:"keyPrefix" yaml:"keyPrefix"`
+	KeyPrefix TypesAwsS3KeyPrefix `json:"keyPrefix" yaml:"keyPrefix" mapstructure:"keyPrefix"`
 
 	// Region corresponds to the JSON schema field "region".
-	Region TypesAwsRegion `json:"region" yaml:"region"`
+	Region TypesAwsRegion `json:"region" yaml:"region" mapstructure:"region"`
 }
 
 // UnmarshalJSON implements json.Unmarshaler.
@@ -2482,7 +2455,7 @@ func (j *SpecToolsConfigurationTerraformStateS3) UnmarshalJSON(b []byte) error {
 
 type SpecToolsConfigurationTerraformState struct {
 	// S3 corresponds to the JSON schema field "s3".
-	S3 SpecToolsConfigurationTerraformStateS3 `json:"s3" yaml:"s3"`
+	S3 SpecToolsConfigurationTerraformStateS3 `json:"s3" yaml:"s3" mapstructure:"s3"`
 }
 
 // UnmarshalJSON implements json.Unmarshaler.
@@ -2505,23 +2478,23 @@ func (j *SpecToolsConfigurationTerraformState) UnmarshalJSON(b []byte) error {
 
 type SpecToolsConfigurationTerraform struct {
 	// State corresponds to the JSON schema field "state".
-	State SpecToolsConfigurationTerraformState `json:"state" yaml:"state"`
+	State SpecToolsConfigurationTerraformState `json:"state" yaml:"state" mapstructure:"state"`
 }
 
 type SpecDistributionModulesIngressOverrides struct {
 	// Ingresses corresponds to the JSON schema field "ingresses".
-	Ingresses *SpecDistributionModulesIngressOverridesIngresses `json:"ingresses,omitempty" yaml:"ingresses,omitempty"`
+	Ingresses *SpecDistributionModulesIngressOverridesIngresses `json:"ingresses,omitempty" yaml:"ingresses,omitempty" mapstructure:"ingresses,omitempty"`
 
 	// NodeSelector corresponds to the JSON schema field "nodeSelector".
-	NodeSelector TypesKubeNodeSelector `json:"nodeSelector,omitempty" yaml:"nodeSelector,omitempty"`
+	NodeSelector TypesKubeNodeSelector `json:"nodeSelector,omitempty" yaml:"nodeSelector,omitempty" mapstructure:"nodeSelector,omitempty"`
 
 	// Tolerations corresponds to the JSON schema field "tolerations".
-	Tolerations []TypesKubeToleration `json:"tolerations,omitempty" yaml:"tolerations,omitempty"`
+	Tolerations []TypesKubeToleration `json:"tolerations,omitempty" yaml:"tolerations,omitempty" mapstructure:"tolerations,omitempty"`
 }
 
 type SpecToolsConfiguration struct {
 	// Terraform corresponds to the JSON schema field "terraform".
-	Terraform SpecToolsConfigurationTerraform `json:"terraform" yaml:"terraform"`
+	Terraform SpecToolsConfigurationTerraform `json:"terraform" yaml:"terraform" mapstructure:"terraform"`
 }
 
 // UnmarshalJSON implements json.Unmarshaler.
@@ -2544,25 +2517,25 @@ func (j *SpecToolsConfiguration) UnmarshalJSON(b []byte) error {
 
 type Spec struct {
 	// Distribution corresponds to the JSON schema field "distribution".
-	Distribution SpecDistribution `json:"distribution" yaml:"distribution"`
+	Distribution SpecDistribution `json:"distribution" yaml:"distribution" mapstructure:"distribution"`
 
 	// DistributionVersion corresponds to the JSON schema field "distributionVersion".
-	DistributionVersion string `json:"distributionVersion" yaml:"distributionVersion"`
+	DistributionVersion string `json:"distributionVersion" yaml:"distributionVersion" mapstructure:"distributionVersion"`
 
 	// Infrastructure corresponds to the JSON schema field "infrastructure".
-	Infrastructure *SpecInfrastructure `json:"infrastructure,omitempty" yaml:"infrastructure,omitempty"`
+	Infrastructure *SpecInfrastructure `json:"infrastructure,omitempty" yaml:"infrastructure,omitempty" mapstructure:"infrastructure,omitempty"`
 
 	// Kubernetes corresponds to the JSON schema field "kubernetes".
-	Kubernetes SpecKubernetes `json:"kubernetes" yaml:"kubernetes"`
+	Kubernetes SpecKubernetes `json:"kubernetes" yaml:"kubernetes" mapstructure:"kubernetes"`
 
 	// Region corresponds to the JSON schema field "region".
-	Region TypesAwsRegion `json:"region" yaml:"region"`
+	Region TypesAwsRegion `json:"region" yaml:"region" mapstructure:"region"`
 
 	// Tags corresponds to the JSON schema field "tags".
-	Tags TypesAwsTags `json:"tags,omitempty" yaml:"tags,omitempty"`
+	Tags TypesAwsTags `json:"tags,omitempty" yaml:"tags,omitempty" mapstructure:"tags,omitempty"`
 
 	// ToolsConfiguration corresponds to the JSON schema field "toolsConfiguration".
-	ToolsConfiguration SpecToolsConfiguration `json:"toolsConfiguration" yaml:"toolsConfiguration"`
+	ToolsConfiguration SpecToolsConfiguration `json:"toolsConfiguration" yaml:"toolsConfiguration" mapstructure:"toolsConfiguration"`
 }
 
 // UnmarshalJSON implements json.Unmarshaler.
@@ -2640,16 +2613,16 @@ const EksclusterKfdV1Alpha2KindEKSCluster EksclusterKfdV1Alpha2Kind = "EKSCluste
 // A Fury Cluster deployed through AWS's Elastic Kubernetes Service
 type EksclusterKfdV1Alpha2 struct {
 	// ApiVersion corresponds to the JSON schema field "apiVersion".
-	ApiVersion string `json:"apiVersion" yaml:"apiVersion"`
+	ApiVersion string `json:"apiVersion" yaml:"apiVersion" mapstructure:"apiVersion"`
 
 	// Kind corresponds to the JSON schema field "kind".
-	Kind EksclusterKfdV1Alpha2Kind `json:"kind" yaml:"kind"`
+	Kind EksclusterKfdV1Alpha2Kind `json:"kind" yaml:"kind" mapstructure:"kind"`
 
 	// Metadata corresponds to the JSON schema field "metadata".
-	Metadata Metadata `json:"metadata" yaml:"metadata"`
+	Metadata Metadata `json:"metadata" yaml:"metadata" mapstructure:"metadata"`
 
 	// Spec corresponds to the JSON schema field "spec".
-	Spec Spec `json:"spec" yaml:"spec"`
+	Spec Spec `json:"spec" yaml:"spec" mapstructure:"spec"`
 }
 
 // UnmarshalJSON implements json.Unmarshaler.
