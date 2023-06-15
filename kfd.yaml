@@ -14,8 +14,8 @@ modules:
   networking: v1.12.2
 kubernetes:
   eks:
-    version: 1.25
-    installer: v2.0.0
+    version: 1.26
+    installer: develop-next
 furyctlSchemas:
   eks:
     - apiVersion: kfd.sighup.io/v1alpha2
