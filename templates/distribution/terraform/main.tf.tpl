@@ -7,6 +7,8 @@ terraform {
     bucket = "{{ .spec.toolsConfiguration.terraform.state.s3.bucketName }}"
     key    = "{{ .spec.toolsConfiguration.terraform.state.s3.keyPrefix }}/distribution.json"
     region = "{{ .spec.toolsConfiguration.terraform.state.s3.region }}"
+
+    skip_region_validation = true
   }
 }
 
