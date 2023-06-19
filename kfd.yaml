@@ -33,6 +33,8 @@ tools:
       version: 3.10.0
     terraform:
       version: 1.4.6
+    yq:
+      version: 4.34.1
   eks:
     awscli:
       version: 2.8.12

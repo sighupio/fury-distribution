@@ -66,6 +66,7 @@ type KFDToolsCommon struct {
 	Kubectl   KFDTool `yaml:"kubectl" validate:"required"`
 	Kustomize KFDTool `yaml:"kustomize" validate:"required"`
 	Terraform KFDTool `yaml:"terraform" validate:"required"`
+	Yq        KFDTool `yaml:"yq" validate:"required"`
 }
 
 type KFDToolsEks struct {
