@@ -1058,6 +1058,10 @@ type SpecToolsConfigurationTerraformStateS3 struct {
 
 	// Region corresponds to the JSON schema field "region".
 	Region TypesAwsRegion `json:"region" yaml:"region" mapstructure:"region"`
+
+	// SkipRegionValidation corresponds to the JSON schema field
+	// "skipRegionValidation".
+	SkipRegionValidation *bool `json:"skipRegionValidation,omitempty" yaml:"skipRegionValidation,omitempty" mapstructure:"skipRegionValidation,omitempty"`
 }
 
 type TypesAwsArn string

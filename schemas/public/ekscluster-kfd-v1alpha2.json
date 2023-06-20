@@ -329,6 +329,9 @@
                 },
                 "region": {
                     "$ref": "#/$defs/Types.AwsRegion"
+                },
+                "skipRegionValidation": {
+                    "type": "boolean"
                 }
             },
             "required": [
