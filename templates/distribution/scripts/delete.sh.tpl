@@ -23,4 +23,4 @@ $kubectlbin delete --namespace monitoring --wait --timeout=180s --all persistent
 
 $kubectlbin delete --namespace ingress-nginx --wait --timeout=180s --all services $dryRun
 
-$kustomizebin build . | $kubectlbin delete -f - $dryRun
+$kustomizebin build . | $kubectlbin delete --ignore-not-found -f - $dryRun
