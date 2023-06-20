@@ -1,4 +1,4 @@
-#!/bin/env sh
+#!/usr/bin/env sh
 
 kustomizebin="{{ .paths.kustomize }}"
 kubectlbin="{{ .paths.kubectl }}"
