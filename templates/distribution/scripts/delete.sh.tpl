@@ -3,7 +3,7 @@
 kustomizebin="{{ .paths.kustomize }}"
 kubectlbin="{{ .paths.kubectl }}"
 
-if [ "$1" = "true" ]; then
+if [ "$1" = "--dry-run=true" ]; then
   dryRun="--dry-run=client"
 else
   dryRun=""
