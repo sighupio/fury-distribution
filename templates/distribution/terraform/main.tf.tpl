@@ -8,7 +8,11 @@ terraform {
     key    = "{{ .spec.toolsConfiguration.terraform.state.s3.keyPrefix }}/distribution.json"
     region = "{{ .spec.toolsConfiguration.terraform.state.s3.region }}"
 
-    skip_region_validation = {{ default false .spec.toolsConfiguration.terraform.state.s3.skipRegionValidation }}
+    {{- if index .spec.toolsConfiguration.terraform.state.s3 "skipRegionValidation" }}
+      skip_region_validation = {{ default false .spec.toolsConfiguration.terraform.state.s3.skipRegionValidation }}
+    {{- else }}
+      skip_region_validation = false
+    {{- end }}
   }
 }
 
