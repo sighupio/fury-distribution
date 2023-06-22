@@ -2,6 +2,7 @@
 
 kustomizebin="{{ .paths.kustomize }}"
 kubectlbin="{{ .paths.kubectl }}"
+yqbin="{{ .paths.yq }}"
 
 if [ "$1" = "--dry-run=true" ]; then
   dryRun="--dry-run=client"
@@ -9,18 +10,17 @@ else
   dryRun=""
 fi
 
-$kubectlbin delete --all-namespaces --wait --timeout=180s --all ingress $dryRun
+kustomizebuild=$($kustomizebin build .)
 
-$kubectlbin delete --namespace logging --wait --timeout=180s --ignore-not-found deployment loki-distributed-distributor $dryRun
-$kubectlbin delete --namespace logging --wait --timeout=180s --ignore-not-found deployment loki-distributed-compactor $dryRun
-$kubectlbin delete --namespace logging --wait --timeout=180s --all loggings.logging.banzaicloud.io $dryRun
-$kubectlbin delete --namespace logging --wait --timeout=180s --all statefulsets.apps $dryRun
-$kubectlbin delete --namespace logging --wait --timeout=180s --all persistentvolumeclaims $dryRun
+# list generated with: kustomize build . | yq 'select(.kind == "CustomResourceDefinition") | .spec.group' | sort | uniq
+$kustomizebuild | $yqbin 'select(.apiVersion == "acme.cert-manager.io/*" or .apiVersion == "cert-manager.io/*" or .apiVersion == "config.gatekeeper.sh/*" or .apiVersion == "expansion.gatekeeper.sh/*" or .apiVersion == "externaldata.gatekeeper.sh/*" or .apiVersion == "forecastle.stakater.com/*" or .apiVersion == "logging-extensions.banzaicloud.io/*" or .apiVersion == "logging.banzaicloud.io/*" or .apiVersion == "monitoring.coreos.com/*" or .apiVersion == "mutations.gatekeeper.sh/*" or .apiVersion == "status.gatekeeper.sh/*" or .apiVersion == "templates.gatekeeper.sh/*" or .apiVersion == "velero.io/*")' | $kubectlbin delete --ignore-not-found --wait --timeout=180s -f - $dryRun
 
-$kubectlbin delete --namespace monitoring --wait --timeout=180s --all prometheuses.monitoring.coreos.com $dryRun
-$kubectlbin delete --namespace monitoring --wait --timeout=180s --all prometheusrules.monitoring.coreos.com $dryRun
-$kubectlbin delete --namespace monitoring --wait --timeout=180s --all persistentvolumeclaims $dryRun
+$kustomizebuild | $yqbin 'select(.kind == "StatefulSet")' | $kubectlbin delete --ignore-not-found --wait --timeout=180s -f - $dryRun
 
-$kubectlbin delete --namespace ingress-nginx --wait --timeout=180s --all services $dryRun
+$kustomizebuild | $yqbin 'select(.kind == "PersistentVolumeClaim" and .metadata.namespace == "monitoring")' | $kubectlbin delete --ignore-not-found --wait --timeout=180s -f - $dryRun
+$kustomizebuild | $yqbin 'select(.kind == "PersistentVolumeClaim" and .metadata.namespace == "logging")' | $kubectlbin delete --ignore-not-found --wait --timeout=180s -f - $dryRun
 
-$kustomizebin build . | $kubectlbin delete --ignore-not-found -f - $dryRun
+$kustomizebuild | $yqbin 'select(.kind == "Service" and .spec.type == "LoadBalancer")' | $kubectlbin delete --ignore-not-found --wait --timeout=180s -f - $dryRun
+
+$kustomizebuild | $yqbin 'select(.kind != "CustomResourceDefinition")' | $kubectlbin delete --ignore-not-found --wait --timeout=180s -f - $dryRun
+$kustomizebuild | $yqbin 'select(.kind == "CustomResourceDefinition")' | $kubectlbin delete --ignore-not-found --wait --timeout=180s -f - $dryRun
