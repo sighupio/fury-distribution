@@ -2,11 +2,6 @@
 # Use of this source code is governed by a BSD-style
 # license that can be found in the LICENSE file.
 
-# TODO: update versions
-# aws: v3.0.0
-# dr: v2.0.0
-# ingress: v2.0.0
-
 version: v1.25.3
 modules:
   auth: v0.0.3
