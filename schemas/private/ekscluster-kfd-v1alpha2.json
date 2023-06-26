@@ -719,11 +719,20 @@
         "overrides": {
           "$ref": "#/$defs/Types.FuryModuleOverrides"
         },
+        "type": {
+          "type": "string",
+          "enum": [
+            "none",
+            "on-premises",
+            "eks"
+          ]
+        },
         "velero": {
           "$ref": "#/$defs/Spec.Distribution.Modules.Dr.Velero"
         }
       },
       "required": [
+        "type",
         "velero"
       ]
     },
@@ -786,11 +795,20 @@
         },
         "overrides": {
           "$ref": "#/$defs/Spec.Distribution.Modules.Ingress.Overrides"
+        },
+        "type": {
+          "type": "string",
+          "enum": [
+            "none",
+            "single",
+            "dual"
+          ]
         }
       },
       "required": [
         "certManager",
         "externalDns",
+        "type",
         "baseDomain",
         "dns",
         "nginx"
@@ -1060,15 +1078,17 @@
       "type": "object",
       "additionalProperties": false,
       "properties": {
+        "overrides": {
+          "$ref": "#/$defs/Types.FuryModuleOverrides"
+        },
         "type": {
           "type": "string",
           "enum": [
-            "opensearch",
+            "none",
+            "opensearch-single",
+            "opensearch-triple",
             "loki"
           ]
-        },
-        "overrides": {
-          "$ref": "#/$defs/Types.FuryModuleOverrides"
         },
         "opensearch": {
           "$ref": "#/$defs/Spec.Distribution.Modules.Logging.Opensearch"
@@ -1086,6 +1106,9 @@
           "$ref": "#/$defs/Spec.Distribution.Modules.Logging.Operator"
         }
       },
+      "required": [
+        "type"
+      ],
       "allOf": [
         {
           "if": {
@@ -1267,10 +1290,22 @@
         "overrides": {
           "$ref": "#/$defs/Types.FuryModuleComponentOverrides"
         },
+        "type": {
+          "type": "string",
+          "enum": [
+            "none",
+            "calico",
+            "cilium",
+            "eks"
+          ]
+        },
         "tigeraOperator": {
           "$ref": "#/$defs/Spec.Distribution.Modules.Networking.TigeraOperator"
         }
-      }
+      },
+      "required": [
+        "type"
+      ]
     },
     "Spec.Distribution.Modules.Networking.TigeraOperator": {
       "type": "object",
@@ -1288,10 +1323,20 @@
         "overrides": {
           "$ref": "#/$defs/Types.FuryModuleOverrides"
         },
+        "type": {
+          "type": "string",
+          "enum": [
+            "none",
+            "gatekeeper"
+          ]
+        },
         "gatekeeper": {
           "$ref": "#/$defs/Spec.Distribution.Modules.Policy.Gatekeeper"
         }
-      }
+      },
+      "required": [
+        "type"
+      ]
     },
     "Spec.Distribution.Modules.Policy.Gatekeeper": {
       "type": "object",

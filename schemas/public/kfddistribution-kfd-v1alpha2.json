@@ -336,6 +336,10 @@
         "overrides": {
           "$ref": "#/$defs/Spec.Distribution.Modules.Ingress.Overrides"
         },
+        "type": {
+          "type": "string",
+          "enum": ["none", "single", "dual"]
+        },
         "baseDomain": {
           "type": "string"
         },
@@ -349,7 +353,11 @@
           "$ref": "#/$defs/Spec.Distribution.Modules.Ingress.Forecastle"
         }
       },
-      "required": ["baseDomain", "nginx"]
+      "required": [
+        "type",
+        "baseDomain",
+        "nginx"
+      ]
     },
     "Spec.Distribution.Modules.Ingress.Overrides": {
       "type": "object",
@@ -490,12 +498,12 @@
       "type": "object",
       "additionalProperties": false,
       "properties": {
-        "type": {
-          "type": "string",
-          "enum": ["opensearch", "loki"]
-        },
         "overrides": {
           "$ref": "#/$defs/Types.FuryModuleOverrides"
+        },
+        "type": {
+          "type": "string",
+          "enum": ["none", "opensearch-single", "opensearch-triple", "loki"]
         },
         "opensearch": {
           "$ref": "#/$defs/Spec.Distribution.Modules.Logging.Opensearch"
@@ -513,6 +521,9 @@
           "$ref": "#/$defs/Spec.Distribution.Modules.Logging.Operator"
         }
       },
+      "required": [
+        "type"
+      ],
       "allOf": [
         {
           "if": {
@@ -687,10 +698,17 @@
         "overrides": {
           "$ref": "#/$defs/Types.FuryModuleComponentOverrides"
         },
+        "type": {
+          "type": "string",
+          "enum": ["none", "calico", "cilium"]
+        },
         "tigeraOperator": {
           "$ref": "#/$defs/Spec.Distribution.Modules.Networking.TigeraOperator"
         }
-      }
+      },
+      "required": [
+        "type"
+      ]
     },
     "Spec.Distribution.Modules.Networking.TigeraOperator": {
       "type": "object",
@@ -708,10 +726,17 @@
         "overrides": {
           "$ref": "#/$defs/Types.FuryModuleOverrides"
         },
+        "type": {
+          "type": "string",
+          "enum": ["none", "gatekeeper"]
+        },
         "gatekeeper": {
           "$ref": "#/$defs/Spec.Distribution.Modules.Policy.Gatekeeper"
         }
-      }
+      },
+      "required": [
+        "type"
+      ]
     },
     "Spec.Distribution.Modules.Policy.Gatekeeper": {
       "type": "object",
@@ -735,11 +760,18 @@
         "overrides": {
           "$ref": "#/$defs/Types.FuryModuleOverrides"
         },
+        "type": {
+          "type": "string",
+          "enum": ["none", "on-premises"]
+        },
         "velero": {
           "$ref": "#/$defs/Spec.Distribution.Modules.Dr.Velero"
         }
       },
-      "required": ["velero"]
+      "required": [
+        "type",
+        "velero"
+      ]
     },
     "Spec.Distribution.Modules.Dr.Velero": {
       "type": "object",
