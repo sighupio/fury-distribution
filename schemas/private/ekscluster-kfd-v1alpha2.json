@@ -1520,6 +1520,9 @@
         "apiServer": {
           "$ref": "#/$defs/Spec.Kubernetes.APIServer"
         },
+        "serviceIpV4Cidr": {
+          "$ref": "#/$defs/Types.Cidr"
+        },
         "nodeAllowedSshPublicKey": {
           "anyOf": [
             {
@@ -1964,6 +1967,9 @@
         },
         "region": {
           "$ref": "#/$defs/Types.AwsRegion"
+        },
+        "skipRegionValidation": {
+          "type": "boolean"
         }
       },
       "required": [
