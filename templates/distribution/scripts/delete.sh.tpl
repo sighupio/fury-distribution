@@ -5,15 +5,20 @@ set -e
 kustomizebin="{{ .paths.kustomize }}"
 kubectlbin="{{ .paths.kubectl }}"
 yqbin="{{ .paths.yq }}"
-kubeconfig="$2"
 
 if [ "$1" = "true" ]; then
-  dryRun="--dry-run=client"
+  dryrun="--dry-run=server"
 else
-  dryRun=""
+  dryrun=""
 fi
 
-kubectlcmd="$kubectlbin $dryRun --kubeconfig $kubeconfig"
+if [ "$2" != "" ]; then
+  kubeconfig="--kubeconfig=$2"
+else
+  kubeconfig=""
+fi
+
+kubectlcmd="$kubectlbin $dryrun $kubeconfig"
 
 $kustomizebin build . > out.yaml
 
