@@ -13,14 +13,23 @@ resources:
 {{- if eq .spec.distribution.common.provider.type "eks" }}
   - aws
 {{- end }}
+{{- if ne .spec.distribution.modules.dr.type "none" }}
   - dr
+{{- end }}
   - ingress
+{{- if ne .spec.distribution.modules.logging.type "none" }}
   - logging
+{{- end }}
   - monitoring
-{{- if ne .spec.distribution.common.provider.type "none" }}
+{{- if eq .spec.distribution.common.provider.type "eks" }}
   - networking
 {{- end }}
+{{- if and (ne .spec.distribution.modules.networking.type "none") (eq .spec.distribution.common.provider.type "none" ) }}
+  - networking
+{{- end }}
+{{- if eq .spec.distribution.modules.policy.type "gatekeeper" }}
   - opa
+{{- end }}
 
 {{- if .spec.distribution.customPatches.patchesStrategicMerge }}
 patchesStrategicMerge:
