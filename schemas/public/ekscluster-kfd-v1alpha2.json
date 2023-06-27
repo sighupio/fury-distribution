@@ -1537,17 +1537,10 @@
                 "overrides": {
                     "$ref": "#/$defs/Types.FuryModuleComponentOverrides"
                 },
-                "type": {
-                    "type": "string",
-                    "enum": ["none", "calico", "cilium", "eks"]
-                },
                 "tigeraOperator": {
                     "$ref": "#/$defs/Spec.Distribution.Modules.Networking.TigeraOperator"
                 }
-            },
-            "required": [
-                "type"
-            ]
+            }
         },
         "Spec.Distribution.Modules.Networking.TigeraOperator": {
             "type": "object",
