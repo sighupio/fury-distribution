@@ -693,12 +693,15 @@
         "overrides": {
           "$ref": "#/$defs/Types.FuryModuleComponentOverrides"
         },
+        "tigeraOperator": {
+          "$ref": "#/$defs/Spec.Distribution.Modules.Networking.TigeraOperator"
+        },
+        "cilium": {
+          "$ref": "#/$defs/Spec.Distribution.Modules.Networking.Cilium"
+        },
         "type": {
           "type": "string",
           "enum": ["none", "calico", "cilium"]
-        },
-        "tigeraOperator": {
-          "$ref": "#/$defs/Spec.Distribution.Modules.Networking.TigeraOperator"
         }
       },
       "required": [
@@ -706,6 +709,15 @@
       ]
     },
     "Spec.Distribution.Modules.Networking.TigeraOperator": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "overrides": {
+          "$ref": "#/$defs/Types.FuryModuleComponentOverrides"
+        }
+      }
+    },
+    "Spec.Distribution.Modules.Networking.Cilium": {
       "type": "object",
       "additionalProperties": false,
       "properties": {
