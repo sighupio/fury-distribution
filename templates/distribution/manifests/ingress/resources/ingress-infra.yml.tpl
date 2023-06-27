@@ -6,7 +6,11 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
+  labels:
+    cluster.kfd.sighup.io/useful-link.enable: "true"
   annotations:
+    cluster.kfd.sighup.io/useful-link.url: https://{{ template "forecastleUrl" .spec }}
+    cluster.kfd.sighup.io/useful-link.name: "Forecastle"
     forecastle.stakater.com/expose: "true"
     forecastle.stakater.com/appName: "Forecastle"
     forecastle.stakater.com/icon: "https://raw.githubusercontent.com/stakater/Forecastle/master/assets/web/forecastle-round-100px.png"

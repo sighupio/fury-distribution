@@ -7,7 +7,11 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
+  labels:
+    cluster.kfd.sighup.io/useful-link.enable: "true"
   annotations:
+    cluster.kfd.sighup.io/useful-link.url: https://{{ template "cerebroUrl" .spec }}
+    cluster.kfd.sighup.io/useful-link.name: "Cerebro"
     forecastle.stakater.com/expose: "true"
     forecastle.stakater.com/appName: "Cerebro"
     forecastle.stakater.com/icon: "https://github.com/stakater/ForecastleIcons/raw/master/cerebro.png"
@@ -44,7 +48,11 @@ spec:
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
+  labels:
+    cluster.kfd.sighup.io/useful-link.enable: "true"
   annotations:
+    cluster.kfd.sighup.io/useful-link.url: https://{{ template "opensearchDashboardsUrl" .spec }}
+    cluster.kfd.sighup.io/useful-link.name: "Opensearch Dashboards"
     forecastle.stakater.com/expose: "true"
     forecastle.stakater.com/appName: "Opensearch Dashboards"
     forecastle.stakater.com/icon: "https://opensearch.org/assets/brand/PNG/Mark/opensearch_mark_default.png"
@@ -82,7 +90,11 @@ spec:
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
+  labels:
+    cluster.kfd.sighup.io/useful-link.enable: "true"
   annotations:
+    cluster.kfd.sighup.io/useful-link.url: https://{{ template "minioUrl" .spec }}
+    cluster.kfd.sighup.io/useful-link.name: "MinIO Logging"
     forecastle.stakater.com/expose: "true"
     forecastle.stakater.com/appName: "MinIO Logging"
     forecastle.stakater.com/icon: "https://min.io/resources/img/logo/MINIO_Bird.png"

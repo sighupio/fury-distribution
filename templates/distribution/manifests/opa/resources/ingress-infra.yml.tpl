@@ -6,7 +6,11 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
+  labels:
+    cluster.kfd.sighup.io/useful-link.enable: "true"
   annotations:
+    cluster.kfd.sighup.io/useful-link.url: https://{{ template "gpmUrl" .spec }}
+    cluster.kfd.sighup.io/useful-link.name: "Gatekeeper Policy Manager"
     forecastle.stakater.com/expose: "true"
     forecastle.stakater.com/appName: "Gatekeeper Policy Manager"
     forecastle.stakater.com/icon: "https://raw.githubusercontent.com/sighupio/gatekeeper-policy-manager/master/app/static-content/logo.svg"
