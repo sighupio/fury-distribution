@@ -26,6 +26,9 @@ spec:
     #       value: infra
     # This section contains all the configurations for all the KFD core modules
     modules:
+      networking:
+        # this type defines if we need to install the networking in the cluster, type available: none, cilium, calico
+        type: none
       # This section contains all the configurations for the ingress module
       ingress:
         # This optional key is used to override automatic parameters
@@ -47,7 +50,7 @@ spec:
         baseDomain: internal.example.dev
         # configurations for the nginx ingress controller package
         nginx:
-          # type defines if the nginx should be configured as single or dual (internal + external)
+          # type defines if the nginx should be configured as single or dual (internal + external) or none, with none no ingress controller will be deployed and also no ingress resource will be created
           type: dual
           # the tls section defines how the tls for the ingresses should be managed
           tls:
@@ -107,7 +110,7 @@ spec:
         #      host: ""
         #      # the ingressClass can be overridden if needed
         #      ingressClass: ""
-        # can be opensearch or loki
+        # can be opensearch or loki or none, with none, nothing from the logging module will be installed
         type: opensearch
         # configurations for the opensearch package
         opensearch:
@@ -186,6 +189,8 @@ spec:
           slackWebhookUrl: https://slack.com
       # This section contains all the configurations for the policy (opa) module
       policy:
+        # type can be gatekeeper or none
+        type: gatekeeper
         # This optional key is used to override automatic parameters
         #overrides:
         #  # This key is used to override the spec.distribution.common.nodeSelector setting. Set to a custom value or use an empty object {} to not add the common node selector.
@@ -207,6 +212,8 @@ spec:
           additionalExcludedNamespaces: []
       # This section contains all the configurations for the Disaster Recovery module
       dr:
+        # type can be none or on-premises
+        type: on-premises
         # Configurations for the velero package
         velero: {}
         # This optional key is used to override automatic parameters
