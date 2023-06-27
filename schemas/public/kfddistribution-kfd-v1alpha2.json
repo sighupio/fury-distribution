@@ -336,10 +336,6 @@
         "overrides": {
           "$ref": "#/$defs/Spec.Distribution.Modules.Ingress.Overrides"
         },
-        "type": {
-          "type": "string",
-          "enum": ["none", "single", "dual"]
-        },
         "baseDomain": {
           "type": "string"
         },
@@ -354,7 +350,6 @@
         }
       },
       "required": [
-        "type",
         "baseDomain",
         "nginx"
       ]
@@ -401,7 +396,7 @@
       "properties": {
         "type": {
           "type": "string",
-          "enum": ["single", "dual"]
+          "enum": ["none", "single", "dual"]
         },
         "tls": {
           "$ref": "#/$defs/Spec.Distribution.Modules.Ingress.Nginx.TLS"
