@@ -601,6 +601,9 @@ func (j *SpecDistributionModules) UnmarshalJSON(b []byte) error {
 	if v, ok := raw["logging"]; !ok || v == nil {
 		return fmt.Errorf("field logging in SpecDistributionModules: required")
 	}
+	if v, ok := raw["policy"]; !ok || v == nil {
+		return fmt.Errorf("field policy in SpecDistributionModules: required")
+	}
 	type Plain SpecDistributionModules
 	var plain Plain
 	if err := json.Unmarshal(b, &plain); err != nil {
@@ -717,7 +720,7 @@ type SpecDistributionModules struct {
 	Networking *SpecDistributionModulesNetworking `json:"networking,omitempty" yaml:"networking,omitempty"`
 
 	// Policy corresponds to the JSON schema field "policy".
-	Policy *SpecDistributionModulesPolicy `json:"policy,omitempty" yaml:"policy,omitempty"`
+	Policy SpecDistributionModulesPolicy `json:"policy" yaml:"policy"`
 }
 
 // UnmarshalJSON implements json.Unmarshaler.

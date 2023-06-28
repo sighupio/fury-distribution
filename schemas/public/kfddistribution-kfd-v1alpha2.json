@@ -327,7 +327,7 @@
           "$ref": "#/$defs/Spec.Distribution.Modules.Policy"
         }
       },
-      "required": ["dr", "ingress", "logging"]
+      "required": ["dr", "ingress", "logging", "policy"]
     },
     "Spec.Distribution.Modules.Ingress": {
       "type": "object",
