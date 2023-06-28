@@ -794,20 +794,11 @@
         },
         "overrides": {
           "$ref": "#/$defs/Spec.Distribution.Modules.Ingress.Overrides"
-        },
-        "type": {
-          "type": "string",
-          "enum": [
-            "none",
-            "single",
-            "dual"
-          ]
         }
       },
       "required": [
         "certManager",
         "externalDns",
-        "type",
         "baseDomain",
         "dns",
         "nginx"
@@ -979,6 +970,7 @@
         "type": {
           "type": "string",
           "enum": [
+            "none",
             "single",
             "dual"
           ]
