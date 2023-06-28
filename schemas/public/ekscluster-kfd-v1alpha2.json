@@ -1594,7 +1594,7 @@
                 },
                 "type": {
                     "type": "string",
-                    "enum": ["none", "on-premises", "eks"]
+                    "enum": ["none", "eks"]
                 },
                 "velero": {
                     "$ref": "#/$defs/Spec.Distribution.Modules.Dr.Velero"

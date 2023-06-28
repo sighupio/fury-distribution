@@ -723,7 +723,6 @@
           "type": "string",
           "enum": [
             "none",
-            "on-premises",
             "eks"
           ]
         },
