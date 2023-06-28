@@ -71,6 +71,7 @@ spec:
           type: sso
         baseDomain: furyctl-demo.sighup.io
       dr:
+        type: eks
         velero:
           eks:
             bucketName: example-velero
@@ -101,6 +102,7 @@ spec:
           privateIamRoleArn: arn:aws:iam::123456789012:role/external-dns-private
           publicIamRoleArn: arn:aws:iam::123456789012:role/external-dns-public
       logging:
+        type: opensearch-single
         opensearch:
           type: single
 
