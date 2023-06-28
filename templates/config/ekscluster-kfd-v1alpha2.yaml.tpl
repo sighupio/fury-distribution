@@ -346,6 +346,8 @@ spec:
           slackWebhookUrl: https://slack.com
       # This section contains all the configurations for the policy (opa) module
       policy:
+        # type can be gatekeeper or none
+        type: gatekeeper
         # This optional key is used to override automatic parameters
         #overrides:
         #  # This key is used to override the spec.distribution.common.nodeSelector setting. Set to a custom value or use an empty object {} to not add the common node selector.
@@ -367,6 +369,8 @@ spec:
           additionalExcludedNamespaces: []
       # This section contains all the configurations for the Disaster Recovery module
       dr:
+        # can be none or eks
+        type: eks
         # Configurations for the velero package
         velero:
           # Velero configurations for EKS cluster

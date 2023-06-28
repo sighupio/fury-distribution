@@ -13,7 +13,9 @@ kind: Kustomization
 resources:
   - {{ print "../" .spec.distribution.common.relativeVendorPath "/modules/auth/katalog/dex" }}
   - {{ print "../" .spec.distribution.common.relativeVendorPath "/modules/auth/katalog/pomerium" }}
+{{- if ne .spec.distribution.modules.ingress.nginx.type "none" }}
   - resources/ingress-infra.yml
+{{- end }}
 
 patchesStrategicMerge:
   - patches/infra-nodes.yml

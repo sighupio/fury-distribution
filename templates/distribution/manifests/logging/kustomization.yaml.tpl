@@ -24,7 +24,9 @@ resources:
   - {{ print "../" .spec.distribution.common.relativeVendorPath "/modules/logging/katalog/loki-configs" }}
   - {{ print "../" .spec.distribution.common.relativeVendorPath "/modules/logging/katalog/loki-distributed" }}
 {{- end }}
+{{- if ne .spec.distribution.modules.ingress.nginx.type "none" }}
   - resources/ingress-infra.yml
+{{- end }}
 
 patchesStrategicMerge:
 {{- if eq .spec.distribution.modules.logging.type "opensearch" }}

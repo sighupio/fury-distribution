@@ -2,6 +2,8 @@
 # Use of this source code is governed by a BSD-style
 # license that can be found in the LICENSE file.
 
+{{- if eq .spec.distribution.modules.dr.type "eks" }}
+
 module "velero" {
   providers = {
     aws = aws.velero
@@ -15,3 +17,5 @@ module "velero" {
 output "velero_iam_role_arn" {
   value = module.velero.velero_iam_role_arn
 }
+
+{{- end }}
