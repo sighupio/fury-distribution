@@ -102,7 +102,7 @@ spec:
           privateIamRoleArn: arn:aws:iam::123456789012:role/external-dns-private
           publicIamRoleArn: arn:aws:iam::123456789012:role/external-dns-public
       logging:
-        type: opensearch-single
+        type: opensearch
         opensearch:
           type: single
 

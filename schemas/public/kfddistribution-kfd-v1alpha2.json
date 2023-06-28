@@ -498,7 +498,7 @@
         },
         "type": {
           "type": "string",
-          "enum": ["none", "opensearch-single", "opensearch-triple", "loki"]
+          "enum": ["none", "opensearch", "loki"]
         },
         "opensearch": {
           "$ref": "#/$defs/Spec.Distribution.Modules.Logging.Opensearch"

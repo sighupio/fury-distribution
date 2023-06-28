@@ -1076,8 +1076,7 @@
           "type": "string",
           "enum": [
             "none",
-            "opensearch-single",
-            "opensearch-triple",
+            "opensearch",
             "loki"
           ]
         },
