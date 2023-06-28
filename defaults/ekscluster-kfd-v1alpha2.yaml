@@ -130,6 +130,7 @@ data:
         slackWebhookUrl: ""
     # networking module configuration
     networking:
+      type: none
       overrides:
         nodeSelector: null
         tolerations: null

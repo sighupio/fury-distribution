@@ -420,7 +420,8 @@
       "required": [
         "dr",
         "ingress",
-        "logging"
+        "logging",
+        "policy"
       ]
     },
     "Spec.Distribution.Modules.Auth": {
@@ -1274,7 +1275,6 @@
       }
     },
     "Spec.Distribution.Modules.Networking": {
-      "type": "object",
       "additionalProperties": false,
       "properties": {
         "overrides": {
@@ -1282,8 +1282,15 @@
         },
         "tigeraOperator": {
           "$ref": "#/$defs/Spec.Distribution.Modules.Networking.TigeraOperator"
+        },
+        "type": {
+          "type": "string",
+          "enum": [
+            "none"
+          ]
         }
-      }
+      },
+      "type": "object"
     },
     "Spec.Distribution.Modules.Networking.TigeraOperator": {
       "type": "object",
