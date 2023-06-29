@@ -38,6 +38,8 @@ fi
   $yqbin 'select(.kind == "Issuer" or .kind == "ClusterIssuer" or .kind == "Certificate")' \
   | $kubectlcmd apply -f - --server-side
 
+{{- if ne .spec.distribution.modules.ingress.nginx.type "none" }}
 $kubectlcmd get pods -o yaml -n ingress-nginx | $kubectlcmd wait --for condition=Ready --timeout=180s -f -
+{{- end }}
 
 < out.yaml $kubectlcmd apply -f - --server-side
