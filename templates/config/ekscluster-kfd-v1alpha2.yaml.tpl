@@ -193,7 +193,7 @@ spec:
         baseDomain: internal.example.dev
         # configurations for the nginx ingress controller package
         nginx:
-          # type defines if the nginx should be configured as single or dual (internal + external)
+          # type defines if the nginx should be configured as single or dual (internal + external) or none, with none no ingress controller will be deployed and also no ingress resource will be created
           type: dual
           # the tls section defines how the tls for the ingresses should be managed
           tls:
