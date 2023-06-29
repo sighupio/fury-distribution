@@ -70,7 +70,6 @@ $kubectlcmd delete --ignore-not-found --wait --timeout=180s -n logging --all per
 echo "Logging PVCs deleted"
 < out.yaml $yqbin 'select(.kind == "Service" and .spec.type == "LoadBalancer")' | $kubectlcmd delete --ignore-not-found --wait --timeout=180s -f - || true
 echo "LoadBalancer Services deleted"
-sleep 180
 < out.yaml $yqbin 'select(.kind != "CustomResourceDefinition")' | $kubectlcmd delete --ignore-not-found --wait --timeout=180s -f - || true
 echo "Resources deleted"
 < out.yaml $yqbin 'select(.kind == "CustomResourceDefinition")' | $kubectlcmd delete --ignore-not-found --wait --timeout=180s -f - || true
