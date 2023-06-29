@@ -15,7 +15,7 @@ modules:
 kubernetes:
   eks:
     version: 1.25
-    installer: develop
+    installer: v2.0.0
 furyctlSchemas:
   eks:
     - apiVersion: kfd.sighup.io/v1alpha2
