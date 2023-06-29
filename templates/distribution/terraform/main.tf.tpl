@@ -10,8 +10,6 @@ terraform {
 
     {{- if index .spec.toolsConfiguration.terraform.state.s3 "skipRegionValidation" }}
       skip_region_validation = {{ default false .spec.toolsConfiguration.terraform.state.s3.skipRegionValidation }}
-    {{- else }}
-      skip_region_validation = false
     {{- end }}
   }
 }
