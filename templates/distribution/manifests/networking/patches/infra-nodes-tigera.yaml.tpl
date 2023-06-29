@@ -35,16 +35,6 @@ spec:
         {{ template "nodeSelector" $tigeraOperatorArgs }}
       tolerations:
         {{ template "tolerations" $tigeraOperatorArgs }}
----
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: tigera-operator
-  namespace: tigera-operator
-spec:
-  template:
-    spec:
-      tolerations:
-          - effect: NoSchedule
-            key: node.kubernetes.io/not-ready
-            operator: Exists
+        - effect: NoSchedule
+          key: node.kubernetes.io/not-ready
+          operator: Exists
