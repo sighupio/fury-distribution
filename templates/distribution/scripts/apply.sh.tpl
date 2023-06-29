@@ -26,6 +26,10 @@ if [ "$dryrun" != "" ]; then
   exit 0
 fi
 
+{{- if eq .spec.distribution.modules.networking.type "calico" }}
+$kubectlcmd create namespace calico-system --dry-run=client -o yaml | $kubectlcmd apply -f - --server-side
+{{- end }}
+
 < out.yaml $yqbin 'select(.kind == "CustomResourceDefinition")' | $kubectlcmd apply -f - --server-side
 < out.yaml $yqbin 'select(.kind == "CustomResourceDefinition")' | $kubectlcmd wait --for condition=established --timeout=60s -f -
 < out.yaml \
