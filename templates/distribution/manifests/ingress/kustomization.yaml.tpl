@@ -20,7 +20,9 @@ resources:
   - {{ print "../" .spec.distribution.common.relativeVendorPath "/modules/ingress/katalog/external-dns/public" }}
 {{- end }}
 {{- end }}
+{{- if ne .spec.distribution.modules.ingress.nginx.type "none" }}
   - {{ print "../" .spec.distribution.common.relativeVendorPath "/modules/ingress/katalog/forecastle" }}
+{{- end }}
   - {{ print "../" .spec.distribution.common.relativeVendorPath "/modules/ingress/katalog/cert-manager" }}
 {{- if eq .spec.distribution.modules.ingress.nginx.tls.provider "certManager" }}
   - resources/cert-manager-clusterissuer.yml

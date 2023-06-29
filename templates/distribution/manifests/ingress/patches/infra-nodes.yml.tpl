@@ -48,6 +48,7 @@ spec:
       tolerations:
         {{ template "tolerations" $certManagerArgs }}
 {{- end }}
+{{- if ne .spec.distribution.modules.ingress.nginx.type "none" }}
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -61,6 +62,7 @@ spec:
         {{ template "nodeSelector" $forecastleArgs }}
       tolerations:
         {{ template "tolerations" $forecastleArgs }}
+{{- end }}
 {{ if eq .spec.distribution.modules.ingress.nginx.type "dual" -}}
 ---
 apiVersion: apps/v1
