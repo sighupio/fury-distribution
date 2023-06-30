@@ -64,12 +64,14 @@ echo "Ingresses deleted"
 echo "CRDs deleted"
 < out.yaml $yqbin 'select(.kind == "StatefulSet")' | $kubectlcmd delete --ignore-not-found --wait --timeout=180s -f -
 echo "StatefulSets deleted"
-$kubectlcmd delete --ignore-not-found --wait --timeout=180s -n monitoring --all persistentvolumeclaims
-echo "Monitoring PVCs deleted"
 $kubectlcmd delete -n logging deployments -l app.kubernetes.io/instance=loki-distributed
 echo "Logging loki deployments deleted"
+$kubectlcmd delete --ignore-not-found --wait --timeout=180s -n monitoring --all persistentvolumeclaims
+echo "Monitoring PVCs deleted"
 $kubectlcmd delete --ignore-not-found --wait --timeout=180s -n logging --all persistentvolumeclaims
 echo "Logging PVCs deleted"
+echo "Waiting 3 minutes"
+sleep 180
 < out.yaml $yqbin 'select(.kind == "Service" and .spec.type == "LoadBalancer")' | $kubectlcmd delete --ignore-not-found --wait --timeout=180s -f - || true
 echo "LoadBalancer Services deleted"
 < out.yaml $yqbin 'select(.kind != "CustomResourceDefinition")' | $kubectlcmd delete --ignore-not-found --wait --timeout=180s -f - || true
