@@ -1095,7 +1095,8 @@
             "required": [
                 "dr",
                 "ingress",
-                "logging"
+                "logging",
+                "policy"
             ]
         },
         "Spec.Distribution.Modules.Ingress": {
@@ -1169,7 +1170,7 @@
             "properties": {
                 "type": {
                     "type": "string",
-                    "enum": ["single", "dual"]
+                    "enum": ["none", "single", "dual"]
                 },
                 "tls": {
                     "$ref": "#/$defs/Spec.Distribution.Modules.Ingress.Nginx.TLS"
@@ -1257,12 +1258,22 @@
                 "type": {
                     "type": "string",
                     "enum": ["dns01", "http01"]
+                },
+                "solvers": {
+                    "type": "array"
                 }
             },
             "required": [
                 "name",
-                "type",
                 "email"
+            ],
+            "oneOf": [
+                {
+                    "required": ["type"]
+                },
+                {
+                    "required": ["solvers"]
+                }
             ]
         },
         "Spec.Distribution.Modules.Ingress.DNS": {
@@ -1320,12 +1331,12 @@
             "type": "object",
             "additionalProperties": false,
             "properties": {
-                "type": {
-                    "type": "string",
-                    "enum": ["opensearch", "loki"]
-                },
                 "overrides": {
                     "$ref": "#/$defs/Types.FuryModuleOverrides"
+                },
+                "type": {
+                    "type": "string",
+                    "enum": ["none", "opensearch", "loki"]
                 },
                 "opensearch": {
                     "$ref": "#/$defs/Spec.Distribution.Modules.Logging.Opensearch"
@@ -1343,6 +1354,9 @@
                     "$ref": "#/$defs/Spec.Distribution.Modules.Logging.Operator"
                 }
             },
+            "required": [
+                "type"
+            ],
             "allOf": [
                 {
                     "if": {
@@ -1540,10 +1554,17 @@
                 "overrides": {
                     "$ref": "#/$defs/Types.FuryModuleOverrides"
                 },
+                "type": {
+                    "type": "string",
+                    "enum": ["none", "gatekeeper"]
+                },
                 "gatekeeper": {
                     "$ref": "#/$defs/Spec.Distribution.Modules.Policy.Gatekeeper"
                 }
-            }
+            },
+            "required": [
+                "type"
+            ]
         },
         "Spec.Distribution.Modules.Policy.Gatekeeper": {
             "type": "object",
@@ -1567,11 +1588,18 @@
                 "overrides": {
                     "$ref": "#/$defs/Types.FuryModuleOverrides"
                 },
+                "type": {
+                    "type": "string",
+                    "enum": ["none", "eks"]
+                },
                 "velero": {
                     "$ref": "#/$defs/Spec.Distribution.Modules.Dr.Velero"
                 }
             },
-            "required": ["velero"]
+            "required": [
+                "type",
+                "velero"
+            ]
         },
         "Spec.Distribution.Modules.Dr.Velero": {
             "type": "object",

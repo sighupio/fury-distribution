@@ -2,16 +2,18 @@
 # Use of this source code is governed by a BSD-style
 # license that can be found in the LICENSE file.
 
+{{- if eq .spec.distribution.common.provider.type "eks" }}
 {{ if eq .spec.distribution.modules.ingress.nginx.type "dual" -}}
 ---
 apiVersion: v1
 kind: Service
 metadata:
   annotations:
+    service.beta.kubernetes.io/aws-load-balancer-scheme: internet-facing
     service.beta.kubernetes.io/aws-load-balancer-type: "external"
     service.beta.kubernetes.io/aws-load-balancer-nlb-target-type: "instance"
     service.beta.kubernetes.io/aws-load-balancer-proxy-protocol: "*"
-  name: ingress-nginx-internal
+  name: ingress-nginx-external
   namespace: ingress-nginx
 spec:
   type: LoadBalancer
@@ -20,8 +22,9 @@ spec:
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: nginx-configuration-internal
+  name: nginx-configuration-external
   namespace: ingress-nginx
 data:
   use-proxy-protocol: "true"
+{{- end }}
 {{- end }}

@@ -6,7 +6,11 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
+  labels:
+    cluster.kfd.sighup.io/useful-link.enable: "true"
   annotations:
+    cluster.kfd.sighup.io/useful-link.url: https://{{ template "alertmanagerUrl" .spec }}
+    cluster.kfd.sighup.io/useful-link.name: "Alertmanager"
     forecastle.stakater.com/expose: "true"
     forecastle.stakater.com/appName: "Alertmanager"
     forecastle.stakater.com/icon: "https://github.com/stakater/ForecastleIcons/raw/master/alert-manager.png"
@@ -43,7 +47,11 @@ spec:
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
+  labels:
+    cluster.kfd.sighup.io/useful-link.enable: "true"
   annotations:
+    cluster.kfd.sighup.io/useful-link.url: https://{{ template "grafanaUrl" .spec }}
+    cluster.kfd.sighup.io/useful-link.name: "Grafana"
     forecastle.stakater.com/expose: "true"
     forecastle.stakater.com/appName: "Grafana"
     forecastle.stakater.com/icon: "https://github.com/stakater/ForecastleIcons/raw/master/grafana.png"
@@ -80,7 +88,11 @@ spec:
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
+  labels:
+    cluster.kfd.sighup.io/useful-link.enable: "true"
   annotations:
+    cluster.kfd.sighup.io/useful-link.url: https://{{ template "prometheusUrl" .spec }}
+    cluster.kfd.sighup.io/useful-link.name: "Prometheus"
     forecastle.stakater.com/expose: "true"
     forecastle.stakater.com/appName: "Prometheus"
     forecastle.stakater.com/icon: "https://github.com/stakater/ForecastleIcons/raw/master/prometheus.png"

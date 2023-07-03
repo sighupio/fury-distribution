@@ -120,6 +120,16 @@
         "path": "/$defs/Spec.Distribution.Modules.Ingress/required/1",
         "value": "externalDns"
     },
+    {
+        "op": "add",
+        "path": "/$defs/Spec.Distribution.Modules.Networking/properties/type",
+        "value": {
+            "type": "string",
+            "enum": [
+                "none"
+            ]
+        }
+    },
 
     {
         "op": "add",

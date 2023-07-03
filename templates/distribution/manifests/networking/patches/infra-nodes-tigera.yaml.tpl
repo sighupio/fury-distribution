@@ -35,3 +35,6 @@ spec:
         {{ template "nodeSelector" $tigeraOperatorArgs }}
       tolerations:
         {{ template "tolerations" $tigeraOperatorArgs }}
+        - effect: NoSchedule
+          key: node.kubernetes.io/not-ready
+          operator: Exists

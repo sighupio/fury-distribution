@@ -64,6 +64,7 @@ spec:
             password: admin
             username: admin
       dr:
+        type: eks
         velero:
           eks:
             bucketName: example-velero
@@ -94,9 +95,11 @@ spec:
           privateIamRoleArn: arn:aws:iam::123456789012:role/external-dns-private
           publicIamRoleArn: arn:aws:iam::123456789012:role/external-dns-public
       logging:
+        type: opensearch
         opensearch:
           type: single
-
+      policy:
+        type: gatekeeper
   distributionVersion: v1.24.1
   region: eu-west-1
   toolsConfiguration:

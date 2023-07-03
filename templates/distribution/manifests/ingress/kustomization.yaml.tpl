@@ -12,31 +12,41 @@ resources:
 {{- else if eq .spec.distribution.modules.ingress.nginx.type "single" }}
   - {{ print "../" .spec.distribution.common.relativeVendorPath "/modules/ingress/katalog/nginx" }}
 {{- end }}
+{{- if eq .spec.distribution.common.provider.type "eks" }}
 {{- if eq .spec.distribution.modules.ingress.nginx.type "dual" }}
   - {{ print "../" .spec.distribution.common.relativeVendorPath "/modules/ingress/katalog/external-dns/private" }}
   - {{ print "../" .spec.distribution.common.relativeVendorPath "/modules/ingress/katalog/external-dns/public" }}
 {{- else if eq .spec.distribution.modules.ingress.nginx.type "single" }}
   - {{ print "../" .spec.distribution.common.relativeVendorPath "/modules/ingress/katalog/external-dns/public" }}
 {{- end }}
+{{- end }}
+{{- if ne .spec.distribution.modules.ingress.nginx.type "none" }}
   - {{ print "../" .spec.distribution.common.relativeVendorPath "/modules/ingress/katalog/forecastle" }}
-{{- if eq .spec.distribution.modules.ingress.nginx.tls.provider "certManager" }}
+{{- end }}
   - {{ print "../" .spec.distribution.common.relativeVendorPath "/modules/ingress/katalog/cert-manager" }}
+{{- if eq .spec.distribution.modules.ingress.nginx.tls.provider "certManager" }}
   - resources/cert-manager-clusterissuer.yml
 {{- end }}
+{{- if ne .spec.distribution.modules.ingress.nginx.type "none" }}
   - resources/ingress-infra.yml
+{{- end }}
 
 patchesStrategicMerge:
 {{- if and (eq .spec.distribution.modules.ingress.nginx.tls.provider "certManager") (eq .spec.distribution.modules.ingress.certManager.clusterIssuer.type "dns01") }}
   - patches/cert-manager.yml
 {{- end }}
   - patches/infra-nodes.yml
+{{- if eq .spec.distribution.common.provider.type "eks" }}
 {{- if eq .spec.distribution.modules.ingress.nginx.type "dual" }}
-  - patches/ingress-nginx-external.yml
-  - patches/ingress-nginx-internal.yml
+  - patches/eks-ingress-nginx-external.yml
+  - patches/eks-ingress-nginx-internal.yml
 {{- else if eq .spec.distribution.modules.ingress.nginx.type "single" }}
-  - patches/ingress-nginx.yml
+  - patches/eks-ingress-nginx.yml
 {{- end }}
+{{- end }}
+{{- if eq .spec.distribution.common.provider.type "eks" }}
   - patches/external-dns.yml
+{{- end }}
 
 {{ if eq .spec.distribution.modules.ingress.nginx.tls.provider "certManager" -}}
 patchesJson6902:

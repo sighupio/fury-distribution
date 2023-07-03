@@ -7,7 +7,29 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 
 resources:
+{{- if eq .spec.distribution.common.provider.type "eks" }}
   - {{ print "../" .spec.distribution.common.relativeVendorPath "/modules/networking/katalog/tigera/eks-policy-only" }}
+{{- end }}
+
+{{- if eq .spec.distribution.common.provider.type "none" }}
+{{- if eq .spec.distribution.modules.networking.type "calico" }}
+  - {{ print "../" .spec.distribution.common.relativeVendorPath "/modules/networking/katalog/tigera/on-prem" }}
+{{- end }}
+{{- if eq .spec.distribution.modules.networking.type "cilium" }}
+  - {{ print "../" .spec.distribution.common.relativeVendorPath "/modules/networking/katalog/cilium" }}
+{{- end }}
+{{- end }}
 
 patchesStrategicMerge:
-  - patches/infra-nodes.yaml
+{{- if eq .spec.distribution.common.provider.type "eks" }}
+  - patches/infra-nodes-tigera.yaml
+{{- end }}
+
+{{- if eq .spec.distribution.common.provider.type "none" }}
+{{- if eq .spec.distribution.modules.networking.type "calico" }}
+  - patches/infra-nodes-tigera.yaml
+{{- end }}
+{{- if eq .spec.distribution.modules.networking.type "cilium" }}
+  - patches/infra-nodes-distro-cilium.yaml
+{{- end }}
+{{- end }}

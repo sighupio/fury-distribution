@@ -9,7 +9,7 @@ import (
 
 	"github.com/go-playground/validator/v10"
 
-	"github.com/sighupio/fury-distribution/pkg/config"
+	"github.com/sighupio/fury-distribution/pkg/apis/config"
 )
 
 func TestValidateAwsRegion(t *testing.T) {

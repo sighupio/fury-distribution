@@ -2,6 +2,7 @@
 # Use of this source code is governed by a BSD-style
 # license that can be found in the LICENSE file.
 
+{{- if eq .spec.distribution.common.provider.type "eks" }}
 {{- if eq .spec.distribution.modules.ingress.nginx.type "dual" }}
 ---
 apiVersion: v1
@@ -91,4 +92,5 @@ spec:
           - --provider=$(PROVIDER)
           - --aws-zone-type=public
           - --txt-owner-id={{ .metadata.name}}-public
+{{- end }}
 {{- end }}

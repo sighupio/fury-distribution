@@ -2,6 +2,7 @@
 # Use of this source code is governed by a BSD-style
 # license that can be found in the LICENSE file.
 
+{{- if eq .spec.distribution.common.provider.type "eks" }}
 ---
 apiVersion: v1
 kind: ServiceAccount
@@ -28,3 +29,4 @@ spec:
       volumes:
       - name: cloud-credentials
         $patch: delete
+{{- end }}

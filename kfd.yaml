@@ -11,7 +11,7 @@ modules:
   logging: v3.1.3
   monitoring: v2.1.0
   opa: v1.8.0
-  networking: v1.12.2
+  networking: v1.13.0
 kubernetes:
   eks:
     version: 1.25
@@ -20,6 +20,9 @@ furyctlSchemas:
   eks:
     - apiVersion: kfd.sighup.io/v1alpha2
       kind: EKSCluster
+  kfddistribution:
+    - apiVersion: kfd.sighup.io/v1alpha2
+      kind: KFDDistribution
 tools:
   common:
     furyagent:
@@ -30,6 +33,8 @@ tools:
       version: 3.10.0
     terraform:
       version: 1.4.6
+    yq:
+      version: 4.34.1
   eks:
     awscli:
       version: 2.8.12

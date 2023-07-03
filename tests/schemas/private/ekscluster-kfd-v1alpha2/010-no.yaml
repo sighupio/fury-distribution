@@ -102,6 +102,7 @@ spec:
             iamRoleArn: arn:aws:iam::123456789012:role/load-balancer-controller
         overrides: { }
       dr:
+        type: eks
         velero:
           eks:
             bucketName: example-velero
@@ -129,9 +130,11 @@ spec:
               key: |
                 value
       logging:
+        type: opensearch
         opensearch:
           type: single
-
+      policy:
+        type: gatekeeper
   distributionVersion: v1.24.1
   region: eu-west-1
   toolsConfiguration:

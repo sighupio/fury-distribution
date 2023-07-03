@@ -71,6 +71,7 @@ spec:
         provider:
           type: sso
       dr:
+        type: eks
         velero:
           eks:
             bucketName: example-velero
@@ -87,9 +88,11 @@ spec:
         nginx:
           type: single
       logging:
+        type: opensearch
         opensearch:
           type: single
-
+      policy:
+        type: gatekeeper
   distributionVersion: v1.24.1
   region: eu-west-1
   toolsConfiguration:

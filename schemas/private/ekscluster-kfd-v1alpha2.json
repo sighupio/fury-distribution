@@ -420,7 +420,8 @@
       "required": [
         "dr",
         "ingress",
-        "logging"
+        "logging",
+        "policy"
       ]
     },
     "Spec.Distribution.Modules.Auth": {
@@ -719,11 +720,19 @@
         "overrides": {
           "$ref": "#/$defs/Types.FuryModuleOverrides"
         },
+        "type": {
+          "type": "string",
+          "enum": [
+            "none",
+            "eks"
+          ]
+        },
         "velero": {
           "$ref": "#/$defs/Spec.Distribution.Modules.Dr.Velero"
         }
       },
       "required": [
+        "type",
         "velero"
       ]
     },
@@ -814,6 +823,18 @@
     },
     "Spec.Distribution.Modules.Ingress.CertManager.ClusterIssuer": {
       "additionalProperties": false,
+      "oneOf": [
+        {
+          "required": [
+            "type"
+          ]
+        },
+        {
+          "required": [
+            "solvers"
+          ]
+        }
+      ],
       "properties": {
         "email": {
           "type": "string",
@@ -824,6 +845,9 @@
         },
         "route53": {
           "$ref": "#/$defs/Spec.Distribution.Modules.Ingress.ClusterIssuer.Route53"
+        },
+        "solvers": {
+          "type": "array"
         },
         "type": {
           "type": "string",
@@ -836,7 +860,6 @@
       "required": [
         "route53",
         "name",
-        "type",
         "email"
       ],
       "type": "object"
@@ -948,6 +971,7 @@
         "type": {
           "type": "string",
           "enum": [
+            "none",
             "single",
             "dual"
           ]
@@ -1046,15 +1070,16 @@
       "type": "object",
       "additionalProperties": false,
       "properties": {
+        "overrides": {
+          "$ref": "#/$defs/Types.FuryModuleOverrides"
+        },
         "type": {
           "type": "string",
           "enum": [
+            "none",
             "opensearch",
             "loki"
           ]
-        },
-        "overrides": {
-          "$ref": "#/$defs/Types.FuryModuleOverrides"
         },
         "opensearch": {
           "$ref": "#/$defs/Spec.Distribution.Modules.Logging.Opensearch"
@@ -1072,6 +1097,9 @@
           "$ref": "#/$defs/Spec.Distribution.Modules.Logging.Operator"
         }
       },
+      "required": [
+        "type"
+      ],
       "allOf": [
         {
           "if": {
@@ -1247,7 +1275,6 @@
       }
     },
     "Spec.Distribution.Modules.Networking": {
-      "type": "object",
       "additionalProperties": false,
       "properties": {
         "overrides": {
@@ -1255,8 +1282,15 @@
         },
         "tigeraOperator": {
           "$ref": "#/$defs/Spec.Distribution.Modules.Networking.TigeraOperator"
+        },
+        "type": {
+          "type": "string",
+          "enum": [
+            "none"
+          ]
         }
-      }
+      },
+      "type": "object"
     },
     "Spec.Distribution.Modules.Networking.TigeraOperator": {
       "type": "object",
@@ -1274,10 +1308,20 @@
         "overrides": {
           "$ref": "#/$defs/Types.FuryModuleOverrides"
         },
+        "type": {
+          "type": "string",
+          "enum": [
+            "none",
+            "gatekeeper"
+          ]
+        },
         "gatekeeper": {
           "$ref": "#/$defs/Spec.Distribution.Modules.Policy.Gatekeeper"
         }
-      }
+      },
+      "required": [
+        "type"
+      ]
     },
     "Spec.Distribution.Modules.Policy.Gatekeeper": {
       "type": "object",
