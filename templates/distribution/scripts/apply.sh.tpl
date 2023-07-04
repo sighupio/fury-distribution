@@ -34,6 +34,7 @@ $kubectlcmd create namespace calico-system --dry-run=client -o yaml | $kubectlcm
 < out.yaml $yqbin 'select(.kind == "CustomResourceDefinition")' | $kubectlcmd wait --for condition=established --timeout=60s -f -
 < out.yaml \
   $yqbin 'select(.kind != "Issuer" and .kind != "ClusterIssuer" and .kind != "Certificate" and .kind != "Ingress" and .kind != "K8sLivenessProbe" and .kind != "K8sReadinessProbe" and .kind != "K8sUniqueIngressHost" and .kind != "SecurityControls")' \
+  | $yqbin 'select(.metadata.name != "gatekeeper-mutating-webhook-configuration" and .metadata.name != "gatekeeper-validating-webhook-configuration")' \
   | $kubectlcmd apply -f - --server-side
 
 < out.yaml $yqbin 'select(.kind == "Deployment" and .metadata.namespace == "cert-manager")' | $kubectlcmd wait --for condition=available --timeout=360s -f -
@@ -44,6 +45,10 @@ $kubectlcmd create namespace calico-system --dry-run=client -o yaml | $kubectlcm
 
 {{- if ne .spec.distribution.modules.ingress.nginx.type "none" }}
 $kubectlcmd get pods -o yaml -n ingress-nginx | $kubectlcmd wait --for condition=Ready --timeout=180s -f -
+{{- end }}
+
+{{- if eq .spec.distribution.modules.policy.type "gatekeeper" }}
+$kubectlcmd get pods -o yaml -n gatekeeper-system | $kubectlcmd wait --for condition=Ready --timeout=180s -f -
 {{- end }}
 
 < out.yaml $kubectlcmd apply -f - --server-side
