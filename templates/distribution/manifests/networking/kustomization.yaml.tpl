@@ -35,6 +35,7 @@ patchesStrategicMerge:
 
 {{- if eq .spec.distribution.common.provider.type "none" }}
 {{- if eq .spec.distribution.modules.networking.type "calico" }}
+
 patchesJson6902:
   - target:
       group: apps
@@ -43,5 +44,6 @@ patchesJson6902:
       name: tigera-operator
       namespace: tigera-operator
     path: patchesJson/tigera-tolerations.yaml
+
 {{- end }}
 {{- end }}

@@ -5,6 +5,7 @@
 - op: add
   path: /spec/template/spec/tolerations
   value: 
+    - effect: NoExecute
+      operator: Exists
     - effect: NoSchedule
-      key: node.kubernetes.io/not-ready
       operator: Exists
