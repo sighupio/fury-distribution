@@ -106,7 +106,7 @@ Current supported versions of KFD are:
 | [GKE](https://github.com/sighupio/fury-gke-installer)                  | :white_check_mark: | :white_check_mark: | :white_check_mark: |
 | [AKS](https://github.com/sighupio/fury-aks-installer)                  | :white_check_mark: | :white_check_mark: | :white_check_mark: |
 
-Check the [compatibility matrix][compatibility-matrix] for additional information about previous releases of the Distribution.
+Check the [compatibility matrix][compatibility-matrix] for additional information about previous releases of the Distribution and the compatibility with `furyctl`.
 
 Also, check the [versioning documentation file][versioning] to know more about the versioning scheme of the distribution and the upgrade path.
 
