@@ -43,7 +43,7 @@ patchesJson6902:
       kind: Deployment
       name: tigera-operator
       namespace: tigera-operator
-    path: patchesJson/tigera-tolerations.yaml
+    path: patchesjson/tigera-tolerations.yaml
 
 {{- end }}
 {{- end }}

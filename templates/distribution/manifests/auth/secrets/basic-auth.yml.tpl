@@ -5,16 +5,48 @@
 {{- if eq .spec.distribution.modules.auth.provider.type "basicAuth" -}}
 {{- $username := .spec.distribution.modules.auth.provider.basicAuth.username -}}
 {{- $password := .spec.distribution.modules.auth.provider.basicAuth.password -}}
-{{- $namespaces := list "gatekeeper-system" "ingress-nginx" "logging" "monitoring" -}}
-{{ range $namespace := $namespaces -}}
+
+{{- if eq .spec.distribution.modules.policy.type "gatekeeper" }}
 ---
 apiVersion: v1
 kind: Secret
 metadata:
   name: basic-auth
-  namespace: {{ $namespace }}
+  namespace: gatekeeper-system
 type: Opaque
 stringData:
   auth: {{ htpasswd $username $password }}
-{{ end }}
+{{- end }}
+{{- if ne .spec.distribution.modules.ingress.nginx.type "none" }}
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: basic-auth
+  namespace: ingress-nginx
+type: Opaque
+stringData:
+  auth: {{ htpasswd $username $password }}
+{{- end }}
+{{- if ne .spec.distribution.modules.logging.type "none" }}
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: basic-auth
+  namespace: logging
+type: Opaque
+stringData:
+  auth: {{ htpasswd $username $password }}
+{{- end }}
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: basic-auth
+  namespace: monitoring
+type: Opaque
+stringData:
+  auth: {{ htpasswd $username $password }}
+
 {{- end -}}
