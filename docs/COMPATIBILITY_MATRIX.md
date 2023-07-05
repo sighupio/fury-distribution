@@ -29,6 +29,16 @@ For a complete list of all KFD releases and their compatibility with Kubernetes 
 |     :warning:      | Has known issues |
 |        :x:         | Incompatible     |
 
+### Furyctl and KFD compatibility
+
+| Furyctl / KFD  | 1.25.4             | 1.25.3             | 1.25.2             |
+| -------------- | ------------------ | ------------------ | ------------------ |
+| 0.25.0         | :white_check_mark: |                    |                    |
+| 0.25.0-beta.0  |                    | :white_check_mark: |                    |
+| 0.25.0-alpha.1 |                    |                    | :white_check_mark: |
+
+See [Furyctl](https://github.com/sighupio/furyctl) repository for more informations on it's usage.
+
 ### Warnings
 
 - :x: version `v1.23.0` has a known bug that breaks upgrades. Do not use.
