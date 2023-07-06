@@ -20,7 +20,7 @@ fi
 
 kubectlcmd="$kubectlbin $dryrun $kubeconfig"
 
-$kustomizebin build . > out.yaml
+$kustomizebin build --load_restrictor LoadRestrictionsNone . > out.yaml
 
 # list generated with: kustomize build . | yq 'select(.kind == "CustomResourceDefinition") | .spec.group' | sort | uniq
 {{- if eq .spec.distribution.common.provider.type "eks" }}
