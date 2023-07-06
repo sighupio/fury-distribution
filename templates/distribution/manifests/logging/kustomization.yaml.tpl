@@ -50,3 +50,5 @@ patchesStrategicMerge:
   - patches/loki.yml
 {{- end }}
   - patches/infra-nodes.yml
+  - patches/minio.yml
+
