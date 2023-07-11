@@ -2,10 +2,10 @@
 # Use of this source code is governed by a BSD-style
 # license that can be found in the LICENSE file.
 
-{{- $certManagerArgs := dict "module" "package" "certManager" "ingress" "spec" .spec -}}
-{{- $nginxArgs := dict "module" "package" "nginx" "ingress" "spec" .spec -}}
-{{- $dnsArgs := dict "module" "package" "dns" "ingress" "spec" .spec -}}
-{{- $forecastleArgs := dict "module" "package" "forecastle" "ingress" "spec" .spec -}}
+{{- $certManagerArgs := dict "module" "ingress" "package" "certManager" "spec" .spec -}}
+{{- $nginxArgs := dict "module" "ingress" "package" "nginx" "spec" .spec -}}
+{{- $dnsArgs := dict "module" "ingress" "package" "dns"  "spec" .spec -}}
+{{- $forecastleArgs := dict "module" "ingress" "package" "forecastle" "spec" .spec -}}
 
 {{ if eq .spec.distribution.modules.ingress.nginx.tls.provider "certManager" -}}
 ---
