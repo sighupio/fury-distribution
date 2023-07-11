@@ -3,7 +3,7 @@
 # license that can be found in the LICENSE file.
 
 {{ if eq .spec.distribution.modules.ingress.nginx.tls.provider "certManager" -}}
-{{- $certManagerArgs := dict "module" "package" "certManager" "ingress" "spec" .spec -}}
+{{- $certManagerArgs := dict "module" "ingress" "package" "certManager" "spec" .spec -}}
 
 ---
 apiVersion: cert-manager.io/v1

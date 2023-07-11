@@ -2010,6 +2010,10 @@
                     "type": "string",
                     "enum": ["NoSchedule", "PreferNoSchedule", "NoExecute"]
                 },
+                "operator": {
+                    "type": "string",
+                    "enum": ["Exists", "Equal"]
+                },
                 "key": {
                     "type": "string"
                 },

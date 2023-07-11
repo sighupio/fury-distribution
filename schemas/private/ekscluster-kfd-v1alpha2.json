@@ -2238,6 +2238,13 @@
             "NoExecute"
           ]
         },
+        "operator": {
+          "type": "string",
+          "enum": [
+            "Exists",
+            "Equal"
+          ]
+        },
         "key": {
           "type": "string"
         },
