@@ -20,7 +20,7 @@ fi
 
 kubectlcmd="$kubectlbin $dryrun $kubeconfig"
 
-$kustomizebin build . > out.yaml
+$kustomizebin build --load_restrictor LoadRestrictionsNone . > out.yaml
 
 if [ "$dryrun" != "" ]; then
   exit 0
