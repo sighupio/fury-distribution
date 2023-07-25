@@ -865,6 +865,73 @@
               }
             }
           }
+        },
+        {
+          "if": {
+            "properties": {
+              "provider": {
+                "properties": {
+                  "type": {
+                    "const": "basicAuthPlusDex"
+                  }
+                }
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "provider": {
+                "required": ["dex", "baseDomain", "basicAuth"]
+              }
+            }
+          },
+          "else": {
+            "properties": {
+              "provider": {
+                "basicAuth": {
+                  "type": "null"
+                },
+                "dex": {
+                  "type": "null"
+                },
+                "baseDomain": {
+                  "type": "null"
+                }
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "provider": {
+                "properties": {
+                  "type": {
+                    "const": "dex"
+                  }
+                }
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "provider": {
+                "required": ["dex", "baseDomain"]
+              }
+            }
+          },
+          "else": {
+            "properties": {
+              "provider": {
+                "dex": {
+                  "type": "null"
+                },
+                "baseDomain": {
+                  "type": "null"
+                }
+              }
+            }
+          }
         }
       ]
     },
@@ -908,7 +975,7 @@
       "properties": {
         "type": {
           "type": "string",
-          "enum": ["none", "basicAuth", "sso"]
+          "enum": ["none", "basicAuth", "sso", "basicAuthPlusDex", "dex"]
         },
         "basicAuth": {
           "$ref": "#/$defs/Spec.Distribution.Modules.Auth.Provider.BasicAuth"
@@ -970,9 +1037,54 @@
         },
         "overrides": {
           "$ref": "#/$defs/Types.FuryModuleComponentOverrides"
+        },
+        "staticClients": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/Spec.Distribution.Modules.Auth.Dex.StaticClient"
+          }
         }
       },
       "required": ["connectors"]
+    },
+    "Spec.Distribution.Modules.Auth.Dex.StaticClient": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "secret": {
+          "type": "string"
+        },
+        "redirectUris": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "trustedPeers": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "public": {
+          "type": "boolean"
+        },
+        "name": {
+          "type": "string"
+        },
+        "logoUrl": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "secret",
+        "redirectUris",
+        "name"
+      ]
     },
 
     "Types.SemVer": {
