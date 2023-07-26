@@ -825,16 +825,6 @@
           },
           "then": {
             "required": ["dex", "pomerium", "baseDomain"]
-          },
-          "else": {
-            "properties": {
-              "dex": {
-                "type": "null"
-              },
-              "pomerium": {
-                "type": "null"
-              }
-            }
           }
         },
         {
@@ -853,15 +843,15 @@
             "properties": {
               "provider": {
                 "required": ["basicAuth"]
-              }
-            }
-          },
-          "else": {
-            "properties": {
-              "provider": {
-                "basicAuth": {
-                  "type": "null"
-                }
+              },
+              "pomerium": {
+                "type": "null"
+              },
+              "dex": {
+                "type": "null"
+              },
+              "baseDomain": {
+                "type": "null"
               }
             }
           }
@@ -881,24 +871,13 @@
           "then": {
             "properties": {
               "provider": {
-                "required": ["dex", "baseDomain", "basicAuth"]
+                "required": ["basicAuth"]
+              },
+              "pomerium": {
+                "type": "null"
               }
-            }
-          },
-          "else": {
-            "properties": {
-              "provider": {
-                "basicAuth": {
-                  "type": "null"
-                },
-                "dex": {
-                  "type": "null"
-                },
-                "baseDomain": {
-                  "type": "null"
-                }
-              }
-            }
+            },
+            "required": ["dex", "baseDomain"]
           }
         },
         {
@@ -914,21 +893,54 @@
             }
           },
           "then": {
+            "required": [
+              "dex",
+              "baseDomain"
+            ],
             "properties": {
               "provider": {
-                "required": ["dex", "baseDomain"]
+                "properties": {
+                  "basicAuth": {
+                    "type": "null"
+                  }
+                }
+              },
+              "pomerium": {
+                "type": "null"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "provider": {
+                "properties": {
+                  "type": {
+                    "const": "none"
+                  }
+                }
               }
             }
           },
-          "else": {
+          "then": {
+            "required": [],
             "properties": {
               "provider": {
-                "dex": {
-                  "type": "null"
-                },
-                "baseDomain": {
-                  "type": "null"
+                "properties": {
+                  "basicAuth": {
+                    "type": "null"
+                  }
                 }
+              },
+              "pomerium": {
+                "type": "null"
+              },
+              "dex": {
+                "type": "null"
+              },
+              "baseDomain": {
+                "type": "null"
               }
             }
           }
