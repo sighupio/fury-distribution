@@ -116,8 +116,8 @@ test_schema() {
     expect() {
         expect_no
 
-        local EXPECTED_ERROR_1="[S#/\$defs/Spec.Distribution.Modules.Auth/allOf/0/else/properties/dex/type] expected null, but got object"
-        local EXPECTED_ERROR_2="[S#/\$defs/Spec.Distribution.Modules.Auth/allOf/0/else/properties/pomerium/type] expected null, but got object"
+        local EXPECTED_ERROR_1="[S#/\$defs/Spec.Distribution.Modules.Auth/allOf/4/then/properties/dex/type] expected null, but got object"
+        local EXPECTED_ERROR_2="[S#/\$defs/Spec.Distribution.Modules.Auth/allOf/4/then/properties/pomerium/type] expected null, but got object"
 
         if [[ "${output}" != *"${EXPECTED_ERROR_1}"* ]]; then
             return 2
