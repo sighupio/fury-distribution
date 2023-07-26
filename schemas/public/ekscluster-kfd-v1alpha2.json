@@ -1597,9 +1597,18 @@
                 }
             },
             "required": [
-                "type",
-                "velero"
-            ]
+                "type"
+            ],
+            "if": {
+                "properties": {
+                    "type": {
+                        "const": "eks"
+                    }
+                }
+            },
+            "then": {
+                "required": ["type","velero"]
+            }
         },
         "Spec.Distribution.Modules.Dr.Velero": {
             "type": "object",

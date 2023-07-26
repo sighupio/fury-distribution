@@ -358,7 +358,7 @@ type SpecDistributionModulesDr struct {
 	Type SpecDistributionModulesDrType `json:"type" yaml:"type"`
 
 	// Velero corresponds to the JSON schema field "velero".
-	Velero SpecDistributionModulesDrVelero `json:"velero" yaml:"velero"`
+	Velero *SpecDistributionModulesDrVelero `json:"velero,omitempty" yaml:"velero,omitempty"`
 }
 
 type SpecDistributionModulesDrType string
@@ -782,9 +782,6 @@ func (j *SpecDistributionModulesDr) UnmarshalJSON(b []byte) error {
 	}
 	if v, ok := raw["type"]; !ok || v == nil {
 		return fmt.Errorf("field type in SpecDistributionModulesDr: required")
-	}
-	if v, ok := raw["velero"]; !ok || v == nil {
-		return fmt.Errorf("field velero in SpecDistributionModulesDr: required")
 	}
 	type Plain SpecDistributionModulesDr
 	var plain Plain
