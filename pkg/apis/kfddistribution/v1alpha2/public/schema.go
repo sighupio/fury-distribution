@@ -807,7 +807,7 @@ func (j *SpecDistributionModulesLoggingType) UnmarshalJSON(b []byte) error {
 }
 
 const SpecDistributionModulesAuthProviderTypeBasicAuthPlusDex SpecDistributionModulesAuthProviderType = "basicAuthPlusDex"
-const SpecDistributionModulesAuthProviderTypeDex SpecDistributionModulesAuthProviderType = "dex"
+const SpecDistributionModulesAuthProviderTypeNonePlusDex SpecDistributionModulesAuthProviderType = "nonePlusDex"
 
 type SpecDistributionModulesAuthProvider struct {
 	// BasicAuth corresponds to the JSON schema field "basicAuth".
@@ -1572,7 +1572,7 @@ var enumValues_SpecDistributionModulesAuthProviderType = []interface{}{
 	"basicAuth",
 	"sso",
 	"basicAuthPlusDex",
-	"dex",
+	"nonePlusDex",
 }
 var enumValues_SpecDistributionModulesDrType = []interface{}{
 	"none",

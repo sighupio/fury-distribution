@@ -335,8 +335,8 @@ type SpecDistributionModulesAuthProviderType string
 
 const SpecDistributionModulesAuthProviderTypeBasicAuth SpecDistributionModulesAuthProviderType = "basicAuth"
 const SpecDistributionModulesAuthProviderTypeBasicAuthPlusDex SpecDistributionModulesAuthProviderType = "basicAuthPlusDex"
-const SpecDistributionModulesAuthProviderTypeDex SpecDistributionModulesAuthProviderType = "dex"
 const SpecDistributionModulesAuthProviderTypeNone SpecDistributionModulesAuthProviderType = "none"
+const SpecDistributionModulesAuthProviderTypeNonePlusDex SpecDistributionModulesAuthProviderType = "nonePlusDex"
 const SpecDistributionModulesAuthProviderTypeSso SpecDistributionModulesAuthProviderType = "sso"
 
 type SpecDistributionModulesAws struct {
@@ -1725,7 +1725,7 @@ var enumValues_SpecDistributionModulesAuthProviderType = []interface{}{
 	"basicAuth",
 	"sso",
 	"basicAuthPlusDex",
-	"dex",
+	"nonePlusDex",
 }
 
 // UnmarshalJSON implements json.Unmarshaler.

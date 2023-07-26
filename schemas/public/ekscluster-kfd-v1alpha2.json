@@ -1749,7 +1749,7 @@
                             "provider": {
                                 "properties": {
                                     "type": {
-                                        "const": "dex"
+                                        "const": "nonePlusDex"
                                     }
                                 }
                             }
@@ -1823,7 +1823,7 @@
             "properties": {
                 "type": {
                     "type": "string",
-                    "enum": ["none", "basicAuth", "sso", "basicAuthPlusDex", "dex"]
+                    "enum": ["none", "basicAuth", "sso", "basicAuthPlusDex", "nonePlusDex"]
                 },
                 "basicAuth": {
                     "$ref": "#/$defs/Spec.Distribution.Modules.Auth.Provider.BasicAuth"

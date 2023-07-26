@@ -554,7 +554,7 @@
               "provider": {
                 "properties": {
                   "type": {
-                    "const": "dex"
+                    "const": "nonePlusDex"
                   }
                 }
               }
@@ -735,7 +735,7 @@
             "basicAuth",
             "sso",
             "basicAuthPlusDex",
-            "dex"
+            "nonePlusDex"
           ]
         },
         "basicAuth": {
