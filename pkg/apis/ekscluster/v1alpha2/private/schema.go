@@ -2,9 +2,11 @@
 
 package private
 
-import "fmt"
-import "encoding/json"
-import "reflect"
+import (
+	"encoding/json"
+	"fmt"
+	"reflect"
+)
 
 // A Fury Cluster deployed through AWS's Elastic Kubernetes Service
 type EksclusterKfdV1Alpha2 struct {
@@ -174,9 +176,11 @@ type SpecDistributionCustomPatchesResourceGenerator struct {
 
 type SpecDistributionCustomPatchesResourceGeneratorBehavior string
 
-const SpecDistributionCustomPatchesResourceGeneratorBehaviorCreate SpecDistributionCustomPatchesResourceGeneratorBehavior = "create"
-const SpecDistributionCustomPatchesResourceGeneratorBehaviorMerge SpecDistributionCustomPatchesResourceGeneratorBehavior = "merge"
-const SpecDistributionCustomPatchesResourceGeneratorBehaviorReplace SpecDistributionCustomPatchesResourceGeneratorBehavior = "replace"
+const (
+	SpecDistributionCustomPatchesResourceGeneratorBehaviorCreate  SpecDistributionCustomPatchesResourceGeneratorBehavior = "create"
+	SpecDistributionCustomPatchesResourceGeneratorBehaviorMerge   SpecDistributionCustomPatchesResourceGeneratorBehavior = "merge"
+	SpecDistributionCustomPatchesResourceGeneratorBehaviorReplace SpecDistributionCustomPatchesResourceGeneratorBehavior = "replace"
+)
 
 type SpecDistributionCustomPatchesResourceGeneratorOptions struct {
 	// Annotations corresponds to the JSON schema field "annotations".
@@ -307,9 +311,11 @@ type SpecDistributionModulesAuthProviderBasicAuth struct {
 
 type SpecDistributionModulesAuthProviderType string
 
-const SpecDistributionModulesAuthProviderTypeBasicAuth SpecDistributionModulesAuthProviderType = "basicAuth"
-const SpecDistributionModulesAuthProviderTypeNone SpecDistributionModulesAuthProviderType = "none"
-const SpecDistributionModulesAuthProviderTypeSso SpecDistributionModulesAuthProviderType = "sso"
+const (
+	SpecDistributionModulesAuthProviderTypeBasicAuth SpecDistributionModulesAuthProviderType = "basicAuth"
+	SpecDistributionModulesAuthProviderTypeNone      SpecDistributionModulesAuthProviderType = "none"
+	SpecDistributionModulesAuthProviderTypeSso       SpecDistributionModulesAuthProviderType = "sso"
+)
 
 type SpecDistributionModulesAws struct {
 	// ClusterAutoscaler corresponds to the JSON schema field "clusterAutoscaler".
@@ -372,8 +378,10 @@ type SpecDistributionModulesDr struct {
 
 type SpecDistributionModulesDrType string
 
-const SpecDistributionModulesDrTypeEks SpecDistributionModulesDrType = "eks"
-const SpecDistributionModulesDrTypeNone SpecDistributionModulesDrType = "none"
+const (
+	SpecDistributionModulesDrTypeEks  SpecDistributionModulesDrType = "eks"
+	SpecDistributionModulesDrTypeNone SpecDistributionModulesDrType = "none"
+)
 
 type SpecDistributionModulesDrVelero struct {
 	// Eks corresponds to the JSON schema field "eks".
@@ -444,8 +452,10 @@ type SpecDistributionModulesIngressCertManagerClusterIssuer struct {
 
 type SpecDistributionModulesIngressCertManagerClusterIssuerType string
 
-const SpecDistributionModulesIngressCertManagerClusterIssuerTypeDns01 SpecDistributionModulesIngressCertManagerClusterIssuerType = "dns01"
-const SpecDistributionModulesIngressCertManagerClusterIssuerTypeHttp01 SpecDistributionModulesIngressCertManagerClusterIssuerType = "http01"
+const (
+	SpecDistributionModulesIngressCertManagerClusterIssuerTypeDns01  SpecDistributionModulesIngressCertManagerClusterIssuerType = "dns01"
+	SpecDistributionModulesIngressCertManagerClusterIssuerTypeHttp01 SpecDistributionModulesIngressCertManagerClusterIssuerType = "http01"
+)
 
 type SpecDistributionModulesIngressClusterIssuerRoute53 struct {
 	// HostedZoneId corresponds to the JSON schema field "hostedZoneId".
@@ -522,9 +532,11 @@ type SpecDistributionModulesIngressNginxTLS struct {
 
 type SpecDistributionModulesIngressNginxTLSProvider string
 
-const SpecDistributionModulesIngressNginxTLSProviderCertManager SpecDistributionModulesIngressNginxTLSProvider = "certManager"
-const SpecDistributionModulesIngressNginxTLSProviderNone SpecDistributionModulesIngressNginxTLSProvider = "none"
-const SpecDistributionModulesIngressNginxTLSProviderSecret SpecDistributionModulesIngressNginxTLSProvider = "secret"
+const (
+	SpecDistributionModulesIngressNginxTLSProviderCertManager SpecDistributionModulesIngressNginxTLSProvider = "certManager"
+	SpecDistributionModulesIngressNginxTLSProviderNone        SpecDistributionModulesIngressNginxTLSProvider = "none"
+	SpecDistributionModulesIngressNginxTLSProviderSecret      SpecDistributionModulesIngressNginxTLSProvider = "secret"
+)
 
 type SpecDistributionModulesIngressNginxTLSSecret struct {
 	// Ca corresponds to the JSON schema field "ca".
@@ -539,9 +551,11 @@ type SpecDistributionModulesIngressNginxTLSSecret struct {
 
 type SpecDistributionModulesIngressNginxType string
 
-const SpecDistributionModulesIngressNginxTypeDual SpecDistributionModulesIngressNginxType = "dual"
-const SpecDistributionModulesIngressNginxTypeNone SpecDistributionModulesIngressNginxType = "none"
-const SpecDistributionModulesIngressNginxTypeSingle SpecDistributionModulesIngressNginxType = "single"
+const (
+	SpecDistributionModulesIngressNginxTypeDual   SpecDistributionModulesIngressNginxType = "dual"
+	SpecDistributionModulesIngressNginxTypeNone   SpecDistributionModulesIngressNginxType = "none"
+	SpecDistributionModulesIngressNginxTypeSingle SpecDistributionModulesIngressNginxType = "single"
+)
 
 type SpecDistributionModulesIngressOverrides struct {
 	// Ingresses corresponds to the JSON schema field "ingresses".
@@ -616,8 +630,10 @@ type SpecDistributionModulesLoggingOpensearch struct {
 
 type SpecDistributionModulesLoggingOpensearchType string
 
-const SpecDistributionModulesLoggingOpensearchTypeSingle SpecDistributionModulesLoggingOpensearchType = "single"
-const SpecDistributionModulesLoggingOpensearchTypeTriple SpecDistributionModulesLoggingOpensearchType = "triple"
+const (
+	SpecDistributionModulesLoggingOpensearchTypeSingle SpecDistributionModulesLoggingOpensearchType = "single"
+	SpecDistributionModulesLoggingOpensearchTypeTriple SpecDistributionModulesLoggingOpensearchType = "triple"
+)
 
 type SpecDistributionModulesLoggingOperator struct {
 	// Overrides corresponds to the JSON schema field "overrides".
@@ -626,9 +642,11 @@ type SpecDistributionModulesLoggingOperator struct {
 
 type SpecDistributionModulesLoggingType string
 
-const SpecDistributionModulesLoggingTypeLoki SpecDistributionModulesLoggingType = "loki"
-const SpecDistributionModulesLoggingTypeNone SpecDistributionModulesLoggingType = "none"
-const SpecDistributionModulesLoggingTypeOpensearch SpecDistributionModulesLoggingType = "opensearch"
+const (
+	SpecDistributionModulesLoggingTypeLoki       SpecDistributionModulesLoggingType = "loki"
+	SpecDistributionModulesLoggingTypeNone       SpecDistributionModulesLoggingType = "none"
+	SpecDistributionModulesLoggingTypeOpensearch SpecDistributionModulesLoggingType = "opensearch"
+)
 
 type SpecDistributionModulesMonitoring struct {
 	// Alertmanager corresponds to the JSON schema field "alertmanager".
@@ -738,8 +756,10 @@ type SpecDistributionModulesPolicyGatekeeper struct {
 
 type SpecDistributionModulesPolicyType string
 
-const SpecDistributionModulesPolicyTypeGatekeeper SpecDistributionModulesPolicyType = "gatekeeper"
-const SpecDistributionModulesPolicyTypeNone SpecDistributionModulesPolicyType = "none"
+const (
+	SpecDistributionModulesPolicyTypeGatekeeper SpecDistributionModulesPolicyType = "gatekeeper"
+	SpecDistributionModulesPolicyTypeNone       SpecDistributionModulesPolicyType = "none"
+)
 
 type SpecInfrastructure struct {
 	// Vpc corresponds to the JSON schema field "vpc".
@@ -950,8 +970,10 @@ type SpecKubernetesNodePoolAdditionalFirewallRuleCidrBlock struct {
 
 type SpecKubernetesNodePoolAdditionalFirewallRuleCidrBlockType string
 
-const SpecKubernetesNodePoolAdditionalFirewallRuleCidrBlockTypeEgress SpecKubernetesNodePoolAdditionalFirewallRuleCidrBlockType = "egress"
-const SpecKubernetesNodePoolAdditionalFirewallRuleCidrBlockTypeIngress SpecKubernetesNodePoolAdditionalFirewallRuleCidrBlockType = "ingress"
+const (
+	SpecKubernetesNodePoolAdditionalFirewallRuleCidrBlockTypeEgress  SpecKubernetesNodePoolAdditionalFirewallRuleCidrBlockType = "egress"
+	SpecKubernetesNodePoolAdditionalFirewallRuleCidrBlockTypeIngress SpecKubernetesNodePoolAdditionalFirewallRuleCidrBlockType = "ingress"
+)
 
 type SpecKubernetesNodePoolAdditionalFirewallRulePorts struct {
 	// From corresponds to the JSON schema field "from".
@@ -983,8 +1005,10 @@ type SpecKubernetesNodePoolAdditionalFirewallRuleSelf struct {
 
 type SpecKubernetesNodePoolAdditionalFirewallRuleSelfType string
 
-const SpecKubernetesNodePoolAdditionalFirewallRuleSelfTypeEgress SpecKubernetesNodePoolAdditionalFirewallRuleSelfType = "egress"
-const SpecKubernetesNodePoolAdditionalFirewallRuleSelfTypeIngress SpecKubernetesNodePoolAdditionalFirewallRuleSelfType = "ingress"
+const (
+	SpecKubernetesNodePoolAdditionalFirewallRuleSelfTypeEgress  SpecKubernetesNodePoolAdditionalFirewallRuleSelfType = "egress"
+	SpecKubernetesNodePoolAdditionalFirewallRuleSelfTypeIngress SpecKubernetesNodePoolAdditionalFirewallRuleSelfType = "ingress"
+)
 
 type SpecKubernetesNodePoolAdditionalFirewallRuleSourceSecurityGroupId struct {
 	// Name corresponds to the JSON schema field "name".
@@ -1009,8 +1033,10 @@ type SpecKubernetesNodePoolAdditionalFirewallRuleSourceSecurityGroupId struct {
 
 type SpecKubernetesNodePoolAdditionalFirewallRuleSourceSecurityGroupIdType string
 
-const SpecKubernetesNodePoolAdditionalFirewallRuleSourceSecurityGroupIdTypeEgress SpecKubernetesNodePoolAdditionalFirewallRuleSourceSecurityGroupIdType = "egress"
-const SpecKubernetesNodePoolAdditionalFirewallRuleSourceSecurityGroupIdTypeIngress SpecKubernetesNodePoolAdditionalFirewallRuleSourceSecurityGroupIdType = "ingress"
+const (
+	SpecKubernetesNodePoolAdditionalFirewallRuleSourceSecurityGroupIdTypeEgress  SpecKubernetesNodePoolAdditionalFirewallRuleSourceSecurityGroupIdType = "egress"
+	SpecKubernetesNodePoolAdditionalFirewallRuleSourceSecurityGroupIdTypeIngress SpecKubernetesNodePoolAdditionalFirewallRuleSourceSecurityGroupIdType = "ingress"
+)
 
 type SpecKubernetesNodePoolAdditionalFirewallRules struct {
 	// CidrBlocks corresponds to the JSON schema field "cidrBlocks".
@@ -1034,8 +1060,10 @@ type SpecKubernetesNodePoolAmi struct {
 
 type SpecKubernetesNodePoolContainerRuntime string
 
-const SpecKubernetesNodePoolContainerRuntimeContainerd SpecKubernetesNodePoolContainerRuntime = "containerd"
-const SpecKubernetesNodePoolContainerRuntimeDocker SpecKubernetesNodePoolContainerRuntime = "docker"
+const (
+	SpecKubernetesNodePoolContainerRuntimeContainerd SpecKubernetesNodePoolContainerRuntime = "containerd"
+	SpecKubernetesNodePoolContainerRuntimeDocker     SpecKubernetesNodePoolContainerRuntime = "docker"
+)
 
 type SpecKubernetesNodePoolInstance struct {
 	// Spot corresponds to the JSON schema field "spot".
@@ -1058,9 +1086,11 @@ type SpecKubernetesNodePoolSize struct {
 
 type SpecKubernetesNodePoolsLaunchKind string
 
-const SpecKubernetesNodePoolsLaunchKindBoth SpecKubernetesNodePoolsLaunchKind = "both"
-const SpecKubernetesNodePoolsLaunchKindLaunchConfigurations SpecKubernetesNodePoolsLaunchKind = "launch_configurations"
-const SpecKubernetesNodePoolsLaunchKindLaunchTemplates SpecKubernetesNodePoolsLaunchKind = "launch_templates"
+const (
+	SpecKubernetesNodePoolsLaunchKindBoth                 SpecKubernetesNodePoolsLaunchKind = "both"
+	SpecKubernetesNodePoolsLaunchKindLaunchConfigurations SpecKubernetesNodePoolsLaunchKind = "launch_configurations"
+	SpecKubernetesNodePoolsLaunchKindLaunchTemplates      SpecKubernetesNodePoolsLaunchKind = "launch_templates"
+)
 
 type SpecToolsConfiguration struct {
 	// Terraform corresponds to the JSON schema field "terraform".
@@ -1098,35 +1128,37 @@ type TypesAwsIpProtocol string
 
 type TypesAwsRegion string
 
-const TypesAwsRegionAfSouth1 TypesAwsRegion = "af-south-1"
-const TypesAwsRegionApEast1 TypesAwsRegion = "ap-east-1"
-const TypesAwsRegionApNortheast1 TypesAwsRegion = "ap-northeast-1"
-const TypesAwsRegionApNortheast2 TypesAwsRegion = "ap-northeast-2"
-const TypesAwsRegionApNortheast3 TypesAwsRegion = "ap-northeast-3"
-const TypesAwsRegionApSouth1 TypesAwsRegion = "ap-south-1"
-const TypesAwsRegionApSouth2 TypesAwsRegion = "ap-south-2"
-const TypesAwsRegionApSoutheast1 TypesAwsRegion = "ap-southeast-1"
-const TypesAwsRegionApSoutheast2 TypesAwsRegion = "ap-southeast-2"
-const TypesAwsRegionApSoutheast3 TypesAwsRegion = "ap-southeast-3"
-const TypesAwsRegionApSoutheast4 TypesAwsRegion = "ap-southeast-4"
-const TypesAwsRegionCaCentral1 TypesAwsRegion = "ca-central-1"
-const TypesAwsRegionEuCentral1 TypesAwsRegion = "eu-central-1"
-const TypesAwsRegionEuCentral2 TypesAwsRegion = "eu-central-2"
-const TypesAwsRegionEuNorth1 TypesAwsRegion = "eu-north-1"
-const TypesAwsRegionEuSouth1 TypesAwsRegion = "eu-south-1"
-const TypesAwsRegionEuSouth2 TypesAwsRegion = "eu-south-2"
-const TypesAwsRegionEuWest1 TypesAwsRegion = "eu-west-1"
-const TypesAwsRegionEuWest2 TypesAwsRegion = "eu-west-2"
-const TypesAwsRegionEuWest3 TypesAwsRegion = "eu-west-3"
-const TypesAwsRegionMeCentral1 TypesAwsRegion = "me-central-1"
-const TypesAwsRegionMeSouth1 TypesAwsRegion = "me-south-1"
-const TypesAwsRegionSaEast1 TypesAwsRegion = "sa-east-1"
-const TypesAwsRegionUsEast1 TypesAwsRegion = "us-east-1"
-const TypesAwsRegionUsEast2 TypesAwsRegion = "us-east-2"
-const TypesAwsRegionUsGovEast1 TypesAwsRegion = "us-gov-east-1"
-const TypesAwsRegionUsGovWest1 TypesAwsRegion = "us-gov-west-1"
-const TypesAwsRegionUsWest1 TypesAwsRegion = "us-west-1"
-const TypesAwsRegionUsWest2 TypesAwsRegion = "us-west-2"
+const (
+	TypesAwsRegionAfSouth1     TypesAwsRegion = "af-south-1"
+	TypesAwsRegionApEast1      TypesAwsRegion = "ap-east-1"
+	TypesAwsRegionApNortheast1 TypesAwsRegion = "ap-northeast-1"
+	TypesAwsRegionApNortheast2 TypesAwsRegion = "ap-northeast-2"
+	TypesAwsRegionApNortheast3 TypesAwsRegion = "ap-northeast-3"
+	TypesAwsRegionApSouth1     TypesAwsRegion = "ap-south-1"
+	TypesAwsRegionApSouth2     TypesAwsRegion = "ap-south-2"
+	TypesAwsRegionApSoutheast1 TypesAwsRegion = "ap-southeast-1"
+	TypesAwsRegionApSoutheast2 TypesAwsRegion = "ap-southeast-2"
+	TypesAwsRegionApSoutheast3 TypesAwsRegion = "ap-southeast-3"
+	TypesAwsRegionApSoutheast4 TypesAwsRegion = "ap-southeast-4"
+	TypesAwsRegionCaCentral1   TypesAwsRegion = "ca-central-1"
+	TypesAwsRegionEuCentral1   TypesAwsRegion = "eu-central-1"
+	TypesAwsRegionEuCentral2   TypesAwsRegion = "eu-central-2"
+	TypesAwsRegionEuNorth1     TypesAwsRegion = "eu-north-1"
+	TypesAwsRegionEuSouth1     TypesAwsRegion = "eu-south-1"
+	TypesAwsRegionEuSouth2     TypesAwsRegion = "eu-south-2"
+	TypesAwsRegionEuWest1      TypesAwsRegion = "eu-west-1"
+	TypesAwsRegionEuWest2      TypesAwsRegion = "eu-west-2"
+	TypesAwsRegionEuWest3      TypesAwsRegion = "eu-west-3"
+	TypesAwsRegionMeCentral1   TypesAwsRegion = "me-central-1"
+	TypesAwsRegionMeSouth1     TypesAwsRegion = "me-south-1"
+	TypesAwsRegionSaEast1      TypesAwsRegion = "sa-east-1"
+	TypesAwsRegionUsEast1      TypesAwsRegion = "us-east-1"
+	TypesAwsRegionUsEast2      TypesAwsRegion = "us-east-2"
+	TypesAwsRegionUsGovEast1   TypesAwsRegion = "us-gov-east-1"
+	TypesAwsRegionUsGovWest1   TypesAwsRegion = "us-gov-west-1"
+	TypesAwsRegionUsWest1      TypesAwsRegion = "us-west-1"
+	TypesAwsRegionUsWest2      TypesAwsRegion = "us-west-2"
+)
 
 type TypesAwsS3BucketName string
 
@@ -1228,9 +1260,11 @@ type TypesKubeToleration struct {
 
 type TypesKubeTolerationEffect string
 
-const TypesKubeTolerationEffectNoExecute TypesKubeTolerationEffect = "NoExecute"
-const TypesKubeTolerationEffectNoSchedule TypesKubeTolerationEffect = "NoSchedule"
-const TypesKubeTolerationEffectPreferNoSchedule TypesKubeTolerationEffect = "PreferNoSchedule"
+const (
+	TypesKubeTolerationEffectNoExecute        TypesKubeTolerationEffect = "NoExecute"
+	TypesKubeTolerationEffectNoSchedule       TypesKubeTolerationEffect = "NoSchedule"
+	TypesKubeTolerationEffectPreferNoSchedule TypesKubeTolerationEffect = "PreferNoSchedule"
+)
 
 type TypesKubeTolerationOperator string
 
@@ -1992,6 +2026,7 @@ var enumValues_SpecDistributionModulesIngressNginxType = []interface{}{
 	"single",
 	"dual",
 }
+
 var enumValues_TypesKubeTolerationOperator = []interface{}{
 	"Exists",
 	"Equal",
@@ -2240,6 +2275,7 @@ var enumValues_SpecDistributionModulesIngressNginxTLSProvider = []interface{}{
 	"secret",
 	"none",
 }
+
 var enumValues_SpecKubernetesNodePoolContainerRuntime = []interface{}{
 	"docker",
 	"containerd",
