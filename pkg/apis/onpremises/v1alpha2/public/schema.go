@@ -8,12 +8,17 @@ import (
 	"reflect"
 )
 
-type KfddistributionKfdV1Alpha2 struct {
+type Metadata struct {
+	// Name corresponds to the JSON schema field "name".
+	Name string `json:"name" yaml:"name"`
+}
+
+type OnpremisesKfdV1Alpha2 struct {
 	// ApiVersion corresponds to the JSON schema field "apiVersion".
 	ApiVersion string `json:"apiVersion" yaml:"apiVersion"`
 
 	// Kind corresponds to the JSON schema field "kind".
-	Kind KfddistributionKfdV1Alpha2Kind `json:"kind" yaml:"kind"`
+	Kind OnpremisesKfdV1Alpha2Kind `json:"kind" yaml:"kind"`
 
 	// Metadata corresponds to the JSON schema field "metadata".
 	Metadata Metadata `json:"metadata" yaml:"metadata"`
@@ -22,14 +27,9 @@ type KfddistributionKfdV1Alpha2 struct {
 	Spec Spec `json:"spec" yaml:"spec"`
 }
 
-type KfddistributionKfdV1Alpha2Kind string
+type OnpremisesKfdV1Alpha2Kind string
 
-const KfddistributionKfdV1Alpha2KindKFDDistribution KfddistributionKfdV1Alpha2Kind = "KFDDistribution"
-
-type Metadata struct {
-	// Name corresponds to the JSON schema field "name".
-	Name string `json:"name" yaml:"name"`
-}
+const OnpremisesKfdV1Alpha2KindOnPremises OnpremisesKfdV1Alpha2Kind = "OnPremises"
 
 type Spec struct {
 	// Distribution corresponds to the JSON schema field "distribution".
@@ -37,6 +37,9 @@ type Spec struct {
 
 	// DistributionVersion corresponds to the JSON schema field "distributionVersion".
 	DistributionVersion string `json:"distributionVersion" yaml:"distributionVersion"`
+
+	// Kubernetes corresponds to the JSON schema field "kubernetes".
+	Kubernetes SpecKubernetes `json:"kubernetes,omitempty" yaml:"kubernetes,omitempty"`
 }
 
 type SpecDistribution struct {
@@ -1462,6 +1465,8 @@ func (j *SpecDistribution) UnmarshalJSON(b []byte) error {
 	return nil
 }
 
+type SpecKubernetes map[string]interface{}
+
 type TypesKubeTolerationEffect string
 
 // UnmarshalJSON implements json.Unmarshaler.
@@ -1521,27 +1526,27 @@ func (j *SpecDistributionCommonProvider) UnmarshalJSON(b []byte) error {
 	return nil
 }
 
-var enumValues_KfddistributionKfdV1Alpha2Kind = []interface{}{
-	"KFDDistribution",
+var enumValues_OnpremisesKfdV1Alpha2Kind = []interface{}{
+	"OnPremises",
 }
 
 // UnmarshalJSON implements json.Unmarshaler.
-func (j *KfddistributionKfdV1Alpha2Kind) UnmarshalJSON(b []byte) error {
+func (j *OnpremisesKfdV1Alpha2Kind) UnmarshalJSON(b []byte) error {
 	var v string
 	if err := json.Unmarshal(b, &v); err != nil {
 		return err
 	}
 	var ok bool
-	for _, expected := range enumValues_KfddistributionKfdV1Alpha2Kind {
+	for _, expected := range enumValues_OnpremisesKfdV1Alpha2Kind {
 		if reflect.DeepEqual(v, expected) {
 			ok = true
 			break
 		}
 	}
 	if !ok {
-		return fmt.Errorf("invalid value (expected one of %#v): %#v", enumValues_KfddistributionKfdV1Alpha2Kind, v)
+		return fmt.Errorf("invalid value (expected one of %#v): %#v", enumValues_OnpremisesKfdV1Alpha2Kind, v)
 	}
-	*j = KfddistributionKfdV1Alpha2Kind(v)
+	*j = OnpremisesKfdV1Alpha2Kind(v)
 	return nil
 }
 
@@ -1566,28 +1571,28 @@ func (j *Metadata) UnmarshalJSON(b []byte) error {
 }
 
 // UnmarshalJSON implements json.Unmarshaler.
-func (j *KfddistributionKfdV1Alpha2) UnmarshalJSON(b []byte) error {
+func (j *OnpremisesKfdV1Alpha2) UnmarshalJSON(b []byte) error {
 	var raw map[string]interface{}
 	if err := json.Unmarshal(b, &raw); err != nil {
 		return err
 	}
 	if v, ok := raw["apiVersion"]; !ok || v == nil {
-		return fmt.Errorf("field apiVersion in KfddistributionKfdV1Alpha2: required")
+		return fmt.Errorf("field apiVersion in OnpremisesKfdV1Alpha2: required")
 	}
 	if v, ok := raw["kind"]; !ok || v == nil {
-		return fmt.Errorf("field kind in KfddistributionKfdV1Alpha2: required")
+		return fmt.Errorf("field kind in OnpremisesKfdV1Alpha2: required")
 	}
 	if v, ok := raw["metadata"]; !ok || v == nil {
-		return fmt.Errorf("field metadata in KfddistributionKfdV1Alpha2: required")
+		return fmt.Errorf("field metadata in OnpremisesKfdV1Alpha2: required")
 	}
 	if v, ok := raw["spec"]; !ok || v == nil {
-		return fmt.Errorf("field spec in KfddistributionKfdV1Alpha2: required")
+		return fmt.Errorf("field spec in OnpremisesKfdV1Alpha2: required")
 	}
-	type Plain KfddistributionKfdV1Alpha2
+	type Plain OnpremisesKfdV1Alpha2
 	var plain Plain
 	if err := json.Unmarshal(b, &plain); err != nil {
 		return err
 	}
-	*j = KfddistributionKfdV1Alpha2(plain)
+	*j = OnpremisesKfdV1Alpha2(plain)
 	return nil
 }

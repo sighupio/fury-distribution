@@ -93,7 +93,7 @@ func ValidateAPIVersion(fl validator.FieldLevel) bool {
 }
 
 func ValidateClusterKind(fl validator.FieldLevel) bool {
-	return fl.Field().String() == "EKSCluster" || fl.Field().String() == "KFDDistribution"
+	return fl.Field().String() == "EKSCluster" || fl.Field().String() == "KFDDistribution" || fl.Field().String() == "OnPremises"
 }
 
 func ValidatePermissiveSemVer(fl validator.FieldLevel) bool {
