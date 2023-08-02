@@ -55,8 +55,213 @@
     "Spec.Kubernetes": {
       "type": "object",
       "additionalProperties": false,
-      "properties": {},
+      "properties": {
+        "pkiFolder": {
+          "type": "string"
+        },
+        "ssh": {
+          "$ref": "#/$defs/Spec.Kubernetes.SSH"
+        },
+        "dnsZone": {
+          "type": "string"
+        },
+        "controlPlaneAddress": {
+          "type": "string"
+        },
+        "podCidr": {
+          "$ref": "#/$defs/Types.Cidr"
+        },
+        "svcCidr": {
+          "$ref": "#/$defs/Types.Cidr"
+        },
+        "proxy": {
+          "$ref": "#/$defs/Spec.Kubernetes.Proxy"
+        },
+        "loadBalancers": {
+          "$ref": "#/$defs/Spec.Kubernetes.LoadBalancers"
+        },
+        "masters": {
+          "$ref": "#/$defs/Spec.Kubernetes.Masters"
+        },
+        "nodes": {
+          "$ref": "#/$defs/Spec.Kubernetes.Nodes"
+        }
+      },
+      "required": [
+        "pkiFolder",
+        "ssh",
+        "dnsZone",
+        "controlPlaneAddress",
+        "podCidr",
+        "svcCidr",
+        "loadBalancers",
+        "masters",
+        "nodes"
+      ]
+    },
+    "Spec.Kubernetes.SSH": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "username": {
+          "type": "string"
+        },
+        "key": {
+          "type": "string"
+        }
+      },
+      "required": ["username", "key"]
+    },
+    "Spec.Kubernetes.Proxy": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "http": {
+          "$ref": "#/$defs/Types.Uri"
+        },
+        "https": {
+          "$ref": "#/$defs/Types.Uri"
+        },
+        "noProxy": {
+          "type": "string"
+        }
+      },
       "required": []
+    },
+    "Spec.Kubernetes.LoadBalancers": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "enabled": {
+          "type": "boolean"
+        },
+        "hosts": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/Spec.Kubernetes.LoadBalancers.Host"
+          }
+        },
+        "keepalived": {
+          "$ref": "#/$defs/Spec.Kubernetes.LoadBalancers.Keepalived"
+        }
+      },
+      "required": ["enabled"],
+      "if": {
+        "properties": {
+          "enabled": true
+        }
+      },
+      "then": {
+        "required": ["hosts", "keepalived"]
+      }
+    },
+    "Spec.Kubernetes.LoadBalancers.Host": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "ip": {
+          "$ref": "#/$defs/Types.IpAddress"
+        }
+      },
+      "required": ["name", "ip"]
+    },
+    "Spec.Kubernetes.LoadBalancers.Keepalived": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "enabled": {
+          "type": "boolean"
+        },
+        "interface": {
+          "type": "string"
+        },
+        "ip": {
+          "$ref": "#/$defs/Types.IpAddress"
+        },
+        "virtualRouterId": {
+          "type": "string"
+        },
+        "passphrase": {
+          "type": "string"
+        }
+      },
+      "required": ["enabled"],
+      "if": {
+        "properties": {
+          "enabled": true
+        }
+      },
+      "then": {
+        "required": ["interface", "ip", "virtualRouterId", "passphrase"]
+      }
+    },
+    "Spec.Kubernetes.Masters": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "hosts": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/Spec.Kubernetes.Masters.Host"
+          }
+        }
+      },
+      "required": ["hosts"]
+    },
+    "Spec.Kubernetes.Masters.Host": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "ip": {
+          "$ref": "#/$defs/Types.IpAddress"
+        }
+      },
+      "required": ["name", "ip"]
+    },
+    "Spec.Kubernetes.Nodes": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/Spec.Kubernetes.Nodes.Node"
+      }
+    },
+    "Spec.Kubernetes.Nodes.Node": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "hosts": {
+          "type": "array",
+          "$ref": "#/$defs/Spec.Kubernetes.Nodes.Node.Host"
+        },
+        "labels": {
+          "$ref": "#/$defs/Types.KubeLabels"
+        },
+        "taints": {
+          "$ref": "#/$defs/Types.KubeTaints"
+        }
+      },
+      "required": ["name", "hosts"]
+    },
+    "Spec.Kubernetes.Nodes.Node.Host": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "ip": {
+          "$ref": "#/$defs/Types.IpAddress"
+        }
+      },
+      "required": ["name", "ip"]
     },
 
     "Spec.Distribution.CustomPatches": {
