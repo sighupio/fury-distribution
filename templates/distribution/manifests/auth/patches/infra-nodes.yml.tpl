@@ -33,3 +33,35 @@ spec:
       tolerations:
         {{ template "tolerations" $pomeriumArgs }}
 {{- end }}
+
+{{- if eq .spec.distribution.modules.auth.provider.type "basicAuthPlusDex" -}}
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: dex
+  namespace: kube-system
+spec:
+  template:
+    spec:
+      nodeSelector:
+        {{ template "nodeSelector" $dexArgs  }}
+      tolerations:
+        {{ template "tolerations" $dexArgs }}
+{{- end }}
+
+{{- if eq .spec.distribution.modules.auth.provider.type "nonePlusDex" -}}
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: dex
+  namespace: kube-system
+spec:
+  template:
+    spec:
+      nodeSelector:
+        {{ template "nodeSelector" $dexArgs  }}
+      tolerations:
+        {{ template "tolerations" $dexArgs }}
+{{- end }}

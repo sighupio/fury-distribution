@@ -16,7 +16,7 @@
     {{ print "https://pomerium." .spec.distribution.modules.auth.baseDomain "/oauth2/callback" }}
   {{- end }}
 {{- end -}}
-{{ if eq .spec.distribution.modules.auth.provider.type "sso" }}
+{{ if ne .spec.distribution.modules.auth.provider.type "none" }}
 issuer: {{ template "dexHost" . }}
 storage:
   type: kubernetes
@@ -30,11 +30,14 @@ connectors:
 {{ .spec.distribution.modules.auth.dex.connectors | toYaml | indent 2 }}
 oauth2:
   skipApprovalScreen: true
-staticClients:
-- id: pomerium
-  redirectURIs:
-  - {{ template "pomeriumHost" . }}
-  name: 'Pomerium in-cluster SSO'
-  secret: {{ .spec.distribution.modules.auth.pomerium.secrets.IDP_CLIENT_SECRET }}
 enablePasswordDB: false
+staticClients:
+{{- if eq .spec.distribution.modules.auth.provider.type "sso" }}
+  - id: pomerium
+    redirectURIs:
+    - {{ template "pomeriumHost" . }}
+    name: 'Pomerium in-cluster SSO'
+    secret: {{ .spec.distribution.modules.auth.pomerium.secrets.IDP_CLIENT_SECRET }}
+{{- end }}
+{{ .spec.distribution.modules.auth.dex.staticClients | toYaml | indent 2 }}
 {{ end }}

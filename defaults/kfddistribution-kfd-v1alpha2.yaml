@@ -181,6 +181,7 @@ data:
       dex:
         # see dex documentation for more information
         connectors: []
+        staticClients: []
 
 templates:
   includes:

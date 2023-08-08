@@ -8,14 +8,12 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 {{- end -}}
-{{- if eq .spec.distribution.modules.auth.provider.type "sso" }}
 
+{{- if eq .spec.distribution.modules.auth.provider.type "sso" }}
 resources:
   - {{ print "../" .spec.distribution.common.relativeVendorPath "/modules/auth/katalog/dex" }}
   - {{ print "../" .spec.distribution.common.relativeVendorPath "/modules/auth/katalog/pomerium" }}
-{{- if ne .spec.distribution.modules.ingress.nginx.type "none" }}
   - resources/ingress-infra.yml
-{{- end }}
 
 patchesStrategicMerge:
   - patches/infra-nodes.yml
@@ -40,9 +38,43 @@ secretGenerator:
     behavior: replace
     envs:
       - secrets/pomerium.env
-{{- end -}}
+{{- end }}
+
+{{- if eq .spec.distribution.modules.auth.provider.type "dex" }}
+resources:
+  - {{ print "../" .spec.distribution.common.relativeVendorPath "/modules/auth/katalog/dex" }}
+  - resources/ingress-infra.yml
+
+patchesStrategicMerge:
+  - patches/infra-nodes.yml
+
+secretGenerator:
+  - name: dex
+    namespace: kube-system
+    files:
+      - config.yml=secrets/dex.yml
+{{- end }}
+
+{{- if eq .spec.distribution.modules.auth.provider.type "basicAuthPlusDex" }}
+resources:
+  - {{ print "../" .spec.distribution.common.relativeVendorPath "/modules/auth/katalog/dex" }}
+  - resources/ingress-infra.yml
+  - secrets/basic-auth.yml
+
+patchesStrategicMerge:
+  - patches/infra-nodes.yml
+
+secretGenerator:
+  - name: dex
+    namespace: kube-system
+    files:
+      - config.yml=secrets/dex.yml
+
+{{- end }}
+
 {{- if eq .spec.distribution.modules.auth.provider.type "basicAuth" }}
 
 resources:
   - secrets/basic-auth.yml
+
 {{- end }}
