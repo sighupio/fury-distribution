@@ -1516,7 +1516,7 @@
           "$ref": "#/$defs/Types.AwsVpcId"
         },
         "bucketNamePrefix": {
-          "$ref": "#/$defs/Types.AwsS3BucketName"
+          "$ref": "#/$defs/Types.AwsS3BucketNamePrefix"
         }
       },
       "required": [
@@ -2082,6 +2082,19 @@
       "allOf": [
         {
           "pattern": "^[a-z0-9][a-z0-9-.]{1,61}[a-z0-9]$"
+        },
+        {
+          "not": {
+            "pattern": "^xn--|-s3alias$"
+          }
+        }
+      ]
+    },
+    "Types.AwsS3BucketNamePrefix": {
+      "type": "string",
+      "allOf": [
+        {
+          "pattern": "^[a-z0-9][a-z0-9-.]{1,35}[a-z0-9-.]$"
         },
         {
           "not": {
