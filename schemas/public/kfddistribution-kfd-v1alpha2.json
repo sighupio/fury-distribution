@@ -778,7 +778,17 @@
       "required": [
         "type",
         "velero"
-      ]
+      ],
+      "if": {
+        "properties": {
+          "type": {
+            "const": "on-premises"
+          }
+        }
+      },
+      "then": {
+        "required": ["type","velero"]
+      }
     },
     "Spec.Distribution.Modules.Dr.Velero": {
       "type": "object",
