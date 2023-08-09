@@ -54,7 +54,7 @@ all:
     ungrouped: {}
   vars:
     ansible_python_interpreter: python3
-    ansible_ssh_private_key_file: "{{ .spec.kubernetes.ssh.key }}"
+    ansible_ssh_private_key_file: "{{ .spec.kubernetes.ssh.keyPath }}"
     ansible_user: "{{ .spec.kubernetes.ssh.username }}"
     kubernetes_kubeconfig_path: ./
     kubernetes_version: "{{ .kubernetes.version }}"
