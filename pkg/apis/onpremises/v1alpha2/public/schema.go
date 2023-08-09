@@ -1696,8 +1696,8 @@ type SpecKubernetesProxy struct {
 }
 
 type SpecKubernetesSSH struct {
-	// Key corresponds to the JSON schema field "key".
-	Key string `json:"key" yaml:"key"`
+	// KeyPath corresponds to the JSON schema field "keyPath".
+	KeyPath string `json:"keyPath" yaml:"keyPath"`
 
 	// Username corresponds to the JSON schema field "username".
 	Username string `json:"username" yaml:"username"`
@@ -1709,8 +1709,8 @@ func (j *SpecKubernetesSSH) UnmarshalJSON(b []byte) error {
 	if err := json.Unmarshal(b, &raw); err != nil {
 		return err
 	}
-	if v, ok := raw["key"]; !ok || v == nil {
-		return fmt.Errorf("field key in SpecKubernetesSSH: required")
+	if v, ok := raw["keyPath"]; !ok || v == nil {
+		return fmt.Errorf("field keyPath in SpecKubernetesSSH: required")
 	}
 	if v, ok := raw["username"]; !ok || v == nil {
 		return fmt.Errorf("field username in SpecKubernetesSSH: required")

@@ -17,7 +17,7 @@ spec:
     pkiFolder: ./pki
     ssh:
       username: johndoe
-      key: "{file:///youruserpath/.ssh/id_ed25519}"
+      keyPath: /youruserpath/.ssh/id_ed25519
     # this zone will be concatenated to the - name on each host to generate kubernetes_hostname in the hosts.yaml file, and also for the etcd initial cluster value
     dnsZone: example.dev
     controlPlaneAddress: control-planelocal.example.dev:6443
