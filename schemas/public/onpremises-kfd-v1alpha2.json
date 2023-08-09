@@ -106,11 +106,11 @@
         "username": {
           "type": "string"
         },
-        "key": {
+        "keyPath": {
           "type": "string"
         }
       },
-      "required": ["username", "key"]
+      "required": ["username", "keyPath"]
     },
     "Spec.Kubernetes.Proxy": {
       "type": "object",

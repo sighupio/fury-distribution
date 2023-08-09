@@ -2,19 +2,6 @@
 # Use of this source code is governed by a BSD-style
 # license that can be found in the LICENSE file.
 
-# pki
-- name: Locally generate CA certificates for ETCD and MASTERS
-  hosts: localhost
-  tasks:
-    - name: Generate etcd pkis
-      delegate_to: localhost
-      shell: "furyagent init etcd"
-    - name: Generate master pkis
-      delegate_to: localhost
-      shell: "furyagent init master"
-  tags:
-    - pki
-
 # containerd
 - name: Containerd install
   hosts: master,nodes
