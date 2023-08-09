@@ -163,7 +163,7 @@
           "type": "string"
         },
         "ip": {
-          "$ref": "#/$defs/Types.IpAddress"
+          "type": "string"
         }
       },
       "required": ["name", "ip"]
@@ -179,7 +179,7 @@
           "type": "string"
         },
         "ip": {
-          "$ref": "#/$defs/Types.IpAddress"
+          "type": "string"
         },
         "virtualRouterId": {
           "type": "string"
@@ -219,7 +219,7 @@
           "type": "string"
         },
         "ip": {
-          "$ref": "#/$defs/Types.IpAddress"
+          "type": "string"
         }
       },
       "required": ["name", "ip"]
@@ -239,7 +239,9 @@
         },
         "hosts": {
           "type": "array",
-          "$ref": "#/$defs/Spec.Kubernetes.Nodes.Node.Host"
+          "items": {
+            "$ref": "#/$defs/Spec.Kubernetes.Nodes.Node.Host"
+          }
         },
         "labels": {
           "$ref": "#/$defs/Types.KubeLabels"
@@ -258,7 +260,7 @@
           "type": "string"
         },
         "ip": {
-          "$ref": "#/$defs/Types.IpAddress"
+          "type": "string"
         }
       },
       "required": ["name", "ip"]

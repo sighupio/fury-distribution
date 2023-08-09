@@ -16,6 +16,9 @@ kubernetes:
   eks:
     version: 1.26
     installer: v2.0.1
+  onpremises:
+    version: 1.25
+    installer: v1.26.3
 furyctlSchemas:
   eks:
     - apiVersion: kfd.sighup.io/v1alpha2
