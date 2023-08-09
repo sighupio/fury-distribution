@@ -1467,11 +1467,9 @@ func (j *SpecDistribution) UnmarshalJSON(b []byte) error {
 	return nil
 }
 
-type TypesIpAddress string
-
 type SpecKubernetesLoadBalancersHost struct {
 	// Ip corresponds to the JSON schema field "ip".
-	Ip TypesIpAddress `json:"ip" yaml:"ip"`
+	Ip string `json:"ip" yaml:"ip"`
 
 	// Name corresponds to the JSON schema field "name".
 	Name string `json:"name" yaml:"name"`
@@ -1506,7 +1504,7 @@ type SpecKubernetesLoadBalancersKeepalived struct {
 	Interface *string `json:"interface,omitempty" yaml:"interface,omitempty"`
 
 	// Ip corresponds to the JSON schema field "ip".
-	Ip *TypesIpAddress `json:"ip,omitempty" yaml:"ip,omitempty"`
+	Ip *string `json:"ip,omitempty" yaml:"ip,omitempty"`
 
 	// Passphrase corresponds to the JSON schema field "passphrase".
 	Passphrase *string `json:"passphrase,omitempty" yaml:"passphrase,omitempty"`
@@ -1564,7 +1562,7 @@ func (j *SpecKubernetesLoadBalancers) UnmarshalJSON(b []byte) error {
 
 type SpecKubernetesMastersHost struct {
 	// Ip corresponds to the JSON schema field "ip".
-	Ip TypesIpAddress `json:"ip" yaml:"ip"`
+	Ip string `json:"ip" yaml:"ip"`
 
 	// Name corresponds to the JSON schema field "name".
 	Name string `json:"name" yaml:"name"`
@@ -1616,7 +1614,7 @@ func (j *SpecKubernetesMasters) UnmarshalJSON(b []byte) error {
 
 type SpecKubernetesNodesNodeHost struct {
 	// Ip corresponds to the JSON schema field "ip".
-	Ip TypesIpAddress `json:"ip" yaml:"ip"`
+	Ip string `json:"ip" yaml:"ip"`
 
 	// Name corresponds to the JSON schema field "name".
 	Name string `json:"name" yaml:"name"`
@@ -1647,7 +1645,7 @@ type TypesKubeTaints []string
 
 type SpecKubernetesNodesNode struct {
 	// Hosts corresponds to the JSON schema field "hosts".
-	Hosts SpecKubernetesNodesNodeHost `json:"hosts" yaml:"hosts"`
+	Hosts []SpecKubernetesNodesNodeHost `json:"hosts" yaml:"hosts"`
 
 	// Labels corresponds to the JSON schema field "labels".
 	Labels TypesKubeLabels `json:"labels,omitempty" yaml:"labels,omitempty"`
@@ -1826,6 +1824,8 @@ func (j *Spec) UnmarshalJSON(b []byte) error {
 type TypesEnvRef string
 
 type TypesFileRef string
+
+type TypesIpAddress string
 
 type TypesSemVer string
 

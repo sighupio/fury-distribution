@@ -44,7 +44,8 @@ type KFDProvider struct {
 }
 
 type KFDKubernetes struct {
-	Eks KFDProvider `yaml:"eks" validate:"required"`
+	Eks        KFDProvider `yaml:"eks" validate:"required"`
+	OnPremises KFDProvider `yaml:"onpremises" validate:"required"`
 }
 
 type KFDSchemas struct {
