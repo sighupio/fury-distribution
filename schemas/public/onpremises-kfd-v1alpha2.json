@@ -247,7 +247,10 @@
           "$ref": "#/$defs/Types.KubeLabels"
         },
         "taints": {
-          "$ref": "#/$defs/Types.KubeTaints"
+          "type": ["array", "null"],
+          "items": {
+            "$ref": "#/$defs/Types.KubeTaints"
+          }
         }
       },
       "required": ["name", "hosts"]
@@ -1219,11 +1222,21 @@
       "additionalProperties": { "type": "string" }
     },
     "Types.KubeTaints": {
-      "type": "array",
-      "items": {
-        "type": "string",
-        "pattern": "^([a-zA-Z0-9\\-\\.\\/]+)=(\\w+):(NoSchedule|PreferNoSchedule|NoExecute)$"
-      }
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "effect": {
+          "type": "string",
+          "enum": ["NoSchedule", "PreferNoSchedule", "NoExecute"]
+        },
+        "key": {
+          "type": "string"
+        },
+        "value": {
+          "type": "string"
+        }
+      },
+      "required": ["effect", "key", "value"]
     },
     "Types.KubeNodeSelector": {
       "type": ["object", "null"],

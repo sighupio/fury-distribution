@@ -59,7 +59,9 @@ spec:
           nodepool: infra
           node.kubernetes.io/role: infra
         taints:
-          - node.kubernetes.io/role=infra:NoSchedule
+          - key: node.kubernetes.io/role
+            value: ingress
+            effect: NoSchedule
       - name: ingress
         hosts:
           - name: ingress1
@@ -70,7 +72,9 @@ spec:
           nodepool: ingress
           node.kubernetes.io/role: ingress
         taints:
-          - node.kubernetes.io/role=ingress:NoSchedule
+          - key: node.kubernetes.io/role
+            value: ingress
+            effect: NoSchedule
       - name: worker
         hosts:
           - name: worker1
@@ -80,7 +84,6 @@ spec:
         labels:
           nodepool: worker
           node.kubernetes.io/role: worker
-        taints: []
   # This section describes how the KFD distribution will be installed
   distribution:
     # This common configuration will be applied to all the packages that will be installed in the cluster
