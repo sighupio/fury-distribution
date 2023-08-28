@@ -30,7 +30,7 @@ spec:
     loadBalancers:
       enabled: true
       hosts:
-        - name: haproxy1 
+        - name: haproxy1
           ip: 192.168.1.200
         - name: haproxy2
           ip: 192.168.1.202
@@ -40,6 +40,9 @@ spec:
         ip: 192.168.1.201/24
         virtualRouterId: "201"
         passphrase: "123aaaccc321"
+      stats:
+        username: admin
+        password: password
     masters:
       hosts:
         - name: master1 

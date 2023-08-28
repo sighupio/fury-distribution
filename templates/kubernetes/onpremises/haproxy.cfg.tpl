@@ -27,7 +27,7 @@ listen  stats
     stats hide-version
     stats refresh 30s
     stats show-node
-    stats auth admin:password
+    stats auth {{ .spec.kubernetes.loadBalancers.stats.username }}:{{ .spec.kubernetes.loadBalancers.stats.password }}
 
 frontend control-plane
     mode tcp
