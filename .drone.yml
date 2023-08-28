@@ -87,7 +87,7 @@ steps:
       - render
     commands:
       # we use --ignore-deprecations because we don't want the CI to fail when the API has not been removed yet.
-      - /pluto detect distribution.yml --ignore-deprecations --target-versions=k8s=v1.25.0
+      - /pluto detect distribution.yml --ignore-deprecations --target-versions=k8s=v1.26.0
 
 ---
 name: e2e-kubernetes-1.25
