@@ -143,6 +143,9 @@
         },
         "keepalived": {
           "$ref": "#/$defs/Spec.Kubernetes.LoadBalancers.Keepalived"
+        },
+        "stats": {
+          "$ref": "#/$defs/Spec.Kubernetes.LoadBalancers.Stats"
         }
       },
       "required": ["enabled"],
@@ -152,7 +155,7 @@
         }
       },
       "then": {
-        "required": ["hosts", "keepalived"]
+        "required": ["hosts", "keepalived", "stats"]
       }
     },
     "Spec.Kubernetes.LoadBalancers.Host": {
@@ -197,6 +200,19 @@
       "then": {
         "required": ["interface", "ip", "virtualRouterId", "passphrase"]
       }
+    },
+    "Spec.Kubernetes.LoadBalancers.Stats": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "username": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string"
+        }
+      },
+      "required": ["username", "password"]
     },
     "Spec.Kubernetes.Masters": {
       "type": "object",
