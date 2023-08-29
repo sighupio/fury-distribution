@@ -10,7 +10,8 @@ For a complete list of all KFD releases and their compatibility with Kubernetes 
 
 | KFD / Kubernetes Version                                                      | v1.26.X            | 1.25.X             | 1.24.X             | 1.23.X             |
 | ----------------------------------------------------------------------------- | ------------------ | ------------------ | ------------------ | ------------------ |
-| [v1.25.6](https://github.com/sighupio/fury-distribution/releases/tag/v1.26.0) | :white_check_mark: |                    |                    |                    |
+| [v1.26.0](https://github.com/sighupio/fury-distribution/releases/tag/v1.26.0) | :white_check_mark: |                    |                    |                    |
+| [v1.25.6](https://github.com/sighupio/fury-distribution/releases/tag/v1.25.6) |                    | :white_check_mark: |                    |                    |
 | [v1.25.5](https://github.com/sighupio/fury-distribution/releases/tag/v1.25.5) |                    | :white_check_mark: |                    |                    |
 | [v1.25.4](https://github.com/sighupio/fury-distribution/releases/tag/v1.25.4) |                    | :white_check_mark: |                    |                    |
 | [v1.25.3](https://github.com/sighupio/fury-distribution/releases/tag/v1.25.3) |                    | :white_check_mark: |                    |                    |
@@ -35,7 +36,8 @@ For a complete list of all KFD releases and their compatibility with Kubernetes 
 
 | Furyctl / KFD  | 1.26.0             | 1.25.6             | 1.25.5             | 1.25.4             | 1.25.3             | 1.25.2             |
 | -------------- | ------------------ | ------------------ | ------------------ | ------------------ | ------------------ | ------------------ |
-| 0.25.2         | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: |                    |                    |
+| 0.26.0         | :white_check_mark: |                    |                    |                    |                    |                    |
+| 0.25.2         | :warning:          | :white_check_mark: | :white_check_mark: | :white_check_mark: |                    |                    |
 | 0.25.1         |                    | :white_check_mark: | :white_check_mark: | :white_check_mark: |                    |                    |
 | 0.25.0         |                    | :white_check_mark: | :white_check_mark: | :white_check_mark: |                    |                    |
 | 0.25.0-beta.0  |                    |                    |                    |                    | :white_check_mark: |                    |
