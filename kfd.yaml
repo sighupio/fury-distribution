@@ -2,10 +2,10 @@
 # Use of this source code is governed by a BSD-style
 # license that can be found in the LICENSE file.
 
-version: v1.26.0-rc.2
+version: v1.26.0-rc.100
 modules:
   auth: v0.0.4-rc.0
-  aws: v3.1.0-rc.2
+  aws: v4.0.0-rc.0
   dr: v2.1.0-rc.0
   ingress: v2.1.0-rc.0
   logging: v3.2.0-rc.0
