@@ -37,4 +37,4 @@ tools:
       version: 4.34.1
   eks:
     awscli:
-      version: 2.8.12
+      version: ">= 2.8.12"
