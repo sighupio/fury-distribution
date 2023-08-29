@@ -12,7 +12,7 @@ resources:
   - {{ print "../" .spec.distribution.common.relativeVendorPath "/modules/aws/katalog/cluster-autoscaler/v" $version.Major "." $version.Minor ".x" }}
   - {{ print "../" .spec.distribution.common.relativeVendorPath "/modules/aws/katalog/load-balancer-controller" }}
   - {{ print "../" .spec.distribution.common.relativeVendorPath "/modules/aws/katalog/node-termination-handler" }}
-  #- resources/sc.yml
+  - resources/sc.yml
 
 patchesStrategicMerge:
   - patches/cluster-autoscaler.yml
