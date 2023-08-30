@@ -13,11 +13,11 @@ resources:
 {{- if eq .spec.distribution.common.provider.type "eks" }}
   - aws
 {{- end }}
-{{- if ne .spec.distribution.modules.dr.type "none" }}
+{{- if and (ne .spec.distribution.modules.dr.type "none") (.checks.storageClassAvailable) }}
   - dr
 {{- end }}
   - ingress
-{{- if ne .spec.distribution.modules.logging.type "none" }}
+{{- if and (ne .spec.distribution.modules.logging.type "none") (.checks.storageClassAvailable) }}
   - logging
 {{- end }}
   - monitoring
