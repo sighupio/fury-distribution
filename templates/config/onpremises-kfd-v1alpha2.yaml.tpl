@@ -102,8 +102,8 @@ spec:
     # This section contains all the configurations for all the KFD core modules
     modules:
       networking:
-        # this type defines if we need to install the networking in the cluster, type available: none, cilium, calico
-        type: none
+        # this type defines if we need to install the networking in the cluster, type available: cilium, calico
+        type: ""
       # This section contains all the configurations for the ingress module
       ingress:
         # This optional key is used to override automatic parameters
