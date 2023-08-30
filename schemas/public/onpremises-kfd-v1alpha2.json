@@ -933,7 +933,7 @@
         },
         "type": {
           "type": "string",
-          "enum": ["none", "calico", "cilium"]
+          "enum": ["calico", "cilium"]
         }
       },
       "required": ["type"]
