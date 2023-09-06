@@ -9,7 +9,7 @@
 | [apiVersion](#apiversion) | `string` | Required |
 | [kind](#kind)             | `string` | Required |
 | [metadata](#metadata)     | `object` | Required |
-| [spec](#spec)             | `object` | Required | 
+| [spec](#spec)             | `object` | Required |
 
 ## .apiVersion
 
