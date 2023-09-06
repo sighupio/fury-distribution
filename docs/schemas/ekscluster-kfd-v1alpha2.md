@@ -3900,7 +3900,7 @@ The node selector to use to place the pods for the kubeStateMetrics module
 | [value](#specdistributionmodulesmonitoringkubestatemetricsoverridestolerationsvalue)       | `string` | Required |
 
 ### Description
-    
+
 The tolerations that will be added to the pods for the kubeStateMetrics module
 
 ### Constraints
