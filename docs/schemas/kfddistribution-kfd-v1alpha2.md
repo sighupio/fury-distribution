@@ -1,6 +1,6 @@
 # Distribution Only Cluster Schema
 
-*A Fury Distribution Only Cluster*
+This document explains the full schema for the `kind: KFDDistribution` for the `furyctl.yaml` file used by `furyctl`. This configuration file will be used to deploy the Kubernetes Fury Distribution modules on top of an existing Kubernetes cluster.
 
 ## Properties
 
