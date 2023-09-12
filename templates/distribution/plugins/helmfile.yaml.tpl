@@ -11,6 +11,7 @@ releases:
 {{- if .spec.plugins.kustomize -}}
 {{ range .spec.plugins.kustomize }}
   - name: {{ .name }}
+    namespace: {{ .namespace }}
     chart: {{ .folder }}
 {{- end -}}
 {{- end -}}

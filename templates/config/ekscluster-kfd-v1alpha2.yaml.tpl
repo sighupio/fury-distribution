@@ -496,4 +496,5 @@ spec:
   #   # Kustomize projects to be installed
   #   kustomize:
   #     - name: kustomize-project
+  #       namespace: default
   #       folder: path/to/kustomize/project

@@ -244,6 +244,8 @@
     "Spec.Plugins.Helm.Repositories": {
       "type": "array",
       "items": {
+        "type": "object",
+        "additionalProperties": false,
         "properties": {
           "name": {
             "type": "string"
@@ -251,12 +253,15 @@
           "url": {
             "type": "string"
           }
-        }
+        },
+        "required": ["name", "url"]
       }
     },
     "Spec.Plugins.Helm.Releases": {
       "type": "array",
       "items": {
+        "type": "object",
+        "additionalProperties": false,
         "properties": {
           "name": {
             "type": "string"
@@ -273,6 +278,8 @@
           "set": {
             "type": "array",
             "items": {
+              "type": "object",
+              "additionalProperties": false,
               "properties": {
                 "name": {
                   "type": "string"
@@ -280,7 +287,8 @@
                 "value": {
                   "type": "string"
                 }
-              }
+              },
+              "required": ["name", "value"]
             }
           },
           "values": {
@@ -289,20 +297,27 @@
               "type": "string"
             }
           }
-        }
+        },
+        "required": ["name", "namespace", "chart"]
       }
     },
     "Spec.Plugins.Kustomize": {
       "type": "array",
       "items": {
+        "type": "object",
+        "additionalProperties": false,
         "properties": {
           "name": {
+            "type": "string"
+          },
+          "namespace": {
             "type": "string"
           },
           "folder": {
             "type": "string"
           }
-        }
+        },
+        "required": ["name", "namespace", "folder"]
       }
     },
 
