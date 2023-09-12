@@ -313,3 +313,24 @@ spec:
     #  - name: b-secret
     #    envs:
     #      -  /path/to/envs.env
+  # Plugins to be installed
+  # plugins:
+  #   # Helm releases and repositories to be installed
+  #   helm:
+  #     repositories:
+  #       - name: prometheus-community
+  #         url: https://prometheus-community.github.io/helm-charts
+  #     releases:
+  #       - name: prometheus
+  #         namespace: prometheus
+  #         chart: prometheus-community/prometheus
+  #         version: "24.3.0"
+  #         set:
+  #           - name: server.replicaCount
+  #             value: 2
+  #         values:
+  #           - path/to/values.yaml
+  #   # Kustomize projects to be installed
+  #   kustomize:
+  #     - name: kustomize-project
+  #       folder: path/to/kustomize/project
