@@ -26,6 +26,7 @@ all:
         {{- $etcdInitialCluster = append $etcdInitialCluster $etcdUri }}
         {{ $h.name }}:
           ansible_host: "{{ $h.ip }}"
+          kubernetes_apiserver_advertise_address: "{{ $h.ip }}"
           kubernetes_hostname: "{{ $h.name }}.{{ $dnsZone }}"
         {{- end }}
       vars:
