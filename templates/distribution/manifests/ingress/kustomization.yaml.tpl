@@ -30,6 +30,9 @@ resources:
 {{- if ne .spec.distribution.modules.ingress.nginx.type "none" }}
   - resources/ingress-infra.yml
 {{- end }}
+{{ if eq .spec.distribution.modules.ingress.nginx.tls.provider "secret" }}
+  - secrets/tls.yml
+{{- end }}
 
 patchesStrategicMerge:
 {{- if and (eq .spec.distribution.modules.ingress.nginx.tls.provider "certManager") (eq .spec.distribution.modules.ingress.certManager.clusterIssuer.type "dns01") }}
