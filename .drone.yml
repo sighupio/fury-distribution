@@ -87,10 +87,10 @@ steps:
       - render
     commands:
       # we use --ignore-deprecations because we don't want the CI to fail when the API has not been removed yet.
-      - /pluto detect distribution.yml --ignore-deprecations --target-versions=k8s=v1.25.0
+      - /pluto detect distribution.yml --ignore-deprecations --target-versions=k8s=v1.26.0
 
 ---
-name: e2e-kubernetes-1.25
+name: e2e-kubernetes-1.26
 kind: pipeline
 type: docker
 
@@ -116,17 +116,17 @@ trigger:
 
 steps:
   - name: init
-    image: quay.io/sighup/e2e-testing-drone-plugin:v1.25.3
+    image: quay.io/sighup/e2e-testing-drone-plugin:v1.26.4
     pull: always
     volumes:
       - name: shared
         path: /shared
     depends_on: [clone]
     settings:
-      action: custom-cluster-125
-      pipeline_id: cluster-125
+      action: custom-cluster-126
+      pipeline_id: cluster-126
       local_kind_config_path: tests/config/kind-config-custom
-      cluster_version: "1.25.3"
+      cluster_version: "1.26.4"
       instance_path: /shared
       instance_size: 2-extra-large
       aws_default_region:
@@ -150,7 +150,7 @@ steps:
 
   - name: e2e
     # KUBECTL 1.25.3 - KUSTOMIZE 3.5.3 - HELM 3.1.1 - YQ 4.21.1 - ISTIOCTL 1.9.4 - FURYCTL 0.9.0 - BATS 1.1.0
-    image: quay.io/sighup/e2e-testing:1.1.0_0.9.0_3.1.1_1.9.4_1.25.3_3.5.3_4.21.1
+    image: quay.io/sighup/e2e-testing:1.1.0_0.11.0_3.1.1_1.9.4_1.26.3_3.5.3_4.33.3
     pull: always
     volumes:
       - name: shared
@@ -159,7 +159,7 @@ steps:
     commands:
       - ls -la /shared/
       - ls -la /shared/kube/
-      - export KUBECONFIG=/shared/kube/kubeconfig-125
+      - export KUBECONFIG=/shared/kube/kubeconfig-126
       - bats -t tests/install.sh
       - bats -t tests/networking.sh
       - bats -t tests/monitoring.sh
@@ -170,12 +170,12 @@ steps:
       - bats -t tests/schema.sh
 
   - name: destroy
-    image: quay.io/sighup/e2e-testing-drone-plugin:v1.25.3
+    image: quay.io/sighup/e2e-testing-drone-plugin:v1.26.4
     pull: always
     depends_on: [e2e]
     settings:
       action: destroy
-      pipeline_id: cluster-125
+      pipeline_id: cluster-126
       instance_size: 2-extra-large
       aws_default_region:
         from_secret: aws_region
@@ -210,7 +210,7 @@ kind: pipeline
 type: docker
 
 depends_on:
-  - e2e-kubernetes-1.25
+  - e2e-kubernetes-1.26
 
 platform:
   os: linux

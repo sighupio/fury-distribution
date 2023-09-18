@@ -4,14 +4,14 @@
 
 ---
 versions:
-  auth: v0.0.3
-  aws: v3.0.0
-  dr: v2.0.0
-  ingress: v2.0.0
-  logging: v3.1.3
-  monitoring: v2.1.0
-  opa: v1.8.0
-  networking: v1.13.0
+  auth: v0.0.4-rc.0
+  aws: v4.0.0-rc.6
+  dr: v2.1.0-rc.1
+  ingress: v2.1.0-rc.1
+  logging: v3.2.0-rc.0
+  monitoring: v2.2.0-rc.0
+  opa: v1.9.0-rc.0
+  networking: v1.14.0-rc.2
 
 bases:
   - name: auth
