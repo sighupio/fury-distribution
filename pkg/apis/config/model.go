@@ -68,6 +68,8 @@ type KFDToolsCommon struct {
 	Kustomize KFDTool `yaml:"kustomize" validate:"required"`
 	Terraform KFDTool `yaml:"terraform" validate:"required"`
 	Yq        KFDTool `yaml:"yq" validate:"required"`
+	Helm      KFDTool `yaml:"helm" validate:"required"`
+	Helmfile  KFDTool `yaml:"helmfile" validate:"required"`
 }
 
 type KFDToolsEks struct {
