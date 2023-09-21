@@ -39,6 +39,9 @@
         },
         "distribution": {
           "$ref": "#/$defs/Spec.Distribution"
+        },
+        "plugins": {
+          "$ref": "#/$defs/Spec.Plugins"
         }
       },
       "required": [
@@ -1974,6 +1977,123 @@
         "max",
         "min"
       ]
+    },
+    "Spec.Plugins": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "helm": {
+          "$ref": "#/$defs/Spec.Plugins.Helm"
+        },
+        "kustomize": {
+          "$ref": "#/$defs/Spec.Plugins.Kustomize"
+        }
+      }
+    },
+    "Spec.Plugins.Helm": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "repositories": {
+          "$ref": "#/$defs/Spec.Plugins.Helm.Repositories"
+        },
+        "releases": {
+          "$ref": "#/$defs/Spec.Plugins.Helm.Releases"
+        }
+      }
+    },
+    "Spec.Plugins.Helm.Releases": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "namespace": {
+            "type": "string"
+          },
+          "chart": {
+            "type": "string"
+          },
+          "version": {
+            "type": "string"
+          },
+          "set": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "name": {
+                  "type": "string"
+                },
+                "value": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "name",
+                "value"
+              ]
+            }
+          },
+          "values": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "required": [
+          "name",
+          "namespace",
+          "chart"
+        ]
+      }
+    },
+    "Spec.Plugins.Helm.Repositories": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "url": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "name",
+          "url"
+        ]
+      }
+    },
+    "Spec.Plugins.Kustomize": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "namespace": {
+            "type": "string"
+          },
+          "folder": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "name",
+          "namespace",
+          "folder"
+        ]
+      }
     },
     "Spec.ToolsConfiguration": {
       "type": "object",

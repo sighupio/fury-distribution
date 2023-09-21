@@ -41,6 +41,10 @@ tools:
       version: 1.4.6
     yq:
       version: 4.34.1
+    helm:
+      version: 3.12.3
+    helmfile:
+      version: 0.156.0
   eks:
     awscli:
       version: ">= 2.8.12"
