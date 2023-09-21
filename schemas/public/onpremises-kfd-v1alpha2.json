@@ -47,6 +47,9 @@
         },
         "distribution": {
           "$ref": "#/$defs/Spec.Distribution"
+        },
+        "plugins": {
+          "$ref": "./spec-plugins.json"
         }
       },
       "required": ["distributionVersion", "distribution"]
@@ -1032,6 +1035,9 @@
         },
         "dex": {
           "$ref": "#/$defs/Spec.Distribution.Modules.Auth.Dex"
+        },
+        "oidcKubernetesAuth": {
+          "$ref": "#/$defs/Spec.Distribution.Modules.Auth.OIDCKubernetesAuth"
         }
       },
       "required": ["provider"],
@@ -1089,6 +1095,20 @@
                 }
               }
             }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "oidcKubernetesAuth": {
+                "properties": {
+                  "enabled": true
+                }
+              }
+            }
+          },
+          "then": {
+            "required": ["baseDomain", "dex"]
           }
         }
       ]
@@ -1198,6 +1218,37 @@
         }
       },
       "required": ["connectors"]
+    },
+    "Spec.Distribution.Modules.Auth.OIDCKubernetesAuth": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "enabled": {
+          "type": "boolean"
+        },
+        "clientID": {
+          "type": "string"
+        },
+        "clientSecret": {
+          "type": "string"
+        },
+        "scopes": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "usernameClaim": {
+          "type": "string"
+        },
+        "emailClaim": {
+          "type": "string"
+        },
+        "sessionSecurityKey": {
+          "type": "string"
+        }
+      },
+      "required": ["enabled", "clientID", "clientSecret", "sessionSecurityKey"]
     },
 
     "Types.SemVer": {

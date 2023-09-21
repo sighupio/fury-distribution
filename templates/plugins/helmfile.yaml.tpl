@@ -18,6 +18,7 @@ releases:
 {{- end }}
 
 helmBinary: {{ .paths.helm }}
+kustomizeBinary: {{ .paths.kustomize }}
 
 helmDefaults:
   args:
