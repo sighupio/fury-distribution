@@ -149,6 +149,9 @@
         },
         "stats": {
           "$ref": "#/$defs/Spec.Kubernetes.LoadBalancers.Stats"
+        },
+        "additionalConfig": {
+          "type": "string"
         }
       },
       "required": ["enabled"],
