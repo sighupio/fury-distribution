@@ -40,3 +40,7 @@ backend masters
     {{- range $h := .spec.kubernetes.masters.hosts }}
     server {{ $h.name }}.{{ $dnsZone }} {{ $h.ip }}:6443 maxconn 256 check check-ssl ca-file /etc/ssl/certs/kubernetes.crt
     {{- end }}
+
+{{- if index .spec.kubernetes.loadBalancers "additionalConfig" }}
+{{ .spec.kubernetes.loadBalancers.additionalConfig }}
+{{- end }}
