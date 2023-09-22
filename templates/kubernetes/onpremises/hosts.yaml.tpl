@@ -59,6 +59,8 @@ all:
     ansible_user: "{{ .spec.kubernetes.ssh.username }}"
     kubernetes_kubeconfig_path: ./
     kubernetes_version: "{{ .kubernetes.version }}"
+    {{- if (index .spec.kubernetes "proxy") }}
     http_proxy: "{{ .spec.kubernetes.proxy.http }}"
     https_proxy: "{{ .spec.kubernetes.proxy.https }}"
     no_proxy: "{{ .spec.kubernetes.proxy.noProxy }}"
+    {{- end }}
