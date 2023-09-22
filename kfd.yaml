@@ -17,7 +17,7 @@ kubernetes:
     version: 1.26
     installer: v2.0.1
   onpremises:
-    version: 1.25.12
+    version: 1.26.7
     installer: v1.26.7-rev.1-rc.0
 furyctlSchemas:
   eks:
