@@ -242,10 +242,10 @@ type SpecDistributionModulesAuthDex struct {
 
 type SpecDistributionModulesAuthOIDCKubernetesAuth struct {
 	// ClientID corresponds to the JSON schema field "clientID".
-	ClientID string `json:"clientID" yaml:"clientID"`
+	ClientID *string `json:"clientID,omitempty" yaml:"clientID,omitempty"`
 
 	// ClientSecret corresponds to the JSON schema field "clientSecret".
-	ClientSecret string `json:"clientSecret" yaml:"clientSecret"`
+	ClientSecret *string `json:"clientSecret,omitempty" yaml:"clientSecret,omitempty"`
 
 	// EmailClaim corresponds to the JSON schema field "emailClaim".
 	EmailClaim *string `json:"emailClaim,omitempty" yaml:"emailClaim,omitempty"`
@@ -257,7 +257,7 @@ type SpecDistributionModulesAuthOIDCKubernetesAuth struct {
 	Scopes []string `json:"scopes,omitempty" yaml:"scopes,omitempty"`
 
 	// SessionSecurityKey corresponds to the JSON schema field "sessionSecurityKey".
-	SessionSecurityKey string `json:"sessionSecurityKey" yaml:"sessionSecurityKey"`
+	SessionSecurityKey *string `json:"sessionSecurityKey,omitempty" yaml:"sessionSecurityKey,omitempty"`
 
 	// UsernameClaim corresponds to the JSON schema field "usernameClaim".
 	UsernameClaim *string `json:"usernameClaim,omitempty" yaml:"usernameClaim,omitempty"`
@@ -1736,17 +1736,8 @@ func (j *SpecDistributionModulesAuthOIDCKubernetesAuth) UnmarshalJSON(b []byte) 
 	if err := json.Unmarshal(b, &raw); err != nil {
 		return err
 	}
-	if v, ok := raw["clientID"]; !ok || v == nil {
-		return fmt.Errorf("field clientID in SpecDistributionModulesAuthOIDCKubernetesAuth: required")
-	}
-	if v, ok := raw["clientSecret"]; !ok || v == nil {
-		return fmt.Errorf("field clientSecret in SpecDistributionModulesAuthOIDCKubernetesAuth: required")
-	}
 	if v, ok := raw["enabled"]; !ok || v == nil {
 		return fmt.Errorf("field enabled in SpecDistributionModulesAuthOIDCKubernetesAuth: required")
-	}
-	if v, ok := raw["sessionSecurityKey"]; !ok || v == nil {
-		return fmt.Errorf("field sessionSecurityKey in SpecDistributionModulesAuthOIDCKubernetesAuth: required")
 	}
 	type Plain SpecDistributionModulesAuthOIDCKubernetesAuth
 	var plain Plain

@@ -1,6 +1,6 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "$id": "https://schema.sighup.io/kfd/distribution-kfd-v1alpha1-public.json",
+  "$id": "https://schema.sighup.io/kfd/onpremises-kfd-v1alpha1-public.json",
   "description": "",
   "type": "object",
   "properties": {
@@ -154,7 +154,9 @@
       "required": ["enabled"],
       "if": {
         "properties": {
-          "enabled": true
+          "enabled": {
+            "const": true
+          }
         }
       },
       "then": {
@@ -197,7 +199,9 @@
       "required": ["enabled"],
       "if": {
         "properties": {
-          "enabled": true
+          "enabled": {
+            "const": true
+          }
         }
       },
       "then": {
@@ -1102,13 +1106,12 @@
             "properties": {
               "oidcKubernetesAuth": {
                 "properties": {
-                  "enabled": true
+                  "enabled": {
+                    "const": true
+                  }
                 }
               }
             }
-          },
-          "then": {
-            "required": ["baseDomain", "dex"]
           }
         }
       ]
@@ -1248,7 +1251,17 @@
           "type": "string"
         }
       },
-      "required": ["enabled", "clientID", "clientSecret", "sessionSecurityKey"]
+      "required": ["enabled"],
+      "if": {
+        "properties": {
+          "enabled": {
+            "const": true
+          }
+        }
+      },
+      "then": {
+        "required": ["clientID", "clientSecret", "sessionSecurityKey"]
+      }
     },
 
     "Types.SemVer": {

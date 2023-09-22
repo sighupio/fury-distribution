@@ -181,6 +181,8 @@ data:
       dex:
         # see dex documentation for more information
         connectors: []
+      oidcKubernetesAuth:
+        enabled: false
 
 templates:
   includes:
