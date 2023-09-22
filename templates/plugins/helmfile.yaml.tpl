@@ -1,14 +1,16 @@
-{{ if and .spec.plugins.helm .spec.plugins.helm.repositories -}}
+{{ if (index .spec.kubernetes "helm") -}}
+{{ if (index .spec.plugins.helm "repositories") -}}
 repositories:
 {{- toYaml .spec.plugins.helm.repositories | nindent 2 }}
 {{- end }}
+{{- end }}
 
-{{ if or (and .spec.plugins.helm .spec.plugins.helm.releases) .spec.plugins.kustomize -}}
+{{ if or (and (index .spec.kubernetes "helm") (index .spec.plugins.helm "releases")) (index .spec.plugins "kustomize") -}}
 releases:
-{{- if .spec.plugins.helm.releases -}}
+{{- if (and (index .spec.kubernetes "helm") (index .spec.plugins.helm "releases")) -}}
 {{- toYaml .spec.plugins.helm.releases | nindent 2 }}
 {{- end -}}
-{{- if .spec.plugins.kustomize -}}
+{{- if (index .spec.plugins "kustomize") -}}
 {{ range .spec.plugins.kustomize }}
   - name: {{ .name }}
     namespace: {{ .namespace }}
@@ -18,7 +20,7 @@ releases:
 {{- end }}
 
 helmBinary: {{ .paths.helm }}
-kustomizeBinary: {{ .paths.kustomize }}
+### TODO, decomment when new release is released kustomizeBinary: {{ .paths.kustomize }}
 
 helmDefaults:
   args:
