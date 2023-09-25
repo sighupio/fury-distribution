@@ -88,6 +88,9 @@
         },
         "nodes": {
           "$ref": "#/$defs/Spec.Kubernetes.Nodes"
+        },
+        "advanced": {
+          "$ref": "#/$defs/Spec.Kubernetes.Advanced"
         }
       },
       "required": [
@@ -293,6 +296,63 @@
         }
       },
       "required": ["name", "ip"]
+    },
+    "Spec.Kubernetes.Advanced": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "cloud": {
+          "$ref": "#/$defs/Spec.Kubernetes.Advanced.Cloud"
+        },
+        "users": {
+          "$ref": "#/$defs/Spec.Kubernetes.Advanced.Users"
+        },
+        "oidc": {
+          "$ref": "#/$defs/Spec.Kubernetes.Advanced.OIDC"
+        }
+      }
+    },
+    "Spec.Kubernetes.Advanced.Cloud": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "provider": {
+          "type": "string"
+        },
+        "config": {
+          "type": "string"
+        }
+      }
+    },
+    "Spec.Kubernetes.Advanced.Users": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "names": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "org": {
+          "type": "string"
+        }
+      }
+    },
+    "Spec.Kubernetes.Advanced.OIDC": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "issuer_url": {
+          "type": "string"
+        },
+        "client_id": {
+          "type": "string"
+        },
+        "ca_file": {
+          "type": "string"
+        }
+      }
     },
 
     "Spec.Distribution.CustomPatches": {
