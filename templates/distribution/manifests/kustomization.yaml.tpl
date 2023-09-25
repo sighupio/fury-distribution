@@ -7,7 +7,7 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 
 resources:
-{{- if ne .spec.distribution.modules.auth.provider.type "none" }}
+{{- if or (ne .spec.distribution.modules.auth.provider.type "none") .spec.distribution.modules.auth.oidcKubernetesAuth.enabled  }}
   - auth
 {{- end }}
 {{- if eq .spec.distribution.common.provider.type "eks" }}
