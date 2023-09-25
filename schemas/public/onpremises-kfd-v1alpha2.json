@@ -1123,16 +1123,6 @@
           },
           "then": {
             "required": ["dex", "pomerium", "baseDomain"]
-          },
-          "else": {
-            "properties": {
-              "dex": {
-                "type": "null"
-              },
-              "pomerium": {
-                "type": "null"
-              }
-            }
           }
         },
         {
@@ -1153,28 +1143,35 @@
                 "required": ["basicAuth"]
               }
             }
-          },
-          "else": {
-            "properties": {
-              "provider": {
-                "basicAuth": {
-                  "type": "null"
-                }
-              }
-            }
           }
         },
         {
-          "if": {
-            "properties": {
-              "oidcKubernetesAuth": {
+          "allOf": [
+            {
+              "if": {
                 "properties": {
-                  "enabled": {
-                    "const": true
+                  "oidcKubernetesAuth": {
+                    "type": "object"
+                  }
+                }
+              }
+            },
+            {
+              "if": {
+                "properties": {
+                  "oidcKubernetesAuth": {
+                    "properties": {
+                      "enabled": {
+                        "const": true
+                      }
+                    }
                   }
                 }
               }
             }
+          ],
+          "then": {
+            "required": ["baseDomain", "dex"]
           }
         }
       ]
