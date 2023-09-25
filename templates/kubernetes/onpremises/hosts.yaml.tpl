@@ -36,6 +36,33 @@ all:
         kubernetes_control_plane_address: "{{ $controlPlaneAddress }}"
         kubernetes_pod_cidr: "{{ .spec.kubernetes.podCidr }}"
         kubernetes_svc_cidr: "{{ .spec.kubernetes.svcCidr }}"
+        {{- if and (index .spec.kubernetes "advanced") (index .spec.kubernetes.advanced "cloud") }}
+        {{- if index .spec.kubernetes.advanced.cloud "provider" }}
+        kubernetes_cloud_provider: "{{ .spec.kubernetes.advanced.cloud.provider }}"
+        {{- end }}
+        {{- if index .spec.kubernetes.advanced.cloud "config" }}
+        kubernetes_cloud_config: "{{ .spec.kubernetes.advanced.cloud.config }}"
+        {{- end }}
+        {{- end }}
+
+        {{- if and (index .spec.kubernetes "advanced") (index .spec.kubernetes.advanced "users") }}
+        {{- if index .spec.kubernetes.advanced.users "names" }}
+        kubernetes_users_names: 
+{{ .spec.kubernetes.advanced.users.names | toYaml | indent 10 }}
+        {{- end }}
+        {{- end }}
+
+        {{- if and (index .spec.kubernetes "advanced") (index .spec.kubernetes.advanced "oidc") }}
+        {{- if index .spec.kubernetes.advanced.oidc "issuer_url" }}
+        oidc_issuer_url: "{{ .spec.kubernetes.advanced.oidc.issuer_url }}"
+        {{- end }}
+        {{- if index .spec.kubernetes.advanced.oidc "client_id" }}
+        oidc_client_id: "{{ .spec.kubernetes.advanced.oidc.client_id }}"
+        {{- end }}
+        {{- if index .spec.kubernetes.advanced.oidc "ca_file" }}
+        oidc_ca_file: "{{ .spec.kubernetes.advanced.oidc.ca_file }}"
+        {{- end }}
+        {{- end }}
     nodes:
       children:
         {{- range $n := .spec.kubernetes.nodes }}
