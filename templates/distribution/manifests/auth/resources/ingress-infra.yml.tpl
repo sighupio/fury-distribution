@@ -1,13 +1,6 @@
 # Copyright (c) 2017-present SIGHUP s.r.l All rights reserved.
 # Use of this source code is governed by a BSD-style
 # license that can be found in the LICENSE file.
-{{- define "gangwayHost" -}}
-  {{ if .spec.distribution.modules.auth.overrides.ingresses.gangway.host -}}
-    {{ .spec.distribution.modules.auth.overrides.ingresses.gangway.host }}
-  {{- else -}}
-    {{ print "gangway." .spec.distribution.modules.auth.baseDomain }}
-  {{- end }}
-{{- end -}}
 {{- if or (ne .spec.distribution.modules.auth.provider.type "none") .spec.distribution.modules.auth.oidcKubernetesAuth.enabled -}}
 ---
 apiVersion: networking.k8s.io/v1
@@ -36,7 +29,7 @@ spec:
 {{- template "ingressTlsAuth" (dict "module" "auth" "package" "dex" "prefix" "login." "spec" .spec) }}
 {{- end }}
 
-{{- if .spec.distribution.modules.auth.oidcKubernetesAuth.enabled -}}
+{{- if .spec.distribution.modules.auth.oidcKubernetesAuth.enabled }}
 ---
 apiVersion: networking.k8s.io/v1
 kind: Ingress
