@@ -16,7 +16,13 @@
     {{ print "https://pomerium." .spec.distribution.modules.auth.baseDomain "/oauth2/callback" }}
   {{- end }}
 {{- end -}}
-{{ if eq .spec.distribution.modules.auth.provider.type "sso" }}
+{{- define "gangwayHost" -}}
+  {{ if .spec.distribution.modules.auth.overrides.ingresses.gangway.host -}}
+    {{ print "https://" .spec.distribution.modules.auth.overrides.ingresses.gangway.host }}
+  {{- else -}}
+    {{ print "https://gangway." .spec.distribution.modules.auth.baseDomain }}
+  {{- end }}
+{{- end }}
 issuer: {{ template "dexHost" . }}
 storage:
   type: kubernetes
@@ -31,8 +37,6 @@ connectors:
 oauth2:
   skipApprovalScreen: true
 enablePasswordDB: false
-{{ end }}
-
 staticClients:
 {{- if eq .spec.distribution.modules.auth.provider.type "sso" }}
 - id: pomerium

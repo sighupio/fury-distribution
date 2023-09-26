@@ -60,7 +60,7 @@ secretGenerator:
   - name: gangway
     namespace: kube-system
     files:
-      - gangway.yml=gangway.yml
+      - gangway.yml=secrets/gangway.yml
 
 patchesStrategicMerge:
   - patches/infra-nodes.yml
@@ -86,7 +86,7 @@ secretGenerator:
   - name: gangway
     namespace: kube-system
     files:
-      - gangway.yml=gangway.yml
+      - gangway.yml=secrets/gangway.yml
 
 patchesStrategicMerge:
   - patches/infra-nodes.yml

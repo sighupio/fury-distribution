@@ -4,8 +4,6 @@
 
 {{- $dexArgs := dict "module" "auth" "package" "dex" "spec" .spec -}}
 {{- $pomeriumArgs := dict "module" "auth" "package" "pomerium" "spec" .spec -}}
-
-{{- if eq .spec.distribution.modules.auth.provider.type "sso" -}}
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -19,6 +17,7 @@ spec:
         {{ template "nodeSelector" $dexArgs  }}
       tolerations:
         {{ template "tolerations" $dexArgs }}
+{{- if eq .spec.distribution.modules.auth.provider.type "sso" }}
 ---
 apiVersion: apps/v1
 kind: Deployment
