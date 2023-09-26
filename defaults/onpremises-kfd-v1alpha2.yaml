@@ -161,6 +161,9 @@ data:
           dex:
             host: ""
             ingressClass: ""
+          gangway:
+            host: ""
+            ingressClass: ""
         tolerations: null
       provider:
         # can be none, basicAuth or sso. SSO uses pomerium+dex
@@ -181,6 +184,8 @@ data:
       dex:
         # see dex documentation for more information
         connectors: []
+      oidcKubernetesAuth:
+        enabled: false
 
 templates:
   includes:
