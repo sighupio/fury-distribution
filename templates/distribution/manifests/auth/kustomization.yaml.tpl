@@ -10,6 +10,9 @@ kind: Kustomization
 resources:
   - {{ print "../" .spec.distribution.common.relativeVendorPath "/modules/auth/katalog/dex" }}
   - {{ print "../" .spec.distribution.common.relativeVendorPath "/modules/auth/katalog/pomerium" }}
+{{- if .spec.distribution.modules.auth.oidcKubernetesAuth.enabled }}
+  - {{ print "../" .spec.distribution.common.relativeVendorPath "/modules/auth/katalog/gangway" }}
+{{- end }}
 {{- if ne .spec.distribution.modules.ingress.nginx.type "none" }}
   - resources/ingress-infra.yml
 {{- end }}
@@ -37,7 +40,13 @@ secretGenerator:
     behavior: replace
     envs:
       - secrets/pomerium.env
-{{- end -}}
+{{- if .spec.distribution.modules.auth.oidcKubernetesAuth.enabled }}
+  - name: gangway
+    namespace: kube-system
+    files:
+      - gangway.yml=secrets/gangway.yml
+{{- end }}
+{{- end }}
 
 
 
