@@ -186,6 +186,7 @@ data:
         connectors: []
       oidcKubernetesAuth:
         enabled: false
+      baseDomain: ""
 
 templates:
   includes:
