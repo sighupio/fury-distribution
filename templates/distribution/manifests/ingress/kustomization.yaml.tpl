@@ -67,9 +67,9 @@ patchesJson6902:
         path: /spec/template/spec/containers/0/args/-
         value: "--dns01-recursive-nameservers=8.8.8.8:53,1.1.1.1:53"
 {{- end }}
-{{ if eq .spec.distribution.modules.ingress.nginx.tls.provider "secret" -}}
+{{ if eq .spec.distribution.modules.ingress.nginx.tls.provider "secret" }}
 patchesJson6902:
-  {{- if eq .spec.distribution.modules.ingress.nginx.type "dual" -}}
+  {{- if eq .spec.distribution.modules.ingress.nginx.type "dual" }}
   - target:
       group: apps
       version: v1
@@ -84,7 +84,7 @@ patchesJson6902:
       name: nginx-ingress-controller-internal
       namespace: ingress-nginx
     path: patchesJson/ingress-nginx.yml
-  {{- else if eq .spec.distribution.modules.ingress.nginx.type "single" -}}
+  {{- else if eq .spec.distribution.modules.ingress.nginx.type "single" }}
   - target:
       group: apps
       version: v1
@@ -92,5 +92,5 @@ patchesJson6902:
       name: nginx-ingress-controller
       namespace: ingress-nginx
     path: patchesJson/ingress-nginx.yml
-  {{- end -}}
+  {{- end }}
 {{- end }}
