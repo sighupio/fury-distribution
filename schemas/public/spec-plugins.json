@@ -92,14 +92,11 @@
           "name": {
             "type": "string"
           },
-          "namespace": {
-            "type": "string"
-          },
           "folder": {
             "type": "string"
           }
         },
-        "required": ["name", "namespace", "folder"]
+        "required": ["name", "folder"]
       }
     }
   }

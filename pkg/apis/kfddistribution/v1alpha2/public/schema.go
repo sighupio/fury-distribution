@@ -1535,9 +1535,6 @@ type SpecPluginsKustomize []struct {
 
 	// Name corresponds to the JSON schema field "name".
 	Name string `json:"name" yaml:"name"`
-
-	// Namespace corresponds to the JSON schema field "namespace".
-	Namespace string `json:"namespace" yaml:"namespace"`
 }
 
 type SpecPlugins struct {
