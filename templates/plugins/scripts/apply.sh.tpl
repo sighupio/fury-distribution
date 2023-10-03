@@ -33,15 +33,14 @@ if [ "$dryrun" != "" ]; then
 fi
 
 if [[ $(< out.yaml $yqbin 'select(.kind == "CustomResourceDefinition")') ]]; then
-   < out.yaml $yqbin 'select(.kind == "CustomResourceDefinition")' | $kubectlcmd apply -f - --server-side
+   < out.yaml $yqbin 'select(.kind == "CustomResourceDefinition")' | $kubectlcmd apply -f - --server-side --force-conflicts
    < out.yaml $yqbin 'select(.kind == "CustomResourceDefinition")' | $kubectlcmd wait --for condition=established --timeout=60s -f -
 fi
 
-< out.yaml $kubectlcmd apply -f - --server-side
+< out.yaml $kubectlcmd apply -f - --server-side --force-conflicts
 
 {{- end -}}
 
 {{- end -}}
 {{- end }}
-
 {{- end }}
