@@ -74,7 +74,7 @@ all:
               kubernetes_hostname: "{{ $h.name }}.{{ $dnsZone }}"
           {{- end }}
           vars:
-            kubernetes_role: "worker"
+            kubernetes_role: "{{ $n.name }}"
             kubernetes_control_plane_address: "{{ $controlPlaneAddress }}"
             kubernetes_taints:
               {{ $n.taints | toYaml | indent 14 | trim }}
