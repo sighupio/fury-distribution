@@ -272,9 +272,6 @@
             "$ref": "#/$defs/Spec.Kubernetes.Nodes.Node.Host"
           }
         },
-        "labels": {
-          "$ref": "#/$defs/Types.KubeLabels"
-        },
         "taints": {
           "type": ["array", "null"],
           "items": {

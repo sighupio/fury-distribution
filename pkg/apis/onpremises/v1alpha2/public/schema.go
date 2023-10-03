@@ -1830,9 +1830,6 @@ type SpecKubernetesNodesNode struct {
 	// Hosts corresponds to the JSON schema field "hosts".
 	Hosts []SpecKubernetesNodesNodeHost `json:"hosts" yaml:"hosts"`
 
-	// Labels corresponds to the JSON schema field "labels".
-	Labels TypesKubeLabels `json:"labels,omitempty" yaml:"labels,omitempty"`
-
 	// Name corresponds to the JSON schema field "name".
 	Name string `json:"name" yaml:"name"`
 

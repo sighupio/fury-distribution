@@ -58,9 +58,6 @@ spec:
             ip: 192.168.1.100
           - name: infra2
             ip: 192.168.1.101
-        labels:
-          nodepool: infra
-          node.kubernetes.io/role: infra
         taints:
           - key: node.kubernetes.io/role
             value: ingress
@@ -71,9 +68,6 @@ spec:
             ip: 192.168.1.102
           - name: ingress2
             ip: 192.168.1.103
-        labels:
-          nodepool: ingress
-          node.kubernetes.io/role: ingress
         taints:
           - key: node.kubernetes.io/role
             value: ingress
@@ -84,9 +78,6 @@ spec:
             ip: 192.168.1.104
           - name: worker2
             ip: 192.168.1.105
-        labels:
-          nodepool: worker
-          node.kubernetes.io/role: worker
   # This section describes how the KFD distribution will be installed
   distribution:
     # This common configuration will be applied to all the packages that will be installed in the cluster
@@ -408,5 +399,4 @@ spec:
   #   # Kustomize projects to be installed
   #   kustomize:
   #     - name: kustomize-project
-  #       namespace: default
   #       folder: path/to/kustomize/project
