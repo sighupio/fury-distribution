@@ -61,7 +61,7 @@
           "$ref": "#/$defs/Spec.Distribution"
         },
         "plugins": {
-          "$ref": "../public/spec-plugins.json"
+          "$ref": "file://../public/spec-plugins.json"
         }
       },
       "required": [
