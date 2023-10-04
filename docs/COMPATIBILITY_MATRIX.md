@@ -34,13 +34,13 @@ For a complete list of all KFD releases and their compatibility with Kubernetes 
 
 ### Furyctl and KFD compatibility
 
-| Furyctl / KFD  | 1.25.7             | 1.25.6             | 1.25.5             | 1.25.4             | 1.25.3             | 1.25.2             |
-| -------------- | ------------------ | ------------------ | ------------------ | ------------------ | ------------------ | ------------------ |
-| 0.25.2         | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: |                    |                    |
-| 0.25.1         | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: |                    |                    |
-| 0.25.0         | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: |                    |                    |
-| 0.25.0-beta.0  |                    |                    |                    |                    | :white_check_mark: |                    |
-| 0.25.0-alpha.1 |                    |                    |                    |                    |                    | :white_check_mark: |
+| Furyctl / KFD  | 1.25.8             | 1.25.7             | 1.25.6             | 1.25.5             | 1.25.4             | 1.25.3             | 1.25.2             |
+| -------------- |--------------------| ------------------ | ------------------ | ------------------ | ------------------ | ------------------ | ------------------ |
+| 0.25.2         | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: |                    |                    |
+| 0.25.1         | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: |                    |                    |
+| 0.25.0         | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: |                    |                    |
+| 0.25.0-beta.0  |                    |                    |                    |                    |                    | :white_check_mark: |                    |
+| 0.25.0-alpha.1 |                    |                    |                    |                    |                    |                    | :white_check_mark: |
 
 See [Furyctl](https://github.com/sighupio/furyctl) repository for more informations on it's usage.
 
