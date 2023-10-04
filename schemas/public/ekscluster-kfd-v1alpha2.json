@@ -1,6 +1,5 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "$id": "https://schema.sighup.io/kfd/ekscluster-kfd-v1alpha2-public.json",
   "description": "A Fury Cluster deployed through AWS's Elastic Kubernetes Service",
   "type": "object",
   "properties": {
@@ -61,7 +60,7 @@
           "$ref": "#/$defs/Spec.Distribution"
         },
         "plugins": {
-          "$ref": "file://../public/spec-plugins.json"
+          "$ref": "../public/spec-plugins.json"
         }
       },
       "required": [

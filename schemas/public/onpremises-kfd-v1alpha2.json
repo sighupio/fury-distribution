@@ -1,6 +1,5 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "$id": "https://schema.sighup.io/kfd/onpremises-kfd-v1alpha1-public.json",
   "description": "",
   "type": "object",
   "properties": {
@@ -49,7 +48,7 @@
           "$ref": "#/$defs/Spec.Distribution"
         },
         "plugins": {
-          "$ref": "file://./spec-plugins.json"
+          "$ref": "./spec-plugins.json"
         }
       },
       "required": ["distributionVersion", "distribution"]
