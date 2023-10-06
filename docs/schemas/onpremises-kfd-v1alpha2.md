@@ -3486,7 +3486,6 @@ The IP of the host
 |:-------------------------------------------------------------------------|:---------|:---------|
 | [name](#speckubernetesnodesname)                                         | `string` | Required |
 | [hosts](#speckubernetesnodeshosts)                                       | `array`  | Required |
-| [labels](#speckubernetesnodeslabels)                                     | `object` | Optional |
 | [taints](#speckubernetesnodestaints)                                     | `array`  | Optional |
 
 ## .spec.kubernetes.nodes.name
@@ -3515,12 +3514,6 @@ The name of the host
 ### Description
 
 The IP of the host
-
-## .spec.kubernetes.nodes.labels
-
-### Description
-
-The labels of the node
 
 ## .spec.kubernetes.nodes.taints
 
@@ -3751,7 +3744,6 @@ The values of the release
 | Property                                                                 | Type     | Required |
 |:-------------------------------------------------------------------------|:---------|:---------|
 | [name](#specpluginskustomizename)                                        | `string` | Required |
-| [namespace](#specpluginskustomizenamespace)                              | `string` | Required |
 | [folder](#specpluginskustomizefolder)                                    | `string` | Required |
 
 ## .spec.plugins.kustomize.name
@@ -3759,12 +3751,6 @@ The values of the release
 ### Description
 
 The name of the kustomize plugin
-
-## .spec.plugins.kustomize.namespace
-
-### Description
-
-The namespace of the kustomize plugin
 
 ## .spec.plugins.kustomize.folder
 
