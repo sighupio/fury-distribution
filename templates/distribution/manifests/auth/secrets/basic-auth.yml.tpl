@@ -29,6 +29,7 @@ stringData:
   auth: {{ htpasswd $username $password }}
 {{- end }}
 {{- if ne .spec.distribution.modules.logging.type "none" }}
+{{- if .checks.storageClassAvailable }}
 ---
 apiVersion: v1
 kind: Secret
@@ -38,6 +39,7 @@ metadata:
 type: Opaque
 stringData:
   auth: {{ htpasswd $username $password }}
+{{- end }}
 {{- end }}
 ---
 apiVersion: v1

@@ -1,6 +1,5 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "$id": "https://schema.sighup.io/kfd/distribution-kfd-v1alpha1-public.json",
   "description": "",
   "type": "object",
   "properties": {
@@ -44,6 +43,9 @@
         },
         "distribution": {
           "$ref": "#/$defs/Spec.Distribution"
+        },
+        "plugins": {
+          "$ref": "./spec-plugins.json"
         }
       },
       "required": ["distributionVersion", "distribution"]
@@ -349,10 +351,7 @@
           "$ref": "#/$defs/Spec.Distribution.Modules.Ingress.Forecastle"
         }
       },
-      "required": [
-        "baseDomain",
-        "nginx"
-      ]
+      "required": ["baseDomain", "nginx"]
     },
     "Spec.Distribution.Modules.Ingress.Overrides": {
       "type": "object",
@@ -516,9 +515,7 @@
           "$ref": "#/$defs/Spec.Distribution.Modules.Logging.Operator"
         }
       },
-      "required": [
-        "type"
-      ],
+      "required": ["type"],
       "allOf": [
         {
           "if": {
@@ -704,9 +701,7 @@
           "enum": ["none", "calico", "cilium"]
         }
       },
-      "required": [
-        "type"
-      ]
+      "required": ["type"]
     },
     "Spec.Distribution.Modules.Networking.TigeraOperator": {
       "type": "object",
@@ -741,9 +736,7 @@
           "$ref": "#/$defs/Spec.Distribution.Modules.Policy.Gatekeeper"
         }
       },
-      "required": [
-        "type"
-      ]
+      "required": ["type"]
     },
     "Spec.Distribution.Modules.Policy.Gatekeeper": {
       "type": "object",
@@ -775,10 +768,7 @@
           "$ref": "#/$defs/Spec.Distribution.Modules.Dr.Velero"
         }
       },
-      "required": [
-        "type",
-        "velero"
-      ],
+      "required": ["type", "velero"],
       "if": {
         "properties": {
           "type": {
@@ -787,7 +777,7 @@
         }
       },
       "then": {
-        "required": ["type","velero"]
+        "required": ["type", "velero"]
       }
     },
     "Spec.Distribution.Modules.Dr.Velero": {

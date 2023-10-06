@@ -39,6 +39,9 @@
         },
         "distribution": {
           "$ref": "#/$defs/Spec.Distribution"
+        },
+        "plugins": {
+          "$ref": "../public/spec-plugins.json"
         }
       },
       "required": [
@@ -2248,7 +2251,7 @@
       "type": "array",
       "items": {
         "type": "string",
-        "pattern": "^([a-zA-Z0-9\\-\\.\\/]+)=(\\w+):(NoSchedule|PreferNoSchedule|NoExecute)$"
+        "pattern": "^([a-zA-Z0-9\\-\\.\\/]+)=([^-][\\w-]+):(NoSchedule|PreferNoSchedule|NoExecute)$"
       }
     },
     "Types.KubeToleration": {
@@ -2301,7 +2304,6 @@
       "pattern": "^(http|https)\\:\\/\\/.+$"
     }
   },
-  "$id": "https://schema.sighup.io/kfd/ekscluster-kfd-v1alpha2-private.json",
   "$schema": "http://json-schema.org/draft-07/schema#",
   "additionalProperties": false,
   "description": "A Fury Cluster deployed through AWS's Elastic Kubernetes Service",
