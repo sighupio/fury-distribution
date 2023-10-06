@@ -4,7 +4,7 @@
 
 ---
 apiVersion: kfd.sighup.io/v1alpha2
-kind: KFDDistribution
+kind: OnPremises
 metadata:
   # The name of the cluster, will be also used as a prefix for all the other resources created
   name: {{.Name}}
@@ -12,6 +12,72 @@ spec:
   # This value defines which KFD version will be installed and in consequence the Kubernetes version to use to create the cluster,
   # it supports git tags and branches
   distributionVersion: {{.DistributionVersion}}
+  # This section describes how the cluster will be created
+  kubernetes:
+    pkiFolder: ./pki
+    ssh:
+      username: johndoe
+      keyPath: /youruserpath/.ssh/id_ed25519
+    # this zone will be concatenated to the - name on each host to generate kubernetes_hostname in the hosts.yaml file, and also for the etcd initial cluster value
+    dnsZone: example.dev
+    controlPlaneAddress: control-planelocal.example.dev:6443
+    podCidr: 172.16.128.0/17
+    svcCidr: 172.16.0.0/17
+    proxy:
+      http: http://test.example.dev:3128
+      https: https://test.example.dev:3128
+      noProxy: "localhost,127.0.0.1,10.41.0.0/16,.example.dev,.example2.dev,172.16.0.0/17,172.16.128.0/17"
+    loadBalancers:
+      enabled: true
+      hosts:
+        - name: haproxy1
+          ip: 192.168.1.200
+        - name: haproxy2
+          ip: 192.168.1.202
+      keepalived:
+        enabled: true
+        interface: eth1
+        ip: 192.168.1.201/24
+        virtualRouterId: "201"
+        passphrase: "123aaaccc321"
+      stats:
+        username: admin
+        password: password
+    masters:
+      hosts:
+        - name: master1 
+          ip: 192.168.1.210
+        - name: master2
+          ip: 192.168.1.220
+        - name: master3
+          ip: 192.168.1.230
+    nodes:
+      - name: infra
+        hosts:
+          - name: infra1
+            ip: 192.168.1.100
+          - name: infra2
+            ip: 192.168.1.101
+        taints:
+          - key: node.kubernetes.io/role
+            value: ingress
+            effect: NoSchedule
+      - name: ingress
+        hosts:
+          - name: ingress1
+            ip: 192.168.1.102
+          - name: ingress2
+            ip: 192.168.1.103
+        taints:
+          - key: node.kubernetes.io/role
+            value: ingress
+            effect: NoSchedule
+      - name: worker
+        hosts:
+          - name: worker1
+            ip: 192.168.1.104
+          - name: worker2
+            ip: 192.168.1.105
   # This section describes how the KFD distribution will be installed
   distribution:
     # This common configuration will be applied to all the packages that will be installed in the cluster
@@ -27,8 +93,8 @@ spec:
     # This section contains all the configurations for all the KFD core modules
     modules:
       networking:
-        # this type defines if we need to install the networking in the cluster, type available: none, cilium, calico
-        type: none
+        # this type defines if we need to install the networking in the cluster, type available: cilium, calico
+        type: ""
       # This section contains all the configurations for the ingress module
       ingress:
         # This optional key is used to override automatic parameters

@@ -72,6 +72,7 @@ spec:
         {{ template "nodeSelector" $prometheusArgs }}
       tolerations:
         {{ template "tolerations" $prometheusArgs }}
+{{- if .checks.storageClassAvailable }}
 ---
 apiVersion: monitoring.coreos.com/v1
 kind: Prometheus
@@ -83,6 +84,7 @@ spec:
     {{ template "nodeSelector" merge (dict "indent" 4) $prometheusArgs }}
   tolerations:
     {{ template "tolerations" merge (dict "indent" 4) $prometheusArgs }}
+{{- end }}
 ---
 apiVersion: apps/v1
 kind: Deployment

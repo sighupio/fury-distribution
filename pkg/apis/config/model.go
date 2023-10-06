@@ -44,7 +44,8 @@ type KFDProvider struct {
 }
 
 type KFDKubernetes struct {
-	Eks KFDProvider `yaml:"eks" validate:"required"`
+	Eks        KFDProvider `yaml:"eks" validate:"required"`
+	OnPremises KFDProvider `yaml:"onpremises" validate:"required"`
 }
 
 type KFDSchemas struct {
@@ -67,6 +68,8 @@ type KFDToolsCommon struct {
 	Kustomize KFDTool `yaml:"kustomize" validate:"required"`
 	Terraform KFDTool `yaml:"terraform" validate:"required"`
 	Yq        KFDTool `yaml:"yq" validate:"required"`
+	Helm      KFDTool `yaml:"helm" validate:"required"`
+	Helmfile  KFDTool `yaml:"helmfile" validate:"required"`
 }
 
 type KFDToolsEks struct {

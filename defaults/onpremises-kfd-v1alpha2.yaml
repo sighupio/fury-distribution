@@ -161,7 +161,7 @@ data:
           dex:
             host: ""
             ingressClass: ""
-          gangway: # only needed as default
+          gangway:
             host: ""
             ingressClass: ""
         tolerations: null
@@ -184,7 +184,7 @@ data:
       dex:
         # see dex documentation for more information
         connectors: []
-      oidcKubernetesAuth: # only needed as default
+      oidcKubernetesAuth:
         enabled: false
       baseDomain: ""
 

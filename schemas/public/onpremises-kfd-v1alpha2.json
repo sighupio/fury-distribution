@@ -9,7 +9,7 @@
     },
     "kind": {
       "type": "string",
-      "enum": ["KFDDistribution"]
+      "enum": ["OnPremises"]
     },
     "metadata": {
       "$ref": "#/$defs/Metadata"
@@ -41,6 +41,9 @@
           "type": "string",
           "minLength": 1
         },
+        "kubernetes": {
+          "$ref": "#/$defs/Spec.Kubernetes"
+        },
         "distribution": {
           "$ref": "#/$defs/Spec.Distribution"
         },
@@ -50,6 +53,304 @@
       },
       "required": ["distributionVersion", "distribution"]
     },
+
+    "Spec.Kubernetes": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "pkiFolder": {
+          "type": "string"
+        },
+        "ssh": {
+          "$ref": "#/$defs/Spec.Kubernetes.SSH"
+        },
+        "dnsZone": {
+          "type": "string"
+        },
+        "controlPlaneAddress": {
+          "type": "string"
+        },
+        "podCidr": {
+          "$ref": "#/$defs/Types.Cidr"
+        },
+        "svcCidr": {
+          "$ref": "#/$defs/Types.Cidr"
+        },
+        "proxy": {
+          "$ref": "#/$defs/Spec.Kubernetes.Proxy"
+        },
+        "loadBalancers": {
+          "$ref": "#/$defs/Spec.Kubernetes.LoadBalancers"
+        },
+        "masters": {
+          "$ref": "#/$defs/Spec.Kubernetes.Masters"
+        },
+        "nodes": {
+          "$ref": "#/$defs/Spec.Kubernetes.Nodes"
+        },
+        "advanced": {
+          "$ref": "#/$defs/Spec.Kubernetes.Advanced"
+        }
+      },
+      "required": [
+        "pkiFolder",
+        "ssh",
+        "dnsZone",
+        "controlPlaneAddress",
+        "podCidr",
+        "svcCidr",
+        "loadBalancers",
+        "masters",
+        "nodes"
+      ]
+    },
+    "Spec.Kubernetes.SSH": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "username": {
+          "type": "string"
+        },
+        "keyPath": {
+          "type": "string"
+        }
+      },
+      "required": ["username", "keyPath"]
+    },
+    "Spec.Kubernetes.Proxy": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "http": {
+          "$ref": "#/$defs/Types.Uri"
+        },
+        "https": {
+          "$ref": "#/$defs/Types.Uri"
+        },
+        "noProxy": {
+          "type": "string"
+        }
+      },
+      "required": []
+    },
+    "Spec.Kubernetes.LoadBalancers": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "enabled": {
+          "type": "boolean"
+        },
+        "hosts": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/Spec.Kubernetes.LoadBalancers.Host"
+          }
+        },
+        "keepalived": {
+          "$ref": "#/$defs/Spec.Kubernetes.LoadBalancers.Keepalived"
+        },
+        "stats": {
+          "$ref": "#/$defs/Spec.Kubernetes.LoadBalancers.Stats"
+        },
+        "additionalConfig": {
+          "type": "string"
+        }
+      },
+      "required": ["enabled"],
+      "if": {
+        "properties": {
+          "enabled": {
+            "const": true
+          }
+        }
+      },
+      "then": {
+        "required": ["hosts", "keepalived", "stats"]
+      }
+    },
+    "Spec.Kubernetes.LoadBalancers.Host": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "ip": {
+          "type": "string"
+        }
+      },
+      "required": ["name", "ip"]
+    },
+    "Spec.Kubernetes.LoadBalancers.Keepalived": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "enabled": {
+          "type": "boolean"
+        },
+        "interface": {
+          "type": "string"
+        },
+        "ip": {
+          "type": "string"
+        },
+        "virtualRouterId": {
+          "type": "string"
+        },
+        "passphrase": {
+          "type": "string"
+        }
+      },
+      "required": ["enabled"],
+      "if": {
+        "properties": {
+          "enabled": {
+            "const": true
+          }
+        }
+      },
+      "then": {
+        "required": ["interface", "ip", "virtualRouterId", "passphrase"]
+      }
+    },
+    "Spec.Kubernetes.LoadBalancers.Stats": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "username": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string"
+        }
+      },
+      "required": ["username", "password"]
+    },
+    "Spec.Kubernetes.Masters": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "hosts": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/Spec.Kubernetes.Masters.Host"
+          }
+        }
+      },
+      "required": ["hosts"]
+    },
+    "Spec.Kubernetes.Masters.Host": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "ip": {
+          "type": "string"
+        }
+      },
+      "required": ["name", "ip"]
+    },
+    "Spec.Kubernetes.Nodes": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/Spec.Kubernetes.Nodes.Node"
+      }
+    },
+    "Spec.Kubernetes.Nodes.Node": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "hosts": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/Spec.Kubernetes.Nodes.Node.Host"
+          }
+        },
+        "taints": {
+          "type": ["array", "null"],
+          "items": {
+            "$ref": "#/$defs/Types.KubeTaints"
+          }
+        }
+      },
+      "required": ["name", "hosts"]
+    },
+    "Spec.Kubernetes.Nodes.Node.Host": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "ip": {
+          "type": "string"
+        }
+      },
+      "required": ["name", "ip"]
+    },
+    "Spec.Kubernetes.Advanced": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "cloud": {
+          "$ref": "#/$defs/Spec.Kubernetes.Advanced.Cloud"
+        },
+        "users": {
+          "$ref": "#/$defs/Spec.Kubernetes.Advanced.Users"
+        },
+        "oidc": {
+          "$ref": "#/$defs/Spec.Kubernetes.Advanced.OIDC"
+        }
+      }
+    },
+    "Spec.Kubernetes.Advanced.Cloud": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "provider": {
+          "type": "string"
+        },
+        "config": {
+          "type": "string"
+        }
+      }
+    },
+    "Spec.Kubernetes.Advanced.Users": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "names": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "org": {
+          "type": "string"
+        }
+      }
+    },
+    "Spec.Kubernetes.Advanced.OIDC": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "issuer_url": {
+          "type": "string"
+        },
+        "client_id": {
+          "type": "string"
+        },
+        "ca_file": {
+          "type": "string"
+        }
+      }
+    },
+
     "Spec.Distribution.CustomPatches": {
       "type": "object",
       "properties": {
@@ -698,7 +999,7 @@
         },
         "type": {
           "type": "string",
-          "enum": ["none", "calico", "cilium"]
+          "enum": ["calico", "cilium"]
         }
       },
       "required": ["type"]
@@ -768,17 +1069,7 @@
           "$ref": "#/$defs/Spec.Distribution.Modules.Dr.Velero"
         }
       },
-      "required": ["type", "velero"],
-      "if": {
-        "properties": {
-          "type": {
-            "const": "on-premises"
-          }
-        }
-      },
-      "then": {
-        "required": ["type", "velero"]
-      }
+      "required": ["type", "velero"]
     },
     "Spec.Distribution.Modules.Dr.Velero": {
       "type": "object",
@@ -807,6 +1098,9 @@
         },
         "dex": {
           "$ref": "#/$defs/Spec.Distribution.Modules.Auth.Dex"
+        },
+        "oidcKubernetesAuth": {
+          "$ref": "#/$defs/Spec.Distribution.Modules.Auth.OIDCKubernetesAuth"
         }
       },
       "required": ["provider"],
@@ -825,16 +1119,6 @@
           },
           "then": {
             "required": ["dex", "pomerium", "baseDomain"]
-          },
-          "else": {
-            "properties": {
-              "dex": {
-                "type": "null"
-              },
-              "pomerium": {
-                "type": "null"
-              }
-            }
           }
         },
         {
@@ -855,15 +1139,35 @@
                 "required": ["basicAuth"]
               }
             }
-          },
-          "else": {
-            "properties": {
-              "provider": {
-                "basicAuth": {
-                  "type": "null"
+          }
+        },
+        {
+          "allOf": [
+            {
+              "if": {
+                "properties": {
+                  "oidcKubernetesAuth": {
+                    "type": "object"
+                  }
+                }
+              }
+            },
+            {
+              "if": {
+                "properties": {
+                  "oidcKubernetesAuth": {
+                    "properties": {
+                      "enabled": {
+                        "const": true
+                      }
+                    }
+                  }
                 }
               }
             }
+          ],
+          "then": {
+            "required": ["baseDomain", "dex"]
           }
         }
       ]
@@ -974,6 +1278,47 @@
       },
       "required": ["connectors"]
     },
+    "Spec.Distribution.Modules.Auth.OIDCKubernetesAuth": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "enabled": {
+          "type": "boolean"
+        },
+        "clientID": {
+          "type": "string"
+        },
+        "clientSecret": {
+          "type": "string"
+        },
+        "scopes": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "usernameClaim": {
+          "type": "string"
+        },
+        "emailClaim": {
+          "type": "string"
+        },
+        "sessionSecurityKey": {
+          "type": "string"
+        }
+      },
+      "required": ["enabled"],
+      "if": {
+        "properties": {
+          "enabled": {
+            "const": true
+          }
+        }
+      },
+      "then": {
+        "required": ["clientID", "clientSecret", "sessionSecurityKey"]
+      }
+    },
 
     "Types.SemVer": {
       "type": "string",
@@ -1013,11 +1358,21 @@
       "additionalProperties": { "type": "string" }
     },
     "Types.KubeTaints": {
-      "type": "array",
-      "items": {
-        "type": "string",
-        "pattern": "^([a-zA-Z0-9\\-\\.\\/]+)=(\\w+):(NoSchedule|PreferNoSchedule|NoExecute)$"
-      }
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "effect": {
+          "type": "string",
+          "enum": ["NoSchedule", "PreferNoSchedule", "NoExecute"]
+        },
+        "key": {
+          "type": "string"
+        },
+        "value": {
+          "type": "string"
+        }
+      },
+      "required": ["effect", "key", "value"]
     },
     "Types.KubeNodeSelector": {
       "type": ["object", "null"],

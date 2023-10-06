@@ -73,6 +73,11 @@ generate-go-models: dump-private-schema
 		--resolve-extension json \
 		--output pkg/apis/kfddistribution/v1alpha2/public/schema.go \
 		schemas/public/kfddistribution-kfd-v1alpha2.json
+	@go-jsonschema \
+		--package public \
+		--resolve-extension json \
+		--output pkg/apis/onpremises/v1alpha2/public/schema.go \
+		schemas/public/onpremises-kfd-v1alpha2.json
 
 dump-private-schema:
 	@cat schemas/public/ekscluster-kfd-v1alpha2.json | \
