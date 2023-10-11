@@ -96,8 +96,8 @@ Current supported versions of KFD are:
 |                                  KFD Version                                   | Kubernetes Version |
 | :----------------------------------------------------------------------------: | :----------------: |
 | [`1.26.2`](https://github.com/sighupio/fury-distribution/releases/tag/v1.26.2) |      `1.26.x`      |
-| [`1.25.7`](https://github.com/sighupio/fury-distribution/releases/tag/v1.25.7) |      `1.25.7`      |
-| [`1.24.1`](https://github.com/sighupio/fury-distribution/releases/tag/v1.24.1) |      `1.24.1`      |
+| [`1.25.8`](https://github.com/sighupio/fury-distribution/releases/tag/v1.25.8) |      `1.25.x`      |
+| [`1.24.1`](https://github.com/sighupio/fury-distribution/releases/tag/v1.24.1) |      `1.24.x`      |
 
 Check the [compatibility matrix][compatibility-matrix] for additional information about previous releases of the Distribution and the compatibility with `furyctl`.
 
