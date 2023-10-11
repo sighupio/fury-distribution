@@ -23,9 +23,6 @@ furyctlSchemas:
   kfddistribution:
     - apiVersion: kfd.sighup.io/v1alpha2
       kind: KFDDistribution
-  onpremises:
-    - apiVersion: kfd.sighup.io/v1alpha2
-      kind: OnPremises
 tools:
   common:
     furyagent:
