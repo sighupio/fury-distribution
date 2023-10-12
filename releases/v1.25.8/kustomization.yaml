@@ -1,0 +1,45 @@
+# Copyright (c) 2017-present SIGHUP s.r.l All rights reserved.
+# Use of this source code is governed by a BSD-style
+# license that can be found in the LICENSE file.
+
+---
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+# NB: This is a starting point for a kustomization.yaml file. It is not meant to be used in production as is.
+
+resources:
+  # Networking
+  - ./vendor/katalog/networking/calico
+  # OPA
+  - ./vendor/katalog/opa/gatekeeper/core
+  - ./vendor/katalog/opa/gatekeeper/rules/templates
+  - ./vendor/katalog/opa/gatekeeper/rules/config
+  - ./vendor/katalog/opa/gatekeeper/gpm
+  # Monitoring
+  - ./vendor/katalog/monitoring/prometheus-operator
+  - ./vendor/katalog/monitoring/prometheus-operated
+  - ./vendor/katalog/monitoring/grafana
+  - ./vendor/katalog/monitoring/kubeadm-sm
+  - ./vendor/katalog/monitoring/kube-proxy-metrics
+  - ./vendor/katalog/monitoring/kube-state-metrics
+  - ./vendor/katalog/monitoring/node-exporter
+  - ./vendor/katalog/monitoring/prometheus-adapter
+  - ./vendor/katalog/monitoring/alertmanager-operated
+  # Logging
+  - ./vendor/katalog/logging/opensearch-single
+  - ./vendor/katalog/logging/opensearch-dashboards
+  - ./vendor/katalog/logging/cerebro
+  - ./vendor/katalog/logging/logging-operator
+  - ./vendor/katalog/logging/logging-operated
+  - ./vendor/katalog/logging/minio-ha
+  - ./vendor/katalog/logging/loki-distributed
+  - ./vendor/katalog/logging/configs
+  # Ingress
+  - ./vendor/katalog/ingress/cert-manager
+  - ./vendor/katalog/ingress/nginx
+  - ./vendor/katalog/ingress/forecastle
+  # DR
+  - ./vendor/katalog/dr/velero/velero-on-prem
+  - ./vendor/katalog/dr/velero/velero-schedules
+  - ./vendor/katalog/dr/velero/velero-restic
