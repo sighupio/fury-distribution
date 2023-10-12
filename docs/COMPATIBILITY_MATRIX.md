@@ -10,7 +10,8 @@ For a complete list of all KFD releases and their compatibility with Kubernetes 
 
 | KFD / Kubernetes Version                                                      |       1.25.X       |       1.24.X       |       1.23.X       |
 | ----------------------------------------------------------------------------- | :----------------: | :----------------: | :----------------: |
-| [v1.25.6](https://github.com/sighupio/fury-distribution/releases/tag/v1.25.7) | :white_check_mark: |                    |                    |
+| [v1.25.8](https://github.com/sighupio/fury-distribution/releases/tag/v1.25.8) | :white_check_mark: |                    |                    |
+| [v1.25.7](https://github.com/sighupio/fury-distribution/releases/tag/v1.25.7) | :white_check_mark: |                    |                    |
 | [v1.25.6](https://github.com/sighupio/fury-distribution/releases/tag/v1.25.6) | :white_check_mark: |                    |                    |
 | [v1.25.5](https://github.com/sighupio/fury-distribution/releases/tag/v1.25.5) | :white_check_mark: |                    |                    |
 | [v1.25.4](https://github.com/sighupio/fury-distribution/releases/tag/v1.25.4) | :white_check_mark: |                    |                    |
@@ -32,23 +33,24 @@ For a complete list of all KFD releases and their compatibility with Kubernetes 
 |     :warning:      | Has known issues |
 |        :x:         | Incompatible     |
 
+### Warnings
+
+- :x: version `v1.23.0` has a known bug that breaks upgrades. Do not use.
+
 ### Furyctl and KFD compatibility
 
-| Furyctl / KFD  | 1.25.7             | 1.25.6             | 1.25.5             | 1.25.4             | 1.25.3             | 1.25.2             |
-| -------------- | ------------------ | ------------------ | ------------------ | ------------------ | ------------------ | ------------------ |
-| 0.25.2         | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: |                    |                    |
-| 0.25.1         | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: |                    |                    |
-| 0.25.0         | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: |                    |                    |
-| 0.25.0-beta.0  |                    |                    |                    |                    | :white_check_mark: |                    |
-| 0.25.0-alpha.1 |                    |                    |                    |                    |                    | :white_check_mark: |
+| Furyctl / KFD  | 1.25.8             | 1.25.7             | 1.25.6             | 1.25.5             | 1.25.4             | 1.25.3             | 1.25.2             |
+| -------------- | ------------------ | ------------------ | ------------------ | ------------------ | ------------------ | ------------------ | ------------------ |
+| 0.26.2         | :white_check_mark: |                    |                    |                    |                    |                    |                    |
+| 0.25.2         |                    | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: |                    |                    |
+| 0.25.1         |                    | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: |                    |                    |
+| 0.25.0         |                    | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: |                    |                    |
+| 0.25.0-beta.0  |                    |                    |                    |                    |                    | :white_check_mark: |                    |
+| 0.25.0-alpha.1 |                    |                    |                    |                    |                    |                    | :white_check_mark: |
 
 See [Furyctl](https://github.com/sighupio/furyctl) repository for more informations on it's usage.
 
 > We suggest to always use the latest furyctl and KFD versions available
-
-### Warnings
-
-- :x: version `v1.23.0` has a known bug that breaks upgrades. Do not use.
 
 ## Unmaintained releases 🗄️
 

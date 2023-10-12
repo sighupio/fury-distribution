@@ -39,7 +39,7 @@ steps:
       # Disable go linting, we use the one included in the go image
       VALIDATE_GO: "false"
       # Exclude template files from linting. The linter does not understand Go template.
-      FILTER_REGEX_EXCLUDE: (templates/distribution/)
+      FILTER_REGEX_EXCLUDE: (templates/)
     depends_on:
       - license-check
       - schema-check

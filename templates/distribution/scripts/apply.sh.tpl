@@ -43,8 +43,16 @@ $kubectlcmd create namespace calico-system --dry-run=client -o yaml | $kubectlcm
   $yqbin 'select(.kind == "Issuer" or .kind == "ClusterIssuer" or .kind == "Certificate")' \
   | $kubectlcmd apply -f - --server-side
 
-{{- if ne .spec.distribution.modules.ingress.nginx.type "none" }}
-$kubectlcmd get pods -o yaml -n ingress-nginx | $kubectlcmd wait --for condition=Ready --timeout=180s -f -
+{{- if eq .spec.distribution.modules.ingress.nginx.type "dual" }}
+$kubectlcmd rollout status daemonset nginx-ingress-controller-external -n ingress-nginx --timeout=180s
+
+$kubectlcmd rollout status daemonset nginx-ingress-controller-internal -n ingress-nginx --timeout=180s
+
+{{- end }}
+
+{{- if eq .spec.distribution.modules.ingress.nginx.type "single" }}
+$kubectlcmd rollout status daemonset nginx-ingress-controller -n ingress-nginx --timeout=180s
+
 {{- end }}
 
 {{- if eq .spec.distribution.modules.policy.type "gatekeeper" }}

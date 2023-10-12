@@ -7,17 +7,17 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 
 resources:
-{{- if ne .spec.distribution.modules.auth.provider.type "none" }}
+{{- if or (ne .spec.distribution.modules.auth.provider.type "none") .spec.distribution.modules.auth.oidcKubernetesAuth.enabled  }}
   - auth
 {{- end }}
 {{- if eq .spec.distribution.common.provider.type "eks" }}
   - aws
 {{- end }}
-{{- if ne .spec.distribution.modules.dr.type "none" }}
+{{- if and (ne .spec.distribution.modules.dr.type "none") (.checks.storageClassAvailable) }}
   - dr
 {{- end }}
   - ingress
-{{- if ne .spec.distribution.modules.logging.type "none" }}
+{{- if and (ne .spec.distribution.modules.logging.type "none") (.checks.storageClassAvailable) }}
   - logging
 {{- end }}
   - monitoring
