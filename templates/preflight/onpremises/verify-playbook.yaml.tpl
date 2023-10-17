@@ -2,7 +2,15 @@
 # Use of this source code is governed by a BSD-style
 # license that can be found in the LICENSE file.
 
-- name: Check that the /etc/kubernetes/admin.conf exists
+- name: Verify that the cluster exists
   hosts: master
-  stat:
-    path: /etc/kubernetes/admin.conf
+  become: true
+  tasks:
+    - name: Check that the /etc/kubernetes/admin.conf exists
+      stat:
+        path: /etc/kubernetes/admin.conf
+    - name: Getting admin.conf kubeconfig
+      fetch:
+        src: /etc/kubernetes/admin.conf
+        dest: "{{ "{{ kubernetes_kubeconfig_path }}/admin.conf" }}"
+        flat: yes

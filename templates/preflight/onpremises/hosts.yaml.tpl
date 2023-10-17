@@ -76,8 +76,10 @@ all:
           vars:
             kubernetes_role: "{{ $n.name }}"
             kubernetes_control_plane_address: "{{ $controlPlaneAddress }}"
+            {{- if index $n "taints" }}
             kubernetes_taints:
               {{ $n.taints | toYaml | indent 14 | trim }}
+            {{- end }}
       {{- end }}
     ungrouped: {}
   vars:
