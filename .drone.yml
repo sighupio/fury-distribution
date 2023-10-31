@@ -13,11 +13,13 @@ platform:
 steps:
   - name: license-check
     image: quay.io/sighup/golang:1.21.3
+    pull: always
     commands:
       - make license-check
 
   - name: schema-check
     image: quay.io/sighup/golang:1.21.3
+    pull: always
     commands:
       - |-
         cat schemas/public/ekscluster-kfd-v1alpha2.json | \
@@ -46,6 +48,7 @@ steps:
 
   - name: lint-go
     image: quay.io/sighup/golang:1.21.3
+    pull: always
     commands:
       - make lint-go
     depends_on:
