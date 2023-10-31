@@ -113,6 +113,18 @@ linters-settings:
   nolintlint:
     require-explanation: true
     require-specific: true
+  tagalign:
+    align: true
+    sort: true
+    order:
+      - json
+      - yaml
+      - yml
+      - toml
+      - mapstructure
+      - binding
+      - validate
+    strict: true
   revive:
     enable-all-rules: true
     rules:
