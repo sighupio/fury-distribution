@@ -53,6 +53,21 @@ linters:
 linters-settings:
   decorder:
     disable-init-func-first-check: false
+  depguard:
+    rules:
+      main:
+        # List of allowed packages.
+        allow:
+          - $gostd
+          - github.com/Al-Pragliola/go-version
+          - github.com/go-playground/validator/v10
+          - github.com/sighupio
+        # Packages that are not allowed where the value is a suggestion.
+        deny:
+          - pkg: "github.com/sirupsen/logrus"
+            desc: not allowed
+          - pkg: "github.com/pkg/errors"
+            desc: Should be replaced by standard lib errors package
   errcheck:
     check-type-assertions: true
     check-blank: true
