@@ -4,9 +4,7 @@
 
 ---
 
-kubernetes:
-  - path: .spec.kubernetes.nodePools.*.containerRuntime
-    immutable: true
+kubernetes: []
 distribution:
   - path: .spec.distribution.modules.ingress.nginx.type
     immutable: true
