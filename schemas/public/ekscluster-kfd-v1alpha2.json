@@ -609,6 +609,13 @@
       "type": "object",
       "additionalProperties": false,
       "properties": {
+        "type": {
+          "type": "string",
+          "enum": [
+            "eks-managed",
+            "self-managed"
+          ]
+        },
         "name": {
           "type": "string"
         },
