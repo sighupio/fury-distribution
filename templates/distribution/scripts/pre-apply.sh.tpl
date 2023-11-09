@@ -48,18 +48,6 @@ deleteLoki
 
 {{- end }}
 
-{{- if eq .reducers.distributionModulesLoggingType.to "none" }}
-
-{{- if eq .reducers.distributionModulesLoggingType.from "loki" }}
-deleteLoki
-{{- end }}
-
-{{- if eq .reducers.distributionModulesLoggingType.from "opensearch" }}
-deleteOpensearch
-{{- end }}
-
-{{- end }}
-
 {{- end }} # end distributionModulesLoggingType
 
 {{- end }} # end reducers
