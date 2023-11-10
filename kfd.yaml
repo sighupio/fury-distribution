@@ -15,7 +15,7 @@ modules:
 kubernetes:
   eks:
     version: 1.26
-    installer: feature/upgrade-aws-provider-to-v5
+    installer: develop
   onpremises:
     version: 1.26.7
     installer: v1.26.7-rev.1
