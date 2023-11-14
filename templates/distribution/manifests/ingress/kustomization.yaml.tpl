@@ -38,17 +38,24 @@ patchesStrategicMerge:
 {{- if and (eq .spec.distribution.modules.ingress.nginx.tls.provider "certManager") (eq .spec.distribution.modules.ingress.certManager.clusterIssuer.type "dns01") }}
   - patches/cert-manager.yml
 {{- end }}
+
+{{ if or (ne .spec.distribution.modules.ingress.nginx.tls.provider "none") (ne .spec.distribution.modules.ingress.nginx.type "none") }}
   - patches/infra-nodes.yml
+{{- end }}
+
 {{- if eq .spec.distribution.common.provider.type "eks" }}
+
 {{- if eq .spec.distribution.modules.ingress.nginx.type "dual" }}
   - patches/eks-ingress-nginx-external.yml
   - patches/eks-ingress-nginx-internal.yml
 {{- else if eq .spec.distribution.modules.ingress.nginx.type "single" }}
   - patches/eks-ingress-nginx.yml
 {{- end }}
-{{- end }}
-{{- if eq .spec.distribution.common.provider.type "eks" }}
+
+{{- if ne .spec.distribution.modules.ingress.nginx.type "none" }}
   - patches/external-dns.yml
+{{- end }}
+
 {{- end }}
 
 {{ if eq .spec.distribution.modules.ingress.nginx.tls.provider "certManager" -}}
