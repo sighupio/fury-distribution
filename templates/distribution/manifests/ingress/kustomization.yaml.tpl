@@ -65,8 +65,6 @@ patchesStrategicMerge:
 
 {{- end }}
 
-{{- end }}
-
 {{ if eq .spec.distribution.modules.ingress.nginx.tls.provider "certManager" -}}
 patchesJson6902:
   - target:
