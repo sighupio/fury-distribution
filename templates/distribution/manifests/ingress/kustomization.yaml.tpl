@@ -12,24 +12,31 @@ resources:
 {{- else if eq .spec.distribution.modules.ingress.nginx.type "single" }}
   - {{ print "../" .spec.distribution.common.relativeVendorPath "/modules/ingress/katalog/nginx" }}
 {{- end }}
+
 {{- if eq .spec.distribution.common.provider.type "eks" }}
+
 {{- if eq .spec.distribution.modules.ingress.nginx.type "dual" }}
   - {{ print "../" .spec.distribution.common.relativeVendorPath "/modules/ingress/katalog/external-dns/private" }}
   - {{ print "../" .spec.distribution.common.relativeVendorPath "/modules/ingress/katalog/external-dns/public" }}
 {{- else if eq .spec.distribution.modules.ingress.nginx.type "single" }}
   - {{ print "../" .spec.distribution.common.relativeVendorPath "/modules/ingress/katalog/external-dns/public" }}
 {{- end }}
+
 {{- end }}
+
 {{- if ne .spec.distribution.modules.ingress.nginx.type "none" }}
   - {{ print "../" .spec.distribution.common.relativeVendorPath "/modules/ingress/katalog/forecastle" }}
 {{- end }}
   - {{ print "../" .spec.distribution.common.relativeVendorPath "/modules/ingress/katalog/cert-manager" }}
+
 {{- if eq .spec.distribution.modules.ingress.nginx.tls.provider "certManager" }}
   - resources/cert-manager-clusterissuer.yml
 {{- end }}
+
 {{- if ne .spec.distribution.modules.ingress.nginx.type "none" }}
   - resources/ingress-infra.yml
 {{- end }}
+
 {{ if eq .spec.distribution.modules.ingress.nginx.tls.provider "secret" }}
   - secrets/tls.yml
 {{- end }}
@@ -54,6 +61,8 @@ patchesStrategicMerge:
 
 {{- if ne .spec.distribution.modules.ingress.nginx.type "none" }}
   - patches/external-dns.yml
+{{- end }}
+
 {{- end }}
 
 {{- end }}
