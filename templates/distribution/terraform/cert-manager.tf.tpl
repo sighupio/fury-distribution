@@ -2,6 +2,8 @@
 # Use of this source code is governed by a BSD-style
 # license that can be found in the LICENSE file.
 
+{{ if and (.spec.distribution.modules.ingress.certManager) (.spec.distribution.modules.ingress.certManager.clusterIssuer) }}
+
 {{ if and (eq .spec.distribution.modules.ingress.nginx.tls.provider "certManager") (eq .spec.distribution.modules.ingress.certManager.clusterIssuer.type "dns01") -}}
 module "cert_manager_iam_role" {
   source          = "{{ print .spec.distribution.common.relativeVendorPath "/modules/ingress/modules/aws-cert-manager" }}"
@@ -16,5 +18,7 @@ module "cert_manager_iam_role" {
 output "cert_manager_iam_role_arn" {
   value = module.cert_manager_iam_role.cert_manager_iam_role_arn
 }
+
+{{ end }}
 
 {{ end }}

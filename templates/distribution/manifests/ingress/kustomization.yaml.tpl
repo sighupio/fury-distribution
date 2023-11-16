@@ -42,12 +42,16 @@ resources:
 {{- end }}
 
 patchesStrategicMerge:
+{{ if and (.spec.distribution.modules.ingress.certManager) (.spec.distribution.modules.ingress.certManager.clusterIssuer) }}
+
 {{- if and (eq .spec.distribution.modules.ingress.nginx.tls.provider "certManager") (eq .spec.distribution.modules.ingress.certManager.clusterIssuer.type "dns01") }}
   - patches/cert-manager.yml
 {{- end }}
 
 {{ if or (ne .spec.distribution.modules.ingress.nginx.tls.provider "none") (ne .spec.distribution.modules.ingress.nginx.type "none") }}
   - patches/infra-nodes.yml
+{{- end }}
+
 {{- end }}
 
 {{- if eq .spec.distribution.common.provider.type "eks" }}
