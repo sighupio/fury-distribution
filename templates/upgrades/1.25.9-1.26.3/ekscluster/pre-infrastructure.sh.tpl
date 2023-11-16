@@ -2,9 +2,9 @@
 
 set -e
 
-terraformbin="{{ .paths.terraform }}"
+terraformbin="{{ .paths.terraform }} -chdir=terraform"
 
-{{ hasVpnEnabled := (
+{{ $hasVpnEnabled := (
     and
         (index .spec.infrastructure "vpn")
         (
@@ -14,8 +14,24 @@ terraformbin="{{ .paths.terraform }}"
         )
 ) }}
 
-{{- if hasVpnEnabled }}
-$terraformbin import module.vpn[0].aws_s3_bucket_ownership_controls.furyagent "{{ .spec.toolsConfiguration.terraform.state.s3.bucketName }}"
-$terraformbin import module.vpn[0].aws_s3_bucket_server_side_encryption_configuration.furyagent "{{ .spec.toolsConfiguration.terraform.state.s3.bucketName }}"
-$terraformbin import module.vpn[0].aws_s3_bucket_versioning.furyagent "{{ .spec.toolsConfiguration.terraform.state.s3.bucketName }}"
+{{- if $hasVpnEnabled }}
+TF_STATE=$($terraformbin state list)
+
+if [ ! $(echo "${TF_STATE}" | grep -F 'module.vpn[0].aws_s3_bucket_ownership_controls.furyagent') ]; then
+    $terraformbin import \
+        module.vpn[0].aws_s3_bucket_ownership_controls.furyagent \
+        "{{ .spec.toolsConfiguration.terraform.state.s3.bucketName }}"
+fi
+
+if [ ! $(echo "${TF_STATE}" | grep -F 'module.vpn[0].aws_s3_bucket_server_side_encryption_configuration.furyagent') ]; then
+    $terraformbin import \
+        module.vpn[0].aws_s3_bucket_server_side_encryption_configuration.furyagent \
+        "{{ .spec.toolsConfiguration.terraform.state.s3.bucketName }}"
+fi
+
+if [ ! $(echo "${TF_STATE}" | grep -F 'module.vpn[0].aws_s3_bucket_versioning.furyagent') ]; then
+    $terraformbin import \
+        module.vpn[0].aws_s3_bucket_versioning.furyagent \
+        "{{ .spec.toolsConfiguration.terraform.state.s3.bucketName }}"
+fi
 {{- end -}}
