@@ -16,8 +16,10 @@ kubectlcmd="$kubectlbin $dryrun $kubeconfig"
 deleteOpensearch() {
   $kubectlcmd delete --ignore-not-found --wait --timeout=180s ingress -n logging opensearch-dashboards
   $kubectlcmd delete --ignore-not-found --wait --timeout=180s ingress -n pomerium opensearch-dashboards
+  $kubectlcmd delete --ignore-not-found --wait --timeout=180s ingress -n pomerium cerebro
   $kustomizebin build $vendorPath/modules/logging/katalog/opensearch-dashboards | $kubectlcmd delete --ignore-not-found --wait --timeout=180s -f -
   $kustomizebin build $vendorPath/modules/logging/katalog/opensearch-triple | $kubectlcmd delete --ignore-not-found --wait --timeout=180s -f -
+  $kustomizebin build $vendorPath/modules/logging/katalog/cerebro | $kubectlcmd delete --ignore-not-found --wait --timeout=180s -f -
   echo "Waiting 3 minutes"
   sleep 180
   $kubectlcmd delete -l app.kubernetes.io/name=opensearch pvc -n logging --wait --timeout=180s
