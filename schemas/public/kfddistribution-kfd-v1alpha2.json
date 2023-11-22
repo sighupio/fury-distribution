@@ -220,6 +220,9 @@
       "type": "object",
       "additionalProperties": false,
       "properties": {
+        "kubeconfig": {
+          "type": "string"
+        },
         "common": {
           "$ref": "#/$defs/Spec.Distribution.Common"
         },
@@ -230,7 +233,7 @@
           "$ref": "#/$defs/Spec.Distribution.CustomPatches"
         }
       },
-      "required": ["modules"],
+      "required": ["modules", "kubeconfig"],
       "if": {
         "allOf": [
           {

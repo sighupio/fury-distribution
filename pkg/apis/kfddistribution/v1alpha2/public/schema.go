@@ -47,6 +47,9 @@ type SpecDistribution struct {
 	// CustomPatches corresponds to the JSON schema field "customPatches".
 	CustomPatches *SpecDistributionCustomPatches `json:"customPatches,omitempty" yaml:"customPatches,omitempty" mapstructure:"customPatches,omitempty"`
 
+	// Kubeconfig corresponds to the JSON schema field "kubeconfig".
+	Kubeconfig string `json:"kubeconfig" yaml:"kubeconfig" mapstructure:"kubeconfig"`
+
 	// Modules corresponds to the JSON schema field "modules".
 	Modules SpecDistributionModules `json:"modules" yaml:"modules" mapstructure:"modules"`
 }
@@ -614,9 +617,9 @@ type SpecDistributionModulesPolicyType string
 const SpecDistributionModulesPolicyTypeGatekeeper SpecDistributionModulesPolicyType = "gatekeeper"
 
 // UnmarshalJSON implements json.Unmarshaler.
-func (j *SpecDistributionModulesAuthProvider) UnmarshalJSON(value []byte) error {
+func (j *SpecDistributionModulesAuthProvider) UnmarshalJSON(b []byte) error {
 	var raw map[string]interface{}
-	if err := json.Unmarshal(value, &raw); err != nil {
+	if err := json.Unmarshal(b, &raw); err != nil {
 		return err
 	}
 	if v, ok := raw["type"]; !ok || v == nil {
@@ -624,7 +627,7 @@ func (j *SpecDistributionModulesAuthProvider) UnmarshalJSON(value []byte) error 
 	}
 	type Plain SpecDistributionModulesAuthProvider
 	var plain Plain
-	if err := json.Unmarshal(value, &plain); err != nil {
+	if err := json.Unmarshal(b, &plain); err != nil {
 		return err
 	}
 	*j = SpecDistributionModulesAuthProvider(plain)
@@ -652,9 +655,9 @@ func (j *SpecDistributionModulesIngressNginxType) UnmarshalJSON(b []byte) error 
 }
 
 // UnmarshalJSON implements json.Unmarshaler.
-func (j *SpecDistributionModulesIngressNginxTLS) UnmarshalJSON(value []byte) error {
+func (j *SpecDistributionModulesIngressNginxTLS) UnmarshalJSON(b []byte) error {
 	var raw map[string]interface{}
-	if err := json.Unmarshal(value, &raw); err != nil {
+	if err := json.Unmarshal(b, &raw); err != nil {
 		return err
 	}
 	if v, ok := raw["provider"]; !ok || v == nil {
@@ -662,7 +665,7 @@ func (j *SpecDistributionModulesIngressNginxTLS) UnmarshalJSON(value []byte) err
 	}
 	type Plain SpecDistributionModulesIngressNginxTLS
 	var plain Plain
-	if err := json.Unmarshal(value, &plain); err != nil {
+	if err := json.Unmarshal(b, &plain); err != nil {
 		return err
 	}
 	*j = SpecDistributionModulesIngressNginxTLS(plain)
@@ -672,9 +675,9 @@ func (j *SpecDistributionModulesIngressNginxTLS) UnmarshalJSON(value []byte) err
 const TypesKubeTolerationEffectPreferNoSchedule TypesKubeTolerationEffect = "PreferNoSchedule"
 
 // UnmarshalJSON implements json.Unmarshaler.
-func (j *SpecDistributionModulesIngressNginxTLSSecret) UnmarshalJSON(value []byte) error {
+func (j *SpecDistributionModulesIngressNginxTLSSecret) UnmarshalJSON(b []byte) error {
 	var raw map[string]interface{}
-	if err := json.Unmarshal(value, &raw); err != nil {
+	if err := json.Unmarshal(b, &raw); err != nil {
 		return err
 	}
 	if v, ok := raw["ca"]; !ok || v == nil {
@@ -688,7 +691,7 @@ func (j *SpecDistributionModulesIngressNginxTLSSecret) UnmarshalJSON(value []byt
 	}
 	type Plain SpecDistributionModulesIngressNginxTLSSecret
 	var plain Plain
-	if err := json.Unmarshal(value, &plain); err != nil {
+	if err := json.Unmarshal(b, &plain); err != nil {
 		return err
 	}
 	*j = SpecDistributionModulesIngressNginxTLSSecret(plain)
@@ -698,9 +701,9 @@ func (j *SpecDistributionModulesIngressNginxTLSSecret) UnmarshalJSON(value []byt
 const TypesKubeTolerationEffectNoSchedule TypesKubeTolerationEffect = "NoSchedule"
 
 // UnmarshalJSON implements json.Unmarshaler.
-func (j *SpecDistributionModulesIngressNginx) UnmarshalJSON(value []byte) error {
+func (j *SpecDistributionModulesIngressNginx) UnmarshalJSON(b []byte) error {
 	var raw map[string]interface{}
-	if err := json.Unmarshal(value, &raw); err != nil {
+	if err := json.Unmarshal(b, &raw); err != nil {
 		return err
 	}
 	if v, ok := raw["type"]; !ok || v == nil {
@@ -708,7 +711,7 @@ func (j *SpecDistributionModulesIngressNginx) UnmarshalJSON(value []byte) error 
 	}
 	type Plain SpecDistributionModulesIngressNginx
 	var plain Plain
-	if err := json.Unmarshal(value, &plain); err != nil {
+	if err := json.Unmarshal(b, &plain); err != nil {
 		return err
 	}
 	*j = SpecDistributionModulesIngressNginx(plain)
@@ -744,9 +747,9 @@ var enumValues_SpecDistributionModulesIngressNginxTLSProvider = []interface{}{
 const TypesKubeTolerationEffectNoExecute TypesKubeTolerationEffect = "NoExecute"
 
 // UnmarshalJSON implements json.Unmarshaler.
-func (j *SpecDistributionModulesIngress) UnmarshalJSON(value []byte) error {
+func (j *SpecDistributionModulesIngress) UnmarshalJSON(b []byte) error {
 	var raw map[string]interface{}
-	if err := json.Unmarshal(value, &raw); err != nil {
+	if err := json.Unmarshal(b, &raw); err != nil {
 		return err
 	}
 	if v, ok := raw["baseDomain"]; !ok || v == nil {
@@ -757,7 +760,7 @@ func (j *SpecDistributionModulesIngress) UnmarshalJSON(value []byte) error {
 	}
 	type Plain SpecDistributionModulesIngress
 	var plain Plain
-	if err := json.Unmarshal(value, &plain); err != nil {
+	if err := json.Unmarshal(b, &plain); err != nil {
 		return err
 	}
 	*j = SpecDistributionModulesIngress(plain)
@@ -791,9 +794,9 @@ type TypesKubeResources struct {
 }
 
 // UnmarshalJSON implements json.Unmarshaler.
-func (j *SpecDistributionModulesIngressCertManager) UnmarshalJSON(value []byte) error {
+func (j *SpecDistributionModulesIngressCertManager) UnmarshalJSON(b []byte) error {
 	var raw map[string]interface{}
-	if err := json.Unmarshal(value, &raw); err != nil {
+	if err := json.Unmarshal(b, &raw); err != nil {
 		return err
 	}
 	if v, ok := raw["clusterIssuer"]; !ok || v == nil {
@@ -801,7 +804,7 @@ func (j *SpecDistributionModulesIngressCertManager) UnmarshalJSON(value []byte) 
 	}
 	type Plain SpecDistributionModulesIngressCertManager
 	var plain Plain
-	if err := json.Unmarshal(value, &plain); err != nil {
+	if err := json.Unmarshal(b, &plain); err != nil {
 		return err
 	}
 	*j = SpecDistributionModulesIngressCertManager(plain)
@@ -814,9 +817,9 @@ var enumValues_TypesKubeTolerationOperator = []interface{}{
 }
 
 // UnmarshalJSON implements json.Unmarshaler.
-func (j *SpecDistributionModulesIngressCertManagerClusterIssuer) UnmarshalJSON(value []byte) error {
+func (j *SpecDistributionModulesIngressCertManagerClusterIssuer) UnmarshalJSON(b []byte) error {
 	var raw map[string]interface{}
-	if err := json.Unmarshal(value, &raw); err != nil {
+	if err := json.Unmarshal(b, &raw); err != nil {
 		return err
 	}
 	if v, ok := raw["email"]; !ok || v == nil {
@@ -827,7 +830,7 @@ func (j *SpecDistributionModulesIngressCertManagerClusterIssuer) UnmarshalJSON(v
 	}
 	type Plain SpecDistributionModulesIngressCertManagerClusterIssuer
 	var plain Plain
-	if err := json.Unmarshal(value, &plain); err != nil {
+	if err := json.Unmarshal(b, &plain); err != nil {
 		return err
 	}
 	*j = SpecDistributionModulesIngressCertManagerClusterIssuer(plain)
@@ -914,9 +917,9 @@ func (j *SpecDistributionModulesIngressCertManagerClusterIssuerType) UnmarshalJS
 }
 
 // UnmarshalJSON implements json.Unmarshaler.
-func (j *SpecDistributionModulesLoggingOpensearch) UnmarshalJSON(value []byte) error {
+func (j *SpecDistributionModulesLoggingOpensearch) UnmarshalJSON(b []byte) error {
 	var raw map[string]interface{}
-	if err := json.Unmarshal(value, &raw); err != nil {
+	if err := json.Unmarshal(b, &raw); err != nil {
 		return err
 	}
 	if v, ok := raw["type"]; !ok || v == nil {
@@ -924,7 +927,7 @@ func (j *SpecDistributionModulesLoggingOpensearch) UnmarshalJSON(value []byte) e
 	}
 	type Plain SpecDistributionModulesLoggingOpensearch
 	var plain Plain
-	if err := json.Unmarshal(value, &plain); err != nil {
+	if err := json.Unmarshal(b, &plain); err != nil {
 		return err
 	}
 	*j = SpecDistributionModulesLoggingOpensearch(plain)
@@ -964,9 +967,9 @@ func (j *SpecDistributionModulesLoggingType) UnmarshalJSON(b []byte) error {
 }
 
 // UnmarshalJSON implements json.Unmarshaler.
-func (j *SpecDistributionModulesDr) UnmarshalJSON(value []byte) error {
+func (j *SpecDistributionModulesDr) UnmarshalJSON(b []byte) error {
 	var raw map[string]interface{}
-	if err := json.Unmarshal(value, &raw); err != nil {
+	if err := json.Unmarshal(b, &raw); err != nil {
 		return err
 	}
 	if v, ok := raw["type"]; !ok || v == nil {
@@ -977,7 +980,7 @@ func (j *SpecDistributionModulesDr) UnmarshalJSON(value []byte) error {
 	}
 	type Plain SpecDistributionModulesDr
 	var plain Plain
-	if err := json.Unmarshal(value, &plain); err != nil {
+	if err := json.Unmarshal(b, &plain); err != nil {
 		return err
 	}
 	*j = SpecDistributionModulesDr(plain)
@@ -987,9 +990,9 @@ func (j *SpecDistributionModulesDr) UnmarshalJSON(value []byte) error {
 const TypesKubeTolerationOperatorExists TypesKubeTolerationOperator = "Exists"
 
 // UnmarshalJSON implements json.Unmarshaler.
-func (j *TypesKubeToleration) UnmarshalJSON(value []byte) error {
+func (j *TypesKubeToleration) UnmarshalJSON(b []byte) error {
 	var raw map[string]interface{}
-	if err := json.Unmarshal(value, &raw); err != nil {
+	if err := json.Unmarshal(b, &raw); err != nil {
 		return err
 	}
 	if v, ok := raw["effect"]; !ok || v == nil {
@@ -1003,7 +1006,7 @@ func (j *TypesKubeToleration) UnmarshalJSON(value []byte) error {
 	}
 	type Plain TypesKubeToleration
 	var plain Plain
-	if err := json.Unmarshal(value, &plain); err != nil {
+	if err := json.Unmarshal(b, &plain); err != nil {
 		return err
 	}
 	*j = TypesKubeToleration(plain)
@@ -1017,9 +1020,9 @@ var enumValues_SpecDistributionCustomPatchesResourceGeneratorBehavior = []interf
 }
 
 // UnmarshalJSON implements json.Unmarshaler.
-func (j *SpecDistributionModulesLogging) UnmarshalJSON(value []byte) error {
+func (j *SpecDistributionModulesLogging) UnmarshalJSON(b []byte) error {
 	var raw map[string]interface{}
-	if err := json.Unmarshal(value, &raw); err != nil {
+	if err := json.Unmarshal(b, &raw); err != nil {
 		return err
 	}
 	if v, ok := raw["type"]; !ok || v == nil {
@@ -1027,7 +1030,7 @@ func (j *SpecDistributionModulesLogging) UnmarshalJSON(value []byte) error {
 	}
 	type Plain SpecDistributionModulesLogging
 	var plain Plain
-	if err := json.Unmarshal(value, &plain); err != nil {
+	if err := json.Unmarshal(b, &plain); err != nil {
 		return err
 	}
 	*j = SpecDistributionModulesLogging(plain)
@@ -1106,9 +1109,9 @@ type TypesFuryModuleOverridesIngress struct {
 }
 
 // UnmarshalJSON implements json.Unmarshaler.
-func (j *SpecDistributionModulesAuth) UnmarshalJSON(value []byte) error {
+func (j *SpecDistributionModulesAuth) UnmarshalJSON(b []byte) error {
 	var raw map[string]interface{}
-	if err := json.Unmarshal(value, &raw); err != nil {
+	if err := json.Unmarshal(b, &raw); err != nil {
 		return err
 	}
 	if v, ok := raw["provider"]; !ok || v == nil {
@@ -1116,7 +1119,7 @@ func (j *SpecDistributionModulesAuth) UnmarshalJSON(value []byte) error {
 	}
 	type Plain SpecDistributionModulesAuth
 	var plain Plain
-	if err := json.Unmarshal(value, &plain); err != nil {
+	if err := json.Unmarshal(b, &plain); err != nil {
 		return err
 	}
 	*j = SpecDistributionModulesAuth(plain)
@@ -1124,9 +1127,9 @@ func (j *SpecDistributionModulesAuth) UnmarshalJSON(value []byte) error {
 }
 
 // UnmarshalJSON implements json.Unmarshaler.
-func (j *SpecDistributionCustomPatchesResourceGenerator) UnmarshalJSON(value []byte) error {
+func (j *SpecDistributionCustomPatchesResourceGenerator) UnmarshalJSON(b []byte) error {
 	var raw map[string]interface{}
-	if err := json.Unmarshal(value, &raw); err != nil {
+	if err := json.Unmarshal(b, &raw); err != nil {
 		return err
 	}
 	if v, ok := raw["name"]; !ok || v == nil {
@@ -1134,7 +1137,7 @@ func (j *SpecDistributionCustomPatchesResourceGenerator) UnmarshalJSON(value []b
 	}
 	type Plain SpecDistributionCustomPatchesResourceGenerator
 	var plain Plain
-	if err := json.Unmarshal(value, &plain); err != nil {
+	if err := json.Unmarshal(b, &plain); err != nil {
 		return err
 	}
 	*j = SpecDistributionCustomPatchesResourceGenerator(plain)
@@ -1181,9 +1184,9 @@ type TypesFuryModuleComponentOverrides struct {
 }
 
 // UnmarshalJSON implements json.Unmarshaler.
-func (j *SpecDistributionModulesAuthDex) UnmarshalJSON(value []byte) error {
+func (j *SpecDistributionModulesAuthDex) UnmarshalJSON(b []byte) error {
 	var raw map[string]interface{}
-	if err := json.Unmarshal(value, &raw); err != nil {
+	if err := json.Unmarshal(b, &raw); err != nil {
 		return err
 	}
 	if v, ok := raw["connectors"]; !ok || v == nil {
@@ -1191,7 +1194,7 @@ func (j *SpecDistributionModulesAuthDex) UnmarshalJSON(value []byte) error {
 	}
 	type Plain SpecDistributionModulesAuthDex
 	var plain Plain
-	if err := json.Unmarshal(value, &plain); err != nil {
+	if err := json.Unmarshal(b, &plain); err != nil {
 		return err
 	}
 	*j = SpecDistributionModulesAuthDex(plain)
@@ -1199,9 +1202,9 @@ func (j *SpecDistributionModulesAuthDex) UnmarshalJSON(value []byte) error {
 }
 
 // UnmarshalJSON implements json.Unmarshaler.
-func (j *SpecDistributionModulesAuthOverridesIngress) UnmarshalJSON(value []byte) error {
+func (j *SpecDistributionModulesAuthOverridesIngress) UnmarshalJSON(b []byte) error {
 	var raw map[string]interface{}
-	if err := json.Unmarshal(value, &raw); err != nil {
+	if err := json.Unmarshal(b, &raw); err != nil {
 		return err
 	}
 	if v, ok := raw["host"]; !ok || v == nil {
@@ -1212,7 +1215,7 @@ func (j *SpecDistributionModulesAuthOverridesIngress) UnmarshalJSON(value []byte
 	}
 	type Plain SpecDistributionModulesAuthOverridesIngress
 	var plain Plain
-	if err := json.Unmarshal(value, &plain); err != nil {
+	if err := json.Unmarshal(b, &plain); err != nil {
 		return err
 	}
 	*j = SpecDistributionModulesAuthOverridesIngress(plain)
@@ -1220,9 +1223,9 @@ func (j *SpecDistributionModulesAuthOverridesIngress) UnmarshalJSON(value []byte
 }
 
 // UnmarshalJSON implements json.Unmarshaler.
-func (j *SpecDistributionModulesAuthPomeriumSecrets) UnmarshalJSON(value []byte) error {
+func (j *SpecDistributionModulesAuthPomeriumSecrets) UnmarshalJSON(b []byte) error {
 	var raw map[string]interface{}
-	if err := json.Unmarshal(value, &raw); err != nil {
+	if err := json.Unmarshal(b, &raw); err != nil {
 		return err
 	}
 	if v, ok := raw["COOKIE_SECRET"]; !ok || v == nil {
@@ -1236,7 +1239,7 @@ func (j *SpecDistributionModulesAuthPomeriumSecrets) UnmarshalJSON(value []byte)
 	}
 	type Plain SpecDistributionModulesAuthPomeriumSecrets
 	var plain Plain
-	if err := json.Unmarshal(value, &plain); err != nil {
+	if err := json.Unmarshal(b, &plain); err != nil {
 		return err
 	}
 	*j = SpecDistributionModulesAuthPomeriumSecrets(plain)
@@ -1244,9 +1247,9 @@ func (j *SpecDistributionModulesAuthPomeriumSecrets) UnmarshalJSON(value []byte)
 }
 
 // UnmarshalJSON implements json.Unmarshaler.
-func (j *SpecDistributionModulesNetworking) UnmarshalJSON(value []byte) error {
+func (j *SpecDistributionModulesNetworking) UnmarshalJSON(b []byte) error {
 	var raw map[string]interface{}
-	if err := json.Unmarshal(value, &raw); err != nil {
+	if err := json.Unmarshal(b, &raw); err != nil {
 		return err
 	}
 	if v, ok := raw["type"]; !ok || v == nil {
@@ -1254,7 +1257,7 @@ func (j *SpecDistributionModulesNetworking) UnmarshalJSON(value []byte) error {
 	}
 	type Plain SpecDistributionModulesNetworking
 	var plain Plain
-	if err := json.Unmarshal(value, &plain); err != nil {
+	if err := json.Unmarshal(b, &plain); err != nil {
 		return err
 	}
 	*j = SpecDistributionModulesNetworking(plain)
@@ -1314,9 +1317,9 @@ func (j *SpecDistributionModulesPolicyType) UnmarshalJSON(b []byte) error {
 const SpecDistributionModulesPolicyTypeNone SpecDistributionModulesPolicyType = "none"
 
 // UnmarshalJSON implements json.Unmarshaler.
-func (j *SpecDistributionModulesAuthProviderBasicAuth) UnmarshalJSON(value []byte) error {
+func (j *SpecDistributionModulesAuthProviderBasicAuth) UnmarshalJSON(b []byte) error {
 	var raw map[string]interface{}
-	if err := json.Unmarshal(value, &raw); err != nil {
+	if err := json.Unmarshal(b, &raw); err != nil {
 		return err
 	}
 	if v, ok := raw["password"]; !ok || v == nil {
@@ -1327,7 +1330,7 @@ func (j *SpecDistributionModulesAuthProviderBasicAuth) UnmarshalJSON(value []byt
 	}
 	type Plain SpecDistributionModulesAuthProviderBasicAuth
 	var plain Plain
-	if err := json.Unmarshal(value, &plain); err != nil {
+	if err := json.Unmarshal(b, &plain); err != nil {
 		return err
 	}
 	*j = SpecDistributionModulesAuthProviderBasicAuth(plain)
@@ -1335,9 +1338,9 @@ func (j *SpecDistributionModulesAuthProviderBasicAuth) UnmarshalJSON(value []byt
 }
 
 // UnmarshalJSON implements json.Unmarshaler.
-func (j *SpecDistributionModulesAuthPomerium) UnmarshalJSON(value []byte) error {
+func (j *SpecDistributionModulesAuthPomerium) UnmarshalJSON(b []byte) error {
 	var raw map[string]interface{}
-	if err := json.Unmarshal(value, &raw); err != nil {
+	if err := json.Unmarshal(b, &raw); err != nil {
 		return err
 	}
 	if v, ok := raw["policy"]; !ok || v == nil {
@@ -1348,7 +1351,7 @@ func (j *SpecDistributionModulesAuthPomerium) UnmarshalJSON(value []byte) error 
 	}
 	type Plain SpecDistributionModulesAuthPomerium
 	var plain Plain
-	if err := json.Unmarshal(value, &plain); err != nil {
+	if err := json.Unmarshal(b, &plain); err != nil {
 		return err
 	}
 	*j = SpecDistributionModulesAuthPomerium(plain)
@@ -1356,9 +1359,9 @@ func (j *SpecDistributionModulesAuthPomerium) UnmarshalJSON(value []byte) error 
 }
 
 // UnmarshalJSON implements json.Unmarshaler.
-func (j *SpecDistributionModulesPolicy) UnmarshalJSON(value []byte) error {
+func (j *SpecDistributionModulesPolicy) UnmarshalJSON(b []byte) error {
 	var raw map[string]interface{}
-	if err := json.Unmarshal(value, &raw); err != nil {
+	if err := json.Unmarshal(b, &raw); err != nil {
 		return err
 	}
 	if v, ok := raw["type"]; !ok || v == nil {
@@ -1366,7 +1369,7 @@ func (j *SpecDistributionModulesPolicy) UnmarshalJSON(value []byte) error {
 	}
 	type Plain SpecDistributionModulesPolicy
 	var plain Plain
-	if err := json.Unmarshal(value, &plain); err != nil {
+	if err := json.Unmarshal(b, &plain); err != nil {
 		return err
 	}
 	*j = SpecDistributionModulesPolicy(plain)
@@ -1394,9 +1397,9 @@ func (j *TypesKubeTolerationEffect) UnmarshalJSON(b []byte) error {
 }
 
 // UnmarshalJSON implements json.Unmarshaler.
-func (j *SpecDistributionModules) UnmarshalJSON(value []byte) error {
+func (j *SpecDistributionModules) UnmarshalJSON(b []byte) error {
 	var raw map[string]interface{}
-	if err := json.Unmarshal(value, &raw); err != nil {
+	if err := json.Unmarshal(b, &raw); err != nil {
 		return err
 	}
 	if v, ok := raw["dr"]; !ok || v == nil {
@@ -1413,7 +1416,7 @@ func (j *SpecDistributionModules) UnmarshalJSON(value []byte) error {
 	}
 	type Plain SpecDistributionModules
 	var plain Plain
-	if err := json.Unmarshal(value, &plain); err != nil {
+	if err := json.Unmarshal(b, &plain); err != nil {
 		return err
 	}
 	*j = SpecDistributionModules(plain)
@@ -1427,17 +1430,20 @@ var enumValues_TypesKubeTolerationEffect = []interface{}{
 }
 
 // UnmarshalJSON implements json.Unmarshaler.
-func (j *SpecDistribution) UnmarshalJSON(value []byte) error {
+func (j *SpecDistribution) UnmarshalJSON(b []byte) error {
 	var raw map[string]interface{}
-	if err := json.Unmarshal(value, &raw); err != nil {
+	if err := json.Unmarshal(b, &raw); err != nil {
 		return err
+	}
+	if v, ok := raw["kubeconfig"]; !ok || v == nil {
+		return fmt.Errorf("field kubeconfig in SpecDistribution: required")
 	}
 	if v, ok := raw["modules"]; !ok || v == nil {
 		return fmt.Errorf("field modules in SpecDistribution: required")
 	}
 	type Plain SpecDistribution
 	var plain Plain
-	if err := json.Unmarshal(value, &plain); err != nil {
+	if err := json.Unmarshal(b, &plain); err != nil {
 		return err
 	}
 	*j = SpecDistribution(plain)
@@ -1453,9 +1459,9 @@ type SpecPluginsHelmReleasesElemSetElem struct {
 }
 
 // UnmarshalJSON implements json.Unmarshaler.
-func (j *SpecPluginsHelmReleasesElemSetElem) UnmarshalJSON(value []byte) error {
+func (j *SpecPluginsHelmReleasesElemSetElem) UnmarshalJSON(b []byte) error {
 	var raw map[string]interface{}
-	if err := json.Unmarshal(value, &raw); err != nil {
+	if err := json.Unmarshal(b, &raw); err != nil {
 		return err
 	}
 	if v, ok := raw["name"]; !ok || v == nil {
@@ -1466,7 +1472,7 @@ func (j *SpecPluginsHelmReleasesElemSetElem) UnmarshalJSON(value []byte) error {
 	}
 	type Plain SpecPluginsHelmReleasesElemSetElem
 	var plain Plain
-	if err := json.Unmarshal(value, &plain); err != nil {
+	if err := json.Unmarshal(b, &plain); err != nil {
 		return err
 	}
 	*j = SpecPluginsHelmReleasesElemSetElem(plain)
@@ -1528,9 +1534,9 @@ type SpecPlugins struct {
 type TypesKubeTolerationEffect string
 
 // UnmarshalJSON implements json.Unmarshaler.
-func (j *Spec) UnmarshalJSON(value []byte) error {
+func (j *Spec) UnmarshalJSON(b []byte) error {
 	var raw map[string]interface{}
-	if err := json.Unmarshal(value, &raw); err != nil {
+	if err := json.Unmarshal(b, &raw); err != nil {
 		return err
 	}
 	if v, ok := raw["distribution"]; !ok || v == nil {
@@ -1541,7 +1547,7 @@ func (j *Spec) UnmarshalJSON(value []byte) error {
 	}
 	type Plain Spec
 	var plain Plain
-	if err := json.Unmarshal(value, &plain); err != nil {
+	if err := json.Unmarshal(b, &plain); err != nil {
 		return err
 	}
 	if len(plain.DistributionVersion) < 1 {
@@ -1570,9 +1576,9 @@ type TypesTcpPort int
 type TypesUri string
 
 // UnmarshalJSON implements json.Unmarshaler.
-func (j *SpecDistributionCommonProvider) UnmarshalJSON(value []byte) error {
+func (j *SpecDistributionCommonProvider) UnmarshalJSON(b []byte) error {
 	var raw map[string]interface{}
-	if err := json.Unmarshal(value, &raw); err != nil {
+	if err := json.Unmarshal(b, &raw); err != nil {
 		return err
 	}
 	if v, ok := raw["type"]; !ok || v == nil {
@@ -1580,7 +1586,7 @@ func (j *SpecDistributionCommonProvider) UnmarshalJSON(value []byte) error {
 	}
 	type Plain SpecDistributionCommonProvider
 	var plain Plain
-	if err := json.Unmarshal(value, &plain); err != nil {
+	if err := json.Unmarshal(b, &plain); err != nil {
 		return err
 	}
 	*j = SpecDistributionCommonProvider(plain)
@@ -1614,9 +1620,9 @@ func (j *KfddistributionKfdV1Alpha2Kind) UnmarshalJSON(b []byte) error {
 type TypesKubeNodeSelector map[string]string
 
 // UnmarshalJSON implements json.Unmarshaler.
-func (j *Metadata) UnmarshalJSON(value []byte) error {
+func (j *Metadata) UnmarshalJSON(b []byte) error {
 	var raw map[string]interface{}
-	if err := json.Unmarshal(value, &raw); err != nil {
+	if err := json.Unmarshal(b, &raw); err != nil {
 		return err
 	}
 	if v, ok := raw["name"]; !ok || v == nil {
@@ -1624,7 +1630,7 @@ func (j *Metadata) UnmarshalJSON(value []byte) error {
 	}
 	type Plain Metadata
 	var plain Plain
-	if err := json.Unmarshal(value, &plain); err != nil {
+	if err := json.Unmarshal(b, &plain); err != nil {
 		return err
 	}
 	if len(plain.Name) < 1 {
@@ -1638,9 +1644,9 @@ func (j *Metadata) UnmarshalJSON(value []byte) error {
 }
 
 // UnmarshalJSON implements json.Unmarshaler.
-func (j *KfddistributionKfdV1Alpha2) UnmarshalJSON(value []byte) error {
+func (j *KfddistributionKfdV1Alpha2) UnmarshalJSON(b []byte) error {
 	var raw map[string]interface{}
-	if err := json.Unmarshal(value, &raw); err != nil {
+	if err := json.Unmarshal(b, &raw); err != nil {
 		return err
 	}
 	if v, ok := raw["apiVersion"]; !ok || v == nil {
@@ -1657,7 +1663,7 @@ func (j *KfddistributionKfdV1Alpha2) UnmarshalJSON(value []byte) error {
 	}
 	type Plain KfddistributionKfdV1Alpha2
 	var plain Plain
-	if err := json.Unmarshal(value, &plain); err != nil {
+	if err := json.Unmarshal(b, &plain); err != nil {
 		return err
 	}
 	*j = KfddistributionKfdV1Alpha2(plain)

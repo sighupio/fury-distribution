@@ -17,9 +17,3 @@ releases:
 {{- end }}
 
 helmBinary: {{ .paths.helm }}
-
-helmDefaults:
-  args:
-    {{- if and (index .paths "kubeconfig") (.paths.kubeconfig) -}}
-    - --kubeconfig={{ .paths.kubeconfig }}
-    {{- end }}
