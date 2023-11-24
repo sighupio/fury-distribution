@@ -4,6 +4,7 @@
 
 
 - name: Kubernetes node preparation
+  become: true
   hosts: nodes
   vars:
     skip_kubelet_upgrade: True
@@ -23,12 +24,14 @@
       shell: "{{ .paths.kubectl }} {{ print "drain --grace-period=60 --timeout=360s --force --ignore-daemonsets --delete-local-data {{ node_name }} --kubeconfig={{ kubernetes_kubeconfig_path }}admin.conf" }}"
 
 - name: Kubernetes kubeadm upgrade node
+  become: true
   hosts: nodes
   tasks:
     - name: Upgrade kubelet config
       shell: "kubeadm upgrade node"
 
 - name: Kubelet and Containerd upgrade
+  become: true
   hosts: nodes
   vars:
     skip_kubelet_upgrade: False
