@@ -1954,6 +1954,9 @@
         },
         "volumeSize": {
           "type": "integer"
+        },
+        "maxPods": {
+          "type": "integer"
         }
       },
       "required": [

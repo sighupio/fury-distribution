@@ -1022,6 +1022,9 @@ const (
 )
 
 type SpecKubernetesNodePoolInstance struct {
+	// MaxPods corresponds to the JSON schema field "maxPods".
+	MaxPods *int `json:"maxPods,omitempty" yaml:"maxPods,omitempty" mapstructure:"maxPods,omitempty"`
+
 	// Spot corresponds to the JSON schema field "spot".
 	Spot *bool `json:"spot,omitempty" yaml:"spot,omitempty" mapstructure:"spot,omitempty"`
 
@@ -2894,7 +2897,7 @@ func (j *Metadata) UnmarshalJSON(b []byte) error {
 	if len(plain.Name) < 1 {
 		return fmt.Errorf("field %s length: must be >= %d", "name", 1)
 	}
-	if len(plain.Name) >= 19 {
+	if len(plain.Name) > 19 {
 		return fmt.Errorf("field %s length: must be <= %d", "name", 19)
 	}
 	*j = Metadata(plain)
