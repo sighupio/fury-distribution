@@ -149,6 +149,9 @@ data:
       gatekeeper:
         # this configuration adds namespaces to the excluded list, actually whitelisting them
         additionalExcludedNamespaces: []
+      kyverno:
+        # this configuration adds namespaces to the excluded list, actually whitelisting them
+        additionalExcludedNamespaces: []
     # dr module configuration
     dr:
       overrides:
