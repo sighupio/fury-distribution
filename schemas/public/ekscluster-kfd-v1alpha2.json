@@ -1011,6 +1011,9 @@
         "monitoring": {
           "$ref": "#/$defs/Spec.Distribution.Modules.Monitoring"
         },
+        "tracing": {
+          "$ref": "#/$defs/Spec.Distribution.Modules.Tracing"
+        },
         "networking": {
           "$ref": "#/$defs/Spec.Distribution.Modules.Networking"
         },
@@ -1412,6 +1415,47 @@
       "type": "object",
       "additionalProperties": false,
       "properties": {
+        "overrides": {
+          "$ref": "#/$defs/Types.FuryModuleComponentOverrides"
+        }
+      }
+    },
+    "Spec.Distribution.Modules.Tracing": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "overrides": {
+          "$ref": "#/$defs/Types.FuryModuleOverrides"
+        },
+        "type": {
+          "type": "string",
+          "enum": ["none", "tempo"]
+        },
+        "tempo": {
+          "$ref": "#/$defs/Spec.Distribution.Modules.Tracing.Tempo"
+        },
+        "minio": {
+          "$ref": "#/$defs/Spec.Distribution.Modules.Tracing.Minio"
+        }
+      },
+      "required": ["type"]
+    },
+    "Spec.Distribution.Modules.Tracing.Tempo": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "overrides": {
+          "$ref": "#/$defs/Types.FuryModuleComponentOverrides"
+        }
+      }
+    },
+    "Spec.Distribution.Modules.Tracing.Minio": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "storageSize": {
+          "type": "string"
+        },
         "overrides": {
           "$ref": "#/$defs/Types.FuryModuleComponentOverrides"
         }
