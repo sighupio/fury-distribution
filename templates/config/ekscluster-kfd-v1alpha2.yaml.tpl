@@ -267,7 +267,7 @@ spec:
         #      host: ""
         #      # the ingressClass can be overridden if needed
         #      ingressClass: ""
-        # can be opensearch or loki
+        # can be opensearch or loki or none, with none, nothing from the logging module will be installed
         type: opensearch
         # configurations for the opensearch package
         opensearch:
@@ -344,6 +344,29 @@ spec:
           deadManSwitchWebhookUrl: ""
           # The slack webhook url to send alerts
           slackWebhookUrl: https://slack.com
+      # This section contains all the configurations for the tracing module
+      tracing:
+        # This optional key is used to override automatic parameters
+        #overrides:
+        #  # This key is used to override the spec.distribution.common.nodeSelector setting. Set to a custom value or use an empty object {} to not add the common node selector.
+        #  nodeSelector: null
+        #  # This key is used to override the spec.distribution.common.tolerations setting. Set to a custom value or use an empty object {} to not add the common tolerations.
+        #  tolerations: null
+        #  # This key is used to override some parameters on the ingresses managed by this module
+        #  ingresses:
+        #    minio:
+        #      # if authentication is globally enabled, it can be disabled for this ingress.
+        #      disableAuth: false
+        #      # the host can be overridden, by default is minio.{.spec.distribution.modules.ingress.baseDomain}
+        #      host: ""
+        #      # the ingressClass can be overridden if needed
+        #      ingressClass: ""
+        # can be tempo or none
+        type: tempo
+        # configurations for the minio-ha package
+        minio:
+          # the PVC size for each minio disk, 6 disks total
+          storageSize: "20Gi"
       # This section contains all the configurations for the policy (opa) module
       policy:
         # type can be gatekeeper, kyverno or none
