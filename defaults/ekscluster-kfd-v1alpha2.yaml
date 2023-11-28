@@ -104,6 +104,7 @@ data:
       # override ingresses parameters
     # monitoring module configuration
     monitoring:
+      type: prometheus
       overrides:
         nodeSelector: null
         tolerations: null
