@@ -93,7 +93,7 @@ metadata:
   labels:
     cluster.kfd.sighup.io/useful-link.enable: "true"
   annotations:
-    cluster.kfd.sighup.io/useful-link.url: https://{{ template "minioUrl" .spec }}
+    cluster.kfd.sighup.io/useful-link.url: https://{{ template "minioLoggingUrl" .spec }}
     cluster.kfd.sighup.io/useful-link.name: "MinIO Logging"
     forecastle.stakater.com/expose: "true"
     forecastle.stakater.com/appName: "MinIO Logging"
@@ -109,7 +109,7 @@ metadata:
 spec:
   ingressClassName: {{ template "ingressClass" (dict "module" "logging" "package" "minio" "type" "internal" "spec" .spec) }}
   rules:
-    - host: {{ template "minioUrl" .spec }}
+    - host: {{ template "minioLoggingUrl" .spec }}
       http:
         paths:
           - path: /
