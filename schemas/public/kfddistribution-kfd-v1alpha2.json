@@ -730,15 +730,33 @@
         },
         "type": {
           "type": "string",
-          "enum": ["none", "gatekeeper"]
+          "enum": ["none", "gatekeeper","kyverno"]
         },
         "gatekeeper": {
           "$ref": "#/$defs/Spec.Distribution.Modules.Policy.Gatekeeper"
+        },
+        "kyverno": {
+          "$ref": "#/$defs/Spec.Distribution.Modules.Policy.Kyverno"
         }
       },
       "required": ["type"]
     },
     "Spec.Distribution.Modules.Policy.Gatekeeper": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "additionalExcludedNamespaces": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "overrides": {
+          "$ref": "#/$defs/Types.FuryModuleComponentOverrides"
+        }
+      }
+    },
+    "Spec.Distribution.Modules.Policy.Kyverno": {
       "type": "object",
       "additionalProperties": false,
       "properties": {
