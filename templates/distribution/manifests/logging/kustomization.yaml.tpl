@@ -51,4 +51,17 @@ patchesStrategicMerge:
 {{- end }}
   - patches/infra-nodes.yml
   - patches/minio.yml
+{{- if eq .spec.distribution.modules.monitoring.type "none" }}
+  - |
+    ---
+    apiVersion: logging.banzaicloud.io/v1beta1
+    kind: Logging
+    metadata:
+      name: infra
+    spec:
+      fluentd:
+        metrics:
+          serviceMonitor: false
+          prometheusRules: false
+{{- end }}
 
