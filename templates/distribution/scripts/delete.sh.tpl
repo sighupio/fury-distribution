@@ -70,6 +70,8 @@ $kubectlcmd delete --ignore-not-found --wait --timeout=180s -n monitoring --all 
 echo "Monitoring PVCs deleted"
 $kubectlcmd delete --ignore-not-found --wait --timeout=180s -n logging --all persistentvolumeclaims
 echo "Logging PVCs deleted"
+$kubectlcmd delete --ignore-not-found --wait --timeout=180s -n tracing --all persistentvolumeclaims
+echo "Tracing PVCs deleted"
 echo "Waiting 3 minutes"
 sleep 180
 < out.yaml $yqbin 'select(.kind == "Service" and .spec.type == "LoadBalancer")' | $kubectlcmd delete --ignore-not-found --wait --timeout=180s -f - || true
