@@ -121,6 +121,20 @@ data:
       alertmanager:
         deadManSwitchWebhookUrl: ""
         slackWebhookUrl: ""
+    # tracing module configuration
+    tracing:
+      overrides:
+        nodeSelector: null
+        tolerations: null
+        ingresses:
+          minio:
+            disableAuth: false
+            host: ""
+            ingressClass: ""
+      type: tempo
+      minio:
+        # define the size for each minio disk, total disks to be created: 6
+        storageSize: 20Gi
     # networking module configuration
     networking:
       overrides:
