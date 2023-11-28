@@ -10,7 +10,7 @@ modules:
   ingress: v2.1.0
   logging: v3.2.0
   monitoring: v2.2.0
-  opa: v1.9.0
+  opa: v1.11.0
   networking: v1.14.0
 kubernetes:
   eks:
