@@ -3,6 +3,7 @@
 # license that can be found in the LICENSE file.
 
 {{- $gatekeeperArgs := dict "module" "policy" "package" "gatekeeper" "spec" .spec -}}
+{{- $kyvernoArgs := dict "module" "policy" "package" "kyverno" "spec" .spec -}}
 {{- if eq .spec.distribution.modules.policy.type "gatekeeper" }}
 ---
 apiVersion: apps/v1
@@ -44,5 +45,56 @@ spec:
         {{ template "tolerations" $gatekeeperArgs }}
 {{- end }}
 {{- if eq .spec.distribution.modules.policy.type "kyverno" }}
-# TODO
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kyverno-admission-controller
+  namespace: kyverno
+spec:
+  template:
+    spec:
+      nodeSelector:
+        {{ template "nodeSelector" $kyvernoArgs }}
+      tolerations:
+        {{ template "tolerations" $kyvernoArgs }}
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kyverno-background-controller
+  namespace: kyverno
+spec:
+  template:
+    spec:
+      nodeSelector:
+        {{ template "nodeSelector" $kyvernoArgs }}
+      tolerations:
+        {{ template "tolerations" $kyvernoArgs }}
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kyverno-cleanup-controller
+  namespace: kyverno
+spec:
+  template:
+    spec:
+      nodeSelector:
+        {{ template "nodeSelector" $kyvernoArgs }}
+      tolerations:
+        {{ template "tolerations" $kyvernoArgs }}
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kyverno-reports-controller
+  namespace: kyverno
+spec:
+  template:
+    spec:
+      nodeSelector:
+        {{ template "nodeSelector" $kyvernoArgs }}
+      tolerations:
+        {{ template "tolerations" $kyvernoArgs }}
 {{- end }}
