@@ -1331,6 +1331,10 @@
       "type": "object",
       "additionalProperties": false,
       "properties": {
+        "type": {
+          "type": "string",
+          "enum": ["none", "prometheus"]
+        },
         "overrides": {
           "$ref": "#/$defs/Types.FuryModuleOverrides"
         },
@@ -1352,7 +1356,8 @@
         "x509Exporter": {
           "$ref": "#/$defs/Spec.Distribution.Modules.Monitoring.X509Exporter"
         }
-      }
+      },
+      "required": ["type"]
     },
     "Spec.Distribution.Modules.Monitoring.Prometheus": {
       "type": "object",
