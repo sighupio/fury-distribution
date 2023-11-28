@@ -7,12 +7,17 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 
 resources:
+{{- if eq .spec.distribution.modules.policy.type "gatekeeper" }}
   - {{ print "../" .spec.distribution.common.relativeVendorPath "/modules/opa/katalog/gatekeeper/core" }}
   - {{ print "../" .spec.distribution.common.relativeVendorPath "/modules/opa/katalog/gatekeeper/gpm" }}
   - {{ print "../" .spec.distribution.common.relativeVendorPath "/modules/opa/katalog/gatekeeper/rules" }}
   - {{ print "../" .spec.distribution.common.relativeVendorPath "/modules/opa/katalog/gatekeeper/monitoring" }}
 {{- if ne .spec.distribution.modules.ingress.nginx.type "none" }}
   - resources/ingress-infra.yml
+{{- end }}
+{{- end }}
+{{- if eq .spec.distribution.modules.policy.type "kyverno" }}
+  - {{ print "../" .spec.distribution.common.relativeVendorPath "/modules/opa/katalog/kyverno" }}
 {{- end }}
 
 patchesStrategicMerge:
@@ -26,4 +31,8 @@ patchesJson6902:
       kind: Config
       name: config
     path: patches/gatekeeper-whitelist-namespace.yml
+{{ end }}
+
+{{ if .spec.distribution.modules.policy.kyverno.additionalExcludedNamespaces }}
+# TODO
 {{ end }}

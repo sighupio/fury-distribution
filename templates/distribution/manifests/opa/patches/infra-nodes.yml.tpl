@@ -3,7 +3,7 @@
 # license that can be found in the LICENSE file.
 
 {{- $gatekeeperArgs := dict "module" "policy" "package" "gatekeeper" "spec" .spec -}}
-
+{{- if eq .spec.distribution.modules.policy.type "gatekeeper" }}
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -42,3 +42,7 @@ spec:
         {{ template "nodeSelector" $gatekeeperArgs }}
       tolerations:
         {{ template "tolerations" $gatekeeperArgs }}
+{{- end }}
+{{- if eq .spec.distribution.modules.policy.type "kyverno" }}
+# TODO
+{{- end }}
