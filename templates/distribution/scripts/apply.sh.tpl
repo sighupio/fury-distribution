@@ -22,6 +22,13 @@ kubectlcmd="$kubectlbin $dryrun $kubeconfig"
 
 $kustomizebin build --load_restrictor LoadRestrictionsNone . > out.yaml
 
+{{- if eq .spec.distribution.modules.monitoring.type "none" }}
+if ! $kubectlcmd get apiservice v1.monitoring.coreos.com; then
+  cat out.yaml | $yqbin 'select(.apiVersion != "monitoring.coreos.com/v1")' > out-filtered.yaml
+  cp out-filtered.yaml out.yaml
+fi
+{{- end }}
+
 if [ "$dryrun" != "" ]; then
   exit 0
 fi
@@ -29,7 +36,6 @@ fi
 {{- if eq .spec.distribution.modules.networking.type "calico" }}
 $kubectlcmd create namespace calico-system --dry-run=client -o yaml | $kubectlcmd apply -f - --server-side
 {{- end }}
-
 < out.yaml $yqbin 'select(.kind == "CustomResourceDefinition")' | $kubectlcmd apply -f - --server-side
 < out.yaml $yqbin 'select(.kind == "CustomResourceDefinition")' | $kubectlcmd wait --for condition=established --timeout=60s -f -
 < out.yaml \

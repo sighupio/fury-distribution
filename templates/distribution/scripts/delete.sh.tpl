@@ -22,6 +22,13 @@ kubectlcmd="$kubectlbin $dryrun $kubeconfig"
 
 $kustomizebin build --load_restrictor LoadRestrictionsNone . > out.yaml
 
+{{- if eq .spec.distribution.modules.monitoring.type "none" }}
+if ! $kubectlcmd get apiservice v1.monitoring.coreos.com; then
+  cat out.yaml | $yqbin 'select(.apiVersion != "monitoring.coreos.com/v1")' > out-filtered.yaml
+  cp out-filtered.yaml out.yaml
+fi
+{{- end }}
+
 # list generated with: kustomize build . | yq 'select(.kind == "CustomResourceDefinition") | .spec.group' | sort | uniq
 {{- if eq .spec.distribution.common.provider.type "eks" }}
 < out.yaml $yqbin 'select(.kind == "Ingress")' | $kubectlcmd delete --ignore-not-found --wait --timeout=180s -f -
