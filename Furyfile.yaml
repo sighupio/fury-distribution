@@ -12,6 +12,7 @@ versions:
   monitoring: v3.0.0
   opa: v1.11.0
   networking: v1.15.0
+  tracing: v1.0.0
 
 bases:
   - name: auth
@@ -22,6 +23,7 @@ bases:
   - name: monitoring
   - name: networking
   - name: opa
+  - name: tracing
 
 modules:
   - name: aws

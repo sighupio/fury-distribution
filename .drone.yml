@@ -266,8 +266,9 @@ steps:
       files:
         - fury-distribution-${DRONE_TAG}.yml
         - kind-config-${DRONE_TAG}.yml
-        - Furyfile.yml
+        - Furyfile.yaml
         - kustomization.yaml
+        - kfd.yaml
       prerelease: true
       overwrite: true
       title: "Prerelease ${DRONE_TAG}"
@@ -295,7 +296,7 @@ steps:
       files:
         - fury-distribution-${DRONE_TAG}.yml
         - kind-config-${DRONE_TAG}.yml
-        - Furyfile.yml
+        - Furyfile.yaml
         - kustomization.yaml
         - kfd.yaml
       prerelease: false
