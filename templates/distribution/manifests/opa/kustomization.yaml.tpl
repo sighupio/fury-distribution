@@ -22,6 +22,9 @@ resources:
 
 patchesStrategicMerge:
   - patches/infra-nodes.yml
+{{- if .spec.distribution.modules.policy.kyverno.additionalExcludedNamespaces }}
+  - patches/kyverno-whitelist-namespace.yml
+{{- end }}
 
 {{ if .spec.distribution.modules.policy.gatekeeper.additionalExcludedNamespaces }}
 patchesJson6902:
@@ -33,6 +36,4 @@ patchesJson6902:
     path: patches/gatekeeper-whitelist-namespace.yml
 {{ end }}
 
-{{ if .spec.distribution.modules.policy.kyverno.additionalExcludedNamespaces }}
-# TODO
-{{ end }}
+
