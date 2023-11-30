@@ -11,6 +11,7 @@ resources:
   - {{ print "../" .spec.distribution.common.relativeVendorPath "/modules/dr/katalog/velero/velero-aws" }}
 {{- else if eq .spec.distribution.common.provider.type "none" }}
   - {{ print "../" .spec.distribution.common.relativeVendorPath "/modules/dr/katalog/velero/velero-on-prem" }}
+  - {{ print "../" .spec.distribution.common.relativeVendorPath "/modules/dr/katalog/velero/velero-node-agent" }}
 {{- end }}
   - {{ print "../" .spec.distribution.common.relativeVendorPath "/modules/dr/katalog/velero/velero-schedules" }}
 {{- if eq .spec.distribution.common.provider.type "eks" }}
