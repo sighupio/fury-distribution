@@ -1,0 +1,50 @@
+# Copyright (c) 2017-present SIGHUP s.r.l All rights reserved.
+# Use of this source code is governed by a BSD-style
+# license that can be found in the LICENSE file.
+
+version: v1.26.3
+modules:
+  auth: v0.0.4
+  aws: v4.0.0
+  dr: v2.1.0
+  ingress: v2.1.0
+  logging: v3.2.0
+  monitoring: v2.2.0
+  opa: v1.9.0
+  networking: v1.14.0
+kubernetes:
+  eks:
+    version: 1.26
+    installer: v2.0.2
+  onpremises:
+    version: 1.26.7
+    installer: v1.26.7-rev.1
+furyctlSchemas:
+  eks:
+    - apiVersion: kfd.sighup.io/v1alpha2
+      kind: EKSCluster
+  kfddistribution:
+    - apiVersion: kfd.sighup.io/v1alpha2
+      kind: KFDDistribution
+  onpremises:
+    - apiVersion: kfd.sighup.io/v1alpha2
+      kind: OnPremises
+tools:
+  common:
+    furyagent:
+      version: 0.3.0
+    kubectl:
+      version: 1.26.7
+    kustomize:
+      version: 3.10.0
+    terraform:
+      version: 1.4.6
+    yq:
+      version: 4.34.1
+    helm:
+      version: 3.12.3
+    helmfile:
+      version: 0.156.0
+  eks:
+    awscli:
+      version: ">= 2.8.12"
