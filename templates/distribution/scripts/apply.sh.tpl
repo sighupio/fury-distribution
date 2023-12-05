@@ -56,9 +56,9 @@ $kubectlcmd rollout status daemonset nginx-ingress-controller -n ingress-nginx -
 {{- end }}
 
 {{- if eq .spec.distribution.modules.policy.type "gatekeeper" }}
-$kubectlbin rollout status deployment gatekeeper-audit -n gatekeeper-system --timeout=180s
-$kubectlbin rollout status deployment gatekeeper-controller-manager -n gatekeeper-system --timeout=180s
-$kubectlbin rollout status deployment gatekeeper-policy-manager -n gatekeeper-system --timeout=180s
+$kubectlcmd rollout status deployment gatekeeper-audit -n gatekeeper-system --timeout=180s
+$kubectlcmd rollout status deployment gatekeeper-controller-manager -n gatekeeper-system --timeout=180s
+$kubectlcmd rollout status deployment gatekeeper-policy-manager -n gatekeeper-system --timeout=180s
 {{- end }}
 
 < out.yaml $kubectlcmd apply -f - --server-side
