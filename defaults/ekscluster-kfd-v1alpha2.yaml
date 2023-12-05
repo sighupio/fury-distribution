@@ -101,6 +101,17 @@ data:
       minio:
         # define the size for each minio disk, total disks to be created: 6
         storageSize: 20Gi
+        rootUser:
+          username: minio
+          password: minio123
+      loki:
+        backend: minio
+        externalEndpoint:
+          endpoint: s3.eu-west-1.amazonaws.com
+          insecure: false
+          secretAccessKey: example
+          accessKeyId: example
+          bucketName: lokibucket
       # override ingresses parameters
     # monitoring module configuration
     monitoring:
@@ -129,6 +140,22 @@ data:
       alertmanager:
         deadManSwitchWebhookUrl: ""
         slackWebhookUrl: ""
+      mimir: 
+        retentionTime: 30d
+        # backend can be minio, externalEndpoint
+        backend: minio
+        externalEndpoint:
+          endpoint: s3.eu-west-1.amazonaws.com
+          insecure: false
+          secretAccessKey: example
+          accessKeyId: example
+          bucketName: mimirbucket
+      minio:
+        # define the size for each minio disk, total disks to be created: 6
+        storageSize: 20Gi
+        rootUser:
+          username: minio
+          password: minio123
     # tracing module configuration
     tracing:
       overrides:
@@ -140,9 +167,21 @@ data:
             host: ""
             ingressClass: ""
       type: tempo
+      tempo:
+        retentionTime: 720h
+        backend: minio
+        externalEndpoint:
+          endpoint: s3.eu-west-1.amazonaws.com
+          insecure: false
+          secretAccessKey: example
+          accessKeyId: example
+          bucketName: tempobucket
       minio:
         # define the size for each minio disk, total disks to be created: 6
         storageSize: 20Gi
+        rootUser:
+          username: minio
+          password: minio123
     # networking module configuration
     networking:
       type: none
