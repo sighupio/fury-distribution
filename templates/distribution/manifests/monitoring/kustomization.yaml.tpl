@@ -46,11 +46,18 @@ patchesStrategicMerge:
 {{- end }}
 
 
-{{- if eq .spec.distribution.modules.monitoring.mimir.backend "externalEndpoint" }}
+{{- if eq .spec.distribution.modules.monitoring.type "mimir" }}
 configMapGenerator:
   - name: mimir-distributed-config
     namespace: monitoring
     behavior: replace
     files:
       - patches/mimir.yaml
+
+secretGenerator:
+  - name: minio-monitoring
+    namespace: monitoring
+    behavior: replace
+    envs:
+      - patches/minio.root.env
 {{- end }}

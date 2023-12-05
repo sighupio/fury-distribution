@@ -80,7 +80,7 @@ server:
 storage_config:
   aws:
 {{- if eq .spec.distribution.modules.logging.loki.backend "minio" }}
-    s3: http://minio:minio123@minio-logging.logging.svc.cluster.local:9000/loki
+    s3: http://{{ .spec.distribution.modules.logging.minio.rootUser.username }}:{{ .spec.distribution.modules.logging.minio.rootUser.password }}@minio-logging.logging.svc.cluster.local:9000/loki
     s3forcepathstyle: true
 {{- end }}
 {{- if eq .spec.distribution.modules.logging.loki.backend "externalEndpoint" }}

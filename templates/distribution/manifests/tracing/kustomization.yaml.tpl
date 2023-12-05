@@ -21,11 +21,16 @@ patchesStrategicMerge:
   - patches/minio.yml
 {{- end }}
 
-{{- if eq .spec.distribution.modules.tracing.tempo.backend "externalEndpoint" }}
 configMapGenerator:
   - name: tempo-distributed-config
     namespace: tracing
     behavior: merge
     files:
       - patches/tempo.yaml
-{{- end }}
+
+secretGenerator:
+  - name: minio-tracing
+    namespace: tracing
+    behavior: replace
+    envs:
+      - patches/minio.root.env

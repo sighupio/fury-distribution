@@ -30,10 +30,10 @@ common:
     backend: s3
 {{- if eq .spec.distribution.modules.monitoring.mimir.backend "minio" }}
     s3:
-      access_key_id: minio
+      access_key_id: {{ .spec.distribution.modules.monitoring.minio.rootUser.username }}
       endpoint: minio-monitoring:9000
       insecure: true
-      secret_access_key: minio123
+      secret_access_key: {{ .spec.distribution.modules.monitoring.minio.rootUser.password }}
 {{- end }}
 {{- if eq .spec.distribution.modules.monitoring.mimir.backend "externalEndpoint" }}
     s3:

@@ -66,11 +66,14 @@ patchesStrategicMerge:
 {{- end }}
 
 
-{{- if eq .spec.distribution.modules.logging.loki.backend "externalEndpoint" }}
 secretGenerator:
   - name: loki-distributed
     namespace: logging
     behavior: merge
     files:
       - patches/config.yaml
-{{- end }}
+  - name: minio-logging
+    namespace: logging
+    behavior: replace
+    envs:
+      - patches/minio.root.env

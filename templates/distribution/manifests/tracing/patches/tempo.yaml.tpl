@@ -116,11 +116,11 @@ storage:
             timeout: 500ms
 {{- if eq .spec.distribution.modules.tracing.tempo.backend "minio" }}
         s3:
-            access_key: minio
+            access_key: {{ .spec.distribution.modules.tracing.minio.rootUser.username }}
             bucket: tempo
             endpoint: minio-tracing:9000
             insecure: true
-            secret_key: minio123
+            secret_key: {{ .spec.distribution.modules.tracing.minio.rootUser.password }}
 {{- end }}
 {{- if eq .spec.distribution.modules.tracing.tempo.backend "externalEndpoint" }}
         s3:
