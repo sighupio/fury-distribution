@@ -16,7 +16,15 @@ resources:
   - {{ print "../" .spec.distribution.common.relativeVendorPath "/modules/monitoring/katalog/node-exporter" }}
   - {{ print "../" .spec.distribution.common.relativeVendorPath "/modules/monitoring/katalog/prometheus-adapter" }}
 {{- if .checks.storageClassAvailable }}
+  {{- if eq .spec.distribution.modules.monitoring.type "prometheus" }}
   - {{ print "../" .spec.distribution.common.relativeVendorPath "/modules/monitoring/katalog/prometheus-operated" }}
+  {{- end }}
+  {{- if eq .spec.distribution.modules.monitoring.type "mimir" }}
+  - {{ print "../" .spec.distribution.common.relativeVendorPath "/modules/monitoring/katalog/mimir" }}
+    {{- if eq .spec.distribution.modules.monitoring.mimir.backend "minio" }}
+  - {{ print "../" .spec.distribution.common.relativeVendorPath "/modules/monitoring/katalog/minio-ha" }}  
+    {{- end }}
+  {{- end }}
 {{- end }}
   - {{ print "../" .spec.distribution.common.relativeVendorPath "/modules/monitoring/katalog/prometheus-operator" }}
   - {{ print "../" .spec.distribution.common.relativeVendorPath "/modules/monitoring/katalog/x509-exporter" }}
