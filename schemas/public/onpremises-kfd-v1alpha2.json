@@ -871,6 +871,18 @@
         "storageSize": {
           "type": "string"
         },
+        "rootUser" : {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "username": {
+              "type": "string"
+            },
+            "password": {
+              "type": "string"
+            }
+          }
+        },
         "overrides": {
           "$ref": "#/$defs/Types.FuryModuleComponentOverrides"
         }
@@ -880,6 +892,31 @@
       "type": "object",
       "additionalProperties": false,
       "properties": {
+        "backend": {
+          "type": "string",
+          "enum": ["minio", "externalEndpoint"]
+        },
+        "externalEndpoint" : {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "endpoint": {
+              "type": "string"
+            },
+            "insecure": {
+              "type": "boolean"
+            },
+            "secretAccessKey": {
+              "type": "string"
+            },
+            "accessKeyId": {
+              "type": "string"
+            },
+            "bucketName": {
+              "type": "string"
+            }
+          }
+        },
         "resources": {
           "$ref": "#/$defs/Types.KubeResources"
         }
@@ -900,7 +937,7 @@
       "properties": {
         "type": {
           "type": "string",
-          "enum": ["none", "prometheus"]
+          "enum": ["none", "prometheus", "mimir"]
         },
         "overrides": {
           "$ref": "#/$defs/Types.FuryModuleOverrides"
@@ -922,6 +959,12 @@
         },
         "x509Exporter": {
           "$ref": "#/$defs/Spec.Distribution.Modules.Monitoring.X509Exporter"
+        },
+        "mimir": {
+          "$ref": "#/$defs/Spec.Distribution.Modules.Monitoring.Mimir"
+        },
+        "minio": {
+          "$ref": "#/$defs/Spec.Distribution.Modules.Monitoring.Minio"
         }
       },
       "required": ["type"]
@@ -992,6 +1035,67 @@
         }
       }
     },
+    "Spec.Distribution.Modules.Monitoring.Mimir": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "retentionTime": {
+          "type": "string"
+        },
+        "backend": {
+          "type": "string",
+          "enum": ["minio", "externalEndpoint"]
+        },
+        "externalEndpoint" : {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "endpoint": {
+              "type": "string"
+            },
+            "insecure": {
+              "type": "boolean"
+            },
+            "secretAccessKey": {
+              "type": "string"
+            },
+            "accessKeyId": {
+              "type": "string"
+            },
+            "bucketName": {
+              "type": "string"
+            }
+          }
+        },
+        "overrides": {
+          "$ref": "#/$defs/Types.FuryModuleComponentOverrides"
+        }
+      }
+    },
+    "Spec.Distribution.Modules.Monitoring.Minio": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "storageSize": {
+          "type": "string"
+        },
+        "rootUser" : {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "username": {
+              "type": "string"
+            },
+            "password": {
+              "type": "string"
+            }
+          }
+        },
+        "overrides": {
+          "$ref": "#/$defs/Types.FuryModuleComponentOverrides"
+        }
+      }
+    },
     "Spec.Distribution.Modules.Tracing": {
       "type": "object",
       "additionalProperties": false,
@@ -1016,6 +1120,34 @@
       "type": "object",
       "additionalProperties": false,
       "properties": {
+        "retentionTime": {
+          "type": "string"
+        },
+        "backend": {
+          "type": "string",
+          "enum": ["minio", "externalEndpoint"]
+        },
+        "externalEndpoint" : {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "endpoint": {
+              "type": "string"
+            },
+            "insecure": {
+              "type": "boolean"
+            },
+            "secretAccessKey": {
+              "type": "string"
+            },
+            "accessKeyId": {
+              "type": "string"
+            },
+            "bucketName": {
+              "type": "string"
+            }
+          }
+        },
         "overrides": {
           "$ref": "#/$defs/Types.FuryModuleComponentOverrides"
         }
@@ -1027,6 +1159,18 @@
       "properties": {
         "storageSize": {
           "type": "string"
+        },
+        "rootUser" : {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "username": {
+              "type": "string"
+            },
+            "password": {
+              "type": "string"
+            }
+          }
         },
         "overrides": {
           "$ref": "#/$defs/Types.FuryModuleComponentOverrides"
