@@ -40,4 +40,17 @@ patchesStrategicMerge:
   - patches/infra-nodes.yml
 {{- if .checks.storageClassAvailable }}
   - patches/prometheus-operated.yml
+  {{- if and (eq .spec.distribution.modules.monitoring.type "mimir") (eq .spec.distribution.modules.monitoring.mimir.backend "minio") }}
+  - patches/minio.yml
+  {{- end }}
+{{- end }}
+
+
+{{- if eq .spec.distribution.modules.monitoring.mimir.backend "externalEndpoint" }}
+configMapGenerator:
+  - name: mimir-distributed-config
+    namespace: monitoring
+    behavior: replace
+    files:
+      - patches/mimir.yaml
 {{- end }}
