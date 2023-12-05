@@ -591,6 +591,31 @@
       "type": "object",
       "additionalProperties": false,
       "properties": {
+        "backend": {
+          "type": "string",
+          "enum": ["minio", "externalEndpoint"]
+        },
+        "externalEndpoint" : {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "endpoint": {
+              "type": "string"
+            },
+            "insecure": {
+              "type": "boolean"
+            },
+            "secretAccessKey": {
+              "type": "string"
+            },
+            "accessKeyId": {
+              "type": "string"
+            },
+            "bucketName": {
+              "type": "string"
+            }
+          }
+        },
         "resources": {
           "$ref": "#/$defs/Types.KubeResources"
         }
@@ -794,6 +819,34 @@
       "type": "object",
       "additionalProperties": false,
       "properties": {
+        "retentionTime": {
+          "type": "string"
+        },
+        "backend": {
+          "type": "string",
+          "enum": ["minio", "externalEndpoint"]
+        },
+        "externalEndpoint" : {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "endpoint": {
+              "type": "string"
+            },
+            "insecure": {
+              "type": "boolean"
+            },
+            "secretAccessKey": {
+              "type": "string"
+            },
+            "accessKeyId": {
+              "type": "string"
+            },
+            "bucketName": {
+              "type": "string"
+            }
+          }
+        },
         "overrides": {
           "$ref": "#/$defs/Types.FuryModuleComponentOverrides"
         }
