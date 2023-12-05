@@ -99,6 +99,7 @@ spec:
         {{ template "tolerations" $tempoArgs }}
 
 {{- end }}
+{{- if eq .spec.distribution.modules.tracing.tempo.backend "minio" }}
 ---
 apiVersion: apps/v1
 kind: StatefulSet
@@ -125,3 +126,4 @@ spec:
         {{ template "nodeSelector" $minioArgs }}
       tolerations:
         {{ template "tolerations" $minioArgs }}
+{{- end }}

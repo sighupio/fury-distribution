@@ -8,12 +8,24 @@ kind: Kustomization
 
 resources:
   - {{ print "../" .spec.distribution.common.relativeVendorPath "/modules/tracing/katalog/tempo-distributed" }}
+{{- if eq .spec.distribution.modules.tracing.tempo.backend "minio" }}
   - {{ print "../" .spec.distribution.common.relativeVendorPath "/modules/tracing/katalog/minio-ha" }}
+{{- end }}
 {{- if ne .spec.distribution.modules.ingress.nginx.type "none" }}
   - resources/ingress-infra.yml
 {{- end }}
 
 patchesStrategicMerge:
   - patches/infra-nodes.yml
+{{- if eq .spec.distribution.modules.tracing.tempo.backend "minio" }}
   - patches/minio.yml
+{{- end }}
 
+{{- if eq .spec.distribution.modules.tracing.tempo.backend "externalEndpoint" }}
+configMapGenerator:
+  - name: tempo-distributed-config
+    namespace: tracing
+    behavior: merge
+    files:
+      - patches/tempo.yaml
+{{- end }}
