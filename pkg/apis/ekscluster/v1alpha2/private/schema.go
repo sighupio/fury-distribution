@@ -1539,7 +1539,7 @@ type SpecDistributionModulesIngress struct {
 	BaseDomain string `json:"baseDomain" yaml:"baseDomain" mapstructure:"baseDomain"`
 
 	// CertManager corresponds to the JSON schema field "certManager".
-	CertManager SpecDistributionModulesIngressCertManager `json:"certManager" yaml:"certManager" mapstructure:"certManager"`
+	CertManager *SpecDistributionModulesIngressCertManager `json:"certManager,omitempty" yaml:"certManager,omitempty" mapstructure:"certManager,omitempty"`
 
 	// Dns corresponds to the JSON schema field "dns".
 	Dns SpecDistributionModulesIngressDNS `json:"dns" yaml:"dns" mapstructure:"dns"`
@@ -1565,9 +1565,6 @@ func (j *SpecDistributionModulesIngress) UnmarshalJSON(b []byte) error {
 	}
 	if v, ok := raw["baseDomain"]; !ok || v == nil {
 		return fmt.Errorf("field baseDomain in SpecDistributionModulesIngress: required")
-	}
-	if v, ok := raw["certManager"]; !ok || v == nil {
-		return fmt.Errorf("field certManager in SpecDistributionModulesIngress: required")
 	}
 	if v, ok := raw["dns"]; !ok || v == nil {
 		return fmt.Errorf("field dns in SpecDistributionModulesIngress: required")
