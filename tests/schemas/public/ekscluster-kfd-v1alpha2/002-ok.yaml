@@ -58,6 +58,8 @@ spec:
             name: furyctl-demo.sighup.io
         nginx:
           type: single
+          tls:
+            provider: none
       logging:
         type: opensearch
         opensearch:

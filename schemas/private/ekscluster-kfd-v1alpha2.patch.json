@@ -56,7 +56,6 @@
       ]
     }
   },
-
   {
     "op": "add",
     "path": "/$defs/Spec.Distribution.Modules.Dr.Velero.Eks/properties/iamRoleArn",
@@ -69,7 +68,6 @@
     "path": "/$defs/Spec.Distribution.Modules.Dr.Velero.Eks/required/0",
     "value": "iamRoleArn"
   },
-
   {
     "op": "add",
     "path": "/$defs/Spec.Distribution.Modules.Ingress.CertManager.ClusterIssuer/properties/route53",
@@ -114,7 +112,6 @@
       "enum": ["none"]
     }
   },
-
   {
     "op": "add",
     "path": "/$defs/Spec.Distribution.Modules.Aws.ClusterAutoscaler",
