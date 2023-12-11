@@ -804,6 +804,11 @@
           }
         }
       },
+      "then": {
+        "required": [
+          "certManager"
+        ]
+      },
       "properties": {
         "baseDomain": {
           "type": "string"
@@ -828,17 +833,11 @@
         }
       },
       "required": [
-        "certManager",
-        "externalDns",
         "baseDomain",
+        "externalDns",
         "dns",
         "nginx"
       ],
-      "then": {
-        "required": [
-          "certManager"
-        ]
-      },
       "type": "object"
     },
     "Spec.Distribution.Modules.Ingress.CertManager": {
