@@ -177,6 +177,10 @@ cert-manager.io/cluster-issuer: {{ .spec.distribution.modules.ingress.certManage
   {{- template "ingressHost" (dict "module" "tracing" "package" "minio" "prefix" "minio-tracing." "spec" .) -}}
 {{ end }}
 
+{{ define "minioMonitoringUrl" }}
+  {{- template "ingressHost" (dict "module" "monitoring" "package" "minio" "prefix" "minio-monitoring." "spec" .) -}}
+{{ end }}
+
 {{ define "opensearchDashboardsUrl" }}
   {{- template "ingressHost" (dict "module" "logging" "package" "opensearchDashboards" "prefix" "opensearch-dashboards." "spec" .) -}}
 {{ end }}

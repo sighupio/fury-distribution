@@ -53,7 +53,13 @@ routes:
           and:
             - authenticated_user: true
   - from: https://{{ template "minioTracingUrl" .spec }}
-    to: http://minio-tracing-console.logging.svc.cluster.local:9001
+    to: http://minio-tracing-console.tracing.svc.cluster.local:9001
+    policy:
+      - allow:
+          and:
+            - authenticated_user: true
+  - from: https://{{ template "minioMonitoringUrl" .spec }}
+    to: http://minio-monitoring-console.monitoring.svc.cluster.local:9001
     policy:
       - allow:
           and:

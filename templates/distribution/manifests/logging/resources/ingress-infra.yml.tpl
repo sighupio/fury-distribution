@@ -100,10 +100,12 @@ metadata:
     forecastle.stakater.com/icon: "https://min.io/resources/img/logo/MINIO_Bird.png"
     {{ if not .spec.distribution.modules.logging.overrides.ingresses.minio.disableAuth }}{{ template "ingressAuth" . }}{{ end }}
     {{ template "certManagerClusterIssuer" . }}
-  name: minio
+  
   {{ if and (not .spec.distribution.modules.logging.overrides.ingresses.minio.disableAuth) (eq .spec.distribution.modules.auth.provider.type "sso") }}
+  name: minio-logging
   namespace: pomerium
   {{ else }}
+  name: minio
   namespace: logging
   {{ end }}
 spec:
@@ -126,4 +128,4 @@ spec:
                 port:
                   name: http
             {{ end }}
-{{- template "ingressTls" (dict "module" "logging" "package" "minio" "prefix" "minio." "spec" .spec) }}
+{{- template "ingressTls" (dict "module" "logging" "package" "minio" "prefix" "minio-logging." "spec" .spec) }}
