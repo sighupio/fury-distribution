@@ -125,6 +125,8 @@ spec:
                   name: web
             {{ end }}
 {{- template "ingressTls" (dict "module" "monitoring" "package" "prometheus" "prefix" "prometheus." "spec" .spec) }}
+{{- if eq .spec.distribution.modules.monitoring.type "mimir" }}
+{{- if eq .spec.distribution.modules.monitoring.mimir.backend "minio" }}
 ---
 apiVersion: networking.k8s.io/v1
 kind: Ingress
@@ -167,3 +169,5 @@ spec:
                   name: http
             {{ end }}
 {{- template "ingressTls" (dict "module" "monitoring" "package" "minio" "prefix" "minio-monitoring." "spec" .spec) }}
+{{- end }}
+{{- end }}

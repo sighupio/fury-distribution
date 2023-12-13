@@ -54,10 +54,13 @@ configMapGenerator:
     files:
       - patches/mimir.yaml
 
+  {{- if eq .spec.distribution.modules.monitoring.mimir.backend "minio" }}
+
 secretGenerator:
   - name: minio-monitoring
     namespace: monitoring
     behavior: replace
     envs:
       - patches/minio.root.env
+  {{- end }}
 {{- end }}
