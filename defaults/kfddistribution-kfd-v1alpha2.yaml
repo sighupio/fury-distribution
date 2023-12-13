@@ -126,6 +126,10 @@ data:
             disableAuth: false
             host: ""
             ingressClass: ""
+          minio:
+            disableAuth: false
+            host: ""
+            ingressClass: ""
       prometheus:
         retentionTime: 30d
         retentionSize: 120GB
