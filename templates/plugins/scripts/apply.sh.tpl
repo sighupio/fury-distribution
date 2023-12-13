@@ -20,6 +20,10 @@ fi
 
 kubectlcmd="$kubectlbin $dryrun $kubeconfig"
 
+if [ "$dryrun" != "" ]; then
+  exit 0
+fi
+
 {{ if (index .spec "plugins") -}}
 {{ if (index .spec.plugins "kustomize") -}}
 {{- if (index .spec.plugins "kustomize") -}}
@@ -28,16 +32,16 @@ kubectlcmd="$kubectlbin $dryrun $kubeconfig"
 
 $kustomizebin build --load_restrictor LoadRestrictionsNone {{ .folder }} > out.yaml
 
-if [ "$dryrun" != "" ]; then
-  exit 0
+output=$(cat out.yaml | $yqbin 'select(.kind == "CustomResourceDefinition")')
+
+if [ -n "$output" ]; then
+  < out.yaml $yqbin 'select(.kind == "CustomResourceDefinition")' | $kubectlcmd apply -f - --server-side --force-conflicts
+  < out.yaml $yqbin 'select(.kind == "CustomResourceDefinition")' | $kubectlcmd wait --for condition=established --timeout=60s -f -
+  < out.yaml $kubectlcmd apply -f - --server-side --force-conflicts
+else
+  < out.yaml $kubectlcmd apply -f - --server-side --force-conflicts
 fi
 
-if [[ $(< out.yaml $yqbin 'select(.kind == "CustomResourceDefinition")') ]]; then
-   < out.yaml $yqbin 'select(.kind == "CustomResourceDefinition")' | $kubectlcmd apply -f - --server-side --force-conflicts
-   < out.yaml $yqbin 'select(.kind == "CustomResourceDefinition")' | $kubectlcmd wait --for condition=established --timeout=60s -f -
-fi
-
-< out.yaml $kubectlcmd apply -f - --server-side --force-conflicts
 
 {{- end -}}
 
