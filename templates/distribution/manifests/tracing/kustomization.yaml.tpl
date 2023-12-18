@@ -28,9 +28,11 @@ configMapGenerator:
     files:
       - patches/tempo.yaml
 
+{{- if eq .spec.distribution.modules.tracing.tempo.backend "minio" }}
 secretGenerator:
   - name: minio-tracing
     namespace: tracing
     behavior: replace
     envs:
       - patches/minio.root.env
+{{- end }}
