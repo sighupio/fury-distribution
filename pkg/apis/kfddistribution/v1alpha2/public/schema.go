@@ -49,6 +49,9 @@ type SpecDistribution struct {
 	// CustomPatches corresponds to the JSON schema field "customPatches".
 	CustomPatches *SpecDistributionCustomPatches `json:"customPatches,omitempty" yaml:"customPatches,omitempty" mapstructure:"customPatches,omitempty"`
 
+	// Kubeconfig corresponds to the JSON schema field "kubeconfig".
+	Kubeconfig string `json:"kubeconfig" yaml:"kubeconfig" mapstructure:"kubeconfig"`
+
 	// Modules corresponds to the JSON schema field "modules".
 	Modules SpecDistributionModules `json:"modules" yaml:"modules" mapstructure:"modules"`
 }
@@ -1550,6 +1553,9 @@ func (j *SpecDistribution) UnmarshalJSON(b []byte) error {
 	var raw map[string]interface{}
 	if err := json.Unmarshal(b, &raw); err != nil {
 		return err
+	}
+	if v, ok := raw["kubeconfig"]; !ok || v == nil {
+		return fmt.Errorf("field kubeconfig in SpecDistribution: required")
 	}
 	if v, ok := raw["modules"]; !ok || v == nil {
 		return fmt.Errorf("field modules in SpecDistribution: required")

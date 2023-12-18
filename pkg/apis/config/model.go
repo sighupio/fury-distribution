@@ -6,9 +6,9 @@ package config
 
 type Furyctl struct {
 	APIVersion string      `yaml:"apiVersion" validate:"required,api-version"`
-	Kind       string      `yaml:"kind" validate:"required,cluster-kind"`
-	Metadata   FuryctlMeta `yaml:"metadata" validate:"required"`
-	Spec       FuryctlSpec `yaml:"spec" validate:"required"`
+	Kind       string      `yaml:"kind"       validate:"required,cluster-kind"`
+	Metadata   FuryctlMeta `yaml:"metadata"   validate:"required"`
+	Spec       FuryctlSpec `yaml:"spec"       validate:"required"`
 }
 
 type FuryctlSpec struct {
@@ -20,19 +20,19 @@ type FuryctlMeta struct {
 }
 
 type KFD struct {
-	Version        string        `yaml:"version" validate:"required,permissive-semver"`
-	Modules        KFDModules    `yaml:"modules" validate:"required"`
-	Kubernetes     KFDKubernetes `yaml:"kubernetes" validate:"required"`
+	Version        string        `yaml:"version"        validate:"required,permissive-semver"`
+	Modules        KFDModules    `yaml:"modules"        validate:"required"`
+	Kubernetes     KFDKubernetes `yaml:"kubernetes"     validate:"required"`
 	FuryctlSchemas KFDSchemas    `yaml:"furyctlSchemas" validate:"required"`
-	Tools          KFDTools      `yaml:"tools" validate:"required"`
+	Tools          KFDTools      `yaml:"tools"          validate:"required"`
 }
 
 type KFDModules struct {
-	Auth       string `yaml:"auth" validate:"required"`
+	Auth       string `yaml:"auth"       validate:"required"`
 	Aws        string `yaml:"aws"`
-	Dr         string `yaml:"dr" validate:"required"`
-	Ingress    string `yaml:"ingress" validate:"required"`
-	Logging    string `yaml:"logging" validate:"required"`
+	Dr         string `yaml:"dr"         validate:"required"`
+	Ingress    string `yaml:"ingress"    validate:"required"`
+	Logging    string `yaml:"logging"    validate:"required"`
 	Monitoring string `yaml:"monitoring" validate:"required"`
 	Networking string `yaml:"networking" validate:"required"`
 	Tracing    string `yaml:"tracing" validate:"required"`
@@ -40,12 +40,12 @@ type KFDModules struct {
 }
 
 type KFDProvider struct {
-	Version   string `yaml:"version" validate:"required"`
+	Version   string `yaml:"version"   validate:"required"`
 	Installer string `yaml:"installer" validate:"required"`
 }
 
 type KFDKubernetes struct {
-	Eks        KFDProvider `yaml:"eks" validate:"required"`
+	Eks        KFDProvider `yaml:"eks"        validate:"required"`
 	OnPremises KFDProvider `yaml:"onpremises" validate:"required"`
 }
 
@@ -55,22 +55,22 @@ type KFDSchemas struct {
 
 type KFDSchema struct {
 	APIVersion string `yaml:"apiVersion" validate:"required,api-version"`
-	Kind       string `yaml:"kind" validate:"required,cluster-kind"`
+	Kind       string `yaml:"kind"       validate:"required,cluster-kind"`
 }
 
 type KFDTools struct {
 	Common KFDToolsCommon `yaml:"common" validate:"required"`
-	Eks    KFDToolsEks    `yaml:"eks" validate:"required"`
+	Eks    KFDToolsEks    `yaml:"eks"    validate:"required"`
 }
 
 type KFDToolsCommon struct {
 	Furyagent KFDTool `yaml:"furyagent" validate:"required"`
-	Kubectl   KFDTool `yaml:"kubectl" validate:"required"`
+	Kubectl   KFDTool `yaml:"kubectl"   validate:"required"`
 	Kustomize KFDTool `yaml:"kustomize" validate:"required"`
 	Terraform KFDTool `yaml:"terraform" validate:"required"`
-	Yq        KFDTool `yaml:"yq" validate:"required"`
-	Helm      KFDTool `yaml:"helm" validate:"required"`
-	Helmfile  KFDTool `yaml:"helmfile" validate:"required"`
+	Yq        KFDTool `yaml:"yq"        validate:"required"`
+	Helm      KFDTool `yaml:"helm"      validate:"required"`
+	Helmfile  KFDTool `yaml:"helmfile"  validate:"required"`
 }
 
 type KFDToolsEks struct {
@@ -78,6 +78,6 @@ type KFDToolsEks struct {
 }
 
 type KFDTool struct {
-	Version   string            `yaml:"version" validate:"required,permissive-constraint"`
+	Version   string            `yaml:"version"   validate:"required,permissive-constraint"`
 	Checksums map[string]string `yaml:"checksums"`
 }

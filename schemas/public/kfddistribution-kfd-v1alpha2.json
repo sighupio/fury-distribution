@@ -220,6 +220,9 @@
       "type": "object",
       "additionalProperties": false,
       "properties": {
+        "kubeconfig": {
+          "type": "string"
+        },
         "common": {
           "$ref": "#/$defs/Spec.Distribution.Common"
         },
@@ -230,7 +233,7 @@
           "$ref": "#/$defs/Spec.Distribution.CustomPatches"
         }
       },
-      "required": ["modules"],
+      "required": ["modules", "kubeconfig"],
       "if": {
         "allOf": [
           {
@@ -354,7 +357,25 @@
           "$ref": "#/$defs/Spec.Distribution.Modules.Ingress.Forecastle"
         }
       },
-      "required": ["baseDomain", "nginx"]
+      "required": ["baseDomain", "nginx"],
+      "if": {
+        "properties": {
+          "nginx": {
+            "properties": {
+              "tls": {
+                "properties": {
+                  "provider": {
+                    "const": "certManager"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "then": {
+        "required": ["certManager"]
+      }
     },
     "Spec.Distribution.Modules.Ingress.Overrides": {
       "type": "object",
