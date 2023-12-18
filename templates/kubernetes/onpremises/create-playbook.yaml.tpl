@@ -5,6 +5,7 @@
 # containerd
 - name: Containerd install
   hosts: master,nodes
+  become: true
   roles:
     - containerd
   tags:
@@ -85,6 +86,7 @@
 
 - name: Kubernetes node preparation
   hosts: master,nodes
+  become: true
   roles:
     - kube-node-common
   tags:
@@ -92,6 +94,7 @@
 
 - name: etcd cluster preparation
   hosts: master
+  become: true
   vars:
     etcd_address: "{{ "{{ ansible_host }}" }}"
   roles:
@@ -101,6 +104,7 @@
 
 - name: Control plane configuration
   hosts: master
+  become: true
   serial: 1
   roles:
     - kube-control-plane
@@ -109,6 +113,7 @@
 
 - name: Kubernetes join nodes
   hosts: nodes
+  become: true
   vars:
     kubernetes_bootstrap_token: "{{ "{{ hostvars[groups.master[0]].kubernetes_bootstrap_token.stdout }}" }}"
     kubernetes_ca_hash: "{{ "{{ hostvars[groups.master[0]].kubernetes_ca_hash.stdout }}" }}"

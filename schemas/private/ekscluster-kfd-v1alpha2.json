@@ -789,6 +789,21 @@
     },
     "Spec.Distribution.Modules.Ingress": {
       "additionalProperties": false,
+      "if": {
+        "properties": {
+          "nginx": {
+            "properties": {
+              "tls": {
+                "properties": {
+                  "provider": {
+                    "const": "certManager"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
       "properties": {
         "baseDomain": {
           "type": "string"
@@ -819,6 +834,11 @@
         "dns",
         "nginx"
       ],
+      "then": {
+        "required": [
+          "certManager"
+        ]
+      },
       "type": "object"
     },
     "Spec.Distribution.Modules.Ingress.CertManager": {
@@ -1724,6 +1744,13 @@
       "type": "object",
       "additionalProperties": false,
       "properties": {
+        "type": {
+          "type": "string",
+          "enum": [
+            "eks-managed",
+            "self-managed"
+          ]
+        },
         "name": {
           "type": "string"
         },

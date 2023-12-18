@@ -5,7 +5,7 @@
 version: v1.26.3
 modules:
   auth: v0.0.4
-  aws: v4.0.0
+  aws: v4.0.1-rc.0
   dr: v2.1.0
   ingress: v2.1.0
   logging: v3.2.0
@@ -15,7 +15,7 @@ modules:
 kubernetes:
   eks:
     version: 1.26
-    installer: v2.0.2
+    installer: develop
   onpremises:
     version: 1.26.7
     installer: v1.26.7-rev.1
@@ -32,7 +32,7 @@ furyctlSchemas:
 tools:
   common:
     furyagent:
-      version: 0.3.0
+      version: v0.4.0-rc.1
     kubectl:
       version: 1.26.7
     kustomize:

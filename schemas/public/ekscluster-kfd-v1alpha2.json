@@ -609,6 +609,13 @@
       "type": "object",
       "additionalProperties": false,
       "properties": {
+        "type": {
+          "type": "string",
+          "enum": [
+            "eks-managed",
+            "self-managed"
+          ]
+        },
         "name": {
           "type": "string"
         },
@@ -1043,7 +1050,25 @@
           "$ref": "#/$defs/Spec.Distribution.Modules.Ingress.Forecastle"
         }
       },
-      "required": ["baseDomain", "dns", "nginx"]
+      "required": ["baseDomain", "dns", "nginx"],
+      "if": {
+        "properties": {
+          "nginx": {
+            "properties": {
+              "tls": {
+                "properties": {
+                  "provider": {
+                    "const": "certManager"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "then": {
+        "required": ["certManager"]
+      }
     },
     "Spec.Distribution.Modules.Ingress.Overrides": {
       "type": "object",
