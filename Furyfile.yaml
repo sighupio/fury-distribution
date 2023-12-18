@@ -4,14 +4,15 @@
 
 ---
 versions:
-  auth: v0.0.4
-  aws: v4.0.0
-  dr: v2.1.0
-  ingress: v2.1.0
-  logging: v3.2.0
-  monitoring: v2.2.0
-  opa: v1.9.0
-  networking: v1.14.0
+  auth: v0.1.0
+  aws: v4.1.0
+  dr: v2.2.0
+  ingress: v2.2.0
+  logging: v3.3.0
+  monitoring: v3.0.1-rc.2
+  opa: v1.11.0
+  networking: v1.15.0
+  tracing: v1.0.0
 
 bases:
   - name: auth
@@ -22,6 +23,7 @@ bases:
   - name: monitoring
   - name: networking
   - name: opa
+  - name: tracing
 
 modules:
   - name: aws

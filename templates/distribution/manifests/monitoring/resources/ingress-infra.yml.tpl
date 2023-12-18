@@ -125,3 +125,49 @@ spec:
                   name: web
             {{ end }}
 {{- template "ingressTls" (dict "module" "monitoring" "package" "prometheus" "prefix" "prometheus." "spec" .spec) }}
+{{- if eq .spec.distribution.modules.monitoring.type "mimir" }}
+{{- if eq .spec.distribution.modules.monitoring.mimir.backend "minio" }}
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  labels:
+    cluster.kfd.sighup.io/useful-link.enable: "true"
+  annotations:
+    cluster.kfd.sighup.io/useful-link.url: https://{{ template "minioMonitoringUrl" .spec }}
+    cluster.kfd.sighup.io/useful-link.name: "MinIO Monitoring"
+    forecastle.stakater.com/expose: "true"
+    forecastle.stakater.com/appName: "MinIO Monitoring"
+    forecastle.stakater.com/icon: "https://min.io/resources/img/logo/MINIO_Bird.png"
+    {{ if not .spec.distribution.modules.monitoring.overrides.ingresses.minio.disableAuth }}{{ template "ingressAuth" . }}{{ end }}
+    {{ template "certManagerClusterIssuer" . }}
+  {{ if and (not .spec.distribution.modules.monitoring.overrides.ingresses.minio.disableAuth) (eq .spec.distribution.modules.auth.provider.type "sso") }}
+  name: minio-monitoring
+  namespace: pomerium
+  {{ else }}
+  name: minio
+  namespace: monitoring
+  {{ end }}
+spec:
+  ingressClassName: {{ template "ingressClass" (dict "module" "monitoring" "package" "minio" "type" "internal" "spec" .spec) }}
+  rules:
+    - host: {{ template "minioMonitoringUrl" .spec }}
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+            {{ if and (not .spec.distribution.modules.monitoring.overrides.ingresses.minio.disableAuth) (eq .spec.distribution.modules.auth.provider.type "sso") }}
+              service:
+                name: pomerium
+                port:
+                  number: 80
+            {{ else }}
+              service:
+                name: minio-tracing-console
+                port:
+                  name: http
+            {{ end }}
+{{- template "ingressTls" (dict "module" "monitoring" "package" "minio" "prefix" "minio-monitoring." "spec" .spec) }}
+{{- end }}
+{{- end }}

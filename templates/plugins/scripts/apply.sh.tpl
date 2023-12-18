@@ -14,16 +14,15 @@ yqbin="{{ .paths.yq }}"
 
 $kustomizebin build --load_restrictor LoadRestrictionsNone {{ .folder }} > out.yaml
 
-if [ "$dryrun" != "" ]; then
-  exit 0
-fi
+output=$(cat out.yaml | $yqbin 'select(.kind == "CustomResourceDefinition")')
 
-if [[ $(< out.yaml $yqbin 'select(.kind == "CustomResourceDefinition")') ]]; then
-   < out.yaml $yqbin 'select(.kind == "CustomResourceDefinition")' | $kubectlbin apply -f - --server-side --force-conflicts
-   < out.yaml $yqbin 'select(.kind == "CustomResourceDefinition")' | $kubectlbin wait --for condition=established --timeout=60s -f -
+if [ -n "$output" ]; then
+  < out.yaml $yqbin 'select(.kind == "CustomResourceDefinition")' | $kubectlbin apply -f - --server-side --force-conflicts
+  < out.yaml $yqbin 'select(.kind == "CustomResourceDefinition")' | $kubectlbin wait --for condition=established --timeout=60s -f -
+  < out.yaml $kubectlbin apply -f - --server-side --force-conflicts
+else
+  < out.yaml $kubectlbin apply -f - --server-side --force-conflicts
 fi
-
-< out.yaml $kubectlbin apply -f - --server-side --force-conflicts
 
 {{- end -}}
 

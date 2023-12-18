@@ -8,6 +8,13 @@ yqbin="{{ .paths.yq }}"
 
 $kustomizebin build --load_restrictor LoadRestrictionsNone . > out.yaml
 
+{{- if eq .spec.distribution.modules.monitoring.type "none" }}
+if ! $kubectlcmd get apiservice v1.monitoring.coreos.com; then
+  cat out.yaml | $yqbin 'select(.apiVersion != "monitoring.coreos.com/v1")' > out-filtered.yaml
+  cp out-filtered.yaml out.yaml
+fi
+{{- end }}
+
 if [ "$dryrun" != "" ]; then
   exit 0
 fi
@@ -18,6 +25,7 @@ $kubectlbin create namespace calico-system --dry-run=client -o yaml | $kubectlbi
 
 < out.yaml $yqbin 'select(.kind == "CustomResourceDefinition")' | $kubectlbin apply -f - --server-side
 < out.yaml $yqbin 'select(.kind == "CustomResourceDefinition")' | $kubectlbin wait --for condition=established --timeout=60s -f -
+
 < out.yaml \
   $yqbin 'select(.kind != "Issuer" and .kind != "ClusterIssuer" and .kind != "Certificate" and .kind != "Ingress" and .kind != "K8sLivenessProbe" and .kind != "K8sReadinessProbe" and .kind != "K8sUniqueIngressHost" and .kind != "SecurityControls")' \
   | $yqbin 'select(.metadata.name != "gatekeeper-mutating-webhook-configuration" and .metadata.name != "gatekeeper-validating-webhook-configuration")' \

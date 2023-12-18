@@ -90,10 +90,10 @@ steps:
       - render
     commands:
       # we use --ignore-deprecations because we don't want the CI to fail when the API has not been removed yet.
-      - /pluto detect distribution.yml --ignore-deprecations --target-versions=k8s=v1.26.0
+      - /pluto detect distribution.yml --ignore-deprecations --target-versions=k8s=v1.27.0
 
 ---
-name: e2e-kubernetes-1.26
+name: e2e-kubernetes-1.27
 kind: pipeline
 type: docker
 
@@ -119,17 +119,17 @@ trigger:
 
 steps:
   - name: init
-    image: quay.io/sighup/e2e-testing-drone-plugin:v1.26.4
+    image: quay.io/sighup/e2e-testing-drone-plugin:v2.0.0
     pull: always
     volumes:
       - name: shared
         path: /shared
     depends_on: [clone]
     settings:
-      action: custom-cluster-126
-      pipeline_id: cluster-126
+      action: custom-cluster-127
+      pipeline_id: cluster-127
       local_kind_config_path: tests/config/kind-config-custom
-      cluster_version: "1.26.4"
+      cluster_version: "1.27.1"
       instance_path: /shared
       instance_size: 2-extra-large
       aws_default_region:
@@ -162,7 +162,7 @@ steps:
     commands:
       - ls -la /shared/
       - ls -la /shared/kube/
-      - export KUBECONFIG=/shared/kube/kubeconfig-126
+      - export KUBECONFIG=/shared/kube/kubeconfig-127
       - bats -t tests/install.sh
       - bats -t tests/networking.sh
       - bats -t tests/monitoring.sh
@@ -173,12 +173,12 @@ steps:
       - bats -t tests/schema.sh
 
   - name: destroy
-    image: quay.io/sighup/e2e-testing-drone-plugin:v1.26.4
+    image: quay.io/sighup/e2e-testing-drone-plugin:v2.0.0
     pull: always
     depends_on: [e2e]
     settings:
       action: destroy
-      pipeline_id: cluster-126
+      pipeline_id: cluster-127
       instance_size: 2-extra-large
       aws_default_region:
         from_secret: aws_region
@@ -213,7 +213,7 @@ kind: pipeline
 type: docker
 
 depends_on:
-  - e2e-kubernetes-1.26
+  - e2e-kubernetes-1.27
 
 platform:
   os: linux
@@ -269,8 +269,9 @@ steps:
       files:
         - fury-distribution-${DRONE_TAG}.yml
         - kind-config-${DRONE_TAG}.yml
-        - Furyfile.yml
+        - Furyfile.yaml
         - kustomization.yaml
+        - kfd.yaml
       prerelease: true
       overwrite: true
       title: "Prerelease ${DRONE_TAG}"
@@ -298,7 +299,7 @@ steps:
       files:
         - fury-distribution-${DRONE_TAG}.yml
         - kind-config-${DRONE_TAG}.yml
-        - Furyfile.yml
+        - Furyfile.yaml
         - kustomization.yaml
         - kfd.yaml
       prerelease: false

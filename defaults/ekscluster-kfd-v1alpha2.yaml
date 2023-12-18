@@ -101,9 +101,21 @@ data:
       minio:
         # define the size for each minio disk, total disks to be created: 6
         storageSize: 20Gi
+        rootUser:
+          username: minio
+          password: minio123
+      loki:
+        backend: minio
+        externalEndpoint:
+          endpoint: s3.eu-west-1.amazonaws.com
+          insecure: false
+          secretAccessKey: example
+          accessKeyId: example
+          bucketName: lokibucket
       # override ingresses parameters
     # monitoring module configuration
     monitoring:
+      type: prometheus
       overrides:
         nodeSelector: null
         tolerations: null
@@ -121,6 +133,10 @@ data:
             disableAuth: false
             host: ""
             ingressClass: ""
+          minio:
+            disableAuth: false
+            host: ""
+            ingressClass: ""
       prometheus:
         retentionTime: 30d
         retentionSize: 120GB
@@ -128,6 +144,48 @@ data:
       alertmanager:
         deadManSwitchWebhookUrl: ""
         slackWebhookUrl: ""
+      mimir: 
+        retentionTime: 30d
+        # backend can be minio, externalEndpoint
+        backend: minio
+        externalEndpoint:
+          endpoint: s3.eu-west-1.amazonaws.com
+          insecure: false
+          secretAccessKey: example
+          accessKeyId: example
+          bucketName: mimirbucket
+      minio:
+        # define the size for each minio disk, total disks to be created: 6
+        storageSize: 20Gi
+        rootUser:
+          username: minio
+          password: minio123
+    # tracing module configuration
+    tracing:
+      overrides:
+        nodeSelector: null
+        tolerations: null
+        ingresses:
+          minio:
+            disableAuth: false
+            host: ""
+            ingressClass: ""
+      type: tempo
+      tempo:
+        retentionTime: 720h
+        backend: minio
+        externalEndpoint:
+          endpoint: s3.eu-west-1.amazonaws.com
+          insecure: false
+          secretAccessKey: example
+          accessKeyId: example
+          bucketName: tempobucket
+      minio:
+        # define the size for each minio disk, total disks to be created: 6
+        storageSize: 20Gi
+        rootUser:
+          username: minio
+          password: minio123
     # networking module configuration
     networking:
       type: none
@@ -147,6 +205,9 @@ data:
             ingressClass: ""
       # the standard configuration for gatekeeper on the policy module
       gatekeeper:
+        # this configuration adds namespaces to the excluded list, actually whitelisting them
+        additionalExcludedNamespaces: []
+      kyverno:
         # this configuration adds namespaces to the excluded list, actually whitelisting them
         additionalExcludedNamespaces: []
     # dr module configuration
