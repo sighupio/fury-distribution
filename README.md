@@ -7,8 +7,8 @@
 <p align="center">Kubernetes Fury Distribution (KFD) is a certified battle-tested Kubernetes distribution based purely on upstream Kubernetes.</p>
 <!-- markdownlint-enable MD033 -->
 
-[![Build Status](http://ci.sighup.io/api/badges/sighupio/fury-distribution/status.svg?ref=refs/tags/v1.26.3)](http://ci.sighup.io/sighupio/fury-distribution)
-[![Release](https://img.shields.io/badge/release-v1.26.3-blue?label=FuryDistributionRelease)](https://github.com/sighupio/fury-distribution/releases/latest)
+[![Build Status](http://ci.sighup.io/api/badges/sighupio/fury-distribution/status.svg?ref=refs/tags/v1.26.4)](http://ci.sighup.io/sighupio/fury-distribution)
+[![Release](https://img.shields.io/badge/release-v1.26.4-blue?label=FuryDistributionRelease)](https://github.com/sighupio/fury-distribution/releases/latest)
 [![Slack](https://img.shields.io/badge/slack-@kubernetes/fury-yellow.svg?logo=slack)](https://kubernetes.slack.com/archives/C0154HYTAQH)
 [![License](https://img.shields.io/github/license/sighupio/fury-distribution)](https://github.com/sighupio/fury-distribution/blob/main/LICENSE)
 
@@ -95,7 +95,7 @@ Current supported versions of KFD are:
 
 |                                  KFD Version                                   | Kubernetes Version |
 | :----------------------------------------------------------------------------: | :----------------: |
-| [`1.26.3`](https://github.com/sighupio/fury-distribution/releases/tag/v1.26.3) |      `1.26.x`      |
+| [`1.26.4`](https://github.com/sighupio/fury-distribution/releases/tag/v1.26.4) |      `1.26.x`      |
 | [`1.25.9`](https://github.com/sighupio/fury-distribution/releases/tag/v1.25.9) |      `1.25.x`      |
 | [`1.24.1`](https://github.com/sighupio/fury-distribution/releases/tag/v1.24.1) |      `1.24.x`      |
 
