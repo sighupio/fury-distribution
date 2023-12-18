@@ -4,9 +4,17 @@
 
 ---
 
-kubernetes: []
-distribution:
-  - path: .spec.distribution.modules.ingress.nginx.type
+kubernetes: 
+  - path: .spec.kubernetes.dnsZone
+    immutable: true
+  - path: .spec.kubernetes.controlPlaneAddress
+    immutable: true
+  - path: .spec.kubernetes.podCidr
+    immutable: true
+  - path: .spec.kubernetes.svcCidr
+    immutable: true
+distribution: 
+  - path: .spec.distribution.modules.networking.type
     immutable: true
   - path: .spec.distribution.modules.logging.type
     immutable: false
@@ -17,4 +25,3 @@ distribution:
     reducers:
       - key: distributionModulesLoggingType
         lifecycle: pre-apply
-
