@@ -9,7 +9,7 @@ versions:
   dr: v2.2.0
   ingress: v2.2.0
   logging: v3.3.0
-  monitoring: v3.0.1-rc.2
+  monitoring: v3.0.1
   opa: v1.11.0
   networking: v1.15.0
   tracing: v1.0.0

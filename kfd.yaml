@@ -9,14 +9,14 @@ modules:
   dr: v2.2.0
   ingress: v2.2.0
   logging: v3.3.0
-  monitoring: v3.0.1-rc.2
+  monitoring: v3.0.1
   opa: v1.11.0
   networking: v1.15.0
   tracing: v1.0.0
 kubernetes:
   eks:
     version: 1.27
-    installer: develop
+    installer: v3.0.0
   onpremises:
     version: 1.27.6
     installer: v1.27.6
@@ -33,7 +33,7 @@ furyctlSchemas:
 tools:
   common:
     furyagent:
-      version: v0.4.0-rc.1
+      version: v0.4.0
     kubectl:
       version: 1.27.6
     kustomize:
