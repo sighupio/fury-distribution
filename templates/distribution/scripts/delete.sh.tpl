@@ -76,7 +76,7 @@ echo "Logging loki deployments deleted"
 $kubectlbin delete --ignore-not-found --wait --timeout=180s -n monitoring --all persistentvolumeclaims
 echo "Monitoring PVCs deleted"
 
-delete --ignore-not-found --wait --timeout=180s -n logging --all persistentvolumeclaims
+$kubectlbin delete --ignore-not-found --wait --timeout=180s -n logging --all persistentvolumeclaims
 echo "Logging PVCs deleted"
 
 $kubectlbin delete --ignore-not-found --wait --timeout=180s -n tracing --all persistentvolumeclaims
