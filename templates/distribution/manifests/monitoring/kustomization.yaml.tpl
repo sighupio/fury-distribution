@@ -45,8 +45,8 @@ patchesStrategicMerge:
   {{- end }}
 {{- end }}
 
-
-{{- if eq .spec.distribution.modules.monitoring.type "mimir" }}
+{{- if .checks.storageClassAvailable }}
+  {{- if eq .spec.distribution.modules.monitoring.type "mimir" }}
 configMapGenerator:
   - name: mimir-distributed-config
     namespace: monitoring
@@ -54,7 +54,7 @@ configMapGenerator:
     files:
       - patches/mimir.yaml
 
-  {{- if eq .spec.distribution.modules.monitoring.mimir.backend "minio" }}
+    {{- if eq .spec.distribution.modules.monitoring.mimir.backend "minio" }}
 
 secretGenerator:
   - name: minio-monitoring
@@ -62,5 +62,6 @@ secretGenerator:
     behavior: replace
     envs:
       - patches/minio.root.env
+    {{- end }}
   {{- end }}
 {{- end }}
