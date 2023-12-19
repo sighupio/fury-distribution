@@ -40,8 +40,8 @@ type KFDModules struct {
 }
 
 type KFDProvider struct {
-	Version   string `yaml:"version"   validate:"required"`
-	Installer string `yaml:"installer" validate:"required"`
+	Version   string `yaml:"version"`
+	Installer string `yaml:"installer"`
 }
 
 type KFDKubernetes struct {
@@ -78,6 +78,6 @@ type KFDToolsEks struct {
 }
 
 type KFDTool struct {
-	Version   string            `yaml:"version"   validate:"required,permissive-constraint"`
+	Version   string            `yaml:"version"`
 	Checksums map[string]string `yaml:"checksums"`
 }
