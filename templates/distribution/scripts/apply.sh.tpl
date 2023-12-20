@@ -9,7 +9,7 @@ yqbin="{{ .paths.yq }}"
 $kustomizebin build --load_restrictor LoadRestrictionsNone . > out.yaml
 
 {{- if eq .spec.distribution.modules.monitoring.type "none" }}
-if ! $kubectlcmd get apiservice v1.monitoring.coreos.com; then
+if ! $kubectlbin get apiservice v1.monitoring.coreos.com; then
   cat out.yaml | $yqbin 'select(.apiVersion != "monitoring.coreos.com/v1")' > out-filtered.yaml
   cp out-filtered.yaml out.yaml
 fi
