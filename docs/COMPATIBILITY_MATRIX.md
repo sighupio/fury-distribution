@@ -62,6 +62,7 @@ See [Furyctl](https://github.com/sighupio/furyctl) repository for more informati
 
 | Furyctl / Providers | EKSCluster         | KFDDistribution    | OnPremises         |
 | ------------------- | ------------------ | ------------------ | ------------------ |
+| 0.27.0              | :white_check_mark: | :white_check_mark: | :white_check_mark: |
 | 0.26.3              | :white_check_mark: | :white_check_mark: | :white_check_mark: |
 | 0.26.2              | :white_check_mark: | :white_check_mark: | :white_check_mark: |
 | 0.26.1              | :white_check_mark: | :white_check_mark: |                    |
