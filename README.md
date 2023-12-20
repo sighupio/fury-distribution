@@ -59,7 +59,7 @@ Core modules provide essential functionality to the distribution for production-
 | [Ingress][ingress-module]       | ![Version][ingress-version]    | Fast and reliable Ingress Controller and TLS certificate management                       |
 | [Logging][logging-module]       | ![Version][logging-version]    | A centralized logging solution based on the OpenSearch stack                              |
 | [Monitoring][monitoring-module] | ![Version][monitoring-version] | Monitoring and alerting functionality based on Prometheus, AlertManager and Grafana       |
-| [Monitoring][tracing-module]    | ![Version][tracing-version]    | Tracing functionality based on Tempo                                                      |
+| [Tracing][tracing-module]       | ![Version][tracing-version]    | Tracing functionality based on Tempo                                                      |
 | [Disaster Recovery][dr-module]  | ![Version][dr-version]         | Backup and disaster recovery solution using Velero                                        |
 | [OPA][opa-module]               | ![Version][opa-version]        | Policy and Governance for your cluster using OPA Gatekeeper and Gatekeeper Policy Manager |
 | [Auth][auth-module]             | ![Version][auth-version]       | Improved auth for your Kubernetes Cluster and its applications                            |
