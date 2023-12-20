@@ -59,6 +59,7 @@ Core modules provide essential functionality to the distribution for production-
 | [Ingress][ingress-module]       | ![Version][ingress-version]    | Fast and reliable Ingress Controller and TLS certificate management                       |
 | [Logging][logging-module]       | ![Version][logging-version]    | A centralized logging solution based on the OpenSearch stack                              |
 | [Monitoring][monitoring-module] | ![Version][monitoring-version] | Monitoring and alerting functionality based on Prometheus, AlertManager and Grafana       |
+| [Monitoring][tracing-module] | ![Version][tracing-version] | Tracing functionality based on Tempo |
 | [Disaster Recovery][dr-module]  | ![Version][dr-version]         | Backup and disaster recovery solution using Velero                                        |
 | [OPA][opa-module]               | ![Version][opa-version]        | Policy and Governance for your cluster using OPA Gatekeeper and Gatekeeper Policy Manager |
 | [Auth][auth-module]             | ![Version][auth-version]       | Improved auth for your Kubernetes Cluster and its applications                            |
@@ -95,8 +96,8 @@ Current supported versions of KFD are:
 
 |                                  KFD Version                                   | Kubernetes Version |
 | :----------------------------------------------------------------------------: | :----------------: |
-| [`1.26.3`](https://github.com/sighupio/fury-distribution/releases/tag/v1.26.3) |      `1.26.x`      |
-| [`1.25.8`](https://github.com/sighupio/fury-distribution/releases/tag/v1.25.8) |      `1.25.x`      |
+| [`1.26.4`](https://github.com/sighupio/fury-distribution/releases/tag/v1.26.4) |      `1.26.x`      |
+| [`1.25.9`](https://github.com/sighupio/fury-distribution/releases/tag/v1.25.9) |      `1.25.x`      |
 | [`1.24.1`](https://github.com/sighupio/fury-distribution/releases/tag/v1.24.1) |      `1.24.x`      |
 
 Check the [compatibility matrix][compatibility-matrix] for additional information about previous releases of the Distribution and the compatibility with `furyctl`.
@@ -130,17 +131,19 @@ KFD is open-source software and it's released under the following [LICENSE](LICE
 [ingress-module]: https://github.com/sighupio/fury-kubernetes-ingress
 [logging-module]: https://github.com/sighupio/fury-kubernetes-logging
 [monitoring-module]: https://github.com/sighupio/fury-kubernetes-monitoring
+[tracing-module]: https://github.com/sighupio/fury-kubernetes-tracing
 [dr-module]: https://github.com/sighupio/fury-kubernetes-dr
 [opa-module]: https://github.com/sighupio/fury-kubernetes-opa
 [auth-module]: https://github.com/sighupio/fury-kubernetes-auth
 
 [networking-version]: https://img.shields.io/badge/release-v1.14.0-blue
-[ingress-version]: https://img.shields.io/badge/release-v2.1.0-blue
-[logging-version]: https://img.shields.io/badge/release-v3.2.0-blue
-[monitoring-version]: https://img.shields.io/badge/release-v2.2.0-blue
-[dr-version]: https://img.shields.io/badge/release-v2.1.0-blue
-[opa-version]: https://img.shields.io/badge/release-v1.9.0-blue
-[auth-version]: https://img.shields.io/badge/release-v0.0.4-blue
+[ingress-version]: https://img.shields.io/badge/release-v2.2.0-blue
+[logging-version]: https://img.shields.io/badge/release-v3.3.0-blue
+[monitoring-version]: https://img.shields.io/badge/release-v3.0.1-blue
+[tracing-version]: https://img.shields.io/badge/release-v1.0.0-blue
+[dr-version]: https://img.shields.io/badge/release-v2.2.0-blue
+[opa-version]: https://img.shields.io/badge/release-v1.11.0-blue
+[auth-version]: https://img.shields.io/badge/release-v0.1.0-blue
 
 <!-- Addon Modules -->
 [kong-module]: https://github.com/sighupio/fury-kubernetes-kong

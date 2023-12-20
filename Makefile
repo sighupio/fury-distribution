@@ -18,9 +18,9 @@ license-check:
 	-ignore 'vendor/**' \
 	--check .
 
-.PHONY: format-go fmt fumpt imports gci
+.PHONY: format-go fmt fumpt imports gci formattag
 
-format-go: fmt fumpt imports gci
+format-go: fmt fumpt imports gci formattag
 
 fmt:
 	@find . -name "*.go" -type f -not -path '*/vendor/*' \
@@ -41,6 +41,11 @@ gci:
 	| xargs -I {} sh -c 'echo "formatting imports for {}.." && \
 	gci write --skip-generated  -s standard -s default -s "Prefix(github.com/sighupio)" {}'
 
+formattag:
+	@find . -name "*.go" -type f -not -path '*/vendor/*' \
+	| sed 's/^\.\///g' \
+	| xargs -I {} sh -c 'formattag -file {}'
+
 .PHONY: lint-go
 
 lint-go:
@@ -54,6 +59,8 @@ tools-go:
 	@go install mvdan.cc/gofumpt@v0.5.0
 	@go install golang.org/x/tools/cmd/goimports@v0.9.3
 	@go install github.com/daixiang0/gci@v0.10.1
+	@go install github.com/momaek/formattag@v0.0.9
+	@go install github.com/santhosh-tekuri/jsonschema/cmd/jv@latest
 
 .PHONY: generate-private-schema dump-go-models
 
