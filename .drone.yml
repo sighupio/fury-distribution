@@ -12,13 +12,13 @@ platform:
 
 steps:
   - name: license-check
-    image: quay.io/sighup/golang:1.21.3
+    image: quay.io/sighup/golang:1.21.5
     pull: always
     commands:
       - make license-check
 
   - name: schema-check
-    image: quay.io/sighup/golang:1.21.3
+    image: quay.io/sighup/golang:1.21.5
     pull: always
     commands:
       - |-
@@ -47,7 +47,7 @@ steps:
       - schema-check
 
   - name: lint-go
-    image: quay.io/sighup/golang:1.21.3
+    image: quay.io/sighup/golang:1.21.5
     pull: always
     commands:
       - make lint-go
