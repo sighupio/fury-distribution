@@ -67,11 +67,13 @@ patchesStrategicMerge:
 
 
 secretGenerator:
+{{- if eq .spec.distribution.modules.logging.type "loki" }}
   - name: loki-distributed
     namespace: logging
     behavior: merge
     files:
       - patches/config.yaml
+{{- end }}
   - name: minio-logging
     namespace: logging
     behavior: replace
