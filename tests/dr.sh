@@ -17,10 +17,10 @@ load ./helper
     [ "$status" -eq 0 ]
 }
 
-@test "Velero Restic is Running" {
+@test "Velero Node Agent is Running" {
     info
     test() {
-        kubectl get pods -l k8s-app=velero-restic -o json -n kube-system |jq '.items[].status.containerStatuses[].ready' | uniq | grep -q true
+        kubectl get pods -l k8s-app=velero-node-agent -o json -n kube-system |jq '.items[].status.containerStatuses[].ready' | uniq | grep -q true
     }
     loop_it test 60 10
     status=${loop_it_result}
