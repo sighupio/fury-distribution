@@ -1,0 +1,18 @@
+# Copyright (c) 2017-present SIGHUP s.r.l All rights reserved.
+# Use of this source code is governed by a BSD-style
+# license that can be found in the LICENSE file.
+
+---
+
+distribution: 
+  - path: .spec.distribution.modules.networking.type
+    immutable: true
+  - path: .spec.distribution.modules.logging.type
+    immutable: false
+    description: "changes to the logging module type have been detected. This will cause a deletion of the current logging stack and a new one will be created."
+    unsupported:
+      - to: none
+        reason: "currently, removing the logging stack is not supported."
+    reducers:
+      - key: distributionModulesLoggingType
+        lifecycle: pre-apply
