@@ -181,6 +181,9 @@ data:
           password: minio123
     # networking module configuration
     networking:
+      cilium:
+        podCidr: null
+        maskSize: "24"
       overrides:
         nodeSelector: null
         tolerations: null

@@ -192,6 +192,9 @@ data:
       overrides:
         nodeSelector: null
         tolerations: null
+      cilium:
+        podCidr: "dummy" # cilium not used yet on EKS
+        maskSize: "dummy" # cilium not used yet on EKS
     # policy module configuration
     policy:
       overrides:

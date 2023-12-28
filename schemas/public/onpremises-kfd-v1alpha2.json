@@ -1228,6 +1228,12 @@
       "type": "object",
       "additionalProperties": false,
       "properties": {
+        "podCidr": {
+          "$ref": "#/$defs/Types.Cidr"
+        },
+        "maskSize": {
+          "type": "string"
+        },
         "overrides": {
           "$ref": "#/$defs/Types.FuryModuleComponentOverrides"
         }

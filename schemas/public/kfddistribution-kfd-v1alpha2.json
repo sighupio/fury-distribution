@@ -915,7 +915,21 @@
           "enum": ["none", "calico", "cilium"]
         }
       },
-      "required": ["type"]
+      "required": ["type"],
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "type": {
+                "const": "cilium"
+              }
+            }
+          },
+          "then": {
+            "required": ["cilium"]
+          }
+        }
+      ]
     },
     "Spec.Distribution.Modules.Networking.TigeraOperator": {
       "type": "object",
@@ -930,10 +944,17 @@
       "type": "object",
       "additionalProperties": false,
       "properties": {
+        "podCidr": {
+          "$ref": "#/$defs/Types.Cidr"
+        },
+        "maskSize": {
+          "type": "string"
+        },
         "overrides": {
           "$ref": "#/$defs/Types.FuryModuleComponentOverrides"
-        }
-      }
+        } 
+      },
+      "required": ["podCidr", "maskSize"]
     },
     "Spec.Distribution.Modules.Policy": {
       "type": "object",
