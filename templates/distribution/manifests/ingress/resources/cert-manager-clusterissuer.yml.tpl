@@ -3,6 +3,9 @@
 # license that can be found in the LICENSE file.
 
 {{ if eq .spec.distribution.modules.ingress.nginx.tls.provider "certManager" -}}
+
+{{ if and (.spec.distribution.modules.ingress.certManager) (.spec.distribution.modules.ingress.certManager.clusterIssuer) }}
+
 {{- $certManagerArgs := dict "module" "ingress" "package" "certManager" "spec" .spec -}}
 
 ---
@@ -38,4 +41,7 @@ spec:
     solvers:
       {{ .spec.distribution.modules.ingress.certManager.clusterIssuer.solvers | toYaml | nindent 6 }}
 {{- end }}
+
+{{- end -}}
+
 {{- end -}}
