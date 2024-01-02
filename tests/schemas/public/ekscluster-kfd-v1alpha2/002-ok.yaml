@@ -56,10 +56,13 @@ spec:
           public:
             create: true
             name: furyctl-demo.sighup.io
+        certManager:
+          clusterIssuer:
+            name: letsencrypt-fury
+            email: example@sighup.io
+            type: http01
         nginx:
           type: single
-          tls:
-            provider: none
       logging:
         type: opensearch
         opensearch:

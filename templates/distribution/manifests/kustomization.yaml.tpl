@@ -20,14 +20,16 @@ resources:
 {{- if and (ne .spec.distribution.modules.logging.type "none") (.checks.storageClassAvailable) }}
   - logging
 {{- end }}
+{{- if ne .spec.distribution.modules.monitoring.type "none" }}
   - monitoring
+{{- end }}
 {{- if eq .spec.distribution.common.provider.type "eks" }}
   - networking
 {{- end }}
 {{- if and (ne .spec.distribution.modules.networking.type "none") (eq .spec.distribution.common.provider.type "none" ) }}
   - networking
 {{- end }}
-{{- if eq .spec.distribution.modules.policy.type "gatekeeper" }}
+{{- if ne .spec.distribution.modules.policy.type "none" }}
   - opa
 {{- end }}
 

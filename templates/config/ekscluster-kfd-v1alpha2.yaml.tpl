@@ -346,7 +346,7 @@ spec:
           slackWebhookUrl: https://slack.com
       # This section contains all the configurations for the policy (opa) module
       policy:
-        # type can be gatekeeper or none
+        # type can be gatekeeper, kyverno or none
         type: gatekeeper
         # This optional key is used to override automatic parameters
         #overrides:
@@ -367,6 +367,9 @@ spec:
         gatekeeper:
           # This parameter adds namespaces to Gatekeeper's exemption list, so it will not enforce the constraints on them.
           additionalExcludedNamespaces: []
+        # kyverno:
+        #   # This parameter adds namespaces to Gatekeeper's exemption list, so it will not enforce the constraints on them.
+        #   additionalExcludedNamespaces: []
       # This section contains all the configurations for the Disaster Recovery module
       dr:
         # can be none or eks

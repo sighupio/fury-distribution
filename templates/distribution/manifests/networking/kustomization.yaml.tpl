@@ -46,4 +46,14 @@ patchesJson6902:
     path: patchesjson/tigera-tolerations.yaml
 
 {{- end }}
+{{- if eq .spec.distribution.modules.networking.type "cilium" }}
+
+configMapGenerator:
+  - behavior: merge
+    envs:
+    - patches/cilium.env
+    name: cilium-config
+    namespace: kube-system
+
+{{- end }}
 {{- end }}

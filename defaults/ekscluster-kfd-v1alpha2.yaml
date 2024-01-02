@@ -101,9 +101,21 @@ data:
       minio:
         # define the size for each minio disk, total disks to be created: 6
         storageSize: 20Gi
+        rootUser:
+          username: minio
+          password: minio123
+      loki:
+        backend: minio
+        externalEndpoint:
+          endpoint: s3.eu-west-1.amazonaws.com
+          insecure: false
+          secretAccessKey: example
+          accessKeyId: example
+          bucketName: lokibucket
       # override ingresses parameters
     # monitoring module configuration
     monitoring:
+      type: prometheus
       overrides:
         nodeSelector: null
         tolerations: null
@@ -134,6 +146,9 @@ data:
       overrides:
         nodeSelector: null
         tolerations: null
+      cilium:
+        podCidr: "dummy" # cilium not used yet on EKS
+        maskSize: "dummy" # cilium not used yet on EKS
     # policy module configuration
     policy:
       overrides:
@@ -147,6 +162,9 @@ data:
             ingressClass: ""
       # the standard configuration for gatekeeper on the policy module
       gatekeeper:
+        # this configuration adds namespaces to the excluded list, actually whitelisting them
+        additionalExcludedNamespaces: []
+      kyverno:
         # this configuration adds namespaces to the excluded list, actually whitelisting them
         additionalExcludedNamespaces: []
     # dr module configuration

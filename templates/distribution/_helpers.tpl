@@ -169,8 +169,16 @@ cert-manager.io/cluster-issuer: {{ .spec.distribution.modules.ingress.certManage
   {{- template "ingressHost" (dict "module" "monitoring" "package" "grafana" "prefix" "grafana." "spec" .) -}}
 {{ end }}
 
-{{ define "minioUrl" }}
-  {{- template "ingressHost" (dict "module" "logging" "package" "minio" "prefix" "minio." "spec" .) -}}
+{{ define "minioLoggingUrl" }}
+  {{- template "ingressHost" (dict "module" "logging" "package" "minio" "prefix" "minio-logging." "spec" .) -}}
+{{ end }}
+
+{{ define "minioTracingUrl" }}
+  {{- template "ingressHost" (dict "module" "tracing" "package" "minio" "prefix" "minio-tracing." "spec" .) -}}
+{{ end }}
+
+{{ define "minioMonitoringUrl" }}
+  {{- template "ingressHost" (dict "module" "monitoring" "package" "minio" "prefix" "minio-monitoring." "spec" .) -}}
 {{ end }}
 
 {{ define "opensearchDashboardsUrl" }}

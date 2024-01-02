@@ -53,6 +53,21 @@ linters:
 linters-settings:
   decorder:
     disable-init-func-first-check: false
+  depguard:
+    rules:
+      main:
+        # List of allowed packages.
+        allow:
+          - $gostd
+          - github.com/Al-Pragliola/go-version
+          - github.com/go-playground/validator/v10
+          - github.com/sighupio
+        # Packages that are not allowed where the value is a suggestion.
+        deny:
+          - pkg: "github.com/sirupsen/logrus"
+            desc: not allowed
+          - pkg: "github.com/pkg/errors"
+            desc: Should be replaced by standard lib errors package
   errcheck:
     check-type-assertions: true
     check-blank: true
@@ -79,7 +94,7 @@ linters-settings:
     capital: true
     period: true
   gofumpt:
-    lang-version: "1.20"
+    lang-version: "1.21"
     extra-rules: true
   goimports:
     local-prefixes: github.com/sighupio
@@ -98,6 +113,18 @@ linters-settings:
   nolintlint:
     require-explanation: true
     require-specific: true
+  tagalign:
+    align: true
+    sort: true
+    order:
+      - json
+      - yaml
+      - yml
+      - toml
+      - mapstructure
+      - binding
+      - validate
+    strict: true
   revive:
     enable-all-rules: true
     rules:

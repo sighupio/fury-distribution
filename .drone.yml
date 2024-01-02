@@ -12,12 +12,14 @@ platform:
 
 steps:
   - name: license-check
-    image: quay.io/sighup/golang:1.20.4
+    image: quay.io/sighup/golang:1.21.5
+    pull: always
     commands:
       - make license-check
 
   - name: schema-check
-    image: quay.io/sighup/golang:1.20.4
+    image: quay.io/sighup/golang:1.21.5
+    pull: always
     commands:
       - |-
         cat schemas/public/ekscluster-kfd-v1alpha2.json | \
@@ -45,7 +47,8 @@ steps:
       - schema-check
 
   - name: lint-go
-    image: quay.io/sighup/golang:1.20.4
+    image: quay.io/sighup/golang:1.21.5
+    pull: always
     commands:
       - make lint-go
     depends_on:
@@ -224,7 +227,6 @@ trigger:
       - refs/tags/**-docs*
 
 steps:
-
   - name: prepare-release-manifests
     image: quay.io/sighup/e2e-testing:1.1.0_0.7.0_3.1.1_1.9.4_1.24.1_3.8.7_4.21.1
     pull: always
@@ -267,8 +269,9 @@ steps:
       files:
         - fury-distribution-${DRONE_TAG}.yml
         - kind-config-${DRONE_TAG}.yml
-        - Furyfile.yml
+        - Furyfile.yaml
         - kustomization.yaml
+        - kfd.yaml
       prerelease: true
       overwrite: true
       title: "Prerelease ${DRONE_TAG}"
@@ -296,7 +299,7 @@ steps:
       files:
         - fury-distribution-${DRONE_TAG}.yml
         - kind-config-${DRONE_TAG}.yml
-        - Furyfile.yml
+        - Furyfile.yaml
         - kustomization.yaml
         - kfd.yaml
       prerelease: false
