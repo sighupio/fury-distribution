@@ -42,4 +42,4 @@ resources:
   # DR
   - ./vendor/katalog/dr/velero/velero-on-prem
   - ./vendor/katalog/dr/velero/velero-schedules
-  - ./vendor/katalog/dr/velero/velero-restic
+  - ./vendor/katalog/dr/velero/velero-node-agent

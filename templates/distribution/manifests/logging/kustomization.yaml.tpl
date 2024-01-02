@@ -51,4 +51,31 @@ patchesStrategicMerge:
 {{- end }}
   - patches/infra-nodes.yml
   - patches/minio.yml
+{{- if eq .spec.distribution.modules.monitoring.type "none" }}
+  - |
+    ---
+    apiVersion: logging.banzaicloud.io/v1beta1
+    kind: Logging
+    metadata:
+      name: infra
+    spec:
+      fluentd:
+        metrics:
+          serviceMonitor: false
+          prometheusRules: false
+{{- end }}
 
+
+secretGenerator:
+{{- if eq .spec.distribution.modules.logging.type "loki" }}
+  - name: loki-distributed
+    namespace: logging
+    behavior: merge
+    files:
+      - patches/config.yaml
+{{- end }}
+  - name: minio-logging
+    namespace: logging
+    behavior: replace
+    envs:
+      - patches/minio.root.env
