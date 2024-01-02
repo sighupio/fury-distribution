@@ -2,11 +2,9 @@
 
 package public
 
-import (
-	"encoding/json"
-	"fmt"
-	"reflect"
-)
+import "encoding/json"
+import "fmt"
+import "reflect"
 
 type KfddistributionKfdV1Alpha2 struct {
 	// ApiVersion corresponds to the JSON schema field "apiVersion".
@@ -166,11 +164,9 @@ type SpecDistributionCustomPatchesResourceGenerator struct {
 
 type SpecDistributionCustomPatchesResourceGeneratorBehavior string
 
-const (
-	SpecDistributionCustomPatchesResourceGeneratorBehaviorCreate  SpecDistributionCustomPatchesResourceGeneratorBehavior = "create"
-	SpecDistributionCustomPatchesResourceGeneratorBehaviorMerge   SpecDistributionCustomPatchesResourceGeneratorBehavior = "merge"
-	SpecDistributionCustomPatchesResourceGeneratorBehaviorReplace SpecDistributionCustomPatchesResourceGeneratorBehavior = "replace"
-)
+const SpecDistributionCustomPatchesResourceGeneratorBehaviorCreate SpecDistributionCustomPatchesResourceGeneratorBehavior = "create"
+const SpecDistributionCustomPatchesResourceGeneratorBehaviorMerge SpecDistributionCustomPatchesResourceGeneratorBehavior = "merge"
+const SpecDistributionCustomPatchesResourceGeneratorBehaviorReplace SpecDistributionCustomPatchesResourceGeneratorBehavior = "replace"
 
 type SpecDistributionCustomPatchesResourceGeneratorOptions struct {
 	// Annotations corresponds to the JSON schema field "annotations".
@@ -301,11 +297,9 @@ type SpecDistributionModulesAuthProviderBasicAuth struct {
 
 type SpecDistributionModulesAuthProviderType string
 
-const (
-	SpecDistributionModulesAuthProviderTypeBasicAuth SpecDistributionModulesAuthProviderType = "basicAuth"
-	SpecDistributionModulesAuthProviderTypeNone      SpecDistributionModulesAuthProviderType = "none"
-	SpecDistributionModulesAuthProviderTypeSso       SpecDistributionModulesAuthProviderType = "sso"
-)
+const SpecDistributionModulesAuthProviderTypeBasicAuth SpecDistributionModulesAuthProviderType = "basicAuth"
+const SpecDistributionModulesAuthProviderTypeNone SpecDistributionModulesAuthProviderType = "none"
+const SpecDistributionModulesAuthProviderTypeSso SpecDistributionModulesAuthProviderType = "sso"
 
 type SpecDistributionModulesDr struct {
 	// Overrides corresponds to the JSON schema field "overrides".
@@ -320,10 +314,8 @@ type SpecDistributionModulesDr struct {
 
 type SpecDistributionModulesDrType string
 
-const (
-	SpecDistributionModulesDrTypeNone       SpecDistributionModulesDrType = "none"
-	SpecDistributionModulesDrTypeOnPremises SpecDistributionModulesDrType = "on-premises"
-)
+const SpecDistributionModulesDrTypeNone SpecDistributionModulesDrType = "none"
+const SpecDistributionModulesDrTypeOnPremises SpecDistributionModulesDrType = "on-premises"
 
 type SpecDistributionModulesDrVelero struct {
 	// Overrides corresponds to the JSON schema field "overrides".
@@ -399,11 +391,9 @@ type SpecDistributionModulesIngressNginxTLS struct {
 
 type SpecDistributionModulesIngressNginxTLSProvider string
 
-const (
-	SpecDistributionModulesIngressNginxTLSProviderCertManager SpecDistributionModulesIngressNginxTLSProvider = "certManager"
-	SpecDistributionModulesIngressNginxTLSProviderNone        SpecDistributionModulesIngressNginxTLSProvider = "none"
-	SpecDistributionModulesIngressNginxTLSProviderSecret      SpecDistributionModulesIngressNginxTLSProvider = "secret"
-)
+const SpecDistributionModulesIngressNginxTLSProviderCertManager SpecDistributionModulesIngressNginxTLSProvider = "certManager"
+const SpecDistributionModulesIngressNginxTLSProviderNone SpecDistributionModulesIngressNginxTLSProvider = "none"
+const SpecDistributionModulesIngressNginxTLSProviderSecret SpecDistributionModulesIngressNginxTLSProvider = "secret"
 
 type SpecDistributionModulesIngressNginxTLSSecret struct {
 	// Ca corresponds to the JSON schema field "ca".
@@ -418,11 +408,9 @@ type SpecDistributionModulesIngressNginxTLSSecret struct {
 
 type SpecDistributionModulesIngressNginxType string
 
-const (
-	SpecDistributionModulesIngressNginxTypeDual   SpecDistributionModulesIngressNginxType = "dual"
-	SpecDistributionModulesIngressNginxTypeNone   SpecDistributionModulesIngressNginxType = "none"
-	SpecDistributionModulesIngressNginxTypeSingle SpecDistributionModulesIngressNginxType = "single"
-)
+const SpecDistributionModulesIngressNginxTypeDual SpecDistributionModulesIngressNginxType = "dual"
+const SpecDistributionModulesIngressNginxTypeNone SpecDistributionModulesIngressNginxType = "none"
+const SpecDistributionModulesIngressNginxTypeSingle SpecDistributionModulesIngressNginxType = "single"
 
 type SpecDistributionModulesIngressOverrides struct {
 	// Ingresses corresponds to the JSON schema field "ingresses".
@@ -481,10 +469,8 @@ type SpecDistributionModulesLoggingLoki struct {
 
 type SpecDistributionModulesLoggingLokiBackend string
 
-const (
-	SpecDistributionModulesLoggingLokiBackendExternalEndpoint SpecDistributionModulesLoggingLokiBackend = "externalEndpoint"
-	SpecDistributionModulesLoggingLokiBackendMinio            SpecDistributionModulesLoggingLokiBackend = "minio"
-)
+const SpecDistributionModulesLoggingLokiBackendExternalEndpoint SpecDistributionModulesLoggingLokiBackend = "externalEndpoint"
+const SpecDistributionModulesLoggingLokiBackendMinio SpecDistributionModulesLoggingLokiBackend = "minio"
 
 type SpecDistributionModulesLoggingLokiExternalEndpoint struct {
 	// AccessKeyId corresponds to the JSON schema field "accessKeyId".
@@ -538,10 +524,8 @@ type SpecDistributionModulesLoggingOpensearch struct {
 
 type SpecDistributionModulesLoggingOpensearchType string
 
-const (
-	SpecDistributionModulesLoggingOpensearchTypeSingle SpecDistributionModulesLoggingOpensearchType = "single"
-	SpecDistributionModulesLoggingOpensearchTypeTriple SpecDistributionModulesLoggingOpensearchType = "triple"
-)
+const SpecDistributionModulesLoggingOpensearchTypeSingle SpecDistributionModulesLoggingOpensearchType = "single"
+const SpecDistributionModulesLoggingOpensearchTypeTriple SpecDistributionModulesLoggingOpensearchType = "triple"
 
 type SpecDistributionModulesLoggingOperator struct {
 	// Overrides corresponds to the JSON schema field "overrides".
@@ -550,11 +534,9 @@ type SpecDistributionModulesLoggingOperator struct {
 
 type SpecDistributionModulesLoggingType string
 
-const (
-	SpecDistributionModulesLoggingTypeLoki       SpecDistributionModulesLoggingType = "loki"
-	SpecDistributionModulesLoggingTypeNone       SpecDistributionModulesLoggingType = "none"
-	SpecDistributionModulesLoggingTypeOpensearch SpecDistributionModulesLoggingType = "opensearch"
-)
+const SpecDistributionModulesLoggingTypeLoki SpecDistributionModulesLoggingType = "loki"
+const SpecDistributionModulesLoggingTypeNone SpecDistributionModulesLoggingType = "none"
+const SpecDistributionModulesLoggingTypeOpensearch SpecDistributionModulesLoggingType = "opensearch"
 
 type SpecDistributionModulesMonitoring struct {
 	// Alertmanager corresponds to the JSON schema field "alertmanager".
@@ -628,10 +610,8 @@ type SpecDistributionModulesMonitoringMimir struct {
 
 type SpecDistributionModulesMonitoringMimirBackend string
 
-const (
-	SpecDistributionModulesMonitoringMimirBackendExternalEndpoint SpecDistributionModulesMonitoringMimirBackend = "externalEndpoint"
-	SpecDistributionModulesMonitoringMimirBackendMinio            SpecDistributionModulesMonitoringMimirBackend = "minio"
-)
+const SpecDistributionModulesMonitoringMimirBackendExternalEndpoint SpecDistributionModulesMonitoringMimirBackend = "externalEndpoint"
+const SpecDistributionModulesMonitoringMimirBackendMinio SpecDistributionModulesMonitoringMimirBackend = "minio"
 
 type SpecDistributionModulesMonitoringMimirExternalEndpoint struct {
 	// AccessKeyId corresponds to the JSON schema field "accessKeyId".
@@ -685,11 +665,9 @@ type SpecDistributionModulesMonitoringPrometheus struct {
 
 type SpecDistributionModulesMonitoringType string
 
-const (
-	SpecDistributionModulesMonitoringTypeMimir      SpecDistributionModulesMonitoringType = "mimir"
-	SpecDistributionModulesMonitoringTypeNone       SpecDistributionModulesMonitoringType = "none"
-	SpecDistributionModulesMonitoringTypePrometheus SpecDistributionModulesMonitoringType = "prometheus"
-)
+const SpecDistributionModulesMonitoringTypeMimir SpecDistributionModulesMonitoringType = "mimir"
+const SpecDistributionModulesMonitoringTypeNone SpecDistributionModulesMonitoringType = "none"
+const SpecDistributionModulesMonitoringTypePrometheus SpecDistributionModulesMonitoringType = "prometheus"
 
 type SpecDistributionModulesMonitoringX509Exporter struct {
 	// Overrides corresponds to the JSON schema field "overrides".
@@ -728,11 +706,9 @@ type SpecDistributionModulesNetworkingTigeraOperator struct {
 
 type SpecDistributionModulesNetworkingType string
 
-const (
-	SpecDistributionModulesNetworkingTypeCalico SpecDistributionModulesNetworkingType = "calico"
-	SpecDistributionModulesNetworkingTypeCilium SpecDistributionModulesNetworkingType = "cilium"
-	SpecDistributionModulesNetworkingTypeNone   SpecDistributionModulesNetworkingType = "none"
-)
+const SpecDistributionModulesNetworkingTypeCalico SpecDistributionModulesNetworkingType = "calico"
+const SpecDistributionModulesNetworkingTypeCilium SpecDistributionModulesNetworkingType = "cilium"
+const SpecDistributionModulesNetworkingTypeNone SpecDistributionModulesNetworkingType = "none"
 
 type SpecDistributionModulesPolicy struct {
 	// Gatekeeper corresponds to the JSON schema field "gatekeeper".
@@ -768,11 +744,9 @@ type SpecDistributionModulesPolicyKyverno struct {
 
 type SpecDistributionModulesPolicyType string
 
-const (
-	SpecDistributionModulesPolicyTypeGatekeeper SpecDistributionModulesPolicyType = "gatekeeper"
-	SpecDistributionModulesPolicyTypeKyverno    SpecDistributionModulesPolicyType = "kyverno"
-	SpecDistributionModulesPolicyTypeNone       SpecDistributionModulesPolicyType = "none"
-)
+const SpecDistributionModulesPolicyTypeGatekeeper SpecDistributionModulesPolicyType = "gatekeeper"
+const SpecDistributionModulesPolicyTypeKyverno SpecDistributionModulesPolicyType = "kyverno"
+const SpecDistributionModulesPolicyTypeNone SpecDistributionModulesPolicyType = "none"
 
 type SpecDistributionModulesTracing struct {
 	// Minio corresponds to the JSON schema field "minio".
@@ -823,10 +797,8 @@ type SpecDistributionModulesTracingTempo struct {
 
 type SpecDistributionModulesTracingTempoBackend string
 
-const (
-	SpecDistributionModulesTracingTempoBackendExternalEndpoint SpecDistributionModulesTracingTempoBackend = "externalEndpoint"
-	SpecDistributionModulesTracingTempoBackendMinio            SpecDistributionModulesTracingTempoBackend = "minio"
-)
+const SpecDistributionModulesTracingTempoBackendExternalEndpoint SpecDistributionModulesTracingTempoBackend = "externalEndpoint"
+const SpecDistributionModulesTracingTempoBackendMinio SpecDistributionModulesTracingTempoBackend = "minio"
 
 type SpecDistributionModulesTracingTempoExternalEndpoint struct {
 	// AccessKeyId corresponds to the JSON schema field "accessKeyId".
@@ -847,10 +819,8 @@ type SpecDistributionModulesTracingTempoExternalEndpoint struct {
 
 type SpecDistributionModulesTracingType string
 
-const (
-	SpecDistributionModulesTracingTypeNone  SpecDistributionModulesTracingType = "none"
-	SpecDistributionModulesTracingTypeTempo SpecDistributionModulesTracingType = "tempo"
-)
+const SpecDistributionModulesTracingTypeNone SpecDistributionModulesTracingType = "none"
+const SpecDistributionModulesTracingTypeTempo SpecDistributionModulesTracingType = "tempo"
 
 type SpecPlugins struct {
 	// Helm corresponds to the JSON schema field "helm".
@@ -998,11 +968,9 @@ type TypesKubeToleration struct {
 
 type TypesKubeTolerationEffect string
 
-const (
-	TypesKubeTolerationEffectNoExecute        TypesKubeTolerationEffect = "NoExecute"
-	TypesKubeTolerationEffectNoSchedule       TypesKubeTolerationEffect = "NoSchedule"
-	TypesKubeTolerationEffectPreferNoSchedule TypesKubeTolerationEffect = "PreferNoSchedule"
-)
+const TypesKubeTolerationEffectNoExecute TypesKubeTolerationEffect = "NoExecute"
+const TypesKubeTolerationEffectNoSchedule TypesKubeTolerationEffect = "NoSchedule"
+const TypesKubeTolerationEffectPreferNoSchedule TypesKubeTolerationEffect = "PreferNoSchedule"
 
 type TypesKubeTolerationOperator string
 
@@ -1334,7 +1302,6 @@ var enumValues_SpecDistributionModulesLoggingLokiBackend = []interface{}{
 	"minio",
 	"externalEndpoint",
 }
-
 var enumValues_SpecDistributionModulesPolicyType = []interface{}{
 	"none",
 	"gatekeeper",
@@ -1428,7 +1395,6 @@ var enumValues_SpecDistributionModulesMonitoringMimirBackend = []interface{}{
 	"minio",
 	"externalEndpoint",
 }
-
 var enumValues_SpecDistributionModulesNetworkingType = []interface{}{
 	"none",
 	"calico",
@@ -1605,7 +1571,6 @@ var enumValues_SpecDistributionModulesAuthProviderType = []interface{}{
 	"basicAuth",
 	"sso",
 }
-
 var enumValues_SpecDistributionModulesIngressNginxTLSProvider = []interface{}{
 	"certManager",
 	"secret",
