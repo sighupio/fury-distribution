@@ -63,8 +63,6 @@ spec:
             type: http01
         nginx:
           type: single
-          tls:
-            provider: none
       logging:
         type: opensearch
         opensearch:
