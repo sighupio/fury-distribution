@@ -2961,7 +2961,29 @@ The value of the toleration
 
 | Property                                                           | Type     | Required |
 |:-------------------------------------------------------------------|:---------|:---------|
+| [podCidr](#specdistributionmodulesnetworkingciliumpodcidr)         | `string` | Optional |
+| [maskSize](#specdistributionmodulesnetworkingciliummasksize)       | `string` | Optional |
 | [overrides](#specdistributionmodulesnetworkingciliumoverrides)     | `object` | Optional |
+
+## .spec.distribution.modules.networking.cilium.podCidr
+
+### Description
+
+The pod cidr to use for the cilium pods
+
+### Constraints
+
+**pattern**: the string must match the following regular expression:&#x20;
+
+```regexp
+^((25[0-5]|(2[0-4]|1\d|[1-9]|)\d)\.?\b){4}\/(3[0-2]|[1-2][0-9]|[0-9])$
+```
+
+## .spec.distribution.modules.networking.cilium.maskSize
+
+### Description
+
+The mask size to use for the cilium pods
 
 ## .spec.distribution.modules.networking.cilium.overrides
 
