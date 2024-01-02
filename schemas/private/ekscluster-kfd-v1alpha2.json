@@ -828,8 +828,9 @@
         }
       },
       "required": [
-        "baseDomain",
+        "certManager",
         "externalDns",
+        "baseDomain",
         "dns",
         "nginx"
       ],

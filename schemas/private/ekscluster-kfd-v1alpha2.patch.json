@@ -101,6 +101,11 @@
   },
   {
     "op": "add",
+    "path": "/$defs/Spec.Distribution.Modules.Ingress/required/0",
+    "value": "certManager"
+  },
+  {
+    "op": "add",
     "path": "/$defs/Spec.Distribution.Modules.Ingress/required/1",
     "value": "externalDns"
   },
