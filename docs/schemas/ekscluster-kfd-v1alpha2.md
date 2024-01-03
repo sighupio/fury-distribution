@@ -671,6 +671,7 @@ Optional Kubernetes Cluster log retention in days. Defaults to 90 days.
 | Property                                                                   | Type     | Required |
 |:---------------------------------------------------------------------------|:---------|:---------|
 | [name](#speckubernetesnodepoolsname)                                       | `string` | Required |
+| [type](#speckubernetesnodepoolstype)                                       | `string` | Optional |
 | [ami](#speckubernetesnodepoolsami)                                         | `object` | Optional |
 | [containerRuntime](#speckubernetesnodepoolscontainerruntime)               | `string` | Optional |
 | [size](#speckubernetesnodepoolssize)                                       | `object` | Required |
@@ -1200,6 +1201,7 @@ The relative path to the vendor directory, does not need to be changed
 | [monitoring](#specdistributionmodulesmonitoring) | `object` | Optional |
 | [networking](#specdistributionmodulesnetworking) | `object` | Optional |
 | [policy](#specdistributionmodulespolicy)         | `object` | Required |
+| [tracing](#specdistributionmodulestracing)       | `object` | Optional |
 
 ## .spec.distribution.modules.auth
 
@@ -2267,14 +2269,16 @@ The value of the toleration
 
 ### Properties
 
-| Property                                                  | Type     | Required |
-|:----------------------------------------------------------|:---------|:---------|
-| [overrides](#specdistributionmodulesingressoverrides)     | `object` | Optional |
-| [baseDomain](#specdistributionmodulesingressbasedomain)   | `string` | Required |
-| [nginx](#specdistributionmodulesingressnginx)             | `object` | Required |
-| [certManager](#specdistributionmodulesingresscertmanager) | `object` | Optional |
-| [forecastle](#specdistributionmodulesingressforecastle)   | `object` | Optional |
-| [dns](#specdistributionmodulesingressdns)                 | `object` | Required |
+| Property                                                  | Type     | Required  |
+|:----------------------------------------------------------|:---------|:----------|
+| [overrides](#specdistributionmodulesingressoverrides)     | `object` | Optional  |
+| [baseDomain](#specdistributionmodulesingressbasedomain)   | `string` | Required  |
+| [nginx](#specdistributionmodulesingressnginx)             | `object` | Required  |
+| [certManager](#specdistributionmodulesingresscertmanager) | `object` | Optional* |
+| [forecastle](#specdistributionmodulesingressforecastle)   | `object` | Optional  |
+| [dns](#specdistributionmodulesingressdns)                 | `object` | Required  |
+
+*certManager: required only if .spec.distribution.modules.ingress.nginx.tls.provider is ***certManager****
 
 ## .spec.distribution.modules.ingress.overrides
 
@@ -3206,9 +3210,11 @@ The value of the toleration
 
 ### Properties
 
-| Property                                                  | Type     | Required |
-|:----------------------------------------------------------|:---------|:---------|
-| [resources](#specdistributionmoduleslogginglokiresources) | `object` | Optional |
+| Property                                                                | Type     | Required |
+|:------------------------------------------------------------------------|:---------|:---------|
+| [resources](#specdistributionmoduleslogginglokiresources)               | `object` | Optional |
+| [backend](#specdistributionmoduleslogginglokibackend)                   | `object` | Optional |
+| [externalEndpoint](#specdistributionmoduleslogginglokiexternalendpoint) | `string` | Optional |
 
 ## .spec.distribution.modules.logging.loki.resources
 
@@ -3260,6 +3266,71 @@ The cpu limit for the loki pods
 ### Description
 
 The memory limit for the loki pods
+
+## .spec.distribution.modules.logging.loki.backend
+
+### Properties
+
+| Property                                                                 | Type     | Required |
+|:-------------------------------------------------------------------------|:---------|:---------|
+| [type](#specdistributionmoduleslogginglokibackendtype)                   | `string` | Required |
+
+## .spec.distribution.modules.logging.loki.backend.type
+
+### Description
+
+The type of the loki backend, must be ***minio*** or ***externalEndpoint***
+
+### Constraints
+
+**enum**: the value of this property must be equal to one of the following values:
+
+| Value                   |
+|:------------------------|
+| `"minio"`               |
+| `"externalEndpoint"`    |
+
+## .spec.distribution.modules.logging.loki.externalEndpoint
+
+### Properties
+
+| Property                                                                              | Type      | Required |
+|:--------------------------------------------------------------------------------------|:----------|:---------|
+| [endpoint](#specdistributionmoduleslogginglokiexternalendpointendpoint)               | `string`  | Required |
+| [insecure](#specdistributionmoduleslogginglokiexternalendpointinsecure)               | `boolean` | Optional |
+| [secretAccessKey](#specdistributionmoduleslogginglokiexternalendpointsecretaccesskey) | `string`  | Optional |
+| [accessKeyId](#specdistributionmoduleslogginglokiexternalendpointaccesskeyid)         | `string`  | Optional |
+| [bucketName](#specdistributionmoduleslogginglokiexternalendpointbucketname)           | `string`  | Optional |
+
+## .spec.distribution.modules.logging.loki.externalEndpoint.endpoint
+
+### Description
+
+The endpoint of the loki external endpoint
+
+## .spec.distribution.modules.logging.loki.externalEndpoint.insecure
+
+### Description
+
+If true, the loki external endpoint will be insecure
+
+## .spec.distribution.modules.logging.loki.externalEndpoint.secretAccessKey
+
+### Description
+
+The secret access key of the loki external endpoint
+
+## .spec.distribution.modules.logging.loki.externalEndpoint.accessKeyId
+
+### Description
+
+The access key id of the loki external endpoint
+
+## .spec.distribution.modules.logging.loki.externalEndpoint.bucketName
+
+### Description
+
+The bucket name of the loki external endpoint
 
 ## .spec.distribution.modules.logging.cerebro
 
@@ -3346,12 +3417,34 @@ The value of the toleration
 |:---------------------------------------------------------------|:---------|:---------|
 | [storageSize](#specdistributionmodulesloggingminiostoragesize) | `string` | Optional |
 | [overrides](#specdistributionmodulesloggingminiooverrides)     | `object` | Optional |
+| [rootUser](#specdistributionmodulesloggingminiorootuser)       | `object` | Optional |
 
 ## .spec.distribution.modules.logging.minio.storageSize
 
 ### Description
 
 The PVC size for each minio disk, 6 disks total
+
+## .spec.distribution.modules.logging.minio.rootUser
+
+### Properties
+
+| Property                                                         | Type     | Required |
+|:-----------------------------------------------------------------|:---------|:---------|
+| [username](#specdistributionmodulesloggingminiorootusername)     | `string` | Required |
+| [password](#specdistributionmodulesloggingminiorootuserpassword) | `string` | Required |
+
+## .spec.distribution.modules.logging.minio.rootUser.username
+
+### Description
+
+The username of the minio root user
+
+## .spec.distribution.modules.logging.minio.rootUser.password
+
+### Description
+
+The password of the minio root user
 
 ## .spec.distribution.modules.logging.minio.overrides
 
@@ -3506,6 +3599,7 @@ The value of the toleration
 
 | Property                                                               | Type     | Required |
 |:-----------------------------------------------------------------------|:---------|:---------|
+| [type](#specdistributionmodulesmonitoringtype)                         | `string` | Required |
 | [overrides](#specdistributionmodulesmonitoringoverrides)               | `object` | Optional |
 | [prometheus](#specdistributionmodulesmonitoringprometheus)             | `object` | Optional |
 | [alertmanager](#specdistributionmodulesmonitoringalertmanager)         | `object` | Optional |
@@ -3513,6 +3607,24 @@ The value of the toleration
 | [blackboxExporter](#specdistributionmodulesmonitoringblackboxexporter) | `object` | Optional |
 | [kubeStateMetrics](#specdistributionmodulesmonitoringkubestatemetrics) | `object` | Optional |
 | [x509Exporter](#specdistributionmodulesmonitoringx509exporter)         | `object` | Optional |
+| [mimir](#specdistributionmodulesmonitoringmimir)                       | `object` | Optional |
+| [minio](#specdistributionmodulesmonitoringminio)                       | `object` | Optional |
+
+## .spec.distribution.modules.monitoring.type
+
+### Description
+
+The type of the monitoring, must be ***none***, ***prometheus*** or ***mimir***
+
+### Constraints
+
+**enum**: the value of this property must be equal to one of the following values:
+
+| Value          |
+|:---------------|
+| `"none"`       |
+| `"prometheus"` |
+| `"mimir"`      |
 
 ## .spec.distribution.modules.monitoring.overrides
 
@@ -4021,6 +4133,255 @@ The key of the toleration
 
 The value of the toleration
 
+## .spec.distribution.modules.monitoring.mimir
+
+### Properties
+
+| Property                                                                    | Type     | Required |
+|:----------------------------------------------------------------------------|:---------|:---------|
+| [overrides](#specdistributionmodulesmonitoringmimiroverrides)               | `object` | Optional |
+| [retentionTime](#specdistributionmodulesmonitoringmimirretentiontime)       | `string` | Optional |
+| [backend](#specdistributionmodulesmonitoringmimirbackend)                   | `string` | Optional |
+| [externalEndpoint](#specdistributionmodulesmonitoringmimirexternalendpoint) | `object` | Optional |
+
+## .spec.distribution.modules.monitoring.mimir.overrides
+
+### Properties
+
+| Property                                                                               | Type     | Required |
+|:---------------------------------------------------------------------------------------|:---------|:---------|
+| [nodeSelector](#specdistributionmodulesmonitoringmimiroverridesnodeselector)           | `object` | Optional |
+| [tolerations](#specdistributionmodulesmonitoringmimiroverridestolerations)             | `array`  | Optional |
+
+## .spec.distribution.modules.monitoring.mimir.overrides.nodeSelector
+
+### Description
+
+The node selector to use to place the pods for the mimir module
+
+## .spec.distribution.modules.monitoring.mimir.overrides.tolerations
+
+### Properties
+
+| Property                                                                              | Type     | Required |
+|:--------------------------------------------------------------------------------------|:---------|:---------|
+| [effect](#specdistributionmodulesmonitoringmimiroverridestolerationseffect)           | `string` | Required |
+| [operator](#specdistributionmodulesmonitoringmimiroverridestolerationsoperator)       | `string` | Optional |
+| [key](#specdistributionmodulesmonitoringmimiroverridestolerationskey)                 | `string` | Required |
+| [value](#specdistributionmodulesmonitoringmimiroverridestolerationsvalue)             | `string` | Required |
+
+### Description
+
+The tolerations that will be added to the pods for the mimir module
+
+### Constraints
+
+**minimum number of items**: the minimum number of items for this array is: `0`
+
+## .spec.distribution.modules.monitoring.mimir.overrides.tolerations.effect
+
+### Constraints
+
+**enum**: the value of this property must be equal to one of the following values:
+
+| Value                |
+|:---------------------|
+| `"NoSchedule"`       |
+| `"PreferNoSchedule"` |
+| `"NoExecute"`        |
+
+## .spec.distribution.modules.monitoring.mimir.overrides.tolerations.operator
+
+### Constraints
+
+**enum**: the value of this property must be equal to one of the following values:
+
+| Value      |
+|:-----------|
+| `"Exists"` |
+| `"Equal"`  |
+
+## .spec.distribution.modules.monitoring.mimir.overrides.tolerations.key
+
+### Description
+
+The key of the toleration
+
+## .spec.distribution.modules.monitoring.mimir.overrides.tolerations.value
+
+### Description
+
+The value of the toleration
+
+## .spec.distribution.modules.monitoring.mimir.retentionTime
+
+### Description
+
+The retention time for the mimir pods
+
+## .spec.distribution.modules.monitoring.mimir.backend
+
+### Description
+
+The backend for the mimir pods, must be ***minio*** or ***externalEndpoint***
+
+### Constraints
+
+**enum**: the value of this property must be equal to one of the following values:
+
+| Value                |
+|:---------------------|
+| `"minio"`            |
+| `"externalEndpoint"` |
+
+## .spec.distribution.modules.monitoring.mimir.externalEndpoint
+
+### Properties
+
+| Property                                                                                  | Type      | Required |
+|:------------------------------------------------------------------------------------------|:----------|:---------|
+| [endpoint](#specdistributionmodulesmonitoringmimirexternalendpointendpoint)               | `string`  | Required |
+| [insecure](#specdistributionmodulesmonitoringmimirexternalendpointinsecure)               | `boolean` | Optional |
+| [secretAccessKey](#specdistributionmodulesmonitoringmimirexternalendpointsecretaccesskey) | `string`  | Required |
+| [accessKeyId](#specdistributionmodulesmonitoringmimirexternalendpointaccesskeyid)         | `string`  | Required |
+| [bucketName](#specdistributionmodulesmonitoringmimirexternalendpointbucketname)           | `string`  | Required |
+
+## .spec.distribution.modules.monitoring.mimir.externalEndpoint.endpoint
+
+### Description
+
+The endpoint of the external mimir backend
+
+## .spec.distribution.modules.monitoring.mimir.externalEndpoint.insecure
+
+### Description
+
+If true, the external mimir backend will not use tls
+
+## .spec.distribution.modules.monitoring.mimir.externalEndpoint.secretAccessKey
+
+### Description
+
+The secret access key of the external mimir backend
+
+## .spec.distribution.modules.monitoring.mimir.externalEndpoint.accessKeyId
+
+### Description
+
+The access key id of the external mimir backend
+
+## .spec.distribution.modules.monitoring.mimir.externalEndpoint.bucketName
+
+### Description
+
+The bucket name of the external mimir backend
+
+## .spec.distribution.modules.monitoring.minio
+
+### Properties
+
+| Property                                                                 | Type     | Required |
+|:-------------------------------------------------------------------------|:---------|:---------|
+| [overrides](#specdistributionmodulesmonitoringminiooverrides)            | `object` | Optional |
+| [storageSize](#specdistributionmodulesmonitoringminiostoragesize)        | `string` | Optional |
+| [rootUser](#specdistributionmodulesmonitoringminiorootuser)              | `object` | Optional |
+
+## .spec.distribution.modules.monitoring.minio.overrides
+
+### Properties
+
+| Property                                                                               | Type     | Required |
+|:---------------------------------------------------------------------------------------|:---------|:---------|
+| [nodeSelector](#specdistributionmodulesmonitoringminiooverridesnodeselector)           | `object` | Optional |
+| [tolerations](#specdistributionmodulesmonitoringminiooverridestolerations)             | `array`  | Optional |
+
+## .spec.distribution.modules.monitoring.minio.overrides.nodeSelector
+
+### Description
+
+The node selector to use to place the pods for the minio module
+
+## .spec.distribution.modules.monitoring.minio.overrides.tolerations
+
+### Properties
+
+| Property                                                                              | Type     | Required |
+|:--------------------------------------------------------------------------------------|:---------|:---------|
+| [effect](#specdistributionmodulesmonitoringminiooverridestolerationseffect)           | `string` | Required |
+| [operator](#specdistributionmodulesmonitoringminiooverridestolerationsoperator)       | `string` | Optional |
+| [key](#specdistributionmodulesmonitoringminiooverridestolerationskey)                 | `string` | Required |
+| [value](#specdistributionmodulesmonitoringminiooverridestolerationsvalue)             | `string` | Required |
+
+### Description
+
+The tolerations that will be added to the pods for the minio module
+
+### Constraints
+
+**minimum number of items**: the minimum number of items for this array is: `0`
+
+## .spec.distribution.modules.monitoring.minio.overrides.tolerations.effect
+
+### Constraints
+
+**enum**: the value of this property must be equal to one of the following values:
+
+| Value                |
+|:---------------------|
+| `"NoSchedule"`       |
+| `"PreferNoSchedule"` |
+| `"NoExecute"`        |
+
+## .spec.distribution.modules.monitoring.minio.overrides.tolerations.operator
+
+### Constraints
+
+**enum**: the value of this property must be equal to one of the following values:
+
+| Value      |
+|:-----------|
+| `"Exists"` |
+| `"Equal"`  |
+
+## .spec.distribution.modules.monitoring.minio.overrides.tolerations.key
+
+### Description
+
+The key of the toleration
+
+## .spec.distribution.modules.monitoring.minio.overrides.tolerations.value
+
+### Description
+
+The value of the toleration
+
+## .spec.distribution.modules.monitoring.minio.storageSize
+
+### Description
+
+The storage size for the minio pods
+
+## .spec.distribution.modules.monitoring.minio.rootUser
+
+### Properties
+
+| Property                                                                 | Type     | Required |
+|:-------------------------------------------------------------------------|:---------|:---------|
+| [username](#specdistributionmodulesmonitoringminiorootuserusername)      | `string` | Required |
+| [password](#specdistributionmodulesmonitoringminiorootuserpassword)      | `string` | Required |
+
+## .spec.distribution.modules.monitoring.minio.rootUser.username
+
+### Description
+
+The username for the minio root user
+
+## .spec.distribution.modules.monitoring.minio.rootUser.password
+
+### Description
+
+The password for the minio root user
+
 ## .spec.distribution.modules.networking
 
 ### Properties
@@ -4185,6 +4546,7 @@ The value of the toleration
 | [overrides](#specdistributionmodulespolicyoverrides)   | `object` | Optional |
 | [type](#specdistributionmodulespolicytype)             | `string` | Required |
 | [gatekeeper](#specdistributionmodulespolicygatekeeper) | `object` | Optional |
+| [kyverno](#specdistributionmodulespolicykyverno)       | `object` | Optional |
 
 ## .spec.distribution.modules.policy.overrides
 
@@ -4281,7 +4643,7 @@ The ingress class of the ingress
 
 ### Description
 
-The type of security to use, either ***none*** or ***gatekeeper***
+The type of security to use, either ***none***, ***gatekeeper*** or ***kyverno***
 
 ### Constraints
 
@@ -4291,6 +4653,7 @@ The type of security to use, either ***none*** or ***gatekeeper***
 |:---------------|
 | `"none"`       |
 | `"gatekeeper"` |
+| `"kyverno"`    |
 
 ## .spec.distribution.modules.policy.gatekeeper
 
@@ -4375,6 +4738,458 @@ The key of the toleration
 ### Description
 
 The value of the toleration
+
+## .spec.distribution.modules.policy.kyverno
+
+### Properties
+
+| Property                                                                                             | Type     | Required |
+|:-----------------------------------------------------------------------------------------------------|:---------|:---------|
+| [additionalExcludedNamespaces](#specdistributionmodulespolicykyvernoadditionalexcludednamespaces)    | `array`  | Optional |
+| [overrides](#specdistributionmodulespolicykyvernooverrides)                                          | `object` | Optional |
+
+## .spec.distribution.modules.policy.kyverno.additionalExcludedNamespaces
+
+### Description
+
+This parameter adds namespaces to Kyverno's exemption list, so it will not enforce the constraints on them.
+
+## .spec.distribution.modules.policy.kyverno.overrides
+
+### Properties
+
+| Property                                                                      | Type     | Required |
+|:------------------------------------------------------------------------------|:---------|:---------|
+| [nodeSelector](#specdistributionmodulespolicykyvernooverridesnodeselector)    | `object` | Optional |
+| [tolerations](#specdistributionmodulespolicykyvernooverridestolerations)      | `array`  | Optional |
+
+## .spec.distribution.modules.policy.kyverno.overrides.nodeSelector
+
+### Description
+
+The node selector to use to place the pods for the kyverno module
+
+## .spec.distribution.modules.policy.kyverno.overrides.tolerations
+
+### Properties
+
+| Property                                                                         | Type     | Required |
+|:---------------------------------------------------------------------------------|:---------|:---------|
+| [effect](#specdistributionmodulespolicykyvernooverridestolerationseffect)        | `string` | Required |
+| [operator](#specdistributionmodulespolicykyvernooverridestolerationsoperator)    | `string` | Optional |
+| [key](#specdistributionmodulespolicykyvernooverridestolerationskey)              | `string` | Required |
+| [value](#specdistributionmodulespolicykyvernooverridestolerationsvalue)          | `string` | Required |
+
+### Description
+
+The tolerations that will be added to the pods for the kyverno module
+
+### Constraints
+
+**minimum number of items**: the minimum number of items for this array is: `0`
+
+## .spec.distribution.modules.policy.kyverno.overrides.tolerations.effect
+
+### Constraints
+
+**enum**: the value of this property must be equal to one of the following values:
+
+| Value                |
+|:---------------------|
+| `"NoSchedule"`       |
+| `"PreferNoSchedule"` |
+| `"NoExecute"`        |
+
+## .spec.distribution.modules.policy.kyverno.overrides.tolerations.operator
+
+### Constraints
+
+**enum**: the value of this property must be equal to one of the following values:
+
+| Value      |
+|:-----------|
+| `"Exists"` |
+| `"Equal"`  |
+
+## .spec.distribution.modules.policy.kyverno.overrides.tolerations.key
+
+### Description
+
+The key of the toleration
+
+## .spec.distribution.modules.policy.kyverno.overrides.tolerations.value
+
+### Description
+
+The value of the toleration
+
+## .spec.distribution.modules.tracing
+
+### Properties
+
+| Property                                                           | Type     | Required |
+|:-------------------------------------------------------------------|:---------|:---------|
+| [overrides](#specdistributionmodulestracingoverrides)              | `object` | Optional |
+| [type](#specdistributionmodulestracingtype)                        | `string` | Required |
+| [tempo](#specdistributionmodulestracingtempo)                      | `object` | Optional |
+| [minio](#specdistributionmodulestracingminio)                      | `object` | Optional |
+
+## .spec.distribution.modules.tracing.overrides
+
+### Properties
+
+| Property                                                                | Type     | Required |
+|:------------------------------------------------------------------------|:---------|:---------|
+| [nodeSelector](#specdistributionmodulestracingoverridesnodeselector)    | `object` | Optional |
+| [tolerations](#specdistributionmodulestracingoverridestolerations)      | `array`  | Optional |
+| [ingresses](#specdistributionmodulestracingoverridesingresses)          | `object` | Optional |
+
+## .spec.distribution.modules.tracing.overrides.nodeSelector
+
+### Description
+
+The node selector to use to place the pods for the tracing module
+
+## .spec.distribution.modules.tracing.overrides.tolerations
+
+### Properties
+
+| Property                                                                   | Type     | Required |
+|:---------------------------------------------------------------------------|:---------|:---------|
+| [effect](#specdistributionmodulestracingoverridestolerationseffect)        | `string` | Required |
+| [operator](#specdistributionmodulestracingoverridestolerationsoperator)    | `string` | Optional |
+| [key](#specdistributionmodulestracingoverridestolerationskey)              | `string` | Required |
+| [value](#specdistributionmodulestracingoverridestolerationsvalue)          | `string` | Required |
+
+### Description
+
+The tolerations that will be added to the pods for the tracing module
+
+### Constraints
+
+**minimum number of items**: the minimum number of items for this array is: `0`
+
+## .spec.distribution.modules.tracing.overrides.tolerations.effect
+
+### Constraints
+
+**enum**: the value of this property must be equal to one of the following values:
+
+| Value                |
+|:---------------------|
+| `"NoSchedule"`       |
+| `"PreferNoSchedule"` |
+| `"NoExecute"`        |
+
+## .spec.distribution.modules.tracing.overrides.tolerations.operator
+
+### Constraints
+
+**enum**: the value of this property must be equal to one of the following values:
+
+| Value      |
+|:-----------|
+| `"Exists"` |
+| `"Equal"`  |
+
+## .spec.distribution.modules.tracing.overrides.tolerations.key
+
+### Description
+
+The key of the toleration
+
+## .spec.distribution.modules.tracing.overrides.tolerations.value
+
+### Description
+
+The value of the toleration
+
+## .spec.distribution.modules.tracing.overrides.ingresses
+
+### Properties
+
+| Property                                                                      | Type     | Required |
+|:------------------------------------------------------------------------------|:---------|:---------|
+| [host](#specdistributionmodulestracingoverridesingresseshost)                 | `string` | Required |
+| [ingressClass](#specdistributionmodulestracingoverridesingressesingressclass) | `string` | Required |
+
+## .spec.distribution.modules.tracing.overrides.ingresses.host
+
+### Description
+
+The host of the ingress
+
+## .spec.distribution.modules.tracing.overrides.ingresses.ingressClass
+
+### Description
+
+The ingress class of the ingress
+
+## .spec.distribution.modules.tracing.type
+
+### Description
+
+The type of tracing to use, either ***none*** or ***tempo***
+
+### Constraints
+
+**enum**: the value of this property must be equal to one of the following values:
+
+| Value          |
+|:---------------|
+| `"none"`       |
+| `"tempo"`      |
+
+## .spec.distribution.modules.tracing.tempo
+
+### Properties
+
+| Property                                                                 | Type     | Required |
+|:-------------------------------------------------------------------------|:---------|:---------|
+| [overrides](#specdistributionmodulestracingtempooverrides)               | `object` | Optional |
+| [retentionTime](#specdistributionmodulestracingtemporetentiontime)       | `string` | Optional |
+| [backend](#specdistributionmodulestracingtempobackend)                   | `string` | Optional |
+| [externalEndpoint](#specdistributionmodulestracingtempoexternalendpoint) | `object` | Optional |
+
+## .spec.distribution.modules.tracing.tempo.overrides
+
+### Properties
+
+| Property                                                                      | Type     | Required |
+|:------------------------------------------------------------------------------|:---------|:---------|
+| [nodeSelector](#specdistributionmodulestracingtempooverridesnodeselector)     | `object` | Optional |
+| [tolerations](#specdistributionmodulestracingtempooverridestolerations)       | `array`  | Optional |
+
+## .spec.distribution.modules.tracing.tempo.overrides.nodeSelector
+
+### Description
+
+The node selector to use to place the pods for the tempo module
+
+## .spec.distribution.modules.tracing.tempo.overrides.tolerations
+
+### Properties
+
+| Property                                                                         | Type     | Required |
+|:---------------------------------------------------------------------------------|:---------|:---------|
+| [effect](#specdistributionmodulestracingtempooverridestolerationseffect)         | `string` | Required |
+| [operator](#specdistributionmodulestracingtempooverridestolerationsoperator)     | `string` | Optional |
+| [key](#specdistributionmodulestracingtempooverridestolerationskey)               | `string` | Required |
+| [value](#specdistributionmodulestracingtempooverridestolerationsvalue)           | `string` | Required |
+
+### Description
+
+The tolerations that will be added to the pods for the tempo module
+
+### Constraints
+
+**minimum number of items**: the minimum number of items for this array is: `0`
+
+## .spec.distribution.modules.tracing.tempo.overrides.tolerations.effect
+
+### Constraints
+
+**enum**: the value of this property must be equal to one of the following values:
+
+| Value                |
+|:---------------------|
+| `"NoSchedule"`       |
+| `"PreferNoSchedule"` |
+| `"NoExecute"`        |
+
+## .spec.distribution.modules.tracing.tempo.overrides.tolerations.operator
+
+### Constraints
+
+**enum**: the value of this property must be equal to one of the following values:
+
+| Value      |
+|:-----------|
+| `"Exists"` |
+| `"Equal"`  |
+
+
+## .spec.distribution.modules.tracing.tempo.overrides.tolerations.key
+
+### Description
+
+The key of the toleration
+
+## .spec.distribution.modules.tracing.tempo.overrides.tolerations.value
+
+### Description
+
+The value of the toleration
+
+## .spec.distribution.modules.tracing.tempo.retentionTime
+
+### Description
+
+The retention time for the tempo pods
+
+## .spec.distribution.modules.tracing.tempo.backend
+
+### Description
+
+The backend for the tempo pods, must be ***minio*** or ***externalEndpoint***
+
+### Constraints
+
+**enum**: the value of this property must be equal to one of the following values:
+
+| Value                |
+|:---------------------|
+| `"minio"`            |
+| `"externalEndpoint"` |
+
+## .spec.distribution.modules.tracing.tempo.externalEndpoint
+
+### Properties
+
+| Property                                                                                  | Type      | Required |
+|:------------------------------------------------------------------------------------------|:----------|:---------|
+| [endpoint](#specdistributionmodulestracingtempoexternalendpointendpoint)                  | `string`  | Required |
+| [insecure](#specdistributionmodulestracingtempoexternalendpointinsecure)                  | `boolean` | Optional |
+| [secretAccessKey](#specdistributionmodulestracingtempoexternalendpointsecretaccesskey)    | `string`  | Required |
+| [accessKeyId](#specdistributionmodulestracingtempoexternalendpointaccesskeyid)            | `string`  | Required |
+| [bucketName](#specdistributionmodulestracingtempoexternalendpointbucketname)              | `string`  | Required |
+
+## .spec.distribution.modules.tracing.tempo.externalEndpoint.endpoint
+
+### Description
+
+The endpoint of the external tempo backend
+
+## .spec.distribution.modules.tracing.tempo.externalEndpoint.insecure
+
+### Description
+
+If true, the external tempo backend will not use tls
+
+## .spec.distribution.modules.tracing.tempo.externalEndpoint.secretAccessKey
+
+### Description
+
+The secret access key of the external tempo backend
+
+## .spec.distribution.modules.tracing.tempo.externalEndpoint.accessKeyId
+
+### Description
+
+The access key id of the external tempo backend
+
+## .spec.distribution.modules.tracing.tempo.externalEndpoint.bucketName
+
+### Description
+
+The bucket name of the external tempo backend
+
+## .spec.distribution.modules.tracing.minio
+
+### Properties
+
+| Property                                                                 | Type     | Required |
+|:-------------------------------------------------------------------------|:---------|:---------|
+| [overrides](#specdistributionmodulestracingminiooverrides)               | `object` | Optional |
+| [storageSize](#specdistributionmodulestracingminiostoragesize)           | `string` | Optional |
+| [rootUser](#specdistributionmodulestracingminiorootuser)                 | `object` | Optional |
+
+## .spec.distribution.modules.tracing.minio.overrides
+
+### Properties
+
+| Property                                                                      | Type     | Required |
+|:------------------------------------------------------------------------------|:---------|:---------|
+| [nodeSelector](#specdistributionmodulestracingminiooverridesnodeselector)     | `object` | Optional |
+| [tolerations](#specdistributionmodulestracingminiooverridestolerations)       | `array`  | Optional |
+
+## .spec.distribution.modules.tracing.minio.overrides.nodeSelector
+
+### Description
+
+The node selector to use to place the pods for the minio module
+
+## .spec.distribution.modules.tracing.minio.overrides.tolerations
+
+### Properties
+
+| Property                                                                         | Type     | Required |
+|:---------------------------------------------------------------------------------|:---------|:---------|
+| [effect](#specdistributionmodulestracingminiooverridestolerationseffect)         | `string` | Required |
+| [operator](#specdistributionmodulestracingminiooverridestolerationsoperator)     | `string` | Optional |
+| [key](#specdistributionmodulestracingminiooverridestolerationskey)               | `string` | Required |
+| [value](#specdistributionmodulestracingminiooverridestolerationsvalue)           | `string` | Required |
+
+### Description
+
+The tolerations that will be added to the pods for the minio module
+
+### Constraints
+
+**minimum number of items**: the minimum number of items for this array is: `0`
+
+## .spec.distribution.modules.tracing.minio.overrides.tolerations.effect
+
+### Constraints
+
+**enum**: the value of this property must be equal to one of the following values:
+
+| Value                |
+|:---------------------|
+| `"NoSchedule"`       |
+| `"PreferNoSchedule"` |
+| `"NoExecute"`        |
+
+## .spec.distribution.modules.tracing.minio.overrides.tolerations.operator
+
+### Constraints
+
+**enum**: the value of this property must be equal to one of the following values:
+
+| Value      |
+|:-----------|
+| `"Exists"` |
+| `"Equal"`  |
+
+
+## .spec.distribution.modules.tracing.minio.overrides.tolerations.key
+
+### Description
+
+The key of the toleration
+
+## .spec.distribution.modules.tracing.minio.overrides.tolerations.value
+
+### Description
+
+The value of the toleration
+
+## .spec.distribution.modules.tracing.minio.storageSize
+
+### Description
+
+The storage size for the minio pods
+
+## .spec.distribution.modules.tracing.minio.rootUser
+
+### Properties
+
+| Property                                                                  | Type     | Required |
+|:--------------------------------------------------------------------------|:---------|:---------|
+| [username](#specdistributionmodulestracingminiorootuserusername)          | `string` | Required |
+| [password](#specdistributionmodulestracingminiorootuserpassword)          | `string` | Required |
+
+## .spec.distribution.modules.tracing.minio.rootUser.username
+
+### Description
+
+The username for the minio root user
+
+## .spec.distribution.modules.tracing.minio.rootUser.password
+
+### Description
+
+The password for the minio root user
 
 ## .spec.distribution.customPatches
 
