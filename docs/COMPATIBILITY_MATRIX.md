@@ -1,4 +1,4 @@
-    # Compatibility Matrix
+# Compatibility Matrix
 
 ## Maintained releases
 
