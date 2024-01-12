@@ -144,7 +144,7 @@ data:
       alertmanager:
         deadManSwitchWebhookUrl: ""
         slackWebhookUrl: ""
-      mimir: 
+      mimir:
         retentionTime: 30d
         # backend can be minio, externalEndpoint
         backend: minio
@@ -215,16 +215,24 @@ data:
         additionalExcludedNamespaces: []
     # dr module configuration
     dr:
+      type: none
       overrides:
         nodeSelector: null
         tolerations: null
       # the standard configuration for velero on the dr module
       velero:
+        backend: minio
         # this configuration will be used if common.provider.type is eks
         eks:
           iamRoleArn: arn:aws:iam::123456789012:role/example-velero
           region: eu-west-1
           bucketName: example-velero
+        externalEndpoint:
+          endpoint: s3.eu-west-1.amazonaws.com
+          insecure: false
+          secretAccessKey: example
+          accessKeyId: example
+          bucketName: velerobucket
     # auth module configuration
     auth:
       overrides:
