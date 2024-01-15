@@ -731,9 +731,12 @@ The type of the DR, must be ***none*** or ***on-premises***
 
 ### Properties
 
-| Property                                               | Type     | Required |
-|:-------------------------------------------------------|:---------|:---------|
-| [overrides](#specdistributionmodulesdrvelerooverrides) | `object` | Optional |
+| Property                                                             | Type     | Required |
+|:---------------------------------------------------------------------|:---------|:---------|
+| [overrides](#specdistributionmodulesdrvelerooverrides)               | `object` | Optional |
+| [retentionTime](#specdistributionmodulesdrveleroretentiontime)       | `string` | Optional |
+| [backend](#specdistributionmodulesdrvelerobackend)                   | `string` | Optional |
+| [externalEndpoint](#specdistributionmodulesdrveleroexternalendpoint) | `object` | Optional |
 
 ## .spec.distribution.modules.dr.velero.overrides
 
@@ -803,6 +806,69 @@ The key of the toleration
 ### Description
 
 The value of the toleration
+
+## .spec.distribution.modules.dr.velero.retentionTime
+
+### Description
+
+The retention time for velero
+
+## .spec.distribution.modules.dr.velero.backend
+
+### Description
+
+The backend for velero
+
+### Constraints
+
+**enum**: the value of this property must be equal to one of the following values:
+
+| Value                      |
+|:---------------------------|
+| `"minio"`                  |
+| `"externalEndpoint"`       |
+
+## .spec.distribution.modules.dr.velero.externalEndpoint
+
+### Properties
+
+| Property                                                                           | Type      | Required |
+|:-----------------------------------------------------------------------------------|:----------|:---------|
+| [endpoint](#specdistributionmodulesdrveleroexternalendpointendpoint)               | `string`  | Optional |
+| [insecure](#specdistributionmodulesdrveleroexternalendpointinsecure)               | `boolean` | Optional |
+| [secretAccessKey](#specdistributionmodulesdrveleroexternalendpointsecretaccesskey) | `string`  | Optional |
+| [accessKeyId](#specdistributionmodulesdrveleroexternalendpointaccesskeyid)         | `string`  | Optional |
+| [bucketName](#specdistributionmodulesdrveleroexternalendpointbucketname)           | `string`  | Optional |
+
+## .spec.distribution.modules.dr.velero.externalEndpoint.endpoint
+
+### Description
+
+The endpoint for velero
+
+## .spec.distribution.modules.dr.velero.externalEndpoint.insecure
+
+### Description
+
+If true, the endpoint will be insecure
+
+## .spec.distribution.modules.dr.velero.externalEndpoint.secretAccessKey
+
+### Description
+
+The secret access key for velero backend
+
+## .spec.distribution.modules.dr.velero.externalEndpoint.accessKeyId
+
+### Description
+
+The access key id for velero backend
+
+## .spec.distribution.modules.dr.velero.externalEndpoint.bucketName
+
+### Description
+
+The bucket name for velero backend
 
 ## .spec.distribution.modules.ingress
 
