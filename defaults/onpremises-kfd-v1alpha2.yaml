@@ -205,6 +205,8 @@ data:
       kyverno:
         # this configuration adds namespaces to the excluded list, actually whitelisting them
         additionalExcludedNamespaces: []
+        validationFailureAction: enforce
+        installDefaultPolicies: true
     # dr module configuration
     dr:
       type: none

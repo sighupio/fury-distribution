@@ -17,13 +17,27 @@ resources:
 {{- end }}
 {{- end }}
 {{- if eq .spec.distribution.modules.policy.type "kyverno" }}
-  - {{ print "../" .spec.distribution.common.relativeVendorPath "/modules/opa/katalog/kyverno" }}
+  - {{ print "../" .spec.distribution.common.relativeVendorPath "/modules/opa/katalog/kyverno/core" }}
+{{- if .spec.distribution.modules.policy.kyverno.installDefaultPolicies }}
+  - {{ print "../" .spec.distribution.common.relativeVendorPath "/modules/opa/katalog/kyverno/policies" }}
+{{- end }}
 {{- end }}
 
 patchesStrategicMerge:
   - patches/infra-nodes.yml
 {{- if .spec.distribution.modules.policy.kyverno.additionalExcludedNamespaces }}
   - patches/kyverno-whitelist-namespace.yml
+{{- end }}
+
+
+{{- if .spec.distribution.modules.policy.kyverno.installDefaultPolicies }}
+patches:
+  - patch: |-
+      - op: replace
+        path: /spec/validationFailureAction
+        value: {{ .spec.distribution.modules.policy.kyverno.validationFailureAction }}
+    target:
+      kind: ClusterPolicy
 {{- end }}
 
 {{ if .spec.distribution.modules.policy.gatekeeper.additionalExcludedNamespaces }}

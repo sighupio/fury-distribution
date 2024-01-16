@@ -1284,10 +1284,18 @@
             "type": "string"
           }
         },
+        "validationFailureAction": {
+          "type": "string",
+          "enum": ["audit", "enforce"]
+        },
+        "installDefaultPolicies": {
+          "type": "boolean"
+        },
         "overrides": {
           "$ref": "#/$defs/Types.FuryModuleComponentOverrides"
         }
-      }
+      },
+      "required": ["validationFailureAction", "installDefaultPolicies"]
     },
     "Spec.Distribution.Modules.Dr": {
       "type": "object",
