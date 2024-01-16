@@ -16,3 +16,9 @@ distribution:
     reducers:
       - key: distributionModulesLoggingType
         lifecycle: pre-apply
+  - path: .spec.distribution.modules.policy.type
+    immutable: false
+    description: "changes to the policy module type have been detected. This will cause a deletion of the current policy stack."
+    reducers:
+      - key: distributionModulesPolicyType
+        lifecycle: pre-apply
