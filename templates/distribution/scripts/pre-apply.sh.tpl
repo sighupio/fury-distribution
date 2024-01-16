@@ -50,4 +50,37 @@ deleteLoki
 
 {{- end }} # end distributionModulesLoggingType
 
+{{- if index .reducers "distributionModulesPolicyType" }}
+
+deleteGatekeeper() {
+
+  $kubectlbin delete --ignore-not-found --wait --timeout=180s ingress -n gatekeeper-system gpm
+  $kubectlbin delete --ignore-not-found --wait --timeout=180s ingress -n pomerium gpm
+  $kustomizebin build $vendorPath/modules/opa/katalog/gatekeeper | $kubectlbin delete --ignore-not-found --wait --timeout=180s -f -
+  echo "Gatekeeper resources deleted"
+}
+
+deleteKyverno() {
+  $kustomizebin build $vendorPath/modules/opa/katalog/kyverno | $kubectlbin delete --ignore-not-found --wait --timeout=180s -f -
+  echo "Kyverno resources deleted"
+}
+
+{{- if eq .reducers.distributionModulesPolicyType.to "none" }}
+
+{{- if eq .reducers.distributionModulesPolicyType.from "kyverno" }}
+deleteKyverno
+{{- end }}
+
+{{- end }}
+
+{{- if eq .reducers.distributionModulesPolicyType.to "none" }}
+
+{{- if eq .reducers.distributionModulesPolicyType.from "gatekeeper" }}
+deleteGatekeeper
+{{- end }}
+
+{{- end }}
+
+{{- end }} # end distributionModulesPolicyType
+
 {{- end }} # end reducers
