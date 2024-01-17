@@ -1279,7 +1279,8 @@
         "overrides": {
           "$ref": "#/$defs/Types.FuryModuleComponentOverrides"
         }
-      }
+      },
+      "required": ["enforcementAction", "installDefaultPolicies"]
     },
     "Spec.Distribution.Modules.Policy.Kyverno": {
       "type": "object",
