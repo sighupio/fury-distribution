@@ -19,6 +19,13 @@ distribution:
   - path: .spec.distribution.modules.policy.type
     immutable: false
     description: "changes to the policy module type have been detected. This will cause a deletion of the current policy stack."
+    unsupported:
+      - to: gatekeeper
+        from: kyverno
+        reason: "currently, switching from gatekeeper to kyverno is not supported."
+      - to: kyverno
+        from: gatekeeper
+        reason: "currently, switching from kyverno to gatekeeper is not supported."
     reducers:
       - key: distributionModulesPolicyType
         lifecycle: pre-apply
