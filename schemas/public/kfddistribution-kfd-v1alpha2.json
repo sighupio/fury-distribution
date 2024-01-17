@@ -974,7 +974,29 @@
           "$ref": "#/$defs/Spec.Distribution.Modules.Policy.Kyverno"
         }
       },
-      "required": ["type"]
+      "required": ["type"],
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "type": { "const": "gatekeeper" }
+            }
+          },
+          "then": {
+            "required": ["gatekeeper"]
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "type": { "const": "kyverno" }
+            }
+          },
+          "then": {
+            "required": ["kyverno"]
+          }
+        }
+      ]
     },
     "Spec.Distribution.Modules.Policy.Gatekeeper": {
       "type": "object",
