@@ -55,4 +55,11 @@ $kubectlbin rollout status deployment gatekeeper-controller-manager -n gatekeepe
 $kubectlbin rollout status deployment gatekeeper-policy-manager -n gatekeeper-system --timeout=180s
 {{- end }}
 
+{{- if eq .spec.distribution.modules.policy.type "kyverno" }}
+$kubectlbin rollout status deployment kyverno-admission-controller -n kyverno --timeout=180s
+$kubectlbin rollout status deployment kyverno-background-controller  -n kyverno --timeout=180s
+$kubectlbin rollout status deployment kyverno-cleanup-controller -n kyverno --timeout=180s
+$kubectlbin rollout status deployment kyverno-reports-controller  -n kyverno --timeout=180s
+{{- end }}
+
 < out.yaml $kubectlbin apply -f - --server-side
