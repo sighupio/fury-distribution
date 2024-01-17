@@ -56,7 +56,15 @@ deleteGatekeeper() {
 
   $kubectlbin delete --ignore-not-found --wait --timeout=180s ingress -n gatekeeper-system gpm
   $kubectlbin delete --ignore-not-found --wait --timeout=180s ingress -n pomerium gpm
-  $kustomizebin build $vendorPath/modules/opa/katalog/gatekeeper | $kubectlbin delete --ignore-not-found --wait --timeout=180s -f -
+  $kustomizebin build $vendorPath/modules/opa/katalog/gatekeeper/rules/constraints | $kubectlbin delete --ignore-not-found --wait --timeout=180s -f -
+  $kustomizebin build $vendorPath/modules/opa/katalog/gatekeeper/rules/config | $kubectlbin delete --ignore-not-found --wait --timeout=180s -f -
+  $kustomizebin build $vendorPath/modules/opa/katalog/gatekeeper/rules/templates | $kubectlbin delete --ignore-not-found --wait --timeout=180s -f -
+  $kustomizebin build $vendorPath/modules/opa/katalog/gatekeeper/gpm | $kubectlbin delete --ignore-not-found --wait --timeout=180s -f -
+{{- if ne .spec.distribution.modules.monitoring.type "none" }}
+  $kustomizebin build $vendorPath/modules/opa/katalog/gatekeeper/monitoring | $kubectlbin delete --ignore-not-found --wait --timeout=180s -f -
+{{- end }}
+  $kustomizebin build $vendorPath/modules/opa/katalog/gatekeeper/core | $kubectlbin delete --ignore-not-found --wait --timeout=180s -f -
+
   echo "Gatekeeper resources deleted"
 }
 
