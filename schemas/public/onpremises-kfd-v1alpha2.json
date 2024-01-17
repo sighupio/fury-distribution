@@ -1269,6 +1269,13 @@
             "type": "string"
           }
         },
+        "enforcementAction": {
+          "type": "string",
+          "enum": ["deny", "dryrun", "warn"]
+        },
+        "installDefaultPolicies": {
+          "type": "boolean"
+        },
         "overrides": {
           "$ref": "#/$defs/Types.FuryModuleComponentOverrides"
         }
