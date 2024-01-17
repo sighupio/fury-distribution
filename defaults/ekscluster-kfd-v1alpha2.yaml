@@ -142,6 +142,7 @@ data:
         retentionSize: 120GB
         storageSize: 150Gi
       alertmanager:
+        defaultRules: "enabled"
         deadManSwitchWebhookUrl: ""
         slackWebhookUrl: ""
       mimir:

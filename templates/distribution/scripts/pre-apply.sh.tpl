@@ -50,6 +50,19 @@ deleteLoki
 
 {{- end }} # end distributionModulesLoggingType
 
+{{- if index .reducers "distributionModulesMonitoringAlertmanagerDefaultrules" }}
+{{- if eq .reducers.distributionModulesMonitoringAlertmanagerDefaultrules.to "disabled" }}
+
+   $kubectlbin delete --ignore-not-found --wait --timeout=180s -n monitoring alertmanagerconfigs.monitoring.coreos.com deadmanswitch
+   $kubectlbin delete --ignore-not-found --wait --timeout=180s -n monitoring alertmanagerconfigs.monitoring.coreos.com infra
+   $kubectlbin delete --ignore-not-found --wait --timeout=180s -n monitoring alertmanagerconfigs.monitoring.coreos.com k8s
+   $kubectlbin delete --ignore-not-found --wait --timeout=180s -n monitoring secret infra-slack-webhook
+   $kubectlbin delete --ignore-not-found --wait --timeout=180s -n monitoring secret k8s-slack-webhook
+   $kubectlbin delete --ignore-not-found --wait --timeout=180s -n monitoring secret healthchecks-webhook
+
+{{- end }}
+{{- end }} # end distributionModulesMonitoringAlertmanagerDefaultrules
+
 {{- if index .reducers "distributionModulesPolicyType" }}
 
 deleteGatekeeper() {

@@ -31,8 +31,10 @@ resources:
 {{- if ne .spec.distribution.modules.ingress.nginx.type "none" }}
   - resources/ingress-infra.yml
 {{- end }}
+{{- if eq .spec.distribution.modules.monitoring.alertmanager.defaultRules "enabled" }}
 {{- if or .spec.distribution.modules.monitoring.alertmanager.deadManSwitchWebhookUrl .spec.distribution.modules.monitoring.alertmanager.slackWebhookUrl }}
   - secrets/alertmanager.yml
+{{- end }}
 {{- end }}
 
 patchesStrategicMerge:
