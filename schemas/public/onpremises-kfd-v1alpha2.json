@@ -305,6 +305,9 @@
         },
         "oidc": {
           "$ref": "#/$defs/Spec.Kubernetes.Advanced.OIDC"
+        },
+        "containerd": {
+          "$ref": "#/$defs/Spec.Kubernetes.Advanced.Containerd"
         }
       }
     },
@@ -350,7 +353,43 @@
         }
       }
     },
-
+    "Spec.Kubernetes.Advanced.Containerd": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "registryConfigs": {
+          "$ref": "#/$defs/Spec.Kubernetes.Advanced.Containerd.RegistryConfigs"
+        }
+      }
+    },
+    "Spec.Kubernetes.Advanced.Containerd.RegistryConfigs": {
+      "type": "array",
+      "additionalProperties": false,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "registry": {
+            "type": "string"
+          },
+          "username": {
+            "type": "string"
+          },
+          "password": {
+            "type": "string"
+          },
+          "insecureSkipVerify": {
+            "type": "boolean"
+          },
+          "mirrorEndpoint": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
     "Spec.Distribution.CustomPatches": {
       "type": "object",
       "properties": {

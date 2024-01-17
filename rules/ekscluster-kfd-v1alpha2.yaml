@@ -9,7 +9,7 @@ kubernetes: []
 distribution: 
   - path: .spec.distribution.modules.logging.type
     immutable: false
-    description: "changes to the logging module type have been detected. This will cause a deletion of the current logging stack and a new one will be created."
+    description: "changes to the logging module type have been detected. This will cause the reconfiguration or deletion of the current logging stack."
     unsupported:
       - to: none
         reason: "currently, removing the logging stack is not supported."
@@ -18,14 +18,14 @@ distribution:
         lifecycle: pre-apply
   - path: .spec.distribution.modules.policy.type
     immutable: false
-    description: "changes to the policy module type have been detected. This will cause a deletion of the current policy stack."
+    description: "changes to the policy module type have been detected. This will cause the reconfiguration or deletion of the current policy stack."
     unsupported:
       - to: gatekeeper
         from: kyverno
-        reason: "currently, switching from gatekeeper to kyverno is not supported."
+        reason: "currently, switching from kyverno to gatekeeper is not supported. You need to first remove the current stack with type: none."
       - to: kyverno
         from: gatekeeper
-        reason: "currently, switching from kyverno to gatekeeper is not supported."
+        reason: "currently, switching from gatekeeper to kyverno is not supported. You need to first remove the current stack with type: none."
     reducers:
       - key: distributionModulesPolicyType
         lifecycle: pre-apply

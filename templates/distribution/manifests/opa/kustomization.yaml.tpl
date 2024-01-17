@@ -31,7 +31,7 @@ patchesStrategicMerge:
   - patches/kyverno-whitelist-namespace.yml
 {{- end }}
 
-
+{{- if eq .spec.distribution.modules.policy.type "kyverno" }}
 {{- if .spec.distribution.modules.policy.kyverno.installDefaultPolicies }}
 patches:
   - patch: |-
@@ -41,7 +41,9 @@ patches:
     target:
       kind: ClusterPolicy
 {{- end }}
+{{- end }}
 
+{{- if eq .spec.distribution.modules.policy.type "gatekeeper" }}
 {{- if .spec.distribution.modules.policy.gatekeeper.installDefaultPolicies }}
 patches:
   - patch: |-
@@ -74,6 +76,7 @@ patches:
         value: {{ .spec.distribution.modules.policy.gatekeeper.enforcementAction }}
     target:
       kind: K8sUniqueServiceSelector
+{{- end }}
 {{- end }}
 
 {{ if .spec.distribution.modules.policy.gatekeeper.additionalExcludedNamespaces }}
