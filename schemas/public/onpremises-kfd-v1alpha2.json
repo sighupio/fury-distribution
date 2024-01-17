@@ -305,6 +305,9 @@
         },
         "oidc": {
           "$ref": "#/$defs/Spec.Kubernetes.Advanced.OIDC"
+        },
+        "containerd": {
+          "$ref": "#/$defs/Spec.Kubernetes.Advanced.Containerd"
         }
       }
     },
