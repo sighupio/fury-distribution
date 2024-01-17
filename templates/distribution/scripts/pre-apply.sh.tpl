@@ -53,7 +53,9 @@ deleteLoki
 {{- if index .reducers "distributionModulesPolicyType" }}
 
 deleteGatekeeper() {
-
+  
+  $kubectlbin delete --ignore-not-found --wait --timeout=180s validatingwebhookconfiguration -l gatekeeper.sh/system=yes
+  $kubectlbin delete --ignore-not-found --wait --timeout=180s mutatingwebhookconfiguration -l gatekeeper.sh/system=yes
   $kubectlbin delete --ignore-not-found --wait --timeout=180s ingress -n gatekeeper-system gpm
   $kubectlbin delete --ignore-not-found --wait --timeout=180s ingress -n pomerium gpm
   $kustomizebin build $vendorPath/modules/opa/katalog/gatekeeper/rules/constraints | $kubectlbin delete --ignore-not-found --wait --timeout=180s -f -
@@ -70,6 +72,8 @@ deleteGatekeeper() {
 
 deleteKyverno() {
   $kustomizebin build $vendorPath/modules/opa/katalog/kyverno | $kubectlbin delete --ignore-not-found --wait --timeout=180s -f -
+  $kubectlbin delete --ignore-not-found --wait --timeout=180s validatingwebhookconfiguration -l webhook.kyverno.io/managed-by=kyverno
+  $kubectlbin delete --ignore-not-found --wait --timeout=180s mutatingwebhookconfiguration -l webhook.kyverno.io/managed-by=kyverno
   echo "Kyverno resources deleted"
 }
 
