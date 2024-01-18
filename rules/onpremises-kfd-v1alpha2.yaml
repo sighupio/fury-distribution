@@ -50,3 +50,15 @@ distribution:
     reducers:
       - key: distributionModulesTracingTempoBackend
         lifecycle: pre-apply
+  - path: .spec.distribution.modules.dr.type
+    immutable: false
+    description: "changes to the dr module type have been detected. This will cause the replacement of the current DR (velero) stack (removal or creation)."
+    reducers:
+      - key: distributionModulesDRType
+        lifecycle: pre-apply
+  - path: .spec.distribution.modules.dr.velero.backend
+    immutable: false
+    description: "changes to the velero backend have been detected. This will cause the reconfiguration of velero and the deletion of the current minio storage, if minio was disabled"
+    reducers:
+      - key: distributionModulesDRVeleroBackend
+        lifecycle: pre-apply
