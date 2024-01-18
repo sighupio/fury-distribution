@@ -160,17 +160,18 @@ steps:
         path: /shared
     depends_on: [init]
     commands:
-      - ls -la /shared/
-      - ls -la /shared/kube/
       - export KUBECONFIG=/shared/kube/kubeconfig-127
-      - bats -t tests/install.sh
+      - bats -t tests/schema.sh
+      - curl -L "https://github.com/sighupio/furyctl/releases/latest/download/furyctl-$(uname -s)-amd64.tar.gz" -o /tmp/furyctl.tar.gz && tar xfz /tmp/furyctl.tar.gz -C /tmp
+      - chmod +x /tmp/furyctl
+      - bats -t tests/e2e-furyctl.sh
       - bats -t tests/networking.sh
       - bats -t tests/monitoring.sh
       - bats -t tests/logging.sh
       - bats -t tests/ingress.sh
       - bats -t tests/dr.sh
       - bats -t tests/opa.sh
-      - bats -t tests/schema.sh
+
 
   - name: destroy
     image: quay.io/sighup/e2e-testing-drone-plugin:v2.0.0
