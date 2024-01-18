@@ -10,7 +10,7 @@ load ./helper
 @test "KFDDistribution: Install furyctl config 1" {
     info
     create() {
-        ./tmp/furyctl create cluster --config tests/e2e/kfddistribution/furyctl-1.yaml --outdir "$PWD" -D --distro-location ./
+        ./tmp/furyctl create cluster --config tests/e2e/kfddistribution/furyctl-init-cluster.yaml --outdir "$PWD" -D --distro-location ./
     }
     run create
     [ "$status" -eq 0 ]
