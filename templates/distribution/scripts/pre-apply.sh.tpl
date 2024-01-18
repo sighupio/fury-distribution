@@ -152,6 +152,12 @@ deleteTempo
 
 {{- end }} # end distributionModulesTracingType
 
+# ████████ ███████ ███    ███ ██████   ██████      ██████   █████   ██████ ██   ██ ███████ ███    ██ ██████  
+#    ██    ██      ████  ████ ██   ██ ██    ██     ██   ██ ██   ██ ██      ██  ██  ██      ████   ██ ██   ██ 
+#    ██    █████   ██ ████ ██ ██████  ██    ██     ██████  ███████ ██      █████   █████   ██ ██  ██ ██   ██ 
+#    ██    ██      ██  ██  ██ ██      ██    ██     ██   ██ ██   ██ ██      ██  ██  ██      ██  ██ ██ ██   ██ 
+#    ██    ███████ ██      ██ ██       ██████      ██████  ██   ██  ██████ ██   ██ ███████ ██   ████ ██████  
+                                                                                                           
 {{- if index .reducers "distributionModulesTracingTempoBackend" }}
 
 deleteTracingMinioHA() {
@@ -177,6 +183,78 @@ deleteTracingMinioHA
 {{- end }}
 
 {{- end }} # end distributionModulesTracingTempoBackend
+
+# ██████  ██████      ████████ ██    ██ ██████  ███████ 
+# ██   ██ ██   ██        ██     ██  ██  ██   ██ ██      
+# ██   ██ ██████         ██      ████   ██████  █████   
+# ██   ██ ██   ██        ██       ██    ██      ██      
+# ██████  ██   ██        ██       ██    ██      ███████ 
+                                                                                             
+{{- if index .reducers "distributionModulesDRType" }}
+
+deleteVelero() {
+
+  $kustomizebin build $vendorPath/modules/dr/katalog/velero/velero-node-agent | $kubectlbin delete --ignore-not-found --wait --timeout=180s -f -
+  $kustomizebin build $vendorPath/modules/dr/katalog/velero/velero-schedules | $kubectlbin delete --ignore-not-found --wait --timeout=180s -f -
+  # on prem can be used to delete also the eks one, since it has more manifests and we are using --ignore-not-found
+  $kustomizebin build $vendorPath/modules/dr/katalog/velero/velero-on-prem > delete-velero.yaml
+
+{{- if eq .spec.distribution.modules.dr.type "none" }}
+  if ! $kubectlbin get apiservice v1.monitoring.coreos.com; then
+    cat delete-velero.yaml | $yqbin 'select(.apiVersion != "monitoring.coreos.com/v1")' > delete-velero-filtered.yaml
+    cp delete-velero-filtered.yaml delete-velero.yaml
+  fi
+{{- end }}
+
+< delete-velero.yaml $yqbin 'select(.kind != "CustomResourceDefinition")' | $kubectlbin delete --ignore-not-found --wait --timeout=180s -f -
+< delete-velero.yaml $yqbin 'select(.kind == "CustomResourceDefinition")' | $kubectlbin delete --ignore-not-found --wait --timeout=180s -f -
+  echo "Velero resources deleted"
+
+}
+
+{{- if eq .reducers.distributionModulesDRType.to "none" }}
+
+{{- if eq .reducers.distributionModulesDRType.from "on-premises" }}
+deleteVelero
+{{- end }}
+
+{{- end }}
+
+{{- end }} # end distributionModulesDRType
+
+# ██    ██ ███████ ██      ███████ ██████   ██████      ██████   █████   ██████ ██   ██ ███████ ███    ██ ██████  
+# ██    ██ ██      ██      ██      ██   ██ ██    ██     ██   ██ ██   ██ ██      ██  ██  ██      ████   ██ ██   ██ 
+# ██    ██ █████   ██      █████   ██████  ██    ██     ██████  ███████ ██      █████   █████   ██ ██  ██ ██   ██ 
+#  ██  ██  ██      ██      ██      ██   ██ ██    ██     ██   ██ ██   ██ ██      ██  ██  ██      ██  ██ ██ ██   ██ 
+#   ████   ███████ ███████ ███████ ██   ██  ██████      ██████  ██   ██  ██████ ██   ██ ███████ ██   ████ ██████  
+                                                                                                                
+
+{{- if index .reducers "distributionModulesDRVeleroBackend" }}
+
+deleteVeleroMinio() {
+
+  $kustomizebin build $vendorPath/modules/dr/katalog/velero/velero-on-prem/minio > delete-dr-minio.yaml
+
+{{- if eq .spec.distribution.modules.monitoring.type "none" }}
+  if ! $kubectlbin get apiservice v1.monitoring.coreos.com; then
+    cat delete-dr-minio.yaml | $yqbin 'select(.apiVersion != "monitoring.coreos.com/v1")' > delete-dr-minio-filtered.yaml
+    cp delete-dr-minio-filtered.yaml delete-dr-minio.yaml 
+  fi
+{{- end }}
+  $kubectlbin delete --ignore-not-found --wait --timeout=180s -f delete-dr-minio.yaml 
+  echo "Minio on kube-system namespace deleted"
+}
+
+{{- if eq .reducers.distributionModulesDRVeleroBackend.to "externalEndpoint" }}
+
+{{- if eq .reducers.distributionModulesDRVeleroBackend.from "minio" }}
+deleteVeleroMinio
+{{- end }}
+
+{{- end }}
+
+{{- end }} # end distributionModulesDRVeleroBackend
+
 
 # ███████ ███    ██ ██████  
 # ██      ████   ██ ██   ██ 
