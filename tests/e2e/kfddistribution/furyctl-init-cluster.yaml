@@ -11,7 +11,7 @@ spec:
   distributionVersion: v1.27.2
   # This section describes how the KFD distribution will be installed
   distribution:
-    kubeconfig: "{env://KUBECONFIG}"
+    kubeconfig: "/shared/kube/kubeconfig-127"
     # This common configuration will be applied to all the packages that will be installed in the cluster
     common:
       nodeSelector:
