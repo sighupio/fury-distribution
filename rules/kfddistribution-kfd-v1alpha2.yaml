@@ -29,3 +29,15 @@ distribution:
     reducers:
       - key: distributionModulesPolicyType
         lifecycle: pre-apply
+  - path: .spec.distribution.modules.tracing.type
+    immutable: false
+    description: "changes to the tracing module type have been detected. This will cause the replacement of the current tracing stack (removal or creation)."
+    reducers:
+      - key: distributionModulesTracingType
+        lifecycle: pre-apply
+  - path: .spec.distribution.modules.tracing.tempo.backend
+    immutable: false
+    description: "changes to the tempo backend have been detected. This will cause the reconfiguration of tempo and the deletion of the current minio storage, if minio was disabled"
+    reducers:
+      - key: distributionModulesTracingTempoBackend
+        lifecycle: pre-apply

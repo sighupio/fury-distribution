@@ -95,4 +95,63 @@ deleteGatekeeper
 
 {{- end }} # end distributionModulesPolicyType
 
+{{- if index .reducers "distributionModulesTracingType" }}
+
+deleteTempo() {
+
+  $kustomizebin build $vendorPath/modules/tracing/katalog/minio-ha > delete-tracing-minio-ha.yaml
+  $kustomizebin build $vendorPath/modules/tracing/katalog/tempo-distributed > delete-tracing-tempo-distributed.yaml
+
+{{- if eq .spec.distribution.modules.monitoring.type "none" }}
+  if ! $kubectlbin get apiservice v1.monitoring.coreos.com; then
+    cat delete-tracing-minio-ha.yaml | $yqbin 'select(.apiVersion != "monitoring.coreos.com/v1")' > delete-tracing-minio-ha-filtered.yaml
+    cp delete-tracing-minio-ha-filtered.yaml delete-tracing-minio-ha.yaml
+    cat delete-tracing-tempo-distributed.yaml | $yqbin 'select(.apiVersion != "monitoring.coreos.com/v1")' > delete-tracing-tempo-distributed-filtered.yaml
+    cp delete-tracing-tempo-distributed-filtered.yaml delete-tracing-tempo-distributed.yaml
+  fi
+{{- end }}
+  $kubectlbin delete --ignore-not-found --wait --timeout=180s -f delete-tracing-minio-ha.yaml
+  $kubectlbin delete --ignore-not-found --wait --timeout=180s -f delete-tracing-tempo-distributed.yaml
+  echo "Tempo resources deleted"
+}
+
+{{- if eq .reducers.distributionModulesTracingType.to "none" }}
+
+{{- if eq .reducers.distributionModulesTracingType.from "tempo" }}
+deleteTempo
+{{- end }}
+
+{{- end }}
+
+
+{{- end }} # end distributionModulesTracingType
+
+{{- if index .reducers "distributionModulesTracingTempoBackend" }}
+
+deleteTracingMinioHA() {
+
+  $kustomizebin build $vendorPath/modules/tracing/katalog/minio-ha > delete-tracing-minio-ha.yaml
+
+{{- if eq .spec.distribution.modules.monitoring.type "none" }}
+  if ! $kubectlbin get apiservice v1.monitoring.coreos.com; then
+    cat delete-tracing-minio-ha.yaml | $yqbin 'select(.apiVersion != "monitoring.coreos.com/v1")' > delete-tracing-minio-ha-filtered.yaml
+    cp delete-tracing-minio-ha-filtered.yaml delete-tracing-minio-ha.yaml
+  fi
+{{- end }}
+  $kubectlbin delete --ignore-not-found --wait --timeout=180s -f delete-tracing-minio-ha.yaml
+  echo "Minio HA on tracing namespace deleted"
+}
+
+{{- if eq .reducers.distributionModulesTracingTempoBackend.to "externalEndpoint" }}
+
+{{- if eq .reducers.distributionModulesTracingTempoBackend.from "minio" }}
+deleteTracingMinioHA
+{{- end }}
+
+{{- end }}
+
+{{- end }} # end distributionModulesTracingTempoBackend
+
+
+
 {{- end }} # end reducers
