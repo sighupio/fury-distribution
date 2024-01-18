@@ -9,6 +9,20 @@ vendorPath="{{ .paths.vendorPath }}"
 
 {{- if index . "reducers" }}
 
+# ███████ ████████  █████  ██████  ████████ 
+# ██         ██    ██   ██ ██   ██    ██    
+# ███████    ██    ███████ ██████     ██    
+#      ██    ██    ██   ██ ██   ██    ██    
+# ███████    ██    ██   ██ ██   ██    ██    
+
+# Text generated with: https://www.patorjk.com/software/taag/#p=display&f=ANSI%20Regular&t=TRACING%20TYPE
+
+# ██       ██████   ██████   ██████  ██ ███    ██  ██████      ████████ ██    ██ ██████  ███████ 
+# ██      ██    ██ ██       ██       ██ ████   ██ ██              ██     ██  ██  ██   ██ ██      
+# ██      ██    ██ ██   ███ ██   ███ ██ ██ ██  ██ ██   ███        ██      ████   ██████  █████   
+# ██      ██    ██ ██    ██ ██    ██ ██ ██  ██ ██ ██    ██        ██       ██    ██      ██      
+# ███████  ██████   ██████   ██████  ██ ██   ████  ██████         ██       ██    ██      ███████ 
+                                           
 {{- if index .reducers "distributionModulesLoggingType" }}
 
 deleteOpensearch() {
@@ -49,6 +63,12 @@ deleteLoki
 {{- end }}
 
 {{- end }} # end distributionModulesLoggingType
+
+# ██████   ██████  ██      ██  ██████ ██    ██     ████████ ██    ██ ██████  ███████ 
+# ██   ██ ██    ██ ██      ██ ██       ██  ██         ██     ██  ██  ██   ██ ██      
+# ██████  ██    ██ ██      ██ ██        ████          ██      ████   ██████  █████   
+# ██      ██    ██ ██      ██ ██         ██           ██       ██    ██      ██      
+# ██       ██████  ███████ ██  ██████    ██           ██       ██    ██      ███████ 
 
 {{- if index .reducers "distributionModulesPolicyType" }}
 
@@ -94,6 +114,12 @@ deleteGatekeeper
 {{- end }}
 
 {{- end }} # end distributionModulesPolicyType
+
+# ████████ ██████   █████   ██████ ██ ███    ██  ██████      ████████ ██    ██ ██████  ███████ 
+#    ██    ██   ██ ██   ██ ██      ██ ████   ██ ██              ██     ██  ██  ██   ██ ██      
+#    ██    ██████  ███████ ██      ██ ██ ██  ██ ██   ███        ██      ████   ██████  █████   
+#    ██    ██   ██ ██   ██ ██      ██ ██  ██ ██ ██    ██        ██       ██    ██      ██      
+#    ██    ██   ██ ██   ██  ██████ ██ ██   ████  ██████         ██       ██    ██      ███████ 
 
 {{- if index .reducers "distributionModulesTracingType" }}
 
@@ -152,6 +178,10 @@ deleteTracingMinioHA
 
 {{- end }} # end distributionModulesTracingTempoBackend
 
-
+# ███████ ███    ██ ██████  
+# ██      ████   ██ ██   ██ 
+# █████   ██ ██  ██ ██   ██ 
+# ██      ██  ██ ██ ██   ██ 
+# ███████ ██   ████ ██████  
 
 {{- end }} # end reducers
