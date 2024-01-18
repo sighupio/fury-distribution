@@ -19,10 +19,7 @@ spec:
     # This section contains all the configurations for all the KFD core modules
     modules:
       networking: 
-        type: cilium
-        cilium: 
-          maskSize: "22"
-          podCidr: "10.0.1.2/16"
+        type: calico
       # This section contains all the configurations for the ingress module
       ingress:
         baseDomain: fury.sighup.io
