@@ -13,9 +13,7 @@ spec:
   distribution:
     kubeconfig: "/shared/kube/kubeconfig-127"
     # This common configuration will be applied to all the packages that will be installed in the cluster
-    common:
-      nodeSelector:
-        beta.kubernetes.io/arch: amd64
+    common: {}
     # This section contains all the configurations for all the KFD core modules
     modules:
       networking: 
