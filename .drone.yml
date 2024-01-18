@@ -164,6 +164,7 @@ steps:
       - bats -t tests/schema.sh
       - curl -L "https://github.com/sighupio/furyctl/releases/latest/download/furyctl-$(uname -s)-amd64.tar.gz" -o /tmp/furyctl.tar.gz && tar xfz /tmp/furyctl.tar.gz -C /tmp
       - chmod +x /tmp/furyctl
+      - ./tmp/furyctl create cluster --config tests/e2e/kfddistribution/furyctl-init-cluster.yaml --outdir "$PWD" -D --distro-location ./
       - bats -t tests/e2e-furyctl.sh
       - bats -t tests/networking.sh
       - bats -t tests/monitoring.sh
