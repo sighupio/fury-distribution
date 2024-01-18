@@ -76,9 +76,3 @@ spec:
       auth:
         provider:
           type: none
-  plugins:
-    kustomize: 
-      - name: cert-manager-secret
-        folder: ./cert-manager-secret/
-      - name: storage
-        folder: https://github.com/rancher/local-path-provisioner/deploy?ref=v0.0.24
