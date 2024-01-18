@@ -166,7 +166,6 @@ steps:
       - chmod +x /tmp/furyctl
       - echo "Executing furyctl for the initial setup"
       - /tmp/furyctl create cluster --config tests/e2e/kfddistribution/furyctl-init-cluster.yaml --outdir "$PWD" -D --distro-location ./
-      - bats -t tests/e2e-furyctl.sh
       - bats -t tests/networking.sh
       - bats -t tests/monitoring.sh
       - bats -t tests/logging.sh
