@@ -12,6 +12,7 @@ spec:
   # This section describes how the KFD distribution will be installed
   distribution:
     kubeconfig: "/shared/kube/kubeconfig-127"
+    #kubeconfig: "{env://KUBECONFIG}" TODO to be fixed
     # This common configuration will be applied to all the packages that will be installed in the cluster
     common: {}
     # This section contains all the configurations for all the KFD core modules
@@ -30,7 +31,6 @@ spec:
             name: letsencrypt-fury
             email: sighup@sighup.io
             type: http01
-            
       logging:
         type: loki
         loki: 
@@ -44,6 +44,13 @@ spec:
         type: mimir
         mimir: 
           backend: minio
+        prometheus:
+          resources:
+            requests:
+              cpu: 10m
+            limits:
+              cpu: 2000m
+              memory: 6Gi
         minio:
           storageSize: 20Gi
           rootUser:
@@ -71,3 +78,72 @@ spec:
       auth:
         provider:
           type: none
+    # patches for kind compatibility and resource setting
+    customPatches:
+      patchesStrategicMerge:
+        - |
+          apiVersion: apps/v1
+          kind: StatefulSet
+          metadata:
+            name: minio-logging
+            namespace: logging
+          spec:
+            template:
+              spec:
+                containers:
+                - name: minio
+                  resources:
+                    requests:
+                      cpu: 10m
+                      memory: 50Mi
+        - |
+          apiVersion: apps/v1
+          kind: StatefulSet
+          metadata:
+            name: minio-monitoring
+            namespace: monitoring
+          spec:
+            template:
+              spec:
+                containers:
+                - name: minio
+                  resources:
+                    requests:
+                      cpu: 10m
+                      memory: 50Mi
+        - |
+          apiVersion: apps/v1
+          kind: StatefulSet
+          metadata:
+            name: minio-tracing
+            namespace: tracing
+          spec:
+            template:
+              spec:
+                containers:
+                - name: minio
+                  resources:
+                    requests:
+                      cpu: 10m
+                      memory: 50Mi
+        - |
+          $patch: delete
+          apiVersion: logging-extensions.banzaicloud.io/v1alpha1
+          kind: HostTailer
+          metadata:
+            name: systemd-common
+            namespace: logging
+        - |
+          $patch: delete
+          apiVersion: logging-extensions.banzaicloud.io/v1alpha1
+          kind: HostTailer
+          metadata:
+            name: systemd-etcd
+            namespace: logging
+        - |
+          $patch: delete
+          apiVersion: apps/v1
+          kind: DaemonSet
+          metadata:
+            name: x509-certificate-exporter-control-plane
+            namespace: monitoring
