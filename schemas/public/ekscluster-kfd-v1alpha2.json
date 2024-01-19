@@ -1452,9 +1452,8 @@
         "deadManSwitchWebhookUrl": {
           "type": "string"
         },
-        "defaultRules":  {
-          "type": "string",
-          "enum": ["enabled", "disabled"]
+        "installDefaultRules": {
+          "type": "boolean"
         },
         "slackWebhookUrl": {
           "type": "string"

@@ -31,10 +31,8 @@ resources:
 {{- if ne .spec.distribution.modules.ingress.nginx.type "none" }}
   - resources/ingress-infra.yml
 {{- end }}
-{{- if eq .spec.distribution.modules.monitoring.alertmanager.defaultRules "enabled" }}
 {{- if or .spec.distribution.modules.monitoring.alertmanager.deadManSwitchWebhookUrl .spec.distribution.modules.monitoring.alertmanager.slackWebhookUrl }}
   - secrets/alertmanager.yml
-{{- end }}
 {{- end }}
 
 patchesStrategicMerge:
@@ -45,6 +43,33 @@ patchesStrategicMerge:
   {{- if and (eq .spec.distribution.modules.monitoring.type "mimir") (eq .spec.distribution.modules.monitoring.mimir.backend "minio") }}
   - patches/minio.yml
   {{- end }}
+{{- end }}
+{{- if not .spec.distribution.modules.monitoring.alertmanager.installDefaultRules }}
+{{- if .spec.distribution.modules.monitoring.alertmanager.deadManSwitchWebhookUrl }}
+  - |-
+    $patch: delete
+    apiVersion: v1
+    kind: Secret
+    metadata:
+      namespace: monitoring
+      name: healthchecks-webhook
+{{- end }}
+{{- if .spec.distribution.modules.monitoring.alertmanager.slackWebhookUrl }}
+  - |-
+    $patch: delete
+    apiVersion: v1
+    kind: Secret
+    metadata:
+      namespace: monitoring
+      name: infra-slack-webhook
+  - |-
+    $patch: delete
+    apiVersion: v1
+    kind: Secret
+    metadata:
+      namespace: monitoring
+      name: k8s-slack-webhook
+{{- end }}
 {{- end }}
 
 {{- if .checks.storageClassAvailable }}

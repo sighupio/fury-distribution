@@ -50,8 +50,8 @@ deleteLoki
 
 {{- end }} # end distributionModulesLoggingType
 
-{{- if index .reducers "distributionModulesMonitoringAlertmanagerDefaultrules" }}
-{{- if eq .reducers.distributionModulesMonitoringAlertmanagerDefaultrules.to "disabled" }}
+{{- if index .reducers "distributionModulesMonitoringAlertmanagerInstalldefaultrules" }}
+{{- if eq .reducers.distributionModulesMonitoringAlertmanagerInstalldefaultrules.to false }}
 
    $kubectlbin delete --ignore-not-found --wait --timeout=180s -n monitoring alertmanagerconfigs.monitoring.coreos.com deadmanswitch
    $kubectlbin delete --ignore-not-found --wait --timeout=180s -n monitoring alertmanagerconfigs.monitoring.coreos.com infra
@@ -61,7 +61,7 @@ deleteLoki
    $kubectlbin delete --ignore-not-found --wait --timeout=180s -n monitoring secret healthchecks-webhook
 
 {{- end }}
-{{- end }} # end distributionModulesMonitoringAlertmanagerDefaultrules
+{{- end }} # end distributionModulesMonitoringAlertmanagerInstalldefaultrules
 
 {{- if index .reducers "distributionModulesPolicyType" }}
 
