@@ -22,7 +22,7 @@ spec:
         type: calico
       # This section contains all the configurations for the ingress module
       ingress:
-        baseDomain: fury.sighup.io
+        baseDomain: fury.sighup.cc
         nginx:
           type: single
           tls:
@@ -30,7 +30,7 @@ spec:
         certManager:
           clusterIssuer:
             name: letsencrypt-fury
-            email: sighup@sighup.io
+            email: sighup@sighup.cc
             type: http01
       logging:
         type: loki
