@@ -115,6 +115,52 @@ deleteGatekeeper
 
 {{- end }} # end distributionModulesPolicyType
 
+# ██   ██ ██    ██ ██    ██     ██████   █████  ████████ ███████     ██████   ██████  ██      ██  ██████ ██ ███████ ███████ 
+# ██  ██   ██  ██  ██    ██    ██       ██   ██    ██    ██          ██   ██ ██    ██ ██      ██ ██      ██ ██      ██      
+# █████     ████   ██    ██    ██   ███ ███████    ██    █████       ██████  ██    ██ ██      ██ ██      ██ █████   ███████ 
+# ██  ██     ██     ██  ██     ██    ██ ██   ██    ██    ██          ██      ██    ██ ██      ██ ██      ██ ██           ██ 
+# ██   ██    ██      ████   ▄█  ██████  ██   ██    ██    ███████     ██       ██████  ███████ ██  ██████ ██ ███████ ███████ 
+                                                                                                                          
+                                                                                                                          
+
+{{- if index .reducers "distributionModulesPolicyGatekeeperInstallDefaultPolicies" }}
+
+deleteGatekeeperDefaultPolicies() {
+  $kustomizebin build $vendorPath/modules/opa/katalog/gatekeeper/rules/constraints | $kubectlbin delete --ignore-not-found --wait --timeout=180s -f -
+  $kustomizebin build $vendorPath/modules/opa/katalog/gatekeeper/rules/config | $kubectlbin delete --ignore-not-found --wait --timeout=180s -f -
+  $kustomizebin build $vendorPath/modules/opa/katalog/gatekeeper/rules/templates | $kubectlbin delete --ignore-not-found --wait --timeout=180s -f -
+  echo "Gatekeeper default policies resources deleted"
+}
+
+# from enabled
+{{- if .reducers.distributionModulesPolicyGatekeeperInstallDefaultPolicies.from }}
+# to disabled
+{{- if not .reducers.distributionModulesPolicyGatekeeperInstallDefaultPolicies.to }}
+# changing from true to false -> delete the policies
+deleteGatekeeperDefaultPolicies
+{{- end }}
+{{- end }}
+
+{{- end }} # end distributionModulesPolicyGatekeeperInstallDefaultPolicies
+
+{{- if index .reducers "distributionModulesPolicyKyvernoInstallDefaultPolicies" }}
+
+deleteKyvernoDefaultPolicies() {
+  $kustomizebin build $vendorPath/modules/opa/katalog/kyverno/policies | $kubectlbin delete --ignore-not-found --wait --timeout=180s -f -
+  echo "Kyverno default policies resources deleted"
+}
+
+# from enabled
+{{- if .reducers.distributionModulesPolicyKyvernoInstallDefaultPolicies.from }}
+# to disabled
+{{- if not .reducers.distributionModulesPolicyKyvernoInstallDefaultPolicies.to }}
+# changing from true to false -> delete the policies
+deleteKyvernoDefaultPolicies
+{{- end }}
+{{- end }}
+
+{{- end }} # end distributionModulesPolicyKyvernoInstallDefaultPolicies
+
 # ████████ ██████   █████   ██████ ██ ███    ██  ██████      ████████ ██    ██ ██████  ███████ 
 #    ██    ██   ██ ██   ██ ██      ██ ████   ██ ██              ██     ██  ██  ██   ██ ██      
 #    ██    ██████  ███████ ██      ██ ██ ██  ██ ██   ███        ██      ████   ██████  █████   

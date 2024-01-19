@@ -3,8 +3,7 @@
 # license that can be found in the LICENSE file.
 
 ---
-
-distribution: 
+distribution:
   - path: .spec.distribution.modules.networking.type
     immutable: true
   - path: .spec.distribution.modules.logging.type
@@ -28,6 +27,18 @@ distribution:
         reason: "currently, switching from gatekeeper to kyverno is not supported. You need to first remove the current stack with type: none."
     reducers:
       - key: distributionModulesPolicyType
+        lifecycle: pre-apply
+  - path: .spec.distribution.modules.policy.gatekeeper.installDefaultPolicies
+    immutable: false
+    description: "changes to Gatekeeper default policies option in the policy module have been detected. This will cause the installation or deletion of the default policies."
+    reducers:
+      - key: distributionModulesPolicyGatekeeperInstallDefaultPolicies
+        lifecycle: pre-apply
+  - path: .spec.distribution.modules.policy.kyverno.installDefaultPolicies
+    immutable: false
+    description: "changes to Kyverno default policies option in the policy module have been detected. This will cause the installation or deletion of the default policies."
+    reducers:
+      - key: distributionModulesPolicyKyvernoInstallDefaultPolicies
         lifecycle: pre-apply
   - path: .spec.distribution.modules.tracing.type
     immutable: false
