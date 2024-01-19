@@ -58,7 +58,7 @@ spec:
             username: sighup
             password: secretpassword2
       tracing:
-        type: tempo
+        type: none
         tempo: 
           backend: minio
         minio:
@@ -67,7 +67,7 @@ spec:
             username: sighup
             password: secretpassword3
       policy:
-        type: kyverno
+        type: none
         kyverno:
           additionalExcludedNamespaces: ["local-path-storage"]
           installDefaultPolicies: true
@@ -112,21 +112,21 @@ spec:
                     requests:
                       cpu: 10m
                       memory: 50Mi
-        - |
-          apiVersion: apps/v1
-          kind: StatefulSet
-          metadata:
-            name: minio-tracing
-            namespace: tracing
-          spec:
-            template:
-              spec:
-                containers:
-                - name: minio
-                  resources:
-                    requests:
-                      cpu: 10m
-                      memory: 50Mi
+        #- |
+        #  apiVersion: apps/v1
+        #  kind: StatefulSet
+        #  metadata:
+        #    name: minio-tracing
+        #    namespace: tracing
+        #  spec:
+        #    template:
+        #      spec:
+        #        containers:
+        #        - name: minio
+        #          resources:
+        #            requests:
+        #              cpu: 10m
+        #              memory: 50Mi
         - |
           $patch: delete
           apiVersion: logging-extensions.banzaicloud.io/v1alpha1

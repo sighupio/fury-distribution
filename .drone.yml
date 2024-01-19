@@ -170,6 +170,9 @@ steps:
       - echo "Executing furyctl with the tempo migration to none"
       - /tmp/furyctl create cluster --config tests/e2e/kfddistribution/furyctl-2-migrate-from-tempo-to-none.yaml --outdir "$PWD" -H --distro-location ./ --force
       - bats -t tests/e2e-kfddistribution-2-migrate-from-tempo-to-none.sh
+      - echo "Executing furyctl with the kyverno migration to none"
+      - /tmp/furyctl create cluster --config tests/e2e/kfddistribution/furyctl-3-migrate-from-kyverno-to-none.yaml --outdir "$PWD" -H --distro-location ./ --force
+      - bats -t tests/e2e-kfddistribution-3-migrate-from-kyverno-to-none.sh
 
   - name: destroy
     image: quay.io/sighup/e2e-testing-drone-plugin:v2.0.0
