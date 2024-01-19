@@ -218,6 +218,10 @@ deleteVelero() {
 deleteVelero
 {{- end }}
 
+{{- if eq .reducers.distributionModulesDRType.from "eks" }}
+deleteVelero
+{{- end }}
+
 {{- end }}
 
 {{- end }} # end distributionModulesDRType
