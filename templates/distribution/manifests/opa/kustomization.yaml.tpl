@@ -13,7 +13,9 @@ resources:
 {{- if .spec.distribution.modules.policy.gatekeeper.installDefaultPolicies }}
   - {{ print "../" .spec.distribution.common.relativeVendorPath "/modules/opa/katalog/gatekeeper/rules" }}
 {{- end }}
+{{- if ne .spec.distribution.modules.monitoring.type "none" }}
   - {{ print "../" .spec.distribution.common.relativeVendorPath "/modules/opa/katalog/gatekeeper/monitoring" }}
+{{- end }}
 {{- if ne .spec.distribution.modules.ingress.nginx.type "none" }}
   - resources/ingress-infra.yml
 {{- end }}
