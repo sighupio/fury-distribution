@@ -121,7 +121,6 @@ deleteGatekeeper
 # ██  ██     ██     ██  ██     ██    ██ ██   ██    ██    ██          ██      ██    ██ ██      ██ ██      ██ ██           ██ 
 # ██   ██    ██      ████   ▄█  ██████  ██   ██    ██    ███████     ██       ██████  ███████ ██  ██████ ██ ███████ ███████ 
                                                                                                                           
-                                                                                                                          
 
 {{- if index .reducers "distributionModulesPolicyGatekeeperInstallDefaultPolicies" }}
 
