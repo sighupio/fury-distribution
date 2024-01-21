@@ -10,7 +10,12 @@ load ./helper
 @test "Tracing NS has been deleted" {
     info
     test() {
-        kubectl get namespace | grep -q -v "tracing"
+        kubectl get namespace > check.txt
+        if ! grep -q "tracing" check.txt; then
+            exit 0
+        else
+            exit 1
+        fi
     }
     loop_it test 60 10
     status=${loop_it_result}

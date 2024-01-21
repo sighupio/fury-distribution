@@ -7,11 +7,11 @@
 
 load ./helper
 
-@test "Kyverno NS has been deleted" {
+@test "Velero has been deleted" {
     info
     test() {
-        kubectl get namespace > check.txt
-        if ! grep -q "kyverno" check.txt; then
+        kubectl get pods -n kube-system --show-labels > check.txt
+        if ! grep -q "velero" check.txt; then
             exit 0
         else
             exit 1
