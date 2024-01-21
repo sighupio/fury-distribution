@@ -161,7 +161,9 @@ steps:
     depends_on: [init]
     commands:
       - export KUBECONFIG=/shared/kube/kubeconfig-127
-      - curl -L "https://github.com/sighupio/furyctl/releases/latest/download/furyctl-$(uname -s)-amd64.tar.gz" -o /tmp/furyctl.tar.gz && tar xfz /tmp/furyctl.tar.gz -C /tmp
+      - curl -L "https://github.com/sighupio/furyctl/releases/download/v0.27.2-rc.0/furyctl-$(uname -s)-amd64.tar.gz" -o /tmp/furyctl.tar.gz && tar xfz /tmp/furyctl.tar.gz -C /tmp
+      # TODO Release the new fixed furyctl version
+      # - curl -L "https://github.com/sighupio/furyctl/releases/latest/download/furyctl-$(uname -s)-amd64.tar.gz" -o /tmp/furyctl.tar.gz && tar xfz /tmp/furyctl.tar.gz -C /tmp
       - chmod +x /tmp/furyctl
       - echo "Executing furyctl for the initial setup"
       - /tmp/furyctl create cluster --config tests/e2e/kfddistribution/furyctl-init-cluster.yaml --outdir "$PWD" -H --distro-location ./
