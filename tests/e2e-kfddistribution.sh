@@ -25,3 +25,8 @@ echo "--------------------------------------------------------------------------
 echo "Executing furyctl with the velero migration to none"
 /tmp/furyctl create cluster --config tests/e2e/kfddistribution/furyctl-4-migrate-from-velero-to-none.yaml --outdir "$PWD" -H --distro-location ./ --force
 bats -t tests/e2e-kfddistribution-4-migrate-from-velero-to-none.sh
+
+echo "----------------------------------------------------------------------------"
+echo "Executing furyctl with the mimir migration to none"
+/tmp/furyctl create cluster --config tests/e2e/kfddistribution/furyctl-5-migrate-from-mimir-to-none.yaml --outdir "$PWD" -H --distro-location ./ --force
+bats -t tests/e2e-kfddistribution-5-migrate-from-mimir-to-none.sh
