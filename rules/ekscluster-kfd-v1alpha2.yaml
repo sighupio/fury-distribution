@@ -3,10 +3,9 @@
 # license that can be found in the LICENSE file.
 
 ---
-
 infrastructure: []
 kubernetes: []
-distribution: 
+distribution:
   - path: .spec.distribution.modules.logging.type
     immutable: false
     description: "changes to the logging module type have been detected. This will cause the reconfiguration or deletion of the current logging stack."
@@ -35,6 +34,18 @@ distribution:
     reducers:
       - key: distributionModulesPolicyType
         lifecycle: pre-apply
+  - path: .spec.distribution.modules.policy.gatekeeper.installDefaultPolicies
+    immutable: false
+    description: "changes to Gatekeeper default policies option in the policy module have been detected. This will cause the installation or deletion of the default policies."
+    reducers:
+      - key: distributionModulesPolicyGatekeeperInstallDefaultPolicies
+        lifecycle: pre-apply
+  - path: .spec.distribution.modules.policy.kyverno.installDefaultPolicies
+    immutable: false
+    description: "changes to Kyverno default policies option in the policy module have been detected. This will cause the installation or deletion of the default policies."
+    reducers:
+      - key: distributionModulesPolicyKyvernoInstallDefaultPolicies
+        lifecycle: pre-apply
   - path: .spec.distribution.modules.tracing.type
     immutable: false
     description: "changes to the tracing module type have been detected. This will cause the replacement of the current tracing stack (removal or creation)."
@@ -46,4 +57,10 @@ distribution:
     description: "changes to the tempo backend have been detected. This will cause the reconfiguration of tempo and the deletion of the current minio storage, if minio was disabled"
     reducers:
       - key: distributionModulesTracingTempoBackend
+        lifecycle: pre-apply
+  - path: .spec.distribution.modules.dr.type
+    immutable: false
+    description: "changes to the Disaster Recovery module type have been detected. This will cause the replacement of the current DR (velero) stack (removal or creation)."
+    reducers:
+      - key: distributionModulesDRType
         lifecycle: pre-apply
