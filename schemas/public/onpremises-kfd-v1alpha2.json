@@ -1051,6 +1051,9 @@
         "deadManSwitchWebhookUrl": {
           "type": "string"
         },
+        "installDefaultRules": {
+          "type": "boolean"
+        },
         "slackWebhookUrl": {
           "type": "string"
         }

@@ -15,6 +15,12 @@ distribution:
     reducers:
       - key: distributionModulesLoggingType
         lifecycle: pre-apply
+  - path: .spec.distribution.modules.monitoring.alertmanager.installDefaultRules
+    immutable: false
+    description: "changes to the monitoring alertmanager configs have been detected. This will cause the reconfiguration (creation or deletion of the defaults alertmanager configs."
+    reducers:
+      - key: distributionModulesMonitoringAlertmanagerInstalldefaultrules
+        lifecycle: pre-apply
   - path: .spec.distribution.modules.policy.type
     immutable: false
     description: "changes to the policy module type have been detected. This will cause the reconfiguration or deletion of the current policy stack."
