@@ -54,7 +54,7 @@ distribution:
         lifecycle: pre-apply
   - path: .spec.distribution.modules.dr.type
     immutable: false
-    description: "changes to the dr module type have been detected. This will cause the replacement of the current DR (velero) stack (removal or creation)."
+    description: "changes to the Disaster Recovery module type have been detected. This will cause the replacement of the current DR (velero) stack (removal or creation)."
     reducers:
       - key: distributionModulesDRType
         lifecycle: pre-apply
