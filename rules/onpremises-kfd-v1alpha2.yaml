@@ -72,14 +72,14 @@ distribution:
         lifecycle: pre-apply
   - path: .spec.distribution.modules.ingress.nginx.type
     immutable: false
-    description: "changes to the nginx type in the ingress module have been detected. This will cause the reconfiguration or deletion of the current policy ingress stack."
+    description: "changes to the nginx type in the Ingress module have been detected. This will cause the reconfiguration or deletion of the current ingress stack."
     unsupported:
       - to: single
         from: dual
-        reason: "currently, switching from dual to single is not supported. You need to first remove the current stack with type: none."
+        reason: "currently, switching Ingress from dual to single nginx is not supported. You need to first remove the current stack with type: none."
       - to: dual
         from: single
-        reason: "currently, switching from single to dual is not supported. You need to first remove the current stack with type: none."
+        reason: "currently, switching Ingress from single to dual nginx is not supported. You need to first remove the current stack with type: none."
     reducers:
       - key: distributionModulesIngressNginxType
         lifecycle: pre-apply
