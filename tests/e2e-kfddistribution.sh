@@ -12,6 +12,28 @@ echo "Testing that the components are running"
 bats -t tests/e2e-kfddistribution-init-cluster.sh
 
 echo "----------------------------------------------------------------------------"
+echo "Executing furyctl to values from nil"
+/tmp/furyctl create cluster --config tests/e2e/kfddistribution/furyctl-init-with-values-from-nil.yaml --outdir "$PWD" -H --distro-location ./ --skip-deps-download --force
+bats -t tests/e2e-kfddistribution-with-values-from-nil.sh
+
+echo "----------------------------------------------------------------------------"
+echo "Executing furyctl cleanup all modules and configurations"
+/tmp/furyctl create cluster --config tests/e2e/kfddistribution/furyctl-cleanup-all.yaml --outdir "$PWD" -H --distro-location ./ --skip-deps-download --force
+bats -t tests/e2e-kfddistribution-cleanup-all.sh
+
+echo "----------------------------------------------------------------------------"
+echo "Resetting furyctl with the initial setup"
+/tmp/furyctl create cluster --config tests/e2e/kfddistribution/furyctl-init-cluster.yaml --outdir "$PWD" -H --distro-location ./ --force
+echo "Testing that the components are running"
+bats -t tests/e2e-kfddistribution-init-cluster.sh
+
+echo "----------------------------------------------------------------------------"
+echo "Restoring furyctl for the initial setup"
+/tmp/furyctl create cluster --config tests/e2e/kfddistribution/furyctl-init-cluster.yaml --outdir "$PWD" -H --distro-location ./ --force
+echo "Testing that the components are running"
+bats -t tests/e2e-kfddistribution-init-cluster.sh
+
+echo "----------------------------------------------------------------------------"
 echo "Executing furyctl with the tempo migration to none"
 /tmp/furyctl create cluster --config tests/e2e/kfddistribution/furyctl-2-migrate-from-tempo-to-none.yaml --outdir "$PWD" -H --distro-location ./ --force --skip-deps-download
 bats -t tests/e2e-kfddistribution-2-migrate-from-tempo-to-none.sh
@@ -64,3 +86,4 @@ echo "--------------------------------------------------------------------------
 echo "Executing furyctl testing alertmanagerconfigs uninstall (SAFE)"
 /tmp/furyctl create cluster --config tests/e2e/kfddistribution/furyctl-12-migrate-from-alertmanagerconfigs-to-disabled.yaml --outdir "$PWD" -H --distro-location ./ --skip-deps-download
 bats -t tests/e2e-kfddistribution-12-migrate-from-alertmanagerconfigs-to-disabled.sh
+
