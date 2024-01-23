@@ -140,13 +140,13 @@ spec:
         #  metadata:
         #    name: systemd-etcd
         #    namespace: logging
-        - |
-          $patch: delete
-          apiVersion: apps/v1
-          kind: DaemonSet
-          metadata:
-            name: x509-certificate-exporter-control-plane
-            namespace: monitoring
+        #- |
+        #  $patch: delete
+        #  apiVersion: apps/v1
+        #  kind: DaemonSet
+        #  metadata:
+        #    name: x509-certificate-exporter-control-plane
+        #    namespace: monitoring
   plugins:
     kustomize: 
       - name: ldap-server

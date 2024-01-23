@@ -163,7 +163,7 @@ steps:
       - cp /shared/kube/kubeconfig-127 /tmp/kubeconfig
       - export KUBECONFIG=/tmp/kubeconfig
       - echo "Installing the correct furyctl version..."
-      - curl -L "https://github.com/sighupio/furyctl/releases/download/v0.27.2-rc.0/furyctl-$(uname -s)-amd64.tar.gz" -o /tmp/furyctl.tar.gz && tar xfz /tmp/furyctl.tar.gz -C /tmp
+      - curl -L "https://github.com/sighupio/furyctl/releases/download/v0.27.2-rc.1/furyctl-$(uname -s)-amd64.tar.gz" -o /tmp/furyctl.tar.gz && tar xfz /tmp/furyctl.tar.gz -C /tmp
       # TODO Release the new fixed furyctl version
       # - curl -L "https://github.com/sighupio/furyctl/releases/latest/download/furyctl-$(uname -s)-amd64.tar.gz" -o /tmp/furyctl.tar.gz && tar xfz /tmp/furyctl.tar.gz -C /tmp
       - chmod +x /tmp/furyctl
