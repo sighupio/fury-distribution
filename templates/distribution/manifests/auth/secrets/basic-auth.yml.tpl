@@ -41,6 +41,7 @@ stringData:
   auth: {{ htpasswd $username $password }}
 {{- end }}
 {{- end }}
+{{- if ne .spec.distribution.modules.monitoring.type "none" }}
 ---
 apiVersion: v1
 kind: Secret
@@ -50,5 +51,5 @@ metadata:
 type: Opaque
 stringData:
   auth: {{ htpasswd $username $password }}
-
+{{- end }}
 {{- end -}}

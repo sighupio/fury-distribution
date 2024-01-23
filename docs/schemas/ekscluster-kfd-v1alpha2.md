@@ -3808,16 +3808,23 @@ The storage size for the prometheus pods
 
 ### Properties
 
-| Property                                                                                         | Type     | Required |
-|:-------------------------------------------------------------------------------------------------|:---------|:---------|
-| [deadManSwitchWebhookUrl](#specdistributionmodulesmonitoringalertmanagerdeadmanswitchwebhookurl) | `string` | Optional |
-| [slackWebhookUrl](#specdistributionmodulesmonitoringalertmanagerslackwebhookurl)                 | `string` | Optional |
+| Property                                                                                         | Type      | Required |
+|:-------------------------------------------------------------------------------------------------|:----------|:---------|
+| [deadManSwitchWebhookUrl](#specdistributionmodulesmonitoringalertmanagerdeadmanswitchwebhookurl) | `string`  | Optional |
+| [installDefaultRules](#specdistributionmodulesmonitoringalertmanagerinstalldefaultrules)         | `boolean` | Optional |
+| [slackWebhookUrl](#specdistributionmodulesmonitoringalertmanagerslackwebhookurl)                 | `string`  | Optional |
 
 ## .spec.distribution.modules.monitoring.alertmanager.deadManSwitchWebhookUrl
 
 ### Description
 
 The webhook url to send deadman switch monitoring, for example to use with healthchecks.io
+
+## .spec.distribution.modules.monitoring.alertmanager.installDefaultRules
+
+### Description
+
+If true, the default rules will be installed
 
 ## .spec.distribution.modules.monitoring.alertmanager.slackWebhookUrl
 
@@ -4541,12 +4548,16 @@ The value of the toleration
 
 ### Properties
 
-| Property                                               | Type     | Required |
-|:-------------------------------------------------------|:---------|:---------|
-| [overrides](#specdistributionmodulespolicyoverrides)   | `object` | Optional |
-| [type](#specdistributionmodulespolicytype)             | `string` | Required |
-| [gatekeeper](#specdistributionmodulespolicygatekeeper) | `object` | Optional |
-| [kyverno](#specdistributionmodulespolicykyverno)       | `object` | Optional |
+| Property                                               | Type     | Required   |
+|:-------------------------------------------------------|:---------|:-----------|
+| [overrides](#specdistributionmodulespolicyoverrides)   | `object` | Optional   |
+| [type](#specdistributionmodulespolicytype)             | `string` | Required   |
+| [gatekeeper](#specdistributionmodulespolicygatekeeper) | `object` | Optional*  |
+| [kyverno](#specdistributionmodulespolicykyverno)       | `object` | Optional** |
+
+*required if type is ***gatekeeper***
+
+**required if type is ***kyverno***
 
 ## .spec.distribution.modules.policy.overrides
 
@@ -4659,16 +4670,40 @@ The type of security to use, either ***none***, ***gatekeeper*** or ***kyverno**
 
 ### Properties
 
-| Property                                                                                             | Type     | Required |
-|:-----------------------------------------------------------------------------------------------------|:---------|:---------|
-| [additionalExcludedNamespaces](#specdistributionmodulespolicygatekeeperadditionalexcludednamespaces) | `array`  | Optional |
-| [overrides](#specdistributionmodulespolicygatekeeperoverrides)                                       | `object` | Optional |
+| Property                                                                                             | Type      | Required |
+|:-----------------------------------------------------------------------------------------------------|:----------|:---------|
+| [additionalExcludedNamespaces](#specdistributionmodulespolicygatekeeperadditionalexcludednamespaces) | `array`   | Optional |
+| [enforcementAction](#specdistributionmodulespolicygatekeeperenforcementaction)                       | `string`  | Required |
+| [installDefaultPolicies](#specdistributionmodulespolicygatekeeperinstalldefaultpolicies)             | `boolean` | Required |
+| [overrides](#specdistributionmodulespolicygatekeeperoverrides)                                       | `object`  | Optional |
 
 ## .spec.distribution.modules.policy.gatekeeper.additionalExcludedNamespaces
 
 ### Description
 
 This parameter adds namespaces to Gatekeeper's exemption list, so it will not enforce the constraints on them.
+
+## .spec.distribution.modules.policy.gatekeeper.enforcementAction
+
+### Description
+
+The enforcement action to use for the gatekeeper module
+
+### Constraints
+
+**enum**: the value of this property must be equal to one of the following values:
+
+| Value          |
+|:---------------|
+| `"deny"`       |
+| `"dryrun"`     |
+| `"warn"`       |
+
+## .spec.distribution.modules.policy.gatekeeper.installDefaultPolicies
+
+### Description
+
+If true, the default policies will be installed
 
 ## .spec.distribution.modules.policy.gatekeeper.overrides
 
@@ -4743,16 +4778,39 @@ The value of the toleration
 
 ### Properties
 
-| Property                                                                                             | Type     | Required |
-|:-----------------------------------------------------------------------------------------------------|:---------|:---------|
-| [additionalExcludedNamespaces](#specdistributionmodulespolicykyvernoadditionalexcludednamespaces)    | `array`  | Optional |
-| [overrides](#specdistributionmodulespolicykyvernooverrides)                                          | `object` | Optional |
+| Property                                                                                             | Type      | Required |
+|:-----------------------------------------------------------------------------------------------------|:----------|:---------|
+| [additionalExcludedNamespaces](#specdistributionmodulespolicykyvernoadditionalexcludednamespaces)    | `array`   | Optional |
+| [validationFailureAction](#specdistributionmodulespolicykyvernovalidationfailureaction)              | `string`  | Required |
+| [installDefaultPolicies](#specdistributionmodulespolicykyvernoinstalldefaultpolicies)                | `boolean` | Required |
+| [overrides](#specdistributionmodulespolicykyvernooverrides)                                          | `object`  | Optional |
 
 ## .spec.distribution.modules.policy.kyverno.additionalExcludedNamespaces
 
 ### Description
 
 This parameter adds namespaces to Kyverno's exemption list, so it will not enforce the constraints on them.
+
+## .spec.distribution.modules.policy.kyverno.validationFailureAction
+
+### Description
+
+The validation failure action to use for the kyverno module
+
+### Constraints
+
+**enum**: the value of this property must be equal to one of the following values:
+
+| Value          |
+|:---------------|
+| `"audit"`      |
+| `"enforce"`    |
+
+## .spec.distribution.modules.policy.kyverno.installDefaultPolicies
+
+### Description
+
+If true, the default policies will be installed
 
 ## .spec.distribution.modules.policy.kyverno.overrides
 

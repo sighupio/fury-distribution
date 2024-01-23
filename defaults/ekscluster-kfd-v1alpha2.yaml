@@ -142,6 +142,7 @@ data:
         retentionSize: 120GB
         storageSize: 150Gi
       alertmanager:
+        installDefaultRules: true
         deadManSwitchWebhookUrl: ""
         slackWebhookUrl: ""
       mimir:
@@ -210,9 +211,13 @@ data:
       gatekeeper:
         # this configuration adds namespaces to the excluded list, actually whitelisting them
         additionalExcludedNamespaces: []
+        enforcementAction: deny
+        installDefaultPolicies: true
       kyverno:
         # this configuration adds namespaces to the excluded list, actually whitelisting them
         additionalExcludedNamespaces: []
+        validationFailureAction: enforce
+        installDefaultPolicies: true
     # dr module configuration
     dr:
       type: none
