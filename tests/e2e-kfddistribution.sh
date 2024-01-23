@@ -14,7 +14,7 @@ bats -t tests/e2e-kfddistribution-init-cluster.sh
 echo "----------------------------------------------------------------------------"
 echo "Executing furyctl to values from nil"
 /tmp/furyctl create cluster --config tests/e2e/kfddistribution/furyctl-init-with-values-from-nil.yaml --outdir "$PWD" -H --distro-location ./ --skip-deps-download --force
-bats -t tests/e2e-kfddistribution-with-values-from-nil.sh
+bats -t tests/e2e-kfddistribution-init-with-values-from-nil.sh
 
 echo "----------------------------------------------------------------------------"
 echo "Executing furyctl cleanup all modules and configurations"
