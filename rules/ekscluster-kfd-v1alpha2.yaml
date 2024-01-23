@@ -61,6 +61,20 @@ distribution:
     reducers:
       - key: distributionModulesDRType
         lifecycle: pre-apply
+
+  - path: .spec.distribution.modules.monitoring.type
+    immutable: false
+    description: "changes to the Monitoring module type have been detected. This will cause the reconfiguration or deletion of the current monitoring stack."
+    reducers:
+      - key: distributionModulesMonitoringType
+        lifecycle: pre-apply
+    unsupported:
+      - from: mimir
+        to: prometheus
+        reason: "switching from Mimir to Prometheus is not currently supported. You need to first remove the current stack with type: none."
+      - from: prometheus
+        to: mimir
+        reason: "switching from Prometheus to Mimir is not currently supported. You need to first remove the current stack with type: none."
   - path: .spec.distribution.modules.ingress.nginx.type
     immutable: false
     description: "changes to the nginx type in the Ingress module have been detected. This will cause the reconfiguration or deletion of the current ingress stack."
