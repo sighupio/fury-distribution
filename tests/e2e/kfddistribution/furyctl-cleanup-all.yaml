@@ -41,6 +41,7 @@ spec:
         type: none
       dr:
         type: none
+        velero: {}
       auth:
         provider:
           type: none
