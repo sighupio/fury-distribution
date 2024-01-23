@@ -15,6 +15,13 @@ if ! $kubectlbin get apiservice v1.monitoring.coreos.com; then
 fi
 {{- end }}
 
+{{- if not .spec.distribution.modules.monitoring.alertmanager.installDefaultRules }}
+if $kubectlbin get apiservice v1alpha1.monitoring.coreos.com > /dev/null 2>&1; then
+  cat out.yaml | $yqbin 'select(.apiVersion != "monitoring.coreos.com/v1alpha1" and .kind != "AlertmanagerConfig")' > out-filtered.yaml
+  cp out-filtered.yaml out.yaml
+fi
+{{- end }}
+
 if [ "$dryrun" != "" ]; then
   exit 0
 fi

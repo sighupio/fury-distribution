@@ -110,6 +110,26 @@ deleteLoggingOperator
 
 {{- end }} # end distributionModulesLoggingType
 
+#  █████  ██      ███████ ██████  ████████ ███    ███     ██████  ██    ██ ██      ███████ ███████ 
+# ██   ██ ██      ██      ██   ██    ██    ████  ████     ██   ██ ██    ██ ██      ██      ██      
+# ███████ ██      █████   ██████     ██    ██ ████ ██     ██████  ██    ██ ██      █████   ███████ 
+# ██   ██ ██      ██      ██   ██    ██    ██  ██  ██     ██   ██ ██    ██ ██      ██           ██ 
+# ██   ██ ███████ ███████ ██   ██    ██    ██      ██     ██   ██  ██████  ███████ ███████ ███████ 
+                                                                                                 
+                                                                                                
+{{- if index .reducers "distributionModulesMonitoringAlertmanagerInstalldefaultrules" }}
+{{- if eq .reducers.distributionModulesMonitoringAlertmanagerInstalldefaultrules.to false }}
+
+   $kubectlbin delete --ignore-not-found --wait --timeout=180s -n monitoring alertmanagerconfigs.monitoring.coreos.com deadmanswitch
+   $kubectlbin delete --ignore-not-found --wait --timeout=180s -n monitoring alertmanagerconfigs.monitoring.coreos.com infra
+   $kubectlbin delete --ignore-not-found --wait --timeout=180s -n monitoring alertmanagerconfigs.monitoring.coreos.com k8s
+   $kubectlbin delete --ignore-not-found --wait --timeout=180s -n monitoring secret infra-slack-webhook
+   $kubectlbin delete --ignore-not-found --wait --timeout=180s -n monitoring secret k8s-slack-webhook
+   $kubectlbin delete --ignore-not-found --wait --timeout=180s -n monitoring secret healthchecks-webhook
+
+{{- end }}
+{{- end }} # end distributionModulesMonitoringAlertmanagerInstalldefaultrules
+
 # ██████   ██████  ██      ██  ██████ ██    ██     ████████ ██    ██ ██████  ███████ 
 # ██   ██ ██    ██ ██      ██ ██       ██  ██         ██     ██  ██  ██   ██ ██      
 # ██████  ██    ██ ██      ██ ██        ████          ██      ████   ██████  █████   
@@ -350,6 +370,80 @@ deleteVeleroMinio
 
 {{- end }} # end distributionModulesDRVeleroBackend
 
+{{- if index .reducers "distributionModulesMonitoringType" }}
+
+
+# ███    ███  ██████  ███    ██ ██ ████████  ██████  ██████  ██ ███    ██  ██████      ████████ ██    ██ ██████  ███████ 
+# ████  ████ ██    ██ ████   ██ ██    ██    ██    ██ ██   ██ ██ ████   ██ ██              ██     ██  ██  ██   ██ ██      
+# ██ ████ ██ ██    ██ ██ ██  ██ ██    ██    ██    ██ ██████  ██ ██ ██  ██ ██   ███        ██      ████   ██████  █████   
+# ██  ██  ██ ██    ██ ██  ██ ██ ██    ██    ██    ██ ██   ██ ██ ██  ██ ██ ██    ██        ██       ██    ██      ██      
+# ██      ██  ██████  ██   ████ ██    ██     ██████  ██   ██ ██ ██   ████  ██████         ██       ██    ██      ███████ 
+
+deleteMonitoringCommon() {
+  # packages that are installed always when monitoring type!=none, so they always
+  # need to be uninstalled.
+  # delete alertmanager first to avoid false positive alerts and notifications.
+  $kustomizebin build $vendorPath/modules/monitoring/katalog/alertmanager-operated | $kubectlbin delete --ignore-not-found --wait --timeout=180s -f -
+  $kustomizebin build $vendorPath/modules/monitoring/katalog/blackbox-exporter | $kubectlbin delete --ignore-not-found --wait --timeout=180s -f -
+  $kustomizebin build $vendorPath/modules/monitoring/katalog/eks-sm | $kubectlbin delete --ignore-not-found --wait --timeout=180s -f -
+  $kustomizebin build $vendorPath/modules/monitoring/katalog/grafana | $kubectlbin delete --ignore-not-found --wait --timeout=180s -f -
+  $kustomizebin build $vendorPath/modules/monitoring/katalog/kube-proxy-metrics | $kubectlbin delete --ignore-not-found --wait --timeout=180s -f -
+  $kustomizebin build $vendorPath/modules/monitoring/katalog/kube-state-metrics | $kubectlbin delete --ignore-not-found --wait --timeout=180s -f -
+  $kustomizebin build $vendorPath/modules/monitoring/katalog/node-exporter | $kubectlbin delete --ignore-not-found --wait --timeout=180s -f -
+  $kustomizebin build $vendorPath/modules/monitoring/katalog/x509-exporter | $kubectlbin delete --ignore-not-found --wait --timeout=180s -f -
+  $kustomizebin build $vendorPath/modules/monitoring/katalog/prometheus-adapter | $kubectlbin delete --ignore-not-found --wait --timeout=180s -f -
+  echo "Monitoring common resources deleted."
+}
+
+deletePrometheusOperator() {
+  $kustomizebin build $vendorPath/modules/monitoring/katalog/prometheus-operator | $kubectlbin delete --ignore-not-found --wait --timeout=180s -f -
+  echo "Prometheus Operator resources deleted"
+}
+
+deletePrometheusOperated() {
+  # we first delete the CRs before deleting the CRDs to avoid the `kubectl delete` command from failing due to unexisting APIs.
+  $kustomizebin build $vendorPath/modules/monitoring/katalog/prometheus-operated | $kubectlbin delete --ignore-not-found --wait --timeout=180s -f -
+  echo "Waiting 3 minutes for PVCs to liberate"
+  sleep 180
+  $kubectlbin delete -l app.kubernetes.io/name=prometheus,app.kubernetes.io/instance=k8s pvc -n monitoring --wait --timeout=180s
+  echo "Prometheus Operated resources deleted"
+}
+
+deleteMimir() {
+  $kustomizebin build $vendorPath/modules/monitoring/katalog/mimir | $kubectlbin delete --ignore-not-found --wait --timeout=180s -f -
+  $kustomizebin build $vendorPath/modules/monitoring/katalog/minio-ha | $kubectlbin delete --ignore-not-found --wait --timeout=180s -f -
+  echo "Waiting 3 minutes for PVCs to liberate"
+  sleep 180
+  $kubectlbin delete -l app.kubernetes.io/name=mimir pvc -n monitoring --wait --timeout=180s
+  $kubectlbin delete -l app=minio,release=minio-monitoring pvc -n monitoring --wait --timeout=180s
+  echo "Mimir resources deleted"
+}
+
+{{- if eq .reducers.distributionModulesMonitoringType.from "mimir" }}
+  {{- if eq .reducers.distributionModulesMonitoringType.to "none" }}
+  deleteMonitoringCommon
+  deleteMimir
+  # we delete the operator package last because it includes the CRDs. If we
+  # delete first the CRDs, then the subsequent `kubectl delete` commands will
+  # fail because they'll try to use APIs that don't exist anymore.
+  # prometheus-operator includes also the namespace, so it will be deleted with
+  # all the remaining resources like configmaps and secrets that may remain.
+  deletePrometheusOperator
+  echo "Monitoring module resources deleted"
+  {{- end }}
+{{- end }}
+
+{{- if eq .reducers.distributionModulesMonitoringType.from "prometheus" }}
+  {{- if eq .reducers.distributionModulesMonitoringType.to "none" }}
+  deleteMonitoringCommon
+  deletePrometheusOperated
+  deletePrometheusOperator
+  echo "Monitoring module resources deleted"
+  {{- end }}
+{{- end }}
+
+{{- end }} # end distributionModulesMonitoringType
+
 # ███    ██  ██████  ██ ███    ██ ██   ██     ████████ ██    ██ ██████  ███████ 
 # ████   ██ ██       ██ ████   ██  ██ ██         ██     ██  ██  ██   ██ ██      
 # ██ ██  ██ ██   ███ ██ ██ ██  ██   ███          ██      ████   ██████  █████   
@@ -508,6 +602,7 @@ deletePomerium
 {{- end }}
 
 {{- end }} # end distributionModulesAuthProviderType                                                      
+
 
 # ███████ ███    ██ ██████  
 # ██      ████   ██ ██   ██ 
