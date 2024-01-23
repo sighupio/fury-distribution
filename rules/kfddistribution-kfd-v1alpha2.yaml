@@ -99,6 +99,12 @@ distribution:
       - from: prometheus
         to: mimir
         reason: "switching from Prometheus to Mimir is not currently supported. You need to first remove the current stack with type: none."
+  - path: .spec.distribution.modules.monitoring.mimir.backend
+    immutable: false
+    description: "changes to the mimir backend have been detected. This will cause the reconfiguration of mimir and the deletion of the current minio storage, if minio was disabled"
+    reducers:
+      - key: distributionModulesMonitoringMimirBackend
+        lifecycle: pre-apply
   - path: .spec.distribution.modules.ingress.nginx.type
     immutable: false
     description: "changes to the nginx type in the Ingress module have been detected. This will cause the reconfiguration or deletion of the current ingress stack."

@@ -287,9 +287,7 @@ deleteTracingMinioHA() {
 
 {{- if eq .reducers.distributionModulesTracingTempoBackend.to "externalEndpoint" }}
 
-{{- if eq .reducers.distributionModulesTracingTempoBackend.from "minio" }}
 deleteTracingMinioHA
-{{- end }}
 
 {{- end }}
 
@@ -362,9 +360,7 @@ deleteVeleroMinio() {
 
 {{- if eq .reducers.distributionModulesDRVeleroBackend.to "externalEndpoint" }}
 
-{{- if eq .reducers.distributionModulesDRVeleroBackend.from "minio" }}
 deleteVeleroMinio
-{{- end }}
 
 {{- end }}
 
@@ -439,6 +435,36 @@ deleteMimir() {
 {{- end }}
 
 {{- end }} # end distributionModulesMonitoringType
+
+# ███    ███ ██ ███    ███ ██ ██████      ██████   █████   ██████ ██   ██ ███████ ███    ██ ██████  
+# ████  ████ ██ ████  ████ ██ ██   ██     ██   ██ ██   ██ ██      ██  ██  ██      ████   ██ ██   ██ 
+# ██ ████ ██ ██ ██ ████ ██ ██ ██████      ██████  ███████ ██      █████   █████   ██ ██  ██ ██   ██ 
+# ██  ██  ██ ██ ██  ██  ██ ██ ██   ██     ██   ██ ██   ██ ██      ██  ██  ██      ██  ██ ██ ██   ██ 
+# ██      ██ ██ ██      ██ ██ ██   ██     ██████  ██   ██  ██████ ██   ██ ███████ ██   ████ ██████  
+                                                                                                                                  
+{{- if index .reducers "distributionModulesMonitoringMimirBackend" }}
+
+deleteMimirMinioHA() {
+
+  $kustomizebin build $vendorPath/modules/monitoring/katalog/minio-ha > delete-monitoring-minio-ha.yaml
+
+{{- if eq .spec.distribution.modules.monitoring.type "none" }}
+  if ! $kubectlbin get apiservice v1.monitoring.coreos.com; then
+    cat delete-monitoring-minio-ha.yaml | $yqbin 'select(.apiVersion != "monitoring.coreos.com/v1")' > delete-monitoring-minio-ha-filtered.yaml
+    cp delete-monitoring-minio-ha-filtered.yaml delete-monitoring-minio-ha.yaml
+  fi
+{{- end }}
+  $kubectlbin delete --ignore-not-found --wait --timeout=180s -f delete-monitoring-minio-ha.yaml
+  echo "Minio HA on monitoring namespace deleted"
+}
+
+{{- if eq .reducers.distributionModulesMonitoringMimirBackend.to "externalEndpoint" }}
+
+deleteMimirMinioHA
+
+{{- end }}
+
+{{- end }} # end distributionModulesDRVeleroBackend
 
 # ███    ██  ██████  ██ ███    ██ ██   ██     ████████ ██    ██ ██████  ███████ 
 # ████   ██ ██       ██ ████   ██  ██ ██         ██     ██  ██  ██   ██ ██      
