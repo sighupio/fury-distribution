@@ -29,21 +29,57 @@ deleteOpensearch() {
   $kubectlbin delete --ignore-not-found --wait --timeout=180s ingress -n logging opensearch-dashboards
   $kubectlbin delete --ignore-not-found --wait --timeout=180s ingress -n pomerium opensearch-dashboards
   $kubectlbin delete --ignore-not-found --wait --timeout=180s ingress -n pomerium cerebro
-  $kustomizebin build $vendorPath/modules/logging/katalog/opensearch-dashboards | $kubectlbin delete --ignore-not-found --wait --timeout=180s -f -
-  $kustomizebin build $vendorPath/modules/logging/katalog/opensearch-triple | $kubectlbin delete --ignore-not-found --wait --timeout=180s -f -
-  $kustomizebin build $vendorPath/modules/logging/katalog/cerebro | $kubectlbin delete --ignore-not-found --wait --timeout=180s -f -
-  echo "Waiting 3 minutes"
-  sleep 180
-  $kubectlbin delete -l app.kubernetes.io/name=opensearch pvc -n logging --wait --timeout=180s
+
+  $kustomizebin build $vendorPath/modules/logging/katalog/opensearch-dashboards > delete-opensearch-cerebro.yaml
+  $kustomizebin build $vendorPath/modules/logging/katalog/opensearch-triple >> delete-opensearch-cerebro.yaml
+  $kustomizebin build $vendorPath/modules/logging/katalog/cerebro >> delete-opensearch-cerebro.yaml
+
+{{- if eq .spec.distribution.modules.monitoring.type "none" }}
+  if ! $kubectlbin get apiservice v1.monitoring.coreos.com; then
+    cat delete-opensearch-cerebro.yaml | $yqbin 'select(.apiVersion != "monitoring.coreos.com/v1")' > delete-opensearch-cerebro-filtered.yaml
+    cp delete-opensearch-cerebro-filtered.yaml delete-opensearch-cerebro.yaml
+  fi
+{{- end }}
+
+  $kubectlbin delete --ignore-not-found --wait --timeout=180s -f delete-opensearch-cerebro.yaml
+  $kubectlbin delete --ignore-not-found -l app.kubernetes.io/name=opensearch pvc -n logging --wait --timeout=180s
   echo "Opensearch resources deleted"
 }
 
 deleteLoki() {
-  $kustomizebin build $vendorPath/modules/logging/katalog/loki-distributed | $kubectlbin delete --ignore-not-found --wait --timeout=180s -f -
-  echo "Waiting 3 minutes"
-  sleep 180
-  $kubectlbin delete -l app.kubernetes.io/name=loki-distributed pvc -n logging --wait --timeout=180s
+
+  $kustomizebin build $vendorPath/modules/logging/katalog/loki-distributed > delete-loki.yaml
+
+{{- if eq .spec.distribution.modules.monitoring.type "none" }}
+  if ! $kubectlbin get apiservice v1.monitoring.coreos.com; then
+    cat delete-loki.yaml | $yqbin 'select(.apiVersion != "monitoring.coreos.com/v1")' > delete-loki-filtered.yaml
+    cp delete-loki-filtered.yaml delete-loki.yaml
+  fi
+{{- end }}
+
+  $kubectlbin delete --ignore-not-found --wait --timeout=180s -f delete-loki.yaml
+  $kubectlbin delete --ignore-not-found -l app.kubernetes.io/name=loki-distributed pvc -n logging --wait --timeout=180s
   echo "Loki resources deleted"
+}
+
+deleteLoggingOperator() {
+
+  $kustomizebin build $vendorPath/modules/logging/katalog/logging-operated | $kubectlbin delete --ignore-not-found --wait --timeout=180s -f -
+  $kustomizebin build $vendorPath/modules/logging/katalog/configs | $kubectlbin delete --ignore-not-found --wait --timeout=180s -f -
+
+  $kustomizebin build $vendorPath/modules/logging/katalog/minio-ha > delete-logging-minio-ha.yaml
+
+{{- if eq .spec.distribution.modules.monitoring.type "none" }}
+  if ! $kubectlbin get apiservice v1.monitoring.coreos.com; then
+    cat delete-logging-minio-ha.yaml | $yqbin 'select(.apiVersion != "monitoring.coreos.com/v1")' > delete-logging-minio-ha-filtered.yaml
+    cp delete-logging-minio-ha-filtered.yaml delete-tracing-minio-ha.yaml
+  fi
+{{- end }}
+  $kubectlbin delete --ignore-not-found --wait --timeout=180s -f delete-logging-minio-ha.yaml
+
+  $kustomizebin build $vendorPath/modules/logging/katalog/logging-operator | $kubectlbin delete --ignore-not-found --wait --timeout=180s -f -
+
+  echo "Logging Operator and NS deleted"
 }
 
 {{- if eq .reducers.distributionModulesLoggingType.to "loki" }}
@@ -61,6 +97,16 @@ deleteLoki
 {{- end }}
 
 {{- end }}
+
+
+
+{{- if eq .reducers.distributionModulesLoggingType.to "none" }}
+deleteLoki
+deleteOpensearch
+deleteLoggingOperator
+{{- end }}
+
+
 
 {{- end }} # end distributionModulesLoggingType
 
@@ -397,6 +443,60 @@ deleteMimir() {
 {{- end }}
 
 {{- end }} # end distributionModulesMonitoringType
+
+# ███    ██  ██████  ██ ███    ██ ██   ██     ████████ ██    ██ ██████  ███████ 
+# ████   ██ ██       ██ ████   ██  ██ ██         ██     ██  ██  ██   ██ ██      
+# ██ ██  ██ ██   ███ ██ ██ ██  ██   ███          ██      ████   ██████  █████   
+# ██  ██ ██ ██    ██ ██ ██  ██ ██  ██ ██         ██       ██    ██      ██      
+# ██   ████  ██████  ██ ██   ████ ██   ██        ██       ██    ██      ███████ 
+
+{{- if index .reducers "distributionModulesIngressNginxType" }}
+
+deleteNginx() {
+
+  $kustomizebin build $vendorPath/modules/ingress/katalog/nginx > delete-nginx.yaml
+  $kustomizebin build $vendorPath/modules/ingress/katalog/dual-nginx > delete-dual-nginx.yaml
+  $kustomizebin build $vendorPath/modules/ingress/katalog/external-dns/public > delete-external-dns.yaml
+  $kustomizebin build $vendorPath/modules/ingress/katalog/external-dns/private >> delete-external-dns.yaml
+  $kustomizebin build $vendorPath/modules/ingress/katalog/forecastle > delete-forecastle.yaml
+
+{{- if eq .spec.distribution.modules.monitoring.type "none" }}
+  if ! $kubectlbin get apiservice v1.monitoring.coreos.com; then
+    cat delete-nginx.yaml | $yqbin 'select(.apiVersion != "monitoring.coreos.com/v1")' > delete-nginx-filtered.yaml
+    cp delete-nginx-filtered.yaml delete-nginx.yaml
+    cat delete-dual-nginx.yaml | $yqbin 'select(.apiVersion != "monitoring.coreos.com/v1")' > delete-dual-nginx-filtered.yaml
+    cp delete-dual-nginx-filtered.yaml delete-dual-nginx.yaml
+    cat delete-external-dns.yaml | $yqbin 'select(.apiVersion != "monitoring.coreos.com/v1")' > delete-external-dns-filtered.yaml
+    cp delete-external-dns-filtered.yaml delete-external-dns.yaml
+    cat delete-forecastle.yaml | $yqbin 'select(.apiVersion != "monitoring.coreos.com/v1")' > delete-forecastle-filtered.yaml
+    cp delete-forecastle-filtered.yaml delete-forecastle.yaml
+  fi
+{{- end }}
+  $kubectlbin delete --ignore-not-found --wait --timeout=180s -f delete-external-dns.yaml
+  $kubectlbin delete --ignore-not-found --wait --timeout=180s -f delete-forecastle.yaml
+  $kubectlbin delete --ignore-not-found --wait --timeout=180s -f delete-dual-nginx.yaml
+  $kubectlbin delete --ignore-not-found --wait --timeout=180s -f delete-nginx.yaml
+  echo "nginx or dual nginx have been deleted from the cluster"
+}
+
+deleteNginxIngresses() {
+  
+  $kubectlbin delete --ignore-not-found --wait --timeout=180s ingress -n pomerium --all
+  $kubectlbin delete --ignore-not-found --wait --timeout=180s ingress -n monitoring --all
+  $kubectlbin delete --ignore-not-found --wait --timeout=180s ingress -n tracing --all
+  $kubectlbin delete --ignore-not-found --wait --timeout=180s ingress -n logging --all
+  $kubectlbin delete --ignore-not-found --wait --timeout=180s ingress -n gatekeeper-system --all
+  $kubectlbin delete --ignore-not-found --wait --timeout=180s ingress -n ingress-nginx --all
+  echo "All the infrastructural ingresses associated with nginx have been deleted"
+}
+
+{{- if eq .reducers.distributionModulesIngressNginxType.to "none" }}
+deleteNginxIngresses
+deleteNginx
+{{- end }}
+
+{{- end }} # end distributionModulesIngressNginxType                                                                        
+
 
 # ███████ ███    ██ ██████  
 # ██      ████   ██ ██   ██ 

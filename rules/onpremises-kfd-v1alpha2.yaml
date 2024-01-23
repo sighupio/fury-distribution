@@ -18,9 +18,6 @@ distribution:
   - path: .spec.distribution.modules.logging.type
     immutable: false
     description: "changes to the logging module type have been detected. This will cause the reconfiguration or deletion of the current logging stack."
-    unsupported:
-      - to: none
-        reason: "currently, removing the logging stack is not supported."
     reducers:
       - key: distributionModulesLoggingType
         lifecycle: pre-apply
@@ -92,3 +89,16 @@ distribution:
       - from: prometheus
         to: mimir
         reason: "switching from Prometheus to Mimir is not currently supported. You need to first remove the current stack with type: none."
+  - path: .spec.distribution.modules.ingress.nginx.type
+    immutable: false
+    description: "changes to the nginx type in the Ingress module have been detected. This will cause the reconfiguration or deletion of the current ingress stack."
+    unsupported:
+      - to: single
+        from: dual
+        reason: "currently, switching Ingress from dual to single nginx is not supported. You need to first remove the current stack with type: none."
+      - to: dual
+        from: single
+        reason: "currently, switching Ingress from single to dual nginx is not supported. You need to first remove the current stack with type: none."
+    reducers:
+      - key: distributionModulesIngressNginxType
+        lifecycle: pre-apply
