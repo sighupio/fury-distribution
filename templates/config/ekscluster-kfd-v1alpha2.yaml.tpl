@@ -88,7 +88,6 @@ spec:
       publicAccess: false
       privateAccessCidrs: ['0.0.0.0/0']
       publicAccessCidrs: ['0.0.0.0/0']
-    # logRetentionDays: 90
     # This array contains the definition of the nodepools in the cluster
     nodePools:
         # This is the name of the nodepool
@@ -217,7 +216,7 @@ spec:
             email: example@sighup.io
             # you can configure the clusterIssuer by specifing type (can be http01 or dns01, if dns01 the route53 integration will be used) or custom solvers
             type: http01
-            # the custom solvers configurations
+            # the custom solvers configurations
             # solvers:
             #   - http01:
             #       ingress:
@@ -268,21 +267,21 @@ spec:
         #      # the ingressClass can be overridden if needed
         #      ingressClass: ""
         # can be opensearch or loki or none, with none, nothing from the logging module will be installed
-        type: opensearch
+        type: loki
         # configurations for the opensearch package
-        opensearch:
+        # opensearch:
           # the type of opensearch to install, can be single or triple
-          type: single
-          ## optional settings to override requests and limits
-          #resources:
-          #  requests:
-          #    cpu: ""
-          #    memory: ""
-          #  limits:
-          #    cpu: ""
-          #    memory: ""
+          # type: single
+          # # optional settings to override requests and limits
+          # resources:
+          #   requests:
+          #     cpu: ""
+          #     memory: ""
+          #   limits:
+          #     cpu: ""
+          #     memory: ""
           # the PVC size used by opensearch, for each pod
-          storageSize: "150Gi"
+          # storageSize: "150Gi"
         # configurations for the minio-ha package
         minio:
           # the PVC size for each minio disk, 6 disks total
@@ -328,6 +327,7 @@ spec:
         #      host: ""
         #      # the ingressClass can be overridden if needed
         #      ingressClass: ""
+        type: prometheus
         # configurations for the prometheus package
         #prometheus:
         #  # optional settings to override requests and limits
@@ -339,11 +339,11 @@ spec:
         #      cpu: ""
         #      memory: ""
         # configurations for the alertmanager package
-        alertmanager:
-          # The webhook url to send deadman switch monitoring, for example to use with healthchecks.io
-          deadManSwitchWebhookUrl: ""
-          # The slack webhook url to send alerts
-          slackWebhookUrl: https://slack.com
+        #alertmanager:
+        #  # The webhook url to send deadman switch monitoring, for example to use with healthchecks.io
+        #  deadManSwitchWebhookUrl: ""
+        #  # The slack webhook url to send alerts
+        #  slackWebhookUrl: https://slack.com
       # This section contains all the configurations for the tracing module
       tracing:
         # This optional key is used to override automatic parameters
@@ -390,6 +390,8 @@ spec:
         gatekeeper:
           # This parameter adds namespaces to Gatekeeper's exemption list, so it will not enforce the constraints on them.
           additionalExcludedNamespaces: []
+          enforcementAction: deny
+          installDefaultPolicies: true
         # kyverno:
         #   # This parameter adds namespaces to Gatekeeper's exemption list, so it will not enforce the constraints on them.
         #   additionalExcludedNamespaces: []
