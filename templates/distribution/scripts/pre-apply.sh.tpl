@@ -392,22 +392,22 @@ deleteMonitoringCommon() {
 }
 
 deletePrometheusOperator() {
-  $kustomizebin build $vendorPath/modules/monitoring/katalog/prometheus-operator | $kubectlbin delete --ignore-not-found --wait --timeout=180s -f -
+  $kustomizebin build $vendorPath/modules/monitoring/katalog/prometheus-operator | $kubectlbin delete --ignore-not-found --wait --timeout=360s -f -
   echo "Prometheus Operator resources deleted"
 }
 
 deletePrometheusOperated() {
   # we first delete the CRs before deleting the CRDs to avoid the `kubectl delete` command from failing due to unexisting APIs.
-  $kustomizebin build $vendorPath/modules/monitoring/katalog/prometheus-operated | $kubectlbin delete --ignore-not-found --wait --timeout=180s -f -
-  $kubectlbin delete -l app.kubernetes.io/name=prometheus,app.kubernetes.io/instance=k8s pvc -n monitoring --wait --timeout=180s
+  $kustomizebin build $vendorPath/modules/monitoring/katalog/prometheus-operated | $kubectlbin delete --ignore-not-found --wait --timeout=360s -f -
+  $kubectlbin delete -l app.kubernetes.io/name=prometheus,app.kubernetes.io/instance=k8s pvc -n monitoring --wait --timeout=360s
   echo "Prometheus Operated resources deleted"
 }
 
 deleteMimir() {
-  $kustomizebin build $vendorPath/modules/monitoring/katalog/mimir | $kubectlbin delete --ignore-not-found --wait --timeout=180s -f -
-  $kustomizebin build $vendorPath/modules/monitoring/katalog/minio-ha | $kubectlbin delete --ignore-not-found --wait --timeout=180s -f -
-  $kubectlbin delete -l app.kubernetes.io/name=mimir pvc -n monitoring --wait --timeout=180s
-  $kubectlbin delete -l app=minio,release=minio-monitoring pvc -n monitoring --wait --timeout=180s
+  $kustomizebin build $vendorPath/modules/monitoring/katalog/mimir | $kubectlbin delete --ignore-not-found --wait --timeout=360s -f -
+  $kustomizebin build $vendorPath/modules/monitoring/katalog/minio-ha | $kubectlbin delete --ignore-not-found --wait --timeout=360s -f -
+  $kubectlbin delete -l app.kubernetes.io/name=mimir pvc -n monitoring --wait --timeout=360s
+  $kubectlbin delete -l app=minio,release=minio-monitoring pvc -n monitoring --wait --timeout=360s
   echo "Mimir resources deleted"
 }
 
