@@ -83,6 +83,21 @@ spec:
     customPatches:
       patchesStrategicMerge:
         - |
+          apiVersion: apps/v1
+          kind: StatefulSet
+          metadata:
+            name: minio-logging
+            namespace: logging
+          spec:
+            template:
+              spec:
+                containers:
+                - name: minio
+                  resources:
+                    requests:
+                      cpu: 10m
+                      memory: 50Mi
+        - |
           $patch: delete
           apiVersion: logging-extensions.banzaicloud.io/v1alpha1
           kind: HostTailer
