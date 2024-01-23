@@ -83,7 +83,7 @@ spec:
             password: testpassword
     # patches for kind compatibility and resource setting
     customPatches:
-      patchesStrategicMerge:
+      patchesStrategicMerge: []
         #- |
         #  apiVersion: apps/v1
         #  kind: StatefulSet
