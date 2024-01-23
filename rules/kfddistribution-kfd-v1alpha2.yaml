@@ -16,7 +16,7 @@ distribution:
         lifecycle: pre-apply
   - path: .spec.distribution.modules.monitoring.alertmanager.installDefaultRules
     immutable: false
-    description: "changes to the monitoring alertmanager configs have been detected. This will cause the reconfiguration (creation or deletion of the defaults alertmanager configs."
+    description: "changes to the monitoring alertmanager configs have been detected. This will cause the reconfiguration, creation or deletion of the default alertmanager configs."
     safe:
       - from: false
       - from: true
