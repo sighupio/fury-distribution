@@ -54,3 +54,8 @@ bats -t tests/e2e-kfddistribution-9-migrate-from-basicAuth-to-sso.sh
 echo "----------------------------------------------------------------------------"
 echo "Executing furyctl testing safe migrations from none"
 /tmp/furyctl create cluster --config tests/e2e/kfddistribution/furyctl-10-migrate-from-none-to-safe-values.yaml --outdir "$PWD" -H --distro-location ./ --skip-deps-download
+
+echo "----------------------------------------------------------------------------"
+echo "Executing furyctl testing kyverno uninstall policies"
+/tmp/furyctl create cluster --config tests/e2e/kfddistribution/furyctl-11-migrate-from-kyverno-default-policies-to-disabled.yaml --outdir "$PWD" -H --distro-location ./ --skip-deps-download
+bats -t tests/e2e-kfddistribution-11-migrate-from-kyverno-default-policies-to-disabled.sh
