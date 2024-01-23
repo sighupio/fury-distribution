@@ -41,7 +41,7 @@ spec:
             username: sighup
             password: secretpassword1
       monitoring:
-        type: mimir
+        type: none
         mimir: 
           backend: minio
         prometheus:
@@ -128,21 +128,21 @@ spec:
         #            requests:
         #              cpu: 10m
         #              memory: 50Mi
-        - |
-          apiVersion: apps/v1
-          kind: StatefulSet
-          metadata:
-            name: minio-monitoring
-            namespace: monitoring
-          spec:
-            template:
-              spec:
-                containers:
-                - name: minio
-                  resources:
-                    requests:
-                      cpu: 10m
-                      memory: 50Mi
+        #- |
+        #  apiVersion: apps/v1
+        #  kind: StatefulSet
+        #  metadata:
+        #    name: minio-monitoring
+        #    namespace: monitoring
+        #  spec:
+        #    template:
+        #      spec:
+        #        containers:
+        #        - name: minio
+        #          resources:
+        #            requests:
+        #              cpu: 10m
+        #              memory: 50Mi
         #- |
         #  apiVersion: apps/v1
         #  kind: StatefulSet

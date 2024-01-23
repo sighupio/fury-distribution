@@ -23,7 +23,7 @@ spec:
       ingress:
         baseDomain: fury.sighup.cc
         nginx:
-          type: single
+          type: none
           tls:
             provider: certManager
         certManager:
@@ -41,7 +41,7 @@ spec:
             username: sighup
             password: secretpassword1
       monitoring:
-        type: mimir
+        type: none
         mimir: 
           backend: minio
         prometheus:
@@ -77,7 +77,10 @@ spec:
           backend: minio
       auth:
         provider:
-          type: none
+          type: basicAuth
+          basicAuth:
+            username: test
+            password: testpassword
     # patches for kind compatibility and resource setting
     customPatches:
       patchesStrategicMerge:
@@ -96,21 +99,21 @@ spec:
         #            requests:
         #              cpu: 10m
         #              memory: 50Mi
-        - |
-          apiVersion: apps/v1
-          kind: StatefulSet
-          metadata:
-            name: minio-monitoring
-            namespace: monitoring
-          spec:
-            template:
-              spec:
-                containers:
-                - name: minio
-                  resources:
-                    requests:
-                      cpu: 10m
-                      memory: 50Mi
+        #- |
+        #  apiVersion: apps/v1
+        #  kind: StatefulSet
+        #  metadata:
+        #    name: minio-monitoring
+        #    namespace: monitoring
+        #  spec:
+        #    template:
+        #      spec:
+        #        containers:
+        #        - name: minio
+        #          resources:
+        #            requests:
+        #              cpu: 10m
+        #              memory: 50Mi
         #- |
         #  apiVersion: apps/v1
         #  kind: StatefulSet
@@ -147,7 +150,3 @@ spec:
           metadata:
             name: x509-certificate-exporter-control-plane
             namespace: monitoring
-  plugins:
-    kustomize: 
-      - name: ldap-server
-        folder: ./plugins/ldap-server

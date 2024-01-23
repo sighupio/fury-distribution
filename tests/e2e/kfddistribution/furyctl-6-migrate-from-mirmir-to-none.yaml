@@ -32,8 +32,8 @@ spec:
             email: sighup@sighup.cc
             type: http01
       logging:
-        type: loki
-        loki:
+        type: none
+        loki: 
           backend: minio
         minio:
           storageSize: 20Gi
@@ -77,40 +77,43 @@ spec:
           backend: minio
       auth:
         provider:
-          type: none
+          type: basicAuth
+          basicAuth:
+            username: test
+            password: testpassword
     # patches for kind compatibility and resource setting
     customPatches:
       patchesStrategicMerge:
-        - |
-          apiVersion: apps/v1
-          kind: StatefulSet
-          metadata:
-            name: minio-logging
-            namespace: logging
-          spec:
-            template:
-              spec:
-                containers:
-                - name: minio
-                  resources:
-                    requests:
-                      cpu: 10m
-                      memory: 50Mi
-        - |
-          apiVersion: apps/v1
-          kind: StatefulSet
-          metadata:
-            name: minio-monitoring
-            namespace: monitoring
-          spec:
-            template:
-              spec:
-                containers:
-                - name: minio
-                  resources:
-                    requests:
-                      cpu: 10m
-                      memory: 50Mi
+        #- |
+        #  apiVersion: apps/v1
+        #  kind: StatefulSet
+        #  metadata:
+        #    name: minio-logging
+        #    namespace: logging
+        #  spec:
+        #    template:
+        #      spec:
+        #        containers:
+        #        - name: minio
+        #          resources:
+        #            requests:
+        #              cpu: 10m
+        #              memory: 50Mi
+        #- |
+        #  apiVersion: apps/v1
+        #  kind: StatefulSet
+        #  metadata:
+        #    name: minio-monitoring
+        #    namespace: monitoring
+        #  spec:
+        #    template:
+        #      spec:
+        #        containers:
+        #        - name: minio
+        #          resources:
+        #            requests:
+        #              cpu: 10m
+        #              memory: 50Mi
         #- |
         #  apiVersion: apps/v1
         #  kind: StatefulSet
