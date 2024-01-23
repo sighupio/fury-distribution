@@ -33,8 +33,6 @@ spec:
             type: http01
       logging:
         type: loki
-        loki: 
-          backend: minio
         minio:
           storageSize: 20Gi
           rootUser:
@@ -42,8 +40,6 @@ spec:
             password: secretpassword1
       monitoring:
         type: mimir
-        mimir: 
-          backend: minio
         prometheus:
           resources:
             requests:
@@ -58,8 +54,6 @@ spec:
             password: secretpassword2
       tracing:
         type: tempo
-        tempo: 
-          backend: minio
         minio:
           storageSize: 20Gi
           rootUser:
@@ -69,15 +63,17 @@ spec:
         type: kyverno
         kyverno:
           additionalExcludedNamespaces: ["local-path-storage"]
-          installDefaultPolicies: true
           validationFailureAction: enforce
+          installDefaultPolicies: true
       dr:
         type: on-premises
-        velero: 
-          backend: minio
+        velero: {}
       auth:
         provider:
-          type: none
+          type: basicAuth
+          basicAuth:
+            username: test
+            password: testpassword
     # patches for kind compatibility and resource setting
     customPatches:
       patchesStrategicMerge:

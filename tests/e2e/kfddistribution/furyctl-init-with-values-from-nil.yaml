@@ -34,54 +34,52 @@ spec:
       logging:
         type: loki
         loki: 
-          backend: minio
-        minio:
-          storageSize: 20Gi
-          rootUser:
-            username: sighup
-            password: secretpassword1
+          backend: externalEndpoint
+          externalEndpoint:
+            endpoint: 192.168.1.100:9000
+            insecure: true
+            accessKeyId: minio
+            secretAccessKey: supersecretpassword
+            bucketName: loki
       monitoring:
         type: mimir
         mimir: 
-          backend: minio
-        prometheus:
-          resources:
-            requests:
-              cpu: 10m
-            limits:
-              cpu: 2000m
-              memory: 6Gi
-        minio:
-          storageSize: 20Gi
-          rootUser:
-            username: sighup
-            password: secretpassword2
+          backend: externalEndpoint
+          externalEndpoint:
+            endpoint: 192.168.1.100:9000
+            insecure: true
+            accessKeyId: minio
+            secretAccessKey: supersecretpassword
+            bucketName: mimir
       tracing:
-        type: none
+        type: tempo
         tempo: 
-          backend: minio
-        minio:
-          storageSize: 20Gi
-          rootUser:
-            username: sighup
-            password: secretpassword3
+          backend: externalEndpoint
+          externalEndpoint:
+            endpoint: 192.168.1.100:9000
+            insecure: true
+            accessKeyId: minio
+            secretAccessKey: supersecretpassword
+            bucketName: tempo
       policy:
-        type: none
+        type: kyverno
         kyverno:
           additionalExcludedNamespaces: ["local-path-storage"]
-          installDefaultPolicies: true
+          installDefaultPolicies: false
           validationFailureAction: enforce
       dr:
         type: on-premises
         velero: 
-          backend: minio
+          backend: externalEndpoint
+          externalEndpoint:
+            endpoint: 192.168.1.100:9000
+            insecure: true
+            accessKeyId: minio
+            secretAccessKey: supersecretpassword
+            bucketName: velero
       auth:
         provider:
-          type: basicAuth
-          basicAuth:
-            username: test
-            password: testpassword
-    # patches for kind compatibility and resource setting
+          type: none
     customPatches:
       patchesStrategicMerge:
         - |
@@ -99,36 +97,6 @@ spec:
                     requests:
                       cpu: 10m
                       memory: 50Mi
-        - |
-          apiVersion: apps/v1
-          kind: StatefulSet
-          metadata:
-            name: minio-monitoring
-            namespace: monitoring
-          spec:
-            template:
-              spec:
-                containers:
-                - name: minio
-                  resources:
-                    requests:
-                      cpu: 10m
-                      memory: 50Mi
-        #- |
-        #  apiVersion: apps/v1
-        #  kind: StatefulSet
-        #  metadata:
-        #    name: minio-tracing
-        #    namespace: tracing
-        #  spec:
-        #    template:
-        #      spec:
-        #        containers:
-        #        - name: minio
-        #          resources:
-        #            requests:
-        #              cpu: 10m
-        #              memory: 50Mi
         - |
           $patch: delete
           apiVersion: logging-extensions.banzaicloud.io/v1alpha1

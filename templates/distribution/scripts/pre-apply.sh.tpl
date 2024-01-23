@@ -287,9 +287,7 @@ deleteTracingMinioHA() {
 
 {{- if eq .reducers.distributionModulesTracingTempoBackend.to "externalEndpoint" }}
 
-{{- if eq .reducers.distributionModulesTracingTempoBackend.from "minio" }}
 deleteTracingMinioHA
-{{- end }}
 
 {{- end }}
 
@@ -362,9 +360,7 @@ deleteVeleroMinio() {
 
 {{- if eq .reducers.distributionModulesDRVeleroBackend.to "externalEndpoint" }}
 
-{{- if eq .reducers.distributionModulesDRVeleroBackend.from "minio" }}
 deleteVeleroMinio
-{{- end }}
 
 {{- end }}
 
@@ -396,26 +392,22 @@ deleteMonitoringCommon() {
 }
 
 deletePrometheusOperator() {
-  $kustomizebin build $vendorPath/modules/monitoring/katalog/prometheus-operator | $kubectlbin delete --ignore-not-found --wait --timeout=180s -f -
+  $kustomizebin build $vendorPath/modules/monitoring/katalog/prometheus-operator | $kubectlbin delete --ignore-not-found --wait --timeout=360s -f -
   echo "Prometheus Operator resources deleted"
 }
 
 deletePrometheusOperated() {
   # we first delete the CRs before deleting the CRDs to avoid the `kubectl delete` command from failing due to unexisting APIs.
-  $kustomizebin build $vendorPath/modules/monitoring/katalog/prometheus-operated | $kubectlbin delete --ignore-not-found --wait --timeout=180s -f -
-  echo "Waiting 3 minutes for PVCs to liberate"
-  sleep 180
-  $kubectlbin delete -l app.kubernetes.io/name=prometheus,app.kubernetes.io/instance=k8s pvc -n monitoring --wait --timeout=180s
+  $kustomizebin build $vendorPath/modules/monitoring/katalog/prometheus-operated | $kubectlbin delete --ignore-not-found --wait --timeout=360s -f -
+  $kubectlbin delete -l app.kubernetes.io/name=prometheus,app.kubernetes.io/instance=k8s pvc -n monitoring --wait --timeout=360s
   echo "Prometheus Operated resources deleted"
 }
 
 deleteMimir() {
-  $kustomizebin build $vendorPath/modules/monitoring/katalog/mimir | $kubectlbin delete --ignore-not-found --wait --timeout=180s -f -
-  $kustomizebin build $vendorPath/modules/monitoring/katalog/minio-ha | $kubectlbin delete --ignore-not-found --wait --timeout=180s -f -
-  echo "Waiting 3 minutes for PVCs to liberate"
-  sleep 180
-  $kubectlbin delete -l app.kubernetes.io/name=mimir pvc -n monitoring --wait --timeout=180s
-  $kubectlbin delete -l app=minio,release=minio-monitoring pvc -n monitoring --wait --timeout=180s
+  $kustomizebin build $vendorPath/modules/monitoring/katalog/mimir | $kubectlbin delete --ignore-not-found --wait --timeout=360s -f -
+  $kustomizebin build $vendorPath/modules/monitoring/katalog/minio-ha | $kubectlbin delete --ignore-not-found --wait --timeout=360s -f -
+  $kubectlbin delete -l app.kubernetes.io/name=mimir pvc -n monitoring --wait --timeout=360s
+  $kubectlbin delete -l app=minio,release=minio-monitoring pvc -n monitoring --wait --timeout=360s
   echo "Mimir resources deleted"
 }
 
@@ -443,6 +435,36 @@ deleteMimir() {
 {{- end }}
 
 {{- end }} # end distributionModulesMonitoringType
+
+# ███    ███ ██ ███    ███ ██ ██████      ██████   █████   ██████ ██   ██ ███████ ███    ██ ██████  
+# ████  ████ ██ ████  ████ ██ ██   ██     ██   ██ ██   ██ ██      ██  ██  ██      ████   ██ ██   ██ 
+# ██ ████ ██ ██ ██ ████ ██ ██ ██████      ██████  ███████ ██      █████   █████   ██ ██  ██ ██   ██ 
+# ██  ██  ██ ██ ██  ██  ██ ██ ██   ██     ██   ██ ██   ██ ██      ██  ██  ██      ██  ██ ██ ██   ██ 
+# ██      ██ ██ ██      ██ ██ ██   ██     ██████  ██   ██  ██████ ██   ██ ███████ ██   ████ ██████  
+                                                                                                                                  
+{{- if index .reducers "distributionModulesMonitoringMimirBackend" }}
+
+deleteMimirMinioHA() {
+
+  $kustomizebin build $vendorPath/modules/monitoring/katalog/minio-ha > delete-monitoring-minio-ha.yaml
+
+{{- if eq .spec.distribution.modules.monitoring.type "none" }}
+  if ! $kubectlbin get apiservice v1.monitoring.coreos.com; then
+    cat delete-monitoring-minio-ha.yaml | $yqbin 'select(.apiVersion != "monitoring.coreos.com/v1")' > delete-monitoring-minio-ha-filtered.yaml
+    cp delete-monitoring-minio-ha-filtered.yaml delete-monitoring-minio-ha.yaml
+  fi
+{{- end }}
+  $kubectlbin delete --ignore-not-found --wait --timeout=180s -f delete-monitoring-minio-ha.yaml
+  echo "Minio HA on monitoring namespace deleted"
+}
+
+{{- if eq .reducers.distributionModulesMonitoringMimirBackend.to "externalEndpoint" }}
+
+deleteMimirMinioHA
+
+{{- end }}
+
+{{- end }} # end distributionModulesDRVeleroBackend
 
 # ███    ██  ██████  ██ ███    ██ ██   ██     ████████ ██    ██ ██████  ███████ 
 # ████   ██ ██       ██ ████   ██  ██ ██         ██     ██  ██  ██   ██ ██      
@@ -496,6 +518,112 @@ deleteNginx
 {{- end }}
 
 {{- end }} # end distributionModulesIngressNginxType                                                                        
+
+#  █████  ██    ██ ████████ ██   ██     ████████ ██    ██ ██████  ███████ 
+# ██   ██ ██    ██    ██    ██   ██        ██     ██  ██  ██   ██ ██      
+# ███████ ██    ██    ██    ███████        ██      ████   ██████  █████   
+# ██   ██ ██    ██    ██    ██   ██        ██       ██    ██      ██      
+# ██   ██  ██████     ██    ██   ██        ██       ██    ██      ███████ 
+
+{{- if index .reducers "distributionModulesAuthProviderType" }}
+
+deleteDex() {
+
+  $kustomizebin build $vendorPath/modules/auth/katalog/dex > delete-dex.yaml
+
+{{- if eq .spec.distribution.modules.monitoring.type "none" }}
+  if ! $kubectlbin get apiservice v1.monitoring.coreos.com; then
+    cat delete-dex.yaml | $yqbin 'select(.apiVersion != "monitoring.coreos.com/v1")' > delete-dex-filtered.yaml
+    cp delete-dex-filtered.yaml delete-dex.yaml
+    
+  fi
+{{- end }}
+  $kubectlbin delete --ignore-not-found --wait --timeout=180s -f delete-dex.yaml
+  $kubectlbin delete --ignore-not-found --wait --timeout=180s ingress -n kube-system dex
+  echo "dex has been deleted from the cluster"
+}
+
+deleteGangway() {
+
+  $kustomizebin build $vendorPath/modules/auth/katalog/gangway > delete-gangway.yaml
+
+{{- if eq .spec.distribution.modules.monitoring.type "none" }}
+  if ! $kubectlbin get apiservice v1.monitoring.coreos.com; then
+    cat delete-gangway.yaml | $yqbin 'select(.apiVersion != "monitoring.coreos.com/v1")' > delete-gangway-filtered.yaml
+    cp delete-gangway-filtered.yaml delete-pomerium.yaml
+    
+  fi
+{{- end }}
+  $kubectlbin delete --ignore-not-found --wait --timeout=180s -f delete-gangway.yaml
+  $kubectlbin delete --ignore-not-found --wait --timeout=180s ingress -n kube-system gangway
+  echo "dex has been deleted from the cluster"
+}
+
+deletePomerium() {
+
+  $kustomizebin build $vendorPath/modules/auth/katalog/pomerium > delete-pomerium.yaml
+
+{{- if eq .spec.distribution.modules.monitoring.type "none" }}
+  if ! $kubectlbin get apiservice v1.monitoring.coreos.com; then
+    cat delete-pomerium.yaml | $yqbin 'select(.apiVersion != "monitoring.coreos.com/v1")' > delete-pomerium-filtered.yaml
+    cp delete-pomerium-filtered.yaml delete-pomerium.yaml
+    
+  fi
+{{- end }}
+  $kubectlbin delete --ignore-not-found --wait --timeout=180s -f delete-pomerium.yaml
+  $kubectlbin delete --ignore-not-found --wait --timeout=180s ingress -n pomerium pomerium
+  echo "pomerium has been deleted from the cluster"
+}
+
+deletePomeriumIngresses() {
+  
+  $kubectlbin delete --ignore-not-found --wait --timeout=180s ingress -n pomerium --all
+  echo "All the ingresses in the pomerium namespace have been deleted"
+}
+
+deleteInfraIngresses() {
+  
+  $kubectlbin delete --ignore-not-found --wait --timeout=180s ingress -n monitoring --all
+  $kubectlbin delete --ignore-not-found --wait --timeout=180s ingress -n tracing --all
+  $kubectlbin delete --ignore-not-found --wait --timeout=180s ingress -n logging --all
+  $kubectlbin delete --ignore-not-found --wait --timeout=180s ingress -n gatekeeper-system --all
+  $kubectlbin delete --ignore-not-found --wait --timeout=180s ingress -n ingress-nginx --all
+  echo "All the infrastructural ingresses have been deleted"
+}
+
+
+{{- if eq .reducers.distributionModulesAuthProviderType.to "none" }}
+
+deleteDex
+deleteGangway
+deletePomeriumIngresses
+deletePomerium
+
+{{- end }}
+
+{{- if eq .reducers.distributionModulesAuthProviderType.to "sso" }}
+
+{{- if eq .reducers.distributionModulesAuthProviderType.from "basicAuth" }}
+deleteDex
+deleteGangway
+deletePomeriumIngresses
+deletePomerium
+{{- end }}
+
+{{- end }}
+
+{{- if eq .reducers.distributionModulesAuthProviderType.to "sso" }}
+
+{{- if eq .reducers.distributionModulesAuthProviderType.from "basicAuth" }}
+deleteDex
+deleteGangway
+deleteInfraIngresses
+deletePomerium
+{{- end }}
+
+{{- end }}
+
+{{- end }} # end distributionModulesAuthProviderType                                                      
 
 
 # ███████ ███    ██ ██████  

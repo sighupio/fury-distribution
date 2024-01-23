@@ -93,6 +93,7 @@ all:
     https_proxy: "{{ .spec.kubernetes.proxy.https }}"
     no_proxy: "{{ .spec.kubernetes.proxy.noProxy }}"
     {{- end }}
+    {{- if (index .spec.kubernetes "advanced") }}
     {{- if (index .spec.kubernetes.advanced "containerd") }}
     {{- if (index .spec.kubernetes.advanced.containerd "registryConfigs") }}
     containerd_registry_configs:
@@ -104,5 +105,6 @@ all:
         mirror_endpoint:
          {{ $rc.mirrorEndpoint  | toYaml }}
       {{- end }}
+    {{- end }}
     {{- end }}
     {{- end }}
