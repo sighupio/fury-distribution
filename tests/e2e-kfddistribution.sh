@@ -28,12 +28,6 @@ echo "Testing that the components are running"
 bats -t tests/e2e-kfddistribution-init-cluster.sh
 
 echo "----------------------------------------------------------------------------"
-echo "Restoring furyctl for the initial setup"
-/tmp/furyctl create cluster --config tests/e2e/kfddistribution/furyctl-init-cluster.yaml --outdir "$PWD" -H --distro-location ./ --force
-echo "Testing that the components are running"
-bats -t tests/e2e-kfddistribution-init-cluster.sh
-
-echo "----------------------------------------------------------------------------"
 echo "Executing furyctl with the tempo migration to none"
 /tmp/furyctl create cluster --config tests/e2e/kfddistribution/furyctl-2-migrate-from-tempo-to-none.yaml --outdir "$PWD" -H --distro-location ./ --force --skip-deps-download
 bats -t tests/e2e-kfddistribution-2-migrate-from-tempo-to-none.sh
