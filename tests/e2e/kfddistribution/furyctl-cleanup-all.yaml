@@ -32,15 +32,15 @@ spec:
             email: sighup@sighup.cc
             type: http01
       logging:
-        type: loki
+        type: none
       monitoring:
-        type: mimir
+        type: none
       tracing:
-        type: tempo
+        type: none
       policy:
-        type: kyverno
+        type: none
       dr:
-        type: on-premises
+        type: none
       auth:
         provider:
           type: none
