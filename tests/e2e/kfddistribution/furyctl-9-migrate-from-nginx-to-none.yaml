@@ -77,10 +77,7 @@ spec:
           backend: minio
       auth:
         provider:
-          type: basicAuth
-          basicAuth:
-            username: test
-            password: testpassword
+          type: none
     # patches for kind compatibility and resource setting
     customPatches:
       patchesStrategicMerge:
