@@ -35,3 +35,13 @@ echo "--------------------------------------------------------------------------
 echo "Executing furyctl with the nginx migration to none"
 /tmp/furyctl create cluster --config tests/e2e/kfddistribution/furyctl-6-migrate-from-nginx-to-none.yaml --outdir "$PWD" -H --distro-location ./ --force
 bats -t tests/e2e-kfddistribution-6-migrate-from-nginx-to-none.sh
+
+echo "----------------------------------------------------------------------------"
+echo "Executing furyctl with the auth basic to sso migration"
+/tmp/furyctl create cluster --config tests/e2e/kfddistribution/furyctl-7-migrate-from-basicAuth-to-sso.yaml --outdir "$PWD" -H --distro-location ./ --force
+bats -t tests/e2e-kfddistribution-7-migrate-from-basicAuth-to-sso.sh
+
+echo "----------------------------------------------------------------------------"
+echo "Executing furyctl with the auth basic to sso migration"
+/tmp/furyctl create cluster --config tests/e2e/kfddistribution/furyctl-8-migrate-from-sso-to-none.yaml --outdir "$PWD" -H --distro-location ./ --force
+bats -t tests/e2e-kfddistribution-8-migrate-from-sso-to-none.sh

@@ -74,3 +74,9 @@ distribution:
     reducers:
       - key: distributionModulesIngressNginxType
         lifecycle: pre-apply
+  - path: .spec.distribution.modules.auth.provider.type
+    immutable: false
+    description: "changes to the auth provider type will trigger the reconfiguration of the security on the infrastructural ingresses"
+    reducers:
+      - key: distributionModulesAuthProviderType
+        lifecycle: pre-apply
