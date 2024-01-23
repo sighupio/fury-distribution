@@ -30,3 +30,8 @@ echo "--------------------------------------------------------------------------
 echo "Executing furyctl with the logging migration to none"
 /tmp/furyctl create cluster --config tests/e2e/kfddistribution/furyctl-5-migrate-from-loki-to-none.yaml --outdir "$PWD" -H --distro-location ./ --force
 bats -t tests/e2e-kfddistribution-5-migrate-from-loki-to-none.sh
+
+echo "----------------------------------------------------------------------------"
+echo "Executing furyctl with the nginx migration to none"
+/tmp/furyctl create cluster --config tests/e2e/kfddistribution/furyctl-6-migrate-from-nginx-to-none.yaml --outdir "$PWD" -H --distro-location ./ --force
+bats -t tests/e2e-kfddistribution-6-migrate-from-nginx-to-none.sh
