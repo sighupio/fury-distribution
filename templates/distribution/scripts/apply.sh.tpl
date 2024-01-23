@@ -73,6 +73,7 @@ $kubectlbin rollout status deployment kyverno-reports-controller  -n kyverno --t
 
 echo "Executing cleanup migrations on values that can be nil..."
 
+{{- if ne .spec.distribution.modules.monitoring.type "none" }}
 {{- if not .spec.distribution.modules.monitoring.alertmanager.installDefaultRules }}
 
 $kubectlbin delete --ignore-not-found --wait --timeout=180s -n monitoring alertmanagerconfigs.monitoring.coreos.com deadmanswitch
@@ -82,6 +83,7 @@ $kubectlbin delete --ignore-not-found --wait --timeout=180s -n monitoring secret
 $kubectlbin delete --ignore-not-found --wait --timeout=180s -n monitoring secret k8s-slack-webhook
 $kubectlbin delete --ignore-not-found --wait --timeout=180s -n monitoring secret healthchecks-webhook
 
+{{- end }}
 {{- end }}
 
 echo "Apply script completed."
