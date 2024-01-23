@@ -402,7 +402,112 @@ deleteNginx
 {{- end }}
 
 {{- end }} # end distributionModulesIngressNginxType                                                                        
-                                                                              
+
+#  █████  ██    ██ ████████ ██   ██     ████████ ██    ██ ██████  ███████ 
+# ██   ██ ██    ██    ██    ██   ██        ██     ██  ██  ██   ██ ██      
+# ███████ ██    ██    ██    ███████        ██      ████   ██████  █████   
+# ██   ██ ██    ██    ██    ██   ██        ██       ██    ██      ██      
+# ██   ██  ██████     ██    ██   ██        ██       ██    ██      ███████ 
+
+{{- if index .reducers "distributionModulesAuthProviderType" }}
+
+deleteDex() {
+
+  $kustomizebin build $vendorPath/modules/auth/katalog/dex > delete-dex.yaml
+
+{{- if eq .spec.distribution.modules.monitoring.type "none" }}
+  if ! $kubectlbin get apiservice v1.monitoring.coreos.com; then
+    cat delete-dex.yaml | $yqbin 'select(.apiVersion != "monitoring.coreos.com/v1")' > delete-dex-filtered.yaml
+    cp delete-dex-filtered.yaml delete-dex.yaml
+    
+  fi
+{{- end }}
+  $kubectlbin delete --ignore-not-found --wait --timeout=180s -f delete-dex.yaml
+  $kubectlbin delete --ignore-not-found --wait --timeout=180s ingress -n kube-system dex
+  echo "dex has been deleted from the cluster"
+}
+
+deleteGangway() {
+
+  $kustomizebin build $vendorPath/modules/auth/katalog/gangway > delete-gangway.yaml
+
+{{- if eq .spec.distribution.modules.monitoring.type "none" }}
+  if ! $kubectlbin get apiservice v1.monitoring.coreos.com; then
+    cat delete-gangway.yaml | $yqbin 'select(.apiVersion != "monitoring.coreos.com/v1")' > delete-gangway-filtered.yaml
+    cp delete-gangway-filtered.yaml delete-pomerium.yaml
+    
+  fi
+{{- end }}
+  $kubectlbin delete --ignore-not-found --wait --timeout=180s -f delete-gangway.yaml
+  $kubectlbin delete --ignore-not-found --wait --timeout=180s ingress -n kube-system gangway
+  echo "dex has been deleted from the cluster"
+}
+
+deletePomerium() {
+
+  $kustomizebin build $vendorPath/modules/auth/katalog/pomerium > delete-pomerium.yaml
+
+{{- if eq .spec.distribution.modules.monitoring.type "none" }}
+  if ! $kubectlbin get apiservice v1.monitoring.coreos.com; then
+    cat delete-pomerium.yaml | $yqbin 'select(.apiVersion != "monitoring.coreos.com/v1")' > delete-pomerium-filtered.yaml
+    cp delete-pomerium-filtered.yaml delete-pomerium.yaml
+    
+  fi
+{{- end }}
+  $kubectlbin delete --ignore-not-found --wait --timeout=180s -f delete-pomerium.yaml
+  $kubectlbin delete --ignore-not-found --wait --timeout=180s ingress -n pomerium pomerium
+  echo "pomerium has been deleted from the cluster"
+}
+
+deletePomeriumIngresses() {
+  
+  $kubectlbin delete --ignore-not-found --wait --timeout=180s ingress -n pomerium --all
+  echo "All the ingresses in the pomerium namespace have been deleted"
+}
+
+deleteInfraIngresses() {
+  
+  $kubectlbin delete --ignore-not-found --wait --timeout=180s ingress -n monitoring --all
+  $kubectlbin delete --ignore-not-found --wait --timeout=180s ingress -n tracing --all
+  $kubectlbin delete --ignore-not-found --wait --timeout=180s ingress -n logging --all
+  $kubectlbin delete --ignore-not-found --wait --timeout=180s ingress -n gatekeeper-system --all
+  $kubectlbin delete --ignore-not-found --wait --timeout=180s ingress -n ingress-nginx --all
+  echo "All the infrastructural ingresses have been deleted"
+}
+
+
+{{- if eq .reducers.distributionModulesAuthProviderType.to "none" }}
+
+deleteDex
+deleteGangway
+deletePomeriumIngresses
+deletePomerium
+
+{{- end }}
+
+{{- if eq .reducers.distributionModulesAuthProviderType.to "sso" }}
+
+{{- if eq .reducers.distributionModulesAuthProviderType.from "basicAuth" }}
+deleteDex
+deleteGangway
+deletePomeriumIngresses
+deletePomerium
+{{- end }}
+
+{{- end }}
+
+{{- if eq .reducers.distributionModulesAuthProviderType.to "sso" }}
+
+{{- if eq .reducers.distributionModulesAuthProviderType.from "basicAuth" }}
+deleteDex
+deleteGangway
+deleteInfraIngresses
+deletePomerium
+{{- end }}
+
+{{- end }}
+
+{{- end }} # end distributionModulesAuthProviderType                                                      
 
 # ███████ ███    ██ ██████  
 # ██      ████   ██ ██   ██ 
