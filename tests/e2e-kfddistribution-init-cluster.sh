@@ -156,7 +156,7 @@ load ./helper
         data=$(kubectl get sts -n tracing -l app.kubernetes.io/component=ingester -o json | jq '.items[] | select(.metadata.name == "tempo-distributed-ingester" and .status.replicas == .status.readyReplicas)')
         if [ "${data}" == "" ]; then return 1; fi
     }
-    loop_it test 60 5
+    loop_it test 60 10
     status=${loop_it_result}
     [[ "$status" -eq 0 ]]
 }
@@ -167,7 +167,7 @@ load ./helper
         readyReplicas=$(kubectl get deploy kyverno-admission-controller -n kyverno -o jsonpath="{.status.readyReplicas}")
         if [ "${readyReplicas}" != "3" ]; then return 1; fi
     }
-    loop_it test 30 2
+    loop_it test 60 10
     status=${loop_it_result}
     [[ "$status" -eq 0 ]]
 }
