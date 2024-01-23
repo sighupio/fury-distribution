@@ -26,7 +26,7 @@ spec:
     proxy:
       http: http://test.example.dev:3128
       https: https://test.example.dev:3128
-      noProxy: "localhost,127.0.0.1,10.41.0.0/16,.example.dev,.example2.dev,172.16.0.0/17,172.16.128.0/17"
+      noProxy: "localhost,127.0.0.1,172.16.0.0/17,172.16.128.0/17,10.0.0.0/8,.example.dev"
     loadBalancers:
       enabled: true
       hosts:
@@ -60,17 +60,7 @@ spec:
             ip: 192.168.1.101
         taints:
           - key: node.kubernetes.io/role
-            value: ingress
-            effect: NoSchedule
-      - name: ingress
-        hosts:
-          - name: ingress1
-            ip: 192.168.1.102
-          - name: ingress2
-            ip: 192.168.1.103
-        taints:
-          - key: node.kubernetes.io/role
-            value: ingress
+            value: infra
             effect: NoSchedule
       - name: worker
         hosts:
@@ -81,20 +71,20 @@ spec:
   # This section describes how the KFD distribution will be installed
   distribution:
     # This common configuration will be applied to all the packages that will be installed in the cluster
-    # common:
-    #   # The node selector to use to place the pods for all the KFD packages
-    #   nodeSelector:
-    #     node.kubernetes.io/role: infra
-    #   # The tolerations that will be added to the pods for all the KFD packages
-    #   tolerations:
-    #     - effect: NoSchedule
-    #       key: node.kubernetes.io/role
-    #       value: infra
+    common:
+      # The node selector to use to place the pods for all the KFD packages
+      nodeSelector:
+        node.kubernetes.io/role: infra
+      # The tolerations that will be added to the pods for all the KFD packages
+      tolerations:
+        - effect: NoSchedule
+          key: node.kubernetes.io/role
+          value: infra
     # This section contains all the configurations for all the KFD core modules
     modules:
       networking:
         # this type defines if we need to install the networking in the cluster, type available: cilium, calico
-        type: ""
+        type: "calico"
       # This section contains all the configurations for the ingress module
       ingress:
         # This optional key is used to override automatic parameters
@@ -177,27 +167,27 @@ spec:
         #      # the ingressClass can be overridden if needed
         #      ingressClass: ""
         # can be opensearch or loki or none, with none, nothing from the logging module will be installed
-        type: opensearch
+        type: loki
         # configurations for the opensearch package
-        opensearch:
-          # the type of opensearch to install, can be single or triple
-          type: single
-          ## optional settings to override requests and limits
-          #resources:
-          #  requests:
-          #    cpu: ""
-          #    memory: ""
-          #  limits:
-          #    cpu: ""
-          #    memory: ""
-          # the PVC size used by opensearch, for each pod
-          storageSize: "150Gi"
+        #opensearch:
+        #  # the type of opensearch to install, can be single or triple
+        #  type: single
+        #  ## optional settings to override requests and limits
+        #  #resources:
+        #  #  requests:
+        #  #    cpu: ""
+        #  #    memory: ""
+        #  #  limits:
+        #  #    cpu: ""
+        #  #    memory: ""
+        #  # the PVC size used by opensearch, for each pod
+        #  storageSize: "150Gi"
         # configurations for the minio-ha package
         minio:
           # the PVC size for each minio disk, 6 disks total
           storageSize: "20Gi"
         # configurations for the loki package
-        # loki:
+        #loki:
           ## optional settings to override requests and limits, common for each component
           #resources:
           #  requests:
@@ -238,6 +228,7 @@ spec:
         #      # the ingressClass can be overridden if needed
         #      ingressClass: ""
         # configurations for the prometheus package
+        type: "prometheus"
         #prometheus:
         #  # optional settings to override requests and limits
         #  resources:
@@ -248,11 +239,11 @@ spec:
         #      cpu: ""
         #      memory: ""
         # configurations for the alertmanager package
-        alertmanager:
-          # The webhook url to send deadman switch monitoring, for example to use with healthchecks.io
-          deadManSwitchWebhookUrl: ""
-          # The slack webhook url to send alerts
-          slackWebhookUrl: https://slack.com
+        #alertmanager:
+        #  # The webhook url to send deadman switch monitoring, for example to use with healthchecks.io
+        #  deadManSwitchWebhookUrl: ""
+        #  # The slack webhook url to send alerts
+        #  slackWebhookUrl: https://slack.com
       # This section contains all the configurations for the tracing module
       tracing:
         # This optional key is used to override automatic parameters
@@ -299,6 +290,8 @@ spec:
         gatekeeper:
           # This parameter adds namespaces to Gatekeeper's exemption list, so it will not enforce the constraints on them.
           additionalExcludedNamespaces: []
+          enforcementAction: deny
+          installDefaultPolicies: true
         # kyverno:
         #   # This parameter adds namespaces to Gatekeeper's exemption list, so it will not enforce the constraints on them.
         #   additionalExcludedNamespaces: []
