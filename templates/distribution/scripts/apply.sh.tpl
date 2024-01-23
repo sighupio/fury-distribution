@@ -5,6 +5,7 @@ set -e
 kustomizebin="{{ .paths.kustomize }}"
 kubectlbin="{{ .paths.kubectl }}"
 yqbin="{{ .paths.yq }}"
+vendorPath="{{ .paths.vendorPath }}"
 
 $kustomizebin build --load_restrictor LoadRestrictionsNone . > out.yaml
 
