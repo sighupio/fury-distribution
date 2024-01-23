@@ -37,9 +37,9 @@ echo "Executing furyctl with the mimir migration to none"
 bats -t tests/e2e-kfddistribution-6-migrate-from-mimir-to-none.sh
 
 echo "----------------------------------------------------------------------------"
-echo "Executing furyctl with the nginx migration to none"
-/tmp/furyctl create cluster --config tests/e2e/kfddistribution/furyctl-7-migrate-from-nginx-to-none.yaml --outdir "$PWD" -H --distro-location ./ --force --skip-deps-download
-bats -t tests/e2e-kfddistribution-7-migrate-from-nginx-to-none.sh
+echo "Executing furyctl with the auth basic to sso migration"
+/tmp/furyctl create cluster --config tests/e2e/kfddistribution/furyctl-7-migrate-from-basicAuth-to-sso.yaml --outdir "$PWD" -H --distro-location ./ --force --skip-deps-download
+bats -t tests/e2e-kfddistribution-7-migrate-from-basicAuth-to-sso.sh
 
 echo "----------------------------------------------------------------------------"
 echo "Executing furyctl with the auth basic to sso migration"
@@ -47,9 +47,9 @@ echo "Executing furyctl with the auth basic to sso migration"
 bats -t tests/e2e-kfddistribution-8-migrate-from-sso-to-none.sh
 
 echo "----------------------------------------------------------------------------"
-echo "Executing furyctl with the auth basic to sso migration"
-/tmp/furyctl create cluster --config tests/e2e/kfddistribution/furyctl-9-migrate-from-basicAuth-to-sso.yaml --outdir "$PWD" -H --distro-location ./ --force --skip-deps-download
-bats -t tests/e2e-kfddistribution-9-migrate-from-basicAuth-to-sso.sh
+echo "Executing furyctl with the nginx migration to none"
+/tmp/furyctl create cluster --config tests/e2e/kfddistribution/furyctl-9-migrate-from-nginx-to-none.yaml --outdir "$PWD" -H --distro-location ./ --force --skip-deps-download
+bats -t tests/e2e-kfddistribution-9-migrate-from-nginx-to-none.sh
 
 echo "----------------------------------------------------------------------------"
 echo "Executing furyctl testing safe migrations from none"
