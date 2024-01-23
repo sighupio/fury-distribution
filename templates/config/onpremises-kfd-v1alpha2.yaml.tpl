@@ -2,6 +2,12 @@
 # Use of this source code is governed by a BSD-style
 # license that can be found in the LICENSE file.
 
+
+# This is a sample configuration file to be used as a starting point. For the
+# complete reference of the configuration file schema, please refer to the
+# official documentation:
+# https://docs.kubernetesfury.com/docs/furyctl/providers/onpremises
+
 ---
 apiVersion: kfd.sighup.io/v1alpha2
 kind: OnPremises
