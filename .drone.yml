@@ -119,7 +119,7 @@ trigger:
 
 steps:
   - name: init
-    image: quay.io/sighup/e2e-testing-drone-plugin:v1.26.4
+    image: quay.io/sighup/e2e-testing-drone-plugin:v2.0.0
     pull: always
     volumes:
       - name: shared
@@ -151,7 +151,7 @@ steps:
       dockerhub_password:
         from_secret: dockerhub_password
 
-  - name: e2e
+  - name: e2e-kfddistribution
     # KUBECTL 1.25.3 - KUSTOMIZE 3.5.3 - HELM 3.1.1 - YQ 4.21.1 - ISTIOCTL 1.9.4 - FURYCTL 0.9.0 - BATS 1.1.0
     image: quay.io/sighup/e2e-testing:1.1.0_0.11.0_3.1.1_1.9.4_1.26.3_3.5.3_4.33.3
     pull: always
@@ -160,22 +160,20 @@ steps:
         path: /shared
     depends_on: [init]
     commands:
-      - ls -la /shared/
-      - ls -la /shared/kube/
-      - export KUBECONFIG=/shared/kube/kubeconfig-126
-      - bats -t tests/install.sh
-      - bats -t tests/networking.sh
-      - bats -t tests/monitoring.sh
-      - bats -t tests/logging.sh
-      - bats -t tests/ingress.sh
-      - bats -t tests/dr.sh
-      - bats -t tests/opa.sh
-      - bats -t tests/schema.sh
+      - cp /shared/kube/kubeconfig-126 /tmp/kubeconfig
+      - export KUBECONFIG=/tmp/kubeconfig
+      - echo "Installing the correct furyctl version..."
+      - curl -L "https://github.com/sighupio/furyctl/releases/download/v0.27.3-rc.0/furyctl-$(uname -s)-amd64.tar.gz" -o /tmp/furyctl.tar.gz && tar xfz /tmp/furyctl.tar.gz -C /tmp
+      # TODO Release the new fixed furyctl version
+      # - curl -L "https://github.com/sighupio/furyctl/releases/latest/download/furyctl-$(uname -s)-amd64.tar.gz" -o /tmp/furyctl.tar.gz && tar xfz /tmp/furyctl.tar.gz -C /tmp
+      - chmod +x /tmp/furyctl
+      - tests/e2e-kfddistribution.sh
 
   - name: destroy
-    image: quay.io/sighup/e2e-testing-drone-plugin:v1.26.4
+    image: quay.io/sighup/e2e-testing-drone-plugin:v2.0.0
     pull: always
-    depends_on: [e2e]
+    depends_on: 
+      - e2e-kfddistribution
     settings:
       action: destroy
       pipeline_id: cluster-126
