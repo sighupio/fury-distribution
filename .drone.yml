@@ -139,6 +139,9 @@ steps:
         apiVersion: kind.x-k8s.io/v1alpha4
         networking:
           disableDefaultCNI: true
+        nodes:
+          - role: control-plane
+          - role: worker
         EOF
       # NOTE: kind's `--wait` flag that waits for the control-plane ot be ready
       # does not work when disabling the default CNI. It will always go in timeout.
