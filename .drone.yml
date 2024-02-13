@@ -161,8 +161,8 @@ steps:
     commands:
       # FIXME: furyctl does not yet support reading the path to the kubeconfig from the ENV
       # so we need to copy it to a known location. Using /tmp for easier local testing.
-      - cp $${KUBECONFIG} /tmp/kubeconfig
-      - export KUBECONFIG=/tmp/kubeconfig
+
+      - export KUBECONFIG=/drone/src/kubeconfig
       # We change the loopback IP in the kubeconfig to use the service hostname and keep the port.
       # - 'sed -Ei "s#(server: https://)(.*)(:.*)#\1kind-cluster\3#" $${KUBECONFIG}'
       - echo "Installing the correct furyctl version..."
