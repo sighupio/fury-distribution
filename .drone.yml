@@ -140,6 +140,9 @@ steps:
         apiVersion: kind.x-k8s.io/v1alpha4
         networking:
           disableDefaultCNI: true
+        nodes:
+          - role: control-plane
+          - role: worker
         EOF
       # NOTE: kind's `--wait` flag that waits for the control-plane ot be ready
       # does not work when disabling the default CNI. It will always go in timeout.
@@ -169,7 +172,7 @@ steps:
       # - curl -L "https://github.com/sighupio/furyctl/releases/latest/download/furyctl-$(uname -s)-amd64.tar.gz" -o /tmp/furyctl.tar.gz && tar xfz /tmp/furyctl.tar.gz -C /tmp
       - chmod +x /tmp/furyctl
       # check that the kind cluster is ready before we move on
-      - kubectl wait --timeout=180s --for=condition=ready pod --all -n kube-system
+      # - kubectl wait --timeout=180s --for=condition=ready pod --all -n kube-system
       - until kubectl get serviceaccount default > /dev/null 2>&1; do echo "waiting for control-plane" && sleep 1; done
       # finally, run the e2e tests
       - tests/e2e-kfddistribution.sh
