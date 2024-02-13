@@ -138,6 +138,7 @@ data:
         retentionSize: 120GB
         storageSize: 150Gi
       alertmanager:
+        installDefaultRules: true
         deadManSwitchWebhookUrl: ""
         slackWebhookUrl: ""
     # networking module configuration
