@@ -1443,6 +1443,9 @@
         "deadManSwitchWebhookUrl": {
           "type": "string"
         },
+        "installDefaultRules": {
+          "type": "boolean"
+        },
         "slackWebhookUrl": {
           "type": "string"
         }
@@ -1523,7 +1526,29 @@
           "$ref": "#/$defs/Spec.Distribution.Modules.Policy.Kyverno"
         }
       },
-      "required": ["type"]
+      "required": ["type"],
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "type": { "const": "gatekeeper" }
+            }
+          },
+          "then": {
+            "required": ["gatekeeper"]
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "type": { "const": "kyverno" }
+            }
+          },
+          "then": {
+            "required": ["kyverno"]
+          }
+        }
+      ]
     },
     "Spec.Distribution.Modules.Policy.Gatekeeper": {
       "type": "object",
@@ -1535,10 +1560,18 @@
             "type": "string"
           }
         },
+        "enforcementAction": {
+          "type": "string",
+          "enum": ["deny", "dryrun", "warn"]
+        },
+        "installDefaultPolicies": {
+          "type": "boolean"
+        },
         "overrides": {
           "$ref": "#/$defs/Types.FuryModuleComponentOverrides"
         }
-      }
+      },
+      "required": ["enforcementAction", "installDefaultPolicies"]
     },
     "Spec.Distribution.Modules.Policy.Kyverno": {
       "type": "object",
@@ -1550,10 +1583,18 @@
             "type": "string"
           }
         },
+        "validationFailureAction": {
+          "type": "string",
+          "enum": ["audit", "enforce"]
+        },
+        "installDefaultPolicies": {
+          "type": "boolean"
+        },
         "overrides": {
           "$ref": "#/$defs/Types.FuryModuleComponentOverrides"
         }
-      }
+      },
+      "required": ["validationFailureAction", "installDefaultPolicies"]
     },
     "Spec.Distribution.Modules.Dr": {
       "type": "object",
