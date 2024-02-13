@@ -9,6 +9,10 @@ vendorPath="{{ .paths.vendorPath }}"
 
 $kustomizebin build --load_restrictor LoadRestrictionsNone . > out.yaml
 
+{{- if .options.dryRun }}
+exit 0
+{{- else }}
+
 {{- if eq .spec.distribution.modules.monitoring.type "none" }}
 if ! $kubectlbin get apiservice v1.monitoring.coreos.com; then
   cat out.yaml | $yqbin 'select(.apiVersion != "monitoring.coreos.com/v1")' > out-filtered.yaml
@@ -94,3 +98,5 @@ echo "Resources deleted"
 
 < out.yaml $yqbin 'select(.kind == "CustomResourceDefinition")' | $kubectlbin delete --ignore-not-found --wait --timeout=180s -f - || true
 echo "CRDs deleted"
+
+{{- end }}
