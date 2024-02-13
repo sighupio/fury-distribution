@@ -10,6 +10,9 @@ platform:
   os: linux
   arch: amd64
 
+clone:
+  depth: 1
+
 steps:
   - name: license-check
     image: quay.io/sighup/golang:1.21.5
@@ -59,9 +62,6 @@ steps:
     # KUBECTL 1.25.3 - KUSTOMIZE 3.5.3 - HELM 3.1.1 - YQ 4.21.1 - ISTIOCTL 1.9.4 - FURYCTL 0.9.0 - BATS 1.1.0
     image: quay.io/sighup/e2e-testing:1.1.0_0.9.0_3.1.1_1.9.4_1.25.3_3.5.3_4.21.1
     pull: always
-    volumes:
-      - name: shared
-        path: /shared
     depends_on:
       - license-check
       - schema-check
@@ -97,11 +97,11 @@ name: e2e-kubernetes-1.25
 kind: pipeline
 type: docker
 
-node:
-  runner: internal
-
 depends_on:
   - qa
+
+clone:
+  depth: 1
 
 platform:
   os: linux
@@ -111,99 +111,92 @@ trigger:
   ref:
     include:
       - refs/tags/**
-      - refs/heads/master
       - refs/heads/main
       - refs/heads/release-v**
     exclude:
       - refs/tags/**-docs*
 
 steps:
-  - name: init
-    image: quay.io/sighup/e2e-testing-drone-plugin:v2.0.0
+  - name: create Kind cluster
+    image: quay.io/sighup/dind-kind-kubectl-kustomize:0.20.0_1.29.1_3.10.0
     pull: always
     volumes:
-      - name: shared
-        path: /shared
-    depends_on: [clone]
-    settings:
-      action: custom-cluster-125
-      pipeline_id: cluster-125
-      local_kind_config_path: tests/config/kind-config-custom
-      cluster_version: "1.25.3"
-      instance_path: /shared
-      instance_size: 2-extra-large
-      aws_default_region:
-        from_secret: aws_region
-      aws_access_key_id:
-        from_secret: aws_access_key_id
-      aws_secret_access_key:
-        from_secret: aws_secret_access_key
-      terraform_tf_states_bucket_name:
-        from_secret: terraform_tf_states_bucket_name
-      vsphere_server:
-        from_secret: vsphere_server
-      vsphere_password:
-        from_secret: vsphere_password
-      vsphere_user:
-        from_secret: vsphere_user
-      dockerhub_username:
-        from_secret: dockerhub_username
-      dockerhub_password:
-        from_secret: dockerhub_password
+      - name: dockersock
+        path: /var/run/docker.sock
+    environment:
+      CLUSTER_VERSION: v1.25.3
+      CLUSTER_NAME: ${DRONE_REPO_NAME}-${DRONE_BUILD_NUMBER}
+      # /drone/src is the default workdir for the pipeline
+      # using this folder we don't need to mount another
+      # shared volume between the steps
+      KUBECONFIG: /drone/src/kubeconfig
+    commands:
+      # create a custom config to disable Kind's default CNI so
+      # we can test using KFD's networking module.
+      - |
+        cat <<EOF > kind-config.yaml
+        kind: Cluster
+        apiVersion: kind.x-k8s.io/v1alpha4
+        networking:
+          disableDefaultCNI: true
+        EOF
+      # NOTE: kind's `--wait` flag that waits for the control-plane ot be ready
+      # does not work when disabling the default CNI. It will always go in timeout.
+      - kind create cluster --name $${CLUSTER_NAME} --image registry.sighup.io/fury/kindest/node:$${CLUSTER_VERSION} --config kind-config.yaml
+      # save the kubeconfig so we can use it from other steps.
+      - kind get kubeconfig --name $${CLUSTER_NAME} > $${KUBECONFIG}
 
   - name: e2e-kfddistribution
-    # KUBECTL 1.25.3 - KUSTOMIZE 3.5.3 - HELM 3.1.1 - YQ 4.21.1 - ISTIOCTL 1.9.4 - FURYCTL 0.9.0 - BATS 1.1.0
-    image: quay.io/sighup/e2e-testing:1.1.0_0.9.0_3.1.1_1.9.4_1.25.3_3.5.3_4.21.1
+    # KUBECTL_KUSTOMIZE_HELM_YQ_ISTIOCTL_FURYCTL_BATS
+    image: quay.io/sighup/e2e-testing:1.1.0_0.11.0_3.1.1_1.9.4_1.26.3_3.5.3_4.33.3
     pull: always
-    volumes:
-      - name: shared
-        path: /shared
-    depends_on: [init]
+    # we need to use host network to access Kind API port that is listening on the worker's loopback
+    # beacuse we mount the host's Docker socket to run Kind.
+    network_mode: host
+    environment:
+      CLUSTER_NAME: ${DRONE_REPO_NAME}-${DRONE_BUILD_NUMBER}
+      KUBECONFIG: /drone/src/kubeconfig
+      FURYCTL_VERSION: v0.27.2
+    depends_on: [create Kind cluster]
     commands:
-      - cp /shared/kube/kubeconfig-125 /tmp/kubeconfig
+      # FIXME: furyctl does not yet support reading the path to the kubeconfig from the ENV
+      # so we need to copy it to a known location. Using /tmp for easier local testing.
+      - cp $${KUBECONFIG} /tmp/kubeconfig
       - export KUBECONFIG=/tmp/kubeconfig
+      # We change the loopback IP in the kubeconfig to use the service hostname and keep the port.
+      # - 'sed -Ei "s#(server: https://)(.*)(:.*)#\1kind-cluster\3#" $${KUBECONFIG}'
       - echo "Installing the correct furyctl version..."
-      - curl -L "https://github.com/sighupio/furyctl/releases/download/v0.27.3-rc.0/furyctl-$(uname -s)-amd64.tar.gz" -o /tmp/furyctl.tar.gz && tar xfz /tmp/furyctl.tar.gz -C /tmp
-      # TODO Release the new fixed furyctl version
+      - curl -L "https://github.com/sighupio/furyctl/releases/download/$${FURYCTL_VERSION}/furyctl-$(uname -s)-amd64.tar.gz" -o /tmp/furyctl.tar.gz && tar xfz /tmp/furyctl.tar.gz -C /tmp
+      # to use furyctl latest, use the following instead:
       # - curl -L "https://github.com/sighupio/furyctl/releases/latest/download/furyctl-$(uname -s)-amd64.tar.gz" -o /tmp/furyctl.tar.gz && tar xfz /tmp/furyctl.tar.gz -C /tmp
       - chmod +x /tmp/furyctl
+      # check that the kind cluster is ready before we move on
+      - kubectl wait --timeout=180s --for=condition=ready pod --all -n kube-system
+      - until kubectl get serviceaccount default > /dev/null 2>&1; do echo "waiting for control-plane" && sleep 1; done
+      # finally, run the e2e tests
       - tests/e2e-kfddistribution.sh
 
-  - name: destroy
-    image: quay.io/sighup/e2e-testing-drone-plugin:v2.0.0
-    pull: always
-    depends_on: 
+  - name: delete-kind-cluster
+    image: quay.io/sighup/dind-kind-kubectl-kustomize:0.20.0_1.29.1_3.10.0
+    volumes:
+      - name: dockersock
+        path: /var/run/docker.sock
+    environment:
+      CLUSTER_NAME: ${DRONE_REPO_NAME}-${DRONE_BUILD_NUMBER}
+    commands:
+      # does not matter if the command fails
+      - kind delete cluster --name $${CLUSTER_NAME} || true
+    depends_on:
       - e2e-kfddistribution
-    settings:
-      action: destroy
-      pipeline_id: cluster-125
-      instance_size: 2-extra-large
-      aws_default_region:
-        from_secret: aws_region
-      aws_access_key_id:
-        from_secret: aws_access_key_id
-      aws_secret_access_key:
-        from_secret: aws_secret_access_key
-      terraform_tf_states_bucket_name:
-        from_secret: terraform_tf_states_bucket_name
-      vsphere_server:
-        from_secret: vsphere_server
-      vsphere_password:
-        from_secret: vsphere_password
-      vsphere_user:
-        from_secret: vsphere_user
-      dockerhub_username:
-        from_secret: dockerhub_username
-      dockerhub_password:
-        from_secret: dockerhub_password
     when:
       status:
         - success
         - failure
 
 volumes:
-  - name: shared
-    temp: {}
+  - name: dockersock
+    host:
+      path: /var/run/docker.sock
 
 ---
 name: release
@@ -234,7 +227,6 @@ steps:
     commands:
       - furyctl vendor -H
       - kustomize build . > $${RELEASE_MANIFESTS_PATH}
-      - cp tests/config/kind-config-custom kind-config-${DRONE_TAG}.yml
     when:
       ref:
         include:
@@ -266,7 +258,6 @@ steps:
       file_exists: skip
       files:
         - fury-distribution-${DRONE_TAG}.yml
-        - kind-config-${DRONE_TAG}.yml
         - Furyfile.yaml
         - kustomization.yaml
         - kfd.yaml
@@ -296,7 +287,6 @@ steps:
       file_exists: skip
       files:
         - fury-distribution-${DRONE_TAG}.yml
-        - kind-config-${DRONE_TAG}.yml
         - Furyfile.yaml
         - kustomization.yaml
         - kfd.yaml
