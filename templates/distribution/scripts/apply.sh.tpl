@@ -9,14 +9,14 @@ vendorPath="{{ .paths.vendorPath }}"
 
 $kustomizebin build --load_restrictor LoadRestrictionsNone . > out.yaml
 
-{{- if and (not .options.dryRun) (eq .spec.distribution.modules.monitoring.type "none") }}
+{{- if eq .spec.distribution.modules.monitoring.type "none" }}
 if ! $kubectlbin get apiservice v1.monitoring.coreos.com; then
   cat out.yaml | $yqbin 'select(.apiVersion != "monitoring.coreos.com/v1")' > out-filtered.yaml
   cp out-filtered.yaml out.yaml
 fi
 {{- end }}
 
-{{- if and (not .options.dryRun) (not .spec.distribution.modules.monitoring.alertmanager.installDefaultRules) }}
+{{- if .spec.distribution.modules.monitoring.alertmanager.installDefaultRules }}
 if $kubectlbin get apiservice v1alpha1.monitoring.coreos.com > /dev/null 2>&1; then
   cat out.yaml | $yqbin 'select(.apiVersion != "monitoring.coreos.com/v1alpha1" and .kind != "AlertmanagerConfig")' > out-filtered.yaml
   cp out-filtered.yaml out.yaml
@@ -50,22 +50,22 @@ $kubectlbin delete --ignore-not-found --wait --timeout=180s job minio-tracing-bu
   | $kubectlbin apply -f - --server-side
 {{- end }}
 
-{{- if and (not .options.dryRun) (eq .spec.distribution.modules.ingress.nginx.type "dual") }}
+{{- if eq .spec.distribution.modules.ingress.nginx.type "dual" }}
 $kubectlbin rollout status daemonset nginx-ingress-controller-external -n ingress-nginx --timeout=180s
 $kubectlbin rollout status daemonset nginx-ingress-controller-internal -n ingress-nginx --timeout=180s
 {{- end }}
 
-{{- if and (not .options.dryRun) (eq .spec.distribution.modules.ingress.nginx.type "single") }}
+{{- if eq .spec.distribution.modules.ingress.nginx.type "single" }}
 $kubectlbin rollout status daemonset nginx-ingress-controller -n ingress-nginx --timeout=180s
 {{- end }}
 
-{{- if and (not .options.dryRun) (eq .spec.distribution.modules.policy.type "gatekeeper") }}
+{{- if eq .spec.distribution.modules.policy.type "gatekeeper" }}
 $kubectlbin rollout status deployment gatekeeper-audit -n gatekeeper-system --timeout=180s
 $kubectlbin rollout status deployment gatekeeper-controller-manager -n gatekeeper-system --timeout=180s
 $kubectlbin rollout status deployment gatekeeper-policy-manager -n gatekeeper-system --timeout=180s
 {{- end }}
 
-{{- if and (not .options.dryRun) (eq .spec.distribution.modules.policy.type "kyverno") }}
+{{- if eq .spec.distribution.modules.policy.type "kyverno" }}
 $kubectlbin rollout status deployment kyverno-admission-controller -n kyverno --timeout=180s
 $kubectlbin rollout status deployment kyverno-background-controller  -n kyverno --timeout=180s
 $kubectlbin rollout status deployment kyverno-cleanup-controller -n kyverno --timeout=180s
@@ -102,8 +102,6 @@ echo "Cleaning up Minio HA on tracing namespace..."
 
 $kustomizebin build $vendorPath/modules/tracing/katalog/minio-ha > delete-tracing-minio-ha.yaml
 
-{{- if not .options.dryRun }}
-
 {{- if eq .spec.distribution.modules.monitoring.type "none" }}
 if ! $kubectlbin get apiservice v1.monitoring.coreos.com; then
   cat delete-tracing-minio-ha.yaml | $yqbin 'select(.apiVersion != "monitoring.coreos.com/v1")' > delete-tracing-minio-ha-filtered.yaml
@@ -111,8 +109,8 @@ if ! $kubectlbin get apiservice v1.monitoring.coreos.com; then
 fi
 {{- end }}
 
+{{- if not .options.dryRun }}
 $kubectlbin delete --ignore-not-found --wait --timeout=180s -f delete-tracing-minio-ha.yaml
-
 {{- end }}
 
 {{- end }}
@@ -126,8 +124,6 @@ echo "Cleaning up Minio HA on monitoring namespace..."
 
 $kustomizebin build $vendorPath/modules/monitoring/katalog/minio-ha > delete-monitoring-minio-ha.yaml
 
-{{- if not .options.dryRun }}
-
 {{- if eq .spec.distribution.modules.monitoring.type "none" }}
 if ! $kubectlbin get apiservice v1.monitoring.coreos.com; then
   cat delete-monitoring-minio-ha.yaml | $yqbin 'select(.apiVersion != "monitoring.coreos.com/v1")' > delete-monitoring-minio-ha-filtered.yaml
@@ -135,8 +131,8 @@ if ! $kubectlbin get apiservice v1.monitoring.coreos.com; then
 fi
 {{- end }}
 
+{{- if not .options.dryRun }}
 $kubectlbin delete --ignore-not-found --wait --timeout=180s -f delete-monitoring-minio-ha.yaml
-
 {{- end }}
 
 {{- end }}
@@ -150,8 +146,6 @@ echo "Cleaning up Minio on kube-system namespace..."
 
 $kustomizebin build $vendorPath/modules/dr/katalog/velero/velero-on-prem/minio > delete-dr-minio.yaml
 
-{{- if not .options.dryRun }}
-
 {{- if eq .spec.distribution.modules.monitoring.type "none" }}
 if ! $kubectlbin get apiservice v1.monitoring.coreos.com; then
   cat delete-dr-minio.yaml | $yqbin 'select(.apiVersion != "monitoring.coreos.com/v1")' > delete-dr-minio-filtered.yaml
@@ -159,8 +153,8 @@ if ! $kubectlbin get apiservice v1.monitoring.coreos.com; then
 fi
 {{- end }}
 
+{{- if not .options.dryRun }}
 $kubectlbin delete --ignore-not-found --wait --timeout=180s -f delete-dr-minio.yaml
-
 {{- end }}
 
 {{- end }}
@@ -203,5 +197,5 @@ $kubectlbin delete --ignore-not-found --wait --timeout=180s -f delete-gatekeeper
 {{- if not .options.dryRun }}
 echo "Apply script completed."
 {{- else }}
-echo "Apply script dry run completed."
+echo "Apply script completed (dry-run mode)."
 {{- end }}
