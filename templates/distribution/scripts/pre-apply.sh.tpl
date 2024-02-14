@@ -26,7 +26,7 @@ vendorPath="{{ .paths.vendorPath }}"
 {{- if index .reducers "distributionModulesLoggingType" }}
 
 deleteOpensearch() {
-  {{- if not .options.dryRun -}}
+  {{- if not (default .options.dryRun false) -}}
   $kubectlbin delete --ignore-not-found --wait --timeout=180s ingress -n logging opensearch-dashboards
   $kubectlbin delete --ignore-not-found --wait --timeout=180s ingress -n pomerium opensearch-dashboards
   $kubectlbin delete --ignore-not-found --wait --timeout=180s ingress -n pomerium cerebro
@@ -43,7 +43,7 @@ deleteOpensearch() {
   fi
   {{- end }}
 
-  {{- if not .options.dryRun -}}
+  {{- if not (default .options.dryRun false) -}}
   $kubectlbin delete --ignore-not-found --wait --timeout=180s -f delete-opensearch-cerebro.yaml
   $kubectlbin delete --ignore-not-found -l app.kubernetes.io/name=opensearch pvc -n logging --wait --timeout=180s
   echo "Opensearch resources deleted"
@@ -62,7 +62,7 @@ deleteLoki() {
   fi
   {{- end }}
 
-  {{- if not .options.dryRun -}}
+  {{- if not (default .options.dryRun false) -}}
   $kubectlbin delete --ignore-not-found --wait --timeout=180s -f delete-loki.yaml
   $kubectlbin delete --ignore-not-found -l app.kubernetes.io/name=loki-distributed pvc -n logging --wait --timeout=180s
   echo "Loki resources deleted"
@@ -75,7 +75,7 @@ deleteLoggingOperator() {
   $kustomizebin build $vendorPath/modules/logging/katalog/logging-operated > delete-logging-operated.yaml
   $kustomizebin build $vendorPath/modules/logging/katalog/configs > delete-logging-configs.yaml
 
-  {{- if not .options.dryRun -}}
+  {{- if not (default .options.dryRun false) -}}
   $kubectlbin delete --ignore-not-found --wait --timeout=180s -f delete-logging-operated.yaml
   $kubectlbin delete --ignore-not-found --wait --timeout=180s -f delete-configs.yaml
   {{- end }}
@@ -85,17 +85,17 @@ deleteLoggingOperator() {
   {{- if eq .spec.distribution.modules.monitoring.type "none" }}
   if ! $kubectlbin get apiservice v1.monitoring.coreos.com; then
     cat delete-logging-minio-ha.yaml | $yqbin 'select(.apiVersion != "monitoring.coreos.com/v1")' > delete-logging-minio-ha-filtered.yaml
-    cp delete-logging-minio-ha-filtered.yaml delete-tracing-minio-ha.yaml
+    cp delete-logging-minio-ha-filtered.yaml delete-logging-minio-ha.yaml
   fi
   {{- end }}
 
-  {{- if not .options.dryRun -}}
+  {{- if not (default .options.dryRun false) -}}
   $kubectlbin delete --ignore-not-found --wait --timeout=180s -f delete-logging-minio-ha.yaml
   {{- end }}
 
   $kustomizebin build $vendorPath/modules/logging/katalog/logging-operator > delete-logging-operator.yaml
 
-  {{- if not .options.dryRun -}}
+  {{- if not (default .options.dryRun false) -}}
   $kubectlbin delete --ignore-not-found --wait --timeout=180s -f delete-logging-operator.yaml
   {{- end }}
 
@@ -139,7 +139,7 @@ deleteLoggingOperator
 
 {{- if index .reducers "distributionModulesMonitoringAlertmanagerInstalldefaultrules" }}
 {{- if eq .reducers.distributionModulesMonitoringAlertmanagerInstalldefaultrules.to false }}
-{{- if not .options.dryRun -}}
+{{- if not (default .options.dryRun false) -}}
    $kubectlbin delete --ignore-not-found --wait --timeout=180s -n monitoring alertmanagerconfigs.monitoring.coreos.com deadmanswitch
    $kubectlbin delete --ignore-not-found --wait --timeout=180s -n monitoring alertmanagerconfigs.monitoring.coreos.com infra
    $kubectlbin delete --ignore-not-found --wait --timeout=180s -n monitoring alertmanagerconfigs.monitoring.coreos.com k8s
@@ -159,7 +159,7 @@ deleteLoggingOperator
 {{- if index .reducers "distributionModulesPolicyType" }}
 
 deleteGatekeeper() {
-  {{- if not .options.dryRun -}}
+  {{- if not (default .options.dryRun false) -}}
   $kubectlbin delete --ignore-not-found --wait --timeout=180s validatingwebhookconfiguration -l gatekeeper.sh/system=yes
   $kubectlbin delete --ignore-not-found --wait --timeout=180s mutatingwebhookconfiguration -l gatekeeper.sh/system=yes
   $kubectlbin delete --ignore-not-found --wait --timeout=180s ingress -n gatekeeper-system gpm
@@ -171,7 +171,7 @@ deleteGatekeeper() {
   $kustomizebin build $vendorPath/modules/opa/katalog/gatekeeper/rules/templates > delete-gatekeeper-templates.yaml
   $kustomizebin build $vendorPath/modules/opa/katalog/gatekeeper/gpm > delete-gatekeeper-gpm.yaml
 
-  {{- if not .options.dryRun -}}
+  {{- if not (default .options.dryRun false) -}}
   $kubectlbin delete --ignore-not-found --wait --timeout=180s -f delete-gatekeeper-constraints.yaml
   $kubectlbin delete --ignore-not-found --wait --timeout=180s -f delete-gatekeeper-config.yaml
   $kubectlbin delete --ignore-not-found --wait --timeout=180s -f delete-gatekeeper-templates.yaml
@@ -182,7 +182,7 @@ deleteGatekeeper() {
 
   $kustomizebin build $vendorPath/modules/opa/katalog/gatekeeper/monitoring > delete-gatekeeper-monitoring.yaml
 
-  {{- if not .options.dryRun -}}
+  {{- if not (default .options.dryRun false) -}}
   $kubectlbin delete --ignore-not-found --wait --timeout=180s -f delete-gatekeeper-monitoring.yaml
   {{- end }}
 
@@ -190,7 +190,7 @@ deleteGatekeeper() {
 
   $kustomizebin build $vendorPath/modules/opa/katalog/gatekeeper/core > delete-gatekeeper-core.yaml
 
-  {{- if not .options.dryRun -}}
+  {{- if not (default .options.dryRun false) -}}
   $kubectlbin delete --ignore-not-found --wait --timeout=180s -f delete-gatekeeper-core.yaml
   echo "Gatekeeper resources deleted"
   {{- else }}
@@ -237,7 +237,7 @@ deleteGatekeeperDefaultPolicies() {
   $kustomizebin build $vendorPath/modules/opa/katalog/gatekeeper/rules/config > delete-gatekeeper-config.yaml
   $kustomizebin build $vendorPath/modules/opa/katalog/gatekeeper/rules/templates > delete-gatekeeper-templates.yaml
 
-  {{- if not .options.dryRun -}}
+  {{- if not (default .options.dryRun false) -}}
   $kubectlbin delete --ignore-not-found --wait --timeout=180s -f delete-gatekeeper-constraints.yaml
   $kubectlbin delete --ignore-not-found --wait --timeout=180s -f delete-gatekeeper-config.yaml
   $kubectlbin delete --ignore-not-found --wait --timeout=180s -f delete-gatekeeper-templates.yaml
@@ -263,7 +263,7 @@ deleteGatekeeperDefaultPolicies
 deleteKyvernoDefaultPolicies() {
   $kustomizebin build $vendorPath/modules/opa/katalog/kyverno/policies > delete-kyverno-policies.yaml
 
-  {{- if not .options.dryRun -}}
+  {{- if not (default .options.dryRun false) -}}
   $kubectlbin delete --ignore-not-found --wait --timeout=180s -f delete-kyverno-policies.yaml
   echo "Kyverno default policies resources deleted"
   {{- else }}
@@ -303,7 +303,7 @@ deleteTempo() {
   fi
   {{- end }}
 
-  {{- if not .options.dryRun -}}
+  {{- if not (default .options.dryRun false) -}}
   $kubectlbin delete --ignore-not-found --wait --timeout=180s -f delete-tracing-minio-ha.yaml
   $kubectlbin delete --ignore-not-found --wait --timeout=180s -f delete-tracing-tempo-distributed.yaml
   echo "Tempo resources deleted"
@@ -341,7 +341,7 @@ deleteTracingMinioHA() {
   fi
   {{- end }}
 
-  {{- if not .options.dryRun -}}
+  {{- if not (default .options.dryRun false) -}}
   $kubectlbin delete --ignore-not-found --wait --timeout=180s -f delete-tracing-minio-ha.yaml
   echo "Minio HA on tracing namespace deleted"
   {{- else }}
@@ -371,7 +371,7 @@ deleteVelero() {
   # on prem can be used to delete also the eks one, since it has more manifests and we are using --ignore-not-found
   $kustomizebin build $vendorPath/modules/dr/katalog/velero/velero-on-prem > delete-velero.yaml
 
-  {{- if not .options.dryRun }}
+  {{- if not (default .options.dryRun false) }}
   $kubectlbin delete --ignore-not-found --wait --timeout=180s -f delete-velero-node-agent.yaml
   $kubectlbin delete --ignore-not-found --wait --timeout=180s -f delete-velero-schedules.yaml
   {{- end }}
@@ -383,7 +383,7 @@ deleteVelero() {
   fi
   {{- end }}
 
-  {{- if not .options.dryRun }}
+  {{- if not (default .options.dryRun false) }}
   < delete-velero.yaml $yqbin 'select(.kind != "CustomResourceDefinition")' | $kubectlbin delete --ignore-not-found --wait --timeout=180s -f -
   < delete-velero.yaml $yqbin 'select(.kind == "CustomResourceDefinition")' | $kubectlbin delete --ignore-not-found --wait --timeout=180s -f -
   echo "Velero resources deleted"
@@ -426,7 +426,7 @@ deleteVeleroMinio() {
   fi
   {{- end }}
 
-  {{- if not .options.dryRun }}
+  {{- if not (default .options.dryRun false) }}
   $kubectlbin delete --ignore-not-found --wait --timeout=180s -f delete-dr-minio.yaml
   echo "Minio on kube-system namespace deleted"
   {{- else }}
@@ -465,7 +465,7 @@ deleteMonitoringCommon() {
   $kustomizebin build $vendorPath/modules/monitoring/katalog/x509-exporter > delete-monitoring-x509-exporter.yaml
   $kustomizebin build $vendorPath/modules/monitoring/katalog/prometheus-adapter > delete-monitoring-prometheus-adapter.yaml
 
-  {{- if not .options.dryRun }}
+  {{- if not (default .options.dryRun false) }}
   $kubectlbin delete --ignore-not-found --wait --timeout=180s -f delete-monitoring-alertmanager-operated.yaml
   $kubectlbin delete --ignore-not-found --wait --timeout=180s -f delete-monitoring-blackbox-exporter.yaml
   $kubectlbin delete --ignore-not-found --wait --timeout=180s -f delete-monitoring-eks-sm.yaml
@@ -484,7 +484,7 @@ deleteMonitoringCommon() {
 deletePrometheusOperator() {
   $kustomizebin build $vendorPath/modules/monitoring/katalog/prometheus-operator > delete-monitoring-prometheus-operator.yaml
 
-  {{- if not .options.dryRun }}
+  {{- if not (default .options.dryRun false) }}
   $kubectlbin delete --ignore-not-found --wait --timeout=360s -f delete-monitoring-prometheus-operator.yaml
   echo "Prometheus Operator resources deleted"
   {{- else }}
@@ -496,7 +496,7 @@ deletePrometheusOperated() {
   # we first delete the CRs before deleting the CRDs to avoid the `kubectl delete` command from failing due to unexisting APIs.
   $kustomizebin build $vendorPath/modules/monitoring/katalog/prometheus-operated > delete-monitoring-prometheus-operated.yaml
 
-  {{- if not .options.dryRun }}
+  {{- if not (default .options.dryRun false) }}
   $kubectlbin delete --ignore-not-found --wait --timeout=360s -f delete-monitoring-prometheus-operated.yaml
   $kubectlbin delete -l app.kubernetes.io/name=prometheus,app.kubernetes.io/instance=k8s pvc -n monitoring --wait --timeout=360s
   echo "Prometheus Operated resources deleted"
@@ -509,7 +509,7 @@ deleteMimir() {
   $kustomizebin build $vendorPath/modules/monitoring/katalog/mimir > delete-monitoring-mimir.yaml
   $kustomizebin build $vendorPath/modules/monitoring/katalog/minio-ha > delete-monitoring-minio-ha.yaml
 
-  {{- if not .options.dryRun }}
+  {{- if not (default .options.dryRun false) }}
   $kubectlbin delete --ignore-not-found --wait --timeout=360s -f delete-monitoring-mimir.yaml
   $kubectlbin delete --ignore-not-found --wait --timeout=360s -f delete-monitoring-minio-ha.yaml
   $kubectlbin delete -l app.kubernetes.io/name=mimir pvc -n monitoring --wait --timeout=360s
@@ -563,7 +563,7 @@ deleteMimirMinioHA() {
   fi
   {{- end }}
 
-  {{- if not .options.dryRun }}
+  {{- if not (default .options.dryRun false) }}
   $kubectlbin delete --ignore-not-found --wait --timeout=180s -f delete-monitoring-minio-ha.yaml
   echo "Minio HA on monitoring namespace deleted"
   {{- else }}
@@ -607,7 +607,7 @@ deleteNginx() {
   fi
   {{- end }}
 
-  {{- if not .options.dryRun }}
+  {{- if not (default .options.dryRun false) }}
   $kubectlbin delete --ignore-not-found --wait --timeout=180s -f delete-external-dns.yaml
   $kubectlbin delete --ignore-not-found --wait --timeout=180s -f delete-forecastle.yaml
   $kubectlbin delete --ignore-not-found --wait --timeout=180s -f delete-dual-nginx.yaml
@@ -619,7 +619,7 @@ deleteNginx() {
 }
 
 deleteNginxIngresses() {
-  {{- if not .options.dryRun }}
+  {{- if not (default .options.dryRun false) }}
   $kubectlbin delete --ignore-not-found --wait --timeout=180s ingress -n pomerium --all
   $kubectlbin delete --ignore-not-found --wait --timeout=180s ingress -n monitoring --all
   $kubectlbin delete --ignore-not-found --wait --timeout=180s ingress -n tracing --all
@@ -658,7 +658,7 @@ deleteDex() {
   fi
   {{- end }}
 
-  {{- if not .options.dryRun }}
+  {{- if not (default .options.dryRun false) }}
   $kubectlbin delete --ignore-not-found --wait --timeout=180s -f delete-dex.yaml
   $kubectlbin delete --ignore-not-found --wait --timeout=180s ingress -n kube-system dex
   echo "dex has been deleted from the cluster"
@@ -678,7 +678,7 @@ deleteGangway() {
   fi
   {{- end }}
 
-  {{- if not .options.dryRun }}
+  {{- if not (default .options.dryRun false) }}
   $kubectlbin delete --ignore-not-found --wait --timeout=180s -f delete-gangway.yaml
   $kubectlbin delete --ignore-not-found --wait --timeout=180s ingress -n kube-system gangway
   echo "dex has been deleted from the cluster"
@@ -698,7 +698,7 @@ deletePomerium() {
   fi
   {{- end }}
 
-  {{- if not .options.dryRun }}
+  {{- if not (default .options.dryRun false) }}
   $kubectlbin delete --ignore-not-found --wait --timeout=180s -f delete-pomerium.yaml
   $kubectlbin delete --ignore-not-found --wait --timeout=180s ingress -n pomerium pomerium
   echo "pomerium has been deleted from the cluster"
@@ -708,7 +708,7 @@ deletePomerium() {
 }
 
 deletePomeriumIngresses() {
-  {{- if not .options.dryRun }}
+  {{- if not (default .options.dryRun false) }}
   $kubectlbin delete --ignore-not-found --wait --timeout=180s ingress -n pomerium --all
   echo "All the ingresses in the pomerium namespace have been deleted"
   {{- else }}
@@ -717,7 +717,7 @@ deletePomeriumIngresses() {
 }
 
 deleteInfraIngresses() {
-  {{- if not .options.dryRun }}
+  {{- if not (default .options.dryRun false) }}
   $kubectlbin delete --ignore-not-found --wait --timeout=180s ingress -n monitoring --all
   $kubectlbin delete --ignore-not-found --wait --timeout=180s ingress -n tracing --all
   $kubectlbin delete --ignore-not-found --wait --timeout=180s ingress -n logging --all
