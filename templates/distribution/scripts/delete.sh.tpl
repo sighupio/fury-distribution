@@ -9,7 +9,7 @@ vendorPath="{{ .paths.vendorPath }}"
 
 $kustomizebin build --load_restrictor LoadRestrictionsNone . > out.yaml
 
-{{- if (default .options.dryRun false) }}
+{{ if .options.dryRun }}
 exit 0
 {{- else }}
 

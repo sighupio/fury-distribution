@@ -23,15 +23,15 @@ if $kubectlbin get apiservice v1alpha1.monitoring.coreos.com > /dev/null 2>&1; t
 fi
 {{- end }}
 
-{{- if and (not (default .options.dryRun false)) (eq .spec.distribution.modules.networking.type "calico") }}
+{{ if and (not .options.dryRun) (eq .spec.distribution.modules.networking.type "calico") }}
 $kubectlbin create namespace calico-system --dry-run=client -o yaml | $kubectlbin apply -f - --server-side
 {{- end }}
 
-{{- if not (default .options.dryRun false) -}}
+{{ if not .options.dryRun }}
 < out.yaml $yqbin 'select(.kind == "CustomResourceDefinition")' | $kubectlbin apply -f - --server-side
 < out.yaml $yqbin 'select(.kind == "CustomResourceDefinition")' | $kubectlbin wait --for condition=established --timeout=60s -f -
 
-echo "Clean up init jobs, since they cannot be changed without conficts and they are idempotent by nature..."
+echo "Clean up init jobs, since they cannot be changed without conflicts and they are idempotent by nature..."
 
 $kubectlbin delete --ignore-not-found --wait --timeout=180s job minio-setup -n kube-system
 $kubectlbin delete --ignore-not-found --wait --timeout=180s job minio-logging-buckets-setup -n logging
@@ -72,7 +72,7 @@ $kubectlbin rollout status deployment kyverno-cleanup-controller -n kyverno --ti
 $kubectlbin rollout status deployment kyverno-reports-controller  -n kyverno --timeout=180s
 {{- end }}
 
-{{- if not (default .options.dryRun false) }}
+{{ if not .options.dryRun }}
 < out.yaml $kubectlbin apply -f - --server-side
 
 echo "Executing cleanup migrations on values that can be nil..."
@@ -109,7 +109,7 @@ if ! $kubectlbin get apiservice v1.monitoring.coreos.com; then
 fi
 {{- end }}
 
-{{- if not (default .options.dryRun false) }}
+{{ if not .options.dryRun }}
 $kubectlbin delete --ignore-not-found --wait --timeout=180s -f delete-tracing-minio-ha.yaml
 {{- end }}
 
@@ -131,7 +131,7 @@ if ! $kubectlbin get apiservice v1.monitoring.coreos.com; then
 fi
 {{- end }}
 
-{{- if not (default .options.dryRun false) }}
+{{ if not .options.dryRun }}
 $kubectlbin delete --ignore-not-found --wait --timeout=180s -f delete-monitoring-minio-ha.yaml
 {{- end }}
 
@@ -153,7 +153,7 @@ if ! $kubectlbin get apiservice v1.monitoring.coreos.com; then
 fi
 {{- end }}
 
-{{- if not (default .options.dryRun false) }}
+{{ if not .options.dryRun }}
 $kubectlbin delete --ignore-not-found --wait --timeout=180s -f delete-dr-minio.yaml
 {{- end }}
 
@@ -168,7 +168,7 @@ echo "Cleaning up Kyverno default policies..."
 
 $kustomizebin build $vendorPath/modules/opa/katalog/kyverno/policies > delete-kyverno.yaml
 
-{{- if not (default .options.dryRun false) }}
+{{ if not .options.dryRun }}
 $kubectlbin delete --ignore-not-found --wait --timeout=180s -f delete-kyverno.yaml
 {{- end }}
 
@@ -185,7 +185,7 @@ $kustomizebin build $vendorPath/modules/opa/katalog/gatekeeper/rules/constraints
 $kustomizebin build $vendorPath/modules/opa/katalog/gatekeeper/rules/config > delete-gatekeeper-config.yaml
 $kustomizebin build $vendorPath/modules/opa/katalog/gatekeeper/rules/templates > delete-gatekeeper-templates.yaml
 
-{{- if not (default .options.dryRun false) }}
+{{ if not .options.dryRun }}
 $kubectlbin delete --ignore-not-found --wait --timeout=180s -f delete-gatekeeper-constraints.yaml
 $kubectlbin delete --ignore-not-found --wait --timeout=180s -f delete-gatekeeper-config.yaml
 $kubectlbin delete --ignore-not-found --wait --timeout=180s -f delete-gatekeeper-templates.yaml
@@ -194,7 +194,7 @@ $kubectlbin delete --ignore-not-found --wait --timeout=180s -f delete-gatekeeper
 {{- end }}
 {{- end }}
 
-{{- if not (default .options.dryRun false) }}
+{{ if not .options.dryRun }}
 echo "Apply script completed."
 {{- else }}
 echo "Apply script completed (dry-run mode)."
