@@ -731,9 +731,12 @@ The type of the DR, must be ***none*** or ***on-premises***
 
 ### Properties
 
-| Property                                               | Type     | Required |
-|:-------------------------------------------------------|:---------|:---------|
-| [overrides](#specdistributionmodulesdrvelerooverrides) | `object` | Optional |
+| Property                                                             | Type     | Required |
+|:---------------------------------------------------------------------|:---------|:---------|
+| [overrides](#specdistributionmodulesdrvelerooverrides)               | `object` | Optional |
+| [retentionTime](#specdistributionmodulesdrveleroretentiontime)       | `string` | Optional |
+| [backend](#specdistributionmodulesdrvelerobackend)                   | `string` | Optional |
+| [externalEndpoint](#specdistributionmodulesdrveleroexternalendpoint) | `object` | Optional |
 
 ## .spec.distribution.modules.dr.velero.overrides
 
@@ -803,6 +806,69 @@ The key of the toleration
 ### Description
 
 The value of the toleration
+
+## .spec.distribution.modules.dr.velero.retentionTime
+
+### Description
+
+The retention time for velero
+
+## .spec.distribution.modules.dr.velero.backend
+
+### Description
+
+The backend for velero
+
+### Constraints
+
+**enum**: the value of this property must be equal to one of the following values:
+
+| Value                      |
+|:---------------------------|
+| `"minio"`                  |
+| `"externalEndpoint"`       |
+
+## .spec.distribution.modules.dr.velero.externalEndpoint
+
+### Properties
+
+| Property                                                                           | Type      | Required |
+|:-----------------------------------------------------------------------------------|:----------|:---------|
+| [endpoint](#specdistributionmodulesdrveleroexternalendpointendpoint)               | `string`  | Optional |
+| [insecure](#specdistributionmodulesdrveleroexternalendpointinsecure)               | `boolean` | Optional |
+| [secretAccessKey](#specdistributionmodulesdrveleroexternalendpointsecretaccesskey) | `string`  | Optional |
+| [accessKeyId](#specdistributionmodulesdrveleroexternalendpointaccesskeyid)         | `string`  | Optional |
+| [bucketName](#specdistributionmodulesdrveleroexternalendpointbucketname)           | `string`  | Optional |
+
+## .spec.distribution.modules.dr.velero.externalEndpoint.endpoint
+
+### Description
+
+The endpoint for velero
+
+## .spec.distribution.modules.dr.velero.externalEndpoint.insecure
+
+### Description
+
+If true, the endpoint will be insecure
+
+## .spec.distribution.modules.dr.velero.externalEndpoint.secretAccessKey
+
+### Description
+
+The secret access key for velero backend
+
+## .spec.distribution.modules.dr.velero.externalEndpoint.accessKeyId
+
+### Description
+
+The access key id for velero backend
+
+## .spec.distribution.modules.dr.velero.externalEndpoint.bucketName
+
+### Description
+
+The bucket name for velero backend
 
 ## .spec.distribution.modules.ingress
 
@@ -2224,16 +2290,23 @@ The storage size for the prometheus pods
 
 ### Properties
 
-| Property                                                                                         | Type     | Required |
-|:-------------------------------------------------------------------------------------------------|:---------|:---------|
-| [deadManSwitchWebhookUrl](#specdistributionmodulesmonitoringalertmanagerdeadmanswitchwebhookurl) | `string` | Optional |
-| [slackWebhookUrl](#specdistributionmodulesmonitoringalertmanagerslackwebhookurl)                 | `string` | Optional |
+| Property                                                                                         | Type      | Required |
+|:-------------------------------------------------------------------------------------------------|:----------|:---------|
+| [deadManSwitchWebhookUrl](#specdistributionmodulesmonitoringalertmanagerdeadmanswitchwebhookurl) | `string`  | Optional |
+| [installDefaultRules](#specdistributionmodulesmonitoringalertmanagerinstalldefaultrules)         | `boolean` | Optional |
+| [slackWebhookUrl](#specdistributionmodulesmonitoringalertmanagerslackwebhookurl)                 | `string`  | Optional |
 
 ## .spec.distribution.modules.monitoring.alertmanager.deadManSwitchWebhookUrl
 
 ### Description
 
 The webhook url to send deadman switch monitoring, for example to use with healthchecks.io
+
+## .spec.distribution.modules.monitoring.alertmanager.installDefaultRules
+
+### Description
+
+If true, the default rules will be installed
 
 ## .spec.distribution.modules.monitoring.alertmanager.slackWebhookUrl
 
@@ -3073,12 +3146,16 @@ The type of networking to use, either ***calico*** or ***cilium***
 
 ### Properties
 
-| Property                                               | Type     | Required |
-|:-------------------------------------------------------|:---------|:---------|
-| [overrides](#specdistributionmodulespolicyoverrides)   | `object` | Optional |
-| [type](#specdistributionmodulespolicytype)             | `string` | Required |
-| [gatekeeper](#specdistributionmodulespolicygatekeeper) | `object` | Optional |
-| [kyverno](#specdistributionmodulespolicykyverno)       | `object` | Optional |
+| Property                                               | Type     | Required   |
+|:-------------------------------------------------------|:---------|:-----------|
+| [overrides](#specdistributionmodulespolicyoverrides)   | `object` | Optional   |
+| [type](#specdistributionmodulespolicytype)             | `string` | Required   |
+| [gatekeeper](#specdistributionmodulespolicygatekeeper) | `object` | Optional*  |
+| [kyverno](#specdistributionmodulespolicykyverno)       | `object` | Optional** |
+
+*required if type is ***gatekeeper***
+
+**required if type is ***kyverno***
 
 ## .spec.distribution.modules.policy.overrides
 
@@ -3191,16 +3268,40 @@ The type of security to use, either ***none***, ***gatekeeper*** or ***kyverno**
 
 ### Properties
 
-| Property                                                                                             | Type     | Required |
-|:-----------------------------------------------------------------------------------------------------|:---------|:---------|
-| [additionalExcludedNamespaces](#specdistributionmodulespolicygatekeeperadditionalexcludednamespaces) | `array`  | Optional |
-| [overrides](#specdistributionmodulespolicygatekeeperoverrides)                                       | `object` | Optional |
+| Property                                                                                             | Type      | Required |
+|:-----------------------------------------------------------------------------------------------------|:----------|:---------|
+| [additionalExcludedNamespaces](#specdistributionmodulespolicygatekeeperadditionalexcludednamespaces) | `array`   | Optional |
+| [enforcementAction](#specdistributionmodulespolicygatekeeperenforcementaction)                       | `string`  | Required |
+| [installDefaultPolicies](#specdistributionmodulespolicygatekeeperinstalldefaultpolicies)             | `boolean` | Required |
+| [overrides](#specdistributionmodulespolicygatekeeperoverrides)                                       | `object`  | Optional |
 
 ## .spec.distribution.modules.policy.gatekeeper.additionalExcludedNamespaces
 
 ### Description
 
 This parameter adds namespaces to Gatekeeper's exemption list, so it will not enforce the constraints on them.
+
+## .spec.distribution.modules.policy.gatekeeper.enforcementAction
+
+### Description
+
+The enforcement action to use for the gatekeeper module
+
+### Constraints
+
+**enum**: the value of this property must be equal to one of the following values:
+
+| Value          |
+|:---------------|
+| `"deny"`       |
+| `"dryrun"`     |
+| `"warn"`       |
+
+## .spec.distribution.modules.policy.gatekeeper.installDefaultPolicies
+
+### Description
+
+If true, the default policies will be installed
 
 ## .spec.distribution.modules.policy.gatekeeper.overrides
 
@@ -3275,16 +3376,39 @@ The value of the toleration
 
 ### Properties
 
-| Property                                                                                             | Type     | Required |
-|:-----------------------------------------------------------------------------------------------------|:---------|:---------|
-| [additionalExcludedNamespaces](#specdistributionmodulespolicykyvernoadditionalexcludednamespaces)    | `array`  | Optional |
-| [overrides](#specdistributionmodulespolicykyvernooverrides)                                          | `object` | Optional |
+| Property                                                                                             | Type      | Required |
+|:-----------------------------------------------------------------------------------------------------|:----------|:---------|
+| [additionalExcludedNamespaces](#specdistributionmodulespolicykyvernoadditionalexcludednamespaces)    | `array`   | Optional |
+| [validationFailureAction](#specdistributionmodulespolicykyvernovalidationfailureaction)              | `string`  | Required |
+| [installDefaultPolicies](#specdistributionmodulespolicykyvernoinstalldefaultpolicies)                | `boolean` | Required |
+| [overrides](#specdistributionmodulespolicykyvernooverrides)                                          | `object`  | Optional |
 
 ## .spec.distribution.modules.policy.kyverno.additionalExcludedNamespaces
 
 ### Description
 
 This parameter adds namespaces to Kyverno's exemption list, so it will not enforce the constraints on them.
+
+## .spec.distribution.modules.policy.kyverno.validationFailureAction
+
+### Description
+
+The validation failure action to use for the kyverno module
+
+### Constraints
+
+**enum**: the value of this property must be equal to one of the following values:
+
+| Value          |
+|:---------------|
+| `"audit"`      |
+| `"enforce"`    |
+
+## .spec.distribution.modules.policy.kyverno.installDefaultPolicies
+
+### Description
+
+If true, the default policies will be installed
 
 ## .spec.distribution.modules.policy.kyverno.overrides
 
@@ -4383,8 +4507,8 @@ The effect of the taint
 
 **enum**: the value of this property must be equal to one of the following values:
 
-| Value      |
-|:-----------|
+| Value                |
+|:---------------------|
 | `"NoSchedule"`       |
 | `"PreferNoSchedule"` |
 | `"NoExecute"`        |
@@ -4395,9 +4519,10 @@ The effect of the taint
 
 | Property                                                                 | Type     | Required |
 |:-------------------------------------------------------------------------|:---------|:---------|
-| [cloud](#speckubernetesadvancedcloud)                                   | `object` | Optional |
-| [users](#speckubernetesadvancedusers)                                   | `object` | Optional |
-| [oidc](#speckubernetesadvancedoidc)                                     | `object` | Optional |
+| [cloud](#speckubernetesadvancedcloud)                                    | `object` | Optional |
+| [users](#speckubernetesadvancedusers)                                    | `object` | Optional |
+| [oidc](#speckubernetesadvancedoidc)                                      | `object` | Optional |
+| [containerd](#speckubernetesadvancedcontainerd)                          | `object` | Optional |
 
 ## .spec.kubernetes.advanced.cloud
 
@@ -4469,6 +4594,56 @@ The client id of the oidc provider
 ### Description
 
 The ca file of the oidc provider
+
+## .spec.kubernetes.advanced.containerd
+
+### Properties
+
+| Property                                                                 | Type     | Required |
+|:-------------------------------------------------------------------------|:---------|:---------|
+| [registryConfigs](#speckubernetesadvancedcontainerdregistryconfigs)      | `array` | Optional |
+
+## .spec.kubernetes.advanced.containerd.registryConfigs
+
+### Properties
+
+| Property                                                                                    | Type      | Required |
+|:--------------------------------------------------------------------------------------------|:----------|:---------|
+| [registry](#speckubernetesadvancedcontainerdregistryconfigsregistry)                        | `string`  | Optional |
+| [username](#speckubernetesadvancedcontainerdregistryconfigsusername)                        | `string`  | Optional |
+| [password](#speckubernetesadvancedcontainerdregistryconfigspassword)                        | `string`  | Optional |
+| [insecureSkipVerify](#speckubernetesadvancedcontainerdregistryconfigsinsecureskipverify)    | `boolean` | Optional |
+| [mirrorEndpoint](#speckubernetesadvancedcontainerdregistryconfigsmirrorendpoint)            | `array`   | Optional |
+
+## .spec.kubernetes.advanced.containerd.registryConfigs.registry
+
+### Description
+
+The registry of the registry config
+
+## .spec.kubernetes.advanced.containerd.registryConfigs.username
+
+### Description
+
+The username of the registry config
+
+## .spec.kubernetes.advanced.containerd.registryConfigs.password
+
+### Description
+
+The password of the registry config
+
+## .spec.kubernetes.advanced.containerd.registryConfigs.insecureSkipVerify
+
+### Description
+
+If true, the registry config will skip tls verification
+
+## .spec.kubernetes.advanced.containerd.registryConfigs.mirrorEndpoint
+
+### Description
+
+The mirror endpoint of the registry config
 
 ## .spec.plugins
 
