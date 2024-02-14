@@ -334,9 +334,6 @@ deletePrometheusOperated() {
   echo "Prometheus Operated resources deleted"
 }
 
-}
-
-
 
 {{- if eq .reducers.distributionModulesMonitoringType.from "prometheus" }}
   {{- if eq .reducers.distributionModulesMonitoringType.to "none" }}
