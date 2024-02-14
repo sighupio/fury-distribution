@@ -561,6 +561,14 @@
         "logRetentionDays": {
           "type": "integer"
         },
+        "logsTypes": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": ["api", "audit", "authenticator", "controllerManager", "scheduler"]
+          },
+          "minItems": 0
+        },        
         "nodePools": {
           "type": "array",
           "items": {
