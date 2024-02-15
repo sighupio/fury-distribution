@@ -2403,6 +2403,9 @@ func (j *SpecKubernetesNodesNode) UnmarshalJSON(b []byte) error {
 	if err := json.Unmarshal(b, &plain); err != nil {
 		return err
 	}
+	if len(plain.Hosts) < 1 {
+		return fmt.Errorf("field %s length: must be >= %d", "hosts", 1)
+	}
 	*j = SpecKubernetesNodesNode(plain)
 	return nil
 }

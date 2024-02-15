@@ -254,6 +254,7 @@
     },
     "Spec.Kubernetes.Nodes": {
       "type": "array",
+      "minItems": 1,
       "items": {
         "$ref": "#/$defs/Spec.Kubernetes.Nodes.Node"
       }
@@ -267,6 +268,7 @@
         },
         "hosts": {
           "type": "array",
+          "minItems": 1,
           "items": {
             "$ref": "#/$defs/Spec.Kubernetes.Nodes.Node.Host"
           }
