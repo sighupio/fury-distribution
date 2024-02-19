@@ -10,7 +10,7 @@ versions:
   ingress: v2.2.0
   logging: v3.3.1
   monitoring: v2.2.0
-  opa: v1.11.0
+  opa: v1.11.1
   networking: v1.15.0
 
 bases:

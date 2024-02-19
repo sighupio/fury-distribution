@@ -3,16 +3,96 @@
 # license that can be found in the LICENSE file.
 
 ---
-
 infrastructure: []
 kubernetes: []
-distribution: 
+distribution:
   - path: .spec.distribution.modules.logging.type
     immutable: false
-    description: "changes to the logging module type have been detected. This will cause a deletion of the current logging stack and a new one will be created."
-    unsupported:
-      - to: none
-        reason: "currently, removing the logging stack is not supported."
+    description: "changes to the logging module type have been detected. This will cause the reconfiguration or deletion of the current logging stack."
+    safe:
+      - from: none
     reducers:
       - key: distributionModulesLoggingType
+        lifecycle: pre-apply
+  - path: .spec.distribution.modules.monitoring.alertmanager.installDefaultRules
+    immutable: false
+    description: "changes to the monitoring alertmanager configs have been detected. This will cause the reconfiguration, creation or deletion of the default alertmanager configs."
+    safe:
+      - from: false
+      - from: true
+    reducers:
+      - key: distributionModulesMonitoringAlertmanagerInstalldefaultrules
+        lifecycle: pre-apply
+  - path: .spec.distribution.modules.policy.type
+    immutable: false
+    description: "changes to the policy module type have been detected. This will cause the reconfiguration or deletion of the current policy stack."
+    safe: 
+      - from: none
+    unsupported:
+      - to: gatekeeper
+        from: kyverno
+        reason: "currently, switching from kyverno to gatekeeper is not supported. You need to first remove the current stack with type: none."
+      - to: kyverno
+        from: gatekeeper
+        reason: "currently, switching from gatekeeper to kyverno is not supported. You need to first remove the current stack with type: none."
+    reducers:
+      - key: distributionModulesPolicyType
+        lifecycle: pre-apply
+  - path: .spec.distribution.modules.policy.gatekeeper.installDefaultPolicies
+    immutable: false
+    description: "changes to Gatekeeper default policies option in the policy module have been detected. This will cause the installation or deletion of the default policies."
+    safe:
+      - from: false
+      - from: true
+    reducers:
+      - key: distributionModulesPolicyGatekeeperInstallDefaultPolicies
+        lifecycle: pre-apply
+  - path: .spec.distribution.modules.policy.kyverno.installDefaultPolicies
+    immutable: false
+    description: "changes to Kyverno default policies option in the policy module have been detected. This will cause the installation or deletion of the default policies."
+    safe:
+      - from: false
+      - from: true
+    reducers:
+      - key: distributionModulesPolicyKyvernoInstallDefaultPolicies
+        lifecycle: pre-apply
+  - path: .spec.distribution.modules.dr.type
+    immutable: false
+    description: "changes to the Disaster Recovery module type have been detected. This will cause the replacement of the current DR (velero) stack (removal or creation)."
+    safe: 
+      - from: none
+    reducers:
+      - key: distributionModulesDRType
+        lifecycle: pre-apply
+
+  - path: .spec.distribution.modules.monitoring.type
+    immutable: false
+    description: "changes to the Monitoring module type have been detected. This will cause the reconfiguration or deletion of the current monitoring stack."
+    safe: 
+      - from: none
+    reducers:
+      - key: distributionModulesMonitoringType
+        lifecycle: pre-apply
+  - path: .spec.distribution.modules.ingress.nginx.type
+    immutable: false
+    description: "changes to the nginx type in the Ingress module have been detected. This will cause the reconfiguration or deletion of the current ingress stack."
+    safe: 
+      - from: none
+    unsupported:
+      - to: single
+        from: dual
+        reason: "currently, switching Ingress from dual to single nginx is not supported. You need to first remove the current stack with type: none."
+      - to: dual
+        from: single
+        reason: "currently, switching Ingress from single to dual nginx is not supported. You need to first remove the current stack with type: none."
+    reducers:
+      - key: distributionModulesIngressNginxType
+        lifecycle: pre-apply
+  - path: .spec.distribution.modules.auth.provider.type
+    immutable: false
+    description: "changes to the auth provider type will trigger the reconfiguration of the security on the infrastructural ingresses"
+    safe: 
+      - from: none
+    reducers:
+      - key: distributionModulesAuthProviderType
         lifecycle: pre-apply

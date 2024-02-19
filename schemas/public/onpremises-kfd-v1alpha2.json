@@ -254,6 +254,7 @@
     },
     "Spec.Kubernetes.Nodes": {
       "type": "array",
+      "minItems": 1,
       "items": {
         "$ref": "#/$defs/Spec.Kubernetes.Nodes.Node"
       }
@@ -267,6 +268,7 @@
         },
         "hosts": {
           "type": "array",
+          "minItems": 1,
           "items": {
             "$ref": "#/$defs/Spec.Kubernetes.Nodes.Node.Host"
           }
@@ -305,6 +307,9 @@
         },
         "oidc": {
           "$ref": "#/$defs/Spec.Kubernetes.Advanced.OIDC"
+        },
+        "containerd": {
+          "$ref": "#/$defs/Spec.Kubernetes.Advanced.Containerd"
         }
       }
     },
@@ -350,7 +355,43 @@
         }
       }
     },
-
+    "Spec.Kubernetes.Advanced.Containerd": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "registryConfigs": {
+          "$ref": "#/$defs/Spec.Kubernetes.Advanced.Containerd.RegistryConfigs"
+        }
+      }
+    },
+    "Spec.Kubernetes.Advanced.Containerd.RegistryConfigs": {
+      "type": "array",
+      "additionalProperties": false,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "registry": {
+            "type": "string"
+          },
+          "username": {
+            "type": "string"
+          },
+          "password": {
+            "type": "string"
+          },
+          "insecureSkipVerify": {
+            "type": "boolean"
+          },
+          "mirrorEndpoint": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
     "Spec.Distribution.CustomPatches": {
       "type": "object",
       "properties": {
@@ -1003,6 +1044,9 @@
         "deadManSwitchWebhookUrl": {
           "type": "string"
         },
+        "installDefaultRules": {
+          "type": "boolean"
+        },
         "slackWebhookUrl": {
           "type": "string"
         }
@@ -1106,7 +1150,29 @@
           "$ref": "#/$defs/Spec.Distribution.Modules.Policy.Kyverno"
         }
       },
-      "required": ["type"]
+      "required": ["type"],
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "type": { "const": "gatekeeper" }
+            }
+          },
+          "then": {
+            "required": ["gatekeeper"]
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "type": { "const": "kyverno" }
+            }
+          },
+          "then": {
+            "required": ["kyverno"]
+          }
+        }
+      ]
     },
     "Spec.Distribution.Modules.Policy.Gatekeeper": {
       "type": "object",
@@ -1118,10 +1184,18 @@
             "type": "string"
           }
         },
+        "enforcementAction": {
+          "type": "string",
+          "enum": ["deny", "dryrun", "warn"]
+        },
+        "installDefaultPolicies": {
+          "type": "boolean"
+        },
         "overrides": {
           "$ref": "#/$defs/Types.FuryModuleComponentOverrides"
         }
-      }
+      },
+      "required": ["enforcementAction", "installDefaultPolicies"]
     },
     "Spec.Distribution.Modules.Policy.Kyverno": {
       "type": "object",
@@ -1133,10 +1207,18 @@
             "type": "string"
           }
         },
+        "validationFailureAction": {
+          "type": "string",
+          "enum": ["audit", "enforce"]
+        },
+        "installDefaultPolicies": {
+          "type": "boolean"
+        },
         "overrides": {
           "$ref": "#/$defs/Types.FuryModuleComponentOverrides"
         }
-      }
+      },
+      "required": ["validationFailureAction", "installDefaultPolicies"]
     },
     "Spec.Distribution.Modules.Dr": {
       "type": "object",
@@ -1159,6 +1241,34 @@
       "type": "object",
       "additionalProperties": false,
       "properties": {
+        "retentionTime": {
+          "type": "string"
+        },
+        "backend": {
+          "type": "string",
+          "enum": ["minio", "externalEndpoint"]
+        },
+        "externalEndpoint" : {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "endpoint": {
+              "type": "string"
+            },
+            "insecure": {
+              "type": "boolean"
+            },
+            "secretAccessKey": {
+              "type": "string"
+            },
+            "accessKeyId": {
+              "type": "string"
+            },
+            "bucketName": {
+              "type": "string"
+            }
+          }
+        },
         "overrides": {
           "$ref": "#/$defs/Types.FuryModuleComponentOverrides"
         }
