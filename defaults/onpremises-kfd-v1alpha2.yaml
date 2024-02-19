@@ -135,9 +135,10 @@ data:
         retentionSize: 120GB
         storageSize: 150Gi
       alertmanager:
+        installDefaultRules: true
         deadManSwitchWebhookUrl: ""
         slackWebhookUrl: ""
-      mimir: 
+      mimir:
         retentionTime: 30d
         # backend can be minio, externalEndpoint
         backend: minio
@@ -202,16 +203,28 @@ data:
       gatekeeper:
         # this configuration adds namespaces to the excluded list, actually whitelisting them
         additionalExcludedNamespaces: []
+        enforcementAction: deny
+        installDefaultPolicies: true
       kyverno:
         # this configuration adds namespaces to the excluded list, actually whitelisting them
         additionalExcludedNamespaces: []
+        validationFailureAction: enforce
+        installDefaultPolicies: true
     # dr module configuration
     dr:
+      type: none
       overrides:
         nodeSelector: null
         tolerations: null
       # the standard configuration for velero on the dr module
-      velero: {}
+      velero:
+        backend: minio
+        externalEndpoint:
+          endpoint: s3.eu-west-1.amazonaws.com
+          insecure: false
+          secretAccessKey: example
+          accessKeyId: example
+          bucketName: velerobucket
     # auth module configuration
     auth:
       overrides:

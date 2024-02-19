@@ -10,8 +10,15 @@ resources:
 {{- if eq .spec.distribution.common.provider.type "eks" }}
   - {{ print "../" .spec.distribution.common.relativeVendorPath "/modules/dr/katalog/velero/velero-aws" }}
 {{- else if eq .spec.distribution.common.provider.type "none" }}
+
+{{- if eq .spec.distribution.modules.dr.velero.backend "minio" }}
   - {{ print "../" .spec.distribution.common.relativeVendorPath "/modules/dr/katalog/velero/velero-on-prem" }}
+{{- else }}
+  - {{ print "../" .spec.distribution.common.relativeVendorPath "/modules/dr/katalog/velero/velero-aws" }}
+  - resources/storageLocation.yaml
+{{- end }}
   - {{ print "../" .spec.distribution.common.relativeVendorPath "/modules/dr/katalog/velero/velero-node-agent" }}
+
 {{- end }}
   - {{ print "../" .spec.distribution.common.relativeVendorPath "/modules/dr/katalog/velero/velero-schedules" }}
 {{- if eq .spec.distribution.common.provider.type "eks" }}
@@ -23,4 +30,14 @@ patchesStrategicMerge:
   - patches/infra-nodes.yml
 {{- if eq .spec.distribution.common.provider.type "eks" }}
   - patches/eks-velero.yml
+{{- end }}
+
+{{- if eq .spec.distribution.common.provider.type "none" }}
+{{- if eq .spec.distribution.modules.dr.velero.backend "externalEndpoint" }}
+secretGenerator:
+- name: cloud-credentials
+  namespace: kube-system
+  files:
+    - cloud=secrets/cloud-credentials.config
+{{- end }}
 {{- end }}

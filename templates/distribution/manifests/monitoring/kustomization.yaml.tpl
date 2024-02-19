@@ -44,6 +44,33 @@ patchesStrategicMerge:
   - patches/minio.yml
   {{- end }}
 {{- end }}
+{{- if not .spec.distribution.modules.monitoring.alertmanager.installDefaultRules }}
+{{- if .spec.distribution.modules.monitoring.alertmanager.deadManSwitchWebhookUrl }}
+  - |-
+    $patch: delete
+    apiVersion: v1
+    kind: Secret
+    metadata:
+      namespace: monitoring
+      name: healthchecks-webhook
+{{- end }}
+{{- if .spec.distribution.modules.monitoring.alertmanager.slackWebhookUrl }}
+  - |-
+    $patch: delete
+    apiVersion: v1
+    kind: Secret
+    metadata:
+      namespace: monitoring
+      name: infra-slack-webhook
+  - |-
+    $patch: delete
+    apiVersion: v1
+    kind: Secret
+    metadata:
+      namespace: monitoring
+      name: k8s-slack-webhook
+{{- end }}
+{{- end }}
 
 {{- if .checks.storageClassAvailable }}
   {{- if eq .spec.distribution.modules.monitoring.type "mimir" }}
