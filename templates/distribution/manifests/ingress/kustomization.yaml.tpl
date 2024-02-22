@@ -41,8 +41,8 @@ resources:
   - secrets/tls.yml
 {{- end }}
 
-{{ if eq true .spec.distribution.common.networkPoliciesEnabled }}
-  - resources/network-policies.yml
+{{ if eq .spec.distribution.common.networkPoliciesEnabled true }}
+  - policies
 {{- end }}
 
 patchesStrategicMerge:
