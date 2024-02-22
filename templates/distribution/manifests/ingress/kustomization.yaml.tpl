@@ -41,6 +41,10 @@ resources:
   - secrets/tls.yml
 {{- end }}
 
+{{ if eq true .spec.distribution.common.networkPoliciesEnabled }}
+  - resources/network-policies.yml
+{{- end }}
+
 patchesStrategicMerge:
 {{ if and (.spec.distribution.modules.ingress.certManager) (.spec.distribution.modules.ingress.certManager.clusterIssuer) }}
 

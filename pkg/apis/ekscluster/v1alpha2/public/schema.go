@@ -79,6 +79,9 @@ type SpecDistributionCommon struct {
 
 	// Tolerations corresponds to the JSON schema field "tolerations".
 	Tolerations []TypesKubeToleration `json:"tolerations,omitempty" yaml:"tolerations,omitempty" mapstructure:"tolerations,omitempty"`
+
+	// NetworkPoliciesEnabled corresponds to the JSON schema field "networkPoliciesEnabled".
+	NetworkPoliciesEnabled *bool `json:"networkPoliciesEnabled,omitempty" yaml:"networkPoliciesEnabled,omitempty" mapstructure:"networkPoliciesEnabled,omitempty"`
 }
 
 type SpecDistributionCommonProvider struct {

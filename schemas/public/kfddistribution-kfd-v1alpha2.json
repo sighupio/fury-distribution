@@ -293,6 +293,9 @@
         },
         "relativeVendorPath": {
           "type": "string"
+        },
+        "networkPoliciesEnabled": {
+          "type": "boolean"
         }
       }
     },
