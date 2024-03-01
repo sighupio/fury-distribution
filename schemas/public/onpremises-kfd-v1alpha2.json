@@ -90,6 +90,9 @@
         },
         "advanced": {
           "$ref": "#/$defs/Spec.Kubernetes.Advanced"
+        },
+        "encryption": {
+          "$ref": "#/$defs/Spec.Kubernetes.Encryption"
         }
       },
       "required": [
@@ -310,6 +313,21 @@
         },
         "containerd": {
           "$ref": "#/$defs/Spec.Kubernetes.Advanced.Containerd"
+        }
+      }
+    },
+    "Spec.Kubernetes.Encryption": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "tlsCipherSuites": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "configuration": {
+          "type": "string"
         }
       }
     },

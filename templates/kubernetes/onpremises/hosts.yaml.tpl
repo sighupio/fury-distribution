@@ -108,3 +108,12 @@ all:
     {{- end }}
     {{- end }}
     {{- end }}
+    {{- if (index .spec.kubernetes "encryption") }}
+    {{- if (index .spec.kubernetes.encryption "tlsCipherSuites") }}
+    tls_cipher_suites: 
+      {{- toYaml .spec.kubernetes.encryption.tlsCipherSuites | nindent 6 }}
+    {{- end }}
+    {{- if (index .spec.kubernetes.encryption "configuration") }}
+    kubernetes_encryption_config: "./encryption-config.yaml"
+    {{- end }}
+    {{- end }}
