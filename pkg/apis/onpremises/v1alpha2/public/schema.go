@@ -959,9 +959,6 @@ type SpecKubernetes struct {
 	// DnsZone corresponds to the JSON schema field "dnsZone".
 	DnsZone string `json:"dnsZone" yaml:"dnsZone" mapstructure:"dnsZone"`
 
-	// Encryption corresponds to the JSON schema field "encryption".
-	Encryption *SpecKubernetesEncryption `json:"encryption,omitempty" yaml:"encryption,omitempty" mapstructure:"encryption,omitempty"`
-
 	// LoadBalancers corresponds to the JSON schema field "loadBalancers".
 	LoadBalancers SpecKubernetesLoadBalancers `json:"loadBalancers" yaml:"loadBalancers" mapstructure:"loadBalancers"`
 
@@ -993,6 +990,9 @@ type SpecKubernetesAdvanced struct {
 
 	// Containerd corresponds to the JSON schema field "containerd".
 	Containerd *SpecKubernetesAdvancedContainerd `json:"containerd,omitempty" yaml:"containerd,omitempty" mapstructure:"containerd,omitempty"`
+
+	// Encryption corresponds to the JSON schema field "encryption".
+	Encryption *SpecKubernetesAdvancedEncryption `json:"encryption,omitempty" yaml:"encryption,omitempty" mapstructure:"encryption,omitempty"`
 
 	// Oidc corresponds to the JSON schema field "oidc".
 	Oidc *SpecKubernetesAdvancedOIDC `json:"oidc,omitempty" yaml:"oidc,omitempty" mapstructure:"oidc,omitempty"`
@@ -1031,6 +1031,14 @@ type SpecKubernetesAdvancedContainerdRegistryConfigs []struct {
 	Username *string `json:"username,omitempty" yaml:"username,omitempty" mapstructure:"username,omitempty"`
 }
 
+type SpecKubernetesAdvancedEncryption struct {
+	// Configuration corresponds to the JSON schema field "configuration".
+	Configuration *string `json:"configuration,omitempty" yaml:"configuration,omitempty" mapstructure:"configuration,omitempty"`
+
+	// TlsCipherSuites corresponds to the JSON schema field "tlsCipherSuites".
+	TlsCipherSuites []string `json:"tlsCipherSuites,omitempty" yaml:"tlsCipherSuites,omitempty" mapstructure:"tlsCipherSuites,omitempty"`
+}
+
 type SpecKubernetesAdvancedOIDC struct {
 	// CaFile corresponds to the JSON schema field "ca_file".
 	CaFile *string `json:"ca_file,omitempty" yaml:"ca_file,omitempty" mapstructure:"ca_file,omitempty"`
@@ -1048,14 +1056,6 @@ type SpecKubernetesAdvancedUsers struct {
 
 	// Org corresponds to the JSON schema field "org".
 	Org *string `json:"org,omitempty" yaml:"org,omitempty" mapstructure:"org,omitempty"`
-}
-
-type SpecKubernetesEncryption struct {
-	// Configuration corresponds to the JSON schema field "configuration".
-	Configuration *string `json:"configuration,omitempty" yaml:"configuration,omitempty" mapstructure:"configuration,omitempty"`
-
-	// TlsCipherSuites corresponds to the JSON schema field "tlsCipherSuites".
-	TlsCipherSuites []string `json:"tlsCipherSuites,omitempty" yaml:"tlsCipherSuites,omitempty" mapstructure:"tlsCipherSuites,omitempty"`
 }
 
 type SpecKubernetesLoadBalancers struct {
