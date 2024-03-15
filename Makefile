@@ -61,7 +61,7 @@ tools-go:
 	@go install github.com/daixiang0/gci@v0.10.1
 	@go install github.com/momaek/formattag@v0.0.9
 	@go install github.com/santhosh-tekuri/jsonschema/cmd/jv@v0.4.0
-	@go install github.com/sighupio/go-jsonschema@v0.15.1
+	@go install github.com/sighupio/go-jsonschema@latest
 
 .PHONY: generate-private-schema dump-go-models
 
