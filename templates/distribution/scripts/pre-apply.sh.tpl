@@ -28,20 +28,18 @@ vendorPath="{{ .paths.vendorPath }}"
 deleteOpensearch() {
   $kubectlbin delete --ignore-not-found --wait --timeout=180s ingress -n logging opensearch-dashboards
   $kubectlbin delete --ignore-not-found --wait --timeout=180s ingress -n pomerium opensearch-dashboards
-  $kubectlbin delete --ignore-not-found --wait --timeout=180s ingress -n pomerium cerebro
 
-  $kustomizebin build $vendorPath/modules/logging/katalog/opensearch-dashboards > delete-opensearch-cerebro.yaml
-  $kustomizebin build $vendorPath/modules/logging/katalog/opensearch-triple >> delete-opensearch-cerebro.yaml
-  $kustomizebin build $vendorPath/modules/logging/katalog/cerebro >> delete-opensearch-cerebro.yaml
+  $kustomizebin build $vendorPath/modules/logging/katalog/opensearch-dashboards > delete-opensearch.yaml
+  $kustomizebin build $vendorPath/modules/logging/katalog/opensearch-triple >> delete-opensearch.yaml
 
 {{- if eq .spec.distribution.modules.monitoring.type "none" }}
   if ! $kubectlbin get apiservice v1.monitoring.coreos.com; then
-    cat delete-opensearch-cerebro.yaml | $yqbin 'select(.apiVersion != "monitoring.coreos.com/v1")' > delete-opensearch-cerebro-filtered.yaml
-    cp delete-opensearch-cerebro-filtered.yaml delete-opensearch-cerebro.yaml
+    cat delete-opensearch.yaml | $yqbin 'select(.apiVersion != "monitoring.coreos.com/v1")' > delete-opensearch-filtered.yaml
+    cp delete-opensearch-filtered.yaml delete-opensearch.yaml
   fi
 {{- end }}
 
-  $kubectlbin delete --ignore-not-found --wait --timeout=180s -f delete-opensearch-cerebro.yaml
+  $kubectlbin delete --ignore-not-found --wait --timeout=180s -f delete-opensearch.yaml
   $kubectlbin delete --ignore-not-found -l app.kubernetes.io/name=opensearch pvc -n logging --wait --timeout=180s
   echo "Opensearch resources deleted"
 }
