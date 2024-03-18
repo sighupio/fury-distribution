@@ -150,6 +150,10 @@ KFD has been certified by the [CNCF] (Cloud Native Computing Foundation) as a *C
 </p>
 <!-- markdownlint-enable MD033 -->
 
+## Roadmap
+
+Find the updated roadmap in the [ROADMAP.md](ROADMAP.md) file.
+
 ## Contributing 🤝
 
 If you wish to contribute please read the [Contributing Guidelines](docs/CONTRIBUTING.md).
