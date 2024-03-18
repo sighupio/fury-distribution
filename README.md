@@ -49,7 +49,7 @@ The standard way to deploy KFD is to:
 - Deploy all the [Core Modules](#core-modules-) of the distribution
 - Deploy (if needed) any of the [Addon modules](#add-on-modules-)
 
-### Minimum Hardware Requirements
+### Recommended Hardware Requirements
 
 KFD is a modular and composable system, so hardware requirements ultimately depend on the modules and configuration chosen. Having said that, for a production-grade cluster a good starting point would be:
 
@@ -75,10 +75,10 @@ Some modules rely on persistent storage via PersistentVolumeClaims, by default (
 | Description                                | Size (GB) |
 | ------------------------------------------ | --------- |
 | Prometheus (metrics storage)               | 150       |
-| MinIO Monitoring (metrics storage, 20GBx3) | 60        |
-| MinIO Logging (logs storage, 20GBx3)       | 60        |
+| MinIO Monitoring (metrics storage, 20GBx6) | 120        |
+| MinIO Logging (logs storage, 20GBx6)       | 120        |
 | OpenSearch (logs storage)                  | 30        |
-| MinIO Tracing (traces storage)             | 60        |
+| MinIO Tracing (traces storage)             | 120        |
 | **Total**                                  | **360**   |
 
 ### Core Modules 📦
