@@ -75,11 +75,11 @@ Some modules rely on persistent storage via PersistentVolumeClaims, by default (
 | Description                                | Size (GB) |
 | ------------------------------------------ | --------- |
 | Prometheus (metrics storage)               | 150       |
-| MinIO Monitoring (metrics storage, 20GBx6) | 120        |
-| MinIO Logging (logs storage, 20GBx6)       | 120        |
+| MinIO Monitoring (metrics storage, 20GBx6) | 120       |
+| MinIO Logging (logs storage, 20GBx6)       | 120       |
 | OpenSearch (logs storage)                  | 30        |
-| MinIO Tracing (traces storage)             | 120        |
-| **Total**                                  | **360**   |
+| MinIO Tracing (traces storage)             | 120       |
+| **Total**                                  | **540**   |
 
 ### Core Modules 📦
 
