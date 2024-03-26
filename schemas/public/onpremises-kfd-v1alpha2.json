@@ -1617,6 +1617,9 @@
         "connectors": {
           "type": "array"
         },
+        "additionalStaticClients": {
+          "type": "array"
+        },
         "overrides": {
           "$ref": "#/$defs/Types.FuryModuleComponentOverrides"
         }

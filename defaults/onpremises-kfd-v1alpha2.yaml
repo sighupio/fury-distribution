@@ -261,6 +261,7 @@ data:
       dex:
         # see dex documentation for more information
         connectors: []
+        additionalStaticClients: []
       oidcKubernetesAuth:
         enabled: false
       baseDomain: ""
