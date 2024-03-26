@@ -448,7 +448,7 @@ deleteMimirMinioHA() {
 
   $kustomizebin build $vendorPath/modules/monitoring/katalog/minio-ha > delete-monitoring-minio-ha.yaml
 
-{{- if eq .spec.distribution.modules.monitoring.type "none" }}
+{{- if or (eq .spec.distribution.modules.monitoring.type "none") (eq .storedCfg.spec.distribution.modules.monitoring.type "none") }}
   if ! $kubectlbin get apiservice v1.monitoring.coreos.com; then
     cat delete-monitoring-minio-ha.yaml | $yqbin 'select(.apiVersion != "monitoring.coreos.com/v1")' > delete-monitoring-minio-ha-filtered.yaml
     cp delete-monitoring-minio-ha-filtered.yaml delete-monitoring-minio-ha.yaml
