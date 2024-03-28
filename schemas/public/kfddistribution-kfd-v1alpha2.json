@@ -59,6 +59,9 @@
         "secretGenerator": {
           "$ref": "#/$defs/Spec.Distribution.CustomPatches.SecretGenerator"
         },
+        "images": {
+          "$ref": "#/$defs/Spec.Distribution.CustomPatches.Images"
+        },
         "patches": {
           "$ref": "#/$defs/Spec.Distribution.CustomPatches.Patches"
         },
@@ -140,6 +143,12 @@
         }
       },
       "required": ["name"]
+    },
+    "Spec.Distribution.CustomPatches.Images": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      }
     },
     "Spec.Distribution.CustomPatches.Patches": {
       "type": "array",
@@ -591,7 +600,7 @@
         "storageSize": {
           "type": "string"
         },
-        "rootUser" : {
+        "rootUser": {
           "type": "object",
           "additionalProperties": false,
           "properties": {
@@ -616,7 +625,7 @@
           "type": "string",
           "enum": ["minio", "externalEndpoint"]
         },
-        "externalEndpoint" : {
+        "externalEndpoint": {
           "type": "object",
           "additionalProperties": false,
           "properties": {
@@ -769,7 +778,7 @@
           "type": "string",
           "enum": ["minio", "externalEndpoint"]
         },
-        "externalEndpoint" : {
+        "externalEndpoint": {
           "type": "object",
           "additionalProperties": false,
           "properties": {
@@ -802,7 +811,7 @@
         "storageSize": {
           "type": "string"
         },
-        "rootUser" : {
+        "rootUser": {
           "type": "object",
           "additionalProperties": false,
           "properties": {
@@ -850,7 +859,7 @@
           "type": "string",
           "enum": ["minio", "externalEndpoint"]
         },
-        "externalEndpoint" : {
+        "externalEndpoint": {
           "type": "object",
           "additionalProperties": false,
           "properties": {
@@ -883,7 +892,7 @@
         "storageSize": {
           "type": "string"
         },
-        "rootUser" : {
+        "rootUser": {
           "type": "object",
           "additionalProperties": false,
           "properties": {
@@ -955,7 +964,7 @@
         },
         "overrides": {
           "$ref": "#/$defs/Types.FuryModuleComponentOverrides"
-        } 
+        }
       },
       "required": ["podCidr", "maskSize"]
     },
@@ -968,7 +977,7 @@
         },
         "type": {
           "type": "string",
-          "enum": ["none", "gatekeeper","kyverno"]
+          "enum": ["none", "gatekeeper", "kyverno"]
         },
         "gatekeeper": {
           "$ref": "#/$defs/Spec.Distribution.Modules.Policy.Gatekeeper"
@@ -1085,7 +1094,7 @@
           "type": "string",
           "enum": ["minio", "externalEndpoint"]
         },
-        "externalEndpoint" : {
+        "externalEndpoint": {
           "type": "object",
           "additionalProperties": false,
           "properties": {
