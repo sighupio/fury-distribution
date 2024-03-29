@@ -46,6 +46,11 @@ patches:
   {{ .spec.distribution.customPatches.patches | toYaml | indent 2 | trim -}}
 {{- end }}
 
+{{- if .spec.distribution.customPatches.patchesJson6902 }}
+patchesJson6902:
+  {{ .spec.distribution.customPatches.patchesJson6902 | toYaml | indent 2 | trim -}}
+{{- end }}
+
 {{- if .spec.distribution.customPatches.secretGenerator }}
 secretGenerator:
   {{ .spec.distribution.customPatches.secretGenerator | toYaml | indent 2 | trim -}}

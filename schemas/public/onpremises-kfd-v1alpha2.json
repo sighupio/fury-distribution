@@ -409,6 +409,9 @@
         },
         "patchesStrategicMerge": {
           "$ref": "#/$defs/Spec.Distribution.CustomPatches.PatchesStrategicMerge"
+        },
+        "patchesJson6902": {
+          "$ref": "#/$defs/Spec.Distribution.CustomPatches.PatchesJson6902"
         }
       }
     },
@@ -502,6 +505,12 @@
       "type": "array",
       "items": {
         "type": "string"
+      }
+    },
+    "Spec.Distribution.CustomPatches.PatchesJson6902": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/Spec.Distribution.CustomPatches.Patch"
       }
     },
     "Spec.Distribution.CustomPatches.Patch": {
