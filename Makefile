@@ -47,12 +47,10 @@ formattag:
 	| xargs -I {} sh -c 'formattag -file {}'
 
 .PHONY: lint-go
-
 lint-go:
 	@golangci-lint -v run --color=always --config=.rules/.golangci.yml ./...
 
 .PHONY: tools-go
-
 tools-go:
 	@go install github.com/evanphx/json-patch/cmd/json-patch@v5.6.0
 	@go install github.com/google/addlicense@v1.1.1
@@ -62,9 +60,8 @@ tools-go:
 	@go install github.com/momaek/formattag@v0.0.9
 	@go install github.com/santhosh-tekuri/jsonschema/cmd/jv@v0.4.0
 
-.PHONY: generate-private-schema dump-go-models
-
-generate-go-models: dump-private-schema
+.PHONY: _generate-go-models
+_generate-go-models: dump-private-schema
 	@go-jsonschema \
 		--package public \
 		--resolve-extension json \
@@ -86,6 +83,10 @@ generate-go-models: dump-private-schema
 		--output pkg/apis/onpremises/v1alpha2/public/schema.go \
 		schemas/public/onpremises-kfd-v1alpha2.json
 
+.PHONY: generate-go-models
+generate-go-models: _generate-go-models format-go
+
+.PHONY: dump-private-schema
 dump-private-schema:
 	@cat schemas/public/ekscluster-kfd-v1alpha2.json | \
 	json-patch -p schemas/private/ekscluster-kfd-v1alpha2.patch.json | \
