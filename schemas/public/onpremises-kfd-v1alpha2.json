@@ -90,6 +90,9 @@
         },
         "advanced": {
           "$ref": "#/$defs/Spec.Kubernetes.Advanced"
+        },
+        "vars": {
+          "type": "object"
         }
       },
       "required": [
@@ -154,6 +157,9 @@
         },
         "additionalConfig": {
           "type": "string"
+        },
+        "vars": {
+          "type": "object"
         }
       },
       "required": ["enabled"],
@@ -235,6 +241,9 @@
           "items": {
             "$ref": "#/$defs/Spec.Kubernetes.Masters.Host"
           }
+        },
+        "vars": {
+          "type": "object"
         }
       },
       "required": ["hosts"]
@@ -278,6 +287,9 @@
           "items": {
             "$ref": "#/$defs/Types.KubeTaints"
           }
+        },
+        "vars": {
+          "type": "object"
         }
       },
       "required": ["name", "hosts"]

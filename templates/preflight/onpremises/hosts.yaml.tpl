@@ -17,6 +17,9 @@ all:
         keepalived_ip: "{{ .spec.kubernetes.loadBalancers.keepalived.ip }}"
         keepalived_virtual_router_id: "{{ .spec.kubernetes.loadBalancers.keepalived.virtualRouterId }}"
         keepalived_passphrase: "{{ .spec.kubernetes.loadBalancers.keepalived.passphrase }}"
+        {{- if index .spec.kubernetes.loadBalancers "vars" }}
+        {{- .spec.kubernetes.loadBalancers.vars | toYaml | nindent 8 }}
+        {{- end }}
     {{- end }}
     master:
       hosts:
@@ -63,6 +66,9 @@ all:
         oidc_ca_file: "{{ .spec.kubernetes.advanced.oidc.ca_file }}"
         {{- end }}
         {{- end }}
+        {{- if index .spec.kubernetes.masters "vars" }}
+        {{- .spec.kubernetes.masters.vars | toYaml | nindent 8 }}
+        {{- end }}
     nodes:
       children:
         {{- range $n := .spec.kubernetes.nodes }}
@@ -80,6 +86,9 @@ all:
             kubernetes_taints:
               {{ $n.taints | toYaml | indent 14 | trim }}
             {{- end }}
+            {{- if index $n "vars" }}
+            {{- $n.vars | toYaml | nindent 12 }}
+            {{- end }}
       {{- end }}
     ungrouped: {}
   vars:
@@ -92,4 +101,7 @@ all:
     http_proxy: "{{ .spec.kubernetes.proxy.http }}"
     https_proxy: "{{ .spec.kubernetes.proxy.https }}"
     no_proxy: "{{ .spec.kubernetes.proxy.noProxy }}"
+    {{- end }}
+    {{- if index .spec.kubernetes "vars" }}
+    {{- .spec.kubernetes.vars | toYaml | nindent 4 }}
     {{- end }}
