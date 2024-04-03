@@ -238,7 +238,7 @@ data:
           dex:
             host: ""
             ingressClass: ""
-          gangway:
+          gangplank:
             host: ""
             ingressClass: ""
         tolerations: null
