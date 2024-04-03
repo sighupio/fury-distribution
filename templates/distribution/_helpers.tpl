@@ -205,6 +205,6 @@ cert-manager.io/cluster-issuer: {{ .spec.distribution.modules.ingress.certManage
   {{- template "ingressHostAuth" (dict "module" "auth" "package" "dex" "prefix" "login." "spec" .) -}}
 {{ end }}
 
-{{ define "gangwayUrl" }}
-  {{- template "ingressHostAuth" (dict "module" "auth" "package" "gangway" "prefix" "gangway." "spec" .) -}}
+{{ define "gangplankUrl" }}
+  {{- template "ingressHostAuth" (dict "module" "auth" "package" "gangplank" "prefix" "gangplank." "spec" .) -}}
 {{ end }}

@@ -541,20 +541,20 @@ deleteDex() {
   echo "dex has been deleted from the cluster"
 }
 
-deleteGangway() {
+deleteGangplank() {
 
-  $kustomizebin build $vendorPath/modules/auth/katalog/gangway > delete-gangway.yaml
+  $kustomizebin build $vendorPath/modules/auth/katalog/gangplank > delete-gangplank.yaml
 
 {{- if eq .spec.distribution.modules.monitoring.type "none" }}
   if ! $kubectlbin get apiservice v1.monitoring.coreos.com; then
-    cat delete-gangway.yaml | $yqbin 'select(.apiVersion != "monitoring.coreos.com/v1")' > delete-gangway-filtered.yaml
-    cp delete-gangway-filtered.yaml delete-pomerium.yaml
+    cat delete-gangplank.yaml | $yqbin 'select(.apiVersion != "monitoring.coreos.com/v1")' > delete-gangplank-filtered.yaml
+    cp delete-gangplank-filtered.yaml delete-pomerium.yaml
     
   fi
 {{- end }}
-  $kubectlbin delete --ignore-not-found --wait --timeout=180s -f delete-gangway.yaml
-  $kubectlbin delete --ignore-not-found --wait --timeout=180s ingress -n kube-system gangway
-  echo "dex has been deleted from the cluster"
+  $kubectlbin delete --ignore-not-found --wait --timeout=180s -f delete-gangplank.yaml
+  $kubectlbin delete --ignore-not-found --wait --timeout=180s ingress -n kube-system gangplank
+  echo "gangplank has been deleted from the cluster"
 }
 
 deletePomerium() {
@@ -593,7 +593,7 @@ deleteInfraIngresses() {
 {{- if eq .reducers.distributionModulesAuthProviderType.to "none" }}
 
 deleteDex
-deleteGangway
+deleteGangplank
 deletePomeriumIngresses
 deletePomerium
 
@@ -603,7 +603,7 @@ deletePomerium
 
 {{- if eq .reducers.distributionModulesAuthProviderType.from "basicAuth" }}
 deleteDex
-deleteGangway
+deleteGangplank
 deletePomeriumIngresses
 deletePomerium
 {{- end }}
@@ -614,7 +614,7 @@ deletePomerium
 
 {{- if eq .reducers.distributionModulesAuthProviderType.from "basicAuth" }}
 deleteDex
-deleteGangway
+deleteGangplank
 deleteInfraIngresses
 deletePomerium
 {{- end }}
