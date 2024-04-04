@@ -12,7 +12,9 @@ resources:
   - {{ print "../" .spec.distribution.common.relativeVendorPath "/modules/tracing/katalog/minio-ha" }}
 {{- end }}
 {{- if ne .spec.distribution.modules.ingress.nginx.type "none" }}
+{{- if eq .spec.distribution.modules.tracing.tempo.backend "minio" }}
   - resources/ingress-infra.yml
+{{- end }}
 {{- end }}
 
 patchesStrategicMerge:
