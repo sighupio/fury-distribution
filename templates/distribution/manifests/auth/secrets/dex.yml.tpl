@@ -52,3 +52,6 @@ staticClients:
   name: 'In cluster LOGIN'
   secret: {{ .spec.distribution.modules.auth.oidcKubernetesAuth.clientSecret }}
 {{- end }}
+{{- if .spec.distribution.modules.auth.dex.additionalStaticClients }}
+{{ .spec.distribution.modules.auth.dex.additionalStaticClients | toYaml }}
+{{- end }}

@@ -462,16 +462,23 @@ The value of the toleration
 
 ### Properties
 
-| Property                                                | Type     | Required |
-|:--------------------------------------------------------|:---------|:---------|
-| [connectors](#specdistributionmodulesauthdexconnectors) | `array`  | Required |
-| [overrides](#specdistributionmodulesauthdexoverrides)   | `object` | Optional |
+| Property                                                                          | Type     | Required |
+|:----------------------------------------------------------------------------------|:---------|:---------|
+| [connectors](#specdistributionmodulesauthdexconnectors)                           | `array`  | Required |
+| [additionalStaticClients](#specdistributionmodulesauthdexadditionalstaticclients) | `array`  | Optional |
+| [overrides](#specdistributionmodulesauthdexoverrides)                             | `object` | Optional |
 
 ## .spec.distribution.modules.auth.dex.connectors
 
 ### Description
 
 The connectors for dex
+
+## .spec.distribution.modules.auth.dex.additionalStaticClients
+
+### Description
+
+The additional static clients for dex
 
 ## .spec.distribution.modules.auth.dex.overrides
 
