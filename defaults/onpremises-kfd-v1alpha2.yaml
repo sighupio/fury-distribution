@@ -8,6 +8,7 @@ data:
     secretGenerator: []
     patches: []
     patchesStrategicMerge: []
+    images: []
   # the common section will be used by all the templates in all modules, everything defined here is something used by all the KFD modules.
   common:
     # where all the KFD modules are downloaded
@@ -261,6 +262,7 @@ data:
       dex:
         # see dex documentation for more information
         connectors: []
+        additionalStaticClients: []
       oidcKubernetesAuth:
         enabled: false
       baseDomain: ""

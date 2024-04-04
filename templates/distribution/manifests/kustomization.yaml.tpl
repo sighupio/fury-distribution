@@ -55,3 +55,8 @@ secretGenerator:
 configMapGenerator:
   {{ .spec.distribution.customPatches.configMapGenerator | toYaml | indent 2 | trim  -}}
 {{- end }}
+
+{{- if .spec.distribution.customPatches.images }}
+images:
+  {{ .spec.distribution.customPatches.images | toYaml | indent 2 | trim  -}}
+{{- end }}

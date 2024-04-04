@@ -225,6 +225,9 @@
         "secretGenerator": {
           "$ref": "#/$defs/Spec.Distribution.CustomPatches.SecretGenerator"
         },
+        "images": {
+          "$ref": "#/$defs/Spec.Distribution.CustomPatches.Images"
+        },
         "patches": {
           "$ref": "#/$defs/Spec.Distribution.CustomPatches.Patches"
         },
@@ -237,6 +240,12 @@
       "type": "array",
       "items": {
         "$ref": "#/$defs/Spec.Distribution.CustomPatches.ResourceGenerator"
+      }
+    },
+    "Spec.Distribution.CustomPatches.Images": {
+      "type": "array",
+      "items": {
+        "type": "object"
       }
     },
     "Spec.Distribution.CustomPatches.Patch": {
@@ -522,6 +531,9 @@
       "additionalProperties": false,
       "properties": {
         "connectors": {
+          "type": "array"
+        },
+        "additionalStaticClients": {
           "type": "array"
         },
         "overrides": {
@@ -1916,6 +1928,20 @@
         },
         "logRetentionDays": {
           "type": "integer"
+        },
+        "logsTypes": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": [
+              "api",
+              "audit",
+              "authenticator",
+              "controllerManager",
+              "scheduler"
+            ]
+          },
+          "minItems": 0
         },
         "nodePools": {
           "type": "array",

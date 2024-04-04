@@ -505,6 +505,7 @@ and it must not match the following regular expression:&#x20;
 | [nodeAllowedSshPublicKey](#speckubernetesnodeallowedsshpublickey) | `string`  | Required |
 | [nodePoolsLaunchKind](#speckubernetesnodepoolslaunchkind)         | `string`  | Required |
 | [logRetentionDays](#speckuberneteslogretentiondays)               | `integer` | Optional |
+| [logsTypes](#speckuberneteslogstypes)                             | `array`   | Optional |
 | [nodePools](#speckubernetesnodepools)                             | `array`   | Required |
 | [awsAuth](#speckubernetesawsauth)                                 | `object`  | Optional |
 
@@ -663,6 +664,24 @@ Either `launch_configurations`, `launch_templates` or `both`. For new clusters u
 ### Description
 
 Optional Kubernetes Cluster log retention in days. Defaults to 90 days.
+
+## .spec.kubernetes.logsTypes
+
+### Description
+
+Optional list of Kubernetes Cluster log types to enable. Defaults to all types.
+
+### Constraints
+
+**enum**: the value of this property must be equal to one of the following values:
+
+| Value                 |
+|:----------------------|
+| `"api"`               |
+| `"audit"`             |
+| `"authenticator"`     |
+| `"controllerManager"` |
+| `"scheduler"`         |
 
 ## .spec.kubernetes.nodePools
 
@@ -1486,16 +1505,23 @@ The value of the toleration
 
 ### Properties
 
-| Property                                                | Type     | Required |
-|:--------------------------------------------------------|:---------|:---------|
-| [connectors](#specdistributionmodulesauthdexconnectors) | `array`  | Required |
-| [overrides](#specdistributionmodulesauthdexoverrides)   | `object` | Optional |
+| Property                                                                          | Type     | Required |
+|:----------------------------------------------------------------------------------|:---------|:---------|
+| [connectors](#specdistributionmodulesauthdexconnectors)                           | `array`  | Required |
+| [additionalStaticClients](#specdistributionmodulesauthdexadditionalstaticclients) | `array`  | Optional |
+| [overrides](#specdistributionmodulesauthdexoverrides)                             | `object` | Optional |
 
 ## .spec.distribution.modules.auth.dex.connectors
 
 ### Description
 
 The connectors for dex
+
+## .spec.distribution.modules.auth.dex.additionalStaticClients
+
+### Description
+
+The additional static clients for dex
 
 ## .spec.distribution.modules.auth.dex.overrides
 

@@ -2,7 +2,7 @@
 # Use of this source code is governed by a BSD-style
 # license that can be found in the LICENSE file.
 
-version: v1.27.2
+version: v1.27.4
 modules:
   auth: v0.1.0
   aws: v4.1.0
@@ -16,10 +16,10 @@ modules:
 kubernetes:
   eks:
     version: 1.27
-    installer: v3.0.0
+    installer: v3.1.1
   onpremises:
     version: 1.27.6
-    installer: v1.27.6-rev.1
+    installer: v1.28.7
 furyctlSchemas:
   eks:
     - apiVersion: kfd.sighup.io/v1alpha2
