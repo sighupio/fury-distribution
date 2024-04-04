@@ -34,12 +34,6 @@ routes:
       - allow:
           and:
             - authenticated_user: true
-  - from: https://{{ template "cerebroUrl" .spec }}
-    to: http://cerebro.logging.svc.cluster.local:9000
-    policy:
-      - allow:
-          and:
-            - authenticated_user: true
   - from: https://{{ template "opensearchDashboardsUrl" .spec }}
     to: http://opensearch-dashboards.logging.svc.cluster.local:5601
     policy:

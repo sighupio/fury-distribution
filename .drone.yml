@@ -93,7 +93,7 @@ steps:
       - /pluto detect distribution.yml --ignore-deprecations --target-versions=k8s=v1.27.0
 
 ---
-name: e2e-kubernetes-1.27
+name: e2e-kubernetes-1.28
 kind: pipeline
 type: docker
 
@@ -124,7 +124,7 @@ steps:
       - name: dockersock
         path: /var/run/docker.sock
     environment:
-      CLUSTER_VERSION: v1.27.3
+      CLUSTER_VERSION: v1.28.0
       CLUSTER_NAME: ${DRONE_REPO_NAME}-${DRONE_BUILD_NUMBER}
       # /drone/src is the default workdir for the pipeline
       # using this folder we don't need to mount another
@@ -159,7 +159,7 @@ steps:
     environment:
       CLUSTER_NAME: ${DRONE_REPO_NAME}-${DRONE_BUILD_NUMBER}
       KUBECONFIG: /drone/src/kubeconfig
-      FURYCTL_VERSION: v0.27.3-rc.2
+      FURYCTL_VERSION: v0.27.6
     depends_on: [create Kind cluster]
     commands:
       - export KUBECONFIG=/drone/src/kubeconfig
@@ -204,7 +204,7 @@ kind: pipeline
 type: docker
 
 depends_on:
-  - e2e-kubernetes-1.27
+  - e2e-kubernetes-1.28
 
 platform:
   os: linux

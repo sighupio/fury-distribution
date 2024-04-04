@@ -12,7 +12,7 @@ trustedCAPath: "/tls/ca.crt"
 tokenURL: "https://{{ template "dexUrl" .spec }}/token"
 clientID: "{{ .spec.distribution.modules.auth.oidcKubernetesAuth.clientID }}"
 clientSecret: "{{ .spec.distribution.modules.auth.oidcKubernetesAuth.clientSecret }}"
-redirectURL: "https://{{ template "gangwayUrl" .spec }}/callback"
+redirectURL: "https://{{ template "gangplankUrl" .spec }}/callback"
 {{- if index .spec.distribution.modules.auth.oidcKubernetesAuth "scopes" }}
 scopes: 
 {{ .spec.distribution.modules.auth.oidcKubernetesAuth.scopes | toYaml | indent 10 }}

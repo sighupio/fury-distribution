@@ -48,6 +48,15 @@ patchesJson6902:
 {{- end }}
 {{- if eq .spec.distribution.modules.networking.type "cilium" }}
 
+patchesJson6902:
+  - target:
+      group: apps
+      version: v1
+      kind: Deployment
+      name: cilium-operator
+      namespace: kube-system
+    path: patchesjson/cilium-operator-tolerations.yaml
+
 configMapGenerator:
   - behavior: merge
     envs:

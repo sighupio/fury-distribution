@@ -419,6 +419,9 @@
         "secretGenerator": {
           "$ref": "#/$defs/Spec.Distribution.CustomPatches.SecretGenerator"
         },
+        "images": {
+          "$ref": "#/$defs/Spec.Distribution.CustomPatches.Images"
+        },
         "patches": {
           "$ref": "#/$defs/Spec.Distribution.CustomPatches.Patches"
         },
@@ -500,6 +503,12 @@
         }
       },
       "required": ["name"]
+    },
+    "Spec.Distribution.CustomPatches.Images": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      }
     },
     "Spec.Distribution.CustomPatches.Patches": {
       "type": "array",
@@ -1633,6 +1642,9 @@
       "additionalProperties": false,
       "properties": {
         "connectors": {
+          "type": "array"
+        },
+        "additionalStaticClients": {
           "type": "array"
         },
         "overrides": {
