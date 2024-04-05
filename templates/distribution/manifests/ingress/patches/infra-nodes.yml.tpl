@@ -7,7 +7,6 @@
 {{- $dnsArgs := dict "module" "ingress" "package" "dns"  "spec" .spec -}}
 {{- $forecastleArgs := dict "module" "ingress" "package" "forecastle" "spec" .spec -}}
 
-{{ if eq .spec.distribution.modules.ingress.nginx.tls.provider "certManager" -}}
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -47,7 +46,6 @@ spec:
         {{ template "nodeSelector" $certManagerArgs }}
       tolerations:
         {{ template "tolerations" $certManagerArgs }}
-{{- end }}
 {{- if ne .spec.distribution.modules.ingress.nginx.type "none" }}
 ---
 apiVersion: apps/v1
