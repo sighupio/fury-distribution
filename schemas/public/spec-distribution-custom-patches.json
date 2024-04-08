@@ -1,0 +1,229 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "configMapGenerator": {
+      "$ref": "#/$defs/Spec.Distribution.CustomPatches.ConfigMapGenerator"
+    },
+    "secretGenerator": {
+      "$ref": "#/$defs/Spec.Distribution.CustomPatches.SecretGenerator"
+    },
+    "images": {
+      "$ref": "#/$defs/Spec.Distribution.CustomPatches.Images"
+    },
+    "patches": {
+      "$ref": "#/$defs/Spec.Distribution.CustomPatches.Patches"
+    },
+    "patchesStrategicMerge": {
+      "$ref": "#/$defs/Spec.Distribution.CustomPatches.PatchesStrategicMerge"
+    }
+  },
+  "$defs": {
+    "Spec.Distribution.CustomPatches.ConfigMapGenerator": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/Spec.Distribution.CustomPatches.ConfigMapGeneratorResource"
+      }
+    },
+    "Spec.Distribution.CustomPatches.SecretGenerator": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/Spec.Distribution.CustomPatches.SecretGeneratorResource"
+      }
+    },
+    "Spec.Distribution.CustomPatches.ConfigMapGeneratorResource": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "behavior": {
+          "type": "string",
+          "enum": ["create", "replace", "merge"]
+        },
+        "files": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "envs": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "literals": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "namespace": {
+          "type": "string"
+        },
+        "options": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "labels": {
+              "$ref": "#/$defs/Types.KubeLabels"
+            },
+            "annotations": {
+              "$ref": "#/$defs/Types.KubeLabels"
+            },
+            "disableNameSuffixHash": {
+              "type": "boolean"
+            },
+            "immutable": {
+              "type": "boolean"
+            }
+          }
+        }
+      },
+      "required": ["name"]
+    },
+    "Spec.Distribution.CustomPatches.SecretGeneratorResource": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "type": {
+          "type": "string"
+        },
+        "behavior": {
+          "type": "string",
+          "enum": ["create", "replace", "merge"]
+        },
+        "files": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "envs": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "literals": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "namespace": {
+          "type": "string"
+        },
+        "options": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "labels": {
+              "$ref": "#/$defs/Types.KubeLabels"
+            },
+            "annotations": {
+              "$ref": "#/$defs/Types.KubeLabels"
+            },
+            "disableNameSuffixHash": {
+              "type": "boolean"
+            },
+            "immutable": {
+              "type": "boolean"
+            }
+          }
+        }
+      },
+      "required": ["name"]
+    },
+    "Spec.Distribution.CustomPatches.Images": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      }
+    },
+    "Spec.Distribution.CustomPatches.Patches": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/Spec.Distribution.CustomPatches.Patch"
+      }
+    },
+    "Spec.Distribution.CustomPatches.PatchesStrategicMerge": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "Spec.Distribution.CustomPatches.Patch": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "target": {
+          "$ref": "#/$defs/Spec.Distribution.CustomPatches.Patch.Target"
+        },
+        "options": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "allowNameChange": {
+              "type": "boolean"
+            },
+            "allowKindChange": {
+              "type": "boolean"
+            }
+          }
+        },
+        "path": {
+          "type": "string"
+        },
+        "patch": {
+          "type": "string"
+        }
+      },
+      "oneOf": [
+        {
+          "required": ["path"]
+        },
+        {
+          "required": ["patch"]
+        }
+      ]
+    },
+    "Spec.Distribution.CustomPatches.Patch.Target": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "group": {
+          "type": "string"
+        },
+        "version": {
+          "type": "string"
+        },
+        "kind": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "namespace": {
+          "type": "string"
+        },
+        "labelSelector": {
+          "type": "string"
+        },
+        "annotationSelector": {
+          "type": "string"
+        }
+      }
+    },
+    "Types.KubeLabels": {
+      "type": "object",
+      "additionalProperties": { "type": "string" }
+    }
+  }
+}
