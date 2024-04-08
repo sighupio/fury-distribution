@@ -82,59 +82,59 @@ eks_map_roles = {{ toPrettyJson $roles | join "," }}
     {{- $nodePools := list }}
 
     {{- range $np := .spec.kubernetes.nodePools }}
-        {{- $currNodePool := dict "name" $np.name "version" nil "min_size" $np.size.min "max_size" $np.size.max "instance_type" $np.instance.type "spot" false "volume_size" 35 "subnets" nil "additional_firewall_rules" nil "labels" nil "taints" nil "tags" nil }}
-        
+        {{- $currNodePool := dict "name" $np.name "version" nil "min_size" $np.size.min "max_size" $np.size.max "instance_type" $np.instance.type "spot_instance" false "volume_size" 35 "subnets" nil "additional_firewall_rules" nil "labels" nil "taints" nil "tags" nil }}
+
         {{- if hasKeyAny $np "type" }}
-            {{- $currNodePool = merge $currNodePool (dict "type" $np.type) }}
+            {{- $currNodePool = mergeOverwrite $currNodePool (dict "type" $np.type) }}
         {{- end}}
-        
+
         {{- if hasKeyAny $np "ami" }}
-            {{- $currNodePool = merge $currNodePool (dict "ami_id" $np.ami.id) }}
+            {{- $currNodePool = mergeOverwrite $currNodePool (dict "ami_id" $np.ami.id) }}
         {{- end }}
-        
+
         {{- if hasKeyAny $np.instance "spot" }}
-            {{- $currNodePool = merge $currNodePool (dict "spot" $np.instance.spot) }}
+            {{- $currNodePool = mergeOverwrite $currNodePool (dict "spot_instance" $np.instance.spot) }}
         {{- end }}
-        
+
         {{- if hasKeyAny $np "containerRuntime" }}
-            {{- $currNodePool = merge $currNodePool (dict "container_runtime" $np.containerRuntime) }}
+            {{- $currNodePool = mergeOverwrite $currNodePool (dict "container_runtime" $np.containerRuntime) }}
         {{- end }}
-        
+
         {{- if hasKeyAny $np.instance "maxPods" }}
-            {{- $currNodePool = merge $currNodePool (dict "max_pods" $np.instance.maxPods) }}
+            {{- $currNodePool = mergeOverwrite $currNodePool (dict "max_pods" $np.instance.maxPods) }}
         {{- end }}
-        
+
         {{- if hasKeyAny $np.instance "volumeSize" }}
-            {{- $currNodePool = merge $currNodePool (dict "volume_size" $np.instance.volumeSize) }}
+            {{- $currNodePool = mergeOverwrite $currNodePool (dict "volume_size" $np.instance.volumeSize) }}
         {{- end }}
-        
+
         {{- if and (hasKeyAny $np "subnetIds") (gt (len $np.subnetIds) 0) }}
-            {{- $currNodePool = merge $currNodePool (dict "subnets" $np.subnetIds) }}
+            {{- $currNodePool = mergeOverwrite $currNodePool (dict "subnets" $np.subnetIds) }}
         {{- end }}
-        
+
         {{- if hasKeyAny $np "additionalFirewallRules" }}
             {{- $additionalFirewallRules := dict }}
-            
+
             {{- if and (hasKeyAny $np.additionalFirewallRules "cidrBlocks") (gt (len $np.additionalFirewallRules.cidrBlocks) 0)}}
                 {{- $cidrBlocks := list }}
-            
+
                 {{- range $c := $np.additionalFirewallRules.cidrBlocks }}
                     {{- $currCidrBlock := dict "description" $c.name "type" $c.type "protocol" $c.protocol "from_port" $c.ports.from "to_port" $c.ports.to "tags" (dict) "cidr_blocks" ($c.cidrBlocks | uniq) }}
-            
+
                     {{- if hasKeyAny $c "tags" }}
                         {{- $tags := dict }}
-                        
+
                         {{- range $k, $v := $c.tags }}
-                            {{- $tags = merge $tags (dict $k $v) }}
+                            {{- $tags = mergeOverwrite $tags (dict $k $v) }}
                         {{- end }}
 
-                        {{- $currCidrBlock = merge $currCidrBlock (dict "tags" $tags) }}
+                        {{- $currCidrBlock = mergeOverwrite $currCidrBlock (dict "tags" $tags) }}
                     {{- end }}
 
                     {{- $cidrBlocks = append $cidrBlocks $currCidrBlock }}
                 {{- end }}
 
-                {{- $additionalFirewallRules = merge $additionalFirewallRules (dict "cidr_blocks" $cidrBlocks) }}
+                {{- $additionalFirewallRules = mergeOverwrite $additionalFirewallRules (dict "cidr_blocks" $cidrBlocks) }}
             {{- end }}
 
             {{- if and (hasKeyAny $np.additionalFirewallRules "sourceSecurityGroupId") (gt (len $np.additionalFirewallRules.sourceSecurityGroupId) 0)}}
@@ -142,21 +142,21 @@ eks_map_roles = {{ toPrettyJson $roles | join "," }}
 
                 {{- range $s := $np.additionalFirewallRules.sourceSecurityGroupId }}
                     {{- $currSourceSecurityGroupId := dict "description" $s.name "type" $s.type "protocol" $s.protocol "from_port" $s.ports.from "to_port" $s.ports.to "tags" (dict) "source_security_group_id" $s.sourceSecurityGroupId }}
-                    
+
                     {{- if hasKeyAny $s "tags" }}
                         {{- $tags := dict }}
 
                         {{- range $k, $v := $s.tags }}
-                            {{- $tags = merge $tags (dict $k $v) }}
+                            {{- $tags = mergeOverwrite $tags (dict $k $v) }}
                         {{- end }}
 
-                        {{- $currSourceSecurityGroupId = merge $currSourceSecurityGroupId (dict "tags" $tags) }}
+                        {{- $currSourceSecurityGroupId = mergeOverwrite $currSourceSecurityGroupId (dict "tags" $tags) }}
                     {{- end }}
 
                     {{- $sourceSecurityGroupId = append $sourceSecurityGroupId $currSourceSecurityGroupId }}
                 {{- end }}
 
-                {{- $additionalFirewallRules = merge $additionalFirewallRules (dict "source_security_group_id" $sourceSecurityGroupId) }}
+                {{- $additionalFirewallRules = mergeOverwrite $additionalFirewallRules (dict "source_security_group_id" $sourceSecurityGroupId) }}
             {{- end }}
 
             {{- if and (hasKeyAny $np.additionalFirewallRules "self") (gt (len $np.additionalFirewallRules.self) 0)}}
@@ -164,48 +164,48 @@ eks_map_roles = {{ toPrettyJson $roles | join "," }}
 
                 {{- range $s := $np.additionalFirewallRules.self }}
                     {{- $currSelf := dict "description" $s.name "type" $s.type "protocol" $s.protocol "from_port" $s.ports.from "to_port" $s.ports.to "tags" (dict) "self" $s.self }}
-                    
+
                     {{- if hasKeyAny $s "tags" }}
                         {{- $tags := dict }}
 
                         {{- range $k, $v := $s.tags }}
-                            {{- $tags = merge $tags (dict $k $v) }}
+                            {{- $tags = mergeOverwrite $tags (dict $k $v) }}
                         {{- end }}
 
-                        {{- $currSelf = merge $currSelf (dict "tags" $tags) }}
+                        {{- $currSelf = mergeOverwrite $currSelf (dict "tags" $tags) }}
                     {{- end }}
 
                     {{- $self = append $self $currSelf }}
                 {{- end }}
 
-                {{- $additionalFirewallRules = merge $additionalFirewallRules (dict "self" $self) }}
+                {{- $additionalFirewallRules = mergeOverwrite $additionalFirewallRules (dict "self" $self) }}
             {{- end }}
 
-            {{- $currNodePool = merge $currNodePool (dict "additional_firewall_rules" $additionalFirewallRules) }}
+            {{- $currNodePool = mergeOverwrite $currNodePool (dict "additional_firewall_rules" $additionalFirewallRules) }}
         {{- end }}
 
         {{- if and (hasKeyAny $np "labels") (gt (len $np.labels) 0) }}
             {{- $labels := dict }}
 
             {{- range $k, $v := $np.labels }}
-                {{- $labels = merge $labels (dict $k $v) }}
+                {{- $labels = mergeOverwrite $labels (dict $k $v) }}
             {{- end }}
 
-            {{- $currNodePool = merge $currNodePool (dict "labels" $labels) }}
+            {{- $currNodePool = mergeOverwrite $currNodePool (dict "labels" $labels) }}
         {{- end }}
 
         {{- if and (hasKeyAny $np "taints") (gt (len $np.taints) 0) }}
-            {{- $currNodePool = merge $currNodePool (dict "taints" $np.taints) }}
+            {{- $currNodePool = mergeOverwrite $currNodePool (dict "taints" $np.taints) }}
         {{- end }}
 
         {{- if and (hasKeyAny $np "tags") (gt (len $np.tags) 0) }}
             {{- $tags := dict }}
 
             {{- range $k, $v := $np.tags }}
-                {{- $tags = merge $tags (dict $k $v) }}
+                {{- $tags = mergeOverwrite $tags (dict $k $v) }}
             {{- end }}
 
-            {{- $currNodePool = merge $currNodePool (dict "tags" $tags) }}
+            {{- $currNodePool = mergeOverwrite $currNodePool (dict "tags" $tags) }}
         {{- end }}
 
         {{- $nodePools = append $nodePools $currNodePool }}
