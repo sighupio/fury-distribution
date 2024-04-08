@@ -71,7 +71,7 @@ secretGenerator:
     namespace: logging
     behavior: merge
     files:
-      - patches/config.yaml
+      - config.yaml=patches/loki-config.yaml
 {{- end }}
   - name: minio-logging
     namespace: logging
