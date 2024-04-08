@@ -23,30 +23,76 @@
     "Spec.Distribution.CustomPatches.ConfigMapGenerator": {
       "type": "array",
       "items": {
-        "$ref": "#/$defs/Spec.Distribution.CustomPatches.ResourceGenerator",
-        "unevaluatedProperties": false
+        "$ref": "#/$defs/Spec.Distribution.CustomPatches.ConfigMapGeneratorResource"
       }
     },
     "Spec.Distribution.CustomPatches.SecretGenerator": {
       "type": "array",
       "items": {
-        "allOf": [
-          {
-            "$ref": "#/$defs/Spec.Distribution.CustomPatches.ResourceGenerator"
-          }
-        ],
-        "properties": {
-          "type": {
+        "$ref": "#/$defs/Spec.Distribution.CustomPatches.SecretGeneratorResource"
+      }
+    },
+    "Spec.Distribution.CustomPatches.ConfigMapGeneratorResource": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "behavior": {
+          "type": "string",
+          "enum": ["create", "replace", "merge"]
+        },
+        "files": {
+          "type": "array",
+          "items": {
             "type": "string"
           }
         },
-        "unevaluatedProperties": false
-      }
+        "envs": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "literals": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "namespace": {
+          "type": "string"
+        },
+        "options": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "labels": {
+              "$ref": "#/$defs/Types.KubeLabels"
+            },
+            "annotations": {
+              "$ref": "#/$defs/Types.KubeLabels"
+            },
+            "disableNameSuffixHash": {
+              "type": "boolean"
+            },
+            "immutable": {
+              "type": "boolean"
+            }
+          }
+        }
+      },
+      "required": ["name"]
     },
-    "Spec.Distribution.CustomPatches.ResourceGenerator": {
+    "Spec.Distribution.CustomPatches.SecretGeneratorResource": {
       "type": "object",
+      "additionalProperties": false,
       "properties": {
         "name": {
+          "type": "string"
+        },
+        "type": {
           "type": "string"
         },
         "behavior": {
