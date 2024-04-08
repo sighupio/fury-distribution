@@ -24,6 +24,7 @@ routes:
             - authenticated_user: true
   - from: https://{{ template "grafanaUrl" .spec }}
     to: http://grafana.monitoring.svc.cluster.local:3000
+    allow_websockets: true
     policy:
       - allow:
           and:
