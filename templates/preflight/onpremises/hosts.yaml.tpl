@@ -83,12 +83,12 @@ all:
       {{- end }}
     ungrouped: {}
   vars:
-    ansible_python_interpreter: python3
+    ansible_python_interpreter: "{{ default "python3" .spec.kubernetes.advanced.pythonInterpreter }}"
     ansible_ssh_private_key_file: "{{ .spec.kubernetes.ssh.keyPath }}"
     ansible_user: "{{ .spec.kubernetes.ssh.username }}"
     kubernetes_kubeconfig_path: ./
     kubernetes_version: "{{ .kubernetes.version }}"
-    {{- if (index .spec.kubernetes "proxy") }}
+    {{- if index .spec.kubernetes "proxy" }}
     http_proxy: "{{ .spec.kubernetes.proxy.http }}"
     https_proxy: "{{ .spec.kubernetes.proxy.https }}"
     no_proxy: "{{ .spec.kubernetes.proxy.noProxy }}"

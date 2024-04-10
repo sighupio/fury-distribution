@@ -83,11 +83,15 @@ all:
       {{- end }}
     ungrouped: {}
   vars:
-    ansible_python_interpreter: python3
+    ansible_python_interpreter: "{{ default "python3" .spec.kubernetes.advanced.pythonInterpreter }}"
     ansible_ssh_private_key_file: "{{ .spec.kubernetes.ssh.keyPath }}"
     ansible_user: "{{ .spec.kubernetes.ssh.username }}"
     kubernetes_kubeconfig_path: ./
     kubernetes_version: "{{ .kubernetes.version }}"
+    {{- if index .spec.kubernetes "apiSAN" }}
+    kubernetes_api_SAN:
+      {{- .spec.kubernetes.apiSAN | toYaml | nindent 6 }}
+    {{- end }}
     {{- if (index .spec.kubernetes "proxy") }}
     http_proxy: "{{ .spec.kubernetes.proxy.http }}"
     https_proxy: "{{ .spec.kubernetes.proxy.https }}"
@@ -116,4 +120,24 @@ all:
     kubernetes_encryption_config: "./encryption-config.yaml"
     {{- end }}
     {{- end }}
+
+    {{- if index .spec.kubernetes.advanced "airGap" }}
+    {{- if index .spec.kubernetes.advanced.airGap "containerdDownloadUrl" }}
+    containerd_download_url: "{{ .spec.kubernetes.advanced.airGap.containerdDownloadUrl }}"
+    {{- end }}
+    {{- if index .spec.kubernetes.advanced.airGap "runcDownloadUrl" }}
+    runc_download_url: "{{ .spec.kubernetes.advanced.airGap.runcDownloadUrl }}"
+    {{- end }}
+    {{- if index .spec.kubernetes.advanced.airGap "runcChecksum" }}
+    runc_checksum: "{{ .spec.kubernetes.advanced.airGap.runcChecksum }}"
+    {{- end }}
+    {{- if index .spec.kubernetes.advanced.airGap "dependenciesOverride" }}
+    dependencies_override:
+      {{- .spec.kubernetes.advanced.airGap.dependenciesOverride | toYaml | nindent 6 }}
+    {{- end }}
+    {{- if index .spec.kubernetes.advanced.airGap "etcdDownloadUrl" }}
+    etcd_download_url: "{{ .spec.kubernetes.advanced.airGap.etcdDownloadUrl }}"
+    {{- end }}
+    {{- end }}
+
     {{- end }}
