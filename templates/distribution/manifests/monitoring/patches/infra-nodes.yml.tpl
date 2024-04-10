@@ -127,6 +127,7 @@ spec:
 
 {{ if eq .spec.distribution.modules.monitoring.type "mimir" -}}
 {{- $mimirArgs := dict "module" "monitoring" "package" "mimir" "spec" .spec -}}
+{{- if .checks.storageClassAvailable }}
 ---
 apiVersion: apps/v1
 kind: StatefulSet
@@ -260,4 +261,5 @@ spec:
       tolerations:
         {{ template "tolerations" $mimirArgs }}
 ---
+{{- end }}
 {{ end }}
