@@ -121,3 +121,20 @@
     - kube-worker
   tags:
     - kube-worker
+
+# We set the node's role to the node group's name in furyctl.yaml
+# We set a custom label with the role as part of the kubeadm boostrap of the
+# node via a kubelet flag.
+# The command below sets also the standard label that kubectl uses to show
+# the node role when you do `kubectl get nodes`. This label cannot be set via
+# the kubelet flag for security reasons.
+- name: Label nodes with role
+  hosts: nodes
+  tasks:
+    - name: Get node's name and role
+      set_fact:
+        node_name: "{{ print "{{ kubernetes_hostname }}" }}"
+        node_role:  "{{ print "{{ kubernetes_role }}" }}"
+    - name: Label node
+      delegate_to: localhost
+      shell: "{{ .paths.kubectl }} {{ print "label node {{ node_name }} node-role.kubernetes.io/{{ node_role }}= --kubeconfig={{ kubernetes_kubeconfig_path }}admin.conf" }}"

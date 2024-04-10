@@ -124,3 +124,142 @@ spec:
         {{ template "nodeSelector" $x509ExporterArgs }}
       tolerations:
         {{ template "tolerations" $x509ExporterArgs }}
+
+{{ if eq .spec.distribution.modules.monitoring.type "mimir" -}}
+{{- $mimirArgs := dict "module" "monitoring" "package" "mimir" "spec" .spec -}}
+{{- if .checks.storageClassAvailable }}
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: mimir-distributed-compactor
+  namespace: monitoring
+spec:
+  template:
+    spec:
+      nodeSelector:
+        {{ template "nodeSelector" $mimirArgs }}
+      tolerations:
+        {{ template "tolerations" $mimirArgs }}
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: mimir-distributed-ingester
+  namespace: monitoring
+spec:
+  template:
+    spec:
+      nodeSelector:
+        {{ template "nodeSelector" $mimirArgs }}
+      tolerations:
+        {{ template "tolerations" $mimirArgs }}
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: mimir-distributed-store-gateway
+  namespace: monitoring
+spec:
+  template:
+    spec:
+      nodeSelector:
+        {{ template "nodeSelector" $mimirArgs }}
+      tolerations:
+        {{ template "tolerations" $mimirArgs }}
+{{- if eq .spec.distribution.modules.monitoring.mimir.backend "minio" }}
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: minio-monitoring
+  namespace: monitoring
+spec:
+  template:
+    spec:
+      nodeSelector:
+        {{ template "nodeSelector" $mimirArgs }}
+      tolerations:
+        {{ template "tolerations" $mimirArgs }}
+{{- end }}
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mimir-distributed-continuous-test
+  namespace: monitoring
+spec:
+  template:
+    spec:
+      nodeSelector:
+        {{ template "nodeSelector" $mimirArgs }}
+      tolerations:
+        {{ template "tolerations" $mimirArgs }}
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mimir-distributed-distributor
+  namespace: monitoring
+spec:
+  template:
+    spec:
+      nodeSelector:
+        {{ template "nodeSelector" $mimirArgs }}
+      tolerations:
+        {{ template "tolerations" $mimirArgs }}
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mimir-distributed-gateway
+  namespace: monitoring
+spec:
+  template:
+    spec:
+      nodeSelector:
+        {{ template "nodeSelector" $mimirArgs }}
+      tolerations:
+        {{ template "tolerations" $mimirArgs }}
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mimir-distributed-querier
+  namespace: monitoring
+spec:
+  template:
+    spec:
+      nodeSelector:
+        {{ template "nodeSelector" $mimirArgs }}
+      tolerations:
+        {{ template "tolerations" $mimirArgs }}
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mimir-distributed-query-frontend
+  namespace: monitoring
+spec:
+  template:
+    spec:
+      nodeSelector:
+        {{ template "nodeSelector" $mimirArgs }}
+      tolerations:
+        {{ template "tolerations" $mimirArgs }}
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mimir-distributed-query-scheduler
+  namespace: monitoring
+spec:
+  template:
+    spec:
+      nodeSelector:
+        {{ template "nodeSelector" $mimirArgs }}
+      tolerations:
+        {{ template "tolerations" $mimirArgs }}
+---
+{{- end }}
+{{ end }}
