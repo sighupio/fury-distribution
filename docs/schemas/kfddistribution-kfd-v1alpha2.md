@@ -3785,6 +3785,7 @@ The password for the minio root user
 | [secretGenerator](#specdistributioncustompatchessecretgenerator)             | `array` | Optional |
 | [patches](#specdistributioncustompatchespatches)                             | `array` | Optional |
 | [patchesStrategicMerge](#specdistributioncustompatchespatchesstrategicmerge) | `array` | Optional |
+| [images](#specdistributioncustompatchesimages)                               | `array` | Optional |
 
 ## .spec.distribution.customPatches.configMapGenerator
 
@@ -3885,13 +3886,10 @@ The annotations of the configmap
 
 ### Properties
 
-### Properties
-
-Elements can be either `string` or:
-
 | Property                                                            | Type     | Required |
 |:--------------------------------------------------------------------|:---------|:---------|
 | [name](#specdistributioncustompatchessecretgeneratorname)           | `string` | Required |
+| [type](#specdistributioncustompatchessecretgeneratortype)           | `string` | Optional |
 | [behavior](#specdistributioncustompatchessecretgeneratorbehavior)   | `string` | Optional |
 | [files](#specdistributioncustompatchessecretgeneratorfiles)         | `array`  | Optional |
 | [envs](#specdistributioncustompatchessecretgeneratorenvs)           | `array`  | Optional |
@@ -3904,6 +3902,12 @@ Elements can be either `string` or:
 ### Description
 
 The name of the secret
+
+## .spec.distribution.customPatches.secretGenerator.type
+
+### Description
+
+The type of the secret
 
 ## .spec.distribution.customPatches.secretGenerator.behavior
 
@@ -4087,3 +4091,9 @@ The patch
 ### Description
 
 Each entry should be either a relative file path or an inline content resolving to a partial or complete resource definition
+
+## .spec.distribution.customPatches.images
+
+### Description
+
+Each entry should follow the format of Kustomize's images patch
