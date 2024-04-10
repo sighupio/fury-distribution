@@ -70,6 +70,7 @@ ingester_client:
     max_recv_msg_size: 104857600
     max_send_msg_size: 104857600
 limits:
+  max_global_series_per_user: 0 # we disable the limit on series a user can push because we have only Prometheus pushing with the fury user.
   max_cache_freshness: 10m
   max_query_parallelism: 240
   max_total_query_length: 12000h
