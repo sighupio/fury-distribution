@@ -4,5 +4,5 @@
 
 - op: add
   path: /spec/template/spec/tolerations
-  value: 
+  value:
     - operator: Exists
