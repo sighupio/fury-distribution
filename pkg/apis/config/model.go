@@ -35,17 +35,18 @@ type KFDModules struct {
 	Logging    string `yaml:"logging"    validate:"required"`
 	Monitoring string `yaml:"monitoring" validate:"required"`
 	Networking string `yaml:"networking" validate:"required"`
+	Tracing    string `yaml:"tracing"`
 	Opa        string `yaml:"opa"        validate:"required"`
 }
 
 type KFDProvider struct {
-	Version   string `yaml:"version"   validate:"required"`
-	Installer string `yaml:"installer" validate:"required"`
+	Version   string `yaml:"version"`
+	Installer string `yaml:"installer"`
 }
 
 type KFDKubernetes struct {
 	Eks        KFDProvider `yaml:"eks"        validate:"required"`
-	OnPremises KFDProvider `yaml:"onpremises" validate:"required"`
+	OnPremises KFDProvider `yaml:"onpremises"`
 }
 
 type KFDSchemas struct {
@@ -68,8 +69,8 @@ type KFDToolsCommon struct {
 	Kustomize KFDTool `yaml:"kustomize" validate:"required"`
 	Terraform KFDTool `yaml:"terraform" validate:"required"`
 	Yq        KFDTool `yaml:"yq"        validate:"required"`
-	Helm      KFDTool `yaml:"helm"      validate:"required"`
-	Helmfile  KFDTool `yaml:"helmfile"  validate:"required"`
+	Helm      KFDTool `yaml:"helm"`
+	Helmfile  KFDTool `yaml:"helmfile"`
 }
 
 type KFDToolsEks struct {
@@ -77,6 +78,6 @@ type KFDToolsEks struct {
 }
 
 type KFDTool struct {
-	Version   string            `yaml:"version"   validate:"required,permissive-constraint"`
+	Version   string            `yaml:"version"`
 	Checksums map[string]string `yaml:"checksums"`
 }
