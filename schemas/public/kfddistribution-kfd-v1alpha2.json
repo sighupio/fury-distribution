@@ -50,7 +50,6 @@
       },
       "required": ["distributionVersion", "distribution"]
     },
-
     "Spec.Distribution": {
       "type": "object",
       "additionalProperties": false,
@@ -65,7 +64,7 @@
           "$ref": "#/$defs/Spec.Distribution.Modules"
         },
         "customPatches": {
-          "$ref": "./spec-distribution-custom-patches.json"
+          "$ref": "../public/spec-distribution-custom-patches.json"
         }
       },
       "required": ["modules", "kubeconfig"],
@@ -803,7 +802,7 @@
         },
         "type": {
           "type": "string",
-          "enum": ["none", "gatekeeper", "kyverno"]
+          "enum": ["none", "gatekeeper","kyverno"]
         },
         "gatekeeper": {
           "$ref": "#/$defs/Spec.Distribution.Modules.Policy.Gatekeeper"

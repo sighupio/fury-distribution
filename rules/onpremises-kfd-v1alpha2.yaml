@@ -35,7 +35,7 @@ distribution:
   - path: .spec.distribution.modules.policy.type
     immutable: false
     description: "changes to the policy module type have been detected. This will cause the reconfiguration or deletion of the current policy stack."
-    safe: 
+    safe:
       - from: none
     unsupported:
       - to: gatekeeper
@@ -68,7 +68,7 @@ distribution:
   - path: .spec.distribution.modules.tracing.type
     immutable: false
     description: "changes to the tracing module type have been detected. This will cause the replacement of the current tracing stack (removal or creation)."
-    safe: 
+    safe:
       - from: none
     reducers:
       - key: distributionModulesTracingType
@@ -82,7 +82,7 @@ distribution:
   - path: .spec.distribution.modules.dr.type
     immutable: false
     description: "changes to the Disaster Recovery module type have been detected. This will cause the replacement of the current DR (velero) stack (removal or creation)."
-    safe: 
+    safe:
       - from: none
     reducers:
       - key: distributionModulesDRType
@@ -96,7 +96,7 @@ distribution:
   - path: .spec.distribution.modules.monitoring.type
     immutable: false
     description: "changes to the Monitoring module type have been detected. This will cause the reconfiguration or deletion of the current monitoring stack."
-    safe: 
+    safe:
       - from: none
       - from: prometheus
         to: mimir
@@ -116,7 +116,7 @@ distribution:
   - path: .spec.distribution.modules.ingress.nginx.type
     immutable: false
     description: "changes to the nginx type in the Ingress module have been detected. This will cause the reconfiguration or deletion of the current ingress stack."
-    safe: 
+    safe:
       - from: none
     unsupported:
       - to: single
@@ -131,7 +131,7 @@ distribution:
   - path: .spec.distribution.modules.auth.provider.type
     immutable: false
     description: "changes to the auth provider type will trigger the reconfiguration of the security on the infrastructural ingresses"
-    safe: 
+    safe:
       - from: none
     reducers:
       - key: distributionModulesAuthProviderType
