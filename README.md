@@ -126,11 +126,11 @@ If you are looking to run KFD in production and would like to learn more, SIGHUP
 
 Current supported versions of KFD are:
 
-|                                  KFD Version                                   | Kubernetes Version |
-| :----------------------------------------------------------------------------: | :----------------: |
-| [`1.27.5`](https://github.com/sighupio/fury-distribution/releases/tag/v1.27.5) |      `1.27.x`      |
-| [`1.26.6`](https://github.com/sighupio/fury-distribution/releases/tag/v1.26.6) |      `1.26.x`      |
-| [`1.25.10`](https://github.com/sighupio/fury-distribution/releases/tag/v1.25.10) |      `1.25.x`      |
+|                                  KFD Version                                     | Kubernetes Version |
+| :------------------------------------------------------------------------------: | :----------------: |
+| [`1.28.0`](https://github.com/sighupio/fury-distribution/releases/tag/v1.28.0)   |      `1.28.x`      |
+| [`1.27.5`](https://github.com/sighupio/fury-distribution/releases/tag/v1.27.5)   |      `1.27.x`      |
+| [`1.26.6`](https://github.com/sighupio/fury-distribution/releases/tag/v1.26.6)   |      `1.26.x`      |
 
 Check the [compatibility matrix][compatibility-matrix] for additional information about previous releases of the Distribution and the compatibility with `furyctl`.
 
