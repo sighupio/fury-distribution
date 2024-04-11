@@ -460,7 +460,10 @@
       "properties": {
         "type": {
           "type": "string",
-          "enum": ["eks-managed", "self-managed"]
+          "enum": [
+            "eks-managed",
+            "self-managed"
+          ]
         },
         "name": {
           "type": "string"
@@ -1175,7 +1178,7 @@
         "storageSize": {
           "type": "string"
         },
-        "rootUser": {
+        "rootUser" : {
           "type": "object",
           "additionalProperties": false,
           "properties": {
@@ -1514,7 +1517,7 @@
         },
         "type": {
           "type": "string",
-          "enum": ["none", "gatekeeper", "kyverno"]
+          "enum": ["none", "gatekeeper","kyverno"]
         },
         "gatekeeper": {
           "$ref": "#/$defs/Spec.Distribution.Modules.Policy.Gatekeeper"
