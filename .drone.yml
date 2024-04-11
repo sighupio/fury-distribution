@@ -267,7 +267,7 @@ steps:
       FURYCTL_VERSION: v0.28.0-rc.4
     depends_on: [create Kind cluster]
     commands:
-      - export KUBECONFIG=/drone/src/kubeconfig
+      - export KUBECONFIG=/drone/src/kubeconfig-upgrades
       # We change the loopback IP in the kubeconfig to use the service hostname and keep the port.
       # - 'sed -Ei "s#(server: https://)(.*)(:.*)#\1kind-cluster\3#" $${KUBECONFIG}'
       - echo "Installing the correct furyctl version..."
