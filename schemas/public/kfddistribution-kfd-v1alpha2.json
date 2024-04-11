@@ -425,7 +425,7 @@
         "storageSize": {
           "type": "string"
         },
-        "rootUser" : {
+        "rootUser": {
           "type": "object",
           "additionalProperties": false,
           "properties": {
@@ -450,7 +450,7 @@
           "type": "string",
           "enum": ["minio", "externalEndpoint"]
         },
-        "externalEndpoint" : {
+        "externalEndpoint": {
           "type": "object",
           "additionalProperties": false,
           "properties": {
@@ -603,7 +603,7 @@
           "type": "string",
           "enum": ["minio", "externalEndpoint"]
         },
-        "externalEndpoint" : {
+        "externalEndpoint": {
           "type": "object",
           "additionalProperties": false,
           "properties": {
@@ -636,7 +636,7 @@
         "storageSize": {
           "type": "string"
         },
-        "rootUser" : {
+        "rootUser": {
           "type": "object",
           "additionalProperties": false,
           "properties": {
@@ -684,7 +684,7 @@
           "type": "string",
           "enum": ["minio", "externalEndpoint"]
         },
-        "externalEndpoint" : {
+        "externalEndpoint": {
           "type": "object",
           "additionalProperties": false,
           "properties": {
@@ -717,7 +717,7 @@
         "storageSize": {
           "type": "string"
         },
-        "rootUser" : {
+        "rootUser": {
           "type": "object",
           "additionalProperties": false,
           "properties": {
@@ -789,7 +789,7 @@
         },
         "overrides": {
           "$ref": "#/$defs/Types.FuryModuleComponentOverrides"
-        } 
+        }
       },
       "required": ["podCidr", "maskSize"]
     },
@@ -919,7 +919,7 @@
           "type": "string",
           "enum": ["minio", "externalEndpoint"]
         },
-        "externalEndpoint" : {
+        "externalEndpoint": {
           "type": "object",
           "additionalProperties": false,
           "properties": {

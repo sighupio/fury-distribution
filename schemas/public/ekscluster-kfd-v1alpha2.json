@@ -400,10 +400,16 @@
           "type": "array",
           "items": {
             "type": "string",
-            "enum": ["api", "audit", "authenticator", "controllerManager", "scheduler"]
+            "enum": [
+              "api",
+              "audit",
+              "authenticator",
+              "controllerManager",
+              "scheduler"
+            ]
           },
           "minItems": 0
-        },        
+        },
         "nodePools": {
           "type": "array",
           "items": {
@@ -1197,7 +1203,7 @@
           "type": "string",
           "enum": ["minio", "externalEndpoint"]
         },
-        "externalEndpoint" : {
+        "externalEndpoint": {
           "type": "object",
           "additionalProperties": false,
           "properties": {
@@ -1350,7 +1356,7 @@
           "type": "string",
           "enum": ["minio", "externalEndpoint"]
         },
-        "externalEndpoint" : {
+        "externalEndpoint": {
           "type": "object",
           "additionalProperties": false,
           "properties": {
@@ -1383,7 +1389,7 @@
         "storageSize": {
           "type": "string"
         },
-        "rootUser" : {
+        "rootUser": {
           "type": "object",
           "additionalProperties": false,
           "properties": {
@@ -1431,7 +1437,7 @@
           "type": "string",
           "enum": ["minio", "externalEndpoint"]
         },
-        "externalEndpoint" : {
+        "externalEndpoint": {
           "type": "object",
           "additionalProperties": false,
           "properties": {
@@ -1464,7 +1470,7 @@
         "storageSize": {
           "type": "string"
         },
-        "rootUser" : {
+        "rootUser": {
           "type": "object",
           "additionalProperties": false,
           "properties": {
@@ -2007,10 +2013,10 @@
     },
     "Types.KubeTaints": {
       "type": "array",
-        "items": {
-           "type": "string",
-           "pattern": "^([a-zA-Z0-9\\-\\.\\/]+)=([^-][\\w-]+):(NoSchedule|PreferNoSchedule|NoExecute)$"
-        }
+      "items": {
+        "type": "string",
+        "pattern": "^([a-zA-Z0-9\\-\\.\\/]+)=([^-][\\w-]+):(NoSchedule|PreferNoSchedule|NoExecute)$"
+      }
     },
     "Types.KubeNodeSelector": {
       "type": ["object", "null"],
