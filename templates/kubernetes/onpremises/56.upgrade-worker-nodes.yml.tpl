@@ -21,7 +21,7 @@
         node_name: "{{ print "{{ kubernetes_hostname }}" }}"
     - name: Drain node
       delegate_to: localhost
-      shell: "{{ .paths.kubectl }} {{ print "drain --grace-period=60 --timeout=360s --force --ignore-daemonsets --delete-local-data {{ node_name }} --kubeconfig={{ kubernetes_kubeconfig_path }}admin.conf" }}"
+      shell: "{{ .paths.kubectl }} {{ print "drain --grace-period=60 --timeout=360s --force --ignore-daemonsets --delete-emptydir-data {{ node_name }} --kubeconfig={{ kubernetes_kubeconfig_path }}admin.conf" }}"
 
 - name: Kubernetes kubeadm upgrade node
   become: true

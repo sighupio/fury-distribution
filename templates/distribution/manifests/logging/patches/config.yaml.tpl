@@ -2,6 +2,8 @@
 # Use of this source code is governed by a BSD-style
 # license that can be found in the LICENSE file.
 
+analytics:
+  reporting_enabled: false
 auth_enabled: false
 chunk_store_config:
   max_look_back_period: 0s

@@ -4,6 +4,7 @@
 
 {{- $dexArgs := dict "module" "auth" "package" "dex" "spec" .spec -}}
 {{- $pomeriumArgs := dict "module" "auth" "package" "pomerium" "spec" .spec -}}
+{{- $gangplankArgs := dict "module" "auth" "package" "gangplank" "spec" .spec -}}
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -24,6 +25,21 @@ kind: Deployment
 metadata:
   name: pomerium
   namespace: pomerium
+spec:
+  template:
+    spec:
+      nodeSelector:
+        {{ template "nodeSelector" $pomeriumArgs }}
+      tolerations:
+        {{ template "tolerations" $pomeriumArgs }}
+{{- end }}
+{{- if .spec.distribution.modules.auth.oidcKubernetesAuth.enabled }}
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: gangplank
+  namespace: kube-system
 spec:
   template:
     spec:
