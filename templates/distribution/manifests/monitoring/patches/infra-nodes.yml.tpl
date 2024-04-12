@@ -127,6 +127,7 @@ spec:
 
 {{ if eq .spec.distribution.modules.monitoring.type "mimir" -}}
 {{- $mimirArgs := dict "module" "monitoring" "package" "mimir" "spec" .spec -}}
+{{- if .checks.storageClassAvailable }}
 ---
 apiVersion: apps/v1
 kind: StatefulSet
@@ -166,6 +167,7 @@ spec:
         {{ template "nodeSelector" $mimirArgs }}
       tolerations:
         {{ template "tolerations" $mimirArgs }}
+{{- if eq .spec.distribution.modules.monitoring.mimir.backend "minio" }}
 ---
 apiVersion: apps/v1
 kind: StatefulSet
@@ -179,6 +181,7 @@ spec:
         {{ template "nodeSelector" $mimirArgs }}
       tolerations:
         {{ template "tolerations" $mimirArgs }}
+{{- end }}
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -258,4 +261,5 @@ spec:
       tolerations:
         {{ template "tolerations" $mimirArgs }}
 ---
+{{- end }}
 {{ end }}

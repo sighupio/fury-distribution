@@ -252,7 +252,7 @@ data:
           dex:
             host: ""
             ingressClass: ""
-          gangway: # only needed as default
+          gangplank: # only needed as default
             host: ""
             ingressClass: ""
         tolerations: null

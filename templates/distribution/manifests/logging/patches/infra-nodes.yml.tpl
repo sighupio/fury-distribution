@@ -2,26 +2,12 @@
 # Use of this source code is governed by a BSD-style
 # license that can be found in the LICENSE file.
 
-{{- $cerebroArgs := dict "module" "logging" "package" "cerebro" "spec" .spec -}}
 {{- $opensearchArgs := dict "module" "logging" "package" "opensearch" "spec" .spec -}}
 {{- $minioArgs := dict "module" "logging" "package" "minio" "spec" .spec -}}
 {{- $operatorArgs := dict "module" "logging" "package" "operator" "spec" .spec -}}
 {{- $lokiArgs := dict "module" "logging" "package" "loki" "spec" .spec -}}
 
 {{- if eq .spec.distribution.modules.logging.type "opensearch" }}
----
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: cerebro
-  namespace: logging
-spec:
-  template:
-    spec:
-      nodeSelector:
-        {{ template "nodeSelector" $cerebroArgs }}
-      tolerations:
-        {{ template "tolerations" $cerebroArgs }}
 ---
 apiVersion: apps/v1
 kind: StatefulSet

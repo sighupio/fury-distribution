@@ -310,6 +310,9 @@
         },
         "containerd": {
           "$ref": "#/$defs/Spec.Kubernetes.Advanced.Containerd"
+        },
+        "encryption": {
+          "$ref": "#/$defs/Spec.Kubernetes.Advanced.Encryption"
         }
       }
     },
@@ -392,7 +395,21 @@
         }
       }
     },
-
+    "Spec.Kubernetes.Advanced.Encryption": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "tlsCipherSuites": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "configuration": {
+          "type": "string"
+        }
+      }
+    },
     "Spec.Distribution": {
       "type": "object",
       "additionalProperties": false,
@@ -404,7 +421,7 @@
           "$ref": "#/$defs/Spec.Distribution.Modules"
         },
         "customPatches": {
-          "$ref": "./spec-distribution-custom-patches.json"
+          "$ref": "../public/spec-distribution-custom-patches.json"
         }
       },
       "required": ["modules"],
