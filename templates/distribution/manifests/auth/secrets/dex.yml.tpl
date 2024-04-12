@@ -16,11 +16,11 @@
     {{ print "https://pomerium." .spec.distribution.modules.auth.baseDomain "/oauth2/callback" }}
   {{- end }}
 {{- end -}}
-{{- define "gangwayHost" -}}
-  {{ if .spec.distribution.modules.auth.overrides.ingresses.gangway.host -}}
-    {{ print "https://" .spec.distribution.modules.auth.overrides.ingresses.gangway.host }}
+{{- define "gangplankHost" -}}
+  {{ if .spec.distribution.modules.auth.overrides.ingresses.gangplank.host -}}
+    {{ print "https://" .spec.distribution.modules.auth.overrides.ingresses.gangplank.host }}
   {{- else -}}
-    {{ print "https://gangway." .spec.distribution.modules.auth.baseDomain }}
+    {{ print "https://gangplank." .spec.distribution.modules.auth.baseDomain }}
   {{- end }}
 {{- end }}
 issuer: {{ template "dexHost" . }}
@@ -48,7 +48,7 @@ staticClients:
 {{- if .spec.distribution.modules.auth.oidcKubernetesAuth.enabled }}
 - id: {{ .spec.distribution.modules.auth.oidcKubernetesAuth.clientID }}
   redirectURIs:
-  - {{ template "gangwayHost" . }}/callback
+  - {{ template "gangplankHost" . }}/callback
   name: 'In cluster LOGIN'
   secret: {{ .spec.distribution.modules.auth.oidcKubernetesAuth.clientSecret }}
 {{- end }}

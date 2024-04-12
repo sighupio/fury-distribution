@@ -11,7 +11,6 @@ resources:
   - {{ print "../" .spec.distribution.common.relativeVendorPath "/modules/logging/katalog/logging-operator" }}
   - {{ print "../" .spec.distribution.common.relativeVendorPath "/modules/logging/katalog/minio-ha" }}
 {{- if eq .spec.distribution.modules.logging.type "opensearch" }}
-  - {{ print "../" .spec.distribution.common.relativeVendorPath "/modules/logging/katalog/cerebro" }}
   - {{ print "../" .spec.distribution.common.relativeVendorPath "/modules/logging/katalog/configs/audit" }}
   - {{ print "../" .spec.distribution.common.relativeVendorPath "/modules/logging/katalog/configs/events" }}
   - {{ print "../" .spec.distribution.common.relativeVendorPath "/modules/logging/katalog/configs/infra" }}
@@ -72,7 +71,7 @@ secretGenerator:
     namespace: logging
     behavior: merge
     files:
-      - patches/config.yaml
+      - config.yaml=patches/loki-config.yaml
 {{- end }}
   - name: minio-logging
     namespace: logging
