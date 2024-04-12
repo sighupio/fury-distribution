@@ -8,6 +8,7 @@ data:
     secretGenerator: []
     patches: []
     patchesStrategicMerge: []
+    images: []
   # the common section will be used by all the templates in all modules, everything defined here is something used by all the KFD modules.
   common:
     # where all the KFD modules are downloaded
@@ -251,7 +252,7 @@ data:
           dex:
             host: ""
             ingressClass: ""
-          gangway: # only needed as default
+          gangplank: # only needed as default
             host: ""
             ingressClass: ""
         tolerations: null

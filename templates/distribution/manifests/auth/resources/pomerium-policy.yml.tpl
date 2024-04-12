@@ -24,18 +24,13 @@ routes:
             - authenticated_user: true
   - from: https://{{ template "grafanaUrl" .spec }}
     to: http://grafana.monitoring.svc.cluster.local:3000
+    allow_websockets: true
     policy:
       - allow:
           and:
             - authenticated_user: true
   - from: https://{{ template "forecastleUrl" .spec }}
     to: http://forecastle.ingress-nginx.svc.cluster.local
-    policy:
-      - allow:
-          and:
-            - authenticated_user: true
-  - from: https://{{ template "cerebroUrl" .spec }}
-    to: http://cerebro.logging.svc.cluster.local:9000
     policy:
       - allow:
           and:

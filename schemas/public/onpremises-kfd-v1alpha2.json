@@ -310,6 +310,9 @@
         },
         "containerd": {
           "$ref": "#/$defs/Spec.Kubernetes.Advanced.Containerd"
+        },
+        "encryption": {
+          "$ref": "#/$defs/Spec.Kubernetes.Advanced.Encryption"
         }
       }
     },
@@ -392,172 +395,21 @@
         }
       }
     },
-    "Spec.Distribution.CustomPatches": {
-      "type": "object",
-      "properties": {
-        "configMapGenerator": {
-          "$ref": "#/$defs/Spec.Distribution.CustomPatches.ConfigMapGenerator"
-        },
-        "secretGenerator": {
-          "$ref": "#/$defs/Spec.Distribution.CustomPatches.SecretGenerator"
-        },
-        "patches": {
-          "$ref": "#/$defs/Spec.Distribution.CustomPatches.Patches"
-        },
-        "patchesStrategicMerge": {
-          "$ref": "#/$defs/Spec.Distribution.CustomPatches.PatchesStrategicMerge"
-        }
-      }
-    },
-    "Spec.Distribution.CustomPatches.ConfigMapGenerator": {
-      "type": "array",
-      "items": {
-        "$ref": "#/$defs/Spec.Distribution.CustomPatches.ResourceGenerator"
-      }
-    },
-    "Spec.Distribution.CustomPatches.SecretGenerator": {
-      "type": "array",
-      "items": {
-        "allOf": [
-          {
-            "$ref": "#/$defs/Spec.Distribution.CustomPatches.ResourceGenerator"
-          }
-        ],
-        "properties": {
-          "type": {
-            "type": "string"
-          }
-        }
-      }
-    },
-    "Spec.Distribution.CustomPatches.ResourceGenerator": {
+    "Spec.Kubernetes.Advanced.Encryption": {
       "type": "object",
       "additionalProperties": false,
       "properties": {
-        "name": {
-          "type": "string"
-        },
-        "behavior": {
-          "type": "string",
-          "enum": ["create", "replace", "merge"]
-        },
-        "files": {
+        "tlsCipherSuites": {
           "type": "array",
           "items": {
             "type": "string"
           }
         },
-        "envs": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          }
-        },
-        "literals": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          }
-        },
-        "namespace": {
-          "type": "string"
-        },
-        "options": {
-          "type": "object",
-          "additionalProperties": false,
-          "properties": {
-            "labels": {
-              "$ref": "#/$defs/Types.KubeLabels"
-            },
-            "annotations": {
-              "$ref": "#/$defs/Types.KubeLabels"
-            },
-            "disableNameSuffixHash": {
-              "type": "boolean"
-            },
-            "immutable": {
-              "type": "boolean"
-            }
-          }
-        }
-      },
-      "required": ["name"]
-    },
-    "Spec.Distribution.CustomPatches.Patches": {
-      "type": "array",
-      "items": {
-        "$ref": "#/$defs/Spec.Distribution.CustomPatches.Patch"
-      }
-    },
-    "Spec.Distribution.CustomPatches.PatchesStrategicMerge": {
-      "type": "array",
-      "items": {
-        "type": "string"
-      }
-    },
-    "Spec.Distribution.CustomPatches.Patch": {
-      "type": "object",
-      "additionalProperties": false,
-      "properties": {
-        "target": {
-          "$ref": "#/$defs/Spec.Distribution.CustomPatches.Patch.Target"
-        },
-        "options": {
-          "type": "object",
-          "additionalProperties": false,
-          "properties": {
-            "allowNameChange": {
-              "type": "boolean"
-            },
-            "allowKindChange": {
-              "type": "boolean"
-            }
-          }
-        },
-        "path": {
-          "type": "string"
-        },
-        "patch": {
-          "type": "string"
-        }
-      },
-      "oneOf": [
-        {
-          "required": ["path"]
-        },
-        {
-          "required": ["patch"]
-        }
-      ]
-    },
-    "Spec.Distribution.CustomPatches.Patch.Target": {
-      "type": "object",
-      "additionalProperties": false,
-      "properties": {
-        "group": {
-          "type": "string"
-        },
-        "version": {
-          "type": "string"
-        },
-        "kind": {
-          "type": "string"
-        },
-        "name": {
-          "type": "string"
-        },
-        "namespace": {
-          "type": "string"
-        },
-        "labelSelector": {
-          "type": "string"
-        },
-        "annotationSelector": {
+        "configuration": {
           "type": "string"
         }
       }
     },
-
     "Spec.Distribution": {
       "type": "object",
       "additionalProperties": false,
@@ -569,7 +421,7 @@
           "$ref": "#/$defs/Spec.Distribution.Modules"
         },
         "customPatches": {
-          "$ref": "#/$defs/Spec.Distribution.CustomPatches"
+          "$ref": "../public/spec-distribution-custom-patches.json"
         }
       },
       "required": ["modules"],

@@ -10,10 +10,13 @@ For a complete list of all KFD releases and their compatibility with Kubernetes 
 
 | KFD / Kubernetes Version                                                        | v1.27.X            | v1.26.X            | 1.25.X             | 1.24.X             |
 | ------------------------------------------------------------------------------- | ------------------ | ------------------ | ------------------ | ------------------ |
+| [v1.27.5](https://github.com/sighupio/fury-distribution/releases/tag/v1.27.5)   | :white_check_mark: |                    |                    |                    |
+| [v1.27.4](https://github.com/sighupio/fury-distribution/releases/tag/v1.27.4)   | :white_check_mark: |                    |                    |                    |
 | [v1.27.3](https://github.com/sighupio/fury-distribution/releases/tag/v1.27.3)   | :white_check_mark: |                    |                    |                    |
 | [v1.27.2](https://github.com/sighupio/fury-distribution/releases/tag/v1.27.2)   | :white_check_mark: |                    |                    |                    |
 | [v1.27.1](https://github.com/sighupio/fury-distribution/releases/tag/v1.27.1)   | :white_check_mark: |                    |                    |                    |
 | [v1.27.0](https://github.com/sighupio/fury-distribution/releases/tag/v1.27.0)   | :white_check_mark: |                    |                    |                    |
+| [v1.26.6](https://github.com/sighupio/fury-distribution/releases/tag/v1.26.6)   |                    | :white_check_mark: |                    |                    |
 | [v1.26.5](https://github.com/sighupio/fury-distribution/releases/tag/v1.26.5)   |                    | :white_check_mark: |                    |                    |
 | [v1.26.4](https://github.com/sighupio/fury-distribution/releases/tag/v1.26.4)   |                    | :white_check_mark: |                    |                    |
 | [v1.26.3](https://github.com/sighupio/fury-distribution/releases/tag/v1.26.3)   |                    | :white_check_mark: |                    |                    |

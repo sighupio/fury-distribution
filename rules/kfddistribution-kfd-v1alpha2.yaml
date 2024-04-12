@@ -26,7 +26,7 @@ distribution:
   - path: .spec.distribution.modules.policy.type
     immutable: false
     description: "changes to the policy module type have been detected. This will cause the reconfiguration or deletion of the current policy stack."
-    safe: 
+    safe:
       - from: none
     unsupported:
       - to: gatekeeper
@@ -59,7 +59,7 @@ distribution:
   - path: .spec.distribution.modules.tracing.type
     immutable: false
     description: "changes to the tracing module type have been detected. This will cause the replacement of the current tracing stack (removal or creation)."
-    safe: 
+    safe:
       - from: none
     reducers:
       - key: distributionModulesTracingType
@@ -73,7 +73,7 @@ distribution:
   - path: .spec.distribution.modules.dr.type
     immutable: false
     description: "changes to the Disaster Recovery module type have been detected. This will cause the replacement of the current DR (velero) stack (removal or creation)."
-    safe: 
+    safe:
       - from: none
     reducers:
       - key: distributionModulesDRType
@@ -87,8 +87,10 @@ distribution:
   - path: .spec.distribution.modules.monitoring.type
     immutable: false
     description: "changes to the Monitoring module type have been detected. This will cause the reconfiguration or deletion of the current monitoring stack."
-    safe: 
+    safe:
       - from: none
+      - from: prometheus
+        to: mimir
     reducers:
       - key: distributionModulesMonitoringType
         lifecycle: pre-apply
@@ -96,9 +98,6 @@ distribution:
       - from: mimir
         to: prometheus
         reason: "switching from Mimir to Prometheus is not currently supported. You need to first remove the current stack with type: none."
-      - from: prometheus
-        to: mimir
-        reason: "switching from Prometheus to Mimir is not currently supported. You need to first remove the current stack with type: none."
   - path: .spec.distribution.modules.monitoring.mimir.backend
     immutable: false
     description: "changes to the mimir backend have been detected. This will cause the reconfiguration of mimir and the deletion of the current minio storage, if minio was disabled"
@@ -108,7 +107,7 @@ distribution:
   - path: .spec.distribution.modules.ingress.nginx.type
     immutable: false
     description: "changes to the nginx type in the Ingress module have been detected. This will cause the reconfiguration or deletion of the current ingress stack."
-    safe: 
+    safe:
       - from: none
     unsupported:
       - to: single
@@ -123,7 +122,7 @@ distribution:
   - path: .spec.distribution.modules.auth.provider.type
     immutable: false
     description: "changes to the auth provider type will trigger the reconfiguration of the security on the infrastructural ingresses"
-    safe: 
+    safe:
       - from: none
     reducers:
       - key: distributionModulesAuthProviderType
