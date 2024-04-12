@@ -11,7 +11,7 @@ resources:
   - {{ print "../" .spec.distribution.common.relativeVendorPath "/modules/auth/katalog/dex" }}
   - {{ print "../" .spec.distribution.common.relativeVendorPath "/modules/auth/katalog/pomerium" }}
 {{- if .spec.distribution.modules.auth.oidcKubernetesAuth.enabled }}
-  - {{ print "../" .spec.distribution.common.relativeVendorPath "/modules/auth/katalog/gangway" }}
+  - {{ print "../" .spec.distribution.common.relativeVendorPath "/modules/auth/katalog/gangplank" }}
 {{- end }}
 {{- if ne .spec.distribution.modules.ingress.nginx.type "none" }}
   - resources/ingress-infra.yml
@@ -41,10 +41,10 @@ secretGenerator:
     envs:
       - secrets/pomerium.env
 {{- if .spec.distribution.modules.auth.oidcKubernetesAuth.enabled }}
-  - name: gangway
+  - name: gangplank
     namespace: kube-system
     files:
-      - gangway.yml=secrets/gangway.yml
+      - gangplank.yml=secrets/gangplank.yml
 {{- end }}
 {{- end }}
 
@@ -56,7 +56,7 @@ resources:
   - secrets/basic-auth.yml
 {{- if .spec.distribution.modules.auth.oidcKubernetesAuth.enabled }}
   - {{ print "../" .spec.distribution.common.relativeVendorPath "/modules/auth/katalog/dex" }}
-  - {{ print "../" .spec.distribution.common.relativeVendorPath "/modules/auth/katalog/gangway" }}
+  - {{ print "../" .spec.distribution.common.relativeVendorPath "/modules/auth/katalog/gangplank" }}
   - resources/ingress-infra.yml
 {{- end }}
 
@@ -66,10 +66,10 @@ secretGenerator:
     namespace: kube-system
     files:
       - config.yml=secrets/dex.yml
-  - name: gangway
+  - name: gangplank
     namespace: kube-system
     files:
-      - gangway.yml=secrets/gangway.yml
+      - gangplank.yml=secrets/gangplank.yml
 
 patchesStrategicMerge:
   - patches/infra-nodes.yml
@@ -82,7 +82,7 @@ patchesStrategicMerge:
 {{- if .spec.distribution.modules.auth.oidcKubernetesAuth.enabled }}
 resources:
   - {{ print "../" .spec.distribution.common.relativeVendorPath "/modules/auth/katalog/dex" }}
-  - {{ print "../" .spec.distribution.common.relativeVendorPath "/modules/auth/katalog/gangway" }}
+  - {{ print "../" .spec.distribution.common.relativeVendorPath "/modules/auth/katalog/gangplank" }}
   - resources/ingress-infra.yml
 {{- end }}
 
@@ -92,10 +92,10 @@ secretGenerator:
     namespace: kube-system
     files:
       - config.yml=secrets/dex.yml
-  - name: gangway
+  - name: gangplank
     namespace: kube-system
     files:
-      - gangway.yml=secrets/gangway.yml
+      - gangplank.yml=secrets/gangplank.yml
 
 patchesStrategicMerge:
   - patches/infra-nodes.yml
