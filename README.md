@@ -100,13 +100,13 @@ Core modules provide essential functionality to the distribution for production-
 
 Add-on modules provide additional functionality to the distribution. Their release cycle is independent of KFD's.
 
-| Module                              | Latest Release                   | Description                                                                  |
-| ----------------------------------- | -------------------------------- | ---------------------------------------------------------------------------- |
-| [Kong][kong-module]                 | ![Version][kong-version]         | Add Kong API Gateway for Kubernetes applications via Kong Ingress Controller |
-| [Service Mesh][service-mesh-module] | ![Version][service-mesh-version] | Deploy a service mesh on top of KFD                                          |
-| [Registry][registry-module]         | ![Version][registry-version]     | Integrate a Container Registry solution                                      |
-| [Storage][storage-module]           | ![Version][storage-version]      | Rook (Ceph Operator) based Storage solution on Kubernetes                    |
-| [Kafka][kafka-module]               | ![Version][kafka-version]        | Apache Kafka event streaming for your Cluster                                |
+| Module                              | Description                                                                  |
+| ----------------------------------- | ---------------------------------------------------------------------------- |
+| [Kong][kong-module]                 | Add Kong API Gateway for Kubernetes applications via Kong Ingress Controller |
+| [Service Mesh][service-mesh-module] | Deploy a service mesh on top of KFD                                          |
+| [Registry][registry-module]         | Integrate a Container Registry solution                                      |
+| [Storage][storage-module]           | Rook (Ceph Operator) based Storage solution on Kubernetes                    |
+| [Kafka][kafka-module]               | Apache Kafka event streaming for your Cluster                                |
 
 ## Get started with KFD 🚀
 
