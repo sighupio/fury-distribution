@@ -11,7 +11,7 @@ versions:
   logging: v3.4.0
   monitoring: v3.1.0
   opa: v1.12.0
-  networking: v1.17.0-rc.0
+  networking: v1.17.0
   tracing: v1.0.3
 
 bases:
