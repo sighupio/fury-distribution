@@ -32,7 +32,7 @@ KFD uses an **un-distribution model**. This means that we:
 ## Architecture 🏗
 
 <!-- markdownlint-disable MD033 MD045 -->
-<p align="center" style="background-color: white;">
+<p align="center">
   <img src="docs/assets/kfd-architecture-v2.png" width="800px"/>
 </p>
 <!-- markdownlint-enable MD033 MD045 -->
