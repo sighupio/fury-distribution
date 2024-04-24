@@ -134,6 +134,10 @@ data:
             disableAuth: false
             host: ""
             ingressClass: ""
+          grafanaBasicAuth:
+            disableAuth: false
+            host: ""
+            ingressClass: ""
           minio:
             disableAuth: false
             host: ""
@@ -162,6 +166,8 @@ data:
         rootUser:
           username: minio
           password: minio123
+      grafana:
+        basicAuthIngress: false
     # tracing module configuration
     tracing:
       overrides:

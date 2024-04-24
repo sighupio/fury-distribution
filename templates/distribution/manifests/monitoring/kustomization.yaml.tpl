@@ -77,23 +77,32 @@ patchesStrategicMerge:
 {{- end }}
 {{- end }}
 
+configMapGenerator:
 {{- if .checks.storageClassAvailable }}
   {{- if eq .spec.distribution.modules.monitoring.type "mimir" }}
-configMapGenerator:
   - name: mimir-distributed-config
     namespace: monitoring
     behavior: replace
     files:
       - patches/mimir.yaml
+  {{- end }}
+{{- end }}
 
-    {{- if eq .spec.distribution.modules.monitoring.mimir.backend "minio" }}
 
 secretGenerator:
+{{- if .checks.storageClassAvailable }}
+  {{- if and (eq .spec.distribution.modules.monitoring.type "mimir") (eq .spec.distribution.modules.monitoring.mimir.backend "minio") }}
   - name: minio-monitoring
     namespace: monitoring
     behavior: replace
     envs:
       - patches/minio.root.env
-    {{- end }}
   {{- end }}
+{{- end }}
+{{- if eq .spec.distribution.modules.auth.provider.type "sso" }}
+  - name: grafana-config
+    behavior: merge
+    namespace: monitoring
+    files:
+      - grafana.ini=patches/grafana.ini
 {{- end }}

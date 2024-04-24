@@ -1,0 +1,159 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "secrets": {
+      "$ref": "#/$defs/Spec.Distribution.Modules.Auth.Pomerium.Secrets"
+    },
+    "defaultRoutesPolicy": {
+      "$ref": "#/$defs/Spec.Distribution.Modules.Auth.Pomerium.DefaultRoutesPolicy"
+    },
+    "routes": {
+      "type": "array",
+      "description": "Routes configuration for pomerium",
+      "items": {
+        "type": "object"
+      }
+    },
+    "policy": {
+      "type": "string",
+      "description": "DEPRECATED: Use defaultRoutesPolicy and/or routes"
+    },
+    "overrides": {
+      "$ref": "#/$defs/Types.FuryModuleComponentOverrides"
+    }
+  },
+  "required": ["secrets"],
+  "$defs": {
+    "Spec.Distribution.Modules.Auth.Pomerium.DefaultRoutesPolicy": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "monitoringPrometheus": {
+          "type": "array",
+          "items": {
+            "type": "object"
+          }
+        },
+        "monitoringAlertmanager": {
+          "type": "array",
+          "items": {
+            "type": "object"
+          }
+        },
+        "monitoringGrafana": {
+          "type": "array",
+          "items": {
+            "type": "object"
+          }
+        },
+        "monitoringMinioConsole": {
+          "type": "array",
+          "items": {
+            "type": "object"
+          }
+        },
+        "ingressNgnixForecastle": {
+          "type": "array",
+          "items": {
+            "type": "object"
+          }
+        },
+        "loggingOpensearchDashboards": {
+          "type": "array",
+          "items": {
+            "type": "object"
+          }
+        },
+        "loggingMinioConsole": {
+          "type": "array",
+          "items": {
+            "type": "object"
+          }
+        },
+        "tracingMinioConsole": {
+          "type": "array",
+          "items": {
+            "type": "object"
+          }
+        },
+        "gatekeeperPolicyManager": {
+          "type": "array",
+          "items": {
+            "type": "object"
+          }
+        }
+      }
+    },
+    "Spec.Distribution.Modules.Auth.Pomerium.Secrets": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "COOKIE_SECRET": {
+          "type": "string",
+          "description": "The cookie secret for pomerium"
+        },
+        "IDP_CLIENT_SECRET": {
+          "type": "string",
+          "description": "The IDP client secret for pomerium"
+        },
+        "SHARED_SECRET": {
+          "type": "string",
+          "description": "The shared secret for pomerium"
+        },
+        "SIGNING_KEY": {
+          "type": "string",
+          "description": "The signing key for pomerium"
+        }
+      },
+      "required": [
+        "COOKIE_SECRET",
+        "IDP_CLIENT_SECRET",
+        "SHARED_SECRET",
+        "SIGNING_KEY"
+      ]
+    },
+
+    "Types.FuryModuleComponentOverrides": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "nodeSelector": {
+          "$ref": "#/$defs/Types.KubeNodeSelector"
+        },
+        "tolerations": {
+          "type": ["array", "null"],
+          "items": {
+            "$ref": "#/$defs/Types.KubeToleration"
+          }
+        }
+      }
+    },
+    "Types.KubeNodeSelector": {
+      "type": ["object", "null"],
+      "additionalProperties": { "type": "string" }
+    },
+    "Types.KubeToleration": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "effect": {
+          "type": "string",
+          "enum": ["NoSchedule", "PreferNoSchedule", "NoExecute"]
+        },
+        "operator": {
+          "type": "string",
+          "enum": ["Exists", "Equal"]
+        },
+        "key": {
+          "type": "string"
+        },
+        "value": {
+          "type": "string"
+        }
+      },
+      "required": ["effect", "key", "value"]
+    }
+  }
+}

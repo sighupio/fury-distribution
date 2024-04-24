@@ -136,3 +136,11 @@ distribution:
     reducers:
       - key: distributionModulesAuthProviderType
         lifecycle: pre-apply
+  - path: .spec.distribution.modules.monitoring.grafana.basicAuthIngress
+    immutable: false
+    description: "Changes to the grafana basic auth ingress have been detected. This will cause the creation or deletion of the ingress."
+    safe:
+      - from: none
+    reducers:
+      - key: distributionModulesMonitoringGrafanaBasicAuthIngress
+        lifecycle: pre-apply
