@@ -125,6 +125,7 @@ routes:
             - authenticated_user: true
       {{- end }}
   {{- end }}
+
   {{- if eq .spec.distribution.modules.networking.type "cilium" }}
   - from: https://{{ template "hubbleUrl" .spec }}
     to: http://hubble-ui.kube-system.svc.cluster.local
