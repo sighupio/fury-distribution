@@ -64,7 +64,7 @@
           "$ref": "#/$defs/Spec.Distribution.Modules"
         },
         "customPatches": {
-          "$ref": "../public/spec-distribution-custom-patches.json"
+          "$ref": "../public/spec-distribution-custompatches.json"
         }
       },
       "required": ["modules", "kubeconfig"],
@@ -802,7 +802,7 @@
         },
         "type": {
           "type": "string",
-          "enum": ["none", "gatekeeper","kyverno"]
+          "enum": ["none", "gatekeeper", "kyverno"]
         },
         "gatekeeper": {
           "$ref": "#/$defs/Spec.Distribution.Modules.Policy.Gatekeeper"
@@ -1086,36 +1086,7 @@
       "required": ["username", "password"]
     },
     "Spec.Distribution.Modules.Auth.Pomerium": {
-      "type": "object",
-      "additionalProperties": false,
-      "properties": {
-        "secrets": {
-          "$ref": "#/$defs/Spec.Distribution.Modules.Auth.Pomerium.Secrets"
-        },
-        "policy": {
-          "type": "string"
-        },
-        "overrides": {
-          "$ref": "#/$defs/Types.FuryModuleComponentOverrides"
-        }
-      },
-      "required": ["secrets", "policy"]
-    },
-    "Spec.Distribution.Modules.Auth.Pomerium.Secrets": {
-      "type": "object",
-      "additionalProperties": false,
-      "properties": {
-        "COOKIE_SECRET": {
-          "type": "string"
-        },
-        "IDP_CLIENT_SECRET": {
-          "type": "string"
-        },
-        "SHARED_SECRET": {
-          "type": "string"
-        }
-      },
-      "required": ["COOKIE_SECRET", "IDP_CLIENT_SECRET", "SHARED_SECRET"]
+      "$ref": "./spec-distribution-modules-auth-pomerium.json"
     },
     "Spec.Distribution.Modules.Auth.Dex": {
       "type": "object",

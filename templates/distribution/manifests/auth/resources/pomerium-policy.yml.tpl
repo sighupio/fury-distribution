@@ -10,60 +10,116 @@ insecure_server: true
 autocert: false
 
 routes:
+  {{- if ne .spec.distribution.modules.monitoring.type "none" }}
+  {{- if eq .spec.distribution.modules.monitoring.type "prometheus" }}
   - from: https://{{ template "prometheusUrl" .spec }}
     to: http://prometheus-k8s.monitoring.svc.cluster.local:9090
     policy:
+      {{- if index .spec.distribution.modules.auth.pomerium "defaultRoutesPolicy" }}
+      {{- .spec.distribution.modules.auth.pomerium.defaultRoutesPolicy | toYaml | nindent 6 }}
+      {{- else }}
       - allow:
           and:
             - authenticated_user: true
+      {{- end }}
+  {{- end }}
   - from: https://{{ template "alertmanagerUrl" .spec }}
     to: http://alertmanager-main.monitoring.svc.cluster.local:9093
     policy:
+      {{- if index .spec.distribution.modules.auth.pomerium "defaultRoutesPolicy" }}
+      {{- .spec.distribution.modules.auth.pomerium.defaultRoutesPolicy | toYaml | nindent 6 }}
+      {{- else }}
       - allow:
           and:
             - authenticated_user: true
+      {{- end }}
   - from: https://{{ template "grafanaUrl" .spec }}
     to: http://grafana.monitoring.svc.cluster.local:3000
     allow_websockets: true
     policy:
+      {{- if index .spec.distribution.modules.auth.pomerium "defaultRoutesPolicy" }}
+      {{- .spec.distribution.modules.auth.pomerium.defaultRoutesPolicy | toYaml | nindent 6 }}
+      {{- else }}
       - allow:
           and:
             - authenticated_user: true
+      {{- end }}
+  {{- end }}
+
+  {{- if ne .spec.distribution.modules.ingress.nginx.type "none" }}
   - from: https://{{ template "forecastleUrl" .spec }}
     to: http://forecastle.ingress-nginx.svc.cluster.local
     policy:
+      {{- if index .spec.distribution.modules.auth.pomerium "defaultRoutesPolicy" }}
+      {{- .spec.distribution.modules.auth.pomerium.defaultRoutesPolicy | toYaml | nindent 6 }}
+      {{- else }}
       - allow:
           and:
             - authenticated_user: true
+      {{- end }}
+  {{- end }}
+
+  {{- if and (ne .spec.distribution.modules.logging.type "none") (.checks.storageClassAvailable) }}
+  {{- if eq .spec.distribution.modules.logging.type "opensearch" }}
   - from: https://{{ template "opensearchDashboardsUrl" .spec }}
     to: http://opensearch-dashboards.logging.svc.cluster.local:5601
     policy:
+      {{- if index .spec.distribution.modules.auth.pomerium "defaultRoutesPolicy" }}
+      {{- .spec.distribution.modules.auth.pomerium.defaultRoutesPolicy | toYaml | nindent 6 }}
+      {{- else }}
       - allow:
           and:
             - authenticated_user: true
+      {{- end }}
+  {{- end }}
   - from: https://{{ template "minioLoggingUrl" .spec }}
     to: http://minio-logging-console.logging.svc.cluster.local:9001
     policy:
+      {{- if index .spec.distribution.modules.auth.pomerium "defaultRoutesPolicy" }}
+      {{- .spec.distribution.modules.auth.pomerium.defaultRoutesPolicy | toYaml | nindent 6 }}
+      {{- else }}
       - allow:
           and:
             - authenticated_user: true
+      {{- end }}
   - from: https://{{ template "minioTracingUrl" .spec }}
     to: http://minio-tracing-console.tracing.svc.cluster.local:9001
     policy:
+      {{- if index .spec.distribution.modules.auth.pomerium "defaultRoutesPolicy" }}
+      {{- .spec.distribution.modules.auth.pomerium.defaultRoutesPolicy | toYaml | nindent 6 }}
+      {{- else }}
       - allow:
           and:
             - authenticated_user: true
+      {{- end }}
   - from: https://{{ template "minioMonitoringUrl" .spec }}
     to: http://minio-monitoring-console.monitoring.svc.cluster.local:9001
     policy:
+      {{- if index .spec.distribution.modules.auth.pomerium "defaultRoutesPolicy" }}
+      {{- .spec.distribution.modules.auth.pomerium.defaultRoutesPolicy | toYaml | nindent 6 }}
+      {{- else }}
       - allow:
           and:
             - authenticated_user: true
+      {{- end }}
+  {{- end }}
+
+  {{- if eq .spec.distribution.modules.policy.type "gatekeeper" }}
   - from: https://{{ template "gpmUrl" .spec }}
     to: http://gatekeeper-policy-manager.gatekeeper-system.svc.cluster.local
     policy:
+      {{- if index .spec.distribution.modules.auth.pomerium "defaultRoutesPolicy" }}
+      {{- .spec.distribution.modules.auth.pomerium.defaultRoutesPolicy | toYaml | nindent 6 }}
+      {{- else }}
       - allow:
           and:
             - authenticated_user: true
+      {{- end }}
+  {{- end }}
+
+  {{- if index .spec.distribution.modules.auth.pomerium "routes" }}
+  {{- .spec.distribution.modules.auth.pomerium.routes | toYaml | nindent 2 }}
+  {{- else if index .spec.distribution.modules.auth.pomerium "policy" }}
 {{ .spec.distribution.modules.auth.pomerium.policy | indent 2 }}
+  {{- end }}
 {{ end }}
