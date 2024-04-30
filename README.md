@@ -204,4 +204,4 @@ KFD is open-source software and it's released under the following [LICENSE](LICE
 [sighup-site]: https://sighup.io
 [CNCF]: https://landscape.cncf.io/?group=certified-partners-and-providers&item=platform--certified-kubernetes-distribution--fury-distribution
 [cncf-conformance]: https://www.cncf.io/certification/software-conformance/
-[contributing]: https://github.com/sighupio/fury-distribution/tree/master/docs/contributing/README.md
+[contributing]: https://github.com/sighupio/fury-distribution/tree/main/docs/contributing/README.md
