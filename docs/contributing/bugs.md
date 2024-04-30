@@ -1,7 +1,4 @@
----
-title: "🐞 Report Issues"
-id: "bugs"
----
+# Report Issues
 
 Team SIGHUP makes it a priority to respond and solve the bugs that are reported
 about our tools and products.
@@ -21,18 +18,6 @@ we invite you to continue to the following sections to open a GitHub Issue Repor
 Much like every community product, we thrive under constant feedback and error
 reports. We apologise for the issue that you have faced in your Fury journey,
 but we promise to get it fixed as soon as possible.
-
-We provide some Issue templates in GitHub to ease the process of reporting and
-resolving issues. Once you have a clear idea of the nature of the issue, you can
-head over to the component's repository, for example, if you found an issue in
-the [logging module](https://github.com/sighupio/fury-kubernetes-logging/issues), you can open an issue in its
-[GitHub repository](https://github.com/sighupio/fury-kubernetes-logging/issues)
-and in this way we will be notified and get back to you.
-
-You can click on `New Issue` option in the issues section of the repo, and you
-will be offered with a couple of templates for the issue in hand. You can chose
-either a `Bug Report` or a `Enhancement Request` based on your issue. You can
-follow the guidelines that will be offered to you and complete the filing process.
 
 If you lack a GitHub account or prefer to not use it, you can write to our
 engineering team an e-mail at `engineering@sighup.io`. We recommend you follow
@@ -79,6 +64,5 @@ If you are having trouble with the setup, we recommend you to join our [Slack
 channel](index.md#get-in-touch-with-us), and ask our engineers directly there.
 
 If your question is not time intensive, you can open a `Question` issue over at
-GitHub. Follow the same procedure as above, but choose `Question` template
-from the list that follows. Give as much information as possible to make the
-process a bit easier for us to understand.
+GitHub. Give as much information as possible to make the process a bit easier 
+for us to understand.
