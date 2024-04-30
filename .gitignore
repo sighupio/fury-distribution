@@ -1,1 +1,9 @@
+coverage.out
 vendor
+
+.vscode
+.idea
+
+go.work
+go.work.sum
+.envrc
