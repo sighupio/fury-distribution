@@ -96,6 +96,9 @@
         },
         "advanced": {
           "$ref": "#/$defs/Spec.Kubernetes.Advanced"
+        },
+        "advancedAnsible": {
+          "$ref": "#/$defs/Spec.Kubernetes.AdvancedAnsible"
         }
       },
       "required": [
@@ -301,6 +304,15 @@
       },
       "required": ["name", "ip"]
     },
+    "Spec.Kubernetes.AdvancedAnsible": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "pythonInterpreter": {
+          "type": "string"
+        }
+      }
+    },
     "Spec.Kubernetes.Advanced": {
       "type": "object",
       "additionalProperties": false,
@@ -322,9 +334,6 @@
         },
         "airGap": {
           "$ref": "#/$defs/Spec.Kubernetes.Advanced.AirGap"
-        },
-        "pythonInterpreter": {
-          "type": "string"
         }
       }
     },

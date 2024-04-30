@@ -83,7 +83,11 @@ all:
       {{- end }}
     ungrouped: {}
   vars:
-    ansible_python_interpreter: "{{ default "python3" .spec.kubernetes.advanced.pythonInterpreter }}"
+    {{- if and (index .spec.kubernetes "advancedAnsible") (index .spec.kubernetes.advancedAnsible "pythonInterpreter") }}
+    ansible_python_interpreter: "{{ .spec.kubernetes.advancedAnsible.pythonInterpreter }}"
+    {{- else }}
+    ansible_python_interpreter: python3
+    {{- end }}
     ansible_ssh_private_key_file: "{{ .spec.kubernetes.ssh.keyPath }}"
     ansible_user: "{{ .spec.kubernetes.ssh.username }}"
     kubernetes_kubeconfig_path: ./
