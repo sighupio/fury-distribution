@@ -92,10 +92,6 @@ all:
     ansible_user: "{{ .spec.kubernetes.ssh.username }}"
     kubernetes_kubeconfig_path: ./
     kubernetes_version: "{{ .kubernetes.version }}"
-    {{- if index .spec.kubernetes "apiSAN" }}
-    kubernetes_api_SAN:
-      {{- .spec.kubernetes.apiSAN | toYaml | nindent 6 }}
-    {{- end }}
     {{- if (index .spec.kubernetes "proxy") }}
     http_proxy: "{{ .spec.kubernetes.proxy.http }}"
     https_proxy: "{{ .spec.kubernetes.proxy.https }}"

@@ -70,12 +70,6 @@
         "controlPlaneAddress": {
           "type": "string"
         },
-        "apiSAN": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          }
-        },
         "podCidr": {
           "$ref": "#/$defs/Types.Cidr"
         },

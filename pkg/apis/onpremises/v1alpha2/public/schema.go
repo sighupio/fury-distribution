@@ -1014,9 +1014,6 @@ type SpecKubernetes struct {
 	// AdvancedAnsible corresponds to the JSON schema field "advancedAnsible".
 	AdvancedAnsible *SpecKubernetesAdvancedAnsible `json:"advancedAnsible,omitempty" yaml:"advancedAnsible,omitempty" mapstructure:"advancedAnsible,omitempty"`
 
-	// ApiSAN corresponds to the JSON schema field "apiSAN".
-	ApiSAN []string `json:"apiSAN,omitempty" yaml:"apiSAN,omitempty" mapstructure:"apiSAN,omitempty"`
-
 	// ControlPlaneAddress corresponds to the JSON schema field "controlPlaneAddress".
 	ControlPlaneAddress string `json:"controlPlaneAddress" yaml:"controlPlaneAddress" mapstructure:"controlPlaneAddress"`
 
