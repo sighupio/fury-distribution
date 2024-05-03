@@ -455,14 +455,14 @@
                 "repo": {
                   "type": "string"
                 },
-                "gpgKey": {
+                "gpg_key": {
                   "type": "string"
                 },
-                "gpgKeyId": {
+                "gpg_key_id": {
                   "type": "string"
                 }
               },
-              "required": ["name", "repo", "gpgKey", "gpgKeyId"]
+              "required": ["name", "repo", "gpg_key", "gpg_key_id"]
             },
             "yum": {
               "type": "object",
@@ -474,22 +474,22 @@
                 "repo": {
                   "type": "string"
                 },
-                "gpgKey": {
+                "gpg_key": {
                   "type": "string"
                 },
-                "gpgKeyCheck": {
+                "gpg_key_check": {
                   "type": "boolean"
                 },
-                "repoGpgCheck": {
+                "repo_gpg_check": {
                   "type": "boolean"
                 }
               },
               "required": [
                 "name",
                 "repo",
-                "gpgKey",
-                "gpgKeyCheck",
-                "repoGpgCheck"
+                "gpg_key",
+                "gpg_key_check",
+                "repo_gpg_check"
               ]
             }
           }

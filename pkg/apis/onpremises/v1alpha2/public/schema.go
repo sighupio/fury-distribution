@@ -1093,11 +1093,11 @@ type SpecKubernetesAdvancedAirGapDependenciesOverride struct {
 }
 
 type SpecKubernetesAdvancedAirGapDependenciesOverrideApt struct {
-	// GpgKey corresponds to the JSON schema field "gpgKey".
-	GpgKey string `json:"gpgKey" yaml:"gpgKey" mapstructure:"gpgKey"`
+	// GpgKey corresponds to the JSON schema field "gpg_key".
+	GpgKey string `json:"gpg_key" yaml:"gpg_key" mapstructure:"gpg_key"`
 
-	// GpgKeyId corresponds to the JSON schema field "gpgKeyId".
-	GpgKeyId string `json:"gpgKeyId" yaml:"gpgKeyId" mapstructure:"gpgKeyId"`
+	// GpgKeyId corresponds to the JSON schema field "gpg_key_id".
+	GpgKeyId string `json:"gpg_key_id" yaml:"gpg_key_id" mapstructure:"gpg_key_id"`
 
 	// Name corresponds to the JSON schema field "name".
 	Name string `json:"name" yaml:"name" mapstructure:"name"`
@@ -1107,11 +1107,11 @@ type SpecKubernetesAdvancedAirGapDependenciesOverrideApt struct {
 }
 
 type SpecKubernetesAdvancedAirGapDependenciesOverrideYum struct {
-	// GpgKey corresponds to the JSON schema field "gpgKey".
-	GpgKey string `json:"gpgKey" yaml:"gpgKey" mapstructure:"gpgKey"`
+	// GpgKey corresponds to the JSON schema field "gpg_key".
+	GpgKey string `json:"gpg_key" yaml:"gpg_key" mapstructure:"gpg_key"`
 
-	// GpgKeyCheck corresponds to the JSON schema field "gpgKeyCheck".
-	GpgKeyCheck bool `json:"gpgKeyCheck" yaml:"gpgKeyCheck" mapstructure:"gpgKeyCheck"`
+	// GpgKeyCheck corresponds to the JSON schema field "gpg_key_check".
+	GpgKeyCheck bool `json:"gpg_key_check" yaml:"gpg_key_check" mapstructure:"gpg_key_check"`
 
 	// Name corresponds to the JSON schema field "name".
 	Name string `json:"name" yaml:"name" mapstructure:"name"`
@@ -1119,8 +1119,8 @@ type SpecKubernetesAdvancedAirGapDependenciesOverrideYum struct {
 	// Repo corresponds to the JSON schema field "repo".
 	Repo string `json:"repo" yaml:"repo" mapstructure:"repo"`
 
-	// RepoGpgCheck corresponds to the JSON schema field "repoGpgCheck".
-	RepoGpgCheck bool `json:"repoGpgCheck" yaml:"repoGpgCheck" mapstructure:"repoGpgCheck"`
+	// RepoGpgCheck corresponds to the JSON schema field "repo_gpg_check".
+	RepoGpgCheck bool `json:"repo_gpg_check" yaml:"repo_gpg_check" mapstructure:"repo_gpg_check"`
 }
 
 type SpecKubernetesAdvancedAnsible struct {
@@ -1826,11 +1826,11 @@ func (j *SpecKubernetesAdvancedAirGapDependenciesOverrideApt) UnmarshalJSON(b []
 	if err := json.Unmarshal(b, &raw); err != nil {
 		return err
 	}
-	if v, ok := raw["gpgKey"]; !ok || v == nil {
-		return fmt.Errorf("field gpgKey in SpecKubernetesAdvancedAirGapDependenciesOverrideApt: required")
+	if v, ok := raw["gpg_key"]; !ok || v == nil {
+		return fmt.Errorf("field gpg_key in SpecKubernetesAdvancedAirGapDependenciesOverrideApt: required")
 	}
-	if v, ok := raw["gpgKeyId"]; !ok || v == nil {
-		return fmt.Errorf("field gpgKeyId in SpecKubernetesAdvancedAirGapDependenciesOverrideApt: required")
+	if v, ok := raw["gpg_key_id"]; !ok || v == nil {
+		return fmt.Errorf("field gpg_key_id in SpecKubernetesAdvancedAirGapDependenciesOverrideApt: required")
 	}
 	if v, ok := raw["name"]; !ok || v == nil {
 		return fmt.Errorf("field name in SpecKubernetesAdvancedAirGapDependenciesOverrideApt: required")
@@ -1871,11 +1871,11 @@ func (j *SpecKubernetesAdvancedAirGapDependenciesOverrideYum) UnmarshalJSON(b []
 	if err := json.Unmarshal(b, &raw); err != nil {
 		return err
 	}
-	if v, ok := raw["gpgKey"]; !ok || v == nil {
-		return fmt.Errorf("field gpgKey in SpecKubernetesAdvancedAirGapDependenciesOverrideYum: required")
+	if v, ok := raw["gpg_key"]; !ok || v == nil {
+		return fmt.Errorf("field gpg_key in SpecKubernetesAdvancedAirGapDependenciesOverrideYum: required")
 	}
-	if v, ok := raw["gpgKeyCheck"]; !ok || v == nil {
-		return fmt.Errorf("field gpgKeyCheck in SpecKubernetesAdvancedAirGapDependenciesOverrideYum: required")
+	if v, ok := raw["gpg_key_check"]; !ok || v == nil {
+		return fmt.Errorf("field gpg_key_check in SpecKubernetesAdvancedAirGapDependenciesOverrideYum: required")
 	}
 	if v, ok := raw["name"]; !ok || v == nil {
 		return fmt.Errorf("field name in SpecKubernetesAdvancedAirGapDependenciesOverrideYum: required")
@@ -1883,8 +1883,8 @@ func (j *SpecKubernetesAdvancedAirGapDependenciesOverrideYum) UnmarshalJSON(b []
 	if v, ok := raw["repo"]; !ok || v == nil {
 		return fmt.Errorf("field repo in SpecKubernetesAdvancedAirGapDependenciesOverrideYum: required")
 	}
-	if v, ok := raw["repoGpgCheck"]; !ok || v == nil {
-		return fmt.Errorf("field repoGpgCheck in SpecKubernetesAdvancedAirGapDependenciesOverrideYum: required")
+	if v, ok := raw["repo_gpg_check"]; !ok || v == nil {
+		return fmt.Errorf("field repo_gpg_check in SpecKubernetesAdvancedAirGapDependenciesOverrideYum: required")
 	}
 	type Plain SpecKubernetesAdvancedAirGapDependenciesOverrideYum
 	var plain Plain
