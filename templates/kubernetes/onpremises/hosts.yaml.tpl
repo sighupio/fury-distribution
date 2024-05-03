@@ -83,7 +83,11 @@ all:
       {{- end }}
     ungrouped: {}
   vars:
+    {{- if and (index .spec.kubernetes "advancedAnsible") (index .spec.kubernetes.advancedAnsible "pythonInterpreter") }}
+    ansible_python_interpreter: "{{ .spec.kubernetes.advancedAnsible.pythonInterpreter }}"
+    {{- else }}
     ansible_python_interpreter: python3
+    {{- end }}
     ansible_ssh_private_key_file: "{{ .spec.kubernetes.ssh.keyPath }}"
     ansible_user: "{{ .spec.kubernetes.ssh.username }}"
     kubernetes_kubeconfig_path: ./
@@ -116,4 +120,24 @@ all:
     kubernetes_encryption_config: "./encryption-config.yaml"
     {{- end }}
     {{- end }}
+
+    {{- if index .spec.kubernetes.advanced "airGap" }}
+    {{- if index .spec.kubernetes.advanced.airGap "containerdDownloadUrl" }}
+    containerd_download_url: "{{ .spec.kubernetes.advanced.airGap.containerdDownloadUrl }}"
+    {{- end }}
+    {{- if index .spec.kubernetes.advanced.airGap "runcDownloadUrl" }}
+    runc_download_url: "{{ .spec.kubernetes.advanced.airGap.runcDownloadUrl }}"
+    {{- end }}
+    {{- if index .spec.kubernetes.advanced.airGap "runcChecksum" }}
+    runc_checksum: "{{ .spec.kubernetes.advanced.airGap.runcChecksum }}"
+    {{- end }}
+    {{- if index .spec.kubernetes.advanced.airGap "dependenciesOverride" }}
+    dependencies_override:
+      {{- .spec.kubernetes.advanced.airGap.dependenciesOverride | toYaml | nindent 6 }}
+    {{- end }}
+    {{- if index .spec.kubernetes.advanced.airGap "etcdDownloadUrl" }}
+    etcd_download_url: "{{ .spec.kubernetes.advanced.airGap.etcdDownloadUrl }}"
+    {{- end }}
+    {{- end }}
+
     {{- end }}

@@ -802,7 +802,7 @@
         },
         "type": {
           "type": "string",
-          "enum": ["none", "gatekeeper","kyverno"]
+          "enum": ["none", "gatekeeper", "kyverno"]
         },
         "gatekeeper": {
           "$ref": "#/$defs/Spec.Distribution.Modules.Policy.Gatekeeper"
@@ -896,7 +896,7 @@
           "$ref": "#/$defs/Spec.Distribution.Modules.Dr.Velero"
         }
       },
-      "required": ["type", "velero"],
+      "required": ["type"],
       "if": {
         "properties": {
           "type": {
@@ -1201,7 +1201,15 @@
           "type": "string"
         }
       },
-      "required": ["effect", "key", "value"]
+      "required": ["effect", "key"],
+      "oneOf": [
+        {
+          "required": ["operator"]
+        },
+        {
+          "required": ["value"]
+        }
+      ]
     },
     "Types.KubeResources": {
       "type": "object",

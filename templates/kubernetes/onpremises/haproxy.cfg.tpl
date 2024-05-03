@@ -1,3 +1,4 @@
+{{- if .spec.kubernetes.loadBalancers.enabled }}
 {{- $dnsZone := .spec.kubernetes.dnsZone -}}
 
 global
@@ -43,4 +44,5 @@ backend masters
 
 {{- if index .spec.kubernetes.loadBalancers "additionalConfig" }}
 {{ .spec.kubernetes.loadBalancers.additionalConfig }}
+{{- end }}
 {{- end }}

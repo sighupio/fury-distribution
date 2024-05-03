@@ -90,6 +90,9 @@
         },
         "advanced": {
           "$ref": "#/$defs/Spec.Kubernetes.Advanced"
+        },
+        "advancedAnsible": {
+          "$ref": "#/$defs/Spec.Kubernetes.AdvancedAnsible"
         }
       },
       "required": [
@@ -295,6 +298,15 @@
       },
       "required": ["name", "ip"]
     },
+    "Spec.Kubernetes.AdvancedAnsible": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "pythonInterpreter": {
+          "type": "string"
+        }
+      }
+    },
     "Spec.Kubernetes.Advanced": {
       "type": "object",
       "additionalProperties": false,
@@ -313,6 +325,9 @@
         },
         "encryption": {
           "$ref": "#/$defs/Spec.Kubernetes.Advanced.Encryption"
+        },
+        "airGap": {
+          "$ref": "#/$defs/Spec.Kubernetes.Advanced.AirGap"
         }
       }
     },
@@ -410,6 +425,78 @@
         }
       }
     },
+    "Spec.Kubernetes.Advanced.AirGap": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "containerdDownloadUrl": {
+          "type": "string"
+        },
+        "runcDownloadUrl": {
+          "type": "string"
+        },
+        "runcChecksum": {
+          "type": "string"
+        },
+        "etcdDownloadUrl": {
+          "type": "string"
+        },
+        "dependenciesOverride": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "apt": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "name": {
+                  "type": "string"
+                },
+                "repo": {
+                  "type": "string"
+                },
+                "gpg_key": {
+                  "type": "string"
+                },
+                "gpg_key_id": {
+                  "type": "string"
+                }
+              },
+              "required": ["name", "repo", "gpg_key", "gpg_key_id"]
+            },
+            "yum": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "name": {
+                  "type": "string"
+                },
+                "repo": {
+                  "type": "string"
+                },
+                "gpg_key": {
+                  "type": "string"
+                },
+                "gpg_key_check": {
+                  "type": "boolean"
+                },
+                "repo_gpg_check": {
+                  "type": "boolean"
+                }
+              },
+              "required": [
+                "name",
+                "repo",
+                "gpg_key",
+                "gpg_key_check",
+                "repo_gpg_check"
+              ]
+            }
+          }
+        }
+      }
+    },
+
     "Spec.Distribution": {
       "type": "object",
       "additionalProperties": false,
@@ -1238,7 +1325,17 @@
           "$ref": "#/$defs/Spec.Distribution.Modules.Dr.Velero"
         }
       },
-      "required": ["type", "velero"]
+      "required": ["type"],
+      "if": {
+        "properties": {
+          "type": {
+            "const": "on-premises"
+          }
+        }
+      },
+      "then": {
+        "required": ["type", "velero"]
+      }
     },
     "Spec.Distribution.Modules.Dr.Velero": {
       "type": "object",
@@ -1597,7 +1694,15 @@
           "type": "string"
         }
       },
-      "required": ["effect", "key", "value"]
+      "required": ["effect", "key"],
+      "oneOf": [
+        {
+          "required": ["operator"]
+        },
+        {
+          "required": ["value"]
+        }
+      ]
     },
     "Types.KubeResources": {
       "type": "object",
