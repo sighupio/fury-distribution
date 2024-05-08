@@ -408,12 +408,14 @@ The node selector to use to place the pods for the pomerium module
 
 ### Properties
 
-| Property                                                                     | Type     | Required |
-|:-----------------------------------------------------------------------------|:---------|:---------|
-| [effect](#specdistributionmodulesauthpomeriumoverridestolerationseffect)     | `string` | Required |
-| [operator](#specdistributionmodulesauthpomeriumoverridestolerationsoperator) | `string` | Optional |
-| [key](#specdistributionmodulesauthpomeriumoverridestolerationskey)           | `string` | Required |
-| [value](#specdistributionmodulesauthpomeriumoverridestolerationsvalue)       | `string` | Required |
+| Property                                                                     | Type     | Required  |
+|:-----------------------------------------------------------------------------|:---------|:----------|
+| [effect](#specdistributionmodulesauthpomeriumoverridestolerationseffect)     | `string` | Required  |
+| [operator](#specdistributionmodulesauthpomeriumoverridestolerationsoperator) | `string` | Optional* |
+| [key](#specdistributionmodulesauthpomeriumoverridestolerationskey)           | `string` | Required  |
+| [value](#specdistributionmodulesauthpomeriumoverridestolerationsvalue)       | `string` | Optional* |
+
+*at least one is required between operator and value*
 
 ### Description
 
@@ -499,12 +501,14 @@ The node selector to use to place the pods for the dex module
 
 ### Properties
 
-| Property                                                                | Type     | Required |
-|:------------------------------------------------------------------------|:---------|:---------|
-| [effect](#specdistributionmodulesauthdexoverridestolerationseffect)     | `string` | Required |
-| [operator](#specdistributionmodulesauthdexoverridestolerationsoperator) | `string` | Optional |
-| [key](#specdistributionmodulesauthdexoverridestolerationskey)           | `string` | Required |
-| [value](#specdistributionmodulesauthdexoverridestolerationsvalue)       | `string` | Required |
+| Property                                                                | Type     | Required  |
+|:------------------------------------------------------------------------|:---------|:----------|
+| [effect](#specdistributionmodulesauthdexoverridestolerationseffect)     | `string` | Required  |
+| [operator](#specdistributionmodulesauthdexoverridestolerationsoperator) | `string` | Optional* |
+| [key](#specdistributionmodulesauthdexoverridestolerationskey)           | `string` | Required  |
+| [value](#specdistributionmodulesauthdexoverridestolerationsvalue)       | `string` | Optional* |
+
+*at least one is required between operator and value*
 
 ### Description
 
@@ -615,11 +619,13 @@ The session security key for oidc kubernetes auth
 
 ### Properties
 
-| Property                                         | Type     | Required |
-|:-------------------------------------------------|:---------|:---------|
-| [overrides](#specdistributionmodulesdroverrides) | `object` | Optional |
-| [type](#specdistributionmodulesdrtype)           | `string` | Required |
-| [velero](#specdistributionmodulesdrvelero)       | `object` | Required |
+| Property                                         | Type     | Required  |
+|:-------------------------------------------------|:---------|:----------|
+| [overrides](#specdistributionmodulesdroverrides) | `object` | Optional  |
+| [type](#specdistributionmodulesdrtype)           | `string` | Required  |
+| [velero](#specdistributionmodulesdrvelero)       | `object` | Optional* |
+
+*velero: required only if .spec.distribution.modules.dr.type is ***on-premises***, otherwise it must be null*
 
 ## .spec.distribution.modules.dr.overrides
 
@@ -641,12 +647,14 @@ The node selector to use to place the pods for the dr module
 
 ### Properties
 
-| Property                                                           | Type     | Required |
-|:-------------------------------------------------------------------|:---------|:---------|
-| [effect](#specdistributionmodulesdroverridestolerationseffect)     | `string` | Required |
-| [operator](#specdistributionmodulesdroverridestolerationsoperator) | `string` | Optional |
-| [key](#specdistributionmodulesdroverridestolerationskey)           | `string` | Required |
-| [value](#specdistributionmodulesdroverridestolerationsvalue)       | `string` | Required |
+| Property                                                           | Type     | Required  |
+|:-------------------------------------------------------------------|:---------|:----------|
+| [effect](#specdistributionmodulesdroverridestolerationseffect)     | `string` | Required  |
+| [operator](#specdistributionmodulesdroverridestolerationsoperator) | `string` | Optional* |
+| [key](#specdistributionmodulesdroverridestolerationskey)           | `string` | Required  |
+| [value](#specdistributionmodulesdroverridestolerationsvalue)       | `string` | Optional* |
+
+*at least one is required between operator and value*
 
 ### Description
 
@@ -764,12 +772,14 @@ The node selector to use to place the pods for the velero module
 
 ### Properties
 
-| Property                                                                 | Type     | Required |
-|:-------------------------------------------------------------------------|:---------|:---------|
-| [effect](#specdistributionmodulesdrvelerooverridestolerationseffect)     | `string` | Required |
-| [operator](#specdistributionmodulesdrvelerooverridestolerationsoperator) | `string` | Optional |
-| [key](#specdistributionmodulesdrvelerooverridestolerationskey)           | `string` | Required |
-| [value](#specdistributionmodulesdrvelerooverridestolerationsvalue)       | `string` | Required |
+| Property                                                                 | Type     | Required  |
+|:-------------------------------------------------------------------------|:---------|:----------|
+| [effect](#specdistributionmodulesdrvelerooverridestolerationseffect)     | `string` | Required  |
+| [operator](#specdistributionmodulesdrvelerooverridestolerationsoperator) | `string` | Optional* |
+| [key](#specdistributionmodulesdrvelerooverridestolerationskey)           | `string` | Required  |
+| [value](#specdistributionmodulesdrvelerooverridestolerationsvalue)       | `string` | Optional* |
+
+*at least one is required between operator and value*
 
 ### Description
 
@@ -911,12 +921,14 @@ The node selector to use to place the pods for the ingress module
 
 ### Properties
 
-| Property                                                                | Type     | Required |
-|:------------------------------------------------------------------------|:---------|:---------|
-| [effect](#specdistributionmodulesingressoverridestolerationseffect)     | `string` | Required |
-| [operator](#specdistributionmodulesingressoverridestolerationsoperator) | `string` | Optional |
-| [key](#specdistributionmodulesingressoverridestolerationskey)           | `string` | Required |
-| [value](#specdistributionmodulesingressoverridestolerationsvalue)       | `string` | Required |
+| Property                                                                | Type     | Required  |
+|:------------------------------------------------------------------------|:---------|:----------|
+| [effect](#specdistributionmodulesingressoverridestolerationseffect)     | `string` | Required  |
+| [operator](#specdistributionmodulesingressoverridestolerationsoperator) | `string` | Optional* |
+| [key](#specdistributionmodulesingressoverridestolerationskey)           | `string` | Required  |
+| [value](#specdistributionmodulesingressoverridestolerationsvalue)       | `string` | Optional* |
+
+*at least one is required between operator and value*
 
 ### Description
 
@@ -1007,12 +1019,14 @@ The node selector to use to place the pods for the ingress module
 
 ### Properties
 
-| Property                                                                         | Type     | Required |
-|:---------------------------------------------------------------------------------|:---------|:---------|
-| [effect](#specdistributionmodulesingressoverridesingressestolerationseffect)     | `string` | Required |
-| [operator](#specdistributionmodulesingressoverridesingressestolerationsoperator) | `string` | Optional |
-| [key](#specdistributionmodulesingressoverridesingressestolerationskey)           | `string` | Required |
-| [value](#specdistributionmodulesingressoverridesingressestolerationsvalue)       | `string` | Required |
+| Property                                                                         | Type     | Required  |
+|:---------------------------------------------------------------------------------|:---------|:----------|
+| [effect](#specdistributionmodulesingressoverridesingressestolerationseffect)     | `string` | Required  |
+| [operator](#specdistributionmodulesingressoverridesingressestolerationsoperator) | `string` | Optional* |
+| [key](#specdistributionmodulesingressoverridesingressestolerationskey)           | `string` | Required  |
+| [value](#specdistributionmodulesingressoverridesingressestolerationsvalue)       | `string` | Optional* |
+
+*at least one is required between operator and value*
 
 ### Description
 
@@ -1164,12 +1178,14 @@ The node selector to use to place the pods for the nginx module
 
 ### Properties
 
-| Property                                                                     | Type     | Required |
-|:-----------------------------------------------------------------------------|:---------|:---------|
-| [effect](#specdistributionmodulesingressnginxoverridestolerationseffect)     | `string` | Required |
-| [operator](#specdistributionmodulesingressnginxoverridestolerationsoperator) | `string` | Optional |
-| [key](#specdistributionmodulesingressnginxoverridestolerationskey)           | `string` | Required |
-| [value](#specdistributionmodulesingressnginxoverridestolerationsvalue)       | `string` | Required |
+| Property                                                                     | Type     | Required  |
+|:-----------------------------------------------------------------------------|:---------|:----------|
+| [effect](#specdistributionmodulesingressnginxoverridestolerationseffect)     | `string` | Required  |
+| [operator](#specdistributionmodulesingressnginxoverridestolerationsoperator) | `string` | Optional* |
+| [key](#specdistributionmodulesingressnginxoverridestolerationskey)           | `string` | Required  |
+| [value](#specdistributionmodulesingressnginxoverridestolerationsvalue)       | `string` | Optional* |
+
+*at least one is required between operator and value*
 
 ### Description
 
@@ -1287,12 +1303,14 @@ The node selector to use to place the pods for the cert-manager module
 
 ### Properties
 
-| Property                                                                           | Type     | Required |
-|:-----------------------------------------------------------------------------------|:---------|:---------|
-| [effect](#specdistributionmodulesingresscertmanageroverridestolerationseffect)     | `string` | Required |
-| [operator](#specdistributionmodulesingresscertmanageroverridestolerationsoperator) | `string` | Optional |
-| [key](#specdistributionmodulesingresscertmanageroverridestolerationskey)           | `string` | Required |
-| [value](#specdistributionmodulesingresscertmanageroverridestolerationsvalue)       | `string` | Required |
+| Property                                                                           | Type     | Required  |
+|:-----------------------------------------------------------------------------------|:---------|:----------|
+| [effect](#specdistributionmodulesingresscertmanageroverridestolerationseffect)     | `string` | Required  |
+| [operator](#specdistributionmodulesingresscertmanageroverridestolerationsoperator) | `string` | Optional* |
+| [key](#specdistributionmodulesingresscertmanageroverridestolerationskey)           | `string` | Required  |
+| [value](#specdistributionmodulesingresscertmanageroverridestolerationsvalue)       | `string` | Optional* |
+
+*at least one is required between operator and value*
 
 ### Description
 
@@ -1364,12 +1382,14 @@ The node selector to use to place the pods for the forecastle module
 
 ### Properties
 
-| Property                                                                          | Type     | Required |
-|:----------------------------------------------------------------------------------|:---------|:---------|
-| [effect](#specdistributionmodulesingressforecastleoverridestolerationseffect)     | `string` | Required |
-| [operator](#specdistributionmodulesingressforecastleoverridestolerationsoperator) | `string` | Optional |
-| [key](#specdistributionmodulesingressforecastleoverridestolerationskey)           | `string` | Required |
-| [value](#specdistributionmodulesingressforecastleoverridestolerationsvalue)       | `string` | Required |
+| Property                                                                          | Type     | Required  |
+|:----------------------------------------------------------------------------------|:---------|:----------|
+| [effect](#specdistributionmodulesingressforecastleoverridestolerationseffect)     | `string` | Required  |
+| [operator](#specdistributionmodulesingressforecastleoverridestolerationsoperator) | `string` | Optional* |
+| [key](#specdistributionmodulesingressforecastleoverridestolerationskey)           | `string` | Required  |
+| [value](#specdistributionmodulesingressforecastleoverridestolerationsvalue)       | `string` | Optional* |
+
+*at least one is required between operator and value*
 
 ### Description
 
@@ -1448,12 +1468,14 @@ The node selector to use to place the pods for the logging module
 
 ### Properties
 
-| Property                                                                | Type     | Required |
-|:------------------------------------------------------------------------|:---------|:---------|
-| [effect](#specdistributionmodulesloggingoverridestolerationseffect)     | `string` | Required |
-| [operator](#specdistributionmodulesloggingoverridestolerationsoperator) | `string` | Optional |
-| [key](#specdistributionmodulesloggingoverridestolerationskey)           | `string` | Required |
-| [value](#specdistributionmodulesloggingoverridestolerationsvalue)       | `string` | Optional |
+| Property                                                                | Type     | Required  |
+|:------------------------------------------------------------------------|:---------|:----------|
+| [effect](#specdistributionmodulesloggingoverridestolerationseffect)     | `string` | Required  |
+| [operator](#specdistributionmodulesloggingoverridestolerationsoperator) | `string` | Optional* |
+| [key](#specdistributionmodulesloggingoverridestolerationskey)           | `string` | Required  |
+| [value](#specdistributionmodulesloggingoverridestolerationsvalue)       | `string` | Optional* |
+
+*at least one is required between operator and value*
 
 ### Description
 
@@ -1644,12 +1666,14 @@ The node selector to use to place the pods for the opensearch module
 
 ### Properties
 
-| Property                                                                          | Type     | Required |
-|:----------------------------------------------------------------------------------|:---------|:---------|
-| [effect](#specdistributionmodulesloggingopensearchoverridestolerationseffect)     | `string` | Required |
-| [operator](#specdistributionmodulesloggingopensearchoverridestolerationsoperator) | `string` | Optional |
-| [key](#specdistributionmodulesloggingopensearchoverridestolerationskey)           | `string` | Required |
-| [value](#specdistributionmodulesloggingopensearchoverridestolerationsvalue)       | `string` | Required |
+| Property                                                                          | Type     | Required  |
+|:----------------------------------------------------------------------------------|:---------|:----------|
+| [effect](#specdistributionmodulesloggingopensearchoverridestolerationseffect)     | `string` | Required  |
+| [operator](#specdistributionmodulesloggingopensearchoverridestolerationsoperator) | `string` | Optional* |
+| [key](#specdistributionmodulesloggingopensearchoverridestolerationskey)           | `string` | Required  |
+| [value](#specdistributionmodulesloggingopensearchoverridestolerationsvalue)       | `string` | Optional* |
+
+*at least one is required between operator and value*
 
 ### Description
 
@@ -1848,12 +1872,14 @@ The node selector to use to place the pods for the cerebro module
 
 ### Properties
 
-| Property                                                                       | Type     | Required |
-|:-------------------------------------------------------------------------------|:---------|:---------|
-| [effect](#specdistributionmodulesloggingcerebrooverridestolerationseffect)     | `string` | Required |
-| [operator](#specdistributionmodulesloggingcerebrooverridestolerationsoperator) | `string` | Optional |
-| [key](#specdistributionmodulesloggingcerebrooverridestolerationskey)           | `string` | Required |
-| [value](#specdistributionmodulesloggingcerebrooverridestolerationsvalue)       | `string` | Required |
+| Property                                                                       | Type     | Required  |
+|:-------------------------------------------------------------------------------|:---------|:----------|
+| [effect](#specdistributionmodulesloggingcerebrooverridestolerationseffect)     | `string` | Required  |
+| [operator](#specdistributionmodulesloggingcerebrooverridestolerationsoperator) | `string` | Optional* |
+| [key](#specdistributionmodulesloggingcerebrooverridestolerationskey)           | `string` | Required  |
+| [value](#specdistributionmodulesloggingcerebrooverridestolerationsvalue)       | `string` | Optional* |
+
+*at least one is required between operator and value*
 
 ### Description
 
@@ -1954,12 +1980,14 @@ The node selector to use to place the pods for the minio module
 
 ### Properties
 
-| Property                                                                     | Type     | Required |
-|:-----------------------------------------------------------------------------|:---------|:---------|
-| [effect](#specdistributionmodulesloggingminiooverridestolerationseffect)     | `string` | Required |
-| [operator](#specdistributionmodulesloggingminiooverridestolerationsoperator) | `string` | Optional |
-| [key](#specdistributionmodulesloggingminiooverridestolerationskey)           | `string` | Required |
-| [value](#specdistributionmodulesloggingminiooverridestolerationsvalue)       | `string` | Required |
+| Property                                                                     | Type     | Required  |
+|:-----------------------------------------------------------------------------|:---------|:----------|
+| [effect](#specdistributionmodulesloggingminiooverridestolerationseffect)     | `string` | Required  |
+| [operator](#specdistributionmodulesloggingminiooverridestolerationsoperator) | `string` | Optional* |
+| [key](#specdistributionmodulesloggingminiooverridestolerationskey)           | `string` | Required  |
+| [value](#specdistributionmodulesloggingminiooverridestolerationsvalue)       | `string` | Optional* |
+
+*at least one is required between operator and value*
 
 ### Description
 
@@ -2032,12 +2060,14 @@ The node selector to use to place the pods for the operator module
 
 ### Properties
 
-| Property                                                                        | Type     | Required |
-|:--------------------------------------------------------------------------------|:---------|:---------|
-| [effect](#specdistributionmodulesloggingoperatoroverridestolerationseffect)     | `string` | Required |
-| [operator](#specdistributionmodulesloggingoperatoroverridestolerationsoperator) | `string` | Optional |
-| [key](#specdistributionmodulesloggingoperatoroverridestolerationskey)           | `string` | Required |
-| [value](#specdistributionmodulesloggingoperatoroverridestolerationsvalue)       | `string` | Required |
+| Property                                                                        | Type     | Required  |
+|:--------------------------------------------------------------------------------|:---------|:----------|
+| [effect](#specdistributionmodulesloggingoperatoroverridestolerationseffect)     | `string` | Required  |
+| [operator](#specdistributionmodulesloggingoperatoroverridestolerationsoperator) | `string` | Optional* |
+| [key](#specdistributionmodulesloggingoperatoroverridestolerationskey)           | `string` | Required  |
+| [value](#specdistributionmodulesloggingoperatoroverridestolerationsvalue)       | `string` | Optional* |
+
+*at least one is required between operator and value*
 
 ### Description
 
@@ -2135,12 +2165,14 @@ The node selector to use to place the pods for the monitoring module
 
 ### Properties
 
-| Property                                                                   | Type     | Required |
-|:---------------------------------------------------------------------------|:---------|:---------|
-| [effect](#specdistributionmodulesmonitoringoverridestolerationseffect)     | `string` | Required |
-| [operator](#specdistributionmodulesmonitoringoverridestolerationsoperator) | `string` | Optional |
-| [key](#specdistributionmodulesmonitoringoverridestolerationskey)           | `string` | Required |
-| [value](#specdistributionmodulesmonitoringoverridestolerationsvalue)       | `string` | Required |
+| Property                                                                   | Type     | Required  |
+|:---------------------------------------------------------------------------|:---------|:----------|
+| [effect](#specdistributionmodulesmonitoringoverridestolerationseffect)     | `string` | Required  |
+| [operator](#specdistributionmodulesmonitoringoverridestolerationsoperator) | `string` | Optional* |
+| [key](#specdistributionmodulesmonitoringoverridestolerationskey)           | `string` | Required  |
+| [value](#specdistributionmodulesmonitoringoverridestolerationsvalue)       | `string` | Optional* |
+
+*at least one is required between operator and value*
 
 ### Description
 
@@ -2348,12 +2380,14 @@ The node selector to use to place the pods for the grafana module
 
 ### Properties
 
-| Property                                                                          | Type     | Required |
-|:----------------------------------------------------------------------------------|:---------|:---------|
-| [effect](#specdistributionmodulesmonitoringgrafanaoverridestolerationseffect)     | `string` | Required |
-| [operator](#specdistributionmodulesmonitoringgrafanaoverridestolerationsoperator) | `string` | Optional |
-| [key](#specdistributionmodulesmonitoringgrafanaoverridestolerationskey)           | `string` | Required |
-| [value](#specdistributionmodulesmonitoringgrafanaoverridestolerationsvalue)       | `string` | Required |
+| Property                                                                          | Type     | Required  |
+|:----------------------------------------------------------------------------------|:---------|:----------|
+| [effect](#specdistributionmodulesmonitoringgrafanaoverridestolerationseffect)     | `string` | Required  |
+| [operator](#specdistributionmodulesmonitoringgrafanaoverridestolerationsoperator) | `string` | Optional* |
+| [key](#specdistributionmodulesmonitoringgrafanaoverridestolerationskey)           | `string` | Required  |
+| [value](#specdistributionmodulesmonitoringgrafanaoverridestolerationsvalue)       | `string` | Optional* |
+
+*at least one is required between operator and value*
 
 ### Description
 
@@ -2425,12 +2459,14 @@ The node selector to use to place the pods for the blackboxExporter module
 
 ### Properties
 
-| Property                                                                                   | Type     | Required |
-|:-------------------------------------------------------------------------------------------|:---------|:---------|
-| [effect](#specdistributionmodulesmonitoringblackboxexporteroverridestolerationseffect)     | `string` | Required |
-| [operator](#specdistributionmodulesmonitoringblackboxexporteroverridestolerationsoperator) | `string` | Optional |
-| [key](#specdistributionmodulesmonitoringblackboxexporteroverridestolerationskey)           | `string` | Required |
-| [value](#specdistributionmodulesmonitoringblackboxexporteroverridestolerationsvalue)       | `string` | Required |
+| Property                                                                                   | Type     | Required  |
+|:-------------------------------------------------------------------------------------------|:---------|:----------|
+| [effect](#specdistributionmodulesmonitoringblackboxexporteroverridestolerationseffect)     | `string` | Required  |
+| [operator](#specdistributionmodulesmonitoringblackboxexporteroverridestolerationsoperator) | `string` | Optional* |
+| [key](#specdistributionmodulesmonitoringblackboxexporteroverridestolerationskey)           | `string` | Required  |
+| [value](#specdistributionmodulesmonitoringblackboxexporteroverridestolerationsvalue)       | `string` | Optional* |
+
+*at least one is required between operator and value*
 
 ### Description
 
@@ -2502,12 +2538,14 @@ The node selector to use to place the pods for the kubeStateMetrics module
 
 ### Properties
 
-| Property                                                                                   | Type     | Required |
-|:-------------------------------------------------------------------------------------------|:---------|:---------|
-| [effect](#specdistributionmodulesmonitoringkubestatemetricsoverridestolerationseffect)     | `string` | Required |
-| [operator](#specdistributionmodulesmonitoringkubestatemetricsoverridestolerationsoperator) | `string` | Optional |
-| [key](#specdistributionmodulesmonitoringkubestatemetricsoverridestolerationskey)           | `string` | Required |
-| [value](#specdistributionmodulesmonitoringkubestatemetricsoverridestolerationsvalue)       | `string` | Required |
+| Property                                                                                   | Type     | Required  |
+|:-------------------------------------------------------------------------------------------|:---------|:----------|
+| [effect](#specdistributionmodulesmonitoringkubestatemetricsoverridestolerationseffect)     | `string` | Required  |
+| [operator](#specdistributionmodulesmonitoringkubestatemetricsoverridestolerationsoperator) | `string` | Optional* |
+| [key](#specdistributionmodulesmonitoringkubestatemetricsoverridestolerationskey)           | `string` | Required  |
+| [value](#specdistributionmodulesmonitoringkubestatemetricsoverridestolerationsvalue)       | `string` | Optional* |
+
+*at least one is required between operator and value*
 
 ### Description
 
@@ -2579,12 +2617,14 @@ The node selector to use to place the pods for the x509Exporter module
 
 ### Properties
 
-| Property                                                                               | Type     | Required |
-|:---------------------------------------------------------------------------------------|:---------|:---------|
-| [effect](#specdistributionmodulesmonitoringx509exporteroverridestolerationseffect)     | `string` | Required |
-| [operator](#specdistributionmodulesmonitoringx509exporteroverridestolerationsoperator) | `string` | Optional |
-| [key](#specdistributionmodulesmonitoringx509exporteroverridestolerationskey)           | `string` | Required |
-| [value](#specdistributionmodulesmonitoringx509exporteroverridestolerationsvalue)       | `string` | Required |
+| Property                                                                               | Type     | Required  |
+|:---------------------------------------------------------------------------------------|:---------|:----------|
+| [effect](#specdistributionmodulesmonitoringx509exporteroverridestolerationseffect)     | `string` | Required  |
+| [operator](#specdistributionmodulesmonitoringx509exporteroverridestolerationsoperator) | `string` | Optional* |
+| [key](#specdistributionmodulesmonitoringx509exporteroverridestolerationskey)           | `string` | Required  |
+| [value](#specdistributionmodulesmonitoringx509exporteroverridestolerationsvalue)       | `string` | Optional* |
+
+*at least one is required between operator and value*
 
 ### Description
 
@@ -2659,12 +2699,14 @@ The node selector to use to place the pods for the mimir module
 
 ### Properties
 
-| Property                                                                              | Type     | Required |
-|:--------------------------------------------------------------------------------------|:---------|:---------|
-| [effect](#specdistributionmodulesmonitoringmimiroverridestolerationseffect)           | `string` | Required |
-| [operator](#specdistributionmodulesmonitoringmimiroverridestolerationsoperator)       | `string` | Optional |
-| [key](#specdistributionmodulesmonitoringmimiroverridestolerationskey)                 | `string` | Required |
-| [value](#specdistributionmodulesmonitoringmimiroverridestolerationsvalue)             | `string` | Required |
+| Property                                                                              | Type     | Required  |
+|:--------------------------------------------------------------------------------------|:---------|:----------|
+| [effect](#specdistributionmodulesmonitoringmimiroverridestolerationseffect)           | `string` | Required  |
+| [operator](#specdistributionmodulesmonitoringmimiroverridestolerationsoperator)       | `string` | Optional* |
+| [key](#specdistributionmodulesmonitoringmimiroverridestolerationskey)                 | `string` | Required  |
+| [value](#specdistributionmodulesmonitoringmimiroverridestolerationsvalue)             | `string` | Optional* |
+
+*at least one is required between operator and value*
 
 ### Description
 
@@ -2801,12 +2843,14 @@ The node selector to use to place the pods for the minio module
 
 ### Properties
 
-| Property                                                                              | Type     | Required |
-|:--------------------------------------------------------------------------------------|:---------|:---------|
-| [effect](#specdistributionmodulesmonitoringminiooverridestolerationseffect)           | `string` | Required |
-| [operator](#specdistributionmodulesmonitoringminiooverridestolerationsoperator)       | `string` | Optional |
-| [key](#specdistributionmodulesmonitoringminiooverridestolerationskey)                 | `string` | Required |
-| [value](#specdistributionmodulesmonitoringminiooverridestolerationsvalue)             | `string` | Required |
+| Property                                                                              | Type     | Required  |
+|:--------------------------------------------------------------------------------------|:---------|:----------|
+| [effect](#specdistributionmodulesmonitoringminiooverridestolerationseffect)           | `string` | Required  |
+| [operator](#specdistributionmodulesmonitoringminiooverridestolerationsoperator)       | `string` | Optional* |
+| [key](#specdistributionmodulesmonitoringminiooverridestolerationskey)                 | `string` | Required  |
+| [value](#specdistributionmodulesmonitoringminiooverridestolerationsvalue)             | `string` | Optional* |
+
+*at least one is required between operator and value*
 
 ### Description
 
@@ -2908,12 +2952,14 @@ The node selector to use to place the pods for the networking module
 
 ### Properties
 
-| Property                                                                   | Type     | Required |
-|:---------------------------------------------------------------------------|:---------|:---------|
-| [effect](#specdistributionmodulesnetworkingoverridestolerationseffect)     | `string` | Required |
-| [operator](#specdistributionmodulesnetworkingoverridestolerationsoperator) | `string` | Optional |
-| [key](#specdistributionmodulesnetworkingoverridestolerationskey)           | `string` | Required |
-| [value](#specdistributionmodulesnetworkingoverridestolerationsvalue)       | `string` | Required |
+| Property                                                                   | Type     | Required  |
+|:---------------------------------------------------------------------------|:---------|:----------|
+| [effect](#specdistributionmodulesnetworkingoverridestolerationseffect)     | `string` | Required  |
+| [operator](#specdistributionmodulesnetworkingoverridestolerationsoperator) | `string` | Optional* |
+| [key](#specdistributionmodulesnetworkingoverridestolerationskey)           | `string` | Required  |
+| [value](#specdistributionmodulesnetworkingoverridestolerationsvalue)       | `string` | Optional* |
+
+*at least one is required between operator and value*
 
 ### Description
 
@@ -2985,12 +3031,14 @@ The node selector to use to place the pods for the tigeraOperator module
 
 ### Properties
 
-| Property                                                                                 | Type     | Required |
-|:-----------------------------------------------------------------------------------------|:---------|:---------|
-| [effect](#specdistributionmodulesnetworkingtigeraoperatoroverridestolerationseffect)     | `string` | Required |
-| [operator](#specdistributionmodulesnetworkingtigeraoperatoroverridestolerationsoperator) | `string` | Optional |
-| [key](#specdistributionmodulesnetworkingtigeraoperatoroverridestolerationskey)           | `string` | Required |
-| [value](#specdistributionmodulesnetworkingtigeraoperatoroverridestolerationsvalue)       | `string` | Required |
+| Property                                                                                 | Type     | Required  |
+|:-----------------------------------------------------------------------------------------|:---------|:----------|
+| [effect](#specdistributionmodulesnetworkingtigeraoperatoroverridestolerationseffect)     | `string` | Required  |
+| [operator](#specdistributionmodulesnetworkingtigeraoperatoroverridestolerationsoperator) | `string` | Optional* |
+| [key](#specdistributionmodulesnetworkingtigeraoperatoroverridestolerationskey)           | `string` | Required  |
+| [value](#specdistributionmodulesnetworkingtigeraoperatoroverridestolerationsvalue)       | `string` | Optional* |
+
+*at least one is required between operator and value*
 
 ### Description
 
@@ -3084,12 +3132,14 @@ The node selector to use to place the pods for the cilium module
 
 ### Properties
 
-| Property                                                                         | Type     | Required |
-|:---------------------------------------------------------------------------------|:---------|:---------|
-| [effect](#specdistributionmodulesnetworkingciliumoverridestolerationseffect)     | `string` | Required |
-| [operator](#specdistributionmodulesnetworkingciliumoverridestolerationsoperator) | `string` | Optional |
-| [key](#specdistributionmodulesnetworkingciliumoverridestolerationskey)           | `string` | Required |
-| [value](#specdistributionmodulesnetworkingciliumoverridestolerationsvalue)       | `string` | Required |
+| Property                                                                         | Type     | Required  |
+|:---------------------------------------------------------------------------------|:---------|:----------|
+| [effect](#specdistributionmodulesnetworkingciliumoverridestolerationseffect)     | `string` | Required  |
+| [operator](#specdistributionmodulesnetworkingciliumoverridestolerationsoperator) | `string` | Optional* |
+| [key](#specdistributionmodulesnetworkingciliumoverridestolerationskey)           | `string` | Required  |
+| [value](#specdistributionmodulesnetworkingciliumoverridestolerationsvalue)       | `string` | Optional* |
+
+*at least one is required between operator and value*
 
 ### Description
 
@@ -3184,12 +3234,14 @@ The node selector to use to place the pods for the security module
 
 ### Properties
 
-| Property                                                               | Type     | Required |
-|:-----------------------------------------------------------------------|:---------|:---------|
-| [effect](#specdistributionmodulespolicyoverridestolerationseffect)     | `string` | Required |
-| [operator](#specdistributionmodulespolicyoverridestolerationsoperator) | `string` | Optional |
-| [key](#specdistributionmodulespolicyoverridestolerationskey)           | `string` | Required |
-| [value](#specdistributionmodulespolicyoverridestolerationsvalue)       | `string` | Required |
+| Property                                                               | Type     | Required  |
+|:-----------------------------------------------------------------------|:---------|:----------|
+| [effect](#specdistributionmodulespolicyoverridestolerationseffect)     | `string` | Required  |
+| [operator](#specdistributionmodulespolicyoverridestolerationsoperator) | `string` | Optional* |
+| [key](#specdistributionmodulespolicyoverridestolerationskey)           | `string` | Required  |
+| [value](#specdistributionmodulespolicyoverridestolerationsvalue)       | `string` | Optional* |
+
+*at least one is required between operator and value*
 
 ### Description
 
@@ -3329,12 +3381,14 @@ The node selector to use to place the pods for the gatekeeper module
 
 ### Properties
 
-| Property                                                                         | Type     | Required |
-|:---------------------------------------------------------------------------------|:---------|:---------|
-| [effect](#specdistributionmodulespolicygatekeeperoverridestolerationseffect)     | `string` | Required |
-| [operator](#specdistributionmodulespolicygatekeeperoverridestolerationsoperator) | `string` | Optional |
-| [key](#specdistributionmodulespolicygatekeeperoverridestolerationskey)           | `string` | Required |
-| [value](#specdistributionmodulespolicygatekeeperoverridestolerationsvalue)       | `string` | Required |
+| Property                                                                         | Type     | Required  |
+|:---------------------------------------------------------------------------------|:---------|:----------|
+| [effect](#specdistributionmodulespolicygatekeeperoverridestolerationseffect)     | `string` | Required  |
+| [operator](#specdistributionmodulespolicygatekeeperoverridestolerationsoperator) | `string` | Optional* |
+| [key](#specdistributionmodulespolicygatekeeperoverridestolerationskey)           | `string` | Required  |
+| [value](#specdistributionmodulespolicygatekeeperoverridestolerationsvalue)       | `string` | Optional* |
+
+*at least one is required between operator and value*
 
 ### Description
 
@@ -3436,12 +3490,14 @@ The node selector to use to place the pods for the kyverno module
 
 ### Properties
 
-| Property                                                                         | Type     | Required |
-|:---------------------------------------------------------------------------------|:---------|:---------|
-| [effect](#specdistributionmodulespolicykyvernooverridestolerationseffect)        | `string` | Required |
-| [operator](#specdistributionmodulespolicykyvernooverridestolerationsoperator)    | `string` | Optional |
-| [key](#specdistributionmodulespolicykyvernooverridestolerationskey)              | `string` | Required |
-| [value](#specdistributionmodulespolicykyvernooverridestolerationsvalue)          | `string` | Required |
+| Property                                                                         | Type     | Required  |
+|:---------------------------------------------------------------------------------|:---------|:----------|
+| [effect](#specdistributionmodulespolicykyvernooverridestolerationseffect)        | `string` | Required  |
+| [operator](#specdistributionmodulespolicykyvernooverridestolerationsoperator)    | `string` | Optional* |
+| [key](#specdistributionmodulespolicykyvernooverridestolerationskey)              | `string` | Required  |
+| [value](#specdistributionmodulespolicykyvernooverridestolerationsvalue)          | `string` | Optional* |
+
+*at least one is required between operator and value*
 
 ### Description
 
@@ -3517,12 +3573,14 @@ The node selector to use to place the pods for the tracing module
 
 ### Properties
 
-| Property                                                                   | Type     | Required |
-|:---------------------------------------------------------------------------|:---------|:---------|
-| [effect](#specdistributionmodulestracingoverridestolerationseffect)        | `string` | Required |
-| [operator](#specdistributionmodulestracingoverridestolerationsoperator)    | `string` | Optional |
-| [key](#specdistributionmodulestracingoverridestolerationskey)              | `string` | Required |
-| [value](#specdistributionmodulestracingoverridestolerationsvalue)          | `string` | Required |
+| Property                                                                   | Type     | Required  |
+|:---------------------------------------------------------------------------|:---------|:----------|
+| [effect](#specdistributionmodulestracingoverridestolerationseffect)        | `string` | Required  |
+| [operator](#specdistributionmodulestracingoverridestolerationsoperator)    | `string` | Optional* |
+| [key](#specdistributionmodulestracingoverridestolerationskey)              | `string` | Required  |
+| [value](#specdistributionmodulestracingoverridestolerationsvalue)          | `string` | Optional* |
+
+*at least one is required between operator and value*
 
 ### Description
 
@@ -3633,12 +3691,14 @@ The node selector to use to place the pods for the tempo module
 
 ### Properties
 
-| Property                                                                         | Type     | Required |
-|:---------------------------------------------------------------------------------|:---------|:---------|
-| [effect](#specdistributionmodulestracingtempooverridestolerationseffect)         | `string` | Required |
-| [operator](#specdistributionmodulestracingtempooverridestolerationsoperator)     | `string` | Optional |
-| [key](#specdistributionmodulestracingtempooverridestolerationskey)               | `string` | Required |
-| [value](#specdistributionmodulestracingtempooverridestolerationsvalue)           | `string` | Required |
+| Property                                                                         | Type     | Required  |
+|:---------------------------------------------------------------------------------|:---------|:----------|
+| [effect](#specdistributionmodulestracingtempooverridestolerationseffect)         | `string` | Required  |
+| [operator](#specdistributionmodulestracingtempooverridestolerationsoperator)     | `string` | Optional* |
+| [key](#specdistributionmodulestracingtempooverridestolerationskey)               | `string` | Required  |
+| [value](#specdistributionmodulestracingtempooverridestolerationsvalue)           | `string` | Optional* |
+
+*at least one is required between operator and value*
 
 ### Description
 
@@ -3776,12 +3836,14 @@ The node selector to use to place the pods for the minio module
 
 ### Properties
 
-| Property                                                                         | Type     | Required |
-|:---------------------------------------------------------------------------------|:---------|:---------|
-| [effect](#specdistributionmodulestracingminiooverridestolerationseffect)         | `string` | Required |
-| [operator](#specdistributionmodulestracingminiooverridestolerationsoperator)     | `string` | Optional |
-| [key](#specdistributionmodulestracingminiooverridestolerationskey)               | `string` | Required |
-| [value](#specdistributionmodulestracingminiooverridestolerationsvalue)           | `string` | Required |
+| Property                                                                         | Type     | Required  |
+|:---------------------------------------------------------------------------------|:---------|:----------|
+| [effect](#specdistributionmodulestracingminiooverridestolerationseffect)         | `string` | Required  |
+| [operator](#specdistributionmodulestracingminiooverridestolerationsoperator)     | `string` | Optional* |
+| [key](#specdistributionmodulestracingminiooverridestolerationskey)               | `string` | Required  |
+| [value](#specdistributionmodulestracingminiooverridestolerationsvalue)           | `string` | Optional* |
+
+*at least one is required between operator and value*
 
 ### Description
 
@@ -4194,6 +4256,7 @@ Each entry should follow the format of Kustomize's images patch
 | [masters](#speckubernetesmasters)                         | `object` | Required |
 | [nodes](#speckubernetesnodes)                             | `array`  | Required |
 | [advanced](#speckubernetesadvanced)                       | `object` | Optional |
+| [advancedAnsible](#speckubernetesadvancedansible)         | `object` | Optional |
 
 ## .spec.kubernetes.pkiFolder
 
@@ -4541,6 +4604,7 @@ The effect of the taint
 | [oidc](#speckubernetesadvancedoidc)                                      | `object` | Optional |
 | [containerd](#speckubernetesadvancedcontainerd)                          | `object` | Optional |
 | [encryption](#speckubernetesadvancedencryption)                          | `object` | Optional |
+| [airGap](#speckubernetesadvancedairgap)                                  | `object` | Optional |
 
 ## .spec.kubernetes.advanced.cloud
 
@@ -4683,6 +4747,142 @@ The tls cipher suites to use
 ### Description
 
 The configuration to use
+
+## .spec.kubernetes.advanced.airGap
+
+### Properties
+
+| Property                                                                    | Type     | Required |
+|:----------------------------------------------------------------------------|:---------|:---------|
+| [containerdDownloadUrl](#speckubernetesadvancedairgapcontainerddownloadurl) | `string` | Optional |
+| [runcDownloadUrl](#speckubernetesadvancedairgapruncdownloadurl)             | `string` | Optional |
+| [runcChecksum](#speckubernetesadvancedairgapruncchecksum)                   | `string` | Optional |
+| [etcdDownloadUrl](#speckubernetesadvancedairgapetcddownloadurl)             | `string` | Optional |
+| [dependenciesOverride](#speckubernetesadvancedairgapdependenciesoverride)   | `object` | Optional |
+
+## .spec.kubernetes.advanced.airGap.containerdDownloadUrl
+
+### Description
+
+The containerd download url
+
+## .spec.kubernetes.advanced.airGap.runcDownloadUrl
+
+### Description
+
+The runc download url
+
+## .spec.kubernetes.advanced.airGap.runcChecksum
+
+### Description
+
+The runc checksum
+
+## .spec.kubernetes.advanced.airGap.etcdDownloadUrl
+
+### Description
+
+The etcd download url
+
+## .spec.kubernetes.advanced.airGap.dependenciesOverride
+
+### Properties
+
+| Property                                                                 | Type      | Required |
+|:-------------------------------------------------------------------------|:----------|:---------|
+| [apt](#speckubernetesadvancedairgapdependenciesoverrideapt)              | `object`  | Optional |
+| [yum](#speckubernetesadvancedairgapdependenciesoverrideyum)              | `object`  | Optional |
+
+## .spec.kubernetes.advanced.airGap.dependenciesOverride.apt
+
+### Properties
+
+| Property                                                                     | Type     | Required |
+|:-----------------------------------------------------------------------------|:---------|:---------|
+| [name](#speckubernetesadvancedairgapdependenciesoverrideaptname)             | `string` | Required |
+| [repo](#speckubernetesadvancedairgapdependenciesoverrideaptrepo)             | `string` | Required |
+| [gpg_key](#speckubernetesadvancedairgapdependenciesoverrideaptgpg_key)       | `string` | Required |
+| [gpg_key_id](#speckubernetesadvancedairgapdependenciesoverrideaptgpg_key_id) | `string` | Required |
+
+## .spec.kubernetes.advanced.airGap.dependenciesOverride.apt.name
+
+### Description
+
+The name of the apt dependency
+
+## .spec.kubernetes.advanced.airGap.dependenciesOverride.apt.repo
+
+### Description
+
+The repo of the apt dependency
+
+## .spec.kubernetes.advanced.airGap.dependenciesOverride.apt.gpg_key
+
+### Description
+
+The gpg key of the apt dependency
+
+## .spec.kubernetes.advanced.airGap.dependenciesOverride.apt.gpg_key_id
+
+### Description
+
+The gpg key id of the apt dependency
+
+## .spec.kubernetes.advanced.airGap.dependenciesOverride.yum
+
+### Properties
+
+| Property                                                                             | Type      | Required |
+|:-------------------------------------------------------------------------------------|:----------|:---------|
+| [name](#speckubernetesadvancedairgapdependenciesoverrideyumname)                     | `string`  | Required |
+| [repo](#speckubernetesadvancedairgapdependenciesoverrideyumrepo)                     | `string`  | Required |
+| [gpg_key](#speckubernetesadvancedairgapdependenciesoverrideyumgpg_key)               | `string`  | Required |
+| [gpg_key_check](#speckubernetesadvancedairgapdependenciesoverrideyumgpg_key_check)   | `boolean` | Required |
+| [repo_gpg_check](#speckubernetesadvancedairgapdependenciesoverrideyumrepo_gpg_check) | `boolean` | Required |
+
+## .spec.kubernetes.advanced.airGap.dependenciesOverride.yum.name
+
+### Description
+
+The name of the yum dependency
+
+## .spec.kubernetes.advanced.airGap.dependenciesOverride.yum.repo
+
+### Description
+
+The repo of the yum dependency
+
+## .spec.kubernetes.advanced.airGap.dependenciesOverride.yum.gpg_key
+
+### Description
+
+The gpg key of the yum dependency
+
+## .spec.kubernetes.advanced.airGap.dependenciesOverride.yum.gpg_key_check
+
+### Description
+
+If true, the gpg key check will be enabled
+
+## .spec.kubernetes.advanced.airGap.dependenciesOverride.yum.repo_gpg_check
+
+### Description
+
+If true, the repo gpg check will be enabled
+
+## .spec.kubernetes.advancedAnsible
+
+### Properties
+
+| Property                                                                 | Type     | Required |
+|:-------------------------------------------------------------------------|:---------|:---------|
+| [pythonInterpreter](#speckubernetesadvancedansiblepythoninterpreter)     | `string` | Optional |
+
+## .spec.kubernetes.advancedAnsible.pythonInterpreter
+
+### Description
+
+The python interpreter to use
 
 ## .spec.plugins
 
