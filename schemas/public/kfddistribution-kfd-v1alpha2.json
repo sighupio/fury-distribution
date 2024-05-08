@@ -1202,7 +1202,7 @@
         }
       },
       "required": ["effect", "key"],
-      "oneOf": [
+      "anyOf": [
         {
           "required": ["operator"]
         },

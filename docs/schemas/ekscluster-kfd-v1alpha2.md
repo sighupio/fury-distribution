@@ -1135,7 +1135,7 @@ The node selector to use to place the pods for all the KFD modules
 | [key](#specdistributioncommontolerationskey)           | `string` | Required  |
 | [value](#specdistributioncommontolerationsvalue)       | `string` | Optional* |
 
-*one of operator or value is required*
+*at least one is required between operator and value*
 
 ### Description
 
@@ -1265,7 +1265,7 @@ The node selector to use to place the pods for the auth module
 | [key](#specdistributionmodulesauthoverridestolerationskey)           | `string` | Required  |
 | [value](#specdistributionmodulesauthoverridestolerationsvalue)       | `string` | Optional* |
 
-*one of operator or value is required*
+*at least one is required between operator and value*
 
 ### Description
 
@@ -1462,7 +1462,7 @@ The node selector to use to place the pods for the pomerium module
 | [key](#specdistributionmodulesauthpomeriumoverridestolerationskey)           | `string` | Required  |
 | [value](#specdistributionmodulesauthpomeriumoverridestolerationsvalue)       | `string` | Optional* |
 
-*one of operator or value is required*
+*at least one is required between operator and value*
 
 ### Description
 
@@ -1555,7 +1555,7 @@ The node selector to use to place the pods for the dex module
 | [key](#specdistributionmodulesauthdexoverridestolerationskey)           | `string` | Required  |
 | [value](#specdistributionmodulesauthdexoverridestolerationsvalue)       | `string` | Optional* |
 
-*one of operator or value is required*
+*at least one is required between operator and value*
 
 ### Description
 
@@ -1646,7 +1646,7 @@ The node selector to use to place the pods for the cluster autoscaler module
 | [key](#specdistributionmodulesawsclusterautoscaleroverridestolerationskey)           | `string` | Required  |
 | [value](#specdistributionmodulesawsclusterautoscaleroverridestolerationsvalue)       | `string` | Optional* |
 
-*one of operator or value is required*
+*at least one is required between operator and value*
 
 ### Description
 
@@ -1725,7 +1725,7 @@ The node selector to use to place the pods for the ebs csi driver module
 | [key](#specdistributionmodulesawsebscsidriveroverridestolerationskey)           | `string` | Required  |
 | [value](#specdistributionmodulesawsebscsidriveroverridestolerationsvalue)       | `string` | Optional* |
 
-*one of operator or value is required*
+*at least one is required between operator and value*
 
 ### Description
 
@@ -1804,7 +1804,7 @@ The node selector to use to place the pods for the load balancer controller modu
 | [key](#specdistributionmodulesawsloadbalancercontrolleroverridestolerationskey)           | `string` | Required  |
 | [value](#specdistributionmodulesawsloadbalancercontrolleroverridestolerationsvalue)       | `string` | Optional* |
 
-*one of operator or value is required*
+*at least one is required between operator and value*
 
 ### Description
 
@@ -1954,7 +1954,7 @@ The node selector to use to place the pods for all the AWS modules
 | [key](#specdistributionmodulesawsoverridestolerationskey)           | `string` | Required  |
 | [value](#specdistributionmodulesawsoverridestolerationsvalue)       | `string` | Optional* |
 
-*one of operator or value is required*
+*at least one is required between operator and value*
 
 ### Description
 
@@ -2066,7 +2066,7 @@ The node selector to use to place the pods for the dr module
 | [key](#specdistributionmodulesdroverridestolerationskey)           | `string` | Required  |
 | [value](#specdistributionmodulesdroverridestolerationsvalue)       | `string` | Optional* |
 
-*one of operator or value is required*
+*at least one is required between operator and value*
 
 ### Description
 
@@ -2266,7 +2266,7 @@ The node selector to use to place the pods for the velero module
 | [key](#specdistributionmodulesdrvelerooverridestolerationskey)           | `string` | Required  |
 | [value](#specdistributionmodulesdrvelerooverridestolerationsvalue)       | `string` | Optional* |
 
-*one of operator or value is required*
+*at least one is required between operator and value*
 
 ### Description
 
@@ -2353,7 +2353,7 @@ The node selector to use to place the pods for the ingress module
 | [key](#specdistributionmodulesingressoverridestolerationskey)           | `string` | Required  |
 | [value](#specdistributionmodulesingressoverridestolerationsvalue)       | `string` | Optional* |
 
-*one of operator or value is required*
+*at least one is required between operator and value*
 
 ### Description
 
@@ -2451,7 +2451,7 @@ The node selector to use to place the pods for the ingress module
 | [key](#specdistributionmodulesingressoverridesingressestolerationskey)           | `string` | Required  |
 | [value](#specdistributionmodulesingressoverridesingressestolerationsvalue)       | `string` | Optional* |
 
-*one of operator or value is required*
+*at least one is required between operator and value*
 
 ### Description
 
@@ -2610,7 +2610,7 @@ The node selector to use to place the pods for the nginx module
 | [key](#specdistributionmodulesingressnginxoverridestolerationskey)           | `string` | Required  |
 | [value](#specdistributionmodulesingressnginxoverridestolerationsvalue)       | `string` | Optional* |
 
-*one of operator or value is required*
+*at least one is required between operator and value*
 
 ### Description
 
@@ -2736,7 +2736,7 @@ The node selector to use to place the pods for the cert-manager module
 | [key](#specdistributionmodulesingresscertmanageroverridestolerationskey)           | `string` | Required  |
 | [value](#specdistributionmodulesingresscertmanageroverridestolerationsvalue)       | `string` | Optional* |
 
-*one of operator or value is required*
+*at least one is required between operator and value*
 
 ### Description
 
@@ -2815,7 +2815,7 @@ The node selector to use to place the pods for the forecastle module
 | [key](#specdistributionmodulesingressforecastleoverridestolerationskey)           | `string` | Required  |
 | [value](#specdistributionmodulesingressforecastleoverridestolerationsvalue)       | `string` | Optional* |
 
-*one of operator or value is required*
+*at least one is required between operator and value*
 
 ### Description
 
@@ -2938,7 +2938,7 @@ The node selector to use to place the pods for the ingress module
 | [key](#specdistributionmodulesingressdnsoverridestolerationskey)           | `string` | Required  |
 | [value](#specdistributionmodulesingressdnsoverridestolerationsvalue)       | `string` | Optional* |
 
-*one of operator or value is required*
+*at least one is required between operator and value*
 
 ### Description
 
@@ -3024,7 +3024,7 @@ The node selector to use to place the pods for the logging module
 | [key](#specdistributionmodulesloggingoverridestolerationskey)           | `string` | Required  |
 | [value](#specdistributionmodulesloggingoverridestolerationsvalue)       | `string` | Optional* |
 
-*one of operator or value is required*
+*at least one is required between operator and value*
 
 ### Description
 
@@ -3222,7 +3222,7 @@ The node selector to use to place the pods for the opensearch module
 | [key](#specdistributionmodulesloggingopensearchoverridestolerationskey)           | `string` | Required  |
 | [value](#specdistributionmodulesloggingopensearchoverridestolerationsvalue)       | `string` | Optional* |
 
-*one of operator or value is required*
+*at least one is required between operator and value*
 
 ### Description
 
@@ -3428,7 +3428,7 @@ The node selector to use to place the pods for the cerebro module
 | [key](#specdistributionmodulesloggingcerebrooverridestolerationskey)           | `string` | Required  |
 | [value](#specdistributionmodulesloggingcerebrooverridestolerationsvalue)       | `string` | Optional* |
 
-*one of operator or value is required*
+*at least one is required between operator and value*
 
 ### Description
 
@@ -3536,7 +3536,7 @@ The node selector to use to place the pods for the minio module
 | [key](#specdistributionmodulesloggingminiooverridestolerationskey)           | `string` | Required  |
 | [value](#specdistributionmodulesloggingminiooverridestolerationsvalue)       | `string` | Optional* |
 
-*one of operator or value is required*
+*at least one is required between operator and value*
 
 ### Description
 
@@ -3616,7 +3616,7 @@ The node selector to use to place the pods for the operator module
 | [key](#specdistributionmodulesloggingoperatoroverridestolerationskey)           | `string` | Required  |
 | [value](#specdistributionmodulesloggingoperatoroverridestolerationsvalue)       | `string` | Optional* |
 
-*one of operator or value is required*
+*at least one is required between operator and value*
 
 ### Description
 
@@ -3721,7 +3721,7 @@ The node selector to use to place the pods for the monitoring module
 | [key](#specdistributionmodulesmonitoringoverridestolerationskey)           | `string` | Required  |
 | [value](#specdistributionmodulesmonitoringoverridestolerationsvalue)       | `string` | Optional* |
 
-*one of operator or value is required*
+*at least one is required between operator and value*
 
 ### Description
 
@@ -3936,7 +3936,7 @@ The node selector to use to place the pods for the grafana module
 | [key](#specdistributionmodulesmonitoringgrafanaoverridestolerationskey)           | `string` | Required  |
 | [value](#specdistributionmodulesmonitoringgrafanaoverridestolerationsvalue)       | `string` | Optional* |
 
-*one of operator or value is required*
+*at least one is required between operator and value*
 
 ### Description
 
@@ -4015,7 +4015,7 @@ The node selector to use to place the pods for the blackboxExporter module
 | [key](#specdistributionmodulesmonitoringblackboxexporteroverridestolerationskey)           | `string` | Required  |
 | [value](#specdistributionmodulesmonitoringblackboxexporteroverridestolerationsvalue)       | `string` | Optional* |
 
-*one of operator or value is required*
+*at least one is required between operator and value*
 
 ### Description
 
@@ -4094,7 +4094,7 @@ The node selector to use to place the pods for the kubeStateMetrics module
 | [key](#specdistributionmodulesmonitoringkubestatemetricsoverridestolerationskey)           | `string` | Required  |
 | [value](#specdistributionmodulesmonitoringkubestatemetricsoverridestolerationsvalue)       | `string` | Optional* |
 
-*one of operator or value is required*
+*at least one is required between operator and value*
 
 ### Description
 
@@ -4173,7 +4173,7 @@ The node selector to use to place the pods for the x509Exporter module
 | [key](#specdistributionmodulesmonitoringx509exporteroverridestolerationskey)           | `string` | Required  |
 | [value](#specdistributionmodulesmonitoringx509exporteroverridestolerationsvalue)       | `string` | Optional* |
 
-*one of operator or value is required*
+*at least one is required between operator and value*
 
 ### Description
 
@@ -4255,7 +4255,7 @@ The node selector to use to place the pods for the mimir module
 | [key](#specdistributionmodulesmonitoringmimiroverridestolerationskey)                 | `string` | Required  |
 | [value](#specdistributionmodulesmonitoringmimiroverridestolerationsvalue)             | `string` | Optional* |
 
-*one of operator or value is required*
+*at least one is required between operator and value*
 
 ### Description
 
@@ -4399,7 +4399,7 @@ The node selector to use to place the pods for the minio module
 | [key](#specdistributionmodulesmonitoringminiooverridestolerationskey)                 | `string` | Required  |
 | [value](#specdistributionmodulesmonitoringminiooverridestolerationsvalue)             | `string` | Optional* |
 
-*one of operator or value is required*
+*at least one is required between operator and value*
 
 ### Description
 
@@ -4506,7 +4506,7 @@ The node selector to use to place the pods for the networking module
 | [key](#specdistributionmodulesnetworkingoverridestolerationskey)           | `string` | Required  |
 | [value](#specdistributionmodulesnetworkingoverridestolerationsvalue)       | `string` | Optional* |
 
-*one of operator or value is required*
+*at least one is required between operator and value*
 
 ### Description
 
@@ -4585,7 +4585,7 @@ The node selector to use to place the pods for the tigeraOperator module
 | [key](#specdistributionmodulesnetworkingtigeraoperatoroverridestolerationskey)           | `string` | Required  |
 | [value](#specdistributionmodulesnetworkingtigeraoperatoroverridestolerationsvalue)       | `string` | Optional* |
 
-*one of operator or value is required*
+*at least one is required between operator and value*
 
 ### Description
 
@@ -4672,7 +4672,7 @@ The node selector to use to place the pods for the security module
 | [key](#specdistributionmodulespolicyoverridestolerationskey)           | `string` | Required  |
 | [value](#specdistributionmodulespolicyoverridestolerationsvalue)       | `string` | Optional* |
 
-*one of operator or value is required*
+*at least one is required between operator and value*
 
 ### Description
 
@@ -4819,7 +4819,7 @@ The node selector to use to place the pods for the gatekeeper module
 | [key](#specdistributionmodulespolicygatekeeperoverridestolerationskey)           | `string` | Required  |
 | [value](#specdistributionmodulespolicygatekeeperoverridestolerationsvalue)       | `string` | Optional* |
 
-*one of operator or value is required*
+*at least one is required between operator and value*
 
 ### Description
 
@@ -4928,7 +4928,7 @@ The node selector to use to place the pods for the kyverno module
 | [key](#specdistributionmodulespolicykyvernooverridestolerationskey)              | `string` | Required  |
 | [value](#specdistributionmodulespolicykyvernooverridestolerationsvalue)          | `string` | Optional* |
 
-*one of operator or value is required*
+*at least one is required between operator and value*
 
 ### Description
 
@@ -5011,7 +5011,7 @@ The node selector to use to place the pods for the tracing module
 | [key](#specdistributionmodulestracingoverridestolerationskey)              | `string` | Required  |
 | [value](#specdistributionmodulestracingoverridestolerationsvalue)          | `string` | Optional* |
 
-*one of operator or value is required*
+*at least one is required between operator and value*
 
 ### Description
 
@@ -5129,7 +5129,7 @@ The node selector to use to place the pods for the tempo module
 | [key](#specdistributionmodulestracingtempooverridestolerationskey)               | `string` | Required  |
 | [value](#specdistributionmodulestracingtempooverridestolerationsvalue)           | `string` | Optional* |
 
-*one of operator or value is required*
+*at least one is required between operator and value*
 
 ### Description
 
@@ -5274,7 +5274,7 @@ The node selector to use to place the pods for the minio module
 | [key](#specdistributionmodulestracingminiooverridestolerationskey)               | `string` | Required  |
 | [value](#specdistributionmodulestracingminiooverridestolerationsvalue)           | `string` | Optional* |
 
-*one of operator or value is required*
+*at least one is required between operator and value*
 
 ### Description
 
