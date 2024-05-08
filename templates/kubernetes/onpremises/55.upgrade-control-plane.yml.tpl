@@ -6,6 +6,7 @@
 - name: Upgrade etcd
   hosts: master
   serial: 1
+  become: true
   roles:
     - etcd
   tags:
@@ -14,6 +15,7 @@
 - name: Control plane upgrade
   hosts: master
   serial: 1
+  become: true
   vars:
     skip_kubelet_upgrade: true
     upgrade: true
@@ -26,6 +28,7 @@
 - name: Kubelet and Containerd upgrade
   hosts: master
   serial: 1
+  become: true
   vars:
     skip_kubelet_upgrade: false
   roles:

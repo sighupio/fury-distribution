@@ -2307,9 +2307,6 @@ func (j *TypesKubeToleration) UnmarshalJSON(b []byte) error {
 	if v, ok := raw["key"]; !ok || v == nil {
 		return fmt.Errorf("field key in TypesKubeToleration: required")
 	}
-	if v, ok := raw["value"]; !ok || v == nil {
-		return fmt.Errorf("field value in TypesKubeToleration: required")
-	}
 	type Plain TypesKubeToleration
 	var plain Plain
 	if err := json.Unmarshal(b, &plain); err != nil {
@@ -2348,7 +2345,7 @@ type TypesKubeToleration struct {
 	Operator *TypesKubeTolerationOperator `json:"operator,omitempty" yaml:"operator,omitempty" mapstructure:"operator,omitempty"`
 
 	// Value corresponds to the JSON schema field "value".
-	Value string `json:"value" yaml:"value" mapstructure:"value"`
+	Value *string `json:"value,omitempty" yaml:"value,omitempty" mapstructure:"value,omitempty"`
 }
 
 // UnmarshalJSON implements json.Unmarshaler.
