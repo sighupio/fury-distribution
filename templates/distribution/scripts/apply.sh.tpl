@@ -3,6 +3,7 @@
 set -e
 
 kustomizebin="{{ .paths.kustomize }}"
+kappbin="{{ .paths.kapp }}"
 kubectlbin="{{ .paths.kubectl }}"
 yqbin="{{ .paths.yq }}"
 vendorPath="{{ .paths.vendorPath }}"
@@ -31,53 +32,14 @@ fi
 $kubectlbin create namespace calico-system --dry-run=client -o yaml | $kubectlbin apply -f - --server-side
 {{- end }}
 
-< out.yaml $yqbin 'select(.kind == "CustomResourceDefinition")' | $kubectlbin apply -f - --server-side
-< out.yaml $yqbin 'select(.kind == "CustomResourceDefinition")' | $kubectlbin wait --for condition=established --timeout=60s -f -
-
-echo "Clean up init jobs, since they cannot be changed without conficts and they are idempotent by nature..."
+echo "Clean up init jobs, since they are immutable and we need to remove them before applying a new version."
 
 $kubectlbin delete --ignore-not-found --wait --timeout=180s job minio-setup -n kube-system
 $kubectlbin delete --ignore-not-found --wait --timeout=180s job minio-logging-buckets-setup -n logging
 $kubectlbin delete --ignore-not-found --wait --timeout=180s job minio-monitoring-buckets-setup -n monitoring
 $kubectlbin delete --ignore-not-found --wait --timeout=180s job minio-tracing-buckets-setup -n tracing
 
-< out.yaml \
-  $yqbin 'select(.kind != "Issuer" and .kind != "ClusterIssuer" and .kind != "Certificate" and .kind != "Ingress" and .kind != "K8sLivenessProbe" and .kind != "K8sReadinessProbe" and .kind != "K8sUniqueIngressHost" and .kind != "SecurityControls")' \
-  | $yqbin 'select(.metadata.name != "gatekeeper-mutating-webhook-configuration" and .metadata.name != "gatekeeper-validating-webhook-configuration")' \
-  | $kubectlbin apply -f - --server-side
-
-< out.yaml $yqbin 'select(.kind == "Deployment" and .metadata.namespace == "cert-manager")' | $kubectlbin wait --for condition=available --timeout=360s -f -
-
-< out.yaml \
-  $yqbin 'select(.kind == "Issuer" or .kind == "ClusterIssuer" or .kind == "Certificate")' \
-  | $kubectlbin apply -f - --server-side
-
-{{- if eq .spec.distribution.modules.ingress.nginx.type "dual" }}
-$kubectlbin rollout status daemonset nginx-ingress-controller-external -n ingress-nginx --timeout=180s
-
-$kubectlbin rollout status daemonset nginx-ingress-controller-internal -n ingress-nginx --timeout=180s
-
-{{- end }}
-
-{{- if eq .spec.distribution.modules.ingress.nginx.type "single" }}
-$kubectlbin rollout status daemonset nginx-ingress-controller -n ingress-nginx --timeout=180s
-
-{{- end }}
-
-{{- if eq .spec.distribution.modules.policy.type "gatekeeper" }}
-$kubectlbin rollout status deployment gatekeeper-audit -n gatekeeper-system --timeout=180s
-$kubectlbin rollout status deployment gatekeeper-controller-manager -n gatekeeper-system --timeout=180s
-$kubectlbin rollout status deployment gatekeeper-policy-manager -n gatekeeper-system --timeout=180s
-{{- end }}
-
-{{- if eq .spec.distribution.modules.policy.type "kyverno" }}
-$kubectlbin rollout status deployment kyverno-admission-controller -n kyverno --timeout=180s
-$kubectlbin rollout status deployment kyverno-background-controller  -n kyverno --timeout=180s
-$kubectlbin rollout status deployment kyverno-cleanup-controller -n kyverno --timeout=180s
-$kubectlbin rollout status deployment kyverno-reports-controller  -n kyverno --timeout=180s
-{{- end }}
-
-< out.yaml $kubectlbin apply -f - --server-side
+$kappbin deploy -a kfd -n kube-system -f out.yaml --allow-all-ns -y --default-label-scoping-rules=false -c
 
 echo "Executing cleanup migrations on values that can be nil..."
 
