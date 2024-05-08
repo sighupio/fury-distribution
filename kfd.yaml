@@ -46,6 +46,8 @@ tools:
       version: 3.12.3
     helmfile:
       version: 0.156.0
+    kapp:
+      version: 0.62.0
   eks:
     awscli:
       version: ">= 2.8.12"

@@ -3,6 +3,7 @@
 set -e
 
 kustomizebin="{{ .paths.kustomize }}"
+kappbin="{{ .paths.kapp }}"
 kubectlbin="{{ .paths.kubectl }}"
 yqbin="{{ .paths.yq }}"
 
@@ -14,15 +15,7 @@ yqbin="{{ .paths.yq }}"
 
 $kustomizebin build --load_restrictor LoadRestrictionsNone {{ .folder }} > out.yaml
 
-output=$(cat out.yaml | $yqbin 'select(.kind == "CustomResourceDefinition")')
-
-if [ -n "$output" ]; then
-  < out.yaml $yqbin 'select(.kind == "CustomResourceDefinition")' | $kubectlbin apply -f - --server-side --force-conflicts
-  < out.yaml $yqbin 'select(.kind == "CustomResourceDefinition")' | $kubectlbin wait --for condition=established --timeout=60s -f -
-  < out.yaml $kubectlbin apply -f - --server-side --force-conflicts
-else
-  < out.yaml $kubectlbin apply -f - --server-side --force-conflicts
-fi
+$kappbin deploy -a kfd-plugin-{{ .name }} -n kube-system -f out.yaml --allow-all-ns -y --default-label-scoping-rules=false
 
 {{- end -}}
 
