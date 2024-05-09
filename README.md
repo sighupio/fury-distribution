@@ -7,8 +7,8 @@
 <p align="center">Kubernetes Fury Distribution (KFD) is a certified battle-tested Kubernetes distribution based purely on upstream Kubernetes.</p>
 <!-- markdownlint-enable MD033 MD045 -->
 
-[![Build Status](http://ci.sighup.io/api/badges/sighupio/fury-distribution/status.svg?ref=refs/tags/v1.27.5)](http://ci.sighup.io/sighupio/fury-distribution)
-[![Release](https://img.shields.io/badge/release-v1.27.5-blue?label=FuryDistributionRelease)](https://github.com/sighupio/fury-distribution/releases/latest)
+[![Build Status](http://ci.sighup.io/api/badges/sighupio/fury-distribution/status.svg?ref=refs/tags/v1.27.6)](http://ci.sighup.io/sighupio/fury-distribution)
+[![Release](https://img.shields.io/badge/release-v1.27.6-blue?label=FuryDistributionRelease)](https://github.com/sighupio/fury-distribution/releases/latest)
 [![Slack](https://img.shields.io/badge/slack-@kubernetes/fury-yellow.svg?logo=slack)](https://kubernetes.slack.com/archives/C0154HYTAQH)
 [![License](https://img.shields.io/github/license/sighupio/fury-distribution)](https://github.com/sighupio/fury-distribution/blob/main/LICENSE)
 
@@ -100,13 +100,13 @@ Core modules provide essential functionality to the distribution for production-
 
 Add-on modules provide additional functionality to the distribution. Their release cycle is independent of KFD's.
 
-| Module                              | Latest Release                   | Description                                                                  |
-| ----------------------------------- | -------------------------------- | ---------------------------------------------------------------------------- |
-| [Kong][kong-module]                 | ![Version][kong-version]         | Add Kong API Gateway for Kubernetes applications via Kong Ingress Controller |
-| [Service Mesh][service-mesh-module] | ![Version][service-mesh-version] | Deploy a service mesh on top of KFD                                          |
-| [Registry][registry-module]         | ![Version][registry-version]     | Integrate a Container Registry solution                                      |
-| [Storage][storage-module]           | ![Version][storage-version]      | Rook (Ceph Operator) based Storage solution on Kubernetes                    |
-| [Kafka][kafka-module]               | ![Version][kafka-version]        | Apache Kafka event streaming for your Cluster                                |
+| Module                              | Description                                                                  |
+| ----------------------------------- | ---------------------------------------------------------------------------- |
+| [Kong][kong-module]                 | Add Kong API Gateway for Kubernetes applications via Kong Ingress Controller |
+| [Service Mesh][service-mesh-module] | Deploy a service mesh on top of KFD                                          |
+| [Registry][registry-module]         | Integrate a Container Registry solution                                      |
+| [Storage][storage-module]           | Rook (Ceph Operator) based Storage solution on Kubernetes                    |
+| [Kafka][kafka-module]               | Apache Kafka event streaming for your Cluster                                |
 
 ## Get started with KFD 🚀
 
@@ -129,7 +129,7 @@ Current supported versions of KFD are:
 |                                  KFD Version                                     | Kubernetes Version |
 | :------------------------------------------------------------------------------: | :----------------: |
 | [`1.28.0`](https://github.com/sighupio/fury-distribution/releases/tag/v1.28.0)   |      `1.28.x`      |
-| [`1.27.5`](https://github.com/sighupio/fury-distribution/releases/tag/v1.27.5)   |      `1.27.x`      |
+| [`1.27.6`](https://github.com/sighupio/fury-distribution/releases/tag/v1.27.6)   |      `1.27.x`      |
 | [`1.26.6`](https://github.com/sighupio/fury-distribution/releases/tag/v1.26.6)   |      `1.26.x`      |
 
 Check the [compatibility matrix][compatibility-matrix] for additional information about previous releases of the Distribution and the compatibility with `furyctl`.
@@ -172,14 +172,14 @@ KFD is open-source software and it's released under the following [LICENSE](LICE
 [opa-module]: https://github.com/sighupio/fury-kubernetes-opa
 [auth-module]: https://github.com/sighupio/fury-kubernetes-auth
 
-[networking-version]: https://img.shields.io/badge/release-v1.15.0-blue
-[ingress-version]: https://img.shields.io/badge/release-v2.2.0-blue
-[logging-version]: https://img.shields.io/badge/release-v3.3.1-blue
-[monitoring-version]: https://img.shields.io/badge/release-v3.0.1-blue
-[tracing-version]: https://img.shields.io/badge/release-v1.0.2-blue
-[dr-version]: https://img.shields.io/badge/release-v2.2.0-blue
-[opa-version]: https://img.shields.io/badge/release-v1.11.1-blue
-[auth-version]: https://img.shields.io/badge/release-v0.1.0-blue
+[networking-version]: https://img.shields.io/badge/release-v1.17.0-blue
+[ingress-version]: https://img.shields.io/badge/release-v2.3.0-blue
+[logging-version]: https://img.shields.io/badge/release-v3.4.0-blue
+[monitoring-version]: https://img.shields.io/badge/release-v3.1.0-blue
+[tracing-version]: https://img.shields.io/badge/release-v1.0.3-blue
+[dr-version]: https://img.shields.io/badge/release-v2.3.0-blue
+[opa-version]: https://img.shields.io/badge/release-v1.12.0-blue
+[auth-version]: https://img.shields.io/badge/release-v0.2.0-blue
 
 <!-- Addon Modules -->
 [kong-module]: https://github.com/sighupio/fury-kubernetes-kong
