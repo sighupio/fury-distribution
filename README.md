@@ -118,6 +118,8 @@ In case you experience any issues feel free to [open a new issue](https://github
 
 If the problem is related to a specific module, open the issue in the module repository.
 
+If you wish to contribute please read the [Contributing Guidelines][contributing].
+
 ## Commercial Support 🛟
 
 If you are looking to run KFD in production and would like to learn more, SIGHUP (the company behind the Fury ecosystem) can help. Feel free to [email us](mailto:sales@sighup.io) or check out [our website](https://sighup.io).
@@ -202,3 +204,4 @@ KFD is open-source software and it's released under the following [LICENSE](LICE
 [sighup-site]: https://sighup.io
 [CNCF]: https://landscape.cncf.io/?group=certified-partners-and-providers&item=platform--certified-kubernetes-distribution--fury-distribution
 [cncf-conformance]: https://www.cncf.io/certification/software-conformance/
+[contributing]: https://github.com/sighupio/fury-distribution/tree/main/docs/contributing/README.md
