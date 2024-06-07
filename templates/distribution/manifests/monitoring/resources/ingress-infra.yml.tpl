@@ -13,6 +13,9 @@ metadata:
     cluster.kfd.sighup.io/useful-link.name: "Alertmanager"
     forecastle.stakater.com/expose: "true"
     forecastle.stakater.com/appName: "Alertmanager"
+    {{ if and (not .spec.distribution.modules.ingress.overrides.ingresses.forecastle.disableAuth) (eq .spec.distribution.modules.auth.provider.type "sso") }}
+    forecastle.stakater.com/group: "monitoring"
+    {{ end }}
     forecastle.stakater.com/icon: "https://github.com/stakater/ForecastleIcons/raw/master/alert-manager.png"
     {{ if not .spec.distribution.modules.ingress.overrides.ingresses.forecastle.disableAuth }}{{ template "ingressAuth" . }}{{ end }}
     {{ template "certManagerClusterIssuer" . }}
@@ -54,6 +57,9 @@ metadata:
     cluster.kfd.sighup.io/useful-link.name: "Grafana"
     forecastle.stakater.com/expose: "true"
     forecastle.stakater.com/appName: "Grafana"
+    {{ if and (not .spec.distribution.modules.ingress.overrides.ingresses.forecastle.disableAuth) (eq .spec.distribution.modules.auth.provider.type "sso") }}
+    forecastle.stakater.com/group: "monitoring"
+    {{ end }}
     forecastle.stakater.com/icon: "https://github.com/stakater/ForecastleIcons/raw/master/grafana.png"
     {{ if not .spec.distribution.modules.ingress.overrides.ingresses.forecastle.disableAuth }}{{ template "ingressAuth" . }}{{ end }}
     {{ template "certManagerClusterIssuer" . }}
@@ -95,6 +101,9 @@ metadata:
     cluster.kfd.sighup.io/useful-link.name: "Prometheus"
     forecastle.stakater.com/expose: "true"
     forecastle.stakater.com/appName: "Prometheus"
+    {{ if and (not .spec.distribution.modules.ingress.overrides.ingresses.forecastle.disableAuth) (eq .spec.distribution.modules.auth.provider.type "sso") }}
+    forecastle.stakater.com/group: "monitoring"
+    {{ end }}
     forecastle.stakater.com/icon: "https://github.com/stakater/ForecastleIcons/raw/master/prometheus.png"
     {{ if not .spec.distribution.modules.ingress.overrides.ingresses.forecastle.disableAuth }}{{ template "ingressAuth" . }}{{ end }}
     {{ template "certManagerClusterIssuer" . }}
@@ -139,6 +148,9 @@ metadata:
     cluster.kfd.sighup.io/useful-link.name: "MinIO Monitoring"
     forecastle.stakater.com/expose: "true"
     forecastle.stakater.com/appName: "MinIO Monitoring"
+    {{ if and (not .spec.distribution.modules.ingress.overrides.ingresses.forecastle.disableAuth) (eq .spec.distribution.modules.auth.provider.type "sso") }}
+    forecastle.stakater.com/group: "monitoring"
+    {{ end }}
     forecastle.stakater.com/icon: "https://min.io/resources/img/logo/MINIO_Bird.png"
     {{ if not .spec.distribution.modules.monitoring.overrides.ingresses.minio.disableAuth }}{{ template "ingressAuth" . }}{{ end }}
     {{ template "certManagerClusterIssuer" . }}
