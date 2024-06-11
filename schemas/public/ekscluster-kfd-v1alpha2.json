@@ -1903,7 +1903,7 @@
     },
     "Types.TcpPort": {
       "type": "integer",
-      "minimum": 1,
+      "minimum": 0,
       "maximum": 65535
     },
     "Types.SshPubKey": {
