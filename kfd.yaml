@@ -16,7 +16,7 @@ modules:
 kubernetes:
   eks:
     version: 1.29
-    installer: v3.1.1
+    installer: feature/increase-cluster-name-length
   onpremises:
     version: 1.29.3
     installer: v1.29.3-rev.1-rc.0

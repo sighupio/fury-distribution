@@ -28,7 +28,7 @@
         "name": {
           "type": "string",
           "minLength": 1,
-          "maxLength": 19
+          "maxLength": 35
         }
       },
       "required": ["name"]
