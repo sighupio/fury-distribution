@@ -7,7 +7,7 @@
         "name": {
           "type": "string",
           "minLength": 1,
-          "maxLength": 19
+          "maxLength": 35
         }
       },
       "required": [
@@ -1662,6 +1662,9 @@
         },
         "bucketNamePrefix": {
           "$ref": "#/$defs/Types.AwsS3BucketNamePrefix"
+        },
+        "iamResourcesNameOverride": {
+          "$ref": "#/$defs/Types.AwsIamRoleName"
         }
       },
       "required": [
@@ -2206,6 +2209,10 @@
     "Types.AwsArn": {
       "type": "string",
       "pattern": "^arn:(?P<Partition>[^:\\n]*):(?P<Service>[^:\\n]*):(?P<Region>[^:\\n]*):(?P<AccountID>[^:\\n]*):(?P<Ignore>(?P<ResourceType>[^:\\/\\n]*)[:\\/])?(?P<Resource>.*)$"
+    },
+    "Types.AwsIamRoleName": {
+      "type": "string",
+      "pattern": "^[a-zA-Z0-9+=,.@_-]{1,63}$"
     },
     "Types.AwsIpProtocol": {
       "type": "string",

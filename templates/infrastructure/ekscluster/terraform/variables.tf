@@ -116,3 +116,9 @@ variable "vpn_bucket_name_prefix" {
   description = "Bucket name prefix for VPN configuration files"
   default     = ""
 }
+
+variable "vpn_iam_name_override" {
+  type        = string
+  description = "Override the name of the IAM resources, if not set it will use the cluster name"
+  default     = ""
+}
