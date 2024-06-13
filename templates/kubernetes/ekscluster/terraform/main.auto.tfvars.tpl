@@ -78,6 +78,14 @@ eks_map_roles = {{ toPrettyJson $roles | join "," }}
     {{- end }}
 {{- end }}
 
+{{- if hasKeyAny .spec.kubernetes "clusterIAMRoleNamePrefixOverride" }}
+cluster_iam_role_name_prefix_override = {{ .spec.kubernetes.clusterIAMRoleNamePrefixOverride | quote }}
+{{- end }}
+
+{{- if hasKeyAny .spec.kubernetes "workersIAMRoleNamePrefixOverride" }}
+workers_iam_role_name_prefix_override = {{ .spec.kubernetes.workersIAMRoleNamePrefixOverride | quote }}
+{{- end }}
+
 {{- if gt (len .spec.kubernetes.nodePools) 0 }}
     {{- $nodePools := list }}
 
