@@ -1715,6 +1715,12 @@
         "vpcId": {
           "$ref": "#/$defs/Types.AwsVpcId"
         },
+        "clusterIAMRoleNamePrefixOverride": {
+          "$ref": "#/$defs/Types.AwsIamRoleNamePrefix"
+        },
+        "workersIAMRoleNamePrefixOverride": {
+          "$ref": "#/$defs/Types.AwsIamRoleNamePrefix"
+        },
         "subnetIds": {
           "type": "array",
           "items": {
@@ -2214,6 +2220,10 @@
       "type": "string",
       "pattern": "^[a-zA-Z0-9+=,.@_-]{1,63}$"
     },
+    "Types.AwsIamRoleNamePrefix": {
+      "type": "string",
+      "pattern": "^[a-zA-Z0-9+=,.@_-]{1,38}$"
+    },
     "Types.AwsIpProtocol": {
       "type": "string",
       "pattern": "^(?i)(tcp|udp|icmp|icmpv6|-1)$",
@@ -2329,6 +2339,27 @@
           "items": {
             "$ref": "#/$defs/Types.KubeToleration"
           }
+        }
+      }
+    },
+    "Types.FuryModuleComponentOverridesWithIAMRoleName": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "nodeSelector": {
+          "$ref": "#/$defs/Types.KubeNodeSelector"
+        },
+        "tolerations": {
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "$ref": "#/$defs/Types.KubeToleration"
+          }
+        },
+        "iamRoleName": {
+          "$ref": "#/$defs/Types.AwsIamRoleName"
         }
       }
     },

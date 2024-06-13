@@ -370,6 +370,12 @@
         "vpcId": {
           "$ref": "#/$defs/Types.AwsVpcId"
         },
+        "clusterIAMRoleNamePrefixOverride": {
+          "$ref": "#/$defs/Types.AwsIamRoleNamePrefix"
+        },
+        "workersIAMRoleNamePrefixOverride": {
+          "$ref": "#/$defs/Types.AwsIamRoleNamePrefix"
+        },
         "subnetIds": {
           "type": "array",
           "items": {
@@ -1847,7 +1853,7 @@
           "additionalProperties": false,
           "properties": {
             "overrides": {
-              "$ref": "#/$defs/Types.FuryModuleComponentOverrides"
+              "$ref": "#/$defs/Types.FuryModuleComponentOverridesWithIAMRoleName"
             }
           }
         },
@@ -1856,7 +1862,7 @@
           "additionalProperties": false,
           "properties": {
             "overrides": {
-              "$ref": "#/$defs/Types.FuryModuleComponentOverrides"
+              "$ref": "#/$defs/Types.FuryModuleComponentOverridesWithIAMRoleName"
             }
           }
         },
@@ -1865,7 +1871,7 @@
           "additionalProperties": false,
           "properties": {
             "overrides": {
-              "$ref": "#/$defs/Types.FuryModuleComponentOverrides"
+              "$ref": "#/$defs/Types.FuryModuleComponentOverridesWithIAMRoleName"
             }
           }
         },
@@ -1975,6 +1981,10 @@
       "type": "string",
       "pattern": "^(?i)(tcp|udp|icmp|icmpv6|-1)$",
       "$comment": "this value should be lowercase, but we rely on terraform to do the conversion to make it a bit more user friendly"
+    },
+    "Types.AwsIamRoleNamePrefix": {
+      "type": "string",
+      "pattern": "^[a-zA-Z0-9+=,.@_-]{1,38}$"
     },
     "Types.AwsIamRoleName": {
       "type": "string",
@@ -2118,6 +2128,24 @@
           "items": {
             "$ref": "#/$defs/Types.KubeToleration"
           }
+        }
+      }
+    },
+    "Types.FuryModuleComponentOverridesWithIAMRoleName": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "nodeSelector": {
+          "$ref": "#/$defs/Types.KubeNodeSelector"
+        },
+        "tolerations": {
+          "type": ["array", "null"],
+          "items": {
+            "$ref": "#/$defs/Types.KubeToleration"
+          }
+        },
+        "iamRoleName": {
+          "$ref": "#/$defs/Types.AwsIamRoleName"
         }
       }
     },
