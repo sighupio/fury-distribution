@@ -116,6 +116,10 @@ workers_iam_role_name_prefix_override = {{ .spec.kubernetes.workersIAMRoleNamePr
             {{- $currNodePool = mergeOverwrite $currNodePool (dict "volume_size" $np.instance.volumeSize) }}
         {{- end }}
 
+        {{- if hasKeyAny $np.instance "volumeType" }}
+            {{- $currNodePool = mergeOverwrite $currNodePool (dict "volume_type" $np.instance.volumeType) }}
+        {{- end }}
+
         {{- if and (hasKeyAny $np "subnetIds") (gt (len $np.subnetIds) 0) }}
             {{- $currNodePool = mergeOverwrite $currNodePool (dict "subnets" $np.subnetIds) }}
         {{- end }}
