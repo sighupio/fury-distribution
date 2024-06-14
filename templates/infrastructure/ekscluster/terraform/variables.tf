@@ -117,8 +117,8 @@ variable "vpn_bucket_name_prefix" {
   default     = ""
 }
 
-variable "vpn_iam_name_override" {
+variable "vpn_iam_user_name_override" {
   type        = string
-  description = "Override the name of the IAM resources, if not set it will use the cluster name"
+  description = "Override the name of the IAM user, if not set it will use the cluster name"
   default     = ""
 }
