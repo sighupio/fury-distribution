@@ -323,7 +323,7 @@
         "bucketNamePrefix": {
           "$ref": "#/$defs/Types.AwsS3BucketNamePrefix"
         },
-        "iamResourcesNameOverride": {
+        "iamUserNameOverride": {
           "$ref": "#/$defs/Types.AwsIamRoleName"
         }
       },
