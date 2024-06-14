@@ -7,7 +7,7 @@
         "name": {
           "type": "string",
           "minLength": 1,
-          "maxLength": 19
+          "maxLength": 56
         }
       },
       "required": [
@@ -490,7 +490,7 @@
               "$ref": "#/$defs/Types.AwsArn"
             },
             "overrides": {
-              "$ref": "#/$defs/Types.FuryModuleComponentOverrides"
+              "$ref": "#/$defs/Types.FuryModuleComponentOverridesWithIAMRoleName"
             }
           },
           "required": [
@@ -505,7 +505,7 @@
               "$ref": "#/$defs/Types.AwsArn"
             },
             "overrides": {
-              "$ref": "#/$defs/Types.FuryModuleComponentOverrides"
+              "$ref": "#/$defs/Types.FuryModuleComponentOverridesWithIAMRoleName"
             }
           },
           "required": [
@@ -540,7 +540,7 @@
           "$ref": "#/$defs/Types.AwsArn"
         },
         "overrides": {
-          "$ref": "#/$defs/Types.FuryModuleComponentOverrides"
+          "$ref": "#/$defs/Types.FuryModuleComponentOverridesWithIAMRoleName"
         }
       },
       "required": [
@@ -1662,6 +1662,9 @@
         },
         "bucketNamePrefix": {
           "$ref": "#/$defs/Types.AwsS3BucketNamePrefix"
+        },
+        "iamUserNameOverride": {
+          "$ref": "#/$defs/Types.AwsIamRoleName"
         }
       },
       "required": [
@@ -1711,6 +1714,12 @@
       "properties": {
         "vpcId": {
           "$ref": "#/$defs/Types.AwsVpcId"
+        },
+        "clusterIAMRoleNamePrefixOverride": {
+          "$ref": "#/$defs/Types.AwsIamRoleNamePrefix"
+        },
+        "workersIAMRoleNamePrefixOverride": {
+          "$ref": "#/$defs/Types.AwsIamRoleNamePrefix"
         },
         "subnetIds": {
           "type": "array",
@@ -2207,6 +2216,14 @@
       "type": "string",
       "pattern": "^arn:(?P<Partition>[^:\\n]*):(?P<Service>[^:\\n]*):(?P<Region>[^:\\n]*):(?P<AccountID>[^:\\n]*):(?P<Ignore>(?P<ResourceType>[^:\\/\\n]*)[:\\/])?(?P<Resource>.*)$"
     },
+    "Types.AwsIamRoleName": {
+      "type": "string",
+      "pattern": "^[a-zA-Z0-9+=,.@_-]{1,63}$"
+    },
+    "Types.AwsIamRoleNamePrefix": {
+      "type": "string",
+      "pattern": "^[a-zA-Z0-9+=,.@_-]{1,38}$"
+    },
     "Types.AwsIpProtocol": {
       "type": "string",
       "pattern": "^(?i)(tcp|udp|icmp|icmpv6|-1)$",
@@ -2322,6 +2339,27 @@
           "items": {
             "$ref": "#/$defs/Types.KubeToleration"
           }
+        }
+      }
+    },
+    "Types.FuryModuleComponentOverridesWithIAMRoleName": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "nodeSelector": {
+          "$ref": "#/$defs/Types.KubeNodeSelector"
+        },
+        "tolerations": {
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "$ref": "#/$defs/Types.KubeToleration"
+          }
+        },
+        "iamRoleName": {
+          "$ref": "#/$defs/Types.AwsIamRoleName"
         }
       }
     },

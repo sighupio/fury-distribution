@@ -73,5 +73,6 @@ module "vpn" {
   vpn_operator_cidrs     = var.vpn_operator_cidrs
   vpn_ssh_users          = var.vpn_ssh_users
   vpn_bucket_name_prefix = var.vpn_bucket_name_prefix
+  vpn_iam_user_name_override  = var.vpn_iam_user_name_override
   # vpn_routes = []
 }
