@@ -29,5 +29,11 @@ emailClaim: "{{ .spec.distribution.modules.auth.oidcKubernetesAuth.emailClaim }}
 {{- else }}
 emailClaim: "email"
 {{- end }}
+{{- if index .spec.distribution.modules.auth.oidcKubernetesAuth "removeCAFromKubeconfig" }}
+removeCAFromKubeconfig: {{ .spec.distribution.modules.auth.oidcKubernetesAuth.removeCAFromKubeconfig }}
+{{- end }}
+{{- if index .spec.distribution.modules.auth.oidcKubernetesAuth "namespace" }}
+namespace: "{{ .spec.distribution.modules.auth.oidcKubernetesAuth.namespace }}"
+{{- end }}
 sessionSecurityKey: "{{ .spec.distribution.modules.auth.oidcKubernetesAuth.sessionSecurityKey }}"
 {{- end }}
