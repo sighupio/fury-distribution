@@ -314,6 +314,13 @@ type SpecDistributionModulesAuthOIDCKubernetesAuth struct {
 	// Enabled corresponds to the JSON schema field "enabled".
 	Enabled bool `json:"enabled" yaml:"enabled" mapstructure:"enabled"`
 
+	// Namespace corresponds to the JSON schema field "namespace".
+	Namespace *string `json:"namespace,omitempty" yaml:"namespace,omitempty" mapstructure:"namespace,omitempty"`
+
+	// RemoveCAFromKubeconfig corresponds to the JSON schema field
+	// "removeCAFromKubeconfig".
+	RemoveCAFromKubeconfig *bool `json:"removeCAFromKubeconfig,omitempty" yaml:"removeCAFromKubeconfig,omitempty" mapstructure:"removeCAFromKubeconfig,omitempty"`
+
 	// Scopes corresponds to the JSON schema field "scopes".
 	Scopes []string `json:"scopes,omitempty" yaml:"scopes,omitempty" mapstructure:"scopes,omitempty"`
 
