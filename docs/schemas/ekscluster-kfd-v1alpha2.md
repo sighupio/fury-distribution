@@ -7,7 +7,7 @@ An example file can be found [here](https://github.com/sighupio/fury-distributio
 ## Properties
 
 | Property                  | Type     | Required |
-|:--------------------------|:---------|:---------|
+| :------------------------ | :------- | :------- |
 | [apiVersion](#apiversion) | `string` | Required |
 | [kind](#kind)             | `string` | Required |
 | [metadata](#metadata)     | `object` | Required |
@@ -35,16 +35,16 @@ A Fury Cluster deployed through AWS's Elastic Kubernetes Service
 
 **enum**: the value of this property must be equal to one of the following values:
 
-| Value        |
-|:-------------|
-|`"EKSCluster"`|
+| Value          |
+| :------------- |
+| `"EKSCluster"` |
 
 ## .metadata
 
 ### Properties
 
 | Property              | Type     | Required |
-|:----------------------|:---------|:---------|
+| :-------------------- | :------- | :------- |
 | [name](#metadataname) | `string` | Required |
 
 ## .metadata.name
@@ -60,7 +60,7 @@ A Fury Cluster deployed through AWS's Elastic Kubernetes Service
 ### Properties
 
 | Property                                        | Type     | Required |
-|:------------------------------------------------|:---------|:---------|
+| :---------------------------------------------- | :------- | :------- |
 | [distribution](#specdistribution)               | `object` | Required |
 | [distributionVersion](#specdistributionversion) | `string` | Required |
 | [infrastructure](#specinfrastructure)           | `object` | Optional |
@@ -75,7 +75,7 @@ A Fury Cluster deployed through AWS's Elastic Kubernetes Service
 ### Properties
 
 | Property                                        | Type     | Required |
-|:------------------------------------------------|:---------|:---------|
+| :---------------------------------------------- | :------- | :------- |
 | [common](#specdistributioncommon)               | `object` | Optional |
 | [customPatches](#specdistributioncustompatches) | `object` | Optional |
 | [modules](#specdistributionmodules)             | `object` | Required |
@@ -85,7 +85,7 @@ A Fury Cluster deployed through AWS's Elastic Kubernetes Service
 ### Properties
 
 | Property                                                        | Type     | Required |
-|:----------------------------------------------------------------|:---------|:---------|
+| :-------------------------------------------------------------- | :------- | :------- |
 | [nodeSelector](#specdistributioncommonnodeselector)             | `object` | Optional |
 | [provider](#specdistributioncommonprovider)                     | `object` | Optional |
 | [relativeVendorPath](#specdistributioncommonrelativevendorpath) | `string` | Optional |
@@ -102,7 +102,7 @@ The node selector to use to place the pods for all the KFD modules
 ### Properties
 
 | Property                                    | Type     | Required |
-|:--------------------------------------------|:---------|:---------|
+| :------------------------------------------ | :------- | :------- |
 | [type](#specdistributioncommonprovidertype) | `string` | Required |
 
 ## .spec.distribution.common.provider.type
@@ -122,7 +122,7 @@ The relative path to the vendor directory, does not need to be changed
 ### Properties
 
 | Property                                               | Type     | Required |
-|:-------------------------------------------------------|:---------|:---------|
+| :----------------------------------------------------- | :------- | :------- |
 | [effect](#specdistributioncommontolerationseffect)     | `string` | Required |
 | [key](#specdistributioncommontolerationskey)           | `string` | Required |
 | [operator](#specdistributioncommontolerationsoperator) | `string` | Optional |
@@ -138,11 +138,11 @@ The tolerations that will be added to the pods for all the KFD modules
 
 **enum**: the value of this property must be equal to one of the following values:
 
-| Value              |
-|:-------------------|
-|`"NoSchedule"`      |
-|`"PreferNoSchedule"`|
-|`"NoExecute"`       |
+| Value                |
+| :------------------- |
+| `"NoSchedule"`       |
+| `"PreferNoSchedule"` |
+| `"NoExecute"`        |
 
 ## .spec.distribution.common.tolerations.key
 
@@ -156,10 +156,10 @@ The key of the toleration
 
 **enum**: the value of this property must be equal to one of the following values:
 
-| Value    |
-|:---------|
-|`"Exists"`|
-|`"Equal"` |
+| Value      |
+| :--------- |
+| `"Exists"` |
+| `"Equal"`  |
 
 ## .spec.distribution.common.tolerations.value
 
@@ -172,7 +172,7 @@ The value of the toleration
 ### Properties
 
 | Property                                                                     | Type    | Required |
-|:-----------------------------------------------------------------------------|:--------|:---------|
+| :--------------------------------------------------------------------------- | :------ | :------- |
 | [configMapGenerator](#specdistributioncustompatchesconfigmapgenerator)       | `array` | Optional |
 | [images](#specdistributioncustompatchesimages)                               | `array` | Optional |
 | [patches](#specdistributioncustompatchespatches)                             | `array` | Optional |
@@ -184,7 +184,7 @@ The value of the toleration
 ### Properties
 
 | Property                                                               | Type     | Required |
-|:-----------------------------------------------------------------------|:---------|:---------|
+| :--------------------------------------------------------------------- | :------- | :------- |
 | [behavior](#specdistributioncustompatchesconfigmapgeneratorbehavior)   | `string` | Optional |
 | [envs](#specdistributioncustompatchesconfigmapgeneratorenvs)           | `array`  | Optional |
 | [files](#specdistributioncustompatchesconfigmapgeneratorfiles)         | `array`  | Optional |
@@ -203,11 +203,11 @@ The behavior of the configmap
 
 **enum**: the value of this property must be equal to one of the following values:
 
-| Value     |
-|:----------|
-|`"create"` |
-|`"replace"`|
-|`"merge"`  |
+| Value       |
+| :---------- |
+| `"create"`  |
+| `"replace"` |
+| `"merge"`   |
 
 ## .spec.distribution.customPatches.configMapGenerator.envs
 
@@ -244,7 +244,7 @@ The namespace of the configmap
 ### Properties
 
 | Property                                                                                              | Type      | Required |
-|:------------------------------------------------------------------------------------------------------|:----------|:---------|
+| :---------------------------------------------------------------------------------------------------- | :-------- | :------- |
 | [annotations](#specdistributioncustompatchesconfigmapgeneratoroptionsannotations)                     | `object`  | Optional |
 | [disableNameSuffixHash](#specdistributioncustompatchesconfigmapgeneratoroptionsdisablenamesuffixhash) | `boolean` | Optional |
 | [immutable](#specdistributioncustompatchesconfigmapgeneratoroptionsimmutable)                         | `boolean` | Optional |
@@ -285,7 +285,7 @@ Each entry should follow the format of Kustomize's images patch
 ### Properties
 
 | Property                                                | Type     | Required |
-|:--------------------------------------------------------|:---------|:---------|
+| :------------------------------------------------------ | :------- | :------- |
 | [options](#specdistributioncustompatchespatchesoptions) | `object` | Optional |
 | [patch](#specdistributioncustompatchespatchespatch)     | `string` | Optional |
 | [path](#specdistributioncustompatchespatchespath)       | `string` | Optional |
@@ -296,7 +296,7 @@ Each entry should follow the format of Kustomize's images patch
 ### Properties
 
 | Property                                                                       | Type      | Required |
-|:-------------------------------------------------------------------------------|:----------|:---------|
+| :----------------------------------------------------------------------------- | :-------- | :------- |
 | [allowKindChange](#specdistributioncustompatchespatchesoptionsallowkindchange) | `boolean` | Optional |
 | [allowNameChange](#specdistributioncustompatchespatchesoptionsallownamechange) | `boolean` | Optional |
 
@@ -329,7 +329,7 @@ The path of the patch
 ### Properties
 
 | Property                                                                            | Type     | Required |
-|:------------------------------------------------------------------------------------|:---------|:---------|
+| :---------------------------------------------------------------------------------- | :------- | :------- |
 | [annotationSelector](#specdistributioncustompatchespatchestargetannotationselector) | `string` | Optional |
 | [group](#specdistributioncustompatchespatchestargetgroup)                           | `string` | Optional |
 | [kind](#specdistributioncustompatchespatchestargetkind)                             | `string` | Optional |
@@ -391,7 +391,7 @@ Each entry should be either a relative file path or an inline content resolving 
 ### Properties
 
 | Property                                                            | Type     | Required |
-|:--------------------------------------------------------------------|:---------|:---------|
+| :------------------------------------------------------------------ | :------- | :------- |
 | [behavior](#specdistributioncustompatchessecretgeneratorbehavior)   | `string` | Optional |
 | [envs](#specdistributioncustompatchessecretgeneratorenvs)           | `array`  | Optional |
 | [files](#specdistributioncustompatchessecretgeneratorfiles)         | `array`  | Optional |
@@ -411,11 +411,11 @@ The behavior of the secret
 
 **enum**: the value of this property must be equal to one of the following values:
 
-| Value     |
-|:----------|
-|`"create"` |
-|`"replace"`|
-|`"merge"`  |
+| Value       |
+| :---------- |
+| `"create"`  |
+| `"replace"` |
+| `"merge"`   |
 
 ## .spec.distribution.customPatches.secretGenerator.envs
 
@@ -452,7 +452,7 @@ The namespace of the secret
 ### Properties
 
 | Property                                                                                           | Type      | Required |
-|:---------------------------------------------------------------------------------------------------|:----------|:---------|
+| :------------------------------------------------------------------------------------------------- | :-------- | :------- |
 | [annotations](#specdistributioncustompatchessecretgeneratoroptionsannotations)                     | `object`  | Optional |
 | [disableNameSuffixHash](#specdistributioncustompatchessecretgeneratoroptionsdisablenamesuffixhash) | `boolean` | Optional |
 | [immutable](#specdistributioncustompatchessecretgeneratoroptionsimmutable)                         | `boolean` | Optional |
@@ -493,7 +493,7 @@ The type of the secret
 ### Properties
 
 | Property                                         | Type     | Required |
-|:-------------------------------------------------|:---------|:---------|
+| :----------------------------------------------- | :------- | :------- |
 | [auth](#specdistributionmodulesauth)             | `object` | Optional |
 | [aws](#specdistributionmodulesaws)               | `object` | Optional |
 | [dr](#specdistributionmodulesdr)                 | `object` | Required |
@@ -509,7 +509,7 @@ The type of the secret
 ### Properties
 
 | Property                                             | Type     | Required |
-|:-----------------------------------------------------|:---------|:---------|
+| :--------------------------------------------------- | :------- | :------- |
 | [baseDomain](#specdistributionmodulesauthbasedomain) | `string` | Optional |
 | [dex](#specdistributionmodulesauthdex)               | `object` | Optional |
 | [overrides](#specdistributionmodulesauthoverrides)   | `object` | Optional |
@@ -527,7 +527,7 @@ The base domain for the auth module
 ### Properties
 
 | Property                                                                          | Type     | Required |
-|:----------------------------------------------------------------------------------|:---------|:---------|
+| :-------------------------------------------------------------------------------- | :------- | :------- |
 | [additionalStaticClients](#specdistributionmodulesauthdexadditionalstaticclients) | `array`  | Optional |
 | [connectors](#specdistributionmodulesauthdexconnectors)                           | `array`  | Required |
 | [overrides](#specdistributionmodulesauthdexoverrides)                             | `object` | Optional |
@@ -549,7 +549,7 @@ The connectors for dex
 ### Properties
 
 | Property                                                             | Type     | Required |
-|:---------------------------------------------------------------------|:---------|:---------|
+| :------------------------------------------------------------------- | :------- | :------- |
 | [nodeSelector](#specdistributionmodulesauthdexoverridesnodeselector) | `object` | Optional |
 | [tolerations](#specdistributionmodulesauthdexoverridestolerations)   | `array`  | Optional |
 
@@ -564,7 +564,7 @@ The node selector to use to place the pods for the minio module
 ### Properties
 
 | Property                                                                | Type     | Required |
-|:------------------------------------------------------------------------|:---------|:---------|
+| :---------------------------------------------------------------------- | :------- | :------- |
 | [effect](#specdistributionmodulesauthdexoverridestolerationseffect)     | `string` | Required |
 | [key](#specdistributionmodulesauthdexoverridestolerationskey)           | `string` | Required |
 | [operator](#specdistributionmodulesauthdexoverridestolerationsoperator) | `string` | Optional |
@@ -580,11 +580,11 @@ The tolerations that will be added to the pods for the cert-manager module
 
 **enum**: the value of this property must be equal to one of the following values:
 
-| Value              |
-|:-------------------|
-|`"NoSchedule"`      |
-|`"PreferNoSchedule"`|
-|`"NoExecute"`       |
+| Value                |
+| :------------------- |
+| `"NoSchedule"`       |
+| `"PreferNoSchedule"` |
+| `"NoExecute"`        |
 
 ## .spec.distribution.modules.auth.dex.overrides.tolerations.key
 
@@ -598,10 +598,10 @@ The key of the toleration
 
 **enum**: the value of this property must be equal to one of the following values:
 
-| Value    |
-|:---------|
-|`"Exists"`|
-|`"Equal"` |
+| Value      |
+| :--------- |
+| `"Exists"` |
+| `"Equal"`  |
 
 ## .spec.distribution.modules.auth.dex.overrides.tolerations.value
 
@@ -614,7 +614,7 @@ The value of the toleration
 ### Properties
 
 | Property                                                          | Type     | Required |
-|:------------------------------------------------------------------|:---------|:---------|
+| :---------------------------------------------------------------- | :------- | :------- |
 | [ingresses](#specdistributionmodulesauthoverridesingresses)       | `object` | Optional |
 | [nodeSelector](#specdistributionmodulesauthoverridesnodeselector) | `object` | Optional |
 | [tolerations](#specdistributionmodulesauthoverridestolerations)   | `array`  | Optional |
@@ -632,7 +632,7 @@ The node selector to use to place the pods for the auth module
 ### Properties
 
 | Property                                                             | Type     | Required |
-|:---------------------------------------------------------------------|:---------|:---------|
+| :------------------------------------------------------------------- | :------- | :------- |
 | [effect](#specdistributionmodulesauthoverridestolerationseffect)     | `string` | Required |
 | [key](#specdistributionmodulesauthoverridestolerationskey)           | `string` | Required |
 | [operator](#specdistributionmodulesauthoverridestolerationsoperator) | `string` | Optional |
@@ -648,11 +648,11 @@ The tolerations that will be added to the pods for the auth module
 
 **enum**: the value of this property must be equal to one of the following values:
 
-| Value              |
-|:-------------------|
-|`"NoSchedule"`      |
-|`"PreferNoSchedule"`|
-|`"NoExecute"`       |
+| Value                |
+| :------------------- |
+| `"NoSchedule"`       |
+| `"PreferNoSchedule"` |
+| `"NoExecute"`        |
 
 ## .spec.distribution.modules.auth.overrides.tolerations.key
 
@@ -666,10 +666,10 @@ The key of the toleration
 
 **enum**: the value of this property must be equal to one of the following values:
 
-| Value    |
-|:---------|
-|`"Exists"`|
-|`"Equal"` |
+| Value      |
+| :--------- |
+| `"Exists"` |
+| `"Equal"`  |
 
 ## .spec.distribution.modules.auth.overrides.tolerations.value
 
@@ -682,7 +682,7 @@ The value of the toleration
 ### Properties
 
 | Property                                                   | Type     | Required |
-|:-----------------------------------------------------------|:---------|:---------|
+| :--------------------------------------------------------- | :------- | :------- |
 | [overrides](#specdistributionmodulesauthpomeriumoverrides) | `object` | Optional |
 | [policy](#specdistributionmodulesauthpomeriumpolicy)       | `string` | Required |
 | [secrets](#specdistributionmodulesauthpomeriumsecrets)     | `object` | Required |
@@ -692,7 +692,7 @@ The value of the toleration
 ### Properties
 
 | Property                                                                  | Type     | Required |
-|:--------------------------------------------------------------------------|:---------|:---------|
+| :------------------------------------------------------------------------ | :------- | :------- |
 | [nodeSelector](#specdistributionmodulesauthpomeriumoverridesnodeselector) | `object` | Optional |
 | [tolerations](#specdistributionmodulesauthpomeriumoverridestolerations)   | `array`  | Optional |
 
@@ -707,7 +707,7 @@ The node selector to use to place the pods for the minio module
 ### Properties
 
 | Property                                                                     | Type     | Required |
-|:-----------------------------------------------------------------------------|:---------|:---------|
+| :--------------------------------------------------------------------------- | :------- | :------- |
 | [effect](#specdistributionmodulesauthpomeriumoverridestolerationseffect)     | `string` | Required |
 | [key](#specdistributionmodulesauthpomeriumoverridestolerationskey)           | `string` | Required |
 | [operator](#specdistributionmodulesauthpomeriumoverridestolerationsoperator) | `string` | Optional |
@@ -723,11 +723,11 @@ The tolerations that will be added to the pods for the cert-manager module
 
 **enum**: the value of this property must be equal to one of the following values:
 
-| Value              |
-|:-------------------|
-|`"NoSchedule"`      |
-|`"PreferNoSchedule"`|
-|`"NoExecute"`       |
+| Value                |
+| :------------------- |
+| `"NoSchedule"`       |
+| `"PreferNoSchedule"` |
+| `"NoExecute"`        |
 
 ## .spec.distribution.modules.auth.pomerium.overrides.tolerations.key
 
@@ -741,10 +741,10 @@ The key of the toleration
 
 **enum**: the value of this property must be equal to one of the following values:
 
-| Value    |
-|:---------|
-|`"Exists"`|
-|`"Equal"` |
+| Value      |
+| :--------- |
+| `"Exists"` |
+| `"Equal"`  |
 
 ## .spec.distribution.modules.auth.pomerium.overrides.tolerations.value
 
@@ -763,7 +763,7 @@ The policy for pomerium
 ### Properties
 
 | Property                                                                          | Type     | Required |
-|:----------------------------------------------------------------------------------|:---------|:---------|
+| :-------------------------------------------------------------------------------- | :------- | :------- |
 | [COOKIE_SECRET](#specdistributionmodulesauthpomeriumsecretscookie_secret)         | `string` | Required |
 | [IDP_CLIENT_SECRET](#specdistributionmodulesauthpomeriumsecretsidp_client_secret) | `string` | Required |
 | [SHARED_SECRET](#specdistributionmodulesauthpomeriumsecretsshared_secret)         | `string` | Required |
@@ -791,7 +791,7 @@ The shared secret for pomerium
 ### Properties
 
 | Property                                                   | Type     | Required |
-|:-----------------------------------------------------------|:---------|:---------|
+| :--------------------------------------------------------- | :------- | :------- |
 | [basicAuth](#specdistributionmodulesauthproviderbasicauth) | `object` | Optional |
 | [type](#specdistributionmodulesauthprovidertype)           | `string` | Required |
 
@@ -800,7 +800,7 @@ The shared secret for pomerium
 ### Properties
 
 | Property                                                          | Type     | Required |
-|:------------------------------------------------------------------|:---------|:---------|
+| :---------------------------------------------------------------- | :------- | :------- |
 | [password](#specdistributionmodulesauthproviderbasicauthpassword) | `string` | Required |
 | [username](#specdistributionmodulesauthproviderbasicauthusername) | `string` | Required |
 
@@ -826,18 +826,18 @@ The type of the provider, must be ***none***, ***sso*** or ***basicAuth***
 
 **enum**: the value of this property must be equal to one of the following values:
 
-| Value       |
-|:------------|
-|`"none"`     |
-|`"basicAuth"`|
-|`"sso"`      |
+| Value         |
+| :------------ |
+| `"none"`      |
+| `"basicAuth"` |
+| `"sso"`       |
 
 ## .spec.distribution.modules.aws
 
 ### Properties
 
 | Property                                                                    | Type     | Required |
-|:----------------------------------------------------------------------------|:---------|:---------|
+| :-------------------------------------------------------------------------- | :------- | :------- |
 | [clusterAutoscaler](#specdistributionmodulesawsclusterautoscaler)           | `object` | Optional |
 | [ebsCsiDriver](#specdistributionmodulesawsebscsidriver)                     | `object` | Optional |
 | [ebsSnapshotController](#specdistributionmodulesawsebssnapshotcontroller)   | `object` | Optional |
@@ -849,7 +849,7 @@ The type of the provider, must be ***none***, ***sso*** or ***basicAuth***
 ### Properties
 
 | Property                                                           | Type     | Required |
-|:-------------------------------------------------------------------|:---------|:---------|
+| :----------------------------------------------------------------- | :------- | :------- |
 | [overrides](#specdistributionmodulesawsclusterautoscaleroverrides) | `object` | Optional |
 
 ## .spec.distribution.modules.aws.clusterAutoscaler.overrides
@@ -857,7 +857,7 @@ The type of the provider, must be ***none***, ***sso*** or ***basicAuth***
 ### Properties
 
 | Property                                                                          | Type     | Required |
-|:----------------------------------------------------------------------------------|:---------|:---------|
+| :-------------------------------------------------------------------------------- | :------- | :------- |
 | [iamRoleName](#specdistributionmodulesawsclusterautoscaleroverridesiamrolename)   | `string` | Optional |
 | [nodeSelector](#specdistributionmodulesawsclusterautoscaleroverridesnodeselector) | `object` | Optional |
 | [tolerations](#specdistributionmodulesawsclusterautoscaleroverridestolerations)   | `array`  | Optional |
@@ -885,7 +885,7 @@ The node selector to use to place the pods for the load balancer controller modu
 ### Properties
 
 | Property                                                                             | Type     | Required |
-|:-------------------------------------------------------------------------------------|:---------|:---------|
+| :----------------------------------------------------------------------------------- | :------- | :------- |
 | [effect](#specdistributionmodulesawsclusterautoscaleroverridestolerationseffect)     | `string` | Required |
 | [key](#specdistributionmodulesawsclusterautoscaleroverridestolerationskey)           | `string` | Required |
 | [operator](#specdistributionmodulesawsclusterautoscaleroverridestolerationsoperator) | `string` | Optional |
@@ -901,11 +901,11 @@ The tolerations that will be added to the pods for the cluster autoscaler module
 
 **enum**: the value of this property must be equal to one of the following values:
 
-| Value              |
-|:-------------------|
-|`"NoSchedule"`      |
-|`"PreferNoSchedule"`|
-|`"NoExecute"`       |
+| Value                |
+| :------------------- |
+| `"NoSchedule"`       |
+| `"PreferNoSchedule"` |
+| `"NoExecute"`        |
 
 ## .spec.distribution.modules.aws.clusterAutoscaler.overrides.tolerations.key
 
@@ -919,10 +919,10 @@ The key of the toleration
 
 **enum**: the value of this property must be equal to one of the following values:
 
-| Value    |
-|:---------|
-|`"Exists"`|
-|`"Equal"` |
+| Value      |
+| :--------- |
+| `"Exists"` |
+| `"Equal"`  |
 
 ## .spec.distribution.modules.aws.clusterAutoscaler.overrides.tolerations.value
 
@@ -935,7 +935,7 @@ The value of the toleration
 ### Properties
 
 | Property                                                      | Type     | Required |
-|:--------------------------------------------------------------|:---------|:---------|
+| :------------------------------------------------------------ | :------- | :------- |
 | [overrides](#specdistributionmodulesawsebscsidriveroverrides) | `object` | Optional |
 
 ## .spec.distribution.modules.aws.ebsCsiDriver.overrides
@@ -943,7 +943,7 @@ The value of the toleration
 ### Properties
 
 | Property                                                                     | Type     | Required |
-|:-----------------------------------------------------------------------------|:---------|:---------|
+| :--------------------------------------------------------------------------- | :------- | :------- |
 | [iamRoleName](#specdistributionmodulesawsebscsidriveroverridesiamrolename)   | `string` | Optional |
 | [nodeSelector](#specdistributionmodulesawsebscsidriveroverridesnodeselector) | `object` | Optional |
 | [tolerations](#specdistributionmodulesawsebscsidriveroverridestolerations)   | `array`  | Optional |
@@ -971,7 +971,7 @@ The node selector to use to place the pods for the load balancer controller modu
 ### Properties
 
 | Property                                                                        | Type     | Required |
-|:--------------------------------------------------------------------------------|:---------|:---------|
+| :------------------------------------------------------------------------------ | :------- | :------- |
 | [effect](#specdistributionmodulesawsebscsidriveroverridestolerationseffect)     | `string` | Required |
 | [key](#specdistributionmodulesawsebscsidriveroverridestolerationskey)           | `string` | Required |
 | [operator](#specdistributionmodulesawsebscsidriveroverridestolerationsoperator) | `string` | Optional |
@@ -987,11 +987,11 @@ The tolerations that will be added to the pods for the cluster autoscaler module
 
 **enum**: the value of this property must be equal to one of the following values:
 
-| Value              |
-|:-------------------|
-|`"NoSchedule"`      |
-|`"PreferNoSchedule"`|
-|`"NoExecute"`       |
+| Value                |
+| :------------------- |
+| `"NoSchedule"`       |
+| `"PreferNoSchedule"` |
+| `"NoExecute"`        |
 
 ## .spec.distribution.modules.aws.ebsCsiDriver.overrides.tolerations.key
 
@@ -1005,10 +1005,10 @@ The key of the toleration
 
 **enum**: the value of this property must be equal to one of the following values:
 
-| Value    |
-|:---------|
-|`"Exists"`|
-|`"Equal"` |
+| Value      |
+| :--------- |
+| `"Exists"` |
+| `"Equal"`  |
 
 ## .spec.distribution.modules.aws.ebsCsiDriver.overrides.tolerations.value
 
@@ -1021,7 +1021,7 @@ The value of the toleration
 ### Properties
 
 | Property                                                               | Type     | Required |
-|:-----------------------------------------------------------------------|:---------|:---------|
+| :--------------------------------------------------------------------- | :------- | :------- |
 | [overrides](#specdistributionmodulesawsebssnapshotcontrolleroverrides) | `object` | Optional |
 
 ## .spec.distribution.modules.aws.ebsSnapshotController.overrides
@@ -1029,7 +1029,7 @@ The value of the toleration
 ### Properties
 
 | Property                                                                              | Type     | Required |
-|:--------------------------------------------------------------------------------------|:---------|:---------|
+| :------------------------------------------------------------------------------------ | :------- | :------- |
 | [nodeSelector](#specdistributionmodulesawsebssnapshotcontrolleroverridesnodeselector) | `object` | Optional |
 | [tolerations](#specdistributionmodulesawsebssnapshotcontrolleroverridestolerations)   | `array`  | Optional |
 
@@ -1044,7 +1044,7 @@ The node selector to use to place the pods for the minio module
 ### Properties
 
 | Property                                                                                 | Type     | Required |
-|:-----------------------------------------------------------------------------------------|:---------|:---------|
+| :--------------------------------------------------------------------------------------- | :------- | :------- |
 | [effect](#specdistributionmodulesawsebssnapshotcontrolleroverridestolerationseffect)     | `string` | Required |
 | [key](#specdistributionmodulesawsebssnapshotcontrolleroverridestolerationskey)           | `string` | Required |
 | [operator](#specdistributionmodulesawsebssnapshotcontrolleroverridestolerationsoperator) | `string` | Optional |
@@ -1060,11 +1060,11 @@ The tolerations that will be added to the pods for the cert-manager module
 
 **enum**: the value of this property must be equal to one of the following values:
 
-| Value              |
-|:-------------------|
-|`"NoSchedule"`      |
-|`"PreferNoSchedule"`|
-|`"NoExecute"`       |
+| Value                |
+| :------------------- |
+| `"NoSchedule"`       |
+| `"PreferNoSchedule"` |
+| `"NoExecute"`        |
 
 ## .spec.distribution.modules.aws.ebsSnapshotController.overrides.tolerations.key
 
@@ -1078,10 +1078,10 @@ The key of the toleration
 
 **enum**: the value of this property must be equal to one of the following values:
 
-| Value    |
-|:---------|
-|`"Exists"`|
-|`"Equal"` |
+| Value      |
+| :--------- |
+| `"Exists"` |
+| `"Equal"`  |
 
 ## .spec.distribution.modules.aws.ebsSnapshotController.overrides.tolerations.value
 
@@ -1094,7 +1094,7 @@ The value of the toleration
 ### Properties
 
 | Property                                                                | Type     | Required |
-|:------------------------------------------------------------------------|:---------|:---------|
+| :---------------------------------------------------------------------- | :------- | :------- |
 | [overrides](#specdistributionmodulesawsloadbalancercontrolleroverrides) | `object` | Optional |
 
 ## .spec.distribution.modules.aws.loadBalancerController.overrides
@@ -1102,7 +1102,7 @@ The value of the toleration
 ### Properties
 
 | Property                                                                               | Type     | Required |
-|:---------------------------------------------------------------------------------------|:---------|:---------|
+| :------------------------------------------------------------------------------------- | :------- | :------- |
 | [iamRoleName](#specdistributionmodulesawsloadbalancercontrolleroverridesiamrolename)   | `string` | Optional |
 | [nodeSelector](#specdistributionmodulesawsloadbalancercontrolleroverridesnodeselector) | `object` | Optional |
 | [tolerations](#specdistributionmodulesawsloadbalancercontrolleroverridestolerations)   | `array`  | Optional |
@@ -1130,7 +1130,7 @@ The node selector to use to place the pods for the load balancer controller modu
 ### Properties
 
 | Property                                                                                  | Type     | Required |
-|:------------------------------------------------------------------------------------------|:---------|:---------|
+| :---------------------------------------------------------------------------------------- | :------- | :------- |
 | [effect](#specdistributionmodulesawsloadbalancercontrolleroverridestolerationseffect)     | `string` | Required |
 | [key](#specdistributionmodulesawsloadbalancercontrolleroverridestolerationskey)           | `string` | Required |
 | [operator](#specdistributionmodulesawsloadbalancercontrolleroverridestolerationsoperator) | `string` | Optional |
@@ -1146,11 +1146,11 @@ The tolerations that will be added to the pods for the cluster autoscaler module
 
 **enum**: the value of this property must be equal to one of the following values:
 
-| Value              |
-|:-------------------|
-|`"NoSchedule"`      |
-|`"PreferNoSchedule"`|
-|`"NoExecute"`       |
+| Value                |
+| :------------------- |
+| `"NoSchedule"`       |
+| `"PreferNoSchedule"` |
+| `"NoExecute"`        |
 
 ## .spec.distribution.modules.aws.loadBalancerController.overrides.tolerations.key
 
@@ -1164,10 +1164,10 @@ The key of the toleration
 
 **enum**: the value of this property must be equal to one of the following values:
 
-| Value    |
-|:---------|
-|`"Exists"`|
-|`"Equal"` |
+| Value      |
+| :--------- |
+| `"Exists"` |
+| `"Equal"`  |
 
 ## .spec.distribution.modules.aws.loadBalancerController.overrides.tolerations.value
 
@@ -1180,7 +1180,7 @@ The value of the toleration
 ### Properties
 
 | Property                                                         | Type     | Required |
-|:-----------------------------------------------------------------|:---------|:---------|
+| :--------------------------------------------------------------- | :------- | :------- |
 | [ingresses](#specdistributionmodulesawsoverridesingresses)       | `object` | Optional |
 | [nodeSelector](#specdistributionmodulesawsoverridesnodeselector) | `object` | Optional |
 | [tolerations](#specdistributionmodulesawsoverridestolerations)   | `array`  | Optional |
@@ -1198,7 +1198,7 @@ The node selector to use to place the pods for the dr module
 ### Properties
 
 | Property                                                            | Type     | Required |
-|:--------------------------------------------------------------------|:---------|:---------|
+| :------------------------------------------------------------------ | :------- | :------- |
 | [effect](#specdistributionmodulesawsoverridestolerationseffect)     | `string` | Required |
 | [key](#specdistributionmodulesawsoverridestolerationskey)           | `string` | Required |
 | [operator](#specdistributionmodulesawsoverridestolerationsoperator) | `string` | Optional |
@@ -1214,11 +1214,11 @@ The tolerations that will be added to the pods for the monitoring module
 
 **enum**: the value of this property must be equal to one of the following values:
 
-| Value              |
-|:-------------------|
-|`"NoSchedule"`      |
-|`"PreferNoSchedule"`|
-|`"NoExecute"`       |
+| Value                |
+| :------------------- |
+| `"NoSchedule"`       |
+| `"PreferNoSchedule"` |
+| `"NoExecute"`        |
 
 ## .spec.distribution.modules.aws.overrides.tolerations.key
 
@@ -1232,10 +1232,10 @@ The key of the toleration
 
 **enum**: the value of this property must be equal to one of the following values:
 
-| Value    |
-|:---------|
-|`"Exists"`|
-|`"Equal"` |
+| Value      |
+| :--------- |
+| `"Exists"` |
+| `"Equal"`  |
 
 ## .spec.distribution.modules.aws.overrides.tolerations.value
 
@@ -1248,7 +1248,7 @@ The value of the toleration
 ### Properties
 
 | Property                                         | Type     | Required |
-|:-------------------------------------------------|:---------|:---------|
+| :----------------------------------------------- | :------- | :------- |
 | [overrides](#specdistributionmodulesdroverrides) | `object` | Optional |
 | [type](#specdistributionmodulesdrtype)           | `string` | Required |
 | [velero](#specdistributionmodulesdrvelero)       | `object` | Optional |
@@ -1258,7 +1258,7 @@ The value of the toleration
 ### Properties
 
 | Property                                                        | Type     | Required |
-|:----------------------------------------------------------------|:---------|:---------|
+| :-------------------------------------------------------------- | :------- | :------- |
 | [ingresses](#specdistributionmodulesdroverridesingresses)       | `object` | Optional |
 | [nodeSelector](#specdistributionmodulesdroverridesnodeselector) | `object` | Optional |
 | [tolerations](#specdistributionmodulesdroverridestolerations)   | `array`  | Optional |
@@ -1276,7 +1276,7 @@ The node selector to use to place the pods for the dr module
 ### Properties
 
 | Property                                                           | Type     | Required |
-|:-------------------------------------------------------------------|:---------|:---------|
+| :----------------------------------------------------------------- | :------- | :------- |
 | [effect](#specdistributionmodulesdroverridestolerationseffect)     | `string` | Required |
 | [key](#specdistributionmodulesdroverridestolerationskey)           | `string` | Required |
 | [operator](#specdistributionmodulesdroverridestolerationsoperator) | `string` | Optional |
@@ -1292,11 +1292,11 @@ The tolerations that will be added to the pods for the monitoring module
 
 **enum**: the value of this property must be equal to one of the following values:
 
-| Value              |
-|:-------------------|
-|`"NoSchedule"`      |
-|`"PreferNoSchedule"`|
-|`"NoExecute"`       |
+| Value                |
+| :------------------- |
+| `"NoSchedule"`       |
+| `"PreferNoSchedule"` |
+| `"NoExecute"`        |
 
 ## .spec.distribution.modules.dr.overrides.tolerations.key
 
@@ -1310,10 +1310,10 @@ The key of the toleration
 
 **enum**: the value of this property must be equal to one of the following values:
 
-| Value    |
-|:---------|
-|`"Exists"`|
-|`"Equal"` |
+| Value      |
+| :--------- |
+| `"Exists"` |
+| `"Equal"`  |
 
 ## .spec.distribution.modules.dr.overrides.tolerations.value
 
@@ -1331,17 +1331,17 @@ The type of the DR, must be ***none*** or ***eks***
 
 **enum**: the value of this property must be equal to one of the following values:
 
-| Value  |
-|:-------|
-|`"none"`|
-|`"eks"` |
+| Value    |
+| :------- |
+| `"none"` |
+| `"eks"`  |
 
 ## .spec.distribution.modules.dr.velero
 
 ### Properties
 
 | Property                                               | Type     | Required |
-|:-------------------------------------------------------|:---------|:---------|
+| :----------------------------------------------------- | :------- | :------- |
 | [eks](#specdistributionmodulesdrveleroeks)             | `object` | Required |
 | [overrides](#specdistributionmodulesdrvelerooverrides) | `object` | Optional |
 
@@ -1350,7 +1350,7 @@ The type of the DR, must be ***none*** or ***eks***
 ### Properties
 
 | Property                                                    | Type     | Required |
-|:------------------------------------------------------------|:---------|:---------|
+| :---------------------------------------------------------- | :------- | :------- |
 | [bucketName](#specdistributionmodulesdrveleroeksbucketname) | `string` | Required |
 | [region](#specdistributionmodulesdrveleroeksregion)         | `string` | Required |
 
@@ -1370,44 +1370,44 @@ The region where the velero bucket is located
 
 **enum**: the value of this property must be equal to one of the following values:
 
-| Value            |
-|:-----------------|
-|`"af-south-1"`    |
-|`"ap-east-1"`     |
-|`"ap-northeast-1"`|
-|`"ap-northeast-2"`|
-|`"ap-northeast-3"`|
-|`"ap-south-1"`    |
-|`"ap-south-2"`    |
-|`"ap-southeast-1"`|
-|`"ap-southeast-2"`|
-|`"ap-southeast-3"`|
-|`"ap-southeast-4"`|
-|`"ca-central-1"`  |
-|`"eu-central-1"`  |
-|`"eu-central-2"`  |
-|`"eu-north-1"`    |
-|`"eu-south-1"`    |
-|`"eu-south-2"`    |
-|`"eu-west-1"`     |
-|`"eu-west-2"`     |
-|`"eu-west-3"`     |
-|`"me-central-1"`  |
-|`"me-south-1"`    |
-|`"sa-east-1"`     |
-|`"us-east-1"`     |
-|`"us-east-2"`     |
-|`"us-gov-east-1"` |
-|`"us-gov-west-1"` |
-|`"us-west-1"`     |
-|`"us-west-2"`     |
+| Value              |
+| :----------------- |
+| `"af-south-1"`     |
+| `"ap-east-1"`      |
+| `"ap-northeast-1"` |
+| `"ap-northeast-2"` |
+| `"ap-northeast-3"` |
+| `"ap-south-1"`     |
+| `"ap-south-2"`     |
+| `"ap-southeast-1"` |
+| `"ap-southeast-2"` |
+| `"ap-southeast-3"` |
+| `"ap-southeast-4"` |
+| `"ca-central-1"`   |
+| `"eu-central-1"`   |
+| `"eu-central-2"`   |
+| `"eu-north-1"`     |
+| `"eu-south-1"`     |
+| `"eu-south-2"`     |
+| `"eu-west-1"`      |
+| `"eu-west-2"`      |
+| `"eu-west-3"`      |
+| `"me-central-1"`   |
+| `"me-south-1"`     |
+| `"sa-east-1"`      |
+| `"us-east-1"`      |
+| `"us-east-2"`      |
+| `"us-gov-east-1"`  |
+| `"us-gov-west-1"`  |
+| `"us-west-1"`      |
+| `"us-west-2"`      |
 
 ## .spec.distribution.modules.dr.velero.overrides
 
 ### Properties
 
 | Property                                                              | Type     | Required |
-|:----------------------------------------------------------------------|:---------|:---------|
+| :-------------------------------------------------------------------- | :------- | :------- |
 | [nodeSelector](#specdistributionmodulesdrvelerooverridesnodeselector) | `object` | Optional |
 | [tolerations](#specdistributionmodulesdrvelerooverridestolerations)   | `array`  | Optional |
 
@@ -1422,7 +1422,7 @@ The node selector to use to place the pods for the minio module
 ### Properties
 
 | Property                                                                 | Type     | Required |
-|:-------------------------------------------------------------------------|:---------|:---------|
+| :----------------------------------------------------------------------- | :------- | :------- |
 | [effect](#specdistributionmodulesdrvelerooverridestolerationseffect)     | `string` | Required |
 | [key](#specdistributionmodulesdrvelerooverridestolerationskey)           | `string` | Required |
 | [operator](#specdistributionmodulesdrvelerooverridestolerationsoperator) | `string` | Optional |
@@ -1438,11 +1438,11 @@ The tolerations that will be added to the pods for the cert-manager module
 
 **enum**: the value of this property must be equal to one of the following values:
 
-| Value              |
-|:-------------------|
-|`"NoSchedule"`      |
-|`"PreferNoSchedule"`|
-|`"NoExecute"`       |
+| Value                |
+| :------------------- |
+| `"NoSchedule"`       |
+| `"PreferNoSchedule"` |
+| `"NoExecute"`        |
 
 ## .spec.distribution.modules.dr.velero.overrides.tolerations.key
 
@@ -1456,10 +1456,10 @@ The key of the toleration
 
 **enum**: the value of this property must be equal to one of the following values:
 
-| Value    |
-|:---------|
-|`"Exists"`|
-|`"Equal"` |
+| Value      |
+| :--------- |
+| `"Exists"` |
+| `"Equal"`  |
 
 ## .spec.distribution.modules.dr.velero.overrides.tolerations.value
 
@@ -1472,7 +1472,7 @@ The value of the toleration
 ### Properties
 
 | Property                                                  | Type     | Required |
-|:----------------------------------------------------------|:---------|:---------|
+| :-------------------------------------------------------- | :------- | :------- |
 | [baseDomain](#specdistributionmodulesingressbasedomain)   | `string` | Required |
 | [certManager](#specdistributionmodulesingresscertmanager) | `object` | Optional |
 | [dns](#specdistributionmodulesingressdns)                 | `object` | Required |
@@ -1491,7 +1491,7 @@ the base domain used for all the KFD ingresses, if in the nginx dual configurati
 ### Properties
 
 | Property                                                                 | Type     | Required |
-|:-------------------------------------------------------------------------|:---------|:---------|
+| :----------------------------------------------------------------------- | :------- | :------- |
 | [clusterIssuer](#specdistributionmodulesingresscertmanagerclusterissuer) | `object` | Required |
 | [overrides](#specdistributionmodulesingresscertmanageroverrides)         | `object` | Optional |
 
@@ -1500,7 +1500,7 @@ the base domain used for all the KFD ingresses, if in the nginx dual configurati
 ### Properties
 
 | Property                                                                  | Type     | Required |
-|:--------------------------------------------------------------------------|:---------|:---------|
+| :------------------------------------------------------------------------ | :------- | :------- |
 | [email](#specdistributionmodulesingresscertmanagerclusterissueremail)     | `string` | Required |
 | [name](#specdistributionmodulesingresscertmanagerclusterissuername)       | `string` | Required |
 | [solvers](#specdistributionmodulesingresscertmanagerclusterissuersolvers) | `array`  | Optional |
@@ -1534,17 +1534,17 @@ The type of the cluster issuer, must be ***dns01*** or ***http01***
 
 **enum**: the value of this property must be equal to one of the following values:
 
-| Value    |
-|:---------|
-|`"dns01"` |
-|`"http01"`|
+| Value      |
+| :--------- |
+| `"dns01"`  |
+| `"http01"` |
 
 ## .spec.distribution.modules.ingress.certManager.overrides
 
 ### Properties
 
 | Property                                                                        | Type     | Required |
-|:--------------------------------------------------------------------------------|:---------|:---------|
+| :------------------------------------------------------------------------------ | :------- | :------- |
 | [nodeSelector](#specdistributionmodulesingresscertmanageroverridesnodeselector) | `object` | Optional |
 | [tolerations](#specdistributionmodulesingresscertmanageroverridestolerations)   | `array`  | Optional |
 
@@ -1559,7 +1559,7 @@ The node selector to use to place the pods for the minio module
 ### Properties
 
 | Property                                                                           | Type     | Required |
-|:-----------------------------------------------------------------------------------|:---------|:---------|
+| :--------------------------------------------------------------------------------- | :------- | :------- |
 | [effect](#specdistributionmodulesingresscertmanageroverridestolerationseffect)     | `string` | Required |
 | [key](#specdistributionmodulesingresscertmanageroverridestolerationskey)           | `string` | Required |
 | [operator](#specdistributionmodulesingresscertmanageroverridestolerationsoperator) | `string` | Optional |
@@ -1575,11 +1575,11 @@ The tolerations that will be added to the pods for the cert-manager module
 
 **enum**: the value of this property must be equal to one of the following values:
 
-| Value              |
-|:-------------------|
-|`"NoSchedule"`      |
-|`"PreferNoSchedule"`|
-|`"NoExecute"`       |
+| Value                |
+| :------------------- |
+| `"NoSchedule"`       |
+| `"PreferNoSchedule"` |
+| `"NoExecute"`        |
 
 ## .spec.distribution.modules.ingress.certManager.overrides.tolerations.key
 
@@ -1593,10 +1593,10 @@ The key of the toleration
 
 **enum**: the value of this property must be equal to one of the following values:
 
-| Value    |
-|:---------|
-|`"Exists"`|
-|`"Equal"` |
+| Value      |
+| :--------- |
+| `"Exists"` |
+| `"Equal"`  |
 
 ## .spec.distribution.modules.ingress.certManager.overrides.tolerations.value
 
@@ -1609,7 +1609,7 @@ The value of the toleration
 ### Properties
 
 | Property                                                 | Type     | Required |
-|:---------------------------------------------------------|:---------|:---------|
+| :------------------------------------------------------- | :------- | :------- |
 | [overrides](#specdistributionmodulesingressdnsoverrides) | `object` | Optional |
 | [private](#specdistributionmodulesingressdnsprivate)     | `object` | Required |
 | [public](#specdistributionmodulesingressdnspublic)       | `object` | Required |
@@ -1619,7 +1619,7 @@ The value of the toleration
 ### Properties
 
 | Property                                                                | Type     | Required |
-|:------------------------------------------------------------------------|:---------|:---------|
+| :---------------------------------------------------------------------- | :------- | :------- |
 | [nodeSelector](#specdistributionmodulesingressdnsoverridesnodeselector) | `object` | Optional |
 | [tolerations](#specdistributionmodulesingressdnsoverridestolerations)   | `array`  | Optional |
 
@@ -1634,7 +1634,7 @@ The node selector to use to place the pods for the minio module
 ### Properties
 
 | Property                                                                   | Type     | Required |
-|:---------------------------------------------------------------------------|:---------|:---------|
+| :------------------------------------------------------------------------- | :------- | :------- |
 | [effect](#specdistributionmodulesingressdnsoverridestolerationseffect)     | `string` | Required |
 | [key](#specdistributionmodulesingressdnsoverridestolerationskey)           | `string` | Required |
 | [operator](#specdistributionmodulesingressdnsoverridestolerationsoperator) | `string` | Optional |
@@ -1650,11 +1650,11 @@ The tolerations that will be added to the pods for the cert-manager module
 
 **enum**: the value of this property must be equal to one of the following values:
 
-| Value              |
-|:-------------------|
-|`"NoSchedule"`      |
-|`"PreferNoSchedule"`|
-|`"NoExecute"`       |
+| Value                |
+| :------------------- |
+| `"NoSchedule"`       |
+| `"PreferNoSchedule"` |
+| `"NoExecute"`        |
 
 ## .spec.distribution.modules.ingress.dns.overrides.tolerations.key
 
@@ -1668,10 +1668,10 @@ The key of the toleration
 
 **enum**: the value of this property must be equal to one of the following values:
 
-| Value    |
-|:---------|
-|`"Exists"`|
-|`"Equal"` |
+| Value      |
+| :--------- |
+| `"Exists"` |
+| `"Equal"`  |
 
 ## .spec.distribution.modules.ingress.dns.overrides.tolerations.value
 
@@ -1684,7 +1684,7 @@ The value of the toleration
 ### Properties
 
 | Property                                                  | Type      | Required |
-|:----------------------------------------------------------|:----------|:---------|
+| :-------------------------------------------------------- | :-------- | :------- |
 | [create](#specdistributionmodulesingressdnsprivatecreate) | `boolean` | Required |
 | [name](#specdistributionmodulesingressdnsprivatename)     | `string`  | Required |
 
@@ -1705,7 +1705,7 @@ The name of the private hosted zone
 ### Properties
 
 | Property                                                 | Type      | Required |
-|:---------------------------------------------------------|:----------|:---------|
+| :------------------------------------------------------- | :-------- | :------- |
 | [create](#specdistributionmodulesingressdnspubliccreate) | `boolean` | Required |
 | [name](#specdistributionmodulesingressdnspublicname)     | `string`  | Required |
 
@@ -1726,7 +1726,7 @@ The name of the public hosted zone
 ### Properties
 
 | Property                                                        | Type     | Required |
-|:----------------------------------------------------------------|:---------|:---------|
+| :-------------------------------------------------------------- | :------- | :------- |
 | [overrides](#specdistributionmodulesingressforecastleoverrides) | `object` | Optional |
 
 ## .spec.distribution.modules.ingress.forecastle.overrides
@@ -1734,7 +1734,7 @@ The name of the public hosted zone
 ### Properties
 
 | Property                                                                       | Type     | Required |
-|:-------------------------------------------------------------------------------|:---------|:---------|
+| :----------------------------------------------------------------------------- | :------- | :------- |
 | [nodeSelector](#specdistributionmodulesingressforecastleoverridesnodeselector) | `object` | Optional |
 | [tolerations](#specdistributionmodulesingressforecastleoverridestolerations)   | `array`  | Optional |
 
@@ -1749,7 +1749,7 @@ The node selector to use to place the pods for the minio module
 ### Properties
 
 | Property                                                                          | Type     | Required |
-|:----------------------------------------------------------------------------------|:---------|:---------|
+| :-------------------------------------------------------------------------------- | :------- | :------- |
 | [effect](#specdistributionmodulesingressforecastleoverridestolerationseffect)     | `string` | Required |
 | [key](#specdistributionmodulesingressforecastleoverridestolerationskey)           | `string` | Required |
 | [operator](#specdistributionmodulesingressforecastleoverridestolerationsoperator) | `string` | Optional |
@@ -1765,11 +1765,11 @@ The tolerations that will be added to the pods for the cert-manager module
 
 **enum**: the value of this property must be equal to one of the following values:
 
-| Value              |
-|:-------------------|
-|`"NoSchedule"`      |
-|`"PreferNoSchedule"`|
-|`"NoExecute"`       |
+| Value                |
+| :------------------- |
+| `"NoSchedule"`       |
+| `"PreferNoSchedule"` |
+| `"NoExecute"`        |
 
 ## .spec.distribution.modules.ingress.forecastle.overrides.tolerations.key
 
@@ -1783,10 +1783,10 @@ The key of the toleration
 
 **enum**: the value of this property must be equal to one of the following values:
 
-| Value    |
-|:---------|
-|`"Exists"`|
-|`"Equal"` |
+| Value      |
+| :--------- |
+| `"Exists"` |
+| `"Equal"`  |
 
 ## .spec.distribution.modules.ingress.forecastle.overrides.tolerations.value
 
@@ -1799,7 +1799,7 @@ The value of the toleration
 ### Properties
 
 | Property                                                   | Type     | Required |
-|:-----------------------------------------------------------|:---------|:---------|
+| :--------------------------------------------------------- | :------- | :------- |
 | [overrides](#specdistributionmodulesingressnginxoverrides) | `object` | Optional |
 | [tls](#specdistributionmodulesingressnginxtls)             | `object` | Optional |
 | [type](#specdistributionmodulesingressnginxtype)           | `string` | Required |
@@ -1813,7 +1813,7 @@ Configurations for the nginx ingress controller module
 ### Properties
 
 | Property                                                                  | Type     | Required |
-|:--------------------------------------------------------------------------|:---------|:---------|
+| :------------------------------------------------------------------------ | :------- | :------- |
 | [nodeSelector](#specdistributionmodulesingressnginxoverridesnodeselector) | `object` | Optional |
 | [tolerations](#specdistributionmodulesingressnginxoverridestolerations)   | `array`  | Optional |
 
@@ -1828,7 +1828,7 @@ The node selector to use to place the pods for the minio module
 ### Properties
 
 | Property                                                                     | Type     | Required |
-|:-----------------------------------------------------------------------------|:---------|:---------|
+| :--------------------------------------------------------------------------- | :------- | :------- |
 | [effect](#specdistributionmodulesingressnginxoverridestolerationseffect)     | `string` | Required |
 | [key](#specdistributionmodulesingressnginxoverridestolerationskey)           | `string` | Required |
 | [operator](#specdistributionmodulesingressnginxoverridestolerationsoperator) | `string` | Optional |
@@ -1844,11 +1844,11 @@ The tolerations that will be added to the pods for the cert-manager module
 
 **enum**: the value of this property must be equal to one of the following values:
 
-| Value              |
-|:-------------------|
-|`"NoSchedule"`      |
-|`"PreferNoSchedule"`|
-|`"NoExecute"`       |
+| Value                |
+| :------------------- |
+| `"NoSchedule"`       |
+| `"PreferNoSchedule"` |
+| `"NoExecute"`        |
 
 ## .spec.distribution.modules.ingress.nginx.overrides.tolerations.key
 
@@ -1862,10 +1862,10 @@ The key of the toleration
 
 **enum**: the value of this property must be equal to one of the following values:
 
-| Value    |
-|:---------|
-|`"Exists"`|
-|`"Equal"` |
+| Value      |
+| :--------- |
+| `"Exists"` |
+| `"Equal"`  |
 
 ## .spec.distribution.modules.ingress.nginx.overrides.tolerations.value
 
@@ -1878,7 +1878,7 @@ The value of the toleration
 ### Properties
 
 | Property                                                    | Type     | Required |
-|:------------------------------------------------------------|:---------|:---------|
+| :---------------------------------------------------------- | :------- | :------- |
 | [provider](#specdistributionmodulesingressnginxtlsprovider) | `string` | Required |
 | [secret](#specdistributionmodulesingressnginxtlssecret)     | `object` | Optional |
 
@@ -1892,18 +1892,18 @@ The provider of the TLS certificate, must be ***none***, ***certManager*** or **
 
 **enum**: the value of this property must be equal to one of the following values:
 
-| Value         |
-|:--------------|
-|`"certManager"`|
-|`"secret"`     |
-|`"none"`       |
+| Value           |
+| :-------------- |
+| `"certManager"` |
+| `"secret"`      |
+| `"none"`        |
 
 ## .spec.distribution.modules.ingress.nginx.tls.secret
 
 ### Properties
 
 | Property                                                  | Type     | Required |
-|:----------------------------------------------------------|:---------|:---------|
+| :-------------------------------------------------------- | :------- | :------- |
 | [ca](#specdistributionmodulesingressnginxtlssecretca)     | `string` | Required |
 | [cert](#specdistributionmodulesingressnginxtlssecretcert) | `string` | Required |
 | [key](#specdistributionmodulesingressnginxtlssecretkey)   | `string` | Required |
@@ -1928,18 +1928,18 @@ The type of the nginx ingress controller, must be ***none***, ***single*** or **
 
 **enum**: the value of this property must be equal to one of the following values:
 
-| Value    |
-|:---------|
-|`"none"`  |
-|`"single"`|
-|`"dual"`  |
+| Value      |
+| :--------- |
+| `"none"`   |
+| `"single"` |
+| `"dual"`   |
 
 ## .spec.distribution.modules.ingress.overrides
 
 ### Properties
 
 | Property                                                             | Type     | Required |
-|:---------------------------------------------------------------------|:---------|:---------|
+| :------------------------------------------------------------------- | :------- | :------- |
 | [ingresses](#specdistributionmodulesingressoverridesingresses)       | `object` | Optional |
 | [nodeSelector](#specdistributionmodulesingressoverridesnodeselector) | `object` | Optional |
 | [tolerations](#specdistributionmodulesingressoverridestolerations)   | `array`  | Optional |
@@ -1949,7 +1949,7 @@ The type of the nginx ingress controller, must be ***none***, ***single*** or **
 ### Properties
 
 | Property                                                                  | Type     | Required |
-|:--------------------------------------------------------------------------|:---------|:---------|
+| :------------------------------------------------------------------------ | :------- | :------- |
 | [forecastle](#specdistributionmodulesingressoverridesingressesforecastle) | `object` | Optional |
 
 ## .spec.distribution.modules.ingress.overrides.ingresses.forecastle
@@ -1957,7 +1957,7 @@ The type of the nginx ingress controller, must be ***none***, ***single*** or **
 ### Properties
 
 | Property                                                                                | Type      | Required |
-|:----------------------------------------------------------------------------------------|:----------|:---------|
+| :-------------------------------------------------------------------------------------- | :-------- | :------- |
 | [disableAuth](#specdistributionmodulesingressoverridesingressesforecastledisableauth)   | `boolean` | Optional |
 | [host](#specdistributionmodulesingressoverridesingressesforecastlehost)                 | `string`  | Optional |
 | [ingressClass](#specdistributionmodulesingressoverridesingressesforecastleingressclass) | `string`  | Optional |
@@ -1991,7 +1991,7 @@ The node selector to use to place the pods for the ingress module
 ### Properties
 
 | Property                                                                | Type     | Required |
-|:------------------------------------------------------------------------|:---------|:---------|
+| :---------------------------------------------------------------------- | :------- | :------- |
 | [effect](#specdistributionmodulesingressoverridestolerationseffect)     | `string` | Required |
 | [key](#specdistributionmodulesingressoverridestolerationskey)           | `string` | Required |
 | [operator](#specdistributionmodulesingressoverridestolerationsoperator) | `string` | Optional |
@@ -2007,11 +2007,11 @@ The tolerations that will be added to the pods for the ingress module
 
 **enum**: the value of this property must be equal to one of the following values:
 
-| Value              |
-|:-------------------|
-|`"NoSchedule"`      |
-|`"PreferNoSchedule"`|
-|`"NoExecute"`       |
+| Value                |
+| :------------------- |
+| `"NoSchedule"`       |
+| `"PreferNoSchedule"` |
+| `"NoExecute"`        |
 
 ## .spec.distribution.modules.ingress.overrides.tolerations.key
 
@@ -2025,10 +2025,10 @@ The key of the toleration
 
 **enum**: the value of this property must be equal to one of the following values:
 
-| Value    |
-|:---------|
-|`"Exists"`|
-|`"Equal"` |
+| Value      |
+| :--------- |
+| `"Exists"` |
+| `"Equal"`  |
 
 ## .spec.distribution.modules.ingress.overrides.tolerations.value
 
@@ -2041,7 +2041,7 @@ The value of the toleration
 ### Properties
 
 | Property                                                | Type     | Required |
-|:--------------------------------------------------------|:---------|:---------|
+| :------------------------------------------------------ | :------- | :------- |
 | [cerebro](#specdistributionmodulesloggingcerebro)       | `object` | Optional |
 | [loki](#specdistributionmodulesloggingloki)             | `object` | Optional |
 | [minio](#specdistributionmodulesloggingminio)           | `object` | Optional |
@@ -2055,7 +2055,7 @@ The value of the toleration
 ### Properties
 
 | Property                                                     | Type     | Required |
-|:-------------------------------------------------------------|:---------|:---------|
+| :----------------------------------------------------------- | :------- | :------- |
 | [overrides](#specdistributionmodulesloggingcerebrooverrides) | `object` | Optional |
 
 ## .spec.distribution.modules.logging.cerebro.overrides
@@ -2063,7 +2063,7 @@ The value of the toleration
 ### Properties
 
 | Property                                                                    | Type     | Required |
-|:----------------------------------------------------------------------------|:---------|:---------|
+| :-------------------------------------------------------------------------- | :------- | :------- |
 | [nodeSelector](#specdistributionmodulesloggingcerebrooverridesnodeselector) | `object` | Optional |
 | [tolerations](#specdistributionmodulesloggingcerebrooverridestolerations)   | `array`  | Optional |
 
@@ -2078,7 +2078,7 @@ The node selector to use to place the pods for the minio module
 ### Properties
 
 | Property                                                                       | Type     | Required |
-|:-------------------------------------------------------------------------------|:---------|:---------|
+| :----------------------------------------------------------------------------- | :------- | :------- |
 | [effect](#specdistributionmodulesloggingcerebrooverridestolerationseffect)     | `string` | Required |
 | [key](#specdistributionmodulesloggingcerebrooverridestolerationskey)           | `string` | Required |
 | [operator](#specdistributionmodulesloggingcerebrooverridestolerationsoperator) | `string` | Optional |
@@ -2094,11 +2094,11 @@ The tolerations that will be added to the pods for the cert-manager module
 
 **enum**: the value of this property must be equal to one of the following values:
 
-| Value              |
-|:-------------------|
-|`"NoSchedule"`      |
-|`"PreferNoSchedule"`|
-|`"NoExecute"`       |
+| Value                |
+| :------------------- |
+| `"NoSchedule"`       |
+| `"PreferNoSchedule"` |
+| `"NoExecute"`        |
 
 ## .spec.distribution.modules.logging.cerebro.overrides.tolerations.key
 
@@ -2112,10 +2112,10 @@ The key of the toleration
 
 **enum**: the value of this property must be equal to one of the following values:
 
-| Value    |
-|:---------|
-|`"Exists"`|
-|`"Equal"` |
+| Value      |
+| :--------- |
+| `"Exists"` |
+| `"Equal"`  |
 
 ## .spec.distribution.modules.logging.cerebro.overrides.tolerations.value
 
@@ -2128,7 +2128,7 @@ The value of the toleration
 ### Properties
 
 | Property                                                                | Type     | Required |
-|:------------------------------------------------------------------------|:---------|:---------|
+| :---------------------------------------------------------------------- | :------- | :------- |
 | [backend](#specdistributionmoduleslogginglokibackend)                   | `string` | Optional |
 | [externalEndpoint](#specdistributionmoduleslogginglokiexternalendpoint) | `object` | Optional |
 | [resources](#specdistributionmoduleslogginglokiresources)               | `object` | Optional |
@@ -2139,17 +2139,17 @@ The value of the toleration
 
 **enum**: the value of this property must be equal to one of the following values:
 
-| Value              |
-|:-------------------|
-|`"minio"`           |
-|`"externalEndpoint"`|
+| Value                |
+| :------------------- |
+| `"minio"`            |
+| `"externalEndpoint"` |
 
 ## .spec.distribution.modules.logging.loki.externalEndpoint
 
 ### Properties
 
 | Property                                                                              | Type      | Required |
-|:--------------------------------------------------------------------------------------|:----------|:---------|
+| :------------------------------------------------------------------------------------ | :-------- | :------- |
 | [accessKeyId](#specdistributionmoduleslogginglokiexternalendpointaccesskeyid)         | `string`  | Optional |
 | [bucketName](#specdistributionmoduleslogginglokiexternalendpointbucketname)           | `string`  | Optional |
 | [endpoint](#specdistributionmoduleslogginglokiexternalendpointendpoint)               | `string`  | Optional |
@@ -2191,7 +2191,7 @@ The secret access key of the loki external endpoint
 ### Properties
 
 | Property                                                         | Type     | Required |
-|:-----------------------------------------------------------------|:---------|:---------|
+| :--------------------------------------------------------------- | :------- | :------- |
 | [limits](#specdistributionmoduleslogginglokiresourceslimits)     | `object` | Optional |
 | [requests](#specdistributionmoduleslogginglokiresourcesrequests) | `object` | Optional |
 
@@ -2200,7 +2200,7 @@ The secret access key of the loki external endpoint
 ### Properties
 
 | Property                                                           | Type     | Required |
-|:-------------------------------------------------------------------|:---------|:---------|
+| :----------------------------------------------------------------- | :------- | :------- |
 | [cpu](#specdistributionmoduleslogginglokiresourceslimitscpu)       | `string` | Optional |
 | [memory](#specdistributionmoduleslogginglokiresourceslimitsmemory) | `string` | Optional |
 
@@ -2221,7 +2221,7 @@ The memory limit for the opensearch pods
 ### Properties
 
 | Property                                                             | Type     | Required |
-|:---------------------------------------------------------------------|:---------|:---------|
+| :------------------------------------------------------------------- | :------- | :------- |
 | [cpu](#specdistributionmoduleslogginglokiresourcesrequestscpu)       | `string` | Optional |
 | [memory](#specdistributionmoduleslogginglokiresourcesrequestsmemory) | `string` | Optional |
 
@@ -2242,7 +2242,7 @@ The memory request for the opensearch pods
 ### Properties
 
 | Property                                                       | Type     | Required |
-|:---------------------------------------------------------------|:---------|:---------|
+| :------------------------------------------------------------- | :------- | :------- |
 | [overrides](#specdistributionmodulesloggingminiooverrides)     | `object` | Optional |
 | [rootUser](#specdistributionmodulesloggingminiorootuser)       | `object` | Optional |
 | [storageSize](#specdistributionmodulesloggingminiostoragesize) | `string` | Optional |
@@ -2252,7 +2252,7 @@ The memory request for the opensearch pods
 ### Properties
 
 | Property                                                                  | Type     | Required |
-|:--------------------------------------------------------------------------|:---------|:---------|
+| :------------------------------------------------------------------------ | :------- | :------- |
 | [nodeSelector](#specdistributionmodulesloggingminiooverridesnodeselector) | `object` | Optional |
 | [tolerations](#specdistributionmodulesloggingminiooverridestolerations)   | `array`  | Optional |
 
@@ -2267,7 +2267,7 @@ The node selector to use to place the pods for the minio module
 ### Properties
 
 | Property                                                                     | Type     | Required |
-|:-----------------------------------------------------------------------------|:---------|:---------|
+| :--------------------------------------------------------------------------- | :------- | :------- |
 | [effect](#specdistributionmodulesloggingminiooverridestolerationseffect)     | `string` | Required |
 | [key](#specdistributionmodulesloggingminiooverridestolerationskey)           | `string` | Required |
 | [operator](#specdistributionmodulesloggingminiooverridestolerationsoperator) | `string` | Optional |
@@ -2283,11 +2283,11 @@ The tolerations that will be added to the pods for the cert-manager module
 
 **enum**: the value of this property must be equal to one of the following values:
 
-| Value              |
-|:-------------------|
-|`"NoSchedule"`      |
-|`"PreferNoSchedule"`|
-|`"NoExecute"`       |
+| Value                |
+| :------------------- |
+| `"NoSchedule"`       |
+| `"PreferNoSchedule"` |
+| `"NoExecute"`        |
 
 ## .spec.distribution.modules.logging.minio.overrides.tolerations.key
 
@@ -2301,10 +2301,10 @@ The key of the toleration
 
 **enum**: the value of this property must be equal to one of the following values:
 
-| Value    |
-|:---------|
-|`"Exists"`|
-|`"Equal"` |
+| Value      |
+| :--------- |
+| `"Exists"` |
+| `"Equal"`  |
 
 ## .spec.distribution.modules.logging.minio.overrides.tolerations.value
 
@@ -2317,7 +2317,7 @@ The value of the toleration
 ### Properties
 
 | Property                                                         | Type     | Required |
-|:-----------------------------------------------------------------|:---------|:---------|
+| :--------------------------------------------------------------- | :------- | :------- |
 | [password](#specdistributionmodulesloggingminiorootuserpassword) | `string` | Optional |
 | [username](#specdistributionmodulesloggingminiorootuserusername) | `string` | Optional |
 
@@ -2344,7 +2344,7 @@ The PVC size for each minio disk, 6 disks total
 ### Properties
 
 | Property                                                            | Type     | Required |
-|:--------------------------------------------------------------------|:---------|:---------|
+| :------------------------------------------------------------------ | :------- | :------- |
 | [overrides](#specdistributionmodulesloggingopensearchoverrides)     | `object` | Optional |
 | [resources](#specdistributionmodulesloggingopensearchresources)     | `object` | Optional |
 | [storageSize](#specdistributionmodulesloggingopensearchstoragesize) | `string` | Optional |
@@ -2355,7 +2355,7 @@ The PVC size for each minio disk, 6 disks total
 ### Properties
 
 | Property                                                                       | Type     | Required |
-|:-------------------------------------------------------------------------------|:---------|:---------|
+| :----------------------------------------------------------------------------- | :------- | :------- |
 | [nodeSelector](#specdistributionmodulesloggingopensearchoverridesnodeselector) | `object` | Optional |
 | [tolerations](#specdistributionmodulesloggingopensearchoverridestolerations)   | `array`  | Optional |
 
@@ -2370,7 +2370,7 @@ The node selector to use to place the pods for the minio module
 ### Properties
 
 | Property                                                                          | Type     | Required |
-|:----------------------------------------------------------------------------------|:---------|:---------|
+| :-------------------------------------------------------------------------------- | :------- | :------- |
 | [effect](#specdistributionmodulesloggingopensearchoverridestolerationseffect)     | `string` | Required |
 | [key](#specdistributionmodulesloggingopensearchoverridestolerationskey)           | `string` | Required |
 | [operator](#specdistributionmodulesloggingopensearchoverridestolerationsoperator) | `string` | Optional |
@@ -2386,11 +2386,11 @@ The tolerations that will be added to the pods for the cert-manager module
 
 **enum**: the value of this property must be equal to one of the following values:
 
-| Value              |
-|:-------------------|
-|`"NoSchedule"`      |
-|`"PreferNoSchedule"`|
-|`"NoExecute"`       |
+| Value                |
+| :------------------- |
+| `"NoSchedule"`       |
+| `"PreferNoSchedule"` |
+| `"NoExecute"`        |
 
 ## .spec.distribution.modules.logging.opensearch.overrides.tolerations.key
 
@@ -2404,10 +2404,10 @@ The key of the toleration
 
 **enum**: the value of this property must be equal to one of the following values:
 
-| Value    |
-|:---------|
-|`"Exists"`|
-|`"Equal"` |
+| Value      |
+| :--------- |
+| `"Exists"` |
+| `"Equal"`  |
 
 ## .spec.distribution.modules.logging.opensearch.overrides.tolerations.value
 
@@ -2420,7 +2420,7 @@ The value of the toleration
 ### Properties
 
 | Property                                                               | Type     | Required |
-|:-----------------------------------------------------------------------|:---------|:---------|
+| :--------------------------------------------------------------------- | :------- | :------- |
 | [limits](#specdistributionmodulesloggingopensearchresourceslimits)     | `object` | Optional |
 | [requests](#specdistributionmodulesloggingopensearchresourcesrequests) | `object` | Optional |
 
@@ -2429,7 +2429,7 @@ The value of the toleration
 ### Properties
 
 | Property                                                                 | Type     | Required |
-|:-------------------------------------------------------------------------|:---------|:---------|
+| :----------------------------------------------------------------------- | :------- | :------- |
 | [cpu](#specdistributionmodulesloggingopensearchresourceslimitscpu)       | `string` | Optional |
 | [memory](#specdistributionmodulesloggingopensearchresourceslimitsmemory) | `string` | Optional |
 
@@ -2450,7 +2450,7 @@ The memory limit for the opensearch pods
 ### Properties
 
 | Property                                                                   | Type     | Required |
-|:---------------------------------------------------------------------------|:---------|:---------|
+| :------------------------------------------------------------------------- | :------- | :------- |
 | [cpu](#specdistributionmodulesloggingopensearchresourcesrequestscpu)       | `string` | Optional |
 | [memory](#specdistributionmodulesloggingopensearchresourcesrequestsmemory) | `string` | Optional |
 
@@ -2482,17 +2482,17 @@ The type of the opensearch, must be ***single*** or ***triple***
 
 **enum**: the value of this property must be equal to one of the following values:
 
-| Value    |
-|:---------|
-|`"single"`|
-|`"triple"`|
+| Value      |
+| :--------- |
+| `"single"` |
+| `"triple"` |
 
 ## .spec.distribution.modules.logging.operator
 
 ### Properties
 
 | Property                                                      | Type     | Required |
-|:--------------------------------------------------------------|:---------|:---------|
+| :------------------------------------------------------------ | :------- | :------- |
 | [overrides](#specdistributionmodulesloggingoperatoroverrides) | `object` | Optional |
 
 ## .spec.distribution.modules.logging.operator.overrides
@@ -2500,7 +2500,7 @@ The type of the opensearch, must be ***single*** or ***triple***
 ### Properties
 
 | Property                                                                     | Type     | Required |
-|:-----------------------------------------------------------------------------|:---------|:---------|
+| :--------------------------------------------------------------------------- | :------- | :------- |
 | [nodeSelector](#specdistributionmodulesloggingoperatoroverridesnodeselector) | `object` | Optional |
 | [tolerations](#specdistributionmodulesloggingoperatoroverridestolerations)   | `array`  | Optional |
 
@@ -2515,7 +2515,7 @@ The node selector to use to place the pods for the minio module
 ### Properties
 
 | Property                                                                        | Type     | Required |
-|:--------------------------------------------------------------------------------|:---------|:---------|
+| :------------------------------------------------------------------------------ | :------- | :------- |
 | [effect](#specdistributionmodulesloggingoperatoroverridestolerationseffect)     | `string` | Required |
 | [key](#specdistributionmodulesloggingoperatoroverridestolerationskey)           | `string` | Required |
 | [operator](#specdistributionmodulesloggingoperatoroverridestolerationsoperator) | `string` | Optional |
@@ -2531,11 +2531,11 @@ The tolerations that will be added to the pods for the cert-manager module
 
 **enum**: the value of this property must be equal to one of the following values:
 
-| Value              |
-|:-------------------|
-|`"NoSchedule"`      |
-|`"PreferNoSchedule"`|
-|`"NoExecute"`       |
+| Value                |
+| :------------------- |
+| `"NoSchedule"`       |
+| `"PreferNoSchedule"` |
+| `"NoExecute"`        |
 
 ## .spec.distribution.modules.logging.operator.overrides.tolerations.key
 
@@ -2549,10 +2549,10 @@ The key of the toleration
 
 **enum**: the value of this property must be equal to one of the following values:
 
-| Value    |
-|:---------|
-|`"Exists"`|
-|`"Equal"` |
+| Value      |
+| :--------- |
+| `"Exists"` |
+| `"Equal"`  |
 
 ## .spec.distribution.modules.logging.operator.overrides.tolerations.value
 
@@ -2565,7 +2565,7 @@ The value of the toleration
 ### Properties
 
 | Property                                                             | Type     | Required |
-|:---------------------------------------------------------------------|:---------|:---------|
+| :------------------------------------------------------------------- | :------- | :------- |
 | [ingresses](#specdistributionmodulesloggingoverridesingresses)       | `object` | Optional |
 | [nodeSelector](#specdistributionmodulesloggingoverridesnodeselector) | `object` | Optional |
 | [tolerations](#specdistributionmodulesloggingoverridestolerations)   | `array`  | Optional |
@@ -2583,7 +2583,7 @@ The node selector to use to place the pods for the dr module
 ### Properties
 
 | Property                                                                | Type     | Required |
-|:------------------------------------------------------------------------|:---------|:---------|
+| :---------------------------------------------------------------------- | :------- | :------- |
 | [effect](#specdistributionmodulesloggingoverridestolerationseffect)     | `string` | Required |
 | [key](#specdistributionmodulesloggingoverridestolerationskey)           | `string` | Required |
 | [operator](#specdistributionmodulesloggingoverridestolerationsoperator) | `string` | Optional |
@@ -2599,11 +2599,11 @@ The tolerations that will be added to the pods for the monitoring module
 
 **enum**: the value of this property must be equal to one of the following values:
 
-| Value              |
-|:-------------------|
-|`"NoSchedule"`      |
-|`"PreferNoSchedule"`|
-|`"NoExecute"`       |
+| Value                |
+| :------------------- |
+| `"NoSchedule"`       |
+| `"PreferNoSchedule"` |
+| `"NoExecute"`        |
 
 ## .spec.distribution.modules.logging.overrides.tolerations.key
 
@@ -2617,10 +2617,10 @@ The key of the toleration
 
 **enum**: the value of this property must be equal to one of the following values:
 
-| Value    |
-|:---------|
-|`"Exists"`|
-|`"Equal"` |
+| Value      |
+| :--------- |
+| `"Exists"` |
+| `"Equal"`  |
 
 ## .spec.distribution.modules.logging.overrides.tolerations.value
 
@@ -2638,18 +2638,18 @@ The type of the logging, must be ***none***, ***opensearch*** or ***loki***
 
 **enum**: the value of this property must be equal to one of the following values:
 
-| Value        |
-|:-------------|
-|`"none"`      |
-|`"opensearch"`|
-|`"loki"`      |
+| Value          |
+| :------------- |
+| `"none"`       |
+| `"opensearch"` |
+| `"loki"`       |
 
 ## .spec.distribution.modules.monitoring
 
 ### Properties
 
 | Property                                                               | Type     | Required |
-|:-----------------------------------------------------------------------|:---------|:---------|
+| :--------------------------------------------------------------------- | :------- | :------- |
 | [alertmanager](#specdistributionmodulesmonitoringalertmanager)         | `object` | Optional |
 | [blackboxExporter](#specdistributionmodulesmonitoringblackboxexporter) | `object` | Optional |
 | [grafana](#specdistributionmodulesmonitoringgrafana)                   | `object` | Optional |
@@ -2666,7 +2666,7 @@ The type of the logging, must be ***none***, ***opensearch*** or ***loki***
 ### Properties
 
 | Property                                                                                         | Type      | Required |
-|:-------------------------------------------------------------------------------------------------|:----------|:---------|
+| :----------------------------------------------------------------------------------------------- | :-------- | :------- |
 | [deadManSwitchWebhookUrl](#specdistributionmodulesmonitoringalertmanagerdeadmanswitchwebhookurl) | `string`  | Optional |
 | [installDefaultRules](#specdistributionmodulesmonitoringalertmanagerinstalldefaultrules)         | `boolean` | Optional |
 | [slackWebhookUrl](#specdistributionmodulesmonitoringalertmanagerslackwebhookurl)                 | `string`  | Optional |
@@ -2694,7 +2694,7 @@ The slack webhook url to send alerts
 ### Properties
 
 | Property                                                                 | Type     | Required |
-|:-------------------------------------------------------------------------|:---------|:---------|
+| :----------------------------------------------------------------------- | :------- | :------- |
 | [overrides](#specdistributionmodulesmonitoringblackboxexporteroverrides) | `object` | Optional |
 
 ## .spec.distribution.modules.monitoring.blackboxExporter.overrides
@@ -2702,7 +2702,7 @@ The slack webhook url to send alerts
 ### Properties
 
 | Property                                                                                | Type     | Required |
-|:----------------------------------------------------------------------------------------|:---------|:---------|
+| :-------------------------------------------------------------------------------------- | :------- | :------- |
 | [nodeSelector](#specdistributionmodulesmonitoringblackboxexporteroverridesnodeselector) | `object` | Optional |
 | [tolerations](#specdistributionmodulesmonitoringblackboxexporteroverridestolerations)   | `array`  | Optional |
 
@@ -2717,7 +2717,7 @@ The node selector to use to place the pods for the minio module
 ### Properties
 
 | Property                                                                                   | Type     | Required |
-|:-------------------------------------------------------------------------------------------|:---------|:---------|
+| :----------------------------------------------------------------------------------------- | :------- | :------- |
 | [effect](#specdistributionmodulesmonitoringblackboxexporteroverridestolerationseffect)     | `string` | Required |
 | [key](#specdistributionmodulesmonitoringblackboxexporteroverridestolerationskey)           | `string` | Required |
 | [operator](#specdistributionmodulesmonitoringblackboxexporteroverridestolerationsoperator) | `string` | Optional |
@@ -2733,11 +2733,11 @@ The tolerations that will be added to the pods for the cert-manager module
 
 **enum**: the value of this property must be equal to one of the following values:
 
-| Value              |
-|:-------------------|
-|`"NoSchedule"`      |
-|`"PreferNoSchedule"`|
-|`"NoExecute"`       |
+| Value                |
+| :------------------- |
+| `"NoSchedule"`       |
+| `"PreferNoSchedule"` |
+| `"NoExecute"`        |
 
 ## .spec.distribution.modules.monitoring.blackboxExporter.overrides.tolerations.key
 
@@ -2751,10 +2751,10 @@ The key of the toleration
 
 **enum**: the value of this property must be equal to one of the following values:
 
-| Value    |
-|:---------|
-|`"Exists"`|
-|`"Equal"` |
+| Value      |
+| :--------- |
+| `"Exists"` |
+| `"Equal"`  |
 
 ## .spec.distribution.modules.monitoring.blackboxExporter.overrides.tolerations.value
 
@@ -2767,7 +2767,7 @@ The value of the toleration
 ### Properties
 
 | Property                                                        | Type     | Required |
-|:----------------------------------------------------------------|:---------|:---------|
+| :-------------------------------------------------------------- | :------- | :------- |
 | [overrides](#specdistributionmodulesmonitoringgrafanaoverrides) | `object` | Optional |
 
 ## .spec.distribution.modules.monitoring.grafana.overrides
@@ -2775,7 +2775,7 @@ The value of the toleration
 ### Properties
 
 | Property                                                                       | Type     | Required |
-|:-------------------------------------------------------------------------------|:---------|:---------|
+| :----------------------------------------------------------------------------- | :------- | :------- |
 | [nodeSelector](#specdistributionmodulesmonitoringgrafanaoverridesnodeselector) | `object` | Optional |
 | [tolerations](#specdistributionmodulesmonitoringgrafanaoverridestolerations)   | `array`  | Optional |
 
@@ -2790,7 +2790,7 @@ The node selector to use to place the pods for the minio module
 ### Properties
 
 | Property                                                                          | Type     | Required |
-|:----------------------------------------------------------------------------------|:---------|:---------|
+| :-------------------------------------------------------------------------------- | :------- | :------- |
 | [effect](#specdistributionmodulesmonitoringgrafanaoverridestolerationseffect)     | `string` | Required |
 | [key](#specdistributionmodulesmonitoringgrafanaoverridestolerationskey)           | `string` | Required |
 | [operator](#specdistributionmodulesmonitoringgrafanaoverridestolerationsoperator) | `string` | Optional |
@@ -2806,11 +2806,11 @@ The tolerations that will be added to the pods for the cert-manager module
 
 **enum**: the value of this property must be equal to one of the following values:
 
-| Value              |
-|:-------------------|
-|`"NoSchedule"`      |
-|`"PreferNoSchedule"`|
-|`"NoExecute"`       |
+| Value                |
+| :------------------- |
+| `"NoSchedule"`       |
+| `"PreferNoSchedule"` |
+| `"NoExecute"`        |
 
 ## .spec.distribution.modules.monitoring.grafana.overrides.tolerations.key
 
@@ -2824,10 +2824,10 @@ The key of the toleration
 
 **enum**: the value of this property must be equal to one of the following values:
 
-| Value    |
-|:---------|
-|`"Exists"`|
-|`"Equal"` |
+| Value      |
+| :--------- |
+| `"Exists"` |
+| `"Equal"`  |
 
 ## .spec.distribution.modules.monitoring.grafana.overrides.tolerations.value
 
@@ -2840,7 +2840,7 @@ The value of the toleration
 ### Properties
 
 | Property                                                                 | Type     | Required |
-|:-------------------------------------------------------------------------|:---------|:---------|
+| :----------------------------------------------------------------------- | :------- | :------- |
 | [overrides](#specdistributionmodulesmonitoringkubestatemetricsoverrides) | `object` | Optional |
 
 ## .spec.distribution.modules.monitoring.kubeStateMetrics.overrides
@@ -2848,7 +2848,7 @@ The value of the toleration
 ### Properties
 
 | Property                                                                                | Type     | Required |
-|:----------------------------------------------------------------------------------------|:---------|:---------|
+| :-------------------------------------------------------------------------------------- | :------- | :------- |
 | [nodeSelector](#specdistributionmodulesmonitoringkubestatemetricsoverridesnodeselector) | `object` | Optional |
 | [tolerations](#specdistributionmodulesmonitoringkubestatemetricsoverridestolerations)   | `array`  | Optional |
 
@@ -2863,7 +2863,7 @@ The node selector to use to place the pods for the minio module
 ### Properties
 
 | Property                                                                                   | Type     | Required |
-|:-------------------------------------------------------------------------------------------|:---------|:---------|
+| :----------------------------------------------------------------------------------------- | :------- | :------- |
 | [effect](#specdistributionmodulesmonitoringkubestatemetricsoverridestolerationseffect)     | `string` | Required |
 | [key](#specdistributionmodulesmonitoringkubestatemetricsoverridestolerationskey)           | `string` | Required |
 | [operator](#specdistributionmodulesmonitoringkubestatemetricsoverridestolerationsoperator) | `string` | Optional |
@@ -2879,11 +2879,11 @@ The tolerations that will be added to the pods for the cert-manager module
 
 **enum**: the value of this property must be equal to one of the following values:
 
-| Value              |
-|:-------------------|
-|`"NoSchedule"`      |
-|`"PreferNoSchedule"`|
-|`"NoExecute"`       |
+| Value                |
+| :------------------- |
+| `"NoSchedule"`       |
+| `"PreferNoSchedule"` |
+| `"NoExecute"`        |
 
 ## .spec.distribution.modules.monitoring.kubeStateMetrics.overrides.tolerations.key
 
@@ -2897,10 +2897,10 @@ The key of the toleration
 
 **enum**: the value of this property must be equal to one of the following values:
 
-| Value    |
-|:---------|
-|`"Exists"`|
-|`"Equal"` |
+| Value      |
+| :--------- |
+| `"Exists"` |
+| `"Equal"`  |
 
 ## .spec.distribution.modules.monitoring.kubeStateMetrics.overrides.tolerations.value
 
@@ -2913,7 +2913,7 @@ The value of the toleration
 ### Properties
 
 | Property                                                                    | Type     | Required |
-|:----------------------------------------------------------------------------|:---------|:---------|
+| :-------------------------------------------------------------------------- | :------- | :------- |
 | [backend](#specdistributionmodulesmonitoringmimirbackend)                   | `string` | Optional |
 | [externalEndpoint](#specdistributionmodulesmonitoringmimirexternalendpoint) | `object` | Optional |
 | [overrides](#specdistributionmodulesmonitoringmimiroverrides)               | `object` | Optional |
@@ -2929,17 +2929,17 @@ The backend for the mimir pods, must be ***minio*** or ***externalEndpoint***
 
 **enum**: the value of this property must be equal to one of the following values:
 
-| Value              |
-|:-------------------|
-|`"minio"`           |
-|`"externalEndpoint"`|
+| Value                |
+| :------------------- |
+| `"minio"`            |
+| `"externalEndpoint"` |
 
 ## .spec.distribution.modules.monitoring.mimir.externalEndpoint
 
 ### Properties
 
 | Property                                                                                  | Type      | Required |
-|:------------------------------------------------------------------------------------------|:----------|:---------|
+| :---------------------------------------------------------------------------------------- | :-------- | :------- |
 | [accessKeyId](#specdistributionmodulesmonitoringmimirexternalendpointaccesskeyid)         | `string`  | Optional |
 | [bucketName](#specdistributionmodulesmonitoringmimirexternalendpointbucketname)           | `string`  | Optional |
 | [endpoint](#specdistributionmodulesmonitoringmimirexternalendpointendpoint)               | `string`  | Optional |
@@ -2981,7 +2981,7 @@ The secret access key of the external mimir backend
 ### Properties
 
 | Property                                                                     | Type     | Required |
-|:-----------------------------------------------------------------------------|:---------|:---------|
+| :--------------------------------------------------------------------------- | :------- | :------- |
 | [nodeSelector](#specdistributionmodulesmonitoringmimiroverridesnodeselector) | `object` | Optional |
 | [tolerations](#specdistributionmodulesmonitoringmimiroverridestolerations)   | `array`  | Optional |
 
@@ -2996,7 +2996,7 @@ The node selector to use to place the pods for the minio module
 ### Properties
 
 | Property                                                                        | Type     | Required |
-|:--------------------------------------------------------------------------------|:---------|:---------|
+| :------------------------------------------------------------------------------ | :------- | :------- |
 | [effect](#specdistributionmodulesmonitoringmimiroverridestolerationseffect)     | `string` | Required |
 | [key](#specdistributionmodulesmonitoringmimiroverridestolerationskey)           | `string` | Required |
 | [operator](#specdistributionmodulesmonitoringmimiroverridestolerationsoperator) | `string` | Optional |
@@ -3012,11 +3012,11 @@ The tolerations that will be added to the pods for the cert-manager module
 
 **enum**: the value of this property must be equal to one of the following values:
 
-| Value              |
-|:-------------------|
-|`"NoSchedule"`      |
-|`"PreferNoSchedule"`|
-|`"NoExecute"`       |
+| Value                |
+| :------------------- |
+| `"NoSchedule"`       |
+| `"PreferNoSchedule"` |
+| `"NoExecute"`        |
 
 ## .spec.distribution.modules.monitoring.mimir.overrides.tolerations.key
 
@@ -3030,10 +3030,10 @@ The key of the toleration
 
 **enum**: the value of this property must be equal to one of the following values:
 
-| Value    |
-|:---------|
-|`"Exists"`|
-|`"Equal"` |
+| Value      |
+| :--------- |
+| `"Exists"` |
+| `"Equal"`  |
 
 ## .spec.distribution.modules.monitoring.mimir.overrides.tolerations.value
 
@@ -3052,7 +3052,7 @@ The retention time for the mimir pods
 ### Properties
 
 | Property                                                          | Type     | Required |
-|:------------------------------------------------------------------|:---------|:---------|
+| :---------------------------------------------------------------- | :------- | :------- |
 | [overrides](#specdistributionmodulesmonitoringminiooverrides)     | `object` | Optional |
 | [rootUser](#specdistributionmodulesmonitoringminiorootuser)       | `object` | Optional |
 | [storageSize](#specdistributionmodulesmonitoringminiostoragesize) | `string` | Optional |
@@ -3062,7 +3062,7 @@ The retention time for the mimir pods
 ### Properties
 
 | Property                                                                     | Type     | Required |
-|:-----------------------------------------------------------------------------|:---------|:---------|
+| :--------------------------------------------------------------------------- | :------- | :------- |
 | [nodeSelector](#specdistributionmodulesmonitoringminiooverridesnodeselector) | `object` | Optional |
 | [tolerations](#specdistributionmodulesmonitoringminiooverridestolerations)   | `array`  | Optional |
 
@@ -3077,7 +3077,7 @@ The node selector to use to place the pods for the minio module
 ### Properties
 
 | Property                                                                        | Type     | Required |
-|:--------------------------------------------------------------------------------|:---------|:---------|
+| :------------------------------------------------------------------------------ | :------- | :------- |
 | [effect](#specdistributionmodulesmonitoringminiooverridestolerationseffect)     | `string` | Required |
 | [key](#specdistributionmodulesmonitoringminiooverridestolerationskey)           | `string` | Required |
 | [operator](#specdistributionmodulesmonitoringminiooverridestolerationsoperator) | `string` | Optional |
@@ -3093,11 +3093,11 @@ The tolerations that will be added to the pods for the cert-manager module
 
 **enum**: the value of this property must be equal to one of the following values:
 
-| Value              |
-|:-------------------|
-|`"NoSchedule"`      |
-|`"PreferNoSchedule"`|
-|`"NoExecute"`       |
+| Value                |
+| :------------------- |
+| `"NoSchedule"`       |
+| `"PreferNoSchedule"` |
+| `"NoExecute"`        |
 
 ## .spec.distribution.modules.monitoring.minio.overrides.tolerations.key
 
@@ -3111,10 +3111,10 @@ The key of the toleration
 
 **enum**: the value of this property must be equal to one of the following values:
 
-| Value    |
-|:---------|
-|`"Exists"`|
-|`"Equal"` |
+| Value      |
+| :--------- |
+| `"Exists"` |
+| `"Equal"`  |
 
 ## .spec.distribution.modules.monitoring.minio.overrides.tolerations.value
 
@@ -3127,7 +3127,7 @@ The value of the toleration
 ### Properties
 
 | Property                                                            | Type     | Required |
-|:--------------------------------------------------------------------|:---------|:---------|
+| :------------------------------------------------------------------ | :------- | :------- |
 | [password](#specdistributionmodulesmonitoringminiorootuserpassword) | `string` | Optional |
 | [username](#specdistributionmodulesmonitoringminiorootuserusername) | `string` | Optional |
 
@@ -3154,7 +3154,7 @@ The storage size for the minio pods
 ### Properties
 
 | Property                                                                | Type     | Required |
-|:------------------------------------------------------------------------|:---------|:---------|
+| :---------------------------------------------------------------------- | :------- | :------- |
 | [ingresses](#specdistributionmodulesmonitoringoverridesingresses)       | `object` | Optional |
 | [nodeSelector](#specdistributionmodulesmonitoringoverridesnodeselector) | `object` | Optional |
 | [tolerations](#specdistributionmodulesmonitoringoverridestolerations)   | `array`  | Optional |
@@ -3172,7 +3172,7 @@ The node selector to use to place the pods for the dr module
 ### Properties
 
 | Property                                                                   | Type     | Required |
-|:---------------------------------------------------------------------------|:---------|:---------|
+| :------------------------------------------------------------------------- | :------- | :------- |
 | [effect](#specdistributionmodulesmonitoringoverridestolerationseffect)     | `string` | Required |
 | [key](#specdistributionmodulesmonitoringoverridestolerationskey)           | `string` | Required |
 | [operator](#specdistributionmodulesmonitoringoverridestolerationsoperator) | `string` | Optional |
@@ -3188,11 +3188,11 @@ The tolerations that will be added to the pods for the monitoring module
 
 **enum**: the value of this property must be equal to one of the following values:
 
-| Value              |
-|:-------------------|
-|`"NoSchedule"`      |
-|`"PreferNoSchedule"`|
-|`"NoExecute"`       |
+| Value                |
+| :------------------- |
+| `"NoSchedule"`       |
+| `"PreferNoSchedule"` |
+| `"NoExecute"`        |
 
 ## .spec.distribution.modules.monitoring.overrides.tolerations.key
 
@@ -3206,10 +3206,10 @@ The key of the toleration
 
 **enum**: the value of this property must be equal to one of the following values:
 
-| Value    |
-|:---------|
-|`"Exists"`|
-|`"Equal"` |
+| Value      |
+| :--------- |
+| `"Exists"` |
+| `"Equal"`  |
 
 ## .spec.distribution.modules.monitoring.overrides.tolerations.value
 
@@ -3222,7 +3222,7 @@ The value of the toleration
 ### Properties
 
 | Property                                                                   | Type     | Required |
-|:---------------------------------------------------------------------------|:---------|:---------|
+| :------------------------------------------------------------------------- | :------- | :------- |
 | [resources](#specdistributionmodulesmonitoringprometheusresources)         | `object` | Optional |
 | [retentionSize](#specdistributionmodulesmonitoringprometheusretentionsize) | `string` | Optional |
 | [retentionTime](#specdistributionmodulesmonitoringprometheusretentiontime) | `string` | Optional |
@@ -3233,7 +3233,7 @@ The value of the toleration
 ### Properties
 
 | Property                                                                  | Type     | Required |
-|:--------------------------------------------------------------------------|:---------|:---------|
+| :------------------------------------------------------------------------ | :------- | :------- |
 | [limits](#specdistributionmodulesmonitoringprometheusresourceslimits)     | `object` | Optional |
 | [requests](#specdistributionmodulesmonitoringprometheusresourcesrequests) | `object` | Optional |
 
@@ -3242,7 +3242,7 @@ The value of the toleration
 ### Properties
 
 | Property                                                                    | Type     | Required |
-|:----------------------------------------------------------------------------|:---------|:---------|
+| :-------------------------------------------------------------------------- | :------- | :------- |
 | [cpu](#specdistributionmodulesmonitoringprometheusresourceslimitscpu)       | `string` | Optional |
 | [memory](#specdistributionmodulesmonitoringprometheusresourceslimitsmemory) | `string` | Optional |
 
@@ -3263,7 +3263,7 @@ The memory limit for the opensearch pods
 ### Properties
 
 | Property                                                                      | Type     | Required |
-|:------------------------------------------------------------------------------|:---------|:---------|
+| :---------------------------------------------------------------------------- | :------- | :------- |
 | [cpu](#specdistributionmodulesmonitoringprometheusresourcesrequestscpu)       | `string` | Optional |
 | [memory](#specdistributionmodulesmonitoringprometheusresourcesrequestsmemory) | `string` | Optional |
 
@@ -3307,18 +3307,18 @@ The type of the monitoring, must be ***none***, ***prometheus*** or ***mimir***
 
 **enum**: the value of this property must be equal to one of the following values:
 
-| Value        |
-|:-------------|
-|`"none"`      |
-|`"prometheus"`|
-|`"mimir"`     |
+| Value          |
+| :------------- |
+| `"none"`       |
+| `"prometheus"` |
+| `"mimir"`      |
 
 ## .spec.distribution.modules.monitoring.x509Exporter
 
 ### Properties
 
 | Property                                                             | Type     | Required |
-|:---------------------------------------------------------------------|:---------|:---------|
+| :------------------------------------------------------------------- | :------- | :------- |
 | [overrides](#specdistributionmodulesmonitoringx509exporteroverrides) | `object` | Optional |
 
 ## .spec.distribution.modules.monitoring.x509Exporter.overrides
@@ -3326,7 +3326,7 @@ The type of the monitoring, must be ***none***, ***prometheus*** or ***mimir***
 ### Properties
 
 | Property                                                                            | Type     | Required |
-|:------------------------------------------------------------------------------------|:---------|:---------|
+| :---------------------------------------------------------------------------------- | :------- | :------- |
 | [nodeSelector](#specdistributionmodulesmonitoringx509exporteroverridesnodeselector) | `object` | Optional |
 | [tolerations](#specdistributionmodulesmonitoringx509exporteroverridestolerations)   | `array`  | Optional |
 
@@ -3341,7 +3341,7 @@ The node selector to use to place the pods for the minio module
 ### Properties
 
 | Property                                                                               | Type     | Required |
-|:---------------------------------------------------------------------------------------|:---------|:---------|
+| :------------------------------------------------------------------------------------- | :------- | :------- |
 | [effect](#specdistributionmodulesmonitoringx509exporteroverridestolerationseffect)     | `string` | Required |
 | [key](#specdistributionmodulesmonitoringx509exporteroverridestolerationskey)           | `string` | Required |
 | [operator](#specdistributionmodulesmonitoringx509exporteroverridestolerationsoperator) | `string` | Optional |
@@ -3357,11 +3357,11 @@ The tolerations that will be added to the pods for the cert-manager module
 
 **enum**: the value of this property must be equal to one of the following values:
 
-| Value              |
-|:-------------------|
-|`"NoSchedule"`      |
-|`"PreferNoSchedule"`|
-|`"NoExecute"`       |
+| Value                |
+| :------------------- |
+| `"NoSchedule"`       |
+| `"PreferNoSchedule"` |
+| `"NoExecute"`        |
 
 ## .spec.distribution.modules.monitoring.x509Exporter.overrides.tolerations.key
 
@@ -3375,10 +3375,10 @@ The key of the toleration
 
 **enum**: the value of this property must be equal to one of the following values:
 
-| Value    |
-|:---------|
-|`"Exists"`|
-|`"Equal"` |
+| Value      |
+| :--------- |
+| `"Exists"` |
+| `"Equal"`  |
 
 ## .spec.distribution.modules.monitoring.x509Exporter.overrides.tolerations.value
 
@@ -3391,7 +3391,7 @@ The value of the toleration
 ### Properties
 
 | Property                                                           | Type     | Required |
-|:-------------------------------------------------------------------|:---------|:---------|
+| :----------------------------------------------------------------- | :------- | :------- |
 | [overrides](#specdistributionmodulesnetworkingoverrides)           | `object` | Optional |
 | [tigeraOperator](#specdistributionmodulesnetworkingtigeraoperator) | `object` | Optional |
 
@@ -3400,7 +3400,7 @@ The value of the toleration
 ### Properties
 
 | Property                                                                | Type     | Required |
-|:------------------------------------------------------------------------|:---------|:---------|
+| :---------------------------------------------------------------------- | :------- | :------- |
 | [nodeSelector](#specdistributionmodulesnetworkingoverridesnodeselector) | `object` | Optional |
 | [tolerations](#specdistributionmodulesnetworkingoverridestolerations)   | `array`  | Optional |
 
@@ -3415,7 +3415,7 @@ The node selector to use to place the pods for the minio module
 ### Properties
 
 | Property                                                                   | Type     | Required |
-|:---------------------------------------------------------------------------|:---------|:---------|
+| :------------------------------------------------------------------------- | :------- | :------- |
 | [effect](#specdistributionmodulesnetworkingoverridestolerationseffect)     | `string` | Required |
 | [key](#specdistributionmodulesnetworkingoverridestolerationskey)           | `string` | Required |
 | [operator](#specdistributionmodulesnetworkingoverridestolerationsoperator) | `string` | Optional |
@@ -3431,11 +3431,11 @@ The tolerations that will be added to the pods for the cert-manager module
 
 **enum**: the value of this property must be equal to one of the following values:
 
-| Value              |
-|:-------------------|
-|`"NoSchedule"`      |
-|`"PreferNoSchedule"`|
-|`"NoExecute"`       |
+| Value                |
+| :------------------- |
+| `"NoSchedule"`       |
+| `"PreferNoSchedule"` |
+| `"NoExecute"`        |
 
 ## .spec.distribution.modules.networking.overrides.tolerations.key
 
@@ -3449,10 +3449,10 @@ The key of the toleration
 
 **enum**: the value of this property must be equal to one of the following values:
 
-| Value    |
-|:---------|
-|`"Exists"`|
-|`"Equal"` |
+| Value      |
+| :--------- |
+| `"Exists"` |
+| `"Equal"`  |
 
 ## .spec.distribution.modules.networking.overrides.tolerations.value
 
@@ -3465,7 +3465,7 @@ The value of the toleration
 ### Properties
 
 | Property                                                               | Type     | Required |
-|:-----------------------------------------------------------------------|:---------|:---------|
+| :--------------------------------------------------------------------- | :------- | :------- |
 | [overrides](#specdistributionmodulesnetworkingtigeraoperatoroverrides) | `object` | Optional |
 
 ## .spec.distribution.modules.networking.tigeraOperator.overrides
@@ -3473,7 +3473,7 @@ The value of the toleration
 ### Properties
 
 | Property                                                                              | Type     | Required |
-|:--------------------------------------------------------------------------------------|:---------|:---------|
+| :------------------------------------------------------------------------------------ | :------- | :------- |
 | [nodeSelector](#specdistributionmodulesnetworkingtigeraoperatoroverridesnodeselector) | `object` | Optional |
 | [tolerations](#specdistributionmodulesnetworkingtigeraoperatoroverridestolerations)   | `array`  | Optional |
 
@@ -3488,7 +3488,7 @@ The node selector to use to place the pods for the minio module
 ### Properties
 
 | Property                                                                                 | Type     | Required |
-|:-----------------------------------------------------------------------------------------|:---------|:---------|
+| :--------------------------------------------------------------------------------------- | :------- | :------- |
 | [effect](#specdistributionmodulesnetworkingtigeraoperatoroverridestolerationseffect)     | `string` | Required |
 | [key](#specdistributionmodulesnetworkingtigeraoperatoroverridestolerationskey)           | `string` | Required |
 | [operator](#specdistributionmodulesnetworkingtigeraoperatoroverridestolerationsoperator) | `string` | Optional |
@@ -3504,11 +3504,11 @@ The tolerations that will be added to the pods for the cert-manager module
 
 **enum**: the value of this property must be equal to one of the following values:
 
-| Value              |
-|:-------------------|
-|`"NoSchedule"`      |
-|`"PreferNoSchedule"`|
-|`"NoExecute"`       |
+| Value                |
+| :------------------- |
+| `"NoSchedule"`       |
+| `"PreferNoSchedule"` |
+| `"NoExecute"`        |
 
 ## .spec.distribution.modules.networking.tigeraOperator.overrides.tolerations.key
 
@@ -3522,10 +3522,10 @@ The key of the toleration
 
 **enum**: the value of this property must be equal to one of the following values:
 
-| Value    |
-|:---------|
-|`"Exists"`|
-|`"Equal"` |
+| Value      |
+| :--------- |
+| `"Exists"` |
+| `"Equal"`  |
 
 ## .spec.distribution.modules.networking.tigeraOperator.overrides.tolerations.value
 
@@ -3538,7 +3538,7 @@ The value of the toleration
 ### Properties
 
 | Property                                               | Type     | Required |
-|:-------------------------------------------------------|:---------|:---------|
+| :----------------------------------------------------- | :------- | :------- |
 | [gatekeeper](#specdistributionmodulespolicygatekeeper) | `object` | Optional |
 | [kyverno](#specdistributionmodulespolicykyverno)       | `object` | Optional |
 | [overrides](#specdistributionmodulespolicyoverrides)   | `object` | Optional |
@@ -3549,7 +3549,7 @@ The value of the toleration
 ### Properties
 
 | Property                                                                                             | Type      | Required |
-|:-----------------------------------------------------------------------------------------------------|:----------|:---------|
+| :--------------------------------------------------------------------------------------------------- | :-------- | :------- |
 | [additionalExcludedNamespaces](#specdistributionmodulespolicygatekeeperadditionalexcludednamespaces) | `array`   | Optional |
 | [enforcementAction](#specdistributionmodulespolicygatekeeperenforcementaction)                       | `string`  | Required |
 | [installDefaultPolicies](#specdistributionmodulespolicygatekeeperinstalldefaultpolicies)             | `boolean` | Required |
@@ -3571,11 +3571,11 @@ The enforcement action to use for the gatekeeper module
 
 **enum**: the value of this property must be equal to one of the following values:
 
-| Value    |
-|:---------|
-|`"deny"`  |
-|`"dryrun"`|
-|`"warn"`  |
+| Value      |
+| :--------- |
+| `"deny"`   |
+| `"dryrun"` |
+| `"warn"`   |
 
 ## .spec.distribution.modules.policy.gatekeeper.installDefaultPolicies
 
@@ -3588,7 +3588,7 @@ If true, the default policies will be installed
 ### Properties
 
 | Property                                                                      | Type     | Required |
-|:------------------------------------------------------------------------------|:---------|:---------|
+| :---------------------------------------------------------------------------- | :------- | :------- |
 | [nodeSelector](#specdistributionmodulespolicygatekeeperoverridesnodeselector) | `object` | Optional |
 | [tolerations](#specdistributionmodulespolicygatekeeperoverridestolerations)   | `array`  | Optional |
 
@@ -3603,7 +3603,7 @@ The node selector to use to place the pods for the minio module
 ### Properties
 
 | Property                                                                         | Type     | Required |
-|:---------------------------------------------------------------------------------|:---------|:---------|
+| :------------------------------------------------------------------------------- | :------- | :------- |
 | [effect](#specdistributionmodulespolicygatekeeperoverridestolerationseffect)     | `string` | Required |
 | [key](#specdistributionmodulespolicygatekeeperoverridestolerationskey)           | `string` | Required |
 | [operator](#specdistributionmodulespolicygatekeeperoverridestolerationsoperator) | `string` | Optional |
@@ -3619,11 +3619,11 @@ The tolerations that will be added to the pods for the cert-manager module
 
 **enum**: the value of this property must be equal to one of the following values:
 
-| Value              |
-|:-------------------|
-|`"NoSchedule"`      |
-|`"PreferNoSchedule"`|
-|`"NoExecute"`       |
+| Value                |
+| :------------------- |
+| `"NoSchedule"`       |
+| `"PreferNoSchedule"` |
+| `"NoExecute"`        |
 
 ## .spec.distribution.modules.policy.gatekeeper.overrides.tolerations.key
 
@@ -3637,10 +3637,10 @@ The key of the toleration
 
 **enum**: the value of this property must be equal to one of the following values:
 
-| Value    |
-|:---------|
-|`"Exists"`|
-|`"Equal"` |
+| Value      |
+| :--------- |
+| `"Exists"` |
+| `"Equal"`  |
 
 ## .spec.distribution.modules.policy.gatekeeper.overrides.tolerations.value
 
@@ -3653,7 +3653,7 @@ The value of the toleration
 ### Properties
 
 | Property                                                                                          | Type      | Required |
-|:--------------------------------------------------------------------------------------------------|:----------|:---------|
+| :------------------------------------------------------------------------------------------------ | :-------- | :------- |
 | [additionalExcludedNamespaces](#specdistributionmodulespolicykyvernoadditionalexcludednamespaces) | `array`   | Optional |
 | [installDefaultPolicies](#specdistributionmodulespolicykyvernoinstalldefaultpolicies)             | `boolean` | Required |
 | [overrides](#specdistributionmodulespolicykyvernooverrides)                                       | `object`  | Optional |
@@ -3676,7 +3676,7 @@ If true, the default policies will be installed
 ### Properties
 
 | Property                                                                   | Type     | Required |
-|:---------------------------------------------------------------------------|:---------|:---------|
+| :------------------------------------------------------------------------- | :------- | :------- |
 | [nodeSelector](#specdistributionmodulespolicykyvernooverridesnodeselector) | `object` | Optional |
 | [tolerations](#specdistributionmodulespolicykyvernooverridestolerations)   | `array`  | Optional |
 
@@ -3691,7 +3691,7 @@ The node selector to use to place the pods for the minio module
 ### Properties
 
 | Property                                                                      | Type     | Required |
-|:------------------------------------------------------------------------------|:---------|:---------|
+| :---------------------------------------------------------------------------- | :------- | :------- |
 | [effect](#specdistributionmodulespolicykyvernooverridestolerationseffect)     | `string` | Required |
 | [key](#specdistributionmodulespolicykyvernooverridestolerationskey)           | `string` | Required |
 | [operator](#specdistributionmodulespolicykyvernooverridestolerationsoperator) | `string` | Optional |
@@ -3707,11 +3707,11 @@ The tolerations that will be added to the pods for the cert-manager module
 
 **enum**: the value of this property must be equal to one of the following values:
 
-| Value              |
-|:-------------------|
-|`"NoSchedule"`      |
-|`"PreferNoSchedule"`|
-|`"NoExecute"`       |
+| Value                |
+| :------------------- |
+| `"NoSchedule"`       |
+| `"PreferNoSchedule"` |
+| `"NoExecute"`        |
 
 ## .spec.distribution.modules.policy.kyverno.overrides.tolerations.key
 
@@ -3725,10 +3725,10 @@ The key of the toleration
 
 **enum**: the value of this property must be equal to one of the following values:
 
-| Value    |
-|:---------|
-|`"Exists"`|
-|`"Equal"` |
+| Value      |
+| :--------- |
+| `"Exists"` |
+| `"Equal"`  |
 
 ## .spec.distribution.modules.policy.kyverno.overrides.tolerations.value
 
@@ -3746,17 +3746,17 @@ The validation failure action to use for the kyverno module
 
 **enum**: the value of this property must be equal to one of the following values:
 
-| Value     |
-|:----------|
-|`"audit"`  |
-|`"enforce"`|
+| Value       |
+| :---------- |
+| `"audit"`   |
+| `"enforce"` |
 
 ## .spec.distribution.modules.policy.overrides
 
 ### Properties
 
 | Property                                                            | Type     | Required |
-|:--------------------------------------------------------------------|:---------|:---------|
+| :------------------------------------------------------------------ | :------- | :------- |
 | [ingresses](#specdistributionmodulespolicyoverridesingresses)       | `object` | Optional |
 | [nodeSelector](#specdistributionmodulespolicyoverridesnodeselector) | `object` | Optional |
 | [tolerations](#specdistributionmodulespolicyoverridestolerations)   | `array`  | Optional |
@@ -3774,7 +3774,7 @@ The node selector to use to place the pods for the dr module
 ### Properties
 
 | Property                                                               | Type     | Required |
-|:-----------------------------------------------------------------------|:---------|:---------|
+| :--------------------------------------------------------------------- | :------- | :------- |
 | [effect](#specdistributionmodulespolicyoverridestolerationseffect)     | `string` | Required |
 | [key](#specdistributionmodulespolicyoverridestolerationskey)           | `string` | Required |
 | [operator](#specdistributionmodulespolicyoverridestolerationsoperator) | `string` | Optional |
@@ -3790,11 +3790,11 @@ The tolerations that will be added to the pods for the monitoring module
 
 **enum**: the value of this property must be equal to one of the following values:
 
-| Value              |
-|:-------------------|
-|`"NoSchedule"`      |
-|`"PreferNoSchedule"`|
-|`"NoExecute"`       |
+| Value                |
+| :------------------- |
+| `"NoSchedule"`       |
+| `"PreferNoSchedule"` |
+| `"NoExecute"`        |
 
 ## .spec.distribution.modules.policy.overrides.tolerations.key
 
@@ -3808,10 +3808,10 @@ The key of the toleration
 
 **enum**: the value of this property must be equal to one of the following values:
 
-| Value    |
-|:---------|
-|`"Exists"`|
-|`"Equal"` |
+| Value      |
+| :--------- |
+| `"Exists"` |
+| `"Equal"`  |
 
 ## .spec.distribution.modules.policy.overrides.tolerations.value
 
@@ -3829,18 +3829,18 @@ The type of security to use, either ***none***, ***gatekeeper*** or ***kyverno**
 
 **enum**: the value of this property must be equal to one of the following values:
 
-| Value        |
-|:-------------|
-|`"none"`      |
-|`"gatekeeper"`|
-|`"kyverno"`   |
+| Value          |
+| :------------- |
+| `"none"`       |
+| `"gatekeeper"` |
+| `"kyverno"`    |
 
 ## .spec.distribution.modules.tracing
 
 ### Properties
 
 | Property                                              | Type     | Required |
-|:------------------------------------------------------|:---------|:---------|
+| :---------------------------------------------------- | :------- | :------- |
 | [minio](#specdistributionmodulestracingminio)         | `object` | Optional |
 | [overrides](#specdistributionmodulestracingoverrides) | `object` | Optional |
 | [tempo](#specdistributionmodulestracingtempo)         | `object` | Optional |
@@ -3851,7 +3851,7 @@ The type of security to use, either ***none***, ***gatekeeper*** or ***kyverno**
 ### Properties
 
 | Property                                                       | Type     | Required |
-|:---------------------------------------------------------------|:---------|:---------|
+| :------------------------------------------------------------- | :------- | :------- |
 | [overrides](#specdistributionmodulestracingminiooverrides)     | `object` | Optional |
 | [rootUser](#specdistributionmodulestracingminiorootuser)       | `object` | Optional |
 | [storageSize](#specdistributionmodulestracingminiostoragesize) | `string` | Optional |
@@ -3861,7 +3861,7 @@ The type of security to use, either ***none***, ***gatekeeper*** or ***kyverno**
 ### Properties
 
 | Property                                                                  | Type     | Required |
-|:--------------------------------------------------------------------------|:---------|:---------|
+| :------------------------------------------------------------------------ | :------- | :------- |
 | [nodeSelector](#specdistributionmodulestracingminiooverridesnodeselector) | `object` | Optional |
 | [tolerations](#specdistributionmodulestracingminiooverridestolerations)   | `array`  | Optional |
 
@@ -3876,7 +3876,7 @@ The node selector to use to place the pods for the minio module
 ### Properties
 
 | Property                                                                     | Type     | Required |
-|:-----------------------------------------------------------------------------|:---------|:---------|
+| :--------------------------------------------------------------------------- | :------- | :------- |
 | [effect](#specdistributionmodulestracingminiooverridestolerationseffect)     | `string` | Required |
 | [key](#specdistributionmodulestracingminiooverridestolerationskey)           | `string` | Required |
 | [operator](#specdistributionmodulestracingminiooverridestolerationsoperator) | `string` | Optional |
@@ -3892,11 +3892,11 @@ The tolerations that will be added to the pods for the cert-manager module
 
 **enum**: the value of this property must be equal to one of the following values:
 
-| Value              |
-|:-------------------|
-|`"NoSchedule"`      |
-|`"PreferNoSchedule"`|
-|`"NoExecute"`       |
+| Value                |
+| :------------------- |
+| `"NoSchedule"`       |
+| `"PreferNoSchedule"` |
+| `"NoExecute"`        |
 
 ## .spec.distribution.modules.tracing.minio.overrides.tolerations.key
 
@@ -3910,10 +3910,10 @@ The key of the toleration
 
 **enum**: the value of this property must be equal to one of the following values:
 
-| Value    |
-|:---------|
-|`"Exists"`|
-|`"Equal"` |
+| Value      |
+| :--------- |
+| `"Exists"` |
+| `"Equal"`  |
 
 ## .spec.distribution.modules.tracing.minio.overrides.tolerations.value
 
@@ -3926,7 +3926,7 @@ The value of the toleration
 ### Properties
 
 | Property                                                         | Type     | Required |
-|:-----------------------------------------------------------------|:---------|:---------|
+| :--------------------------------------------------------------- | :------- | :------- |
 | [password](#specdistributionmodulestracingminiorootuserpassword) | `string` | Optional |
 | [username](#specdistributionmodulestracingminiorootuserusername) | `string` | Optional |
 
@@ -3953,7 +3953,7 @@ The storage size for the minio pods
 ### Properties
 
 | Property                                                             | Type     | Required |
-|:---------------------------------------------------------------------|:---------|:---------|
+| :------------------------------------------------------------------- | :------- | :------- |
 | [ingresses](#specdistributionmodulestracingoverridesingresses)       | `object` | Optional |
 | [nodeSelector](#specdistributionmodulestracingoverridesnodeselector) | `object` | Optional |
 | [tolerations](#specdistributionmodulestracingoverridestolerations)   | `array`  | Optional |
@@ -3971,7 +3971,7 @@ The node selector to use to place the pods for the dr module
 ### Properties
 
 | Property                                                                | Type     | Required |
-|:------------------------------------------------------------------------|:---------|:---------|
+| :---------------------------------------------------------------------- | :------- | :------- |
 | [effect](#specdistributionmodulestracingoverridestolerationseffect)     | `string` | Required |
 | [key](#specdistributionmodulestracingoverridestolerationskey)           | `string` | Required |
 | [operator](#specdistributionmodulestracingoverridestolerationsoperator) | `string` | Optional |
@@ -3987,11 +3987,11 @@ The tolerations that will be added to the pods for the monitoring module
 
 **enum**: the value of this property must be equal to one of the following values:
 
-| Value              |
-|:-------------------|
-|`"NoSchedule"`      |
-|`"PreferNoSchedule"`|
-|`"NoExecute"`       |
+| Value                |
+| :------------------- |
+| `"NoSchedule"`       |
+| `"PreferNoSchedule"` |
+| `"NoExecute"`        |
 
 ## .spec.distribution.modules.tracing.overrides.tolerations.key
 
@@ -4005,10 +4005,10 @@ The key of the toleration
 
 **enum**: the value of this property must be equal to one of the following values:
 
-| Value    |
-|:---------|
-|`"Exists"`|
-|`"Equal"` |
+| Value      |
+| :--------- |
+| `"Exists"` |
+| `"Equal"`  |
 
 ## .spec.distribution.modules.tracing.overrides.tolerations.value
 
@@ -4021,7 +4021,7 @@ The value of the toleration
 ### Properties
 
 | Property                                                                 | Type     | Required |
-|:-------------------------------------------------------------------------|:---------|:---------|
+| :----------------------------------------------------------------------- | :------- | :------- |
 | [backend](#specdistributionmodulestracingtempobackend)                   | `string` | Optional |
 | [externalEndpoint](#specdistributionmodulestracingtempoexternalendpoint) | `object` | Optional |
 | [overrides](#specdistributionmodulestracingtempooverrides)               | `object` | Optional |
@@ -4037,17 +4037,17 @@ The backend for the tempo pods, must be ***minio*** or ***externalEndpoint***
 
 **enum**: the value of this property must be equal to one of the following values:
 
-| Value              |
-|:-------------------|
-|`"minio"`           |
-|`"externalEndpoint"`|
+| Value                |
+| :------------------- |
+| `"minio"`            |
+| `"externalEndpoint"` |
 
 ## .spec.distribution.modules.tracing.tempo.externalEndpoint
 
 ### Properties
 
 | Property                                                                               | Type      | Required |
-|:---------------------------------------------------------------------------------------|:----------|:---------|
+| :------------------------------------------------------------------------------------- | :-------- | :------- |
 | [accessKeyId](#specdistributionmodulestracingtempoexternalendpointaccesskeyid)         | `string`  | Optional |
 | [bucketName](#specdistributionmodulestracingtempoexternalendpointbucketname)           | `string`  | Optional |
 | [endpoint](#specdistributionmodulestracingtempoexternalendpointendpoint)               | `string`  | Optional |
@@ -4089,7 +4089,7 @@ The secret access key of the external tempo backend
 ### Properties
 
 | Property                                                                  | Type     | Required |
-|:--------------------------------------------------------------------------|:---------|:---------|
+| :------------------------------------------------------------------------ | :------- | :------- |
 | [nodeSelector](#specdistributionmodulestracingtempooverridesnodeselector) | `object` | Optional |
 | [tolerations](#specdistributionmodulestracingtempooverridestolerations)   | `array`  | Optional |
 
@@ -4104,7 +4104,7 @@ The node selector to use to place the pods for the minio module
 ### Properties
 
 | Property                                                                     | Type     | Required |
-|:-----------------------------------------------------------------------------|:---------|:---------|
+| :--------------------------------------------------------------------------- | :------- | :------- |
 | [effect](#specdistributionmodulestracingtempooverridestolerationseffect)     | `string` | Required |
 | [key](#specdistributionmodulestracingtempooverridestolerationskey)           | `string` | Required |
 | [operator](#specdistributionmodulestracingtempooverridestolerationsoperator) | `string` | Optional |
@@ -4120,11 +4120,11 @@ The tolerations that will be added to the pods for the cert-manager module
 
 **enum**: the value of this property must be equal to one of the following values:
 
-| Value              |
-|:-------------------|
-|`"NoSchedule"`      |
-|`"PreferNoSchedule"`|
-|`"NoExecute"`       |
+| Value                |
+| :------------------- |
+| `"NoSchedule"`       |
+| `"PreferNoSchedule"` |
+| `"NoExecute"`        |
 
 ## .spec.distribution.modules.tracing.tempo.overrides.tolerations.key
 
@@ -4138,10 +4138,10 @@ The key of the toleration
 
 **enum**: the value of this property must be equal to one of the following values:
 
-| Value    |
-|:---------|
-|`"Exists"`|
-|`"Equal"` |
+| Value      |
+| :--------- |
+| `"Exists"` |
+| `"Equal"`  |
 
 ## .spec.distribution.modules.tracing.tempo.overrides.tolerations.value
 
@@ -4165,10 +4165,10 @@ The type of tracing to use, either ***none*** or ***tempo***
 
 **enum**: the value of this property must be equal to one of the following values:
 
-| Value   |
-|:--------|
-|`"none"` |
-|`"tempo"`|
+| Value     |
+| :-------- |
+| `"none"`  |
+| `"tempo"` |
 
 ## .spec.distributionVersion
 
@@ -4181,7 +4181,7 @@ The type of tracing to use, either ***none*** or ***tempo***
 ### Properties
 
 | Property                      | Type     | Required |
-|:------------------------------|:---------|:---------|
+| :---------------------------- | :------- | :------- |
 | [vpc](#specinfrastructurevpc) | `object` | Optional |
 | [vpn](#specinfrastructurevpn) | `object` | Optional |
 
@@ -4190,7 +4190,7 @@ The type of tracing to use, either ***none*** or ***tempo***
 ### Properties
 
 | Property                                 | Type     | Required |
-|:-----------------------------------------|:---------|:---------|
+| :--------------------------------------- | :------- | :------- |
 | [network](#specinfrastructurevpcnetwork) | `object` | Required |
 
 ### Description
@@ -4202,7 +4202,7 @@ This key defines the VPC that will be created in AWS
 ### Properties
 
 | Property                                                  | Type     | Required |
-|:----------------------------------------------------------|:---------|:---------|
+| :-------------------------------------------------------- | :------- | :------- |
 | [cidr](#specinfrastructurevpcnetworkcidr)                 | `string` | Required |
 | [subnetsCidrs](#specinfrastructurevpcnetworksubnetscidrs) | `object` | Required |
 
@@ -4227,7 +4227,7 @@ This is the CIDR of the VPC that will be created
 ### Properties
 
 | Property                                                    | Type    | Required |
-|:------------------------------------------------------------|:--------|:---------|
+| :---------------------------------------------------------- | :------ | :------- |
 | [private](#specinfrastructurevpcnetworksubnetscidrsprivate) | `array` | Required |
 | [public](#specinfrastructurevpcnetworksubnetscidrspublic)   | `array` | Required |
 
@@ -4268,7 +4268,7 @@ These are the CIDRs for the public subnets, where the public load balancers and 
 ### Properties
 
 | Property                                                           | Type      | Required |
-|:-------------------------------------------------------------------|:----------|:---------|
+| :----------------------------------------------------------------- | :-------- | :------- |
 | [bucketNamePrefix](#specinfrastructurevpnbucketnameprefix)         | `string`  | Optional |
 | [dhParamsBits](#specinfrastructurevpndhparamsbits)                 | `integer` | Optional |
 | [diskSize](#specinfrastructurevpndisksize)                         | `integer` | Optional |
@@ -4344,7 +4344,7 @@ The port used by the OpenVPN server
 ### Properties
 
 | Property                                                      | Type    | Required |
-|:--------------------------------------------------------------|:--------|:---------|
+| :------------------------------------------------------------ | :------ | :------- |
 | [allowedFromCidrs](#specinfrastructurevpnsshallowedfromcidrs) | `array` | Required |
 | [githubUsersName](#specinfrastructurevpnsshgithubusersname)   | `array` | Required |
 | [publicKeys](#specinfrastructurevpnsshpublickeys)             | `array` | Optional |
@@ -4418,7 +4418,7 @@ The CIDR that will be used to assign IP addresses to the VPN clients when connec
 ### Properties
 
 | Property                                                                            | Type      | Required |
-|:------------------------------------------------------------------------------------|:----------|:---------|
+| :---------------------------------------------------------------------------------- | :-------- | :------- |
 | [apiServer](#speckubernetesapiserver)                                               | `object`  | Required |
 | [awsAuth](#speckubernetesawsauth)                                                   | `object`  | Optional |
 | [clusterIAMRoleNamePrefixOverride](#speckubernetesclusteriamrolenameprefixoverride) | `string`  | Optional |
@@ -4437,7 +4437,7 @@ The CIDR that will be used to assign IP addresses to the VPN clients when connec
 ### Properties
 
 | Property                                                         | Type      | Required |
-|:-----------------------------------------------------------------|:----------|:---------|
+| :--------------------------------------------------------------- | :-------- | :------- |
 | [privateAccess](#speckubernetesapiserverprivateaccess)           | `boolean` | Required |
 | [privateAccessCidrs](#speckubernetesapiserverprivateaccesscidrs) | `array`   | Optional |
 | [publicAccess](#speckubernetesapiserverpublicaccess)             | `boolean` | Required |
@@ -4492,7 +4492,7 @@ This value defines the CIDRs that will be allowed to access the API server from 
 ### Properties
 
 | Property                                                       | Type    | Required |
-|:---------------------------------------------------------------|:--------|:---------|
+| :------------------------------------------------------------- | :------ | :------- |
 | [additionalAccounts](#speckubernetesawsauthadditionalaccounts) | `array` | Optional |
 | [roles](#speckubernetesawsauthroles)                           | `array` | Optional |
 | [users](#speckubernetesawsauthusers)                           | `array` | Optional |
@@ -4508,7 +4508,7 @@ This optional array defines additional AWS accounts that will be added to the aw
 ### Properties
 
 | Property                                        | Type     | Required |
-|:------------------------------------------------|:---------|:---------|
+| :---------------------------------------------- | :------- | :------- |
 | [groups](#speckubernetesawsauthrolesgroups)     | `array`  | Required |
 | [rolearn](#speckubernetesawsauthrolesrolearn)   | `string` | Required |
 | [username](#speckubernetesawsauthrolesusername) | `string` | Required |
@@ -4538,7 +4538,7 @@ This optional array defines additional IAM roles that will be added to the aws-a
 ### Properties
 
 | Property                                        | Type     | Required |
-|:------------------------------------------------|:---------|:---------|
+| :---------------------------------------------- | :------- | :------- |
 | [groups](#speckubernetesawsauthusersgroups)     | `array`  | Required |
 | [userarn](#speckubernetesawsauthusersuserarn)   | `string` | Required |
 | [username](#speckubernetesawsauthusersusername) | `string` | Required |
@@ -4591,13 +4591,13 @@ Optional list of Kubernetes Cluster log types to enable. Defaults to all types.
 
 **enum**: the value of this property must be equal to one of the following values:
 
-| Value               |
-|:--------------------|
-|`"api"`              |
-|`"audit"`            |
-|`"authenticator"`    |
-|`"controllerManager"`|
-|`"scheduler"`        |
+| Value                 |
+| :-------------------- |
+| `"api"`               |
+| `"audit"`             |
+| `"authenticator"`     |
+| `"controllerManager"` |
+| `"scheduler"`         |
 
 ## .spec.kubernetes.nodeAllowedSshPublicKey
 
@@ -4610,7 +4610,7 @@ This key contains the ssh public key that can connect to the nodes via SSH using
 ### Properties
 
 | Property                                                                   | Type     | Required |
-|:---------------------------------------------------------------------------|:---------|:---------|
+| :------------------------------------------------------------------------- | :------- | :------- |
 | [additionalFirewallRules](#speckubernetesnodepoolsadditionalfirewallrules) | `object` | Optional |
 | [ami](#speckubernetesnodepoolsami)                                         | `object` | Optional |
 | [attachedTargetGroups](#speckubernetesnodepoolsattachedtargetgroups)       | `array`  | Optional |
@@ -4629,7 +4629,7 @@ This key contains the ssh public key that can connect to the nodes via SSH using
 ### Properties
 
 | Property                                                                                      | Type    | Required |
-|:----------------------------------------------------------------------------------------------|:--------|:---------|
+| :-------------------------------------------------------------------------------------------- | :------ | :------- |
 | [cidrBlocks](#speckubernetesnodepoolsadditionalfirewallrulescidrblocks)                       | `array` | Optional |
 | [self](#speckubernetesnodepoolsadditionalfirewallrulesself)                                   | `array` | Optional |
 | [sourceSecurityGroupId](#speckubernetesnodepoolsadditionalfirewallrulessourcesecuritygroupid) | `array` | Optional |
@@ -4639,7 +4639,7 @@ This key contains the ssh public key that can connect to the nodes via SSH using
 ### Properties
 
 | Property                                                                          | Type     | Required |
-|:----------------------------------------------------------------------------------|:---------|:---------|
+| :-------------------------------------------------------------------------------- | :------- | :------- |
 | [cidrBlocks](#speckubernetesnodepoolsadditionalfirewallrulescidrblockscidrblocks) | `array`  | Required |
 | [name](#speckubernetesnodepoolsadditionalfirewallrulescidrblocksname)             | `string` | Required |
 | [ports](#speckubernetesnodepoolsadditionalfirewallrulescidrblocksports)           | `object` | Required |
@@ -4676,7 +4676,7 @@ The CIDR blocks for the FW rule. At the moment the first item of the list will b
 ### Properties
 
 | Property                                                                   | Type      | Required |
-|:---------------------------------------------------------------------------|:----------|:---------|
+| :------------------------------------------------------------------------- | :-------- | :------- |
 | [from](#speckubernetesnodepoolsadditionalfirewallrulescidrblocksportsfrom) | `integer` | Required |
 | [to](#speckubernetesnodepoolsadditionalfirewallrulescidrblocksportsto)     | `integer` | Required |
 
@@ -4704,17 +4704,17 @@ The CIDR blocks for the FW rule. At the moment the first item of the list will b
 
 **enum**: the value of this property must be equal to one of the following values:
 
-| Value     |
-|:----------|
-|`"ingress"`|
-|`"egress"` |
+| Value       |
+| :---------- |
+| `"ingress"` |
+| `"egress"`  |
 
 ## .spec.kubernetes.nodePools.additionalFirewallRules.self
 
 ### Properties
 
 | Property                                                                | Type      | Required |
-|:------------------------------------------------------------------------|:----------|:---------|
+| :---------------------------------------------------------------------- | :-------- | :------- |
 | [name](#speckubernetesnodepoolsadditionalfirewallrulesselfname)         | `string`  | Required |
 | [ports](#speckubernetesnodepoolsadditionalfirewallrulesselfports)       | `object`  | Required |
 | [protocol](#speckubernetesnodepoolsadditionalfirewallrulesselfprotocol) | `string`  | Required |
@@ -4737,7 +4737,7 @@ The name of the FW rule
 ### Properties
 
 | Property                                                             | Type      | Required |
-|:---------------------------------------------------------------------|:----------|:---------|
+| :------------------------------------------------------------------- | :-------- | :------- |
 | [from](#speckubernetesnodepoolsadditionalfirewallrulesselfportsfrom) | `integer` | Required |
 | [to](#speckubernetesnodepoolsadditionalfirewallrulesselfportsto)     | `integer` | Required |
 
@@ -4783,17 +4783,17 @@ The type of the FW rule can be ingress or egress
 
 **enum**: the value of this property must be equal to one of the following values:
 
-| Value     |
-|:----------|
-|`"ingress"`|
-|`"egress"` |
+| Value       |
+| :---------- |
+| `"ingress"` |
+| `"egress"`  |
 
 ## .spec.kubernetes.nodePools.additionalFirewallRules.sourceSecurityGroupId
 
 ### Properties
 
 | Property                                                                                                           | Type     | Required |
-|:-------------------------------------------------------------------------------------------------------------------|:---------|:---------|
+| :----------------------------------------------------------------------------------------------------------------- | :------- | :------- |
 | [name](#speckubernetesnodepoolsadditionalfirewallrulessourcesecuritygroupidname)                                   | `string` | Required |
 | [ports](#speckubernetesnodepoolsadditionalfirewallrulessourcesecuritygroupidports)                                 | `object` | Required |
 | [protocol](#speckubernetesnodepoolsadditionalfirewallrulessourcesecuritygroupidprotocol)                           | `string` | Required |
@@ -4816,7 +4816,7 @@ The name of the FW rule
 ### Properties
 
 | Property                                                                              | Type      | Required |
-|:--------------------------------------------------------------------------------------|:----------|:---------|
+| :------------------------------------------------------------------------------------ | :-------- | :------- |
 | [from](#speckubernetesnodepoolsadditionalfirewallrulessourcesecuritygroupidportsfrom) | `integer` | Required |
 | [to](#speckubernetesnodepoolsadditionalfirewallrulessourcesecuritygroupidportsto)     | `integer` | Required |
 
@@ -4862,17 +4862,17 @@ The type of the FW rule can be ingress or egress
 
 **enum**: the value of this property must be equal to one of the following values:
 
-| Value     |
-|:----------|
-|`"ingress"`|
-|`"egress"` |
+| Value       |
+| :---------- |
+| `"ingress"` |
+| `"egress"`  |
 
 ## .spec.kubernetes.nodePools.ami
 
 ### Properties
 
 | Property                                  | Type     | Required |
-|:------------------------------------------|:---------|:---------|
+| :---------------------------------------- | :------- | :------- |
 | [id](#speckubernetesnodepoolsamiid)       | `string` | Required |
 | [owner](#speckubernetesnodepoolsamiowner) | `string` | Required |
 
@@ -4914,17 +4914,17 @@ The container runtime to use for the nodes
 
 **enum**: the value of this property must be equal to one of the following values:
 
-| Value        |
-|:-------------|
-|`"docker"`    |
-|`"containerd"`|
+| Value          |
+| :------------- |
+| `"docker"`     |
+| `"containerd"` |
 
 ## .spec.kubernetes.nodePools.instance
 
 ### Properties
 
 | Property                                                 | Type      | Required |
-|:---------------------------------------------------------|:----------|:---------|
+| :------------------------------------------------------- | :-------- | :------- |
 | [maxPods](#speckubernetesnodepoolsinstancemaxpods)       | `integer` | Optional |
 | [spot](#speckubernetesnodepoolsinstancespot)             | `boolean` | Optional |
 | [type](#speckubernetesnodepoolsinstancetype)             | `string`  | Required |
@@ -4957,12 +4957,12 @@ The size of the disk in GB
 
 **enum**: the value of this property must be equal to one of the following values:
 
-| Value      |
-|:-----------|
-|`"gp2"`     |
-|`"gp3"`     |
-|`"io1"`     |
-|`"standard"`|
+| Value        |
+| :----------- |
+| `"gp2"`      |
+| `"gp3"`      |
+| `"io1"`      |
+| `"standard"` |
 
 ## .spec.kubernetes.nodePools.labels
 
@@ -4981,7 +4981,7 @@ The name of the node pool
 ### Properties
 
 | Property                               | Type      | Required |
-|:---------------------------------------|:----------|:---------|
+| :------------------------------------- | :-------- | :------- |
 | [max](#speckubernetesnodepoolssizemax) | `integer` | Required |
 | [min](#speckubernetesnodepoolssizemin) | `integer` | Required |
 
@@ -5037,10 +5037,10 @@ AWS tags that will be added to the ASG and EC2 instances
 
 **enum**: the value of this property must be equal to one of the following values:
 
-| Value          |
-|:---------------|
-|`"eks-managed"` |
-|`"self-managed"`|
+| Value            |
+| :--------------- |
+| `"eks-managed"`  |
+| `"self-managed"` |
 
 ## .spec.kubernetes.nodePoolsLaunchKind
 
@@ -5052,11 +5052,11 @@ Either `launch_configurations`, `launch_templates` or `both`. For new clusters u
 
 **enum**: the value of this property must be equal to one of the following values:
 
-| Value                   |
-|:------------------------|
-|`"launch_configurations"`|
-|`"launch_templates"`     |
-|`"both"`                 |
+| Value                     |
+| :------------------------ |
+| `"launch_configurations"` |
+| `"launch_templates"`      |
+| `"both"`                  |
 
 ## .spec.kubernetes.serviceIpV4Cidr
 
@@ -5123,7 +5123,7 @@ This value defines the VPC ID where the EKS cluster will be created, required on
 ### Properties
 
 | Property                           | Type     | Required |
-|:-----------------------------------|:---------|:---------|
+| :--------------------------------- | :------- | :------- |
 | [helm](#specpluginshelm)           | `object` | Optional |
 | [kustomize](#specpluginskustomize) | `array`  | Optional |
 
@@ -5132,7 +5132,7 @@ This value defines the VPC ID where the EKS cluster will be created, required on
 ### Properties
 
 | Property                                     | Type    | Required |
-|:---------------------------------------------|:--------|:---------|
+| :------------------------------------------- | :------ | :------- |
 | [releases](#specpluginshelmreleases)         | `array` | Optional |
 | [repositories](#specpluginshelmrepositories) | `array` | Optional |
 
@@ -5141,7 +5141,7 @@ This value defines the VPC ID where the EKS cluster will be created, required on
 ### Properties
 
 | Property                                       | Type     | Required |
-|:-----------------------------------------------|:---------|:---------|
+| :--------------------------------------------- | :------- | :------- |
 | [chart](#specpluginshelmreleaseschart)         | `string` | Required |
 | [name](#specpluginshelmreleasesname)           | `string` | Required |
 | [namespace](#specpluginshelmreleasesnamespace) | `string` | Required |
@@ -5172,7 +5172,7 @@ The namespace of the release
 ### Properties
 
 | Property                                  | Type     | Required |
-|:------------------------------------------|:---------|:---------|
+| :---------------------------------------- | :------- | :------- |
 | [name](#specpluginshelmreleasessetname)   | `string` | Required |
 | [value](#specpluginshelmreleasessetvalue) | `string` | Required |
 
@@ -5205,7 +5205,7 @@ The version of the release
 ### Properties
 
 | Property                                 | Type     | Required |
-|:-----------------------------------------|:---------|:---------|
+| :--------------------------------------- | :------- | :------- |
 | [name](#specpluginshelmrepositoriesname) | `string` | Required |
 | [url](#specpluginshelmrepositoriesurl)   | `string` | Required |
 
@@ -5226,7 +5226,7 @@ The url of the repository
 ### Properties
 
 | Property                              | Type     | Required |
-|:--------------------------------------|:---------|:---------|
+| :------------------------------------ | :------- | :------- |
 | [folder](#specpluginskustomizefolder) | `string` | Required |
 | [name](#specpluginskustomizename)     | `string` | Required |
 
@@ -5248,37 +5248,37 @@ The name of the kustomize plugin
 
 **enum**: the value of this property must be equal to one of the following values:
 
-| Value            |
-|:-----------------|
-|`"af-south-1"`    |
-|`"ap-east-1"`     |
-|`"ap-northeast-1"`|
-|`"ap-northeast-2"`|
-|`"ap-northeast-3"`|
-|`"ap-south-1"`    |
-|`"ap-south-2"`    |
-|`"ap-southeast-1"`|
-|`"ap-southeast-2"`|
-|`"ap-southeast-3"`|
-|`"ap-southeast-4"`|
-|`"ca-central-1"`  |
-|`"eu-central-1"`  |
-|`"eu-central-2"`  |
-|`"eu-north-1"`    |
-|`"eu-south-1"`    |
-|`"eu-south-2"`    |
-|`"eu-west-1"`     |
-|`"eu-west-2"`     |
-|`"eu-west-3"`     |
-|`"me-central-1"`  |
-|`"me-south-1"`    |
-|`"sa-east-1"`     |
-|`"us-east-1"`     |
-|`"us-east-2"`     |
-|`"us-gov-east-1"` |
-|`"us-gov-west-1"` |
-|`"us-west-1"`     |
-|`"us-west-2"`     |
+| Value              |
+| :----------------- |
+| `"af-south-1"`     |
+| `"ap-east-1"`      |
+| `"ap-northeast-1"` |
+| `"ap-northeast-2"` |
+| `"ap-northeast-3"` |
+| `"ap-south-1"`     |
+| `"ap-south-2"`     |
+| `"ap-southeast-1"` |
+| `"ap-southeast-2"` |
+| `"ap-southeast-3"` |
+| `"ap-southeast-4"` |
+| `"ca-central-1"`   |
+| `"eu-central-1"`   |
+| `"eu-central-2"`   |
+| `"eu-north-1"`     |
+| `"eu-south-1"`     |
+| `"eu-south-2"`     |
+| `"eu-west-1"`      |
+| `"eu-west-2"`      |
+| `"eu-west-3"`      |
+| `"me-central-1"`   |
+| `"me-south-1"`     |
+| `"sa-east-1"`      |
+| `"us-east-1"`      |
+| `"us-east-2"`      |
+| `"us-gov-east-1"`  |
+| `"us-gov-west-1"`  |
+| `"us-west-1"`      |
+| `"us-west-2"`      |
 
 ## .spec.tags
 
@@ -5291,7 +5291,7 @@ This map defines which will be the common tags that will be added to all the res
 ### Properties
 
 | Property                                      | Type     | Required |
-|:----------------------------------------------|:---------|:---------|
+| :-------------------------------------------- | :------- | :------- |
 | [terraform](#spectoolsconfigurationterraform) | `object` | Required |
 
 ## .spec.toolsConfiguration.terraform
@@ -5299,7 +5299,7 @@ This map defines which will be the common tags that will be added to all the res
 ### Properties
 
 | Property                                       | Type     | Required |
-|:-----------------------------------------------|:---------|:---------|
+| :--------------------------------------------- | :------- | :------- |
 | [state](#spectoolsconfigurationterraformstate) | `object` | Required |
 
 ## .spec.toolsConfiguration.terraform.state
@@ -5307,7 +5307,7 @@ This map defines which will be the common tags that will be added to all the res
 ### Properties
 
 | Property                                      | Type     | Required |
-|:----------------------------------------------|:---------|:---------|
+| :-------------------------------------------- | :------- | :------- |
 | [s3](#spectoolsconfigurationterraformstates3) | `object` | Required |
 
 ## .spec.toolsConfiguration.terraform.state.s3
@@ -5315,7 +5315,7 @@ This map defines which will be the common tags that will be added to all the res
 ### Properties
 
 | Property                                                                            | Type      | Required |
-|:------------------------------------------------------------------------------------|:----------|:---------|
+| :---------------------------------------------------------------------------------- | :-------- | :------- |
 | [bucketName](#spectoolsconfigurationterraformstates3bucketname)                     | `string`  | Required |
 | [keyPrefix](#spectoolsconfigurationterraformstates3keyprefix)                       | `string`  | Required |
 | [region](#spectoolsconfigurationterraformstates3region)                             | `string`  | Required |
@@ -5355,37 +5355,37 @@ This value defines in which region the bucket is located
 
 **enum**: the value of this property must be equal to one of the following values:
 
-| Value            |
-|:-----------------|
-|`"af-south-1"`    |
-|`"ap-east-1"`     |
-|`"ap-northeast-1"`|
-|`"ap-northeast-2"`|
-|`"ap-northeast-3"`|
-|`"ap-south-1"`    |
-|`"ap-south-2"`    |
-|`"ap-southeast-1"`|
-|`"ap-southeast-2"`|
-|`"ap-southeast-3"`|
-|`"ap-southeast-4"`|
-|`"ca-central-1"`  |
-|`"eu-central-1"`  |
-|`"eu-central-2"`  |
-|`"eu-north-1"`    |
-|`"eu-south-1"`    |
-|`"eu-south-2"`    |
-|`"eu-west-1"`     |
-|`"eu-west-2"`     |
-|`"eu-west-3"`     |
-|`"me-central-1"`  |
-|`"me-south-1"`    |
-|`"sa-east-1"`     |
-|`"us-east-1"`     |
-|`"us-east-2"`     |
-|`"us-gov-east-1"` |
-|`"us-gov-west-1"` |
-|`"us-west-1"`     |
-|`"us-west-2"`     |
+| Value              |
+| :----------------- |
+| `"af-south-1"`     |
+| `"ap-east-1"`      |
+| `"ap-northeast-1"` |
+| `"ap-northeast-2"` |
+| `"ap-northeast-3"` |
+| `"ap-south-1"`     |
+| `"ap-south-2"`     |
+| `"ap-southeast-1"` |
+| `"ap-southeast-2"` |
+| `"ap-southeast-3"` |
+| `"ap-southeast-4"` |
+| `"ca-central-1"`   |
+| `"eu-central-1"`   |
+| `"eu-central-2"`   |
+| `"eu-north-1"`     |
+| `"eu-south-1"`     |
+| `"eu-south-2"`     |
+| `"eu-west-1"`      |
+| `"eu-west-2"`      |
+| `"eu-west-3"`      |
+| `"me-central-1"`   |
+| `"me-south-1"`     |
+| `"sa-east-1"`      |
+| `"us-east-1"`      |
+| `"us-east-2"`      |
+| `"us-gov-east-1"`  |
+| `"us-gov-west-1"`  |
+| `"us-west-1"`      |
+| `"us-west-2"`      |
 
 ## .spec.toolsConfiguration.terraform.state.s3.skipRegionValidation
 

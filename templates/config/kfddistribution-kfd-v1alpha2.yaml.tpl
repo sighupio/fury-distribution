@@ -81,7 +81,7 @@ spec:
           storageSize: "20Gi"
       # This section contains all the configurations for the monitoring module
       monitoring:
-        # can be prometheus or mimir or none, with none, nothing from the monitoring module will be installed
+        # can be prometheus, prometheusAgent, mimir or none. With none, nothing from the monitoring module will be installed
         type: "prometheus"
       # This section contains all the configurations for the tracing module
       tracing:
