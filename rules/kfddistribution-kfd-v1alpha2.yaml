@@ -91,6 +91,7 @@ distribution:
       - from: none
       - from: prometheus
         to: mimir
+      - from: prometheusAgent
     reducers:
       - key: distributionModulesMonitoringType
         lifecycle: pre-apply
@@ -98,6 +99,9 @@ distribution:
       - from: mimir
         to: prometheus
         reason: "switching from Mimir to Prometheus is not currently supported. You need to first remove the current stack with type: none."
+      - from: mimir
+        to: prometheusAgent
+        reason: "switching from Mimir to Prometheus Agent is not currently supported. You need to first remove the current stack with type: none."
   - path: .spec.distribution.modules.monitoring.mimir.backend
     immutable: false
     description: "changes to the mimir backend have been detected. This will cause the reconfiguration of mimir and the deletion of the current minio storage, if minio was disabled"

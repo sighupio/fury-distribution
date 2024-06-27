@@ -9,20 +9,20 @@ vendorPath="{{ .paths.vendorPath }}"
 
 {{- if index . "reducers" }}
 
-# ███████ ████████  █████  ██████  ████████ 
-# ██         ██    ██   ██ ██   ██    ██    
-# ███████    ██    ███████ ██████     ██    
-#      ██    ██    ██   ██ ██   ██    ██    
-# ███████    ██    ██   ██ ██   ██    ██    
+# ███████ ████████  █████  ██████  ████████
+# ██         ██    ██   ██ ██   ██    ██
+# ███████    ██    ███████ ██████     ██
+#      ██    ██    ██   ██ ██   ██    ██
+# ███████    ██    ██   ██ ██   ██    ██
 
 # Text generated with: https://www.patorjk.com/software/taag/#p=display&f=ANSI%20Regular&t=TRACING%20TYPE
 
-# ██       ██████   ██████   ██████  ██ ███    ██  ██████      ████████ ██    ██ ██████  ███████ 
-# ██      ██    ██ ██       ██       ██ ████   ██ ██              ██     ██  ██  ██   ██ ██      
-# ██      ██    ██ ██   ███ ██   ███ ██ ██ ██  ██ ██   ███        ██      ████   ██████  █████   
-# ██      ██    ██ ██    ██ ██    ██ ██ ██  ██ ██ ██    ██        ██       ██    ██      ██      
-# ███████  ██████   ██████   ██████  ██ ██   ████  ██████         ██       ██    ██      ███████ 
-                                           
+# ██       ██████   ██████   ██████  ██ ███    ██  ██████      ████████ ██    ██ ██████  ███████
+# ██      ██    ██ ██       ██       ██ ████   ██ ██              ██     ██  ██  ██   ██ ██
+# ██      ██    ██ ██   ███ ██   ███ ██ ██ ██  ██ ██   ███        ██      ████   ██████  █████
+# ██      ██    ██ ██    ██ ██    ██ ██ ██  ██ ██ ██    ██        ██       ██    ██      ██
+# ███████  ██████   ██████   ██████  ██ ██   ████  ██████         ██       ██    ██      ███████
+
 {{- if index .reducers "distributionModulesLoggingType" }}
 
 deleteOpensearch() {
@@ -108,13 +108,13 @@ deleteLoggingOperator
 
 {{- end }} # end distributionModulesLoggingType
 
-#  █████  ██      ███████ ██████  ████████ ███    ███     ██████  ██    ██ ██      ███████ ███████ 
-# ██   ██ ██      ██      ██   ██    ██    ████  ████     ██   ██ ██    ██ ██      ██      ██      
-# ███████ ██      █████   ██████     ██    ██ ████ ██     ██████  ██    ██ ██      █████   ███████ 
-# ██   ██ ██      ██      ██   ██    ██    ██  ██  ██     ██   ██ ██    ██ ██      ██           ██ 
-# ██   ██ ███████ ███████ ██   ██    ██    ██      ██     ██   ██  ██████  ███████ ███████ ███████ 
-                                                                                                 
-                                                                                                
+#  █████  ██      ███████ ██████  ████████ ███    ███     ██████  ██    ██ ██      ███████ ███████
+# ██   ██ ██      ██      ██   ██    ██    ████  ████     ██   ██ ██    ██ ██      ██      ██
+# ███████ ██      █████   ██████     ██    ██ ████ ██     ██████  ██    ██ ██      █████   ███████
+# ██   ██ ██      ██      ██   ██    ██    ██  ██  ██     ██   ██ ██    ██ ██      ██           ██
+# ██   ██ ███████ ███████ ██   ██    ██    ██      ██     ██   ██  ██████  ███████ ███████ ███████
+
+
 {{- if index .reducers "distributionModulesMonitoringAlertmanagerInstalldefaultrules" }}
 {{- if eq .reducers.distributionModulesMonitoringAlertmanagerInstalldefaultrules.to false }}
 
@@ -128,16 +128,16 @@ deleteLoggingOperator
 {{- end }}
 {{- end }} # end distributionModulesMonitoringAlertmanagerInstalldefaultrules
 
-# ██████   ██████  ██      ██  ██████ ██    ██     ████████ ██    ██ ██████  ███████ 
-# ██   ██ ██    ██ ██      ██ ██       ██  ██         ██     ██  ██  ██   ██ ██      
-# ██████  ██    ██ ██      ██ ██        ████          ██      ████   ██████  █████   
-# ██      ██    ██ ██      ██ ██         ██           ██       ██    ██      ██      
-# ██       ██████  ███████ ██  ██████    ██           ██       ██    ██      ███████ 
+# ██████   ██████  ██      ██  ██████ ██    ██     ████████ ██    ██ ██████  ███████
+# ██   ██ ██    ██ ██      ██ ██       ██  ██         ██     ██  ██  ██   ██ ██
+# ██████  ██    ██ ██      ██ ██        ████          ██      ████   ██████  █████
+# ██      ██    ██ ██      ██ ██         ██           ██       ██    ██      ██
+# ██       ██████  ███████ ██  ██████    ██           ██       ██    ██      ███████
 
 {{- if index .reducers "distributionModulesPolicyType" }}
 
 deleteGatekeeper() {
-  
+
   $kubectlbin delete --ignore-not-found --wait --timeout=180s validatingwebhookconfiguration -l gatekeeper.sh/system=yes
   $kubectlbin delete --ignore-not-found --wait --timeout=180s mutatingwebhookconfiguration -l gatekeeper.sh/system=yes
   $kubectlbin delete --ignore-not-found --wait --timeout=180s ingress -n gatekeeper-system gpm
@@ -179,12 +179,12 @@ deleteGatekeeper
 
 {{- end }} # end distributionModulesPolicyType
 
-# ██   ██ ██    ██ ██    ██     ██████   █████  ████████ ███████     ██████   ██████  ██      ██  ██████ ██ ███████ ███████ 
-# ██  ██   ██  ██  ██    ██    ██       ██   ██    ██    ██          ██   ██ ██    ██ ██      ██ ██      ██ ██      ██      
-# █████     ████   ██    ██    ██   ███ ███████    ██    █████       ██████  ██    ██ ██      ██ ██      ██ █████   ███████ 
-# ██  ██     ██     ██  ██     ██    ██ ██   ██    ██    ██          ██      ██    ██ ██      ██ ██      ██ ██           ██ 
-# ██   ██    ██      ████   ▄█  ██████  ██   ██    ██    ███████     ██       ██████  ███████ ██  ██████ ██ ███████ ███████ 
-                                                                                                                          
+# ██   ██ ██    ██ ██    ██     ██████   █████  ████████ ███████     ██████   ██████  ██      ██  ██████ ██ ███████ ███████
+# ██  ██   ██  ██  ██    ██    ██       ██   ██    ██    ██          ██   ██ ██    ██ ██      ██ ██      ██ ██      ██
+# █████     ████   ██    ██    ██   ███ ███████    ██    █████       ██████  ██    ██ ██      ██ ██      ██ █████   ███████
+# ██  ██     ██     ██  ██     ██    ██ ██   ██    ██    ██          ██      ██    ██ ██      ██ ██      ██ ██           ██
+# ██   ██    ██      ████   ▄█  ██████  ██   ██    ██    ███████     ██       ██████  ███████ ██  ██████ ██ ███████ ███████
+
 
 {{- if index .reducers "distributionModulesPolicyGatekeeperInstallDefaultPolicies" }}
 
@@ -224,11 +224,11 @@ deleteKyvernoDefaultPolicies
 
 {{- end }} # end distributionModulesPolicyKyvernoInstallDefaultPolicies
 
-# ████████ ██████   █████   ██████ ██ ███    ██  ██████      ████████ ██    ██ ██████  ███████ 
-#    ██    ██   ██ ██   ██ ██      ██ ████   ██ ██              ██     ██  ██  ██   ██ ██      
-#    ██    ██████  ███████ ██      ██ ██ ██  ██ ██   ███        ██      ████   ██████  █████   
-#    ██    ██   ██ ██   ██ ██      ██ ██  ██ ██ ██    ██        ██       ██    ██      ██      
-#    ██    ██   ██ ██   ██  ██████ ██ ██   ████  ██████         ██       ██    ██      ███████ 
+# ████████ ██████   █████   ██████ ██ ███    ██  ██████      ████████ ██    ██ ██████  ███████
+#    ██    ██   ██ ██   ██ ██      ██ ████   ██ ██              ██     ██  ██  ██   ██ ██
+#    ██    ██████  ███████ ██      ██ ██ ██  ██ ██   ███        ██      ████   ██████  █████
+#    ██    ██   ██ ██   ██ ██      ██ ██  ██ ██ ██    ██        ██       ██    ██      ██
+#    ██    ██   ██ ██   ██  ██████ ██ ██   ████  ██████         ██       ██    ██      ███████
 
 {{- if index .reducers "distributionModulesTracingType" }}
 
@@ -261,12 +261,12 @@ deleteTempo
 
 {{- end }} # end distributionModulesTracingType
 
-# ████████ ███████ ███    ███ ██████   ██████      ██████   █████   ██████ ██   ██ ███████ ███    ██ ██████  
-#    ██    ██      ████  ████ ██   ██ ██    ██     ██   ██ ██   ██ ██      ██  ██  ██      ████   ██ ██   ██ 
-#    ██    █████   ██ ████ ██ ██████  ██    ██     ██████  ███████ ██      █████   █████   ██ ██  ██ ██   ██ 
-#    ██    ██      ██  ██  ██ ██      ██    ██     ██   ██ ██   ██ ██      ██  ██  ██      ██  ██ ██ ██   ██ 
-#    ██    ███████ ██      ██ ██       ██████      ██████  ██   ██  ██████ ██   ██ ███████ ██   ████ ██████  
-                                                                                                           
+# ████████ ███████ ███    ███ ██████   ██████      ██████   █████   ██████ ██   ██ ███████ ███    ██ ██████
+#    ██    ██      ████  ████ ██   ██ ██    ██     ██   ██ ██   ██ ██      ██  ██  ██      ████   ██ ██   ██
+#    ██    █████   ██ ████ ██ ██████  ██    ██     ██████  ███████ ██      █████   █████   ██ ██  ██ ██   ██
+#    ██    ██      ██  ██  ██ ██      ██    ██     ██   ██ ██   ██ ██      ██  ██  ██      ██  ██ ██ ██   ██
+#    ██    ███████ ██      ██ ██       ██████      ██████  ██   ██  ██████ ██   ██ ███████ ██   ████ ██████
+
 {{- if index .reducers "distributionModulesTracingTempoBackend" }}
 
 deleteTracingMinioHA() {
@@ -291,12 +291,12 @@ deleteTracingMinioHA
 
 {{- end }} # end distributionModulesTracingTempoBackend
 
-# ██████  ██████      ████████ ██    ██ ██████  ███████ 
-# ██   ██ ██   ██        ██     ██  ██  ██   ██ ██      
-# ██   ██ ██████         ██      ████   ██████  █████   
-# ██   ██ ██   ██        ██       ██    ██      ██      
-# ██████  ██   ██        ██       ██    ██      ███████ 
-                                                                                             
+# ██████  ██████      ████████ ██    ██ ██████  ███████
+# ██   ██ ██   ██        ██     ██  ██  ██   ██ ██
+# ██   ██ ██████         ██      ████   ██████  █████
+# ██   ██ ██   ██        ██       ██    ██      ██
+# ██████  ██   ██        ██       ██    ██      ███████
+
 {{- if index .reducers "distributionModulesDRType" }}
 
 deleteVelero() {
@@ -333,12 +333,12 @@ deleteVelero
 
 {{- end }} # end distributionModulesDRType
 
-# ██    ██ ███████ ██      ███████ ██████   ██████      ██████   █████   ██████ ██   ██ ███████ ███    ██ ██████  
-# ██    ██ ██      ██      ██      ██   ██ ██    ██     ██   ██ ██   ██ ██      ██  ██  ██      ████   ██ ██   ██ 
-# ██    ██ █████   ██      █████   ██████  ██    ██     ██████  ███████ ██      █████   █████   ██ ██  ██ ██   ██ 
-#  ██  ██  ██      ██      ██      ██   ██ ██    ██     ██   ██ ██   ██ ██      ██  ██  ██      ██  ██ ██ ██   ██ 
-#   ████   ███████ ███████ ███████ ██   ██  ██████      ██████  ██   ██  ██████ ██   ██ ███████ ██   ████ ██████  
-                                                                                                                
+# ██    ██ ███████ ██      ███████ ██████   ██████      ██████   █████   ██████ ██   ██ ███████ ███    ██ ██████
+# ██    ██ ██      ██      ██      ██   ██ ██    ██     ██   ██ ██   ██ ██      ██  ██  ██      ████   ██ ██   ██
+# ██    ██ █████   ██      █████   ██████  ██    ██     ██████  ███████ ██      █████   █████   ██ ██  ██ ██   ██
+#  ██  ██  ██      ██      ██      ██   ██ ██    ██     ██   ██ ██   ██ ██      ██  ██  ██      ██  ██ ██ ██   ██
+#   ████   ███████ ███████ ███████ ██   ██  ██████      ██████  ██   ██  ██████ ██   ██ ███████ ██   ████ ██████
+
 
 {{- if index .reducers "distributionModulesDRVeleroBackend" }}
 
@@ -349,10 +349,10 @@ deleteVeleroMinio() {
 {{- if eq .spec.distribution.modules.monitoring.type "none" }}
   if ! $kubectlbin get apiservice v1.monitoring.coreos.com; then
     cat delete-dr-minio.yaml | $yqbin 'select(.apiVersion != "monitoring.coreos.com/v1")' > delete-dr-minio-filtered.yaml
-    cp delete-dr-minio-filtered.yaml delete-dr-minio.yaml 
+    cp delete-dr-minio-filtered.yaml delete-dr-minio.yaml
   fi
 {{- end }}
-  $kubectlbin delete --ignore-not-found --wait --timeout=180s -f delete-dr-minio.yaml 
+  $kubectlbin delete --ignore-not-found --wait --timeout=180s -f delete-dr-minio.yaml
   echo "Minio on kube-system namespace deleted"
 }
 
@@ -367,17 +367,16 @@ deleteVeleroMinio
 {{- if index .reducers "distributionModulesMonitoringType" }}
 
 
-# ███    ███  ██████  ███    ██ ██ ████████  ██████  ██████  ██ ███    ██  ██████      ████████ ██    ██ ██████  ███████ 
-# ████  ████ ██    ██ ████   ██ ██    ██    ██    ██ ██   ██ ██ ████   ██ ██              ██     ██  ██  ██   ██ ██      
-# ██ ████ ██ ██    ██ ██ ██  ██ ██    ██    ██    ██ ██████  ██ ██ ██  ██ ██   ███        ██      ████   ██████  █████   
-# ██  ██  ██ ██    ██ ██  ██ ██ ██    ██    ██    ██ ██   ██ ██ ██  ██ ██ ██    ██        ██       ██    ██      ██      
-# ██      ██  ██████  ██   ████ ██    ██     ██████  ██   ██ ██ ██   ████  ██████         ██       ██    ██      ███████ 
+# ███    ███  ██████  ███    ██ ██ ████████  ██████  ██████  ██ ███    ██  ██████      ████████ ██    ██ ██████  ███████
+# ████  ████ ██    ██ ████   ██ ██    ██    ██    ██ ██   ██ ██ ████   ██ ██              ██     ██  ██  ██   ██ ██
+# ██ ████ ██ ██    ██ ██ ██  ██ ██    ██    ██    ██ ██████  ██ ██ ██  ██ ██   ███        ██      ████   ██████  █████
+# ██  ██  ██ ██    ██ ██  ██ ██ ██    ██    ██    ██ ██   ██ ██ ██  ██ ██ ██    ██        ██       ██    ██      ██
+# ██      ██  ██████  ██   ████ ██    ██     ██████  ██   ██ ██ ██   ████  ██████         ██       ██    ██      ███████
 
 deleteMonitoringCommon() {
   # packages that are installed always when monitoring type!=none, so they always
   # need to be uninstalled.
   # delete alertmanager first to avoid false positive alerts and notifications.
-  $kustomizebin build $vendorPath/modules/monitoring/katalog/alertmanager-operated | $kubectlbin delete --ignore-not-found --wait --timeout=180s -f -
   $kustomizebin build $vendorPath/modules/monitoring/katalog/blackbox-exporter | $kubectlbin delete --ignore-not-found --wait --timeout=180s -f -
   $kustomizebin build $vendorPath/modules/monitoring/katalog/eks-sm | $kubectlbin delete --ignore-not-found --wait --timeout=180s -f -
   $kustomizebin build $vendorPath/modules/monitoring/katalog/grafana | $kubectlbin delete --ignore-not-found --wait --timeout=180s -f -
@@ -385,8 +384,17 @@ deleteMonitoringCommon() {
   $kustomizebin build $vendorPath/modules/monitoring/katalog/kube-state-metrics | $kubectlbin delete --ignore-not-found --wait --timeout=180s -f -
   $kustomizebin build $vendorPath/modules/monitoring/katalog/node-exporter | $kubectlbin delete --ignore-not-found --wait --timeout=180s -f -
   $kustomizebin build $vendorPath/modules/monitoring/katalog/x509-exporter | $kubectlbin delete --ignore-not-found --wait --timeout=180s -f -
-  $kustomizebin build $vendorPath/modules/monitoring/katalog/prometheus-adapter | $kubectlbin delete --ignore-not-found --wait --timeout=180s -f -
   echo "Monitoring common resources deleted."
+}
+
+deleteAlertManagerOperated() {
+  $kustomizebin build $vendorPath/modules/monitoring/katalog/alertmanager-operated | $kubectlbin delete --ignore-not-found --wait --timeout=180s -f -
+  echo "AlertManagerOperated resources deleted"
+}
+
+deletePrometheusAdapter() {
+  $kustomizebin build $vendorPath/modules/monitoring/katalog/prometheus-adapter | $kubectlbin delete --ignore-not-found --wait --timeout=180s -f -
+  echo "Monitoring prometheus-adapter resources deleted."
 }
 
 deletePrometheusOperator() {
@@ -401,6 +409,11 @@ deletePrometheusOperated() {
   echo "Prometheus Operated resources deleted"
 }
 
+deletePrometheusAgent() {
+  $kustomizebin build ./monitoring/resources/prometheus-agent | $kubectlbin delete --ignore-not-found --wait --timeout=360s -f -
+  echo "Prometheus Agent resources deleted"
+}
+
 deleteMimir() {
   $kustomizebin build $vendorPath/modules/monitoring/katalog/mimir | $kubectlbin delete --ignore-not-found --wait --timeout=360s -f -
   $kustomizebin build $vendorPath/modules/monitoring/katalog/minio-ha | $kubectlbin delete --ignore-not-found --wait --timeout=360s -f -
@@ -409,9 +422,12 @@ deleteMimir() {
   echo "Mimir resources deleted"
 }
 
+
 {{- if eq .reducers.distributionModulesMonitoringType.from "mimir" }}
   {{- if eq .reducers.distributionModulesMonitoringType.to "none" }}
+  deleteAlertManagerOperated
   deleteMonitoringCommon
+  deletePrometheusAdapter
   deleteMimir
   # we delete the operator package last because it includes the CRDs. If we
   # delete first the CRDs, then the subsequent `kubectl delete` commands will
@@ -425,8 +441,30 @@ deleteMimir() {
 
 {{- if eq .reducers.distributionModulesMonitoringType.from "prometheus" }}
   {{- if eq .reducers.distributionModulesMonitoringType.to "none" }}
+  deleteAlertManagerOperated
   deleteMonitoringCommon
+  deletePrometheusAdapter
   deletePrometheusOperated
+  deletePrometheusOperator
+  echo "Monitoring module resources deleted"
+  {{- end }}
+  {{- if eq .reducers.distributionModulesMonitoringType.to "prometheusAgent" }}
+  deleteAlertManagerOperated
+  deletePrometheusAdapter
+  deletePrometheusOperated
+  echo "Monitoring Prometheus Operated resources deleted"
+  {{- end }}
+{{- end }}
+
+{{- if eq .reducers.distributionModulesMonitoringType.from "prometheusAgent" }}
+  {{- if eq .reducers.distributionModulesMonitoringType.to "prometheus" }}
+  deletePrometheusAgent
+  echo "Monitoring module prometheus-agent resources deleted"
+  {{- end }}
+  {{- if eq .reducers.distributionModulesMonitoringType.to "none" }}
+  deleteAlertManagerOperated
+  deleteMonitoringCommon
+  deletePrometheusAgent
   deletePrometheusOperator
   echo "Monitoring module resources deleted"
   {{- end }}
@@ -434,12 +472,12 @@ deleteMimir() {
 
 {{- end }} # end distributionModulesMonitoringType
 
-# ███    ███ ██ ███    ███ ██ ██████      ██████   █████   ██████ ██   ██ ███████ ███    ██ ██████  
-# ████  ████ ██ ████  ████ ██ ██   ██     ██   ██ ██   ██ ██      ██  ██  ██      ████   ██ ██   ██ 
-# ██ ████ ██ ██ ██ ████ ██ ██ ██████      ██████  ███████ ██      █████   █████   ██ ██  ██ ██   ██ 
-# ██  ██  ██ ██ ██  ██  ██ ██ ██   ██     ██   ██ ██   ██ ██      ██  ██  ██      ██  ██ ██ ██   ██ 
-# ██      ██ ██ ██      ██ ██ ██   ██     ██████  ██   ██  ██████ ██   ██ ███████ ██   ████ ██████  
-                                                                                                                                  
+# ███    ███ ██ ███    ███ ██ ██████      ██████   █████   ██████ ██   ██ ███████ ███    ██ ██████
+# ████  ████ ██ ████  ████ ██ ██   ██     ██   ██ ██   ██ ██      ██  ██  ██      ████   ██ ██   ██
+# ██ ████ ██ ██ ██ ████ ██ ██ ██████      ██████  ███████ ██      █████   █████   ██ ██  ██ ██   ██
+# ██  ██  ██ ██ ██  ██  ██ ██ ██   ██     ██   ██ ██   ██ ██      ██  ██  ██      ██  ██ ██ ██   ██
+# ██      ██ ██ ██      ██ ██ ██   ██     ██████  ██   ██  ██████ ██   ██ ███████ ██   ████ ██████
+
 {{- if index .reducers "distributionModulesMonitoringMimirBackend" }}
 
 deleteMimirMinioHA() {
@@ -464,11 +502,11 @@ deleteMimirMinioHA
 
 {{- end }} # end distributionModulesDRVeleroBackend
 
-# ███    ██  ██████  ██ ███    ██ ██   ██     ████████ ██    ██ ██████  ███████ 
-# ████   ██ ██       ██ ████   ██  ██ ██         ██     ██  ██  ██   ██ ██      
-# ██ ██  ██ ██   ███ ██ ██ ██  ██   ███          ██      ████   ██████  █████   
-# ██  ██ ██ ██    ██ ██ ██  ██ ██  ██ ██         ██       ██    ██      ██      
-# ██   ████  ██████  ██ ██   ████ ██   ██        ██       ██    ██      ███████ 
+# ███    ██  ██████  ██ ███    ██ ██   ██     ████████ ██    ██ ██████  ███████
+# ████   ██ ██       ██ ████   ██  ██ ██         ██     ██  ██  ██   ██ ██
+# ██ ██  ██ ██   ███ ██ ██ ██  ██   ███          ██      ████   ██████  █████
+# ██  ██ ██ ██    ██ ██ ██  ██ ██  ██ ██         ██       ██    ██      ██
+# ██   ████  ██████  ██ ██   ████ ██   ██        ██       ██    ██      ███████
 
 {{- if index .reducers "distributionModulesIngressNginxType" }}
 
@@ -500,7 +538,7 @@ deleteNginx() {
 }
 
 deleteNginxIngresses() {
-  
+
   $kubectlbin delete --ignore-not-found --wait --timeout=180s ingress -n pomerium --all
   $kubectlbin delete --ignore-not-found --wait --timeout=180s ingress -n monitoring --all
   $kubectlbin delete --ignore-not-found --wait --timeout=180s ingress -n tracing --all
@@ -515,13 +553,13 @@ deleteNginxIngresses
 deleteNginx
 {{- end }}
 
-{{- end }} # end distributionModulesIngressNginxType                                                                        
+{{- end }} # end distributionModulesIngressNginxType
 
-#  █████  ██    ██ ████████ ██   ██     ████████ ██    ██ ██████  ███████ 
-# ██   ██ ██    ██    ██    ██   ██        ██     ██  ██  ██   ██ ██      
-# ███████ ██    ██    ██    ███████        ██      ████   ██████  █████   
-# ██   ██ ██    ██    ██    ██   ██        ██       ██    ██      ██      
-# ██   ██  ██████     ██    ██   ██        ██       ██    ██      ███████ 
+#  █████  ██    ██ ████████ ██   ██     ████████ ██    ██ ██████  ███████
+# ██   ██ ██    ██    ██    ██   ██        ██     ██  ██  ██   ██ ██
+# ███████ ██    ██    ██    ███████        ██      ████   ██████  █████
+# ██   ██ ██    ██    ██    ██   ██        ██       ██    ██      ██
+# ██   ██  ██████     ██    ██   ██        ██       ██    ██      ███████
 
 {{- if index .reducers "distributionModulesAuthProviderType" }}
 
@@ -533,7 +571,7 @@ deleteDex() {
   if ! $kubectlbin get apiservice v1.monitoring.coreos.com; then
     cat delete-dex.yaml | $yqbin 'select(.apiVersion != "monitoring.coreos.com/v1")' > delete-dex-filtered.yaml
     cp delete-dex-filtered.yaml delete-dex.yaml
-    
+
   fi
 {{- end }}
   $kubectlbin delete --ignore-not-found --wait --timeout=180s -f delete-dex.yaml
@@ -549,7 +587,7 @@ deleteGangplank() {
   if ! $kubectlbin get apiservice v1.monitoring.coreos.com; then
     cat delete-gangplank.yaml | $yqbin 'select(.apiVersion != "monitoring.coreos.com/v1")' > delete-gangplank-filtered.yaml
     cp delete-gangplank-filtered.yaml delete-pomerium.yaml
-    
+
   fi
 {{- end }}
   $kubectlbin delete --ignore-not-found --wait --timeout=180s -f delete-gangplank.yaml
@@ -565,7 +603,7 @@ deletePomerium() {
   if ! $kubectlbin get apiservice v1.monitoring.coreos.com; then
     cat delete-pomerium.yaml | $yqbin 'select(.apiVersion != "monitoring.coreos.com/v1")' > delete-pomerium-filtered.yaml
     cp delete-pomerium-filtered.yaml delete-pomerium.yaml
-    
+
   fi
 {{- end }}
   $kubectlbin delete --ignore-not-found --wait --timeout=180s -f delete-pomerium.yaml
@@ -574,13 +612,13 @@ deletePomerium() {
 }
 
 deletePomeriumIngresses() {
-  
+
   $kubectlbin delete --ignore-not-found --wait --timeout=180s ingress -n pomerium --all
   echo "All the ingresses in the pomerium namespace have been deleted"
 }
 
 deleteInfraIngresses() {
-  
+
   $kubectlbin delete --ignore-not-found --wait --timeout=180s ingress -n monitoring --all
   $kubectlbin delete --ignore-not-found --wait --timeout=180s ingress -n tracing --all
   $kubectlbin delete --ignore-not-found --wait --timeout=180s ingress -n logging --all
@@ -621,13 +659,13 @@ deletePomerium
 
 {{- end }}
 
-{{- end }} # end distributionModulesAuthProviderType                                                      
+{{- end }} # end distributionModulesAuthProviderType
 
 
-# ███████ ███    ██ ██████  
-# ██      ████   ██ ██   ██ 
-# █████   ██ ██  ██ ██   ██ 
-# ██      ██  ██ ██ ██   ██ 
-# ███████ ██   ████ ██████  
+# ███████ ███    ██ ██████
+# ██      ████   ██ ██   ██
+# █████   ██ ██  ██ ██   ██
+# ██      ██  ██ ██ ██   ██
+# ███████ ██   ████ ██████
 
 {{- end }} # end reducers
