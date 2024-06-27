@@ -8,7 +8,9 @@
 {{- $kubeStateMetricsArgs := dict "module" "monitoring" "package" "kubeStateMetrics" "spec" .spec -}}
 {{- $prometheusArgs := dict "module" "monitoring" "package" "prometheus" "spec" .spec -}}
 {{- $x509ExporterArgs := dict "module" "monitoring" "package" "x509Exporter" "spec" .spec -}}
+{{- $monitoringType := .spec.distribution.modules.monitoring.type -}}
 
+{{- if ne $monitoringType "prometheusAgent" }}
 ---
 apiVersion: monitoring.coreos.com/v1
 kind: Alertmanager
@@ -24,19 +26,6 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: blackbox-exporter
-  namespace: monitoring
-spec:
-  template:
-    spec:
-      nodeSelector:
-        {{ template "nodeSelector" $blackboxExporterArgs }}
-      tolerations:
-        {{ template "tolerations" $blackboxExporterArgs }}
----
-apiVersion: apps/v1
-kind: Deployment
-metadata:
   name: grafana
   namespace: monitoring
 spec:
@@ -46,19 +35,6 @@ spec:
         {{ template "nodeSelector" $grafanaArgs }}
       tolerations:
         {{ template "tolerations" $grafanaArgs }}
----
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: kube-state-metrics
-  namespace: monitoring
-spec:
-  template:
-    spec:
-      nodeSelector:
-        {{ template "nodeSelector" $kubeStateMetricsArgs }}
-      tolerations:
-        {{ template "tolerations" $kubeStateMetricsArgs }}
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -85,6 +61,33 @@ spec:
   tolerations:
     {{ template "tolerations" merge (dict "indent" 4) $prometheusArgs }}
 {{- end }}
+{{- end }}
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: blackbox-exporter
+  namespace: monitoring
+spec:
+  template:
+    spec:
+      nodeSelector:
+        {{ template "nodeSelector" $blackboxExporterArgs }}
+      tolerations:
+        {{ template "tolerations" $blackboxExporterArgs }}
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kube-state-metrics
+  namespace: monitoring
+spec:
+  template:
+    spec:
+      nodeSelector:
+        {{ template "nodeSelector" $kubeStateMetricsArgs }}
+      tolerations:
+        {{ template "tolerations" $kubeStateMetricsArgs }}
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -125,7 +128,7 @@ spec:
       tolerations:
         {{ template "tolerations" $x509ExporterArgs }}
 
-{{ if eq .spec.distribution.modules.monitoring.type "mimir" -}}
+{{ if eq $monitoringType "mimir" -}}
 {{- $mimirArgs := dict "module" "monitoring" "package" "mimir" "spec" .spec -}}
 {{- if .checks.storageClassAvailable }}
 ---

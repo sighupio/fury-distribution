@@ -1090,20 +1090,26 @@
     "Spec.Distribution.Modules.Monitoring": {
       "type": "object",
       "additionalProperties": false,
+      "description": "configuration for the Monitoring module components",
       "properties": {
         "type": {
           "type": "string",
           "enum": [
             "none",
             "prometheus",
+            "prometheusAgent",
             "mimir"
-          ]
+          ],
+          "description": "choose the prefered stack for Monitoring. Prometheus, Prometheus Agent (no local metrics and alerts, ship to remote), Mimir or None for not installing the monitoring stack."
         },
         "overrides": {
           "$ref": "#/$defs/Types.FuryModuleOverrides"
         },
         "prometheus": {
           "$ref": "#/$defs/Spec.Distribution.Modules.Monitoring.Prometheus"
+        },
+        "prometheusAgent": {
+          "$ref": "#/$defs/Spec.Distribution.Modules.Monitoring.PrometheusAgent"
         },
         "alertmanager": {
           "$ref": "#/$defs/Spec.Distribution.Modules.Monitoring.AlertManager"
@@ -1252,6 +1258,29 @@
         },
         "storageSize": {
           "type": "string"
+        },
+        "remoteWrite": {
+          "desciption": "configuration for sending metrics to a remote receiver. Schema follows the same as the Prometheus operator.",
+          "type": "array",
+          "items": {
+            "type": "object"
+          }
+        }
+      }
+    },
+    "Spec.Distribution.Modules.Monitoring.PrometheusAgent": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "resources": {
+          "$ref": "#/$defs/Types.KubeResources"
+        },
+        "remoteWrite": {
+          "desciption": "configuration for sending metrics to a remote receiver. Schema follows the same as the Prometheus operator.",
+          "type": "array",
+          "items": {
+            "type": "object"
+          }
         }
       }
     },

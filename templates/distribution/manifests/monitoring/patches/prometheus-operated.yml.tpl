@@ -16,6 +16,10 @@ spec:
   resources:
     {{ .spec.distribution.modules.monitoring.prometheus.resources | toYaml | indent 4 | trim }}
   {{- end }}
+  {{- if hasKeyAny .spec.distribution.modules.monitoring.prometheus "remoteWrite" }}
+  remoteWrite:
+    {{ .spec.distribution.modules.monitoring.prometheus.remoteWrite | toYaml | indent 4 | trim }}
+  {{- end }}
   retention: {{ .spec.distribution.modules.monitoring.prometheus.retentionTime }}
   retentionSize: {{ .spec.distribution.modules.monitoring.prometheus.retentionSize }}
   storage:

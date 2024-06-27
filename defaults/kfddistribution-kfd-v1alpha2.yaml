@@ -135,6 +135,7 @@ data:
         retentionTime: 30d
         retentionSize: 120GB
         storageSize: 150Gi
+      prometheusAgent: {}
       alertmanager:
         installDefaultRules: true
         deadManSwitchWebhookUrl: ""
