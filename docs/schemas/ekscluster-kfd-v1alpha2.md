@@ -3101,17 +3101,23 @@ If true, the ingress will not have authentication
 
 ### Description
 
-The type of the logging, must be ***none***, ***opensearch*** or ***loki***
+Selects the type of centralized logging stack. Options are ***none***, ***opensearch***, ***loki*** or ***customOuputs***.
+
+- `none` will disable the centralized logging.
+- `opensearch` will deploy and configure the Logging Operator and an OpenSearch cluster (can be single or triple for HA) where the logs wiill be stored.
+- `loki` will deploy and configure the Logging Operator and distributed Grafana Loki instance here the logs wiill be stored.
+- `customOuputs` will deploy and configure the Logging Operator but with no local storage (i.e. no OpenSearch or Loki), you will need to create the `Output`s and `ClusterOutput`s to tell the logging stack where to ship the logs to for each one of the included Flows.
 
 ### Constraints
 
 **enum**: the value of this property must be equal to one of the following values:
 
-| Value          |
-|:---------------|
-| `"none"`       |
-| `"opensearch"` |
-| `"loki"`       |
+| Value             |
+| :---------------- |
+| `"none"`          |
+| `"opensearch"`    |
+| `"loki"`          |
+| `"customOutputs"` |
 
 ## .spec.distribution.modules.logging.opensearch
 
@@ -3660,6 +3666,215 @@ The key of the toleration
 ### Description
 
 The value of the toleration
+
+## .spec.distribution.modules.logging.customOutputs
+
+### Description
+
+Using the logging type `customOutputs` will deploy and configure the Logging Operator but with no local storage, you will need to create the `Output`s and `ClusterOutput`s to tell the logging stack where to ship the logs to for each one of the included Flows.
+
+The following `Flow`s and `ClusterFlow`s are preconfigured. The Logging Operator expects an `Output` or `ClusterOutput` with the same name.
+
+| Flow Name        | Flow Type   | Output Type   | Output Name      | Description                                                                          |
+| ---------------- | ----------- | ------------- | ---------------- | -------------------------------------------------------------------- |
+| `audit`          | Flow        | Output        | `audit`          | Kubernetes API Audit Logs                                            |
+| `events`         | Flow        | Output        | `events`         | Kubernetes Events                                                    |
+| `infra`          | ClusterFlow | ClusterOutput | `infra`          | Infra includes all the namespaces for the Distribution components    |
+| `ingress-nginx`  | Flow        | Output        | `ingress-nginx`  | Dedicated flow for the Ingress nginx controller                      |
+| `kubernetes`     | ClusterFlow | ClusterOutput | `kubernetes`     | Captures all the workloads logs that are not in the infra namespaces |
+| `systemd-common` | Flow        | Output        | `systemd-common` | Logs from systemd units running in the nodes                         |
+| `systemd-etcd`   | Flow        | Output        | `systemd-etcd`   | Logs from `etcd` running in the master nodes                         |
+| `errors`         | ClusterFlow | ClusterOutput | `errors`         | Logs that are from the `@ERROR` label in Fluentd                     |
+
+### Properties
+
+| Property                                                                   | Type     | Required |
+| :------------------------------------------------------------------------- | :------- | :------- |
+| [audit](#specdistributionmodulesloggingcustomoutputsaudit)                 | `string` | Required |
+| [events](#specdistributionmodulesloggingcustomoutputsevents)               | `string` | Required |
+| [infra](#specdistributionmodulesloggingcustomoutputsinfra)                 | `string` | Required |
+| [ingressNginx](#specdistributionmodulesloggingcustomoutputsingressnginx)   | `string` | Required |
+| [kubernetes](#specdistributionmodulesloggingcustomoutputskubernetes)       | `string` | Required |
+| [systemdCommon](#specdistributionmodulesloggingcustomoutputssystemdcommon) | `string` | Required |
+| [systemdEtcd](#specdistributionmodulesloggingcustomoutputssystemdetcd)     | `string` | Required |
+| [errors](#specdistributionmodulesloggingcustomoutputserrors)               | `string` | Required |
+
+## .spec.distribution.modules.logging.customOutputs.audit
+
+### Description
+
+This value defines where the output from the `audit` Flow will be sent.
+
+Practically, this is the `spec` section of the `Output` object. It must be **a string** (and not a YAML object) following the [`OutputSpec`](https://kube-logging.dev/docs/configuration/crds/v1beta1/output_types/) definition.
+
+To discard the `audit` flow, you can use the `nullout` output like this:
+
+```yaml
+spec:
+  distribution:
+    modules:
+      logging:
+        type: customOutputs
+        customOutputs:
+          audit: |-
+            nullout: {}
+...
+```
+
+
+## .spec.distribution.modules.logging.customOutputs.events
+
+### Description
+
+This value defines where the output from the `events` Flow will be sent.
+
+Practically, this is the `spec` section of the `Output` object. It must be **a string** (and not a YAML object) following the [`OutputSpec`](https://kube-logging.dev/docs/configuration/crds/v1beta1/output_types/) definition.
+
+To discard the `events` flow, you can use the `nullout` output like this:
+
+```yaml
+spec:
+  distribution:
+    modules:
+      logging:
+        type: customOutputs
+        customOutputs:
+          events: |-
+            nullout: {}
+...
+```
+
+## .spec.distribution.modules.logging.customOutputs.infra
+
+### Description
+
+This value defines where the output from the `infra` Flow will be sent.
+
+Practically, this is the `spec` section of the `Output` object. It must be **a string** (and not a YAML object) following the [`OutputSpec`](https://kube-logging.dev/docs/configuration/crds/v1beta1/output_types/) definition.
+
+To discard the `infra` flow, you can use the `nullout` output like this:
+
+```yaml
+spec:
+  distribution:
+    modules:
+      logging:
+        type: customOutputs
+        customOutputs:
+          infra: |-
+            nullout: {}
+...
+```
+
+## .spec.distribution.modules.logging.customOutputs.ingressNginx
+
+### Description
+
+This value defines where the output from the `ingressNginx` Flow will be sent.
+
+Practically, this is the `spec` section of the `Output` object. It must be **a string** (and not a YAML object) following the [`OutputSpec`](https://kube-logging.dev/docs/configuration/crds/v1beta1/output_types/) definition.
+
+To discard the `ingressNginx` flow, you can use the `nullout` output like this:
+
+```yaml
+spec:
+  distribution:
+    modules:
+      logging:
+        type: customOutputs
+        customOutputs:
+          ingressNginx: |-
+            nullout: {}
+...
+```
+
+## .spec.distribution.modules.logging.customOutputs.kubernetes
+
+### Description
+
+This value defines where the output from the `kubernetes` Flow will be sent.
+
+Practically, this is the `spec` section of the `Output` object. It must be **a string** (and not a YAML object) following the [`OutputSpec`](https://kube-logging.dev/docs/configuration/crds/v1beta1/output_types/) definition.
+
+To discard the `kubernetes` flow, you can use the `nullout` output like this:
+
+```yaml
+spec:
+  distribution:
+    modules:
+      logging:
+        type: customOutputs
+        customOutputs:
+          kubernetes: |-
+            nullout: {}
+...
+```
+
+## .spec.distribution.modules.logging.customOutputs.systemdCommon
+
+### Description
+
+This value defines where the output from the `systemd-common` Flow will be sent.
+
+Practically, this is the `spec` section of the `Output` object. It must be **a string** (and not a YAML object) following the [`OutputSpec`](https://kube-logging.dev/docs/configuration/crds/v1beta1/output_types/) definition.
+
+To discard the `systemd-common` flow, you can use the `nullout` output like this:
+
+```yaml
+spec:
+  distribution:
+    modules:
+      logging:
+        type: customOutputs
+        customOutputs:
+          systemdCommon: |-
+            nullout: {}
+...
+```
+
+## .spec.distribution.modules.logging.customOutputs.systemdEtcd
+
+### Description
+
+This value defines where the output from the `systemd-etcd` Flow will be sent.
+
+Practically, this is the `spec` section of the `Output` object. It must be **a string** (and not a YAML object) following the [`OutputSpec`](https://kube-logging.dev/docs/configuration/crds/v1beta1/output_types/) definition.
+
+To discard the `systemd-etcd` flow, you can use the `nullout` output like this:
+
+```yaml
+spec:
+  distribution:
+    modules:
+      logging:
+        type: customOutputs
+        customOutputs:
+          systemdEtcd: |-
+            nullout: {}
+...
+```
+
+## .spec.distribution.modules.logging.customOutputs.errors
+
+### Description
+
+This value defines where the output from the `errors` Flow will be sent.
+
+Practically, this is the `spec` section of the `Output` object. It must be **a string** (and not a YAML object) following the [`OutputSpec`](https://kube-logging.dev/docs/configuration/crds/v1beta1/output_types/) definition.
+
+To discard the `errors` flow, you can use the `nullout` output like this:
+
+```yaml
+spec:
+  distribution:
+    modules:
+      logging:
+        type: customOutputs
+        customOutputs:
+          errors: |-
+            nullout: {}
+...
+```
 
 ## .spec.distribution.modules.monitoring
 

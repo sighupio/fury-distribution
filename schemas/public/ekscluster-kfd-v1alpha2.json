@@ -1105,7 +1105,8 @@
         },
         "type": {
           "type": "string",
-          "enum": ["none", "opensearch", "loki"]
+          "enum": ["none", "opensearch", "loki", "customOutputs"],
+          "description": "selects the logging stack. Choosing none will disable the centralized logging. Choosing opensearch will deploy and configure the Logging Operator and an OpenSearch cluster (can be single or triple for HA) where the logs will be stored. Choosing loki will use a distributed Grafana Loki instead of OpenSearh for storage. Choosing customOuput the Logging Operator will be deployed and installed but with no local storage, you will have to create the needed Outputs and ClusterOutputs to ship the logs to your desired storage."
         },
         "opensearch": {
           "$ref": "#/$defs/Spec.Distribution.Modules.Logging.Opensearch"
@@ -1121,6 +1122,9 @@
         },
         "operator": {
           "$ref": "#/$defs/Spec.Distribution.Modules.Logging.Operator"
+        },
+        "customOutputs": {
+          "$ref": "#/$defs/Spec.Distribution.Modules.Logging.CustomOutputs"
         }
       },
       "required": ["type"],
@@ -1135,6 +1139,18 @@
           },
           "then": {
             "required": ["opensearch"]
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "type": {
+                "const": "customOutputs"
+              }
+            }
+          },
+          "then": {
+            "required": ["customOutputs"]
           }
         }
       ]
@@ -1234,6 +1250,55 @@
           "$ref": "#/$defs/Types.FuryModuleComponentOverrides"
         }
       }
+    },
+    "Spec.Distribution.Modules.Logging.CustomOutputs": {
+      "description": "when using the customOutputs logging type, you need to manually specify the spec of the several Output and ClusterOutputs that the Logging Operator expects to forward the logs collected by the pre-defined flows.",
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "audit": {
+          "type": "string",
+          "description": "This value defines where the output from Flow will be sent. Will be the `spec` section of the `Output` object. It must be a string (and not a YAML object) following the OutputSpec definition. Use the nullout output to discard the flow."
+        },
+        "events": {
+          "type": "string",
+          "description": "This value defines where the output from Flow will be sent. Will be the `spec` section of the `Output` object. It must be a string (and not a YAML object) following the OutputSpec definition. Use the nullout output to discard the flow."
+        },
+        "infra": {
+          "type": "string",
+          "description": "This value defines where the output from Flow will be sent. Will be the `spec` section of the `Output` object. It must be a string (and not a YAML object) following the OutputSpec definition. Use the nullout output to discard the flow."
+        },
+        "ingressNginx": {
+          "type": "string",
+          "description": "This value defines where the output from Flow will be sent. Will be the `spec` section of the `Output` object. It must be a string (and not a YAML object) following the OutputSpec definition. Use the nullout output to discard the flow."
+        },
+        "kubernetes": {
+          "type": "string",
+          "description": "This value defines where the output from Flow will be sent. Will be the `spec` section of the `Output` object. It must be a string (and not a YAML object) following the OutputSpec definition. Use the nullout output to discard the flow."
+        },
+        "systemdCommon": {
+          "type": "string",
+          "description": "This value defines where the output from Flow will be sent. Will be the `spec` section of the `Output` object. It must be a string (and not a YAML object) following the OutputSpec definition. Use the nullout output to discard the flow."
+        },
+        "systemdEtcd": {
+          "type": "string",
+          "description": "This value defines where the output from Flow will be sent. Will be the `spec` section of the `Output` object. It must be a string (and not a YAML object) following the OutputSpec definition. Use the nullout output to discard the flow."
+        },
+        "errors": {
+          "type": "string",
+          "description": "This value defines where the output from Flow will be sent. Will be the `spec` section of the `Output` object. It must be a string (and not a YAML object) following the OutputSpec definition. Use the nullout output to discard the flow."
+        }
+      },
+      "required": [
+        "audit",
+        "events",
+        "infra",
+        "ingressNginx",
+        "kubernetes",
+        "systemdCommon",
+        "systemdEtcd",
+        "errors"
+      ]
     },
     "Spec.Distribution.Modules.Monitoring": {
       "type": "object",

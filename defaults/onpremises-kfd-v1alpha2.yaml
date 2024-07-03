@@ -85,7 +85,7 @@ data:
             disableAuth: false
             host: ""
             ingressClass: ""
-      # can be opensearch or loki
+      # can be none, opensearch, loki or customOutputs
       type: opensearch
       opensearch:
         # can be single or triple
@@ -106,7 +106,7 @@ data:
           secretAccessKey: example
           accessKeyId: example
           bucketName: lokibucket
-      # override ingresses parameters
+      customOutputs: {}
     # monitoring module configuration
     monitoring:
       type: prometheus

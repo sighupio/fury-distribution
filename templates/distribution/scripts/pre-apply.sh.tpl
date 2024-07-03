@@ -41,7 +41,7 @@ deleteOpensearch() {
 
   $kubectlbin delete --ignore-not-found --wait --timeout=180s -f delete-opensearch.yaml
   $kubectlbin delete --ignore-not-found -l app.kubernetes.io/name=opensearch pvc -n logging --wait --timeout=180s
-  echo "Opensearch resources deleted"
+  echo "OpenSearch resources deleted"
 }
 
 deleteLoki() {
@@ -65,7 +65,14 @@ deleteLoggingOperator() {
   $kustomizebin build $vendorPath/modules/logging/katalog/logging-operated | $kubectlbin delete --ignore-not-found --wait --timeout=180s -f -
   $kustomizebin build $vendorPath/modules/logging/katalog/configs | $kubectlbin delete --ignore-not-found --wait --timeout=180s -f -
 
-  $kustomizebin build $vendorPath/modules/logging/katalog/minio-ha > delete-logging-minio-ha.yaml
+  $kustomizebin build $vendorPath/modules/logging/katalog/logging-operator | $kubectlbin delete --ignore-not-found --wait --timeout=180s -f -
+
+  echo "Logging Operator and NS deleted"
+}
+
+deleteMinioLogging() {
+
+$kustomizebin build $vendorPath/modules/logging/katalog/minio-ha > delete-logging-minio-ha.yaml
 
 {{- if eq .spec.distribution.modules.monitoring.type "none" }}
   if ! $kubectlbin get apiservice v1.monitoring.coreos.com; then
@@ -74,33 +81,41 @@ deleteLoggingOperator() {
   fi
 {{- end }}
   $kubectlbin delete --ignore-not-found --wait --timeout=180s -f delete-logging-minio-ha.yaml
-
-  $kustomizebin build $vendorPath/modules/logging/katalog/logging-operator | $kubectlbin delete --ignore-not-found --wait --timeout=180s -f -
-
-  echo "Logging Operator and NS deleted"
+  echo "Minio Logging deleted"
 }
 
 {{- if eq .reducers.distributionModulesLoggingType.to "loki" }}
-
-{{- if eq .reducers.distributionModulesLoggingType.from "opensearch" }}
+    {{- if eq .reducers.distributionModulesLoggingType.from "opensearch" }}
 deleteOpensearch
-{{- end }}
-
+    {{- end }}
+    # there's nothing to do when coming from customOutput
 {{- end }}
 
 {{- if eq .reducers.distributionModulesLoggingType.to "opensearch" }}
-
-{{- if eq .reducers.distributionModulesLoggingType.from "loki" }}
+    {{- if eq .reducers.distributionModulesLoggingType.from "loki" }}
 deleteLoki
+    {{- end }}
+    # there's nothing to do when coming from customOutput
 {{- end }}
 
+{{- if eq .reducers.distributionModulesLoggingType.to "customOutputs" }}
+    {{- if eq .reducers.distributionModulesLoggingType.from "loki" }}
+deleteLoki
+deleteMinioLogging
+    {{- end }}
+    {{- if eq .reducers.distributionModulesLoggingType.from "opensearch" }}
+deleteOpensearch
+deleteMinioLogging
+    {{- end }}
 {{- end }}
-
 
 
 {{- if eq .reducers.distributionModulesLoggingType.to "none" }}
+  {{- if or (eq .reducers.distributionModulesLoggingType.from "loki") (eq .reducers.distributionModulesLoggingType.from "opensearch") }}
 deleteLoki
 deleteOpensearch
+deleteMinioLogging
+  {{- end }}
 deleteLoggingOperator
 {{- end }}
 
