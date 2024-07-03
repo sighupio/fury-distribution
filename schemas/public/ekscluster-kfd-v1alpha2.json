@@ -1358,7 +1358,6 @@
       "description": "when using the customOutputs logging type, you need to manually specify the spec of the several Output and ClusterOutputs that the Logging Operator expects to forward the logs collected by the pre-defined flows.",
       "type": "object",
       "additionalProperties": false,
-      "description": "configuration for the Monitoring module components",
       "properties": {
         "audit": {
           "type": "string",
