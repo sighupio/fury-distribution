@@ -133,7 +133,7 @@ routes:
           and:
             - authenticated_user: true
   {{- end }}
-  
+
   {{- if index .spec.distribution.modules.auth.pomerium "routes" }}
   {{- .spec.distribution.modules.auth.pomerium.routes | toYaml | nindent 2 }}
   {{- else if index .spec.distribution.modules.auth.pomerium "policy" }}
