@@ -2884,6 +2884,8 @@ The password for the minio root user
 |:------------------------------------------------------------------------|:---------|:---------|
 | [nodeSelector](#specdistributionmodulesnetworkingoverridesnodeselector) | `object` | Optional |
 | [tolerations](#specdistributionmodulesnetworkingoverridestolerations)   | `array`  | Optional |
+| [ingresses](#specdistributionmodulesnetworkingoverridesingresses)       | `object` | Optional |
+
 
 ## .spec.distribution.modules.networking.overrides.nodeSelector
 
@@ -2946,6 +2948,30 @@ The key of the toleration
 ### Description
 
 The value of the toleration
+
+## .spec.distribution.modules.networking.overrides.ingresses
+
+Allows overriding default values of the ingresses included in the networking module.
+
+### Properties
+
+| Property              | Type     | Required |
+| :-------------------- | :------- | :------- |
+| `hubble.host`         | `string` | Optional |
+| `hubble.ingressClass` | `string` | Optional |
+| `hubble.disableAuth`  | `bool`   | Optional |
+
+## .spec.distribution.modules.networking.overrides.ingresses.host
+
+### Description
+
+The host of the ingress
+
+## .spec.distribution.modules.networking.overrides.ingresses.ingressClass
+
+### Description
+
+The ingress class of the ingress
 
 ## .spec.distribution.modules.networking.tigeraOperator
 

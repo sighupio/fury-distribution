@@ -73,5 +73,13 @@ routes:
       - allow:
           and:
             - authenticated_user: true
+  {{- if eq .spec.distribution.modules.networking.type "cilium" }}
+  - from: https://{{ template "hubbleUrl" .spec }}
+    to: http://hubble-ui.kube-system.svc.cluster.local
+    policy:
+      - allow:
+          and:
+            - authenticated_user: true
+  {{- end }}
 {{ .spec.distribution.modules.auth.pomerium.policy | indent 2 }}
 {{ end }}
