@@ -49,7 +49,7 @@ type SpecDistribution struct {
 	// CustomPatches corresponds to the JSON schema field "customPatches".
 	CustomPatches *SpecDistributionCustomPatches `json:"customPatches,omitempty" yaml:"customPatches,omitempty" mapstructure:"customPatches,omitempty"`
 
-	// Kubeconfig corresponds to the JSON schema field "kubeconfig".
+	// The kubeconfig file path
 	Kubeconfig string `json:"kubeconfig" yaml:"kubeconfig" mapstructure:"kubeconfig"`
 
 	// Modules corresponds to the JSON schema field "modules".
@@ -57,21 +57,21 @@ type SpecDistribution struct {
 }
 
 type SpecDistributionCommon struct {
-	// NodeSelector corresponds to the JSON schema field "nodeSelector".
+	// The node selector to use to place the pods for all the KFD modules
 	NodeSelector TypesKubeNodeSelector `json:"nodeSelector,omitempty" yaml:"nodeSelector,omitempty" mapstructure:"nodeSelector,omitempty"`
 
 	// Provider corresponds to the JSON schema field "provider".
 	Provider *SpecDistributionCommonProvider `json:"provider,omitempty" yaml:"provider,omitempty" mapstructure:"provider,omitempty"`
 
-	// RelativeVendorPath corresponds to the JSON schema field "relativeVendorPath".
+	// The relative path to the vendor directory, does not need to be changed
 	RelativeVendorPath *string `json:"relativeVendorPath,omitempty" yaml:"relativeVendorPath,omitempty" mapstructure:"relativeVendorPath,omitempty"`
 
-	// Tolerations corresponds to the JSON schema field "tolerations".
+	// The tolerations that will be added to the pods for all the KFD modules
 	Tolerations []TypesKubeToleration `json:"tolerations,omitempty" yaml:"tolerations,omitempty" mapstructure:"tolerations,omitempty"`
 }
 
 type SpecDistributionCommonProvider struct {
-	// Type corresponds to the JSON schema field "type".
+	// The type of the provider
 	Type string `json:"type" yaml:"type" mapstructure:"type"`
 }
 
@@ -270,7 +270,7 @@ type SpecDistributionModules struct {
 }
 
 type SpecDistributionModulesAuth struct {
-	// BaseDomain corresponds to the JSON schema field "baseDomain".
+	// The base domain for the auth module
 	BaseDomain *string `json:"baseDomain,omitempty" yaml:"baseDomain,omitempty" mapstructure:"baseDomain,omitempty"`
 
 	// Dex corresponds to the JSON schema field "dex".
@@ -287,11 +287,10 @@ type SpecDistributionModulesAuth struct {
 }
 
 type SpecDistributionModulesAuthDex struct {
-	// AdditionalStaticClients corresponds to the JSON schema field
-	// "additionalStaticClients".
+	// The additional static clients for dex
 	AdditionalStaticClients []interface{} `json:"additionalStaticClients,omitempty" yaml:"additionalStaticClients,omitempty" mapstructure:"additionalStaticClients,omitempty"`
 
-	// Connectors corresponds to the JSON schema field "connectors".
+	// The connectors for dex
 	Connectors []interface{} `json:"connectors" yaml:"connectors" mapstructure:"connectors"`
 
 	// Overrides corresponds to the JSON schema field "overrides".
@@ -302,18 +301,18 @@ type SpecDistributionModulesAuthOverrides struct {
 	// Ingresses corresponds to the JSON schema field "ingresses".
 	Ingresses SpecDistributionModulesAuthOverridesIngresses `json:"ingresses,omitempty" yaml:"ingresses,omitempty" mapstructure:"ingresses,omitempty"`
 
-	// NodeSelector corresponds to the JSON schema field "nodeSelector".
+	// The node selector to use to place the pods for the auth module
 	NodeSelector TypesKubeNodeSelector `json:"nodeSelector,omitempty" yaml:"nodeSelector,omitempty" mapstructure:"nodeSelector,omitempty"`
 
-	// Tolerations corresponds to the JSON schema field "tolerations".
+	// The tolerations that will be added to the pods for the auth module
 	Tolerations []TypesKubeToleration `json:"tolerations,omitempty" yaml:"tolerations,omitempty" mapstructure:"tolerations,omitempty"`
 }
 
 type SpecDistributionModulesAuthOverridesIngress struct {
-	// Host corresponds to the JSON schema field "host".
+	// The host of the ingress
 	Host string `json:"host" yaml:"host" mapstructure:"host"`
 
-	// IngressClass corresponds to the JSON schema field "ingressClass".
+	// The ingress class of the ingress
 	IngressClass string `json:"ingressClass" yaml:"ingressClass" mapstructure:"ingressClass"`
 }
 
@@ -323,7 +322,7 @@ type SpecDistributionModulesAuthPomerium struct {
 	// Overrides corresponds to the JSON schema field "overrides".
 	Overrides *TypesFuryModuleComponentOverrides `json:"overrides,omitempty" yaml:"overrides,omitempty" mapstructure:"overrides,omitempty"`
 
-	// Policy corresponds to the JSON schema field "policy".
+	// The policy for pomerium
 	Policy string `json:"policy" yaml:"policy" mapstructure:"policy"`
 
 	// Secrets corresponds to the JSON schema field "secrets".
@@ -331,13 +330,13 @@ type SpecDistributionModulesAuthPomerium struct {
 }
 
 type SpecDistributionModulesAuthPomeriumSecrets struct {
-	// COOKIESECRET corresponds to the JSON schema field "COOKIE_SECRET".
+	// The cookie secret for pomerium
 	COOKIESECRET string `json:"COOKIE_SECRET" yaml:"COOKIE_SECRET" mapstructure:"COOKIE_SECRET"`
 
-	// IDPCLIENTSECRET corresponds to the JSON schema field "IDP_CLIENT_SECRET".
+	// The IDP client secret for pomerium
 	IDPCLIENTSECRET string `json:"IDP_CLIENT_SECRET" yaml:"IDP_CLIENT_SECRET" mapstructure:"IDP_CLIENT_SECRET"`
 
-	// SHAREDSECRET corresponds to the JSON schema field "SHARED_SECRET".
+	// The shared secret for pomerium
 	SHAREDSECRET string `json:"SHARED_SECRET" yaml:"SHARED_SECRET" mapstructure:"SHARED_SECRET"`
 }
 
@@ -345,15 +344,15 @@ type SpecDistributionModulesAuthProvider struct {
 	// BasicAuth corresponds to the JSON schema field "basicAuth".
 	BasicAuth *SpecDistributionModulesAuthProviderBasicAuth `json:"basicAuth,omitempty" yaml:"basicAuth,omitempty" mapstructure:"basicAuth,omitempty"`
 
-	// Type corresponds to the JSON schema field "type".
+	// The type of the provider, must be ***none***, ***sso*** or ***basicAuth***
 	Type SpecDistributionModulesAuthProviderType `json:"type" yaml:"type" mapstructure:"type"`
 }
 
 type SpecDistributionModulesAuthProviderBasicAuth struct {
-	// Password corresponds to the JSON schema field "password".
+	// The password for the basic auth
 	Password string `json:"password" yaml:"password" mapstructure:"password"`
 
-	// Username corresponds to the JSON schema field "username".
+	// The username for the basic auth
 	Username string `json:"username" yaml:"username" mapstructure:"username"`
 }
 
@@ -369,7 +368,7 @@ type SpecDistributionModulesDr struct {
 	// Overrides corresponds to the JSON schema field "overrides".
 	Overrides *TypesFuryModuleOverrides `json:"overrides,omitempty" yaml:"overrides,omitempty" mapstructure:"overrides,omitempty"`
 
-	// Type corresponds to the JSON schema field "type".
+	// The type of the DR, must be ***none*** or ***on-premises***
 	Type SpecDistributionModulesDrType `json:"type" yaml:"type" mapstructure:"type"`
 
 	// Velero corresponds to the JSON schema field "velero".
@@ -384,7 +383,7 @@ const (
 )
 
 type SpecDistributionModulesDrVelero struct {
-	// Backend corresponds to the JSON schema field "backend".
+	// The backend for velero
 	Backend *SpecDistributionModulesDrVeleroBackend `json:"backend,omitempty" yaml:"backend,omitempty" mapstructure:"backend,omitempty"`
 
 	// ExternalEndpoint corresponds to the JSON schema field "externalEndpoint".
@@ -393,7 +392,7 @@ type SpecDistributionModulesDrVelero struct {
 	// Overrides corresponds to the JSON schema field "overrides".
 	Overrides *TypesFuryModuleComponentOverrides `json:"overrides,omitempty" yaml:"overrides,omitempty" mapstructure:"overrides,omitempty"`
 
-	// RetentionTime corresponds to the JSON schema field "retentionTime".
+	// The retention time for velero
 	RetentionTime *string `json:"retentionTime,omitempty" yaml:"retentionTime,omitempty" mapstructure:"retentionTime,omitempty"`
 }
 
@@ -405,24 +404,26 @@ const (
 )
 
 type SpecDistributionModulesDrVeleroExternalEndpoint struct {
-	// AccessKeyId corresponds to the JSON schema field "accessKeyId".
+	// The access key id for velero backend
 	AccessKeyId *string `json:"accessKeyId,omitempty" yaml:"accessKeyId,omitempty" mapstructure:"accessKeyId,omitempty"`
 
-	// BucketName corresponds to the JSON schema field "bucketName".
+	// The bucket name for velero backend
 	BucketName *string `json:"bucketName,omitempty" yaml:"bucketName,omitempty" mapstructure:"bucketName,omitempty"`
 
-	// Endpoint corresponds to the JSON schema field "endpoint".
+	// The endpoint for velero
 	Endpoint *string `json:"endpoint,omitempty" yaml:"endpoint,omitempty" mapstructure:"endpoint,omitempty"`
 
-	// Insecure corresponds to the JSON schema field "insecure".
+	// If true, the endpoint will be insecure
 	Insecure *bool `json:"insecure,omitempty" yaml:"insecure,omitempty" mapstructure:"insecure,omitempty"`
 
-	// SecretAccessKey corresponds to the JSON schema field "secretAccessKey".
+	// The secret access key for velero backend
 	SecretAccessKey *string `json:"secretAccessKey,omitempty" yaml:"secretAccessKey,omitempty" mapstructure:"secretAccessKey,omitempty"`
 }
 
 type SpecDistributionModulesIngress struct {
-	// BaseDomain corresponds to the JSON schema field "baseDomain".
+	// the base domain used for all the KFD ingresses, if in the nginx dual
+	// configuration, it should be the same as the
+	// .spec.distribution.modules.ingress.dns.private.name zone
 	BaseDomain string `json:"baseDomain" yaml:"baseDomain" mapstructure:"baseDomain"`
 
 	// CertManager corresponds to the JSON schema field "certManager".
@@ -431,7 +432,7 @@ type SpecDistributionModulesIngress struct {
 	// Forecastle corresponds to the JSON schema field "forecastle".
 	Forecastle *SpecDistributionModulesIngressForecastle `json:"forecastle,omitempty" yaml:"forecastle,omitempty" mapstructure:"forecastle,omitempty"`
 
-	// Nginx corresponds to the JSON schema field "nginx".
+	// Configurations for the nginx ingress controller module
 	Nginx SpecDistributionModulesIngressNginx `json:"nginx" yaml:"nginx" mapstructure:"nginx"`
 
 	// Overrides corresponds to the JSON schema field "overrides".
@@ -447,16 +448,16 @@ type SpecDistributionModulesIngressCertManager struct {
 }
 
 type SpecDistributionModulesIngressCertManagerClusterIssuer struct {
-	// Email corresponds to the JSON schema field "email".
+	// The email of the cluster issuer
 	Email string `json:"email" yaml:"email" mapstructure:"email"`
 
-	// Name corresponds to the JSON schema field "name".
+	// The name of the cluster issuer
 	Name string `json:"name" yaml:"name" mapstructure:"name"`
 
-	// Solvers corresponds to the JSON schema field "solvers".
+	// The custom solvers configurations
 	Solvers []interface{} `json:"solvers,omitempty" yaml:"solvers,omitempty" mapstructure:"solvers,omitempty"`
 
-	// Type corresponds to the JSON schema field "type".
+	// The type of the cluster issuer, must be ***http01***
 	Type *SpecDistributionModulesIngressCertManagerClusterIssuerType `json:"type,omitempty" yaml:"type,omitempty" mapstructure:"type,omitempty"`
 }
 
@@ -476,12 +477,14 @@ type SpecDistributionModulesIngressNginx struct {
 	// Tls corresponds to the JSON schema field "tls".
 	Tls *SpecDistributionModulesIngressNginxTLS `json:"tls,omitempty" yaml:"tls,omitempty" mapstructure:"tls,omitempty"`
 
-	// Type corresponds to the JSON schema field "type".
+	// The type of the nginx ingress controller, must be ***none***, ***single*** or
+	// ***dual***
 	Type SpecDistributionModulesIngressNginxType `json:"type" yaml:"type" mapstructure:"type"`
 }
 
 type SpecDistributionModulesIngressNginxTLS struct {
-	// Provider corresponds to the JSON schema field "provider".
+	// The provider of the TLS certificate, must be ***none***, ***certManager*** or
+	// ***secret***
 	Provider SpecDistributionModulesIngressNginxTLSProvider `json:"provider" yaml:"provider" mapstructure:"provider"`
 
 	// Secret corresponds to the JSON schema field "secret".
@@ -500,7 +503,8 @@ type SpecDistributionModulesIngressNginxTLSSecret struct {
 	// Ca corresponds to the JSON schema field "ca".
 	Ca string `json:"ca" yaml:"ca" mapstructure:"ca"`
 
-	// Cert corresponds to the JSON schema field "cert".
+	// The certificate file content or you can use the file notation to get the
+	// content from a file
 	Cert string `json:"cert" yaml:"cert" mapstructure:"cert"`
 
 	// Key corresponds to the JSON schema field "key".
@@ -519,10 +523,10 @@ type SpecDistributionModulesIngressOverrides struct {
 	// Ingresses corresponds to the JSON schema field "ingresses".
 	Ingresses *SpecDistributionModulesIngressOverridesIngresses `json:"ingresses,omitempty" yaml:"ingresses,omitempty" mapstructure:"ingresses,omitempty"`
 
-	// NodeSelector corresponds to the JSON schema field "nodeSelector".
+	// The node selector to use to place the pods for the ingress module
 	NodeSelector TypesKubeNodeSelector `json:"nodeSelector,omitempty" yaml:"nodeSelector,omitempty" mapstructure:"nodeSelector,omitempty"`
 
-	// Tolerations corresponds to the JSON schema field "tolerations".
+	// The tolerations that will be added to the pods for the ingress module
 	Tolerations []TypesKubeToleration `json:"tolerations,omitempty" yaml:"tolerations,omitempty" mapstructure:"tolerations,omitempty"`
 }
 
@@ -550,7 +554,7 @@ type SpecDistributionModulesLogging struct {
 	// Overrides corresponds to the JSON schema field "overrides".
 	Overrides *TypesFuryModuleOverrides `json:"overrides,omitempty" yaml:"overrides,omitempty" mapstructure:"overrides,omitempty"`
 
-	// Type corresponds to the JSON schema field "type".
+	// The type of the logging, must be ***none***, ***opensearch*** or ***loki***
 	Type SpecDistributionModulesLoggingType `json:"type" yaml:"type" mapstructure:"type"`
 }
 
@@ -578,19 +582,19 @@ const (
 )
 
 type SpecDistributionModulesLoggingLokiExternalEndpoint struct {
-	// AccessKeyId corresponds to the JSON schema field "accessKeyId".
+	// The access key id of the loki external endpoint
 	AccessKeyId *string `json:"accessKeyId,omitempty" yaml:"accessKeyId,omitempty" mapstructure:"accessKeyId,omitempty"`
 
-	// BucketName corresponds to the JSON schema field "bucketName".
+	// The bucket name of the loki external endpoint
 	BucketName *string `json:"bucketName,omitempty" yaml:"bucketName,omitempty" mapstructure:"bucketName,omitempty"`
 
-	// Endpoint corresponds to the JSON schema field "endpoint".
+	// The endpoint of the loki external endpoint
 	Endpoint *string `json:"endpoint,omitempty" yaml:"endpoint,omitempty" mapstructure:"endpoint,omitempty"`
 
-	// Insecure corresponds to the JSON schema field "insecure".
+	// If true, the loki external endpoint will be insecure
 	Insecure *bool `json:"insecure,omitempty" yaml:"insecure,omitempty" mapstructure:"insecure,omitempty"`
 
-	// SecretAccessKey corresponds to the JSON schema field "secretAccessKey".
+	// The secret access key of the loki external endpoint
 	SecretAccessKey *string `json:"secretAccessKey,omitempty" yaml:"secretAccessKey,omitempty" mapstructure:"secretAccessKey,omitempty"`
 }
 
@@ -601,15 +605,15 @@ type SpecDistributionModulesLoggingMinio struct {
 	// RootUser corresponds to the JSON schema field "rootUser".
 	RootUser *SpecDistributionModulesLoggingMinioRootUser `json:"rootUser,omitempty" yaml:"rootUser,omitempty" mapstructure:"rootUser,omitempty"`
 
-	// StorageSize corresponds to the JSON schema field "storageSize".
+	// The PVC size for each minio disk, 6 disks total
 	StorageSize *string `json:"storageSize,omitempty" yaml:"storageSize,omitempty" mapstructure:"storageSize,omitempty"`
 }
 
 type SpecDistributionModulesLoggingMinioRootUser struct {
-	// Password corresponds to the JSON schema field "password".
+	// The password of the minio root user
 	Password *string `json:"password,omitempty" yaml:"password,omitempty" mapstructure:"password,omitempty"`
 
-	// Username corresponds to the JSON schema field "username".
+	// The username of the minio root user
 	Username *string `json:"username,omitempty" yaml:"username,omitempty" mapstructure:"username,omitempty"`
 }
 
@@ -620,10 +624,10 @@ type SpecDistributionModulesLoggingOpensearch struct {
 	// Resources corresponds to the JSON schema field "resources".
 	Resources *TypesKubeResources `json:"resources,omitempty" yaml:"resources,omitempty" mapstructure:"resources,omitempty"`
 
-	// StorageSize corresponds to the JSON schema field "storageSize".
+	// The storage size for the opensearch pods
 	StorageSize *string `json:"storageSize,omitempty" yaml:"storageSize,omitempty" mapstructure:"storageSize,omitempty"`
 
-	// Type corresponds to the JSON schema field "type".
+	// The type of the opensearch, must be ***single*** or ***triple***
 	Type SpecDistributionModulesLoggingOpensearchType `json:"type" yaml:"type" mapstructure:"type"`
 }
 
@@ -672,7 +676,7 @@ type SpecDistributionModulesMonitoring struct {
 	// Prometheus corresponds to the JSON schema field "prometheus".
 	Prometheus *SpecDistributionModulesMonitoringPrometheus `json:"prometheus,omitempty" yaml:"prometheus,omitempty" mapstructure:"prometheus,omitempty"`
 
-	// Type corresponds to the JSON schema field "type".
+	// The type of the monitoring, must be ***none***, ***prometheus*** or ***mimir***
 	Type SpecDistributionModulesMonitoringType `json:"type" yaml:"type" mapstructure:"type"`
 
 	// X509Exporter corresponds to the JSON schema field "x509Exporter".
@@ -680,14 +684,14 @@ type SpecDistributionModulesMonitoring struct {
 }
 
 type SpecDistributionModulesMonitoringAlertManager struct {
-	// DeadManSwitchWebhookUrl corresponds to the JSON schema field
-	// "deadManSwitchWebhookUrl".
+	// The webhook url to send deadman switch monitoring, for example to use with
+	// healthchecks.io
 	DeadManSwitchWebhookUrl *string `json:"deadManSwitchWebhookUrl,omitempty" yaml:"deadManSwitchWebhookUrl,omitempty" mapstructure:"deadManSwitchWebhookUrl,omitempty"`
 
-	// InstallDefaultRules corresponds to the JSON schema field "installDefaultRules".
+	// If true, the default rules will be installed
 	InstallDefaultRules *bool `json:"installDefaultRules,omitempty" yaml:"installDefaultRules,omitempty" mapstructure:"installDefaultRules,omitempty"`
 
-	// SlackWebhookUrl corresponds to the JSON schema field "slackWebhookUrl".
+	// The slack webhook url to send alerts
 	SlackWebhookUrl *string `json:"slackWebhookUrl,omitempty" yaml:"slackWebhookUrl,omitempty" mapstructure:"slackWebhookUrl,omitempty"`
 }
 
@@ -707,7 +711,7 @@ type SpecDistributionModulesMonitoringKubeStateMetrics struct {
 }
 
 type SpecDistributionModulesMonitoringMimir struct {
-	// Backend corresponds to the JSON schema field "backend".
+	// The backend for the mimir pods, must be ***minio*** or ***externalEndpoint***
 	Backend *SpecDistributionModulesMonitoringMimirBackend `json:"backend,omitempty" yaml:"backend,omitempty" mapstructure:"backend,omitempty"`
 
 	// ExternalEndpoint corresponds to the JSON schema field "externalEndpoint".
@@ -716,7 +720,7 @@ type SpecDistributionModulesMonitoringMimir struct {
 	// Overrides corresponds to the JSON schema field "overrides".
 	Overrides *TypesFuryModuleComponentOverrides `json:"overrides,omitempty" yaml:"overrides,omitempty" mapstructure:"overrides,omitempty"`
 
-	// RetentionTime corresponds to the JSON schema field "retentionTime".
+	// The retention time for the mimir pods
 	RetentionTime *string `json:"retentionTime,omitempty" yaml:"retentionTime,omitempty" mapstructure:"retentionTime,omitempty"`
 }
 
@@ -728,19 +732,19 @@ const (
 )
 
 type SpecDistributionModulesMonitoringMimirExternalEndpoint struct {
-	// AccessKeyId corresponds to the JSON schema field "accessKeyId".
+	// The access key id of the external mimir backend
 	AccessKeyId *string `json:"accessKeyId,omitempty" yaml:"accessKeyId,omitempty" mapstructure:"accessKeyId,omitempty"`
 
-	// BucketName corresponds to the JSON schema field "bucketName".
+	// The bucket name of the external mimir backend
 	BucketName *string `json:"bucketName,omitempty" yaml:"bucketName,omitempty" mapstructure:"bucketName,omitempty"`
 
-	// Endpoint corresponds to the JSON schema field "endpoint".
+	// The endpoint of the external mimir backend
 	Endpoint *string `json:"endpoint,omitempty" yaml:"endpoint,omitempty" mapstructure:"endpoint,omitempty"`
 
-	// Insecure corresponds to the JSON schema field "insecure".
+	// If true, the external mimir backend will not use tls
 	Insecure *bool `json:"insecure,omitempty" yaml:"insecure,omitempty" mapstructure:"insecure,omitempty"`
 
-	// SecretAccessKey corresponds to the JSON schema field "secretAccessKey".
+	// The secret access key of the external mimir backend
 	SecretAccessKey *string `json:"secretAccessKey,omitempty" yaml:"secretAccessKey,omitempty" mapstructure:"secretAccessKey,omitempty"`
 }
 
@@ -751,15 +755,15 @@ type SpecDistributionModulesMonitoringMinio struct {
 	// RootUser corresponds to the JSON schema field "rootUser".
 	RootUser *SpecDistributionModulesMonitoringMinioRootUser `json:"rootUser,omitempty" yaml:"rootUser,omitempty" mapstructure:"rootUser,omitempty"`
 
-	// StorageSize corresponds to the JSON schema field "storageSize".
+	// The storage size for the minio pods
 	StorageSize *string `json:"storageSize,omitempty" yaml:"storageSize,omitempty" mapstructure:"storageSize,omitempty"`
 }
 
 type SpecDistributionModulesMonitoringMinioRootUser struct {
-	// Password corresponds to the JSON schema field "password".
+	// The password for the minio root user
 	Password *string `json:"password,omitempty" yaml:"password,omitempty" mapstructure:"password,omitempty"`
 
-	// Username corresponds to the JSON schema field "username".
+	// The username for the minio root user
 	Username *string `json:"username,omitempty" yaml:"username,omitempty" mapstructure:"username,omitempty"`
 }
 
@@ -767,13 +771,13 @@ type SpecDistributionModulesMonitoringPrometheus struct {
 	// Resources corresponds to the JSON schema field "resources".
 	Resources *TypesKubeResources `json:"resources,omitempty" yaml:"resources,omitempty" mapstructure:"resources,omitempty"`
 
-	// RetentionSize corresponds to the JSON schema field "retentionSize".
+	// The retention size for the prometheus pods
 	RetentionSize *string `json:"retentionSize,omitempty" yaml:"retentionSize,omitempty" mapstructure:"retentionSize,omitempty"`
 
-	// RetentionTime corresponds to the JSON schema field "retentionTime".
+	// The retention time for the prometheus pods
 	RetentionTime *string `json:"retentionTime,omitempty" yaml:"retentionTime,omitempty" mapstructure:"retentionTime,omitempty"`
 
-	// StorageSize corresponds to the JSON schema field "storageSize".
+	// The storage size for the prometheus pods
 	StorageSize *string `json:"storageSize,omitempty" yaml:"storageSize,omitempty" mapstructure:"storageSize,omitempty"`
 }
 
@@ -800,7 +804,7 @@ type SpecDistributionModulesNetworking struct {
 	// TigeraOperator corresponds to the JSON schema field "tigeraOperator".
 	TigeraOperator *SpecDistributionModulesNetworkingTigeraOperator `json:"tigeraOperator,omitempty" yaml:"tigeraOperator,omitempty" mapstructure:"tigeraOperator,omitempty"`
 
-	// Type corresponds to the JSON schema field "type".
+	// The type of networking to use, either ***none***, ***calico*** or ***cilium***
 	Type SpecDistributionModulesNetworkingType `json:"type" yaml:"type" mapstructure:"type"`
 }
 
@@ -838,20 +842,20 @@ type SpecDistributionModulesPolicy struct {
 	// Overrides corresponds to the JSON schema field "overrides".
 	Overrides *TypesFuryModuleOverrides `json:"overrides,omitempty" yaml:"overrides,omitempty" mapstructure:"overrides,omitempty"`
 
-	// Type corresponds to the JSON schema field "type".
+	// The type of security to use, either ***none***, ***gatekeeper*** or
+	// ***kyverno***
 	Type SpecDistributionModulesPolicyType `json:"type" yaml:"type" mapstructure:"type"`
 }
 
 type SpecDistributionModulesPolicyGatekeeper struct {
-	// AdditionalExcludedNamespaces corresponds to the JSON schema field
-	// "additionalExcludedNamespaces".
+	// This parameter adds namespaces to Gatekeeper's exemption list, so it will not
+	// enforce the constraints on them.
 	AdditionalExcludedNamespaces []string `json:"additionalExcludedNamespaces,omitempty" yaml:"additionalExcludedNamespaces,omitempty" mapstructure:"additionalExcludedNamespaces,omitempty"`
 
-	// EnforcementAction corresponds to the JSON schema field "enforcementAction".
+	// The enforcement action to use for the gatekeeper module
 	EnforcementAction SpecDistributionModulesPolicyGatekeeperEnforcementAction `json:"enforcementAction" yaml:"enforcementAction" mapstructure:"enforcementAction"`
 
-	// InstallDefaultPolicies corresponds to the JSON schema field
-	// "installDefaultPolicies".
+	// If true, the default policies will be installed
 	InstallDefaultPolicies bool `json:"installDefaultPolicies" yaml:"installDefaultPolicies" mapstructure:"installDefaultPolicies"`
 
 	// Overrides corresponds to the JSON schema field "overrides".
@@ -867,19 +871,17 @@ const (
 )
 
 type SpecDistributionModulesPolicyKyverno struct {
-	// AdditionalExcludedNamespaces corresponds to the JSON schema field
-	// "additionalExcludedNamespaces".
+	// This parameter adds namespaces to Kyverno's exemption list, so it will not
+	// enforce the constraints on them.
 	AdditionalExcludedNamespaces []string `json:"additionalExcludedNamespaces,omitempty" yaml:"additionalExcludedNamespaces,omitempty" mapstructure:"additionalExcludedNamespaces,omitempty"`
 
-	// InstallDefaultPolicies corresponds to the JSON schema field
-	// "installDefaultPolicies".
+	// If true, the default policies will be installed
 	InstallDefaultPolicies bool `json:"installDefaultPolicies" yaml:"installDefaultPolicies" mapstructure:"installDefaultPolicies"`
 
 	// Overrides corresponds to the JSON schema field "overrides".
 	Overrides *TypesFuryModuleComponentOverrides `json:"overrides,omitempty" yaml:"overrides,omitempty" mapstructure:"overrides,omitempty"`
 
-	// ValidationFailureAction corresponds to the JSON schema field
-	// "validationFailureAction".
+	// The validation failure action to use for the kyverno module
 	ValidationFailureAction SpecDistributionModulesPolicyKyvernoValidationFailureAction `json:"validationFailureAction" yaml:"validationFailureAction" mapstructure:"validationFailureAction"`
 }
 
@@ -908,7 +910,7 @@ type SpecDistributionModulesTracing struct {
 	// Tempo corresponds to the JSON schema field "tempo".
 	Tempo *SpecDistributionModulesTracingTempo `json:"tempo,omitempty" yaml:"tempo,omitempty" mapstructure:"tempo,omitempty"`
 
-	// Type corresponds to the JSON schema field "type".
+	// The type of tracing to use, either ***none*** or ***tempo***
 	Type SpecDistributionModulesTracingType `json:"type" yaml:"type" mapstructure:"type"`
 }
 
@@ -919,20 +921,20 @@ type SpecDistributionModulesTracingMinio struct {
 	// RootUser corresponds to the JSON schema field "rootUser".
 	RootUser *SpecDistributionModulesTracingMinioRootUser `json:"rootUser,omitempty" yaml:"rootUser,omitempty" mapstructure:"rootUser,omitempty"`
 
-	// StorageSize corresponds to the JSON schema field "storageSize".
+	// The storage size for the minio pods
 	StorageSize *string `json:"storageSize,omitempty" yaml:"storageSize,omitempty" mapstructure:"storageSize,omitempty"`
 }
 
 type SpecDistributionModulesTracingMinioRootUser struct {
-	// Password corresponds to the JSON schema field "password".
+	// The password for the minio root user
 	Password *string `json:"password,omitempty" yaml:"password,omitempty" mapstructure:"password,omitempty"`
 
-	// Username corresponds to the JSON schema field "username".
+	// The username for the minio root user
 	Username *string `json:"username,omitempty" yaml:"username,omitempty" mapstructure:"username,omitempty"`
 }
 
 type SpecDistributionModulesTracingTempo struct {
-	// Backend corresponds to the JSON schema field "backend".
+	// The backend for the tempo pods, must be ***minio*** or ***externalEndpoint***
 	Backend *SpecDistributionModulesTracingTempoBackend `json:"backend,omitempty" yaml:"backend,omitempty" mapstructure:"backend,omitempty"`
 
 	// ExternalEndpoint corresponds to the JSON schema field "externalEndpoint".
@@ -941,7 +943,7 @@ type SpecDistributionModulesTracingTempo struct {
 	// Overrides corresponds to the JSON schema field "overrides".
 	Overrides *TypesFuryModuleComponentOverrides `json:"overrides,omitempty" yaml:"overrides,omitempty" mapstructure:"overrides,omitempty"`
 
-	// RetentionTime corresponds to the JSON schema field "retentionTime".
+	// The retention time for the tempo pods
 	RetentionTime *string `json:"retentionTime,omitempty" yaml:"retentionTime,omitempty" mapstructure:"retentionTime,omitempty"`
 }
 
@@ -953,19 +955,19 @@ const (
 )
 
 type SpecDistributionModulesTracingTempoExternalEndpoint struct {
-	// AccessKeyId corresponds to the JSON schema field "accessKeyId".
+	// The access key id of the external tempo backend
 	AccessKeyId *string `json:"accessKeyId,omitempty" yaml:"accessKeyId,omitempty" mapstructure:"accessKeyId,omitempty"`
 
-	// BucketName corresponds to the JSON schema field "bucketName".
+	// The bucket name of the external tempo backend
 	BucketName *string `json:"bucketName,omitempty" yaml:"bucketName,omitempty" mapstructure:"bucketName,omitempty"`
 
-	// Endpoint corresponds to the JSON schema field "endpoint".
+	// The endpoint of the external tempo backend
 	Endpoint *string `json:"endpoint,omitempty" yaml:"endpoint,omitempty" mapstructure:"endpoint,omitempty"`
 
-	// Insecure corresponds to the JSON schema field "insecure".
+	// If true, the external tempo backend will not use tls
 	Insecure *bool `json:"insecure,omitempty" yaml:"insecure,omitempty" mapstructure:"insecure,omitempty"`
 
-	// SecretAccessKey corresponds to the JSON schema field "secretAccessKey".
+	// The secret access key of the external tempo backend
 	SecretAccessKey *string `json:"secretAccessKey,omitempty" yaml:"secretAccessKey,omitempty" mapstructure:"secretAccessKey,omitempty"`
 }
 
@@ -1043,10 +1045,10 @@ type TypesEnvRef string
 type TypesFileRef string
 
 type TypesFuryModuleComponentOverrides struct {
-	// NodeSelector corresponds to the JSON schema field "nodeSelector".
+	// The node selector to use to place the pods for the minio module
 	NodeSelector TypesKubeNodeSelector `json:"nodeSelector,omitempty" yaml:"nodeSelector,omitempty" mapstructure:"nodeSelector,omitempty"`
 
-	// Tolerations corresponds to the JSON schema field "tolerations".
+	// The tolerations that will be added to the pods for the cert-manager module
 	Tolerations []TypesKubeToleration `json:"tolerations,omitempty" yaml:"tolerations,omitempty" mapstructure:"tolerations,omitempty"`
 }
 
@@ -1054,21 +1056,21 @@ type TypesFuryModuleOverrides struct {
 	// Ingresses corresponds to the JSON schema field "ingresses".
 	Ingresses TypesFuryModuleOverridesIngresses `json:"ingresses,omitempty" yaml:"ingresses,omitempty" mapstructure:"ingresses,omitempty"`
 
-	// NodeSelector corresponds to the JSON schema field "nodeSelector".
+	// The node selector to use to place the pods for the security module
 	NodeSelector TypesKubeNodeSelector `json:"nodeSelector,omitempty" yaml:"nodeSelector,omitempty" mapstructure:"nodeSelector,omitempty"`
 
-	// Tolerations corresponds to the JSON schema field "tolerations".
+	// The tolerations that will be added to the pods for the monitoring module
 	Tolerations []TypesKubeToleration `json:"tolerations,omitempty" yaml:"tolerations,omitempty" mapstructure:"tolerations,omitempty"`
 }
 
 type TypesFuryModuleOverridesIngress struct {
-	// DisableAuth corresponds to the JSON schema field "disableAuth".
+	// If true, the ingress will not have authentication
 	DisableAuth *bool `json:"disableAuth,omitempty" yaml:"disableAuth,omitempty" mapstructure:"disableAuth,omitempty"`
 
-	// Host corresponds to the JSON schema field "host".
+	// The host of the ingress
 	Host *string `json:"host,omitempty" yaml:"host,omitempty" mapstructure:"host,omitempty"`
 
-	// IngressClass corresponds to the JSON schema field "ingressClass".
+	// The ingress class of the ingress
 	IngressClass *string `json:"ingressClass,omitempty" yaml:"ingressClass,omitempty" mapstructure:"ingressClass,omitempty"`
 }
 
@@ -1091,18 +1093,18 @@ type TypesKubeResources struct {
 }
 
 type TypesKubeResourcesLimits struct {
-	// Cpu corresponds to the JSON schema field "cpu".
+	// The cpu limit for the loki pods
 	Cpu *string `json:"cpu,omitempty" yaml:"cpu,omitempty" mapstructure:"cpu,omitempty"`
 
-	// Memory corresponds to the JSON schema field "memory".
+	// The memory limit for the opensearch pods
 	Memory *string `json:"memory,omitempty" yaml:"memory,omitempty" mapstructure:"memory,omitempty"`
 }
 
 type TypesKubeResourcesRequests struct {
-	// Cpu corresponds to the JSON schema field "cpu".
+	// The cpu request for the prometheus pods
 	Cpu *string `json:"cpu,omitempty" yaml:"cpu,omitempty" mapstructure:"cpu,omitempty"`
 
-	// Memory corresponds to the JSON schema field "memory".
+	// The memory request for the opensearch pods
 	Memory *string `json:"memory,omitempty" yaml:"memory,omitempty" mapstructure:"memory,omitempty"`
 }
 
@@ -1112,13 +1114,13 @@ type TypesKubeToleration struct {
 	// Effect corresponds to the JSON schema field "effect".
 	Effect TypesKubeTolerationEffect `json:"effect" yaml:"effect" mapstructure:"effect"`
 
-	// Key corresponds to the JSON schema field "key".
+	// The key of the toleration
 	Key string `json:"key" yaml:"key" mapstructure:"key"`
 
 	// Operator corresponds to the JSON schema field "operator".
 	Operator *TypesKubeTolerationOperator `json:"operator,omitempty" yaml:"operator,omitempty" mapstructure:"operator,omitempty"`
 
-	// Value corresponds to the JSON schema field "value".
+	// The value of the toleration
 	Value *string `json:"value,omitempty" yaml:"value,omitempty" mapstructure:"value,omitempty"`
 }
 
