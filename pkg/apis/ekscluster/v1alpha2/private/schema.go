@@ -110,22 +110,22 @@ type SpecDistributionCustomPatches struct {
 type SpecDistributionCustomPatchesConfigMapGenerator []SpecDistributionCustomPatchesConfigMapGeneratorResource
 
 type SpecDistributionCustomPatchesConfigMapGeneratorResource struct {
-	// Behavior corresponds to the JSON schema field "behavior".
+	// The behavior of the configmap
 	Behavior *SpecDistributionCustomPatchesConfigMapGeneratorResourceBehavior `json:"behavior,omitempty" yaml:"behavior,omitempty" mapstructure:"behavior,omitempty"`
 
-	// Envs corresponds to the JSON schema field "envs".
+	// The envs of the configmap
 	Envs []string `json:"envs,omitempty" yaml:"envs,omitempty" mapstructure:"envs,omitempty"`
 
-	// Files corresponds to the JSON schema field "files".
+	// The files of the configmap
 	Files []string `json:"files,omitempty" yaml:"files,omitempty" mapstructure:"files,omitempty"`
 
-	// Literals corresponds to the JSON schema field "literals".
+	// The literals of the configmap
 	Literals []string `json:"literals,omitempty" yaml:"literals,omitempty" mapstructure:"literals,omitempty"`
 
-	// Name corresponds to the JSON schema field "name".
+	// The name of the configmap
 	Name string `json:"name" yaml:"name" mapstructure:"name"`
 
-	// Namespace corresponds to the JSON schema field "namespace".
+	// The namespace of the configmap
 	Namespace *string `json:"namespace,omitempty" yaml:"namespace,omitempty" mapstructure:"namespace,omitempty"`
 
 	// Options corresponds to the JSON schema field "options".
@@ -141,30 +141,30 @@ const (
 )
 
 type SpecDistributionCustomPatchesConfigMapGeneratorResourceOptions struct {
-	// Annotations corresponds to the JSON schema field "annotations".
+	// The annotations of the configmap
 	Annotations TypesKubeLabels `json:"annotations,omitempty" yaml:"annotations,omitempty" mapstructure:"annotations,omitempty"`
 
-	// DisableNameSuffixHash corresponds to the JSON schema field
-	// "disableNameSuffixHash".
+	// If true, the name suffix hash will be disabled
 	DisableNameSuffixHash *bool `json:"disableNameSuffixHash,omitempty" yaml:"disableNameSuffixHash,omitempty" mapstructure:"disableNameSuffixHash,omitempty"`
 
-	// Immutable corresponds to the JSON schema field "immutable".
+	// If true, the configmap will be immutable
 	Immutable *bool `json:"immutable,omitempty" yaml:"immutable,omitempty" mapstructure:"immutable,omitempty"`
 
-	// Labels corresponds to the JSON schema field "labels".
+	// The labels of the configmap
 	Labels TypesKubeLabels `json:"labels,omitempty" yaml:"labels,omitempty" mapstructure:"labels,omitempty"`
 }
 
+// Each entry should follow the format of Kustomize's images patch
 type SpecDistributionCustomPatchesImages []map[string]interface{}
 
 type SpecDistributionCustomPatchesPatch struct {
 	// Options corresponds to the JSON schema field "options".
 	Options *SpecDistributionCustomPatchesPatchOptions `json:"options,omitempty" yaml:"options,omitempty" mapstructure:"options,omitempty"`
 
-	// Patch corresponds to the JSON schema field "patch".
+	// The patch content
 	Patch *string `json:"patch,omitempty" yaml:"patch,omitempty" mapstructure:"patch,omitempty"`
 
-	// Path corresponds to the JSON schema field "path".
+	// The path of the patch
 	Path *string `json:"path,omitempty" yaml:"path,omitempty" mapstructure:"path,omitempty"`
 
 	// Target corresponds to the JSON schema field "target".
@@ -172,65 +172,67 @@ type SpecDistributionCustomPatchesPatch struct {
 }
 
 type SpecDistributionCustomPatchesPatchOptions struct {
-	// AllowKindChange corresponds to the JSON schema field "allowKindChange".
+	// If true, the kind change will be allowed
 	AllowKindChange *bool `json:"allowKindChange,omitempty" yaml:"allowKindChange,omitempty" mapstructure:"allowKindChange,omitempty"`
 
-	// AllowNameChange corresponds to the JSON schema field "allowNameChange".
+	// If true, the name change will be allowed
 	AllowNameChange *bool `json:"allowNameChange,omitempty" yaml:"allowNameChange,omitempty" mapstructure:"allowNameChange,omitempty"`
 }
 
 type SpecDistributionCustomPatchesPatchTarget struct {
-	// AnnotationSelector corresponds to the JSON schema field "annotationSelector".
+	// The annotation selector of the target
 	AnnotationSelector *string `json:"annotationSelector,omitempty" yaml:"annotationSelector,omitempty" mapstructure:"annotationSelector,omitempty"`
 
-	// Group corresponds to the JSON schema field "group".
+	// The group of the target
 	Group *string `json:"group,omitempty" yaml:"group,omitempty" mapstructure:"group,omitempty"`
 
-	// Kind corresponds to the JSON schema field "kind".
+	// The kind of the target
 	Kind *string `json:"kind,omitempty" yaml:"kind,omitempty" mapstructure:"kind,omitempty"`
 
-	// LabelSelector corresponds to the JSON schema field "labelSelector".
+	// The label selector of the target
 	LabelSelector *string `json:"labelSelector,omitempty" yaml:"labelSelector,omitempty" mapstructure:"labelSelector,omitempty"`
 
-	// Name corresponds to the JSON schema field "name".
+	// The name of the target
 	Name *string `json:"name,omitempty" yaml:"name,omitempty" mapstructure:"name,omitempty"`
 
-	// Namespace corresponds to the JSON schema field "namespace".
+	// The namespace of the target
 	Namespace *string `json:"namespace,omitempty" yaml:"namespace,omitempty" mapstructure:"namespace,omitempty"`
 
-	// Version corresponds to the JSON schema field "version".
+	// The version of the target
 	Version *string `json:"version,omitempty" yaml:"version,omitempty" mapstructure:"version,omitempty"`
 }
 
 type SpecDistributionCustomPatchesPatches []SpecDistributionCustomPatchesPatch
 
+// Each entry should be either a relative file path or an inline content resolving
+// to a partial or complete resource definition
 type SpecDistributionCustomPatchesPatchesStrategicMerge []string
 
 type SpecDistributionCustomPatchesSecretGenerator []SpecDistributionCustomPatchesSecretGeneratorResource
 
 type SpecDistributionCustomPatchesSecretGeneratorResource struct {
-	// Behavior corresponds to the JSON schema field "behavior".
+	// The behavior of the secret
 	Behavior *SpecDistributionCustomPatchesSecretGeneratorResourceBehavior `json:"behavior,omitempty" yaml:"behavior,omitempty" mapstructure:"behavior,omitempty"`
 
-	// Envs corresponds to the JSON schema field "envs".
+	// The envs of the secret
 	Envs []string `json:"envs,omitempty" yaml:"envs,omitempty" mapstructure:"envs,omitempty"`
 
-	// Files corresponds to the JSON schema field "files".
+	// The files of the secret
 	Files []string `json:"files,omitempty" yaml:"files,omitempty" mapstructure:"files,omitempty"`
 
-	// Literals corresponds to the JSON schema field "literals".
+	// The literals of the secret
 	Literals []string `json:"literals,omitempty" yaml:"literals,omitempty" mapstructure:"literals,omitempty"`
 
-	// Name corresponds to the JSON schema field "name".
+	// The name of the secret
 	Name string `json:"name" yaml:"name" mapstructure:"name"`
 
-	// Namespace corresponds to the JSON schema field "namespace".
+	// The namespace of the secret
 	Namespace *string `json:"namespace,omitempty" yaml:"namespace,omitempty" mapstructure:"namespace,omitempty"`
 
 	// Options corresponds to the JSON schema field "options".
 	Options *SpecDistributionCustomPatchesSecretGeneratorResourceOptions `json:"options,omitempty" yaml:"options,omitempty" mapstructure:"options,omitempty"`
 
-	// Type corresponds to the JSON schema field "type".
+	// The type of the secret
 	Type *string `json:"type,omitempty" yaml:"type,omitempty" mapstructure:"type,omitempty"`
 }
 
@@ -243,17 +245,16 @@ const (
 )
 
 type SpecDistributionCustomPatchesSecretGeneratorResourceOptions struct {
-	// Annotations corresponds to the JSON schema field "annotations".
+	// The annotations of the secret
 	Annotations TypesKubeLabels `json:"annotations,omitempty" yaml:"annotations,omitempty" mapstructure:"annotations,omitempty"`
 
-	// DisableNameSuffixHash corresponds to the JSON schema field
-	// "disableNameSuffixHash".
+	// If true, the name suffix hash will be disabled
 	DisableNameSuffixHash *bool `json:"disableNameSuffixHash,omitempty" yaml:"disableNameSuffixHash,omitempty" mapstructure:"disableNameSuffixHash,omitempty"`
 
-	// Immutable corresponds to the JSON schema field "immutable".
+	// If true, the secret will be immutable
 	Immutable *bool `json:"immutable,omitempty" yaml:"immutable,omitempty" mapstructure:"immutable,omitempty"`
 
-	// Labels corresponds to the JSON schema field "labels".
+	// The labels of the secret
 	Labels TypesKubeLabels `json:"labels,omitempty" yaml:"labels,omitempty" mapstructure:"labels,omitempty"`
 }
 
@@ -1480,46 +1481,46 @@ type SpecPluginsHelm struct {
 }
 
 type SpecPluginsHelmReleases []struct {
-	// Chart corresponds to the JSON schema field "chart".
+	// The chart of the release
 	Chart string `json:"chart" yaml:"chart" mapstructure:"chart"`
 
-	// Name corresponds to the JSON schema field "name".
+	// The name of the release
 	Name string `json:"name" yaml:"name" mapstructure:"name"`
 
-	// Namespace corresponds to the JSON schema field "namespace".
+	// The namespace of the release
 	Namespace string `json:"namespace" yaml:"namespace" mapstructure:"namespace"`
 
 	// Set corresponds to the JSON schema field "set".
 	Set []SpecPluginsHelmReleasesElemSetElem `json:"set,omitempty" yaml:"set,omitempty" mapstructure:"set,omitempty"`
 
-	// Values corresponds to the JSON schema field "values".
+	// The values of the release
 	Values []string `json:"values,omitempty" yaml:"values,omitempty" mapstructure:"values,omitempty"`
 
-	// Version corresponds to the JSON schema field "version".
+	// The version of the release
 	Version *string `json:"version,omitempty" yaml:"version,omitempty" mapstructure:"version,omitempty"`
 }
 
 type SpecPluginsHelmReleasesElemSetElem struct {
-	// Name corresponds to the JSON schema field "name".
+	// The name of the set
 	Name string `json:"name" yaml:"name" mapstructure:"name"`
 
-	// Value corresponds to the JSON schema field "value".
+	// The value of the set
 	Value string `json:"value" yaml:"value" mapstructure:"value"`
 }
 
 type SpecPluginsHelmRepositories []struct {
-	// Name corresponds to the JSON schema field "name".
+	// The name of the repository
 	Name string `json:"name" yaml:"name" mapstructure:"name"`
 
-	// Url corresponds to the JSON schema field "url".
+	// The url of the repository
 	Url string `json:"url" yaml:"url" mapstructure:"url"`
 }
 
 type SpecPluginsKustomize []struct {
-	// Folder corresponds to the JSON schema field "folder".
+	// The folder of the kustomize plugin
 	Folder string `json:"folder" yaml:"folder" mapstructure:"folder"`
 
-	// Name corresponds to the JSON schema field "name".
+	// The name of the kustomize plugin
 	Name string `json:"name" yaml:"name" mapstructure:"name"`
 }
 
