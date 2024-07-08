@@ -4687,6 +4687,12 @@ The ca file of the oidc provider
 
 ## .spec.kubernetes.advanced.containerd.registryConfigs
 
+### Description
+
+Allows specifying custom configuration for a registry at containerd level. You can set authentication details and mirrors for a registry.
+
+This feature can be used for example to authenticate to a private registry at containerd (container runtime) level, i.e. globally instead of using `imagePullSecrets`. It also can be used to use a mirror for a registry or to enable insecure connections to trusted registries that don't support TLS.
+
 ### Properties
 
 | Property                                                                                    | Type      | Required |
