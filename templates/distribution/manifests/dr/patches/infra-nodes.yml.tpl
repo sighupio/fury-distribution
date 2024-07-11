@@ -53,8 +53,7 @@ apiVersion: batch/v1
 kind: Job
 metadata:
   name: minio-setup
-  labels:
-    k8s-app: minio-setup
+  namespace: kube-system
 spec:
   template:
     spec:
