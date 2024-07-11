@@ -33,10 +33,10 @@ patchesStrategicMerge:
 {{- if eq .spec.distribution.common.provider.type "eks" }}
   - patches/eks-velero.yml
 {{- end }}
-{{- if and (.spec.distribution.modules.dr.velero.schedules.install) (ne .spec.distribution.modules.dr.velero.schedules.manifestsCron "") }}
+{{- if and (.spec.distribution.modules.dr.velero.schedules.install) (ne .spec.distribution.modules.dr.velero.schedules.cron.manifests "") }}
   - patches/velero-schedule-manifests.yml
 {{- end }}
-{{- if and (.spec.distribution.modules.dr.velero.schedules.install) (ne .spec.distribution.modules.dr.velero.schedules.fullCron "") }}
+{{- if and (.spec.distribution.modules.dr.velero.schedules.install) (ne .spec.distribution.modules.dr.velero.schedules.cron.full "") }}
   - patches/velero-schedule-full.yml
 {{- end }}
 

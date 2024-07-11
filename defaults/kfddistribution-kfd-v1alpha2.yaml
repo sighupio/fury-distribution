@@ -228,8 +228,9 @@ data:
           bucketName: velerobucket
         schedules:
           install: true
-          manifestsCron: ""
-          fullCron: ""
+          cron:
+            manifests: ""
+            full: ""
     # auth module configuration
     auth:
       overrides:

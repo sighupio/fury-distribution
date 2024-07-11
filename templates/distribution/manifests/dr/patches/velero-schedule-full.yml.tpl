@@ -9,4 +9,4 @@ metadata:
   name: full
   namespace: kube-system
 spec:
-  schedule: {{ .spec.distribution.modules.dr.velero.schedules.fullCron }}
+  schedule: {{ .spec.distribution.modules.dr.velero.schedules.cron.full }}
