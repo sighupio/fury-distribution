@@ -239,6 +239,10 @@ data:
           secretAccessKey: example
           accessKeyId: example
           bucketName: velerobucket
+        schedules:
+          install: true
+          manifestsCron: ""
+          fullCron: ""
     # auth module configuration
     auth:
       overrides:

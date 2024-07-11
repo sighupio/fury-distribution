@@ -20,7 +20,9 @@ resources:
   - {{ print "../" .spec.distribution.common.relativeVendorPath "/modules/dr/katalog/velero/velero-node-agent" }}
 
 {{- end }}
+{{- if .spec.distribution.modules.dr.velero.schedules.install }}
   - {{ print "../" .spec.distribution.common.relativeVendorPath "/modules/dr/katalog/velero/velero-schedules" }}
+{{- end }}
 {{- if eq .spec.distribution.common.provider.type "eks" }}
   - resources/eks-velero-backupstoragelocation.yml
   - resources/eks-velero-volumesnapshotlocation.yml
@@ -30,6 +32,12 @@ patchesStrategicMerge:
   - patches/infra-nodes.yml
 {{- if eq .spec.distribution.common.provider.type "eks" }}
   - patches/eks-velero.yml
+{{- end }}
+{{- if and (.spec.distribution.modules.dr.velero.schedules.install) (ne .spec.distribution.modules.dr.velero.schedules.manifestsCron "") }}
+  - patches/velero-schedule-manifests.yml
+{{- end }}
+{{- if and (.spec.distribution.modules.dr.velero.schedules.install) (ne .spec.distribution.modules.dr.velero.schedules.fullCron "") }}
+  - patches/velero-schedule-full.yml
 {{- end }}
 
 {{- if eq .spec.distribution.common.provider.type "none" }}
