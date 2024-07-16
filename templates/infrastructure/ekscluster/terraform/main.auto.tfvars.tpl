@@ -40,6 +40,9 @@ vpn_dhparams_bits = {{ .spec.infrastructure.vpn.dhParamsBits }}
 {{- if and (index .spec.infrastructure.vpn "bucketNamePrefix") (ne .spec.infrastructure.vpn.bucketNamePrefix "") }}
 vpn_bucket_name_prefix = {{ .spec.infrastructure.vpn.bucketNamePrefix | quote }}
 {{- end }}
+{{- if and (index .spec.infrastructure.vpn "iamUserNameOverride") (ne .spec.infrastructure.vpn.iamUserNameOverride "") }}
+vpn_iam_user_name_override = {{ .spec.infrastructure.vpn.iamUserNameOverride | quote }}
+{{- end }}
 {{- if gt (len .spec.infrastructure.vpn.ssh.allowedFromCidrs) 0 }}
 vpn_operator_cidrs = {{ toJson (.spec.infrastructure.vpn.ssh.allowedFromCidrs | uniq) }}
 {{- end }}

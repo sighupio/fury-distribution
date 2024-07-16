@@ -28,7 +28,7 @@
         "name": {
           "type": "string",
           "minLength": 1,
-          "maxLength": 19
+          "maxLength": 56
         }
       },
       "required": ["name"]
@@ -322,6 +322,10 @@
         },
         "bucketNamePrefix": {
           "$ref": "#/$defs/Types.AwsS3BucketNamePrefix"
+        },
+        "iamUserNameOverride": {
+          "$ref": "#/$defs/Types.AwsIamRoleName",
+          "description": "Overrides the default IAM user name for the VPN"
         }
       },
       "required": ["ssh", "vpnClientsSubnetCidr"]
@@ -366,6 +370,14 @@
       "properties": {
         "vpcId": {
           "$ref": "#/$defs/Types.AwsVpcId"
+        },
+        "clusterIAMRoleNamePrefixOverride": {
+          "$ref": "#/$defs/Types.AwsIamRoleNamePrefix",
+          "description": "Overrides the default IAM role name prefix for the EKS cluster"
+        },
+        "workersIAMRoleNamePrefixOverride": {
+          "$ref": "#/$defs/Types.AwsIamRoleNamePrefix",
+          "description": "Overrides the default IAM role name prefix for the EKS workers"
         },
         "subnetIds": {
           "type": "array",
@@ -1844,7 +1856,7 @@
           "additionalProperties": false,
           "properties": {
             "overrides": {
-              "$ref": "#/$defs/Types.FuryModuleComponentOverrides"
+              "$ref": "#/$defs/Types.FuryModuleComponentOverridesWithIAMRoleName"
             }
           }
         },
@@ -1853,7 +1865,7 @@
           "additionalProperties": false,
           "properties": {
             "overrides": {
-              "$ref": "#/$defs/Types.FuryModuleComponentOverrides"
+              "$ref": "#/$defs/Types.FuryModuleComponentOverridesWithIAMRoleName"
             }
           }
         },
@@ -1862,7 +1874,7 @@
           "additionalProperties": false,
           "properties": {
             "overrides": {
-              "$ref": "#/$defs/Types.FuryModuleComponentOverrides"
+              "$ref": "#/$defs/Types.FuryModuleComponentOverridesWithIAMRoleName"
             }
           }
         },
@@ -1972,6 +1984,14 @@
       "type": "string",
       "pattern": "^(?i)(tcp|udp|icmp|icmpv6|-1)$",
       "$comment": "this value should be lowercase, but we rely on terraform to do the conversion to make it a bit more user friendly"
+    },
+    "Types.AwsIamRoleNamePrefix": {
+      "type": "string",
+      "pattern": "^[a-zA-Z0-9+=,.@_-]{1,38}$"
+    },
+    "Types.AwsIamRoleName": {
+      "type": "string",
+      "pattern": "^[a-zA-Z0-9+=,.@_-]{1,63}$"
     },
     "Types.AwsS3BucketName": {
       "type": "string",
@@ -2111,6 +2131,24 @@
           "items": {
             "$ref": "#/$defs/Types.KubeToleration"
           }
+        }
+      }
+    },
+    "Types.FuryModuleComponentOverridesWithIAMRoleName": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "nodeSelector": {
+          "$ref": "#/$defs/Types.KubeNodeSelector"
+        },
+        "tolerations": {
+          "type": ["array", "null"],
+          "items": {
+            "$ref": "#/$defs/Types.KubeToleration"
+          }
+        },
+        "iamRoleName": {
+          "$ref": "#/$defs/Types.AwsIamRoleName"
         }
       }
     },

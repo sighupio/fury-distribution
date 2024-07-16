@@ -206,3 +206,15 @@ variable "cluster_enabled_log_types" {
   }
 
 }
+
+variable "cluster_iam_role_name_prefix_override" {
+  description = "The name prefix of the IAM role to use for the EKS cluster. If not set, a name will be generated from the cluster name."
+  type        = string
+  default     = ""
+}
+
+variable "workers_iam_role_name_prefix_override" {
+  description = "The name prefix of the IAM role to use for the EKS workers. If not set, a name will be generated from the cluster name."
+  type        = string
+  default     = ""
+}

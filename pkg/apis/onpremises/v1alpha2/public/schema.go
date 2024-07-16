@@ -2993,8 +2993,8 @@ func (j *Metadata) UnmarshalJSON(b []byte) error {
 	if len(plain.Name) < 1 {
 		return fmt.Errorf("field %s length: must be >= %d", "name", 1)
 	}
-	if len(plain.Name) > 19 {
-		return fmt.Errorf("field %s length: must be <= %d", "name", 19)
+	if len(plain.Name) > 56 {
+		return fmt.Errorf("field %s length: must be <= %d", "name", 56)
 	}
 	*j = Metadata(plain)
 	return nil
