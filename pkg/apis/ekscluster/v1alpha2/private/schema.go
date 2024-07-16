@@ -1103,7 +1103,7 @@ type SpecInfrastructureVpn struct {
 	// DiskSize corresponds to the JSON schema field "diskSize".
 	DiskSize *int `json:"diskSize,omitempty" yaml:"diskSize,omitempty" mapstructure:"diskSize,omitempty"`
 
-	// IamUserNameOverride corresponds to the JSON schema field "iamUserNameOverride".
+	// Overrides the default IAM user name for the VPN
 	IamUserNameOverride *TypesAwsIamRoleName `json:"iamUserNameOverride,omitempty" yaml:"iamUserNameOverride,omitempty" mapstructure:"iamUserNameOverride,omitempty"`
 
 	// InstanceType corresponds to the JSON schema field "instanceType".
