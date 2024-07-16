@@ -1664,7 +1664,8 @@
           "$ref": "#/$defs/Types.AwsS3BucketNamePrefix"
         },
         "iamUserNameOverride": {
-          "$ref": "#/$defs/Types.AwsIamRoleName"
+          "$ref": "#/$defs/Types.AwsIamRoleName",
+          "description": "Overrides the default IAM user name for the VPN"
         }
       },
       "required": [
@@ -1716,10 +1717,12 @@
           "$ref": "#/$defs/Types.AwsVpcId"
         },
         "clusterIAMRoleNamePrefixOverride": {
-          "$ref": "#/$defs/Types.AwsIamRoleNamePrefix"
+          "$ref": "#/$defs/Types.AwsIamRoleNamePrefix",
+          "description": "Overrides the default IAM role name prefix for the EKS cluster"
         },
         "workersIAMRoleNamePrefixOverride": {
-          "$ref": "#/$defs/Types.AwsIamRoleNamePrefix"
+          "$ref": "#/$defs/Types.AwsIamRoleNamePrefix",
+          "description": "Overrides the default IAM role name prefix for the EKS workers"
         },
         "subnetIds": {
           "type": "array",

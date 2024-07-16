@@ -1056,7 +1056,7 @@ type SpecInfrastructureVpn struct {
 	// DiskSize corresponds to the JSON schema field "diskSize".
 	DiskSize *int `json:"diskSize,omitempty" yaml:"diskSize,omitempty" mapstructure:"diskSize,omitempty"`
 
-	// IamUserNameOverride corresponds to the JSON schema field "iamUserNameOverride".
+	// Overrides the default IAM user name for the VPN
 	IamUserNameOverride *TypesAwsIamRoleName `json:"iamUserNameOverride,omitempty" yaml:"iamUserNameOverride,omitempty" mapstructure:"iamUserNameOverride,omitempty"`
 
 	// InstanceType corresponds to the JSON schema field "instanceType".
@@ -1100,8 +1100,7 @@ type SpecKubernetes struct {
 	// AwsAuth corresponds to the JSON schema field "awsAuth".
 	AwsAuth *SpecKubernetesAwsAuth `json:"awsAuth,omitempty" yaml:"awsAuth,omitempty" mapstructure:"awsAuth,omitempty"`
 
-	// ClusterIAMRoleNamePrefixOverride corresponds to the JSON schema field
-	// "clusterIAMRoleNamePrefixOverride".
+	// Overrides the default IAM role name prefix for the EKS cluster
 	ClusterIAMRoleNamePrefixOverride *TypesAwsIamRoleNamePrefix `json:"clusterIAMRoleNamePrefixOverride,omitempty" yaml:"clusterIAMRoleNamePrefixOverride,omitempty" mapstructure:"clusterIAMRoleNamePrefixOverride,omitempty"`
 
 	// LogRetentionDays corresponds to the JSON schema field "logRetentionDays".
@@ -1129,8 +1128,7 @@ type SpecKubernetes struct {
 	// VpcId corresponds to the JSON schema field "vpcId".
 	VpcId *TypesAwsVpcId `json:"vpcId,omitempty" yaml:"vpcId,omitempty" mapstructure:"vpcId,omitempty"`
 
-	// WorkersIAMRoleNamePrefixOverride corresponds to the JSON schema field
-	// "workersIAMRoleNamePrefixOverride".
+	// Overrides the default IAM role name prefix for the EKS workers
 	WorkersIAMRoleNamePrefixOverride *TypesAwsIamRoleNamePrefix `json:"workersIAMRoleNamePrefixOverride,omitempty" yaml:"workersIAMRoleNamePrefixOverride,omitempty" mapstructure:"workersIAMRoleNamePrefixOverride,omitempty"`
 }
 
