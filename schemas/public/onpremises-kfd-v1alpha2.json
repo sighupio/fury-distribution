@@ -1604,10 +1604,12 @@
           "type": "string"
         },
         "removeCAFromKubeconfig": {
-          "type": "boolean"
+          "type": "boolean",
+          "description": "Set to true to remove the CA from the kubeconfig file"
         },
         "namespace": {
-          "type": "string"
+          "type": "string",
+          "description": "The namespace to set in the context of the kubeconfig file"
         }
       },
       "required": ["enabled"],
