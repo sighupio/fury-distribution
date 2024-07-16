@@ -543,6 +543,10 @@
         "volumeSize": {
           "type": "integer"
         },
+        "volumeType": {
+          "type": "string",
+          "enum": ["gp2", "gp3", "io1", "standard"]
+        },
         "maxPods": {
           "type": "integer"
         }
