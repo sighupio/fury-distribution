@@ -17,7 +17,7 @@
               "$ref": "#/$defs/Types.AwsArn"
             },
             "overrides": {
-              "$ref": "#/$defs/Types.FuryModuleComponentOverrides"
+              "$ref": "#/$defs/Types.FuryModuleComponentOverridesWithIAMRoleName"
             }
           },
           "required": ["iamRoleArn"]
@@ -30,7 +30,7 @@
               "$ref": "#/$defs/Types.AwsArn"
             },
             "overrides": {
-              "$ref": "#/$defs/Types.FuryModuleComponentOverrides"
+              "$ref": "#/$defs/Types.FuryModuleComponentOverridesWithIAMRoleName"
             }
           },
           "required": ["iamRoleArn"]
@@ -131,7 +131,7 @@
           "$ref": "#/$defs/Types.AwsArn"
         },
         "overrides": {
-          "$ref": "#/$defs/Types.FuryModuleComponentOverrides"
+          "$ref": "#/$defs/Types.FuryModuleComponentOverridesWithIAMRoleName"
         }
       },
       "required": ["iamRoleArn"]

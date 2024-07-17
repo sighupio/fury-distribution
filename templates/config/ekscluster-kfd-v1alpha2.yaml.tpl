@@ -108,6 +108,8 @@ spec:
           spot: false
           # The instance disk size in GB
           volumeSize: 50
+          # The instance disk type
+          volumeType: gp2
         # This optional array defines additional target groups to attach to the instances in the node pool
         #attachedTargetGroups:
         #  - arn:aws:elasticloadbalancing:eu-west-1:123456789012:targetgroup/example-external-nginx/0123456789abcdee
