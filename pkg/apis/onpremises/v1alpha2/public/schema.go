@@ -1132,6 +1132,9 @@ type SpecKubernetesAdvancedAirGapDependenciesOverrideYum struct {
 }
 
 type SpecKubernetesAdvancedAnsible struct {
+	// Additional config to append to the ansible.cfg file
+	Config *string `json:"config,omitempty" yaml:"config,omitempty" mapstructure:"config,omitempty"`
+
 	// The python interpreter to use
 	PythonInterpreter *string `json:"pythonInterpreter,omitempty" yaml:"pythonInterpreter,omitempty" mapstructure:"pythonInterpreter,omitempty"`
 }

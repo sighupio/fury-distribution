@@ -328,6 +328,10 @@
         "pythonInterpreter": {
           "type": "string",
           "description": "The python interpreter to use"
+        },
+        "config": {
+          "type": "string",
+          "description": "Additional config to append to the ansible.cfg file"
         }
       }
     },
