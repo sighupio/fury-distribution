@@ -1,3 +1,4 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/sighupio/fury-distribution/{{.DistributionVersion}}/schemas/public/kfddistribution-kfd-v1alpha2.json
 # Copyright (c) 2017-present SIGHUP s.r.l All rights reserved.
 # Use of this source code is governed by a BSD-style
 # license that can be found in the LICENSE file.
@@ -81,7 +82,7 @@ spec:
           storageSize: "20Gi"
       # This section contains all the configurations for the monitoring module
       monitoring:
-        # can be prometheus or mimir or none, with none, nothing from the monitoring module will be installed
+        # can be prometheus, prometheusAgent, mimir or none. With none, nothing from the monitoring module will be installed
         type: "prometheus"
       # This section contains all the configurations for the tracing module
       tracing:

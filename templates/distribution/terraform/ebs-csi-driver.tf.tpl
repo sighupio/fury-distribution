@@ -5,6 +5,11 @@
 module "ebs_csi_driver_iam_role" {
   source       = "{{ print .spec.distribution.common.relativeVendorPath "/modules/aws/modules/iam-for-ebs-csi-driver" }}"
   cluster_name = "{{ .metadata.name }}"
+  {{- if and (hasKeyAny .spec.distribution.modules.aws "ebsCsiDriver")
+   (hasKeyAny .spec.distribution.modules.aws.ebsCsiDriver "overrides")
+   (hasKeyAny .spec.distribution.modules.aws.ebsCsiDriver.overrides "iamRoleName") }}
+  ebs_iam_role_name_override = "{{ .spec.distribution.modules.aws.ebsCsiDriver.overrides.iamRoleName }}"
+  {{- end }}
 }
 
 output "ebs_csi_driver_iam_role_arn" {
