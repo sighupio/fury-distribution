@@ -19,7 +19,7 @@ kubernetes:
     installer: main
   onpremises:
     version: 1.29.3
-    installer: v1.29.3-rev.1-rc.0
+    installer: v1.29.3-rev.2-rc.2
 furyctlSchemas:
   eks:
     - apiVersion: kfd.sighup.io/v1alpha2
