@@ -145,6 +145,7 @@ spec:
       tolerations:
         {{ template "tolerations" $lokiArgs }}
 {{- end }}
+{{- if or (eq .spec.distribution.modules.logging.type "loki") (eq .spec.distribution.modules.logging.type "opensearch") }}
 ---
 apiVersion: apps/v1
 kind: StatefulSet
@@ -171,6 +172,7 @@ spec:
         {{ template "nodeSelector" $minioArgs }}
       tolerations:
         {{ template "tolerations" $minioArgs }}
+{{- end }}
 ---
 apiVersion: logging.banzaicloud.io/v1beta1
 kind: Logging

@@ -30,10 +30,12 @@
         "additionalProperties": false,
         "properties": {
           "name": {
-            "type": "string"
+            "type": "string",
+            "description": "The name of the repository"
           },
           "url": {
-            "type": "string"
+            "type": "string",
+            "description": "The url of the repository"
           }
         },
         "required": ["name", "url"]
@@ -46,16 +48,20 @@
         "additionalProperties": false,
         "properties": {
           "name": {
-            "type": "string"
+            "type": "string",
+            "description": "The name of the release"
           },
           "namespace": {
-            "type": "string"
+            "type": "string",
+            "description": "The namespace of the release"
           },
           "chart": {
-            "type": "string"
+            "type": "string",
+            "description": "The chart of the release"
           },
           "version": {
-            "type": "string"
+            "type": "string",
+            "description": "The version of the release"
           },
           "set": {
             "type": "array",
@@ -64,10 +70,12 @@
               "additionalProperties": false,
               "properties": {
                 "name": {
-                  "type": "string"
+                  "type": "string",
+                  "description": "The name of the set"
                 },
                 "value": {
-                  "type": "string"
+                  "type": "string",
+                  "description": "The value of the set"
                 }
               },
               "required": ["name", "value"]
@@ -77,7 +85,8 @@
             "type": "array",
             "items": {
               "type": "string"
-            }
+            },
+            "description": "The values of the release"
           }
         },
         "required": ["name", "namespace", "chart"]
@@ -90,10 +99,12 @@
         "additionalProperties": false,
         "properties": {
           "name": {
-            "type": "string"
+            "type": "string",
+            "description": "The name of the kustomize plugin"
           },
           "folder": {
-            "type": "string"
+            "type": "string",
+            "description": "The folder of the kustomize plugin"
           }
         },
         "required": ["name", "folder"]

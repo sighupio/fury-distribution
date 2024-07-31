@@ -125,6 +125,7 @@ spec:
                   name: web
             {{ end }}
 {{- template "ingressTls" (dict "module" "monitoring" "package" "prometheus" "prefix" "prometheus." "spec" .spec) }}
+
 {{- if eq .spec.distribution.modules.monitoring.type "mimir" }}
 {{- if eq .spec.distribution.modules.monitoring.mimir.backend "minio" }}
 ---
@@ -169,5 +170,32 @@ spec:
                   name: http
             {{ end }}
 {{- template "ingressTls" (dict "module" "monitoring" "package" "minio" "prefix" "minio-monitoring." "spec" .spec) }}
+{{- end }}
+{{- end }}
+
+{{- if and (index .spec.distribution.modules.monitoring "grafana") (index .spec.distribution.modules.monitoring.grafana "basicAuthIngress") }}
+{{- if .spec.distribution.modules.monitoring.grafana.basicAuthIngress }}
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    {{ template "certManagerClusterIssuer" . }}
+  name: grafana-basic-auth
+  namespace: monitoring
+spec:
+  ingressClassName: {{ template "ingressClass" (dict "module" "monitoring" "package" "grafanaBasicAuth" "type" "internal" "spec" .spec) }}
+  rules:
+    - host: {{ template "grafanaBasicAuthUrl" .spec }}
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: grafana
+                port:
+                  name: http
+{{- template "ingressTls" (dict "module" "monitoring" "package" "grafanaBasicAuth" "prefix" "grafana-basic-auth." "spec" .spec) }}
 {{- end }}
 {{- end }}
