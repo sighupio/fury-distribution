@@ -92,9 +92,10 @@ patchesStrategicMerge:
 {{- end }}
 {{- end }}
 
-configMapGenerator:
+
 {{- if .checks.storageClassAvailable }}
   {{- if eq $monitoringType "mimir" }}
+configMapGenerator:
   - name: mimir-distributed-config
     namespace: monitoring
     behavior: replace
