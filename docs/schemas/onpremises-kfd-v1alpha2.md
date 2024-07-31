@@ -643,7 +643,15 @@ If true, oidc kubernetes auth will be enabled
 
 ## .spec.distribution.modules.auth.oidcKubernetesAuth.namespace
 
+### Description
+
+The namespace to set in the context of the kubeconfig file
+
 ## .spec.distribution.modules.auth.oidcKubernetesAuth.removeCAFromKubeconfig
+
+### Description
+
+Set to true to remove the CA from the kubeconfig file
 
 ## .spec.distribution.modules.auth.oidcKubernetesAuth.scopes
 
@@ -2193,8 +2201,13 @@ The type of the logging, must be ***none***, ***opensearch*** or ***loki***
 | [minio](#specdistributionmodulesmonitoringminio)                       | `object` | Optional |
 | [overrides](#specdistributionmodulesmonitoringoverrides)               | `object` | Optional |
 | [prometheus](#specdistributionmodulesmonitoringprometheus)             | `object` | Optional |
+| [prometheusAgent](#specdistributionmodulesmonitoringprometheusagent)   | `object` | Optional |
 | [type](#specdistributionmodulesmonitoringtype)                         | `string` | Required |
 | [x509Exporter](#specdistributionmodulesmonitoringx509exporter)         | `object` | Optional |
+
+### Description
+
+configuration for the Monitoring module components
 
 ## .spec.distribution.modules.monitoring.alertmanager
 
@@ -2758,10 +2771,19 @@ The value of the toleration
 
 | Property                                                                   | Type     | Required |
 |:---------------------------------------------------------------------------|:---------|:---------|
+| [remoteWrite](#specdistributionmodulesmonitoringprometheusremotewrite)     | `array`  | Optional |
 | [resources](#specdistributionmodulesmonitoringprometheusresources)         | `object` | Optional |
 | [retentionSize](#specdistributionmodulesmonitoringprometheusretentionsize) | `string` | Optional |
 | [retentionTime](#specdistributionmodulesmonitoringprometheusretentiontime) | `string` | Optional |
 | [storageSize](#specdistributionmodulesmonitoringprometheusstoragesize)     | `string` | Optional |
+
+## .spec.distribution.modules.monitoring.prometheus.remoteWrite
+
+### Description
+
+Set this option to ship the collected metrics to a remote Prometheus receiver.
+
+`remoteWrite` is an array of objects that allows configuring the [remoteWrite](https://prometheus.io/docs/specs/remote_write_spec/) options for Prometheus. The objects in the array follow [the same schema as in the prometheus operator](https://prometheus-operator.dev/docs/operator/api/#monitoring.coreos.com/v1.RemoteWriteSpec).
 
 ## .spec.distribution.modules.monitoring.prometheus.resources
 
@@ -2818,35 +2840,109 @@ The memory request for the prometheus pods
 
 ### Description
 
-The retention size for the prometheus pods
+The retention size for the k8s Prometheus instance.
 
 ## .spec.distribution.modules.monitoring.prometheus.retentionTime
 
 ### Description
 
-The retention time for the prometheus pods
+The retention time for the k8s Prometheus instance.
 
 ## .spec.distribution.modules.monitoring.prometheus.storageSize
 
 ### Description
 
-The storage size for the prometheus pods
+The storage size for the k8s Prometheus instance.
+
+## .spec.distribution.modules.monitoring.prometheusAgent
+
+### Properties
+
+| Property                                                                    | Type     | Required |
+|:----------------------------------------------------------------------------|:---------|:---------|
+| [remoteWrite](#specdistributionmodulesmonitoringprometheusagentremotewrite) | `array`  | Optional |
+| [resources](#specdistributionmodulesmonitoringprometheusagentresources)     | `object` | Optional |
+
+## .spec.distribution.modules.monitoring.prometheusAgent.remoteWrite
+
+### Description
+
+Set this option to ship the collected metrics to a remote Prometheus receiver.
+
+`remoteWrite` is an array of objects that allows configuring the [remoteWrite](https://prometheus.io/docs/specs/remote_write_spec/) options for Prometheus. The objects in the array follow [the same schema as in the prometheus operator](https://prometheus-operator.dev/docs/operator/api/#monitoring.coreos.com/v1.RemoteWriteSpec).
+
+## .spec.distribution.modules.monitoring.prometheusAgent.resources
+
+### Properties
+
+| Property                                                                       | Type     | Required |
+|:-------------------------------------------------------------------------------|:---------|:---------|
+| [limits](#specdistributionmodulesmonitoringprometheusagentresourceslimits)     | `object` | Optional |
+| [requests](#specdistributionmodulesmonitoringprometheusagentresourcesrequests) | `object` | Optional |
+
+## .spec.distribution.modules.monitoring.prometheusAgent.resources.limits
+
+### Properties
+
+| Property                                                                         | Type     | Required |
+|:---------------------------------------------------------------------------------|:---------|:---------|
+| [cpu](#specdistributionmodulesmonitoringprometheusagentresourceslimitscpu)       | `string` | Optional |
+| [memory](#specdistributionmodulesmonitoringprometheusagentresourceslimitsmemory) | `string` | Optional |
+
+## .spec.distribution.modules.monitoring.prometheusAgent.resources.limits.cpu
+
+### Description
+
+The cpu limit for the loki pods
+
+## .spec.distribution.modules.monitoring.prometheusAgent.resources.limits.memory
+
+### Description
+
+The memory limit for the prometheus pods
+
+## .spec.distribution.modules.monitoring.prometheusAgent.resources.requests
+
+### Properties
+
+| Property                                                                           | Type     | Required |
+|:-----------------------------------------------------------------------------------|:---------|:---------|
+| [cpu](#specdistributionmodulesmonitoringprometheusagentresourcesrequestscpu)       | `string` | Optional |
+| [memory](#specdistributionmodulesmonitoringprometheusagentresourcesrequestsmemory) | `string` | Optional |
+
+## .spec.distribution.modules.monitoring.prometheusAgent.resources.requests.cpu
+
+### Description
+
+The cpu request for the loki pods
+
+## .spec.distribution.modules.monitoring.prometheusAgent.resources.requests.memory
+
+### Description
+
+The memory request for the prometheus pods
 
 ## .spec.distribution.modules.monitoring.type
 
 ### Description
 
-The type of the monitoring, must be ***none***, ***prometheus*** or ***mimir***
+The type of the monitoring, must be ***none***, ***prometheus***, ***prometheusAgent*** or ***mimir***.
+
+- `none`: will disable the whole monitoring stack.
+- `prometheus`: will install Prometheus Operator and a preconfigured Prometheus instace, Alertmanager, a set of alert rules, exporters needed to monitor all the components of the cluster, Grafana and a series of dashboards to view the collected metrics, and more.
+- `prometheusAgent`: wil install Prometheus operator, an instance of Prometheus in Agent mode (no alerting, no queries, no storage), and all the exporters needed to get metrics for the status of the cluster and the workloads. Useful when having a centralized (remote) Prometheus where to ship the metrics and not storing them locally in the cluster.
+- `mimir`: will install the same as the `prometheus` option, and in addition Grafana Mimir that allows for longer retention of metrics and the usage of Object Storage.
 
 ### Constraints
 
 **enum**: the value of this property must be equal to one of the following values:
 
-| Value        |
-|:-------------|
-|`"none"`      |
-|`"prometheus"`|
-|`"mimir"`     |
+| Value             |
+|:------------------|
+|`"none"`           |
+|`"prometheus"`     |
+|`"prometheusAgent"`|
+|`"mimir"`          |
 
 ## .spec.distribution.modules.monitoring.x509Exporter
 

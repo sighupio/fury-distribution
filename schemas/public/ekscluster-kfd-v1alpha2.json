@@ -1342,17 +1342,21 @@
     "Spec.Distribution.Modules.Monitoring": {
       "type": "object",
       "additionalProperties": false,
+      "description": "configuration for the Monitoring module components",
       "properties": {
         "type": {
           "type": "string",
-          "enum": ["none", "prometheus", "mimir"],
-          "description": "The type of the monitoring, must be ***none***, ***prometheus*** or ***mimir***"
+          "enum": ["none", "prometheus", "prometheusAgent", "mimir"],
+          "description": "The type of the monitoring, must be ***none***, ***prometheus***, ***prometheusAgent*** or ***mimir***.\n\n- `none`: will disable the whole monitoring stack.\n- `prometheus`: will install Prometheus Operator and a preconfigured Prometheus instance, Alertmanager, a set of alert rules, exporters needed to monitor all the components of the cluster, Grafana and a series of dashboards to view the collected metrics, and more.\n- `prometheusAgent`: wil install Prometheus operator, an instance of Prometheus in Agent mode (no alerting, no queries, no storage), and all the exporters needed to get metrics for the status of the cluster and the workloads. Useful when having a centralized (remote) Prometheus where to ship the metrics and not storing them locally in the cluster.\n- `mimir`: will install the same as the `prometheus` option, and in addition Grafana Mimir that allows for longer retention of metrics and the usage of Object Storage."
         },
         "overrides": {
           "$ref": "#/$defs/Types.FuryModuleOverrides"
         },
         "prometheus": {
           "$ref": "#/$defs/Spec.Distribution.Modules.Monitoring.Prometheus"
+        },
+        "prometheusAgent": {
+          "$ref": "#/$defs/Spec.Distribution.Modules.Monitoring.PrometheusAgent"
         },
         "alertmanager": {
           "$ref": "#/$defs/Spec.Distribution.Modules.Monitoring.AlertManager"
@@ -1387,15 +1391,38 @@
         },
         "retentionTime": {
           "type": "string",
-          "description": "The retention time for the prometheus pods"
+          "description": "The retention time for the k8s Prometheus instance."
         },
         "retentionSize": {
           "type": "string",
-          "description": "The retention size for the prometheus pods"
+          "description": "The retention size for the k8s Prometheus instance."
         },
         "storageSize": {
           "type": "string",
-          "description": "The storage size for the prometheus pods"
+          "description": "The storage size for the k8s Prometheus instance."
+        },
+        "remoteWrite": {
+          "description": "Set this option to ship the collected metrics to a remote Prometheus receiver.\n\n`remoteWrite` is an array of objects that allows configuring the [remoteWrite](https://prometheus.io/docs/specs/remote_write_spec/) options for Prometheus. The objects in the array follow [the same schema as in the prometheus operator](https://prometheus-operator.dev/docs/operator/api/#monitoring.coreos.com/v1.RemoteWriteSpec).",
+          "type": "array",
+          "items": {
+            "type": "object"
+          }
+        }
+      }
+    },
+    "Spec.Distribution.Modules.Monitoring.PrometheusAgent": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "resources": {
+          "$ref": "#/$defs/Types.KubeResources"
+        },
+        "remoteWrite": {
+          "description": "Set this option to ship the collected metrics to a remote Prometheus receiver.\n\n`remoteWrite` is an array of objects that allows configuring the [remoteWrite](https://prometheus.io/docs/specs/remote_write_spec/) options for Prometheus. The objects in the array follow [the same schema as in the prometheus operator](https://prometheus-operator.dev/docs/operator/api/#monitoring.coreos.com/v1.RemoteWriteSpec).",
+          "type": "array",
+          "items": {
+            "type": "object"
+          }
         }
       }
     },
@@ -1667,7 +1694,9 @@
         {
           "if": {
             "properties": {
-              "type": { "const": "gatekeeper" }
+              "type": {
+                "const": "gatekeeper"
+              }
             }
           },
           "then": {
@@ -1677,7 +1706,9 @@
         {
           "if": {
             "properties": {
-              "type": { "const": "kyverno" }
+              "type": {
+                "const": "kyverno"
+              }
             }
           },
           "then": {
@@ -2009,7 +2040,6 @@
         }
       }
     },
-
     "Types.SemVer": {
       "type": "string",
       "pattern": "^v?(?P<major>0|[1-9]\\d*)\\.(?P<minor>0|[1-9]\\d*)\\.(?P<patch>0|[1-9]\\d*)(?:-(?P<prerelease>(?:0|[1-9]\\d*|\\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\\.(?:0|[1-9]\\d*|\\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\\+(?P<buildmetadata>[0-9a-zA-Z-]+(?:\\.[0-9a-zA-Z-]+)*))?$"
@@ -2095,7 +2125,9 @@
     },
     "Types.AwsTags": {
       "type": "object",
-      "additionalProperties": { "type": "string" }
+      "additionalProperties": {
+        "type": "string"
+      }
     },
     "Types.AwsIpProtocol": {
       "type": "string",
@@ -2143,7 +2175,9 @@
     },
     "Types.KubeLabels": {
       "type": "object",
-      "additionalProperties": { "type": "string" }
+      "additionalProperties": {
+        "type": "string"
+      }
     },
     "Types.KubeTaints": {
       "type": "array",
@@ -2154,7 +2188,9 @@
     },
     "Types.KubeNodeSelector": {
       "type": ["object", "null"],
-      "additionalProperties": { "type": "string" }
+      "additionalProperties": {
+        "type": "string"
+      }
     },
     "Types.KubeToleration": {
       "type": "object",
