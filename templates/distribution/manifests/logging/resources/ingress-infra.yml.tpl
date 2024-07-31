@@ -14,9 +14,6 @@ metadata:
     cluster.kfd.sighup.io/useful-link.name: "Opensearch Dashboards"
     forecastle.stakater.com/expose: "true"
     forecastle.stakater.com/appName: "Opensearch Dashboards"
-    {{ if and (not .spec.distribution.modules.ingress.overrides.ingresses.forecastle.disableAuth) (eq .spec.distribution.modules.auth.provider.type "sso") }}
-    forecastle.stakater.com/group: "logging"
-    {{ end }}
     forecastle.stakater.com/icon: "https://opensearch.org/assets/brand/PNG/Mark/opensearch_mark_default.png"
     {{ if not .spec.distribution.modules.logging.overrides.ingresses.opensearchDashboards.disableAuth }}{{ template "ingressAuth" . }}{{ end }}
     {{ template "certManagerClusterIssuer" . }}
@@ -59,9 +56,6 @@ metadata:
     cluster.kfd.sighup.io/useful-link.name: "MinIO Logging"
     forecastle.stakater.com/expose: "true"
     forecastle.stakater.com/appName: "MinIO Logging"
-    {{ if and (not .spec.distribution.modules.ingress.overrides.ingresses.forecastle.disableAuth) (eq .spec.distribution.modules.auth.provider.type "sso") }}
-    forecastle.stakater.com/group: "logging"
-    {{ end }}
     forecastle.stakater.com/icon: "https://min.io/resources/img/logo/MINIO_Bird.png"
     {{ if not .spec.distribution.modules.logging.overrides.ingresses.minio.disableAuth }}{{ template "ingressAuth" . }}{{ end }}
     {{ template "certManagerClusterIssuer" . }}

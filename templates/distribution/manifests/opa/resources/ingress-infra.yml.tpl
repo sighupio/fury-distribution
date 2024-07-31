@@ -13,9 +13,6 @@ metadata:
     cluster.kfd.sighup.io/useful-link.name: "Gatekeeper Policy Manager"
     forecastle.stakater.com/expose: "true"
     forecastle.stakater.com/appName: "Gatekeeper Policy Manager"
-    {{ if and (not .spec.distribution.modules.ingress.overrides.ingresses.forecastle.disableAuth) (eq .spec.distribution.modules.auth.provider.type "sso") }}
-    forecastle.stakater.com/group: "gatekeeper-system"
-    {{ end }}
     forecastle.stakater.com/icon: "https://raw.githubusercontent.com/sighupio/gatekeeper-policy-manager/master/app/static-content/logo.svg"
     {{ if not .spec.distribution.modules.policy.overrides.ingresses.gpm.disableAuth }}{{ template "ingressAuth" . }}{{ end }}
     {{ template "certManagerClusterIssuer" . }}
