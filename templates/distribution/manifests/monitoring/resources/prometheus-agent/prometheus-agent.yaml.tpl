@@ -30,6 +30,9 @@ spec:
   probeSelector: {}
   serviceMonitorNamespaceSelector: {}
   serviceMonitorSelector: {}
+  scrapeConfigSelector:
+    matchLabels:
+      prometheus: k8s
 
   {{- $prometheusAgentArgs := dict "module" "monitoring" "package" "prometheusAgent" "spec" .spec }}
   tolerations:
