@@ -370,6 +370,18 @@
         },
         "ca_file": {
           "type": "string"
+        },
+        "username_claim": {
+          "type": "string"
+        },
+        "username_prefix": {
+          "type": "string"
+        },
+        "groups_claim": {
+          "type": "string"
+        },
+        "group_prefix": {
+          "type": "string"
         }
       }
     },
