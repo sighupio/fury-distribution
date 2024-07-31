@@ -150,7 +150,7 @@ spec:
             type: http01
       # This section contains all the configurations for the logging module
       logging:
-        # can be opensearch or loki or none, with none, nothing from the logging module will be installed
+        # can be opensearch, loki, customOutput or none. With none, the logging module won't be installed
         type: loki
         # configurations for the minio-ha package
         minio:
