@@ -12,6 +12,7 @@ username_claim = sub
 auto_sign_up = true
 [users]
 auto_assign_org = true
+viewers_can_edit =  true
 {{- if and (index .spec.distribution.modules.monitoring "grafana") (index .spec.distribution.modules.monitoring.grafana "usersRoleAttributePath") }}
 [auth.jwt]
 role_attribute_path = {{ .spec.distribution.modules.monitoring.grafana.usersRoleAttributePath }}
