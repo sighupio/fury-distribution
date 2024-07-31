@@ -1318,7 +1318,7 @@
       "additionalProperties": false,
       "properties": {
         "overrides": {
-          "$ref": "#/$defs/Types.FuryModuleComponentOverrides"
+          "$ref": "#/$defs/Types.FuryModuleOverrides"
         },
         "tigeraOperator": {
           "$ref": "#/$defs/Spec.Distribution.Modules.Networking.TigeraOperator"

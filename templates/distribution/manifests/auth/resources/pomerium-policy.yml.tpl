@@ -125,7 +125,15 @@ routes:
             - authenticated_user: true
       {{- end }}
   {{- end }}
-
+  {{- if eq .spec.distribution.modules.networking.type "cilium" }}
+  - from: https://{{ template "hubbleUrl" .spec }}
+    to: http://hubble-ui.kube-system.svc.cluster.local
+    policy:
+      - allow:
+          and:
+            - authenticated_user: true
+  {{- end }}
+  
   {{- if index .spec.distribution.modules.auth.pomerium "routes" }}
   {{- .spec.distribution.modules.auth.pomerium.routes | toYaml | nindent 2 }}
   {{- else if index .spec.distribution.modules.auth.pomerium "policy" }}

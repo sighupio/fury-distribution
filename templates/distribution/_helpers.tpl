@@ -212,3 +212,7 @@ cert-manager.io/cluster-issuer: {{ .spec.distribution.modules.ingress.certManage
 {{ define "gangplankUrl" }}
   {{- template "ingressHostAuth" (dict "module" "auth" "package" "gangplank" "prefix" "gangplank." "spec" .) -}}
 {{ end }}
+
+{{ define "hubbleUrl" }}
+  {{- template "ingressHost" (dict "module" "networking" "package" "hubble" "prefix" "hubble." "spec" .) -}}
+{{ end }}
