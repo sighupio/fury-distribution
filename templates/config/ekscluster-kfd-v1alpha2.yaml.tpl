@@ -1,3 +1,4 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/sighupio/fury-distribution/{{.DistributionVersion}}/schemas/public/ekscluster-kfd-v1alpha2.json
 # Copyright (c) 2017-present SIGHUP s.r.l All rights reserved.
 # Use of this source code is governed by a BSD-style
 # license that can be found in the LICENSE file.
@@ -108,6 +109,8 @@ spec:
           spot: false
           # The instance disk size in GB
           volumeSize: 50
+          # The instance disk type
+          volumeType: gp2
         # This optional array defines additional target groups to attach to the instances in the node pool
         #attachedTargetGroups:
         #  - arn:aws:elasticloadbalancing:eu-west-1:123456789012:targetgroup/example-external-nginx/0123456789abcdee

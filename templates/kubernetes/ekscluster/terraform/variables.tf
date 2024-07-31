@@ -74,6 +74,7 @@ variable "node_pools" {
     spot_instance     = optional(bool)
     max_pods          = optional(number) # null to use default upstream configuration
     volume_size       = optional(number, 100)
+    volume_type       = optional(string, "gp2")
     subnets           = optional(list(string)) # null to use default upstream configuration
     labels            = optional(map(string))
     taints            = optional(list(string))
@@ -205,4 +206,16 @@ variable "cluster_enabled_log_types" {
     error_message = "The log type must be one of the following: api, audit, authenticator, controllerManager, scheduler, or the list must be empty."
   }
 
+}
+
+variable "cluster_iam_role_name_prefix_override" {
+  description = "The name prefix of the IAM role to use for the EKS cluster. If not set, a name will be generated from the cluster name."
+  type        = string
+  default     = ""
+}
+
+variable "workers_iam_role_name_prefix_override" {
+  description = "The name prefix of the IAM role to use for the EKS workers. If not set, a name will be generated from the cluster name."
+  type        = string
+  default     = ""
 }
