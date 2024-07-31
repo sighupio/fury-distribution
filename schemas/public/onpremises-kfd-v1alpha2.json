@@ -327,6 +327,10 @@
         "pythonInterpreter": {
           "type": "string",
           "description": "The python interpreter to use"
+        },
+        "config": {
+          "type": "string",
+          "description": "Additional config to append to the ansible.cfg file"
         }
       }
     },
@@ -552,7 +556,7 @@
           "$ref": "#/$defs/Spec.Distribution.Modules"
         },
         "customPatches": {
-          "$ref": "../public/spec-distribution-custom-patches.json"
+          "$ref": "../public/spec-distribution-custompatches.json"
         }
       },
       "required": ["modules"],
@@ -1108,6 +1112,12 @@
       "type": "object",
       "additionalProperties": false,
       "properties": {
+        "usersRoleAttributePath": {
+          "type": "string"
+        },
+        "basicAuthIngress": {
+          "type": "boolean"
+        },
         "overrides": {
           "$ref": "#/$defs/Types.FuryModuleComponentOverrides"
         }
@@ -1683,40 +1693,7 @@
       "required": ["username", "password"]
     },
     "Spec.Distribution.Modules.Auth.Pomerium": {
-      "type": "object",
-      "additionalProperties": false,
-      "properties": {
-        "secrets": {
-          "$ref": "#/$defs/Spec.Distribution.Modules.Auth.Pomerium.Secrets"
-        },
-        "policy": {
-          "type": "string",
-          "description": "The policy for pomerium"
-        },
-        "overrides": {
-          "$ref": "#/$defs/Types.FuryModuleComponentOverrides"
-        }
-      },
-      "required": ["secrets", "policy"]
-    },
-    "Spec.Distribution.Modules.Auth.Pomerium.Secrets": {
-      "type": "object",
-      "additionalProperties": false,
-      "properties": {
-        "COOKIE_SECRET": {
-          "type": "string",
-          "description": "The cookie secret for pomerium"
-        },
-        "IDP_CLIENT_SECRET": {
-          "type": "string",
-          "description": "The IDP client secret for pomerium"
-        },
-        "SHARED_SECRET": {
-          "type": "string",
-          "description": "The shared secret for pomerium"
-        }
-      },
-      "required": ["COOKIE_SECRET", "IDP_CLIENT_SECRET", "SHARED_SECRET"]
+      "$ref": "./spec-distribution-modules-auth-pomerium.json"
     },
     "Spec.Distribution.Modules.Auth.Dex": {
       "type": "object",
