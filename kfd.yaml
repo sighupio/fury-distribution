@@ -5,7 +5,7 @@
 version: v1.29.1
 modules:
   auth: v0.3.0
-  aws: feature/increase-cluster-name-length
+  aws: v4.2.1
   dr: v2.3.0
   ingress: v2.3.0
   logging: v3.4.1
