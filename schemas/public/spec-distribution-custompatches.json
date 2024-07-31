@@ -37,48 +37,58 @@
       "additionalProperties": false,
       "properties": {
         "name": {
-          "type": "string"
+          "type": "string",
+          "description": "The name of the configmap"
         },
         "behavior": {
           "type": "string",
-          "enum": ["create", "replace", "merge"]
+          "enum": ["create", "replace", "merge"],
+          "description": "The behavior of the configmap"
         },
         "files": {
           "type": "array",
           "items": {
             "type": "string"
-          }
+          },
+          "description": "The files of the configmap"
         },
         "envs": {
           "type": "array",
           "items": {
             "type": "string"
-          }
+          },
+          "description": "The envs of the configmap"
         },
         "literals": {
           "type": "array",
           "items": {
             "type": "string"
-          }
+          },
+          "description": "The literals of the configmap"
         },
         "namespace": {
-          "type": "string"
+          "type": "string",
+          "description": "The namespace of the configmap"
         },
         "options": {
           "type": "object",
           "additionalProperties": false,
           "properties": {
             "labels": {
-              "$ref": "#/$defs/Types.KubeLabels"
+              "$ref": "#/$defs/Types.KubeLabels",
+              "description": "The labels of the configmap"
             },
             "annotations": {
-              "$ref": "#/$defs/Types.KubeLabels"
+              "$ref": "#/$defs/Types.KubeLabels",
+              "description": "The annotations of the configmap"
             },
             "disableNameSuffixHash": {
-              "type": "boolean"
+              "type": "boolean",
+              "description": "If true, the name suffix hash will be disabled"
             },
             "immutable": {
-              "type": "boolean"
+              "type": "boolean",
+              "description": "If true, the configmap will be immutable"
             }
           }
         }
@@ -90,51 +100,62 @@
       "additionalProperties": false,
       "properties": {
         "name": {
-          "type": "string"
+          "type": "string",
+          "description": "The name of the secret"
         },
         "type": {
-          "type": "string"
+          "type": "string",
+          "description": "The type of the secret"
         },
         "behavior": {
           "type": "string",
-          "enum": ["create", "replace", "merge"]
+          "enum": ["create", "replace", "merge"],
+          "description": "The behavior of the secret"
         },
         "files": {
           "type": "array",
           "items": {
             "type": "string"
-          }
+          },
+          "description": "The files of the secret"
         },
         "envs": {
           "type": "array",
           "items": {
             "type": "string"
-          }
+          },
+          "description": "The envs of the secret"
         },
         "literals": {
           "type": "array",
           "items": {
             "type": "string"
-          }
+          },
+          "description": "The literals of the secret"
         },
         "namespace": {
-          "type": "string"
+          "type": "string",
+          "description": "The namespace of the secret"
         },
         "options": {
           "type": "object",
           "additionalProperties": false,
           "properties": {
             "labels": {
-              "$ref": "#/$defs/Types.KubeLabels"
+              "$ref": "#/$defs/Types.KubeLabels",
+              "description": "The labels of the secret"
             },
             "annotations": {
-              "$ref": "#/$defs/Types.KubeLabels"
+              "$ref": "#/$defs/Types.KubeLabels",
+              "description": "The annotations of the secret"
             },
             "disableNameSuffixHash": {
-              "type": "boolean"
+              "type": "boolean",
+              "description": "If true, the name suffix hash will be disabled"
             },
             "immutable": {
-              "type": "boolean"
+              "type": "boolean",
+              "description": "If true, the secret will be immutable"
             }
           }
         }
@@ -145,7 +166,8 @@
       "type": "array",
       "items": {
         "type": "object"
-      }
+      },
+      "description": "Each entry should follow the format of Kustomize's images patch"
     },
     "Spec.Distribution.CustomPatches.Patches": {
       "type": "array",
@@ -157,7 +179,8 @@
       "type": "array",
       "items": {
         "type": "string"
-      }
+      },
+      "description": "Each entry should be either a relative file path or an inline content resolving to a partial or complete resource definition"
     },
     "Spec.Distribution.CustomPatches.Patch": {
       "type": "object",
@@ -171,18 +194,22 @@
           "additionalProperties": false,
           "properties": {
             "allowNameChange": {
-              "type": "boolean"
+              "type": "boolean",
+              "description": "If true, the name change will be allowed"
             },
             "allowKindChange": {
-              "type": "boolean"
+              "type": "boolean",
+              "description": "If true, the kind change will be allowed"
             }
           }
         },
         "path": {
-          "type": "string"
+          "type": "string",
+          "description": "The path of the patch"
         },
         "patch": {
-          "type": "string"
+          "type": "string",
+          "description": "The patch content"
         }
       },
       "oneOf": [
@@ -199,28 +226,36 @@
       "additionalProperties": false,
       "properties": {
         "group": {
-          "type": "string"
+          "type": "string",
+          "description": "The group of the target"
         },
         "version": {
-          "type": "string"
+          "type": "string",
+          "description": "The version of the target"
         },
         "kind": {
-          "type": "string"
+          "type": "string",
+          "description": "The kind of the target"
         },
         "name": {
-          "type": "string"
+          "type": "string",
+          "description": "The name of the target"
         },
         "namespace": {
-          "type": "string"
+          "type": "string",
+          "description": "The namespace of the target"
         },
         "labelSelector": {
-          "type": "string"
+          "type": "string",
+          "description": "The label selector of the target"
         },
         "annotationSelector": {
-          "type": "string"
+          "type": "string",
+          "description": "The annotation selector of the target"
         }
       }
     },
+
     "Types.KubeLabels": {
       "type": "object",
       "additionalProperties": { "type": "string" }

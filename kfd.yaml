@@ -4,8 +4,8 @@
 
 version: v1.29.1
 modules:
-  auth: v0.2.0
-  aws: v4.2.0
+  auth: v0.3.0-rc.0
+  aws: feature/increase-cluster-name-length
   dr: v2.3.0
   ingress: v2.3.0
   logging: v3.4.0
@@ -16,10 +16,10 @@ modules:
 kubernetes:
   eks:
     version: 1.29
-    installer: v3.1.1
+    installer: main
   onpremises:
     version: 1.29.3
-    installer: v1.29.3-rev.2-rc.0
+    installer: v1.29.3-rev.2-rc.2
 furyctlSchemas:
   eks:
     - apiVersion: kfd.sighup.io/v1alpha2

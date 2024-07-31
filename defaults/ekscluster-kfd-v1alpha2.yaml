@@ -92,7 +92,7 @@ data:
             disableAuth: false
             host: ""
             ingressClass: ""
-      # can be opensearch or loki
+      # can be none, opensearch, loki or customOutputs
       type: opensearch
       opensearch:
         # can be single or triple
@@ -113,7 +113,7 @@ data:
           secretAccessKey: example
           accessKeyId: example
           bucketName: lokibucket
-      # override ingresses parameters
+      customOutputs: {}
     # monitoring module configuration
     monitoring:
       type: prometheus
@@ -134,6 +134,10 @@ data:
             disableAuth: false
             host: ""
             ingressClass: ""
+          grafanaBasicAuth:
+            disableAuth: false
+            host: ""
+            ingressClass: ""
           minio:
             disableAuth: false
             host: ""
@@ -142,6 +146,7 @@ data:
         retentionTime: 30d
         retentionSize: 120GB
         storageSize: 150Gi
+      prometheusAgent: {}
       alertmanager:
         installDefaultRules: true
         deadManSwitchWebhookUrl: ""
@@ -162,6 +167,8 @@ data:
         rootUser:
           username: minio
           password: minio123
+      grafana:
+        basicAuthIngress: false
     # tracing module configuration
     tracing:
       overrides:
@@ -239,6 +246,11 @@ data:
           secretAccessKey: example
           accessKeyId: example
           bucketName: velerobucket
+        schedules:
+          install: true
+          cron:
+            manifests: ""
+            full: ""
     # auth module configuration
     auth:
       overrides:

@@ -117,11 +117,19 @@ all:
     containerd_registry_configs:
       {{- range $rc := .spec.kubernetes.advanced.containerd.registryConfigs }}
       - registry: {{ $rc.registry }}
-        username: {{ $rc.username}}
+        {{- if index $rc "username" }}
+        username: {{ $rc.username }}
+        {{- end }}
+        {{- if index $rc "password" }}
         password: {{ $rc.password }}
+        {{- end }}
+        {{- if index $rc "insecureSkipVerify" }}
         insecure_skip_verify: {{ $rc.insecureSkipVerify }}
+        {{- end }}
+        {{- if index $rc "mirrorEndpoint" }}
         mirror_endpoint:
-         {{ $rc.mirrorEndpoint  | toYaml }}
+{{ $rc.mirrorEndpoint | toYaml | indent 10 }}
+        {{- end }}
       {{- end }}
     {{- end }}
     {{- end }}

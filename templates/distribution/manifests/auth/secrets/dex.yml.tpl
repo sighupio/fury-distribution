@@ -24,6 +24,9 @@
   {{- end }}
 {{- end }}
 issuer: {{ template "dexHost" . }}
+frontend:
+  dir: /app/web
+  theme: dark
 storage:
   type: kubernetes
   config:
