@@ -92,19 +92,19 @@
       "properties": {
         "COOKIE_SECRET": {
           "type": "string",
-          "description": "The cookie secret for pomerium"
+          "description": "Cookie Secret is the secret used to encrypt and sign session cookies."
         },
         "IDP_CLIENT_SECRET": {
           "type": "string",
-          "description": "The IDP client secret for pomerium"
+          "description": "Identity Provider Client Secret is the OAuth 2.0 Secret Identifier retrieved from your identity provider."
         },
         "SHARED_SECRET": {
           "type": "string",
-          "description": "The shared secret for pomerium"
+          "description": "Shared Secret is the base64-encoded, 256-bit key used to mutually authenticate requests between Pomerium services. It's critical that secret keys are random, and stored safely."
         },
         "SIGNING_KEY": {
           "type": "string",
-          "description": "The signing key for pomerium"
+          "description": "Signing Key is one or more PEM-encoded private keys used to sign a user's attestation JWT, which can be consumed by upstream applications to pass along identifying user information like username, id, and groups."
         }
       },
       "required": [
