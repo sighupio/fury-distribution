@@ -404,6 +404,18 @@
         "ca_file": {
           "type": "string",
           "description": "The ca file of the oidc provider"
+        },
+        "username_claim": {
+          "type": "string"
+        },
+        "username_prefix": {
+          "type": "string"
+        },
+        "groups_claim": {
+          "type": "string"
+        },
+        "group_prefix": {
+          "type": "string"
         }
       }
     },

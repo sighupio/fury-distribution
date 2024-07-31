@@ -62,6 +62,20 @@ all:
         {{- if index .spec.kubernetes.advanced.oidc "ca_file" }}
         oidc_ca_file: "{{ .spec.kubernetes.advanced.oidc.ca_file }}"
         {{- end }}
+
+        {{- if index .spec.kubernetes.advanced.oidc "username_claim" }}
+        oidc_username_claim: "{{ .spec.kubernetes.advanced.oidc.username_claim }}"
+        {{- end }}
+        {{- if index .spec.kubernetes.advanced.oidc "username_prefix" }}
+        oidc_username_prefix: "{{ .spec.kubernetes.advanced.oidc.username_prefix }}"
+        {{- end }}
+        {{- if index .spec.kubernetes.advanced.oidc "groups_claim" }}
+        oidc_groups_claim: "{{ .spec.kubernetes.advanced.oidc.groups_claim }}"
+        {{- end }}
+        {{- if index .spec.kubernetes.advanced.oidc "group_prefix" }}
+        oidc_group_prefix: "{{ .spec.kubernetes.advanced.oidc.group_prefix }}"
+        {{- end }}
+
         {{- end }}
     nodes:
       children:
