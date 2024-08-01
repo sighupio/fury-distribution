@@ -31,8 +31,6 @@ spec:
       tolerations:
         {{ template "tolerations" $veleroArgs }}
 
-{{- end }}
-
 {{- if eq .spec.distribution.modules.dr.velero.backend "minio" }}
 ---
 apiVersion: apps/v1
@@ -62,4 +60,5 @@ spec:
       tolerations:
         {{ template "tolerations" $veleroArgs }}
 
+{{- end }}
 {{- end }}
