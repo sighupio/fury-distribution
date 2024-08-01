@@ -115,10 +115,12 @@ secretGenerator:
       - patches/minio.root.env
   {{- end }}
 {{- end }}
-{{- if eq .spec.distribution.modules.auth.provider.type "sso" }}
+{{- if or (eq $monitoringType "prometheus") (eq $monitoringType "mimir") }}
+  {{- if eq .spec.distribution.modules.auth.provider.type "sso" }}
   - name: grafana-config
     behavior: merge
     namespace: monitoring
     files:
       - grafana.ini=patches/grafana.ini
+  {{- end }}
 {{- end }}
