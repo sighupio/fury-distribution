@@ -201,6 +201,11 @@ data:
       overrides:
         nodeSelector: null
         tolerations: null
+        ingresses:
+          hubble:
+            disableAuth: false
+            host: ""
+            ingressClass: ""
       cilium:
         podCidr: "dummy" # cilium not used yet on EKS
         maskSize: "dummy" # cilium not used yet on EKS

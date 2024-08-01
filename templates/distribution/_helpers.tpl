@@ -213,9 +213,6 @@ cert-manager.io/cluster-issuer: {{ .spec.distribution.modules.ingress.certManage
   {{- template "ingressHostAuth" (dict "module" "auth" "package" "gangplank" "prefix" "gangplank." "spec" .) -}}
 {{ end }}
 
-{{ if eq .spec.distribution.common.provider.type "none" }}{{/* none == on-prem */}}
-{{/* we need to define this template only when provider is not EKS, otherwise the template engine fails because of missing paramaters. */}}
 {{ define "hubbleUrl" }}
   {{- template "ingressHost" (dict "module" "networking" "package" "hubble" "prefix" "hubble." "spec" .) -}}
-{{ end }}
 {{ end }}
