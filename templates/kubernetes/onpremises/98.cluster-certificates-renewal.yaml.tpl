@@ -181,7 +181,7 @@
       shell: |
         find /etc/kubernetes -type f -name '*.conf' |
         egrep -v 'expired' |
-        xargs -L 1 -t -i bash -c 'kubectl config view --kubeconfig=/etc/kubernetes/admin.conf" }} --raw -o jsonpath="{.users[0].user.client-certificate-data}" --kubeconfig={} | base64 -d | openssl x509 -noout -text | grep After'
+        xargs -L 1 -t -i bash -c 'kubectl config view --kubeconfig=/etc/kubernetes/admin.conf --raw -o jsonpath="{.users[0].user.client-certificate-data}" --kubeconfig={} | base64 -d | openssl x509 -noout -text | grep After'
       register: kconfig_info
     - debug: var=kconfig_info.stdout_lines
 
