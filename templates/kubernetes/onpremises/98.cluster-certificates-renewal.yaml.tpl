@@ -32,9 +32,9 @@
     # Get Kubernetes version and modify the output from something like “v1.29.3” to “1.29”.
     - name: Get the current Kubernetes version
       shell: |
-        K8S_VERSION=$({{ .paths.kubectl }} version --kubeconfig={{ kubernetes_kubeconfig_path }}admin.conf" }} --short 2>/dev/null | grep 'Server Version:' | awk '{print $3}')
+        K8S_VERSION=$(kubectl version --kubeconfig=/etc/kubernetes/admin.conf --short 2>/dev/null | grep 'Server Version:' | awk '{print $3}')
         if [ -z "$K8S_VERSION" ]; then
-          K8S_VERSION=$({{ .paths.kubectl }} version --kubeconfig={{ kubernetes_kubeconfig_path }}admin.conf" }} 2>/dev/null | grep 'Server Version:' | awk '{print $3}')
+          K8S_VERSION=$(kubectl version --kubeconfig=/etc/kubernetes/admin.conf 2>/dev/null | grep 'Server Version:' | awk '{print $3}')
         fi
         if [ -z "$K8S_VERSION" ]; then
           echo "ERROR: Unable to get Kubernetes version"
@@ -42,17 +42,13 @@
         fi
         echo "$K8S_VERSION" | sed -E 's/^v?([0-9]+\.[0-9]+)\.[0-9]+.*/\1/'
       register: kubernetes_version
-
-    - name: Get the current Container Runtime
-      shell: | 
-        RUNTIME=$({{ .paths.kubectl }} get nodes --kubeconfig={{ kubernetes_kubeconfig_path }}admin.conf" }} -o=jsonpath='{.items[0].status.nodeInfo.containerRuntimeVersion}')
-        if [[ $RUNTIME == containerd* ]]; then
-          echo "containerd"
-        else
-          echo "docker"
-        fi
-      register: container_runtime
     
+    - name: Ensure rsync is installed
+      package:
+        name:
+          - rsync
+        state: latest
+
     - name: Backup all Kubernetes certs
       shell: |
         (BCK_FOLDER=$HOME/certs-backup/$(date +%Y-%m-%d_%H-%M-%S)
@@ -84,13 +80,6 @@
         crictl ps -q --name 'kube-(controller-manager|scheduler|apiserver)' | xargs -r crictl stop
         crictl ps -a -q --state exited --name 'kube-(apiserver|controller-manager|scheduler)' | xargs -r crictl rm
         systemctl restart etcd
-      when: container_runtime.stdout == 'containerd'
-
-    - name: Restart all control plane components with Docker
-      shell: |
-        docker container restart $(docker container ls -q --filter name=k8s_kube-"(controller|scheduler|apiserver)")
-        && systemctl restart etcd
-      when: container_runtime.stdout == 'docker'
 
     - name: Wait for kube-controller-manager to be running
       shell: crictl ps --name kube-controller-manager | grep -q Running
@@ -157,7 +146,7 @@
 
     - name: Delete the Kubelet server cert before regenarating them
       file: 
-        path: "{{ item }}"
+        path: "{{ print "{{ item }}" }}"
         state: absent 
       with_items:
         - /var/lib/kubelet/pki/kubelet.crt
@@ -192,7 +181,7 @@
       shell: |
         find /etc/kubernetes -type f -name '*.conf' |
         egrep -v 'expired' |
-        xargs -L 1 -t -i bash -c '{{ .paths.kubectl }} config view --kubeconfig={{ kubernetes_kubeconfig_path }}admin.conf" }} --raw -o jsonpath="{.users[0].user.client-certificate-data}" --kubeconfig={} | base64 -d | openssl x509 -noout -text | grep After'
+        xargs -L 1 -t -i bash -c 'kubectl config view --kubeconfig=/etc/kubernetes/admin.conf" }} --raw -o jsonpath="{.users[0].user.client-certificate-data}" --kubeconfig={} | base64 -d | openssl x509 -noout -text | grep After'
       register: kconfig_info
     - debug: var=kconfig_info.stdout_lines
 
