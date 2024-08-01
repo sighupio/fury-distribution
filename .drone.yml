@@ -196,7 +196,7 @@ volumes:
     host:
       path: /var/run/docker.sock
 ---
-name: e2e-kubernetes-1.29.0-1.29.1
+name: e2e-kubernetes-1.29.0-1.29.1-1.29.2
 kind: pipeline
 type: docker
 
@@ -305,7 +305,7 @@ type: docker
 
 depends_on:
   - e2e-kubernetes-1.29
-  - e2e-kubernetes-1.29.0-1.29.1
+  - e2e-kubernetes-1.29.0-1.29.1-1.29.2
 
 platform:
   os: linux
