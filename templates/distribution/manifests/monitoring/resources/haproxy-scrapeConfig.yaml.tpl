@@ -1,5 +1,5 @@
 
-{{- if and (eq .spec.distribution.common.provider.type "none") }}
+{{- if eq .spec.distribution.common.provider.type "none" }}
 {{- if hasKeyAny .spec "kubernetes" }}
 {{- if .spec.kubernetes.loadBalancers.enabled }}
 ---

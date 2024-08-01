@@ -17,7 +17,7 @@ resources:
   - {{ print "../" .spec.distribution.common.relativeVendorPath "/modules/monitoring/katalog/node-exporter" }}
   - {{ print "../" .spec.distribution.common.relativeVendorPath "/modules/monitoring/katalog/x509-exporter" }}
   - {{ print "../" .spec.distribution.common.relativeVendorPath "/modules/monitoring/katalog/blackbox-exporter" }}
-{{- if eq .spec.distribution.common.provider.type "none" }}{{/* none === on-premises */}}
+{{- if eq .spec.distribution.common.provider.type "none" }}{{/* none === on-premises and kfddistribution */}}
   - {{ print "../" .spec.distribution.common.relativeVendorPath "/modules/monitoring/katalog/kubeadm-sm" }}
   {{- if hasKeyAny .spec "kubernetes" }}
     {{- if .spec.kubernetes.loadBalancers.enabled }}
