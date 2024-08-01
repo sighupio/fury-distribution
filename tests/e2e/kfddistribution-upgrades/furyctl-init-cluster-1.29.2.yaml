@@ -32,17 +32,13 @@ spec:
             type: http01
       logging:
         type: loki
-        loki: 
-          backend: minio
         minio:
           storageSize: 20Gi
           rootUser:
             username: sighup
             password: secretpassword1
       monitoring:
-        type: mimir
-        mimir: 
-          backend: minio
+        type: prometheus
         prometheus:
           resources:
             requests:
@@ -50,32 +46,17 @@ spec:
             limits:
               cpu: 2000m
               memory: 6Gi
-        minio:
-          storageSize: 20Gi
-          rootUser:
-            username: sighup
-            password: secretpassword2
-        alertmanager: 
-          installDefaultRules: false
       tracing:
-        type: tempo
-        tempo: 
-          backend: minio
-        minio:
-          storageSize: 20Gi
-          rootUser:
-            username: sighup
-            password: secretpassword3
+        type: none
       policy:
         type: kyverno
         kyverno:
           additionalExcludedNamespaces: ["local-path-storage"]
-          installDefaultPolicies: false
           validationFailureAction: enforce
+          installDefaultPolicies: true
       dr:
         type: on-premises
-        velero: 
-          backend: minio
+        velero: {}
       auth:
         provider:
           type: basicAuth
@@ -91,36 +72,6 @@ spec:
           metadata:
             name: minio-logging
             namespace: logging
-          spec:
-            template:
-              spec:
-                containers:
-                - name: minio
-                  resources:
-                    requests:
-                      cpu: 10m
-                      memory: 50Mi
-        - |
-          apiVersion: apps/v1
-          kind: StatefulSet
-          metadata:
-            name: minio-monitoring
-            namespace: monitoring
-          spec:
-            template:
-              spec:
-                containers:
-                - name: minio
-                  resources:
-                    requests:
-                      cpu: 10m
-                      memory: 50Mi
-        - |
-          apiVersion: apps/v1
-          kind: StatefulSet
-          metadata:
-            name: minio-tracing
-            namespace: tracing
           spec:
             template:
               spec:

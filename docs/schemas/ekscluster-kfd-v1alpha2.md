@@ -681,11 +681,47 @@ The value of the toleration
 
 ### Properties
 
-| Property                                                   | Type     | Required |
-|:-----------------------------------------------------------|:---------|:---------|
-| [overrides](#specdistributionmodulesauthpomeriumoverrides) | `object` | Optional |
-| [policy](#specdistributionmodulesauthpomeriumpolicy)       | `string` | Required |
-| [secrets](#specdistributionmodulesauthpomeriumsecrets)     | `object` | Required |
+| Property                                                                       | Type     | Required |
+|:-------------------------------------------------------------------------------|:---------|:---------|
+| [defaultRoutesPolicy](#specdistributionmodulesauthpomeriumdefaultroutespolicy) | `object` | Optional |
+| [overrides](#specdistributionmodulesauthpomeriumoverrides)                     | `object` | Optional |
+| [policy](#specdistributionmodulesauthpomeriumpolicy)                           | `string` | Optional |
+| [routes](#specdistributionmodulesauthpomeriumroutes)                           | `array`  | Optional |
+| [secrets](#specdistributionmodulesauthpomeriumsecrets)                         | `object` | Required |
+
+## .spec.distribution.modules.auth.pomerium.defaultRoutesPolicy
+
+### Properties
+
+| Property                                                                                                          | Type    | Required |
+|:------------------------------------------------------------------------------------------------------------------|:--------|:---------|
+| [gatekeeperPolicyManager](#specdistributionmodulesauthpomeriumdefaultroutespolicygatekeeperpolicymanager)         | `array` | Optional |
+| [ingressNgnixForecastle](#specdistributionmodulesauthpomeriumdefaultroutespolicyingressngnixforecastle)           | `array` | Optional |
+| [loggingMinioConsole](#specdistributionmodulesauthpomeriumdefaultroutespolicyloggingminioconsole)                 | `array` | Optional |
+| [loggingOpensearchDashboards](#specdistributionmodulesauthpomeriumdefaultroutespolicyloggingopensearchdashboards) | `array` | Optional |
+| [monitoringAlertmanager](#specdistributionmodulesauthpomeriumdefaultroutespolicymonitoringalertmanager)           | `array` | Optional |
+| [monitoringGrafana](#specdistributionmodulesauthpomeriumdefaultroutespolicymonitoringgrafana)                     | `array` | Optional |
+| [monitoringMinioConsole](#specdistributionmodulesauthpomeriumdefaultroutespolicymonitoringminioconsole)           | `array` | Optional |
+| [monitoringPrometheus](#specdistributionmodulesauthpomeriumdefaultroutespolicymonitoringprometheus)               | `array` | Optional |
+| [tracingMinioConsole](#specdistributionmodulesauthpomeriumdefaultroutespolicytracingminioconsole)                 | `array` | Optional |
+
+## .spec.distribution.modules.auth.pomerium.defaultRoutesPolicy.gatekeeperPolicyManager
+
+## .spec.distribution.modules.auth.pomerium.defaultRoutesPolicy.ingressNgnixForecastle
+
+## .spec.distribution.modules.auth.pomerium.defaultRoutesPolicy.loggingMinioConsole
+
+## .spec.distribution.modules.auth.pomerium.defaultRoutesPolicy.loggingOpensearchDashboards
+
+## .spec.distribution.modules.auth.pomerium.defaultRoutesPolicy.monitoringAlertmanager
+
+## .spec.distribution.modules.auth.pomerium.defaultRoutesPolicy.monitoringGrafana
+
+## .spec.distribution.modules.auth.pomerium.defaultRoutesPolicy.monitoringMinioConsole
+
+## .spec.distribution.modules.auth.pomerium.defaultRoutesPolicy.monitoringPrometheus
+
+## .spec.distribution.modules.auth.pomerium.defaultRoutesPolicy.tracingMinioConsole
 
 ## .spec.distribution.modules.auth.pomerium.overrides
 
@@ -698,10 +734,6 @@ The value of the toleration
 
 ## .spec.distribution.modules.auth.pomerium.overrides.nodeSelector
 
-### Description
-
-The node selector to use to place the pods for the minio module
-
 ## .spec.distribution.modules.auth.pomerium.overrides.tolerations
 
 ### Properties
@@ -711,11 +743,7 @@ The node selector to use to place the pods for the minio module
 | [effect](#specdistributionmodulesauthpomeriumoverridestolerationseffect)     | `string` | Required |
 | [key](#specdistributionmodulesauthpomeriumoverridestolerationskey)           | `string` | Required |
 | [operator](#specdistributionmodulesauthpomeriumoverridestolerationsoperator) | `string` | Optional |
-| [value](#specdistributionmodulesauthpomeriumoverridestolerationsvalue)       | `string` | Optional |
-
-### Description
-
-The tolerations that will be added to the pods for the cert-manager module
+| [value](#specdistributionmodulesauthpomeriumoverridestolerationsvalue)       | `string` | Required |
 
 ## .spec.distribution.modules.auth.pomerium.overrides.tolerations.effect
 
@@ -731,10 +759,6 @@ The tolerations that will be added to the pods for the cert-manager module
 
 ## .spec.distribution.modules.auth.pomerium.overrides.tolerations.key
 
-### Description
-
-The key of the toleration
-
 ## .spec.distribution.modules.auth.pomerium.overrides.tolerations.operator
 
 ### Constraints
@@ -748,15 +772,17 @@ The key of the toleration
 
 ## .spec.distribution.modules.auth.pomerium.overrides.tolerations.value
 
-### Description
-
-The value of the toleration
-
 ## .spec.distribution.modules.auth.pomerium.policy
 
 ### Description
 
-The policy for pomerium
+DEPRECATED: Use defaultRoutesPolicy and/or routes
+
+## .spec.distribution.modules.auth.pomerium.routes
+
+### Description
+
+Routes configuration for pomerium
 
 ## .spec.distribution.modules.auth.pomerium.secrets
 
@@ -767,6 +793,7 @@ The policy for pomerium
 | [COOKIE_SECRET](#specdistributionmodulesauthpomeriumsecretscookie_secret)         | `string` | Required |
 | [IDP_CLIENT_SECRET](#specdistributionmodulesauthpomeriumsecretsidp_client_secret) | `string` | Required |
 | [SHARED_SECRET](#specdistributionmodulesauthpomeriumsecretsshared_secret)         | `string` | Required |
+| [SIGNING_KEY](#specdistributionmodulesauthpomeriumsecretssigning_key)             | `string` | Required |
 
 ## .spec.distribution.modules.auth.pomerium.secrets.COOKIE_SECRET
 
@@ -785,6 +812,12 @@ The IDP client secret for pomerium
 ### Description
 
 The shared secret for pomerium
+
+## .spec.distribution.modules.auth.pomerium.secrets.SIGNING_KEY
+
+### Description
+
+The signing key for pomerium
 
 ## .spec.distribution.modules.auth.provider
 
@@ -2040,15 +2073,16 @@ The value of the toleration
 
 ### Properties
 
-| Property                                                | Type     | Required |
-|:--------------------------------------------------------|:---------|:---------|
-| [cerebro](#specdistributionmodulesloggingcerebro)       | `object` | Optional |
-| [loki](#specdistributionmodulesloggingloki)             | `object` | Optional |
-| [minio](#specdistributionmodulesloggingminio)           | `object` | Optional |
-| [opensearch](#specdistributionmodulesloggingopensearch) | `object` | Optional |
-| [operator](#specdistributionmodulesloggingoperator)     | `object` | Optional |
-| [overrides](#specdistributionmodulesloggingoverrides)   | `object` | Optional |
-| [type](#specdistributionmodulesloggingtype)             | `string` | Required |
+| Property                                                      | Type     | Required |
+|:--------------------------------------------------------------|:---------|:---------|
+| [cerebro](#specdistributionmodulesloggingcerebro)             | `object` | Optional |
+| [customOutputs](#specdistributionmodulesloggingcustomoutputs) | `object` | Optional |
+| [loki](#specdistributionmodulesloggingloki)                   | `object` | Optional |
+| [minio](#specdistributionmodulesloggingminio)                 | `object` | Optional |
+| [opensearch](#specdistributionmodulesloggingopensearch)       | `object` | Optional |
+| [operator](#specdistributionmodulesloggingoperator)           | `object` | Optional |
+| [overrides](#specdistributionmodulesloggingoverrides)         | `object` | Optional |
+| [type](#specdistributionmodulesloggingtype)                   | `string` | Required |
 
 ## .spec.distribution.modules.logging.cerebro
 
@@ -2122,6 +2156,73 @@ The key of the toleration
 ### Description
 
 The value of the toleration
+
+## .spec.distribution.modules.logging.customOutputs
+
+### Properties
+
+| Property                                                                   | Type     | Required |
+|:---------------------------------------------------------------------------|:---------|:---------|
+| [audit](#specdistributionmodulesloggingcustomoutputsaudit)                 | `string` | Required |
+| [errors](#specdistributionmodulesloggingcustomoutputserrors)               | `string` | Required |
+| [events](#specdistributionmodulesloggingcustomoutputsevents)               | `string` | Required |
+| [infra](#specdistributionmodulesloggingcustomoutputsinfra)                 | `string` | Required |
+| [ingressNginx](#specdistributionmodulesloggingcustomoutputsingressnginx)   | `string` | Required |
+| [kubernetes](#specdistributionmodulesloggingcustomoutputskubernetes)       | `string` | Required |
+| [systemdCommon](#specdistributionmodulesloggingcustomoutputssystemdcommon) | `string` | Required |
+| [systemdEtcd](#specdistributionmodulesloggingcustomoutputssystemdetcd)     | `string` | Required |
+
+### Description
+
+when using the customOutputs logging type, you need to manually specify the spec of the several Output and ClusterOutputs that the Logging Operator expects to forward the logs collected by the pre-defined flows.
+
+## .spec.distribution.modules.logging.customOutputs.audit
+
+### Description
+
+This value defines where the output from Flow will be sent. Will be the `spec` section of the `Output` object. It must be a string (and not a YAML object) following the OutputSpec definition. Use the nullout output to discard the flow.
+
+## .spec.distribution.modules.logging.customOutputs.errors
+
+### Description
+
+This value defines where the output from Flow will be sent. Will be the `spec` section of the `Output` object. It must be a string (and not a YAML object) following the OutputSpec definition. Use the nullout output to discard the flow.
+
+## .spec.distribution.modules.logging.customOutputs.events
+
+### Description
+
+This value defines where the output from Flow will be sent. Will be the `spec` section of the `Output` object. It must be a string (and not a YAML object) following the OutputSpec definition. Use the nullout output to discard the flow.
+
+## .spec.distribution.modules.logging.customOutputs.infra
+
+### Description
+
+This value defines where the output from Flow will be sent. Will be the `spec` section of the `Output` object. It must be a string (and not a YAML object) following the OutputSpec definition. Use the nullout output to discard the flow.
+
+## .spec.distribution.modules.logging.customOutputs.ingressNginx
+
+### Description
+
+This value defines where the output from Flow will be sent. Will be the `spec` section of the `Output` object. It must be a string (and not a YAML object) following the OutputSpec definition. Use the nullout output to discard the flow.
+
+## .spec.distribution.modules.logging.customOutputs.kubernetes
+
+### Description
+
+This value defines where the output from Flow will be sent. Will be the `spec` section of the `Output` object. It must be a string (and not a YAML object) following the OutputSpec definition. Use the nullout output to discard the flow.
+
+## .spec.distribution.modules.logging.customOutputs.systemdCommon
+
+### Description
+
+This value defines where the output from Flow will be sent. Will be the `spec` section of the `Output` object. It must be a string (and not a YAML object) following the OutputSpec definition. Use the nullout output to discard the flow.
+
+## .spec.distribution.modules.logging.customOutputs.systemdEtcd
+
+### Description
+
+This value defines where the output from Flow will be sent. Will be the `spec` section of the `Output` object. It must be a string (and not a YAML object) following the OutputSpec definition. Use the nullout output to discard the flow.
 
 ## .spec.distribution.modules.logging.loki
 
@@ -2632,17 +2733,18 @@ The value of the toleration
 
 ### Description
 
-The type of the logging, must be ***none***, ***opensearch*** or ***loki***
+selects the logging stack. Choosing none will disable the centralized logging. Choosing opensearch will deploy and configure the Logging Operator and an OpenSearch cluster (can be single or triple for HA) where the logs will be stored. Choosing loki will use a distributed Grafana Loki instead of OpenSearh for storage. Choosing customOuput the Logging Operator will be deployed and installed but with no local storage, you will have to create the needed Outputs and ClusterOutputs to ship the logs to your desired storage.
 
 ### Constraints
 
 **enum**: the value of this property must be equal to one of the following values:
 
-| Value        |
-|:-------------|
-|`"none"`      |
-|`"opensearch"`|
-|`"loki"`      |
+| Value           |
+|:----------------|
+|`"none"`         |
+|`"opensearch"`   |
+|`"loki"`         |
+|`"customOutputs"`|
 
 ## .spec.distribution.modules.monitoring
 
@@ -2658,8 +2760,13 @@ The type of the logging, must be ***none***, ***opensearch*** or ***loki***
 | [minio](#specdistributionmodulesmonitoringminio)                       | `object` | Optional |
 | [overrides](#specdistributionmodulesmonitoringoverrides)               | `object` | Optional |
 | [prometheus](#specdistributionmodulesmonitoringprometheus)             | `object` | Optional |
+| [prometheusAgent](#specdistributionmodulesmonitoringprometheusagent)   | `object` | Optional |
 | [type](#specdistributionmodulesmonitoringtype)                         | `string` | Required |
 | [x509Exporter](#specdistributionmodulesmonitoringx509exporter)         | `object` | Optional |
+
+### Description
+
+configuration for the Monitoring module components
 
 ## .spec.distribution.modules.monitoring.alertmanager
 
@@ -2766,9 +2873,13 @@ The value of the toleration
 
 ### Properties
 
-| Property                                                        | Type     | Required |
-|:----------------------------------------------------------------|:---------|:---------|
-| [overrides](#specdistributionmodulesmonitoringgrafanaoverrides) | `object` | Optional |
+| Property                                                                                  | Type      | Required |
+|:------------------------------------------------------------------------------------------|:----------|:---------|
+| [basicAuthIngress](#specdistributionmodulesmonitoringgrafanabasicauthingress)             | `boolean` | Optional |
+| [overrides](#specdistributionmodulesmonitoringgrafanaoverrides)                           | `object`  | Optional |
+| [usersRoleAttributePath](#specdistributionmodulesmonitoringgrafanausersroleattributepath) | `string`  | Optional |
+
+## .spec.distribution.modules.monitoring.grafana.basicAuthIngress
 
 ## .spec.distribution.modules.monitoring.grafana.overrides
 
@@ -2834,6 +2945,8 @@ The key of the toleration
 ### Description
 
 The value of the toleration
+
+## .spec.distribution.modules.monitoring.grafana.usersRoleAttributePath
 
 ## .spec.distribution.modules.monitoring.kubeStateMetrics
 
@@ -3223,10 +3336,19 @@ The value of the toleration
 
 | Property                                                                   | Type     | Required |
 |:---------------------------------------------------------------------------|:---------|:---------|
+| [remoteWrite](#specdistributionmodulesmonitoringprometheusremotewrite)     | `array`  | Optional |
 | [resources](#specdistributionmodulesmonitoringprometheusresources)         | `object` | Optional |
 | [retentionSize](#specdistributionmodulesmonitoringprometheusretentionsize) | `string` | Optional |
 | [retentionTime](#specdistributionmodulesmonitoringprometheusretentiontime) | `string` | Optional |
 | [storageSize](#specdistributionmodulesmonitoringprometheusstoragesize)     | `string` | Optional |
+
+## .spec.distribution.modules.monitoring.prometheus.remoteWrite
+
+### Description
+
+Set this option to ship the collected metrics to a remote Prometheus receiver.
+
+`remoteWrite` is an array of objects that allows configuring the [remoteWrite](https://prometheus.io/docs/specs/remote_write_spec/) options for Prometheus. The objects in the array follow [the same schema as in the prometheus operator](https://prometheus-operator.dev/docs/operator/api/#monitoring.coreos.com/v1.RemoteWriteSpec).
 
 ## .spec.distribution.modules.monitoring.prometheus.resources
 
@@ -3283,35 +3405,109 @@ The memory request for the opensearch pods
 
 ### Description
 
-The retention size for the prometheus pods
+The retention size for the k8s Prometheus instance.
 
 ## .spec.distribution.modules.monitoring.prometheus.retentionTime
 
 ### Description
 
-The retention time for the prometheus pods
+The retention time for the k8s Prometheus instance.
 
 ## .spec.distribution.modules.monitoring.prometheus.storageSize
 
 ### Description
 
-The storage size for the prometheus pods
+The storage size for the k8s Prometheus instance.
+
+## .spec.distribution.modules.monitoring.prometheusAgent
+
+### Properties
+
+| Property                                                                    | Type     | Required |
+|:----------------------------------------------------------------------------|:---------|:---------|
+| [remoteWrite](#specdistributionmodulesmonitoringprometheusagentremotewrite) | `array`  | Optional |
+| [resources](#specdistributionmodulesmonitoringprometheusagentresources)     | `object` | Optional |
+
+## .spec.distribution.modules.monitoring.prometheusAgent.remoteWrite
+
+### Description
+
+Set this option to ship the collected metrics to a remote Prometheus receiver.
+
+`remoteWrite` is an array of objects that allows configuring the [remoteWrite](https://prometheus.io/docs/specs/remote_write_spec/) options for Prometheus. The objects in the array follow [the same schema as in the prometheus operator](https://prometheus-operator.dev/docs/operator/api/#monitoring.coreos.com/v1.RemoteWriteSpec).
+
+## .spec.distribution.modules.monitoring.prometheusAgent.resources
+
+### Properties
+
+| Property                                                                       | Type     | Required |
+|:-------------------------------------------------------------------------------|:---------|:---------|
+| [limits](#specdistributionmodulesmonitoringprometheusagentresourceslimits)     | `object` | Optional |
+| [requests](#specdistributionmodulesmonitoringprometheusagentresourcesrequests) | `object` | Optional |
+
+## .spec.distribution.modules.monitoring.prometheusAgent.resources.limits
+
+### Properties
+
+| Property                                                                         | Type     | Required |
+|:---------------------------------------------------------------------------------|:---------|:---------|
+| [cpu](#specdistributionmodulesmonitoringprometheusagentresourceslimitscpu)       | `string` | Optional |
+| [memory](#specdistributionmodulesmonitoringprometheusagentresourceslimitsmemory) | `string` | Optional |
+
+## .spec.distribution.modules.monitoring.prometheusAgent.resources.limits.cpu
+
+### Description
+
+The cpu limit for the opensearch pods
+
+## .spec.distribution.modules.monitoring.prometheusAgent.resources.limits.memory
+
+### Description
+
+The memory limit for the opensearch pods
+
+## .spec.distribution.modules.monitoring.prometheusAgent.resources.requests
+
+### Properties
+
+| Property                                                                           | Type     | Required |
+|:-----------------------------------------------------------------------------------|:---------|:---------|
+| [cpu](#specdistributionmodulesmonitoringprometheusagentresourcesrequestscpu)       | `string` | Optional |
+| [memory](#specdistributionmodulesmonitoringprometheusagentresourcesrequestsmemory) | `string` | Optional |
+
+## .spec.distribution.modules.monitoring.prometheusAgent.resources.requests.cpu
+
+### Description
+
+The cpu request for the prometheus pods
+
+## .spec.distribution.modules.monitoring.prometheusAgent.resources.requests.memory
+
+### Description
+
+The memory request for the opensearch pods
 
 ## .spec.distribution.modules.monitoring.type
 
 ### Description
 
-The type of the monitoring, must be ***none***, ***prometheus*** or ***mimir***
+The type of the monitoring, must be ***none***, ***prometheus***, ***prometheusAgent*** or ***mimir***.
+
+- `none`: will disable the whole monitoring stack.
+- `prometheus`: will install Prometheus Operator and a preconfigured Prometheus instance, Alertmanager, a set of alert rules, exporters needed to monitor all the components of the cluster, Grafana and a series of dashboards to view the collected metrics, and more.
+- `prometheusAgent`: wil install Prometheus operator, an instance of Prometheus in Agent mode (no alerting, no queries, no storage), and all the exporters needed to get metrics for the status of the cluster and the workloads. Useful when having a centralized (remote) Prometheus where to ship the metrics and not storing them locally in the cluster.
+- `mimir`: will install the same as the `prometheus` option, and in addition Grafana Mimir that allows for longer retention of metrics and the usage of Object Storage.
 
 ### Constraints
 
 **enum**: the value of this property must be equal to one of the following values:
 
-| Value        |
-|:-------------|
-|`"none"`      |
-|`"prometheus"`|
-|`"mimir"`     |
+| Value             |
+|:------------------|
+|`"none"`           |
+|`"prometheus"`     |
+|`"prometheusAgent"`|
+|`"mimir"`          |
 
 ## .spec.distribution.modules.monitoring.x509Exporter
 
@@ -4305,6 +4501,10 @@ The size of the disk in GB
 
 ## .spec.infrastructure.vpn.iamUserNameOverride
 
+### Description
+
+Overrides the default IAM user name for the VPN
+
 ### Constraints
 
 **pattern**: the string must match the following regular expression:
@@ -4564,6 +4764,10 @@ This optional array defines additional IAM users that will be added to the aws-a
 ## .spec.kubernetes.awsAuth.users.username
 
 ## .spec.kubernetes.clusterIAMRoleNamePrefixOverride
+
+### Description
+
+Overrides the default IAM role name prefix for the EKS cluster
 
 ### Constraints
 
@@ -5107,6 +5311,10 @@ This value defines the VPC ID where the EKS cluster will be created, required on
 [try pattern](https://regexr.com/?expression=^vpc\-\([0-9a-f]{8}|[0-9a-f]{17}\)$)
 
 ## .spec.kubernetes.workersIAMRoleNamePrefixOverride
+
+### Description
+
+Overrides the default IAM role name prefix for the EKS workers
 
 ### Constraints
 
