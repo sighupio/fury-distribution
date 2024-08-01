@@ -19,10 +19,12 @@ resources:
   - {{ print "../" .spec.distribution.common.relativeVendorPath "/modules/monitoring/katalog/blackbox-exporter" }}
 {{- if eq .spec.distribution.common.provider.type "none" }}{{/* none === on-premises */}}
   - {{ print "../" .spec.distribution.common.relativeVendorPath "/modules/monitoring/katalog/kubeadm-sm" }}
+  {{- if hasKeyAny .spec "kubernetes" }}
     {{- if .spec.kubernetes.loadBalancers.enabled }}
   - {{ print "../" .spec.distribution.common.relativeVendorPath "/modules/monitoring/katalog/haproxy" }}
   - resources/haproxy-scrapeConfig.yaml
     {{- end }}
+  {{- end }}
 {{- end }}
 {{- if eq .spec.distribution.common.provider.type "eks" }}
   - {{ print "../" .spec.distribution.common.relativeVendorPath "/modules/monitoring/katalog/eks-sm" }}
