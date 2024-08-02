@@ -83,6 +83,12 @@
           "items": {
             "type": "object"
           }
+        },
+        "hubbleUi": {
+          "type": "array",
+          "items": {
+            "type": "object"
+          }
         }
       }
     },

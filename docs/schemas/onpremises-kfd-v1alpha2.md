@@ -758,6 +758,7 @@ The value of the toleration
 | Property                                                                                                          | Type    | Required |
 |:------------------------------------------------------------------------------------------------------------------|:--------|:---------|
 | [gatekeeperPolicyManager](#specdistributionmodulesauthpomeriumdefaultroutespolicygatekeeperpolicymanager)         | `array` | Optional |
+| [hubbleUi](#specdistributionmodulesauthpomeriumdefaultroutespolicyhubbleui)                                       | `array` | Optional |
 | [ingressNgnixForecastle](#specdistributionmodulesauthpomeriumdefaultroutespolicyingressngnixforecastle)           | `array` | Optional |
 | [loggingMinioConsole](#specdistributionmodulesauthpomeriumdefaultroutespolicyloggingminioconsole)                 | `array` | Optional |
 | [loggingOpensearchDashboards](#specdistributionmodulesauthpomeriumdefaultroutespolicyloggingopensearchdashboards) | `array` | Optional |
@@ -768,6 +769,8 @@ The value of the toleration
 | [tracingMinioConsole](#specdistributionmodulesauthpomeriumdefaultroutespolicytracingminioconsole)                 | `array` | Optional |
 
 ## .spec.distribution.modules.auth.pomerium.defaultRoutesPolicy.gatekeeperPolicyManager
+
+## .spec.distribution.modules.auth.pomerium.defaultRoutesPolicy.hubbleUi
 
 ## .spec.distribution.modules.auth.pomerium.defaultRoutesPolicy.ingressNgnixForecastle
 
@@ -861,25 +864,25 @@ Routes configuration for pomerium
 
 ### Description
 
-The cookie secret for pomerium
+Cookie Secret is the secret used to encrypt and sign session cookies.
 
 ## .spec.distribution.modules.auth.pomerium.secrets.IDP_CLIENT_SECRET
 
 ### Description
 
-The IDP client secret for pomerium
+Identity Provider Client Secret is the OAuth 2.0 Secret Identifier retrieved from your identity provider.
 
 ## .spec.distribution.modules.auth.pomerium.secrets.SHARED_SECRET
 
 ### Description
 
-The shared secret for pomerium
+Shared Secret is the base64-encoded, 256-bit key used to mutually authenticate requests between Pomerium services. It's critical that secret keys are random, and stored safely.
 
 ## .spec.distribution.modules.auth.pomerium.secrets.SIGNING_KEY
 
 ### Description
 
-The signing key for pomerium
+Signing Key is one or more PEM-encoded private keys used to sign a user's attestation JWT, which can be consumed by upstream applications to pass along identifying user information like username, id, and groups.
 
 ## .spec.distribution.modules.auth.provider
 
