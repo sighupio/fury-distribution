@@ -7,8 +7,8 @@
 <p align="center">Kubernetes Fury Distribution (KFD) is a certified battle-tested Kubernetes distribution based purely on upstream Kubernetes.</p>
 <!-- markdownlint-enable MD033 MD045 -->
 
-[![Build Status](http://ci.sighup.io/api/badges/sighupio/fury-distribution/status.svg?ref=refs/tags/v1.28.1)](http://ci.sighup.io/sighupio/fury-distribution)
-[![Release](https://img.shields.io/badge/release-v1.28.1-blue?label=FuryDistributionRelease)](https://github.com/sighupio/fury-distribution/releases/latest)
+[![Build Status](http://ci.sighup.io/api/badges/sighupio/fury-distribution/status.svg?ref=refs/tags/v1.28.2)](http://ci.sighup.io/sighupio/fury-distribution)
+[![Release](https://img.shields.io/badge/release-v1.28.2-blue?label=FuryDistributionRelease)](https://github.com/sighupio/fury-distribution/releases/latest)
 [![Slack](https://img.shields.io/badge/slack-@kubernetes/fury-yellow.svg?logo=slack)](https://kubernetes.slack.com/archives/C0154HYTAQH)
 [![License](https://img.shields.io/github/license/sighupio/fury-distribution)](https://github.com/sighupio/fury-distribution/blob/main/LICENSE)
 
@@ -33,7 +33,7 @@ KFD uses an **un-distribution model**. This means that we:
 
 <!-- markdownlint-disable MD033 MD045 -->
 <p align="center">
-  <img src="docs/assets/kfd-architecture.png" width="800px"/>
+  <img src="docs/assets/kfd-architecture-v2.png" width="800px"/>
 </p>
 <!-- markdownlint-enable MD033 MD045 -->
 
@@ -128,8 +128,9 @@ Current supported versions of KFD are:
 
 |                                  KFD Version                                     | Kubernetes Version |
 | :------------------------------------------------------------------------------: | :----------------: |
-| [`1.28.1`](https://github.com/sighupio/fury-distribution/releases/tag/v1.28.1)   |      `1.28.x`      |
-| [`1.27.5`](https://github.com/sighupio/fury-distribution/releases/tag/v1.27.5)   |      `1.27.x`      |
+| [`1.29.1`](https://github.com/sighupio/fury-distribution/releases/tag/v1.29.2)   |      `1.29.x`      |
+| [`1.28.1`](https://github.com/sighupio/fury-distribution/releases/tag/v1.28.2)   |      `1.28.x`      |
+| [`1.27.6`](https://github.com/sighupio/fury-distribution/releases/tag/v1.27.7)   |      `1.27.x`      |
 | [`1.26.6`](https://github.com/sighupio/fury-distribution/releases/tag/v1.26.6)   |      `1.26.x`      |
 
 Check the [compatibility matrix][compatibility-matrix] for additional information about previous releases of the Distribution and the compatibility with `furyctl`.
