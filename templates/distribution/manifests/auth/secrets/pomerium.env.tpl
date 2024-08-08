@@ -9,4 +9,6 @@ COOKIE_SECRET={{ .spec.distribution.modules.auth.pomerium.secrets.COOKIE_SECRET 
 IDP_CLIENT_SECRET={{ .spec.distribution.modules.auth.pomerium.secrets.IDP_CLIENT_SECRET }}
 # SHARED_SECRET is obtained with  `head -c32 /dev/urandom | base64` see https://www.pomerium.io/reference/#shared-secret
 SHARED_SECRET={{ .spec.distribution.modules.auth.pomerium.secrets.SHARED_SECRET }}
+# SIGNING_KEY is obtained with `openssl ecparam  -genkey  -name prime256v1  -noout  -out ec_private.pem` then `cat ec_private.pem | base64` see https://www.pomerium.com/docs/reference/signing-key
+SIGNING_KEY={{ .spec.distribution.modules.auth.pomerium.secrets.SIGNING_KEY }}
 {{- end }}
