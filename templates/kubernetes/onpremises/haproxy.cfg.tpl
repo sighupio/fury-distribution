@@ -11,7 +11,7 @@ defaults
     timeout client 50s
     timeout server 50s
 
-listen  stats
+frontend stats
     bind *:1936
     mode            http
     log             global
@@ -19,9 +19,6 @@ listen  stats
     maxconn 10
 
     timeout client      100s
-    timeout server      100s
-    timeout connect     100s
-    timeout queue       100s
 
     stats enable
     stats uri /stats
@@ -29,6 +26,12 @@ listen  stats
     stats refresh 30s
     stats show-node
     stats auth {{ .spec.kubernetes.loadBalancers.stats.username }}:{{ .spec.kubernetes.loadBalancers.stats.password }}
+
+frontend prometheus
+  bind :8405
+  mode http
+  http-request use-service prometheus-exporter
+  no log
 
 frontend control-plane
     mode tcp

@@ -111,7 +111,7 @@
           "$ref": "#/$defs/Spec.Distribution.Modules"
         },
         "customPatches": {
-          "$ref": "../public/spec-distribution-custom-patches.json"
+          "$ref": "../public/spec-distribution-custompatches.json"
         }
       },
       "required": [
@@ -413,47 +413,7 @@
       ]
     },
     "Spec.Distribution.Modules.Auth.Pomerium": {
-      "type": "object",
-      "additionalProperties": false,
-      "properties": {
-        "secrets": {
-          "$ref": "#/$defs/Spec.Distribution.Modules.Auth.Pomerium.Secrets"
-        },
-        "policy": {
-          "type": "string",
-          "description": "The policy for pomerium"
-        },
-        "overrides": {
-          "$ref": "#/$defs/Types.FuryModuleComponentOverrides"
-        }
-      },
-      "required": [
-        "secrets",
-        "policy"
-      ]
-    },
-    "Spec.Distribution.Modules.Auth.Pomerium.Secrets": {
-      "type": "object",
-      "additionalProperties": false,
-      "properties": {
-        "COOKIE_SECRET": {
-          "type": "string",
-          "description": "The cookie secret for pomerium"
-        },
-        "IDP_CLIENT_SECRET": {
-          "type": "string",
-          "description": "The IDP client secret for pomerium"
-        },
-        "SHARED_SECRET": {
-          "type": "string",
-          "description": "The shared secret for pomerium"
-        }
-      },
-      "required": [
-        "COOKIE_SECRET",
-        "IDP_CLIENT_SECRET",
-        "SHARED_SECRET"
-      ]
+      "$ref": "../public/spec-distribution-modules-auth-pomerium.json"
     },
     "Spec.Distribution.Modules.Auth.Provider": {
       "type": "object",
@@ -981,9 +941,10 @@
           "enum": [
             "none",
             "opensearch",
-            "loki"
+            "loki",
+            "customOutputs"
           ],
-          "description": "The type of the logging, must be ***none***, ***opensearch*** or ***loki***"
+          "description": "selects the logging stack. Choosing none will disable the centralized logging. Choosing opensearch will deploy and configure the Logging Operator and an OpenSearch cluster (can be single or triple for HA) where the logs will be stored. Choosing loki will use a distributed Grafana Loki instead of OpenSearh for storage. Choosing customOuput the Logging Operator will be deployed and installed but with no local storage, you will have to create the needed Outputs and ClusterOutputs to ship the logs to your desired storage."
         },
         "opensearch": {
           "$ref": "#/$defs/Spec.Distribution.Modules.Logging.Opensearch"
@@ -999,6 +960,9 @@
         },
         "operator": {
           "$ref": "#/$defs/Spec.Distribution.Modules.Logging.Operator"
+        },
+        "customOutputs": {
+          "$ref": "#/$defs/Spec.Distribution.Modules.Logging.CustomOutputs"
         }
       },
       "required": [
@@ -1018,6 +982,20 @@
               "opensearch"
             ]
           }
+        },
+        {
+          "if": {
+            "properties": {
+              "type": {
+                "const": "customOutputs"
+              }
+            }
+          },
+          "then": {
+            "required": [
+              "customOutputs"
+            ]
+          }
         }
       ]
     },
@@ -1029,6 +1007,55 @@
           "$ref": "#/$defs/Types.FuryModuleComponentOverrides"
         }
       }
+    },
+    "Spec.Distribution.Modules.Logging.CustomOutputs": {
+      "description": "when using the customOutputs logging type, you need to manually specify the spec of the several Output and ClusterOutputs that the Logging Operator expects to forward the logs collected by the pre-defined flows.",
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "audit": {
+          "type": "string",
+          "description": "This value defines where the output from Flow will be sent. Will be the `spec` section of the `Output` object. It must be a string (and not a YAML object) following the OutputSpec definition. Use the nullout output to discard the flow."
+        },
+        "events": {
+          "type": "string",
+          "description": "This value defines where the output from Flow will be sent. Will be the `spec` section of the `Output` object. It must be a string (and not a YAML object) following the OutputSpec definition. Use the nullout output to discard the flow."
+        },
+        "infra": {
+          "type": "string",
+          "description": "This value defines where the output from Flow will be sent. Will be the `spec` section of the `Output` object. It must be a string (and not a YAML object) following the OutputSpec definition. Use the nullout output to discard the flow."
+        },
+        "ingressNginx": {
+          "type": "string",
+          "description": "This value defines where the output from Flow will be sent. Will be the `spec` section of the `Output` object. It must be a string (and not a YAML object) following the OutputSpec definition. Use the nullout output to discard the flow."
+        },
+        "kubernetes": {
+          "type": "string",
+          "description": "This value defines where the output from Flow will be sent. Will be the `spec` section of the `Output` object. It must be a string (and not a YAML object) following the OutputSpec definition. Use the nullout output to discard the flow."
+        },
+        "systemdCommon": {
+          "type": "string",
+          "description": "This value defines where the output from Flow will be sent. Will be the `spec` section of the `Output` object. It must be a string (and not a YAML object) following the OutputSpec definition. Use the nullout output to discard the flow."
+        },
+        "systemdEtcd": {
+          "type": "string",
+          "description": "This value defines where the output from Flow will be sent. Will be the `spec` section of the `Output` object. It must be a string (and not a YAML object) following the OutputSpec definition. Use the nullout output to discard the flow."
+        },
+        "errors": {
+          "type": "string",
+          "description": "This value defines where the output from Flow will be sent. Will be the `spec` section of the `Output` object. It must be a string (and not a YAML object) following the OutputSpec definition. Use the nullout output to discard the flow."
+        }
+      },
+      "required": [
+        "audit",
+        "events",
+        "infra",
+        "ingressNginx",
+        "kubernetes",
+        "systemdCommon",
+        "systemdEtcd",
+        "errors"
+      ]
     },
     "Spec.Distribution.Modules.Logging.Loki": {
       "type": "object",
@@ -1138,21 +1165,26 @@
     "Spec.Distribution.Modules.Monitoring": {
       "type": "object",
       "additionalProperties": false,
+      "description": "configuration for the Monitoring module components",
       "properties": {
         "type": {
           "type": "string",
           "enum": [
             "none",
             "prometheus",
+            "prometheusAgent",
             "mimir"
           ],
-          "description": "The type of the monitoring, must be ***none***, ***prometheus*** or ***mimir***"
+          "description": "The type of the monitoring, must be ***none***, ***prometheus***, ***prometheusAgent*** or ***mimir***.\n\n- `none`: will disable the whole monitoring stack.\n- `prometheus`: will install Prometheus Operator and a preconfigured Prometheus instance, Alertmanager, a set of alert rules, exporters needed to monitor all the components of the cluster, Grafana and a series of dashboards to view the collected metrics, and more.\n- `prometheusAgent`: wil install Prometheus operator, an instance of Prometheus in Agent mode (no alerting, no queries, no storage), and all the exporters needed to get metrics for the status of the cluster and the workloads. Useful when having a centralized (remote) Prometheus where to ship the metrics and not storing them locally in the cluster.\n- `mimir`: will install the same as the `prometheus` option, and in addition Grafana Mimir that allows for longer retention of metrics and the usage of Object Storage."
         },
         "overrides": {
           "$ref": "#/$defs/Types.FuryModuleOverrides"
         },
         "prometheus": {
           "$ref": "#/$defs/Spec.Distribution.Modules.Monitoring.Prometheus"
+        },
+        "prometheusAgent": {
+          "$ref": "#/$defs/Spec.Distribution.Modules.Monitoring.PrometheusAgent"
         },
         "alertmanager": {
           "$ref": "#/$defs/Spec.Distribution.Modules.Monitoring.AlertManager"
@@ -1211,6 +1243,12 @@
       "type": "object",
       "additionalProperties": false,
       "properties": {
+        "usersRoleAttributePath": {
+          "type": "string"
+        },
+        "basicAuthIngress": {
+          "type": "boolean"
+        },
         "overrides": {
           "$ref": "#/$defs/Types.FuryModuleComponentOverrides"
         }
@@ -1308,15 +1346,38 @@
         },
         "retentionTime": {
           "type": "string",
-          "description": "The retention time for the prometheus pods"
+          "description": "The retention time for the k8s Prometheus instance."
         },
         "retentionSize": {
           "type": "string",
-          "description": "The retention size for the prometheus pods"
+          "description": "The retention size for the k8s Prometheus instance."
         },
         "storageSize": {
           "type": "string",
-          "description": "The storage size for the prometheus pods"
+          "description": "The storage size for the k8s Prometheus instance."
+        },
+        "remoteWrite": {
+          "description": "Set this option to ship the collected metrics to a remote Prometheus receiver.\n\n`remoteWrite` is an array of objects that allows configuring the [remoteWrite](https://prometheus.io/docs/specs/remote_write_spec/) options for Prometheus. The objects in the array follow [the same schema as in the prometheus operator](https://prometheus-operator.dev/docs/operator/api/#monitoring.coreos.com/v1.RemoteWriteSpec).",
+          "type": "array",
+          "items": {
+            "type": "object"
+          }
+        }
+      }
+    },
+    "Spec.Distribution.Modules.Monitoring.PrometheusAgent": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "resources": {
+          "$ref": "#/$defs/Types.KubeResources"
+        },
+        "remoteWrite": {
+          "description": "Set this option to ship the collected metrics to a remote Prometheus receiver.\n\n`remoteWrite` is an array of objects that allows configuring the [remoteWrite](https://prometheus.io/docs/specs/remote_write_spec/) options for Prometheus. The objects in the array follow [the same schema as in the prometheus operator](https://prometheus-operator.dev/docs/operator/api/#monitoring.coreos.com/v1.RemoteWriteSpec).",
+          "type": "array",
+          "items": {
+            "type": "object"
+          }
         }
       }
     },

@@ -11,13 +11,16 @@ resources:
   - {{ print "../" .spec.distribution.common.relativeVendorPath "/modules/networking/katalog/tigera/eks-policy-only" }}
 {{- end }}
 
-{{- if eq .spec.distribution.common.provider.type "none" }}
-{{- if eq .spec.distribution.modules.networking.type "calico" }}
+{{- if eq .spec.distribution.common.provider.type "none" }}{{/* none == on-prem */}}
+    {{- if eq .spec.distribution.modules.networking.type "calico" }}
   - {{ print "../" .spec.distribution.common.relativeVendorPath "/modules/networking/katalog/tigera/on-prem" }}
-{{- end }}
-{{- if eq .spec.distribution.modules.networking.type "cilium" }}
+    {{- end }}
+    {{- if eq .spec.distribution.modules.networking.type "cilium" }}
   - {{ print "../" .spec.distribution.common.relativeVendorPath "/modules/networking/katalog/cilium" }}
-{{- end }}
+      {{- if ne .spec.distribution.modules.ingress.nginx.type "none" }}
+  - resources/ingress-infra.yml
+      {{- end }}
+    {{- end }}
 {{- end }}
 
 patchesStrategicMerge:
@@ -25,16 +28,16 @@ patchesStrategicMerge:
   - patches/infra-nodes-tigera.yaml
 {{- end }}
 {{- if eq .spec.distribution.common.provider.type "none" }}
-{{- if eq .spec.distribution.modules.networking.type "calico" }}
+  {{- if eq .spec.distribution.modules.networking.type "calico" }}
   - patches/infra-nodes-tigera.yaml
-{{- end }}
-{{- if eq .spec.distribution.modules.networking.type "cilium" }}
+  {{- end }}
+  {{- if eq .spec.distribution.modules.networking.type "cilium" }}
   - patches/infra-nodes-distro-cilium.yaml
-{{- end }}
+  {{- end }}
 {{- end }}
 
 {{- if eq .spec.distribution.common.provider.type "none" }}
-{{- if eq .spec.distribution.modules.networking.type "calico" }}
+  {{- if eq .spec.distribution.modules.networking.type "calico" }}
 
 patchesJson6902:
   - target:
@@ -45,8 +48,7 @@ patchesJson6902:
       namespace: tigera-operator
     path: patchesjson/tigera-tolerations.yaml
 
-{{- end }}
-{{- if eq .spec.distribution.modules.networking.type "cilium" }}
+  {{- else if eq .spec.distribution.modules.networking.type "cilium" }}
 
 patchesJson6902:
   - target:
@@ -64,5 +66,5 @@ configMapGenerator:
     name: cilium-config
     namespace: kube-system
 
-{{- end }}
+  {{- end }}
 {{- end }}

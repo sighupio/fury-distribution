@@ -67,6 +67,7 @@ spec:
             COOKIE_SECRET: "test"
             IDP_CLIENT_SECRET: "test"
             SHARED_SECRET: "test"
+            SIGNING_KEY: "test"
         provider:
           type: none
       dr:

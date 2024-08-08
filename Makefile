@@ -60,6 +60,7 @@ tools-go:
 	@go install github.com/momaek/formattag@v0.0.9
 	@go install github.com/santhosh-tekuri/jsonschema/cmd/jv@v0.4.0
 	@go install github.com/sighupio/go-jsonschema@latest
+	@go install github.com/sighupio/md-gen@latest
 
 .PHONY: _generate-go-models
 _generate-go-models: dump-private-schema
@@ -86,6 +87,12 @@ _generate-go-models: dump-private-schema
 
 .PHONY: generate-go-models
 generate-go-models: _generate-go-models format-go
+
+.PHONY: generate-docs
+generate-docs:
+	@md-gen gen --input schemas/public/onpremises-kfd-v1alpha2.json --output docs/schemas/onpremises-kfd-v1alpha2.md --overwrite --banner banners/onpremises.md
+	@md-gen gen --input schemas/public/kfddistribution-kfd-v1alpha2.json --output docs/schemas/kfddistribution-kfd-v1alpha2.md --overwrite --banner banners/kfddistribution.md
+	@md-gen gen --input schemas/public/ekscluster-kfd-v1alpha2.json --output docs/schemas/ekscluster-kfd-v1alpha2.md --overwrite --banner banners/ekscluster.md
 
 .PHONY: dump-private-schema
 dump-private-schema:

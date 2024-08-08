@@ -169,6 +169,10 @@ cert-manager.io/cluster-issuer: {{ .spec.distribution.modules.ingress.certManage
   {{- template "ingressHost" (dict "module" "monitoring" "package" "grafana" "prefix" "grafana." "spec" .) -}}
 {{ end }}
 
+{{ define "grafanaBasicAuthUrl" }}
+  {{- template "ingressHost" (dict "module" "monitoring" "package" "grafanaBasicAuth" "prefix" "grafana-basic-auth." "spec" .) -}}
+{{ end }}
+
 {{ define "minioLoggingUrl" }}
   {{- template "ingressHost" (dict "module" "logging" "package" "minio" "prefix" "minio-logging." "spec" .) -}}
 {{ end }}
@@ -207,4 +211,8 @@ cert-manager.io/cluster-issuer: {{ .spec.distribution.modules.ingress.certManage
 
 {{ define "gangplankUrl" }}
   {{- template "ingressHostAuth" (dict "module" "auth" "package" "gangplank" "prefix" "gangplank." "spec" .) -}}
+{{ end }}
+
+{{ define "hubbleUrl" }}
+  {{- template "ingressHost" (dict "module" "networking" "package" "hubble" "prefix" "hubble." "spec" .) -}}
 {{ end }}

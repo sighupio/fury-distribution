@@ -52,7 +52,7 @@ spec:
         password: password
     masters:
       hosts:
-        - name: master1 
+        - name: master1
           ip: 192.168.1.210
         - name: master2
           ip: 192.168.1.220
@@ -89,7 +89,7 @@ spec:
     #       - "TLS_AES_128_GCM_SHA256"
     #       - "TLS_AES_256_GCM_SHA384"
     #       - "TLS_CHACHA20_POLY1305_SHA256"
-    #     # This section adds secrets encryption feature in etcd 
+    #     # This section adds secrets encryption feature in etcd
     #     configuration: |
     #       apiVersion: apiserver.config.k8s.io/v1
     #       kind: EncryptionConfiguration
@@ -150,7 +150,7 @@ spec:
             type: http01
       # This section contains all the configurations for the logging module
       logging:
-        # can be opensearch or loki or none, with none, nothing from the logging module will be installed
+        # can be opensearch, loki, customOutput or none. With none, the logging module won't be installed
         type: loki
         # configurations for the minio-ha package
         minio:
@@ -159,7 +159,7 @@ spec:
         # configurations for the loki package
       # This section contains all the configurations for the monitoring module
       monitoring:
-        # can be prometheus or mimir or none, with none, nothing from the monitoring module will be installed
+        # can be prometheus, prometheusAgent, mimir or none. With none, nothing from the monitoring module will be installed
         type: "prometheus"
       # This section contains all the configurations for the tracing module
       tracing:

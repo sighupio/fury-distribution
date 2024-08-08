@@ -255,6 +255,7 @@
         }
       }
     },
+
     "Types.KubeLabels": {
       "type": "object",
       "additionalProperties": { "type": "string" }
