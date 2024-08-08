@@ -1,0 +1,165 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "secrets": {
+      "$ref": "#/$defs/Spec.Distribution.Modules.Auth.Pomerium.Secrets"
+    },
+    "defaultRoutesPolicy": {
+      "$ref": "#/$defs/Spec.Distribution.Modules.Auth.Pomerium.DefaultRoutesPolicy"
+    },
+    "routes": {
+      "type": "array",
+      "description": "Routes configuration for pomerium",
+      "items": {
+        "type": "object"
+      }
+    },
+    "policy": {
+      "type": "string",
+      "description": "DEPRECATED: Use defaultRoutesPolicy and/or routes"
+    },
+    "overrides": {
+      "$ref": "#/$defs/Types.FuryModuleComponentOverrides"
+    }
+  },
+  "required": ["secrets"],
+  "$defs": {
+    "Spec.Distribution.Modules.Auth.Pomerium.DefaultRoutesPolicy": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "monitoringPrometheus": {
+          "type": "array",
+          "items": {
+            "type": "object"
+          }
+        },
+        "monitoringAlertmanager": {
+          "type": "array",
+          "items": {
+            "type": "object"
+          }
+        },
+        "monitoringGrafana": {
+          "type": "array",
+          "items": {
+            "type": "object"
+          }
+        },
+        "monitoringMinioConsole": {
+          "type": "array",
+          "items": {
+            "type": "object"
+          }
+        },
+        "ingressNgnixForecastle": {
+          "type": "array",
+          "items": {
+            "type": "object"
+          }
+        },
+        "loggingOpensearchDashboards": {
+          "type": "array",
+          "items": {
+            "type": "object"
+          }
+        },
+        "loggingMinioConsole": {
+          "type": "array",
+          "items": {
+            "type": "object"
+          }
+        },
+        "tracingMinioConsole": {
+          "type": "array",
+          "items": {
+            "type": "object"
+          }
+        },
+        "gatekeeperPolicyManager": {
+          "type": "array",
+          "items": {
+            "type": "object"
+          }
+        },
+        "hubbleUi": {
+          "type": "array",
+          "items": {
+            "type": "object"
+          }
+        }
+      }
+    },
+    "Spec.Distribution.Modules.Auth.Pomerium.Secrets": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "COOKIE_SECRET": {
+          "type": "string",
+          "description": "Cookie Secret is the secret used to encrypt and sign session cookies."
+        },
+        "IDP_CLIENT_SECRET": {
+          "type": "string",
+          "description": "Identity Provider Client Secret is the OAuth 2.0 Secret Identifier retrieved from your identity provider."
+        },
+        "SHARED_SECRET": {
+          "type": "string",
+          "description": "Shared Secret is the base64-encoded, 256-bit key used to mutually authenticate requests between Pomerium services. It's critical that secret keys are random, and stored safely."
+        },
+        "SIGNING_KEY": {
+          "type": "string",
+          "description": "Signing Key is one or more PEM-encoded private keys used to sign a user's attestation JWT, which can be consumed by upstream applications to pass along identifying user information like username, id, and groups."
+        }
+      },
+      "required": [
+        "COOKIE_SECRET",
+        "IDP_CLIENT_SECRET",
+        "SHARED_SECRET",
+        "SIGNING_KEY"
+      ]
+    },
+
+    "Types.FuryModuleComponentOverrides": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "nodeSelector": {
+          "$ref": "#/$defs/Types.KubeNodeSelector"
+        },
+        "tolerations": {
+          "type": ["array", "null"],
+          "items": {
+            "$ref": "#/$defs/Types.KubeToleration"
+          }
+        }
+      }
+    },
+    "Types.KubeNodeSelector": {
+      "type": ["object", "null"],
+      "additionalProperties": { "type": "string" }
+    },
+    "Types.KubeToleration": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "effect": {
+          "type": "string",
+          "enum": ["NoSchedule", "PreferNoSchedule", "NoExecute"]
+        },
+        "operator": {
+          "type": "string",
+          "enum": ["Exists", "Equal"]
+        },
+        "key": {
+          "type": "string"
+        },
+        "value": {
+          "type": "string"
+        }
+      },
+      "required": ["effect", "key", "value"]
+    }
+  }
+}

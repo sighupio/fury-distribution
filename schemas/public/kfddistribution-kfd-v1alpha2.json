@@ -28,7 +28,7 @@
         "name": {
           "type": "string",
           "minLength": 1,
-          "maxLength": 19
+          "maxLength": 56
         }
       },
       "required": ["name"]
@@ -55,7 +55,8 @@
       "additionalProperties": false,
       "properties": {
         "kubeconfig": {
-          "type": "string"
+          "type": "string",
+          "description": "The kubeconfig file path"
         },
         "common": {
           "$ref": "#/$defs/Spec.Distribution.Common"
@@ -64,7 +65,7 @@
           "$ref": "#/$defs/Spec.Distribution.Modules"
         },
         "customPatches": {
-          "$ref": "../public/spec-distribution-custom-patches.json"
+          "$ref": "../public/spec-distribution-custompatches.json"
         }
       },
       "required": ["modules", "kubeconfig"],
@@ -114,19 +115,22 @@
       "additionalProperties": false,
       "properties": {
         "nodeSelector": {
-          "$ref": "#/$defs/Types.KubeNodeSelector"
+          "$ref": "#/$defs/Types.KubeNodeSelector",
+          "description": "The node selector to use to place the pods for all the KFD modules"
         },
         "tolerations": {
           "type": "array",
           "items": {
             "$ref": "#/$defs/Types.KubeToleration"
-          }
+          },
+          "description": "The tolerations that will be added to the pods for all the KFD modules"
         },
         "provider": {
           "$ref": "#/$defs/Spec.Distribution.Common.Provider"
         },
         "relativeVendorPath": {
-          "type": "string"
+          "type": "string",
+          "description": "The relative path to the vendor directory, does not need to be changed"
         }
       }
     },
@@ -135,7 +139,8 @@
       "additionalProperties": false,
       "properties": {
         "type": {
-          "type": "string"
+          "type": "string",
+          "description": "The type of the provider"
         }
       },
       "required": ["type"]
@@ -179,10 +184,12 @@
           "$ref": "#/$defs/Spec.Distribution.Modules.Ingress.Overrides"
         },
         "baseDomain": {
-          "type": "string"
+          "type": "string",
+          "description": "the base domain used for all the KFD ingresses, if in the nginx dual configuration, it should be the same as the .spec.distribution.modules.ingress.dns.private.name zone"
         },
         "nginx": {
-          "$ref": "#/$defs/Spec.Distribution.Modules.Ingress.Nginx"
+          "$ref": "#/$defs/Spec.Distribution.Modules.Ingress.Nginx",
+          "description": "Configurations for the nginx ingress controller module"
         },
         "certManager": {
           "$ref": "#/$defs/Spec.Distribution.Modules.Ingress.CertManager"
@@ -219,13 +226,15 @@
           "$ref": "#/$defs/Spec.Distribution.Modules.Ingress.Overrides.Ingresses"
         },
         "nodeSelector": {
-          "$ref": "#/$defs/Types.KubeNodeSelector"
+          "$ref": "#/$defs/Types.KubeNodeSelector",
+          "description": "The node selector to use to place the pods for the ingress module"
         },
         "tolerations": {
           "type": "array",
           "items": {
             "$ref": "#/$defs/Types.KubeToleration"
-          }
+          },
+          "description": "The tolerations that will be added to the pods for the ingress module"
         }
       }
     },
@@ -253,7 +262,8 @@
       "properties": {
         "type": {
           "type": "string",
-          "enum": ["none", "single", "dual"]
+          "enum": ["none", "single", "dual"],
+          "description": "The type of the nginx ingress controller, must be ***none***, ***single*** or ***dual***"
         },
         "tls": {
           "$ref": "#/$defs/Spec.Distribution.Modules.Ingress.Nginx.TLS"
@@ -270,7 +280,8 @@
       "properties": {
         "provider": {
           "type": "string",
-          "enum": ["certManager", "secret", "none"]
+          "enum": ["certManager", "secret", "none"],
+          "description": "The provider of the TLS certificate, must be ***none***, ***certManager*** or ***secret***"
         },
         "secret": {
           "$ref": "#/$defs/Spec.Distribution.Modules.Ingress.Nginx.TLS.Secret"
@@ -293,7 +304,8 @@
       "additionalProperties": false,
       "properties": {
         "cert": {
-          "type": "string"
+          "type": "string",
+          "description": "The certificate file content or you can use the file notation to get the content from a file"
         },
         "key": {
           "type": "string"
@@ -322,18 +334,22 @@
       "additionalProperties": false,
       "properties": {
         "name": {
-          "type": "string"
+          "type": "string",
+          "description": "The name of the cluster issuer"
         },
         "email": {
           "type": "string",
-          "format": "email"
+          "format": "email",
+          "description": "The email of the cluster issuer"
         },
         "type": {
           "type": "string",
-          "enum": ["http01"]
+          "enum": ["http01"],
+          "description": "The type of the cluster issuer, must be ***http01***"
         },
         "solvers": {
-          "type": "array"
+          "type": "array",
+          "description": "The custom solvers configurations"
         }
       },
       "required": ["name", "email"],
@@ -355,7 +371,8 @@
         },
         "type": {
           "type": "string",
-          "enum": ["none", "opensearch", "loki"]
+          "enum": ["none", "opensearch", "loki", "customOutputs"],
+          "description": "selects the logging stack. Choosing none will disable the centralized logging. Choosing opensearch will deploy and configure the Logging Operator and an OpenSearch cluster (can be single or triple for HA) where the logs will be stored. Choosing loki will use a distributed Grafana Loki instead of OpenSearh for storage. Choosing customOuput the Logging Operator will be deployed and installed but with no local storage, you will have to create the needed Outputs and ClusterOutputs to ship the logs to your desired storage."
         },
         "opensearch": {
           "$ref": "#/$defs/Spec.Distribution.Modules.Logging.Opensearch"
@@ -371,6 +388,9 @@
         },
         "operator": {
           "$ref": "#/$defs/Spec.Distribution.Modules.Logging.Operator"
+        },
+        "customOutputs": {
+          "$ref": "#/$defs/Spec.Distribution.Modules.Logging.CustomOutputs"
         }
       },
       "required": ["type"],
@@ -386,6 +406,18 @@
           "then": {
             "required": ["opensearch"]
           }
+        },
+        {
+          "if": {
+            "properties": {
+              "type": {
+                "const": "customOutputs"
+              }
+            }
+          },
+          "then": {
+            "required": ["customOutputs"]
+          }
         }
       ]
     },
@@ -395,13 +427,15 @@
       "properties": {
         "type": {
           "type": "string",
-          "enum": ["single", "triple"]
+          "enum": ["single", "triple"],
+          "description": "The type of the opensearch, must be ***single*** or ***triple***"
         },
         "resources": {
           "$ref": "#/$defs/Types.KubeResources"
         },
         "storageSize": {
-          "type": "string"
+          "type": "string",
+          "description": "The storage size for the opensearch pods"
         },
         "overrides": {
           "$ref": "#/$defs/Types.FuryModuleComponentOverrides"
@@ -423,17 +457,20 @@
       "additionalProperties": false,
       "properties": {
         "storageSize": {
-          "type": "string"
+          "type": "string",
+          "description": "The PVC size for each minio disk, 6 disks total"
         },
         "rootUser": {
           "type": "object",
           "additionalProperties": false,
           "properties": {
             "username": {
-              "type": "string"
+              "type": "string",
+              "description": "The username of the minio root user"
             },
             "password": {
-              "type": "string"
+              "type": "string",
+              "description": "The password of the minio root user"
             }
           }
         },
@@ -455,19 +492,24 @@
           "additionalProperties": false,
           "properties": {
             "endpoint": {
-              "type": "string"
+              "type": "string",
+              "description": "The endpoint of the loki external endpoint"
             },
             "insecure": {
-              "type": "boolean"
+              "type": "boolean",
+              "description": "If true, the loki external endpoint will be insecure"
             },
             "secretAccessKey": {
-              "type": "string"
+              "type": "string",
+              "description": "The secret access key of the loki external endpoint"
             },
             "accessKeyId": {
-              "type": "string"
+              "type": "string",
+              "description": "The access key id of the loki external endpoint"
             },
             "bucketName": {
-              "type": "string"
+              "type": "string",
+              "description": "The bucket name of the loki external endpoint"
             }
           }
         },
@@ -485,19 +527,73 @@
         }
       }
     },
-    "Spec.Distribution.Modules.Monitoring": {
+    "Spec.Distribution.Modules.Logging.CustomOutputs": {
+      "description": "when using the customOutputs logging type, you need to manually specify the spec of the several Output and ClusterOutputs that the Logging Operator expects to forward the logs collected by the pre-defined flows.",
       "type": "object",
       "additionalProperties": false,
       "properties": {
+        "audit": {
+          "type": "string",
+          "description": "This value defines where the output from Flow will be sent. Will be the `spec` section of the `Output` object. It must be a string (and not a YAML object) following the OutputSpec definition. Use the nullout output to discard the flow."
+        },
+        "events": {
+          "type": "string",
+          "description": "This value defines where the output from Flow will be sent. Will be the `spec` section of the `Output` object. It must be a string (and not a YAML object) following the OutputSpec definition. Use the nullout output to discard the flow."
+        },
+        "infra": {
+          "type": "string",
+          "description": "This value defines where the output from Flow will be sent. Will be the `spec` section of the `Output` object. It must be a string (and not a YAML object) following the OutputSpec definition. Use the nullout output to discard the flow."
+        },
+        "ingressNginx": {
+          "type": "string",
+          "description": "This value defines where the output from Flow will be sent. Will be the `spec` section of the `Output` object. It must be a string (and not a YAML object) following the OutputSpec definition. Use the nullout output to discard the flow."
+        },
+        "kubernetes": {
+          "type": "string",
+          "description": "This value defines where the output from Flow will be sent. Will be the `spec` section of the `Output` object. It must be a string (and not a YAML object) following the OutputSpec definition. Use the nullout output to discard the flow."
+        },
+        "systemdCommon": {
+          "type": "string",
+          "description": "This value defines where the output from Flow will be sent. Will be the `spec` section of the `Output` object. It must be a string (and not a YAML object) following the OutputSpec definition. Use the nullout output to discard the flow."
+        },
+        "systemdEtcd": {
+          "type": "string",
+          "description": "This value defines where the output from Flow will be sent. Will be the `spec` section of the `Output` object. It must be a string (and not a YAML object) following the OutputSpec definition. Use the nullout output to discard the flow."
+        },
+        "errors": {
+          "type": "string",
+          "description": "This value defines where the output from Flow will be sent. Will be the `spec` section of the `Output` object. It must be a string (and not a YAML object) following the OutputSpec definition. Use the nullout output to discard the flow."
+        }
+      },
+      "required": [
+        "audit",
+        "events",
+        "infra",
+        "ingressNginx",
+        "kubernetes",
+        "systemdCommon",
+        "systemdEtcd",
+        "errors"
+      ]
+    },
+    "Spec.Distribution.Modules.Monitoring": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "configuration for the Monitoring module components",
+      "properties": {
         "type": {
           "type": "string",
-          "enum": ["none", "prometheus", "mimir"]
+          "enum": ["none", "prometheus", "prometheusAgent", "mimir"],
+          "description": "The type of the monitoring, must be ***none***, ***prometheus***, ***prometheusAgent*** or ***mimir***.\n\n- `none`: will disable the whole monitoring stack.\n- `prometheus`: will install Prometheus Operator and a preconfigured Prometheus instace, Alertmanager, a set of alert rules, exporters needed to monitor all the components of the cluster, Grafana and a series of dashboards to view the collected metrics, and more.\n- `prometheusAgent`: wil install Prometheus operator, an instance of Prometheus in Agent mode (no alerting, no queries, no storage), and all the exporters needed to get metrics for the status of the cluster and the workloads. Useful when having a centralized (remote) Prometheus where to ship the metrics and not storing them locally in the cluster.\n- `mimir`: will install the same as the `prometheus` option, and in addition Grafana Mimir that allows for longer retention of metrics and the usage of Object Storage."
         },
         "overrides": {
           "$ref": "#/$defs/Types.FuryModuleOverrides"
         },
         "prometheus": {
           "$ref": "#/$defs/Spec.Distribution.Modules.Monitoring.Prometheus"
+        },
+        "prometheusAgent": {
+          "$ref": "#/$defs/Spec.Distribution.Modules.Monitoring.PrometheusAgent"
         },
         "alertmanager": {
           "$ref": "#/$defs/Spec.Distribution.Modules.Monitoring.AlertManager"
@@ -531,13 +627,39 @@
           "$ref": "#/$defs/Types.KubeResources"
         },
         "retentionTime": {
-          "type": "string"
+          "type": "string",
+          "description": "The retention time for the K8s Prometheus instance."
         },
         "retentionSize": {
-          "type": "string"
+          "type": "string",
+          "description": "The retention size for the k8s Prometheus instance."
         },
         "storageSize": {
-          "type": "string"
+          "type": "string",
+          "description": "The storage size for the k8s Prometheus instance."
+        },
+        "remoteWrite": {
+          "description": "Set this option to ship the collected metrics to a remote Prometheus receiver.\n\n`remoteWrite` is an array of objects that allows configuring the [remoteWrite](https://prometheus.io/docs/specs/remote_write_spec/) options for Prometheus. The objects in the array follow [the same schema as in the prometheus operator](https://prometheus-operator.dev/docs/operator/api/#monitoring.coreos.com/v1.RemoteWriteSpec).",
+          "type": "array",
+          "items": {
+            "type": "object"
+          }
+        }
+      }
+    },
+    "Spec.Distribution.Modules.Monitoring.PrometheusAgent": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "resources": {
+          "$ref": "#/$defs/Types.KubeResources"
+        },
+        "remoteWrite": {
+          "description": "Set this option to ship the collected metrics to a remote Prometheus receiver.\n\n`remoteWrite` is an array of objects that allows configuring the [remoteWrite](https://prometheus.io/docs/specs/remote_write_spec/) options for Prometheus. The objects in the array follow [the same schema as in the prometheus operator](https://prometheus-operator.dev/docs/operator/api/#monitoring.coreos.com/v1.RemoteWriteSpec).",
+          "type": "array",
+          "items": {
+            "type": "object"
+          }
         }
       }
     },
@@ -546,13 +668,16 @@
       "additionalProperties": false,
       "properties": {
         "deadManSwitchWebhookUrl": {
-          "type": "string"
+          "type": "string",
+          "description": "The webhook url to send deadman switch monitoring, for example to use with healthchecks.io"
         },
         "installDefaultRules": {
-          "type": "boolean"
+          "type": "boolean",
+          "description": "If true, the default rules will be installed"
         },
         "slackWebhookUrl": {
-          "type": "string"
+          "type": "string",
+          "description": "The slack webhook url to send alerts"
         }
       }
     },
@@ -560,6 +685,12 @@
       "type": "object",
       "additionalProperties": false,
       "properties": {
+        "usersRoleAttributePath": {
+          "type": "string"
+        },
+        "basicAuthIngress": {
+          "type": "boolean"
+        },
         "overrides": {
           "$ref": "#/$defs/Types.FuryModuleComponentOverrides"
         }
@@ -597,30 +728,37 @@
       "additionalProperties": false,
       "properties": {
         "retentionTime": {
-          "type": "string"
+          "type": "string",
+          "description": "The retention time for the mimir pods"
         },
         "backend": {
           "type": "string",
-          "enum": ["minio", "externalEndpoint"]
+          "enum": ["minio", "externalEndpoint"],
+          "description": "The backend for the mimir pods, must be ***minio*** or ***externalEndpoint***"
         },
         "externalEndpoint": {
           "type": "object",
           "additionalProperties": false,
           "properties": {
             "endpoint": {
-              "type": "string"
+              "type": "string",
+              "description": "The endpoint of the external mimir backend"
             },
             "insecure": {
-              "type": "boolean"
+              "type": "boolean",
+              "description": "If true, the external mimir backend will not use tls"
             },
             "secretAccessKey": {
-              "type": "string"
+              "type": "string",
+              "description": "The secret access key of the external mimir backend"
             },
             "accessKeyId": {
-              "type": "string"
+              "type": "string",
+              "description": "The access key id of the external mimir backend"
             },
             "bucketName": {
-              "type": "string"
+              "type": "string",
+              "description": "The bucket name of the external mimir backend"
             }
           }
         },
@@ -634,17 +772,20 @@
       "additionalProperties": false,
       "properties": {
         "storageSize": {
-          "type": "string"
+          "type": "string",
+          "description": "The storage size for the minio pods"
         },
         "rootUser": {
           "type": "object",
           "additionalProperties": false,
           "properties": {
             "username": {
-              "type": "string"
+              "type": "string",
+              "description": "The username for the minio root user"
             },
             "password": {
-              "type": "string"
+              "type": "string",
+              "description": "The password for the minio root user"
             }
           }
         },
@@ -662,7 +803,8 @@
         },
         "type": {
           "type": "string",
-          "enum": ["none", "tempo"]
+          "enum": ["none", "tempo"],
+          "description": "The type of tracing to use, either ***none*** or ***tempo***"
         },
         "tempo": {
           "$ref": "#/$defs/Spec.Distribution.Modules.Tracing.Tempo"
@@ -678,30 +820,37 @@
       "additionalProperties": false,
       "properties": {
         "retentionTime": {
-          "type": "string"
+          "type": "string",
+          "description": "The retention time for the tempo pods"
         },
         "backend": {
           "type": "string",
-          "enum": ["minio", "externalEndpoint"]
+          "enum": ["minio", "externalEndpoint"],
+          "description": "The backend for the tempo pods, must be ***minio*** or ***externalEndpoint***"
         },
         "externalEndpoint": {
           "type": "object",
           "additionalProperties": false,
           "properties": {
             "endpoint": {
-              "type": "string"
+              "type": "string",
+              "description": "The endpoint of the external tempo backend"
             },
             "insecure": {
-              "type": "boolean"
+              "type": "boolean",
+              "description": "If true, the external tempo backend will not use tls"
             },
             "secretAccessKey": {
-              "type": "string"
+              "type": "string",
+              "description": "The secret access key of the external tempo backend"
             },
             "accessKeyId": {
-              "type": "string"
+              "type": "string",
+              "description": "The access key id of the external tempo backend"
             },
             "bucketName": {
-              "type": "string"
+              "type": "string",
+              "description": "The bucket name of the external tempo backend"
             }
           }
         },
@@ -715,17 +864,20 @@
       "additionalProperties": false,
       "properties": {
         "storageSize": {
-          "type": "string"
+          "type": "string",
+          "description": "The storage size for the minio pods"
         },
         "rootUser": {
           "type": "object",
           "additionalProperties": false,
           "properties": {
             "username": {
-              "type": "string"
+              "type": "string",
+              "description": "The username for the minio root user"
             },
             "password": {
-              "type": "string"
+              "type": "string",
+              "description": "The password for the minio root user"
             }
           }
         },
@@ -739,7 +891,7 @@
       "additionalProperties": false,
       "properties": {
         "overrides": {
-          "$ref": "#/$defs/Types.FuryModuleComponentOverrides"
+          "$ref": "#/$defs/Types.FuryModuleOverrides"
         },
         "tigeraOperator": {
           "$ref": "#/$defs/Spec.Distribution.Modules.Networking.TigeraOperator"
@@ -749,7 +901,8 @@
         },
         "type": {
           "type": "string",
-          "enum": ["none", "calico", "cilium"]
+          "enum": ["none", "calico", "cilium"],
+          "description": "The type of networking to use, either ***none***, ***calico*** or ***cilium***"
         }
       },
       "required": ["type"],
@@ -802,7 +955,8 @@
         },
         "type": {
           "type": "string",
-          "enum": ["none", "gatekeeper", "kyverno"]
+          "enum": ["none", "gatekeeper", "kyverno"],
+          "description": "The type of security to use, either ***none***, ***gatekeeper*** or ***kyverno***"
         },
         "gatekeeper": {
           "$ref": "#/$defs/Spec.Distribution.Modules.Policy.Gatekeeper"
@@ -816,7 +970,9 @@
         {
           "if": {
             "properties": {
-              "type": { "const": "gatekeeper" }
+              "type": {
+                "const": "gatekeeper"
+              }
             }
           },
           "then": {
@@ -826,7 +982,9 @@
         {
           "if": {
             "properties": {
-              "type": { "const": "kyverno" }
+              "type": {
+                "const": "kyverno"
+              }
             }
           },
           "then": {
@@ -843,14 +1001,17 @@
           "type": "array",
           "items": {
             "type": "string"
-          }
+          },
+          "description": "This parameter adds namespaces to Gatekeeper's exemption list, so it will not enforce the constraints on them."
         },
         "enforcementAction": {
           "type": "string",
-          "enum": ["deny", "dryrun", "warn"]
+          "enum": ["deny", "dryrun", "warn"],
+          "description": "The enforcement action to use for the gatekeeper module"
         },
         "installDefaultPolicies": {
-          "type": "boolean"
+          "type": "boolean",
+          "description": "If true, the default policies will be installed"
         },
         "overrides": {
           "$ref": "#/$defs/Types.FuryModuleComponentOverrides"
@@ -866,14 +1027,17 @@
           "type": "array",
           "items": {
             "type": "string"
-          }
+          },
+          "description": "This parameter adds namespaces to Kyverno's exemption list, so it will not enforce the constraints on them."
         },
         "validationFailureAction": {
           "type": "string",
-          "enum": ["audit", "enforce"]
+          "enum": ["audit", "enforce"],
+          "description": "The validation failure action to use for the kyverno module"
         },
         "installDefaultPolicies": {
-          "type": "boolean"
+          "type": "boolean",
+          "description": "If true, the default policies will be installed"
         },
         "overrides": {
           "$ref": "#/$defs/Types.FuryModuleComponentOverrides"
@@ -890,7 +1054,8 @@
         },
         "type": {
           "type": "string",
-          "enum": ["none", "on-premises"]
+          "enum": ["none", "on-premises"],
+          "description": "The type of the DR, must be ***none*** or ***on-premises***"
         },
         "velero": {
           "$ref": "#/$defs/Spec.Distribution.Modules.Dr.Velero"
@@ -913,30 +1078,37 @@
       "additionalProperties": false,
       "properties": {
         "retentionTime": {
-          "type": "string"
+          "type": "string",
+          "description": "The retention time for velero"
         },
         "backend": {
           "type": "string",
-          "enum": ["minio", "externalEndpoint"]
+          "enum": ["minio", "externalEndpoint"],
+          "description": "The backend for velero"
         },
         "externalEndpoint": {
           "type": "object",
           "additionalProperties": false,
           "properties": {
             "endpoint": {
-              "type": "string"
+              "type": "string",
+              "description": "The endpoint for velero"
             },
             "insecure": {
-              "type": "boolean"
+              "type": "boolean",
+              "description": "If true, the endpoint will be insecure"
             },
             "secretAccessKey": {
-              "type": "string"
+              "type": "string",
+              "description": "The secret access key for velero backend"
             },
             "accessKeyId": {
-              "type": "string"
+              "type": "string",
+              "description": "The access key id for velero backend"
             },
             "bucketName": {
-              "type": "string"
+              "type": "string",
+              "description": "The bucket name for velero backend"
             }
           }
         },
@@ -956,7 +1128,8 @@
           "$ref": "#/$defs/Spec.Distribution.Modules.Auth.Provider"
         },
         "baseDomain": {
-          "type": "string"
+          "type": "string",
+          "description": "The base domain for the auth module"
         },
         "pomerium": {
           "$ref": "#/$defs/Spec.Distribution.Modules.Auth.Pomerium"
@@ -1029,13 +1202,15 @@
       "additionalProperties": false,
       "properties": {
         "nodeSelector": {
-          "$ref": "#/$defs/Types.KubeNodeSelector"
+          "$ref": "#/$defs/Types.KubeNodeSelector",
+          "description": "The node selector to use to place the pods for the auth module"
         },
         "tolerations": {
           "type": ["array", "null"],
           "items": {
             "$ref": "#/$defs/Types.KubeToleration"
-          }
+          },
+          "description": "The tolerations that will be added to the pods for the auth module"
         },
         "ingresses": {
           "type": "object",
@@ -1050,10 +1225,12 @@
       "additionalProperties": false,
       "properties": {
         "host": {
-          "type": "string"
+          "type": "string",
+          "description": "The host of the ingress"
         },
         "ingressClass": {
-          "type": "string"
+          "type": "string",
+          "description": "The ingress class of the ingress"
         }
       },
       "required": ["host", "ingressClass"]
@@ -1064,7 +1241,8 @@
       "properties": {
         "type": {
           "type": "string",
-          "enum": ["none", "basicAuth", "sso"]
+          "enum": ["none", "basicAuth", "sso"],
+          "description": "The type of the provider, must be ***none***, ***sso*** or ***basicAuth***"
         },
         "basicAuth": {
           "$ref": "#/$defs/Spec.Distribution.Modules.Auth.Provider.BasicAuth"
@@ -1077,55 +1255,30 @@
       "additionalProperties": false,
       "properties": {
         "username": {
-          "type": "string"
+          "type": "string",
+          "description": "The username for the basic auth"
         },
         "password": {
-          "type": "string"
+          "type": "string",
+          "description": "The password for the basic auth"
         }
       },
       "required": ["username", "password"]
     },
     "Spec.Distribution.Modules.Auth.Pomerium": {
-      "type": "object",
-      "additionalProperties": false,
-      "properties": {
-        "secrets": {
-          "$ref": "#/$defs/Spec.Distribution.Modules.Auth.Pomerium.Secrets"
-        },
-        "policy": {
-          "type": "string"
-        },
-        "overrides": {
-          "$ref": "#/$defs/Types.FuryModuleComponentOverrides"
-        }
-      },
-      "required": ["secrets", "policy"]
-    },
-    "Spec.Distribution.Modules.Auth.Pomerium.Secrets": {
-      "type": "object",
-      "additionalProperties": false,
-      "properties": {
-        "COOKIE_SECRET": {
-          "type": "string"
-        },
-        "IDP_CLIENT_SECRET": {
-          "type": "string"
-        },
-        "SHARED_SECRET": {
-          "type": "string"
-        }
-      },
-      "required": ["COOKIE_SECRET", "IDP_CLIENT_SECRET", "SHARED_SECRET"]
+      "$ref": "./spec-distribution-modules-auth-pomerium.json"
     },
     "Spec.Distribution.Modules.Auth.Dex": {
       "type": "object",
       "additionalProperties": false,
       "properties": {
         "connectors": {
-          "type": "array"
+          "type": "array",
+          "description": "The connectors for dex"
         },
         "additionalStaticClients": {
-          "type": "array"
+          "type": "array",
+          "description": "The additional static clients for dex"
         },
         "overrides": {
           "$ref": "#/$defs/Types.FuryModuleComponentOverrides"
@@ -1133,7 +1286,6 @@
       },
       "required": ["connectors"]
     },
-
     "Types.SemVer": {
       "type": "string",
       "pattern": "^v?(?P<major>0|[1-9]\\d*)\\.(?P<minor>0|[1-9]\\d*)\\.(?P<patch>0|[1-9]\\d*)(?:-(?P<prerelease>(?:0|[1-9]\\d*|\\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\\.(?:0|[1-9]\\d*|\\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\\+(?P<buildmetadata>[0-9a-zA-Z-]+(?:\\.[0-9a-zA-Z-]+)*))?$"
@@ -1156,7 +1308,7 @@
     },
     "Types.TcpPort": {
       "type": "integer",
-      "minimum": 1,
+      "minimum": 0,
       "maximum": 65535
     },
     "Types.SshPubKey": {
@@ -1169,7 +1321,9 @@
     },
     "Types.KubeLabels": {
       "type": "object",
-      "additionalProperties": { "type": "string" }
+      "additionalProperties": {
+        "type": "string"
+      }
     },
     "Types.KubeTaints": {
       "type": "array",
@@ -1180,7 +1334,9 @@
     },
     "Types.KubeNodeSelector": {
       "type": ["object", "null"],
-      "additionalProperties": { "type": "string" }
+      "additionalProperties": {
+        "type": "string"
+      }
     },
     "Types.KubeToleration": {
       "type": "object",
@@ -1195,10 +1351,12 @@
           "enum": ["Exists", "Equal"]
         },
         "key": {
-          "type": "string"
+          "type": "string",
+          "description": "The key of the toleration"
         },
         "value": {
-          "type": "string"
+          "type": "string",
+          "description": "The value of the toleration"
         }
       },
       "required": ["effect", "key"],
@@ -1220,10 +1378,12 @@
           "additionalProperties": false,
           "properties": {
             "cpu": {
-              "type": "string"
+              "type": "string",
+              "description": "The cpu request for the prometheus pods"
             },
             "memory": {
-              "type": "string"
+              "type": "string",
+              "description": "The memory request for the opensearch pods"
             }
           }
         },
@@ -1232,10 +1392,12 @@
           "additionalProperties": false,
           "properties": {
             "cpu": {
-              "type": "string"
+              "type": "string",
+              "description": "The cpu limit for the loki pods"
             },
             "memory": {
-              "type": "string"
+              "type": "string",
+              "description": "The memory limit for the opensearch pods"
             }
           }
         }
@@ -1246,13 +1408,15 @@
       "additionalProperties": false,
       "properties": {
         "nodeSelector": {
-          "$ref": "#/$defs/Types.KubeNodeSelector"
+          "$ref": "#/$defs/Types.KubeNodeSelector",
+          "description": "The node selector to use to place the pods for the security module"
         },
         "tolerations": {
           "type": ["array", "null"],
           "items": {
             "$ref": "#/$defs/Types.KubeToleration"
-          }
+          },
+          "description": "The tolerations that will be added to the pods for the monitoring module"
         },
         "ingresses": {
           "type": "object",
@@ -1267,13 +1431,15 @@
       "additionalProperties": false,
       "properties": {
         "nodeSelector": {
-          "$ref": "#/$defs/Types.KubeNodeSelector"
+          "$ref": "#/$defs/Types.KubeNodeSelector",
+          "description": "The node selector to use to place the pods for the minio module"
         },
         "tolerations": {
           "type": ["array", "null"],
           "items": {
             "$ref": "#/$defs/Types.KubeToleration"
-          }
+          },
+          "description": "The tolerations that will be added to the pods for the cert-manager module"
         }
       }
     },
@@ -1282,13 +1448,16 @@
       "additionalProperties": false,
       "properties": {
         "disableAuth": {
-          "type": "boolean"
+          "type": "boolean",
+          "description": "If true, the ingress will not have authentication"
         },
         "host": {
-          "type": "string"
+          "type": "string",
+          "description": "The host of the ingress"
         },
         "ingressClass": {
-          "type": "string"
+          "type": "string",
+          "description": "The ingress class of the ingress"
         }
       }
     }
