@@ -10,10 +10,13 @@ For a complete list of all KFD releases and their compatibility with Kubernetes 
 
 | KFD / Kubernetes Version                                                        | v1.29.X            | v1.28.X            | v1.27.X            | v1.26.X            | 1.25.X             | 1.24.X             |
 | ------------------------------------------------------------------------------- | ------------------ | ------------------ | ------------------ | ------------------ | ------------------ | ------------------ |
+| [v1.29.2](https://github.com/sighupio/fury-distribution/releases/tag/v1.29.2)   | :white_check_mark: |                    |                    |                    |                    |                    |
 | [v1.29.1](https://github.com/sighupio/fury-distribution/releases/tag/v1.29.1)   | :white_check_mark: |                    |                    |                    |                    |                    |
 | [v1.29.0](https://github.com/sighupio/fury-distribution/releases/tag/v1.29.0)   | :white_check_mark: |                    |                    |                    |                    |                    |
+| [v1.28.2](https://github.com/sighupio/fury-distribution/releases/tag/v1.28.2)   |                    | :white_check_mark: |                    |                    |                    |                    |
 | [v1.28.1](https://github.com/sighupio/fury-distribution/releases/tag/v1.28.1)   |                    | :white_check_mark: |                    |                    |                    |                    |
 | [v1.28.0](https://github.com/sighupio/fury-distribution/releases/tag/v1.28.0)   |                    | :white_check_mark: |                    |                    |                    |                    |
+| [v1.27.7](https://github.com/sighupio/fury-distribution/releases/tag/v1.27.7)   |                    |                    | :white_check_mark: |                    |                    |                    |
 | [v1.27.6](https://github.com/sighupio/fury-distribution/releases/tag/v1.27.6)   |                    |                    | :white_check_mark: |                    |                    |                    |
 | [v1.27.5](https://github.com/sighupio/fury-distribution/releases/tag/v1.27.5)   |                    |                    | :white_check_mark: |                    |                    |                    |
 | [v1.27.4](https://github.com/sighupio/fury-distribution/releases/tag/v1.27.4)   |                    |                    | :white_check_mark: |                    |                    |                    |
