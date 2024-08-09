@@ -8,7 +8,7 @@ kind: KFDDistribution
 metadata:
   name: sighup
 spec:
-  distributionVersion: v1.29.1
+  distributionVersion: v1.29.2
   # This section describes how the KFD distribution will be installed
   distribution:
     kubeconfig: "{env://KUBECONFIG}"
@@ -83,6 +83,7 @@ spec:
             COOKIE_SECRET: "qKjzogH4/syhMfKipwByMrG6eVm9lXL7rF4TtTChKJU="
             IDP_CLIENT_SECRET: "iebee2Xohs7giongaihuch8iu5shie0O"
             SHARED_SECRET: "LEjtmaKtiCB2qA5rtFSHWiWAzkdFftADf/q2xWT64dg="
+            SIGNING_KEY: "LS0tLS1CRUdJTiBFQyBQUklWQVRFIEtFWS0tLS0tCk1IY0NBUUVFSU9DMHBBQmx4ZS84bjRQcHBBVUE1QnRxam96Z3dDZVpvRDI2c056TGRiS1hvQW9HQ0NxR1NNNDkKQXdFSG9VUURRZ0FFRUpDc253MHlXODRLZXhVSjQ5M21MMG9tNFN5dzJBeGtWOGFpRkxDZFdKaVBYamtUMDE1QwowclJsV2tqNVdlQUhqYmVncmRNL2QyejZTbzY3MWs3TVpRPT0KLS0tLS1FTkQgRUMgUFJJVkFURSBLRVktLS0tLQo="
         baseDomain: fury.sighup.cc
         
         dex: 

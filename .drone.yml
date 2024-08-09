@@ -157,7 +157,7 @@ steps:
     environment:
       CLUSTER_NAME: ${DRONE_REPO_NAME}-${DRONE_BUILD_NUMBER}
       KUBECONFIG: /drone/src/kubeconfig
-      FURYCTL_VERSION: v0.29.2-rc.0
+      FURYCTL_VERSION: v0.29.4-rc.6
     depends_on: [create Kind cluster]
     commands:
       - export KUBECONFIG=/drone/src/kubeconfig
@@ -196,12 +196,13 @@ volumes:
     host:
       path: /var/run/docker.sock
 ---
-name: e2e-kubernetes-1.29.0-1.29.1
+name: e2e-kubernetes-1.29.0-1.29.1-1.29.2
 kind: pipeline
 type: docker
 
 depends_on:
   - qa
+  - e2e-kubernetes-1.29
 
 clone:
   depth: 1
@@ -260,7 +261,7 @@ steps:
     environment:
       CLUSTER_NAME: ${DRONE_REPO_NAME}-${DRONE_BUILD_NUMBER}-upgrades
       KUBECONFIG: /drone/src/kubeconfig-upgrades
-      FURYCTL_VERSION: v0.29.2-rc.0
+      FURYCTL_VERSION: v0.29.4-rc.6
     depends_on: [create Kind cluster]
     commands:
       - export KUBECONFIG=/drone/src/kubeconfig-upgrades
@@ -305,7 +306,7 @@ type: docker
 
 depends_on:
   - e2e-kubernetes-1.29
-  - e2e-kubernetes-1.29.0-1.29.1
+  - e2e-kubernetes-1.29.0-1.29.1-1.29.2
 
 platform:
   os: linux
