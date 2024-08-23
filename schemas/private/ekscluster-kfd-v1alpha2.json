@@ -360,6 +360,20 @@
           "type": "array",
           "description": "The additional static clients for dex"
         },
+        "expiry": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "signingKeys" : {
+              "type": "string",
+              "description": "Dex signing key expiration"
+            },
+            "idTokens": {
+              "type": "string",
+              "description": "Dex id tokens expiration"
+            }
+          }
+        },
         "overrides": {
           "$ref": "#/$defs/Types.FuryModuleComponentOverrides"
         }
