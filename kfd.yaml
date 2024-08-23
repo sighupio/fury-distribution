@@ -7,7 +7,7 @@ modules:
   auth: v0.3.0
   aws: v4.2.1
   dr: v2.3.0
-  ingress: v2.3.3-rc.0
+  ingress: v2.3.3
   logging: v3.4.1
   monitoring: v3.2.0
   opa: v1.12.0
