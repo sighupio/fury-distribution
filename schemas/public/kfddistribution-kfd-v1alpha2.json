@@ -1284,7 +1284,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "signingKeys" : {
+            "signingKeys": {
               "type": "string",
               "description": "Dex signing key expiration"
             },
