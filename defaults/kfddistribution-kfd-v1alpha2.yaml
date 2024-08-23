@@ -280,6 +280,9 @@ data:
         # see dex documentation for more information
         connectors: []
         additionalStaticClients: []
+        expiry:
+          signingKeys: "6h"
+          idTokens: "24h"
       oidcKubernetesAuth: # only needed as default
         enabled: false
       baseDomain: ""
