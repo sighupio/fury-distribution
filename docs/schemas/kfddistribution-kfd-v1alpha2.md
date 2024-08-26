@@ -561,7 +561,7 @@ Dex ID tokens expiration time duration (default 24h).
 
 ### Description
 
-Dex signing key expiration
+Dex signing key expiration time duration (default 6h).
 
 ## .spec.distribution.modules.auth.dex.overrides
 
