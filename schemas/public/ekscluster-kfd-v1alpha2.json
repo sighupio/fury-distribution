@@ -2063,7 +2063,7 @@
             },
             "idTokens": {
               "type": "string",
-              "description": "Dex id tokens expiration"
+              "description": "Dex ID tokens expiration time duration (default 24h)."
             }
           }
         },
