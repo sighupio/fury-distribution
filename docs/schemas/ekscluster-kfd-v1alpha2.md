@@ -558,7 +558,7 @@ The connectors for dex
 
 ### Description
 
-Dex id tokens expiration
+Dex ID tokens expiration time duration (default 24h).
 
 ## .spec.distribution.modules.auth.dex.expiry.signingKeys
 
