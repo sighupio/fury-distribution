@@ -2059,7 +2059,7 @@
           "properties": {
             "signingKeys": {
               "type": "string",
-              "description": "Dex signing key expiration"
+              "description": "Dex signing key expiration time duration (default 6h)."
             },
             "idTokens": {
               "type": "string",
