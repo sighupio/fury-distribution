@@ -63,6 +63,8 @@ module "fury" {
   node_pools                            = var.node_pools
   node_pools_launch_kind                = var.node_pools_launch_kind
   tags                                  = var.tags
+  cluster_iam_role_name                 = var.cluster_iam_role_name_prefix_override
+  workers_role_name                     = var.workers_iam_role_name_prefix_override
 
   # AWS-specific variables.
   # Enables managing auth using these variables

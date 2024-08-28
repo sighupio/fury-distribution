@@ -16,7 +16,7 @@ if ! $kubectlbin get apiservice v1.monitoring.coreos.com; then
 fi
 {{- end }}
 
-{{- if not .spec.distribution.modules.monitoring.alertmanager.installDefaultRules }}
+{{- if and (ne .spec.distribution.modules.monitoring.type "prometheusAgent") (not .spec.distribution.modules.monitoring.alertmanager.installDefaultRules) }}
 if $kubectlbin get apiservice v1alpha1.monitoring.coreos.com > /dev/null 2>&1; then
   cat out.yaml | $yqbin 'select(.apiVersion != "monitoring.coreos.com/v1alpha1" and .kind != "AlertmanagerConfig")' > out-filtered.yaml
   cp out-filtered.yaml out.yaml
@@ -142,10 +142,10 @@ $kustomizebin build $vendorPath/modules/dr/katalog/velero/velero-on-prem/minio >
 {{- if eq .spec.distribution.modules.monitoring.type "none" }}
 if ! $kubectlbin get apiservice v1.monitoring.coreos.com; then
   cat delete-dr-minio.yaml | $yqbin 'select(.apiVersion != "monitoring.coreos.com/v1")' > delete-dr-minio-filtered.yaml
-  cp delete-dr-minio-filtered.yaml delete-dr-minio.yaml 
+  cp delete-dr-minio-filtered.yaml delete-dr-minio.yaml
 fi
 {{- end }}
-$kubectlbin delete --ignore-not-found --wait --timeout=180s -f delete-dr-minio.yaml 
+$kubectlbin delete --ignore-not-found --wait --timeout=180s -f delete-dr-minio.yaml
 
 {{- end }}
 {{- end }}

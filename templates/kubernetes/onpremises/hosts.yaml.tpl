@@ -62,6 +62,20 @@ all:
         {{- if index .spec.kubernetes.advanced.oidc "ca_file" }}
         oidc_ca_file: "{{ .spec.kubernetes.advanced.oidc.ca_file }}"
         {{- end }}
+
+        {{- if index .spec.kubernetes.advanced.oidc "username_claim" }}
+        oidc_username_claim: "{{ .spec.kubernetes.advanced.oidc.username_claim }}"
+        {{- end }}
+        {{- if index .spec.kubernetes.advanced.oidc "username_prefix" }}
+        oidc_username_prefix: "{{ .spec.kubernetes.advanced.oidc.username_prefix }}"
+        {{- end }}
+        {{- if index .spec.kubernetes.advanced.oidc "groups_claim" }}
+        oidc_groups_claim: "{{ .spec.kubernetes.advanced.oidc.groups_claim }}"
+        {{- end }}
+        {{- if index .spec.kubernetes.advanced.oidc "group_prefix" }}
+        oidc_group_prefix: "{{ .spec.kubernetes.advanced.oidc.group_prefix }}"
+        {{- end }}
+
         {{- end }}
     nodes:
       children:
@@ -103,11 +117,19 @@ all:
     containerd_registry_configs:
       {{- range $rc := .spec.kubernetes.advanced.containerd.registryConfigs }}
       - registry: {{ $rc.registry }}
-        username: {{ $rc.username}}
+        {{- if index $rc "username" }}
+        username: {{ $rc.username }}
+        {{- end }}
+        {{- if index $rc "password" }}
         password: {{ $rc.password }}
+        {{- end }}
+        {{- if index $rc "insecureSkipVerify" }}
         insecure_skip_verify: {{ $rc.insecureSkipVerify }}
+        {{- end }}
+        {{- if index $rc "mirrorEndpoint" }}
         mirror_endpoint:
-         {{ $rc.mirrorEndpoint  | toYaml }}
+{{ $rc.mirrorEndpoint | toYaml | indent 10 }}
+        {{- end }}
       {{- end }}
     {{- end }}
     {{- end }}
