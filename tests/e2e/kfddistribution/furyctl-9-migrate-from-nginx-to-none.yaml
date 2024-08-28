@@ -8,7 +8,7 @@ kind: KFDDistribution
 metadata:
   name: sighup
 spec:
-  distributionVersion: v1.27.7
+  distributionVersion: v1.27.8
   # This section describes how the KFD distribution will be installed
   distribution:
     kubeconfig: "{env://KUBECONFIG}"
@@ -16,7 +16,7 @@ spec:
     common: {}
     # This section contains all the configurations for all the KFD core modules
     modules:
-      networking: 
+      networking:
         type: calico
       # This section contains all the configurations for the ingress module
       ingress:
@@ -32,7 +32,7 @@ spec:
             type: http01
       logging:
         type: none
-        loki: 
+        loki:
           backend: minio
         minio:
           storageSize: 20Gi
@@ -41,7 +41,7 @@ spec:
             password: secretpassword1
       monitoring:
         type: none
-        mimir: 
+        mimir:
           backend: minio
         prometheus:
           resources:
@@ -57,7 +57,7 @@ spec:
             password: secretpassword2
       tracing:
         type: none
-        tempo: 
+        tempo:
           backend: minio
         minio:
           storageSize: 20Gi
@@ -72,14 +72,15 @@ spec:
           validationFailureAction: enforce
       dr:
         type: none
-        velero: 
+        velero:
           backend: minio
       auth:
         provider:
           type: none
     # patches for kind compatibility and resource setting
     customPatches:
-      patchesStrategicMerge: []
+      patchesStrategicMerge:
+        []
         #- |
         #  apiVersion: apps/v1
         #  kind: StatefulSet

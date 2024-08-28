@@ -522,6 +522,7 @@ The base domain for the auth module
 |:----------------------------------------------------------------------------------|:---------|:---------|
 | [additionalStaticClients](#specdistributionmodulesauthdexadditionalstaticclients) | `array`  | Optional |
 | [connectors](#specdistributionmodulesauthdexconnectors)                           | `array`  | Required |
+| [expiry](#specdistributionmodulesauthdexexpiry)                                   | `object` | Optional |
 | [overrides](#specdistributionmodulesauthdexoverrides)                             | `object` | Optional |
 
 ## .spec.distribution.modules.auth.dex.additionalStaticClients
@@ -535,6 +536,27 @@ The additional static clients for dex
 ### Description
 
 The connectors for dex
+
+## .spec.distribution.modules.auth.dex.expiry
+
+### Properties
+
+| Property                                                        | Type     | Required |
+|:----------------------------------------------------------------|:---------|:---------|
+| [idTokens](#specdistributionmodulesauthdexexpiryidtokens)       | `string` | Optional |
+| [signingKeys](#specdistributionmodulesauthdexexpirysigningkeys) | `string` | Optional |
+
+## .spec.distribution.modules.auth.dex.expiry.idTokens
+
+### Description
+
+Dex ID tokens expiration time duration (default 24h).
+
+## .spec.distribution.modules.auth.dex.expiry.signingKeys
+
+### Description
+
+Dex signing key expiration time duration (default 6h).
 
 ## .spec.distribution.modules.auth.dex.overrides
 
