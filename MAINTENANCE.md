@@ -20,7 +20,7 @@ The release is needed to render this updates available to KFD's user base.
 
 The update process usually involves going back and forward between KFD (this repo) and furyctl.
 
-> [!INFO]
+> [!NOTE]
 > Some of the following steps may not apply in some specific cases, for example if you are only releasing a patch version that fixes an issue on the templates, maybe you can skip some steps.
 
 With no further ado, the steps to release a new version are:
