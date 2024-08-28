@@ -10,5 +10,9 @@ echo "Executing furyctl for the initial setup"
 /tmp/furyctl apply --config tests/e2e/kfddistribution-upgrades/furyctl-init-cluster-1.27.5.yaml --outdir "$PWD" --disable-analytics
 
 echo "----------------------------------------------------------------------------"
+echo "Executing upgrade to an intermediate version"
+/tmp/furyctl apply --upgrade --config tests/e2e/kfddistribution-upgrades/furyctl-init-cluster-1.27.6.yaml --outdir "$PWD" --force upgrades --disable-analytics
+
+echo "----------------------------------------------------------------------------"
 echo "Executing upgrade to the next version"
-/tmp/furyctl apply --upgrade --config tests/e2e/kfddistribution-upgrades/furyctl-init-cluster-1.27.6.yaml --outdir "$PWD" --distro-location ./ --force upgrades --disable-analytics
+/tmp/furyctl apply --upgrade --config tests/e2e/kfddistribution-upgrades/furyctl-init-cluster-1.27.7.yaml --outdir "$PWD" --distro-location ./ --force upgrades --disable-analytics

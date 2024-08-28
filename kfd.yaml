@@ -2,24 +2,24 @@
 # Use of this source code is governed by a BSD-style
 # license that can be found in the LICENSE file.
 
-version: v1.27.6
+version: v1.27.7
 modules:
-  auth: v0.2.0
-  aws: v4.2.0
+  auth: v0.3.0
+  aws: v4.2.1
   dr: v2.3.0
-  ingress: v2.3.0
-  logging: v3.4.0
-  monitoring: v3.1.0
+  ingress: v2.3.2
+  logging: v3.4.1
+  monitoring: v3.2.0
   opa: v1.12.0
   networking: v1.17.0
   tracing: v1.0.3
 kubernetes:
   eks:
     version: 1.27
-    installer: v3.1.1
+    installer: v3.1.2
   onpremises:
     version: 1.27.6
-    installer: v1.29.3-rev.1
+    installer: v1.29.3-rev.2
 furyctlSchemas:
   eks:
     - apiVersion: kfd.sighup.io/v1alpha2
