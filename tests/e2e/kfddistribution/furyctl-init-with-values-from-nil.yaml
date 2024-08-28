@@ -8,7 +8,7 @@ kind: KFDDistribution
 metadata:
   name: sighup
 spec:
-  distributionVersion: v1.28.2
+  distributionVersion: v1.28.3
   # This section describes how the KFD distribution will be installed
   distribution:
     kubeconfig: "{env://KUBECONFIG}"
@@ -16,7 +16,7 @@ spec:
     common: {}
     # This section contains all the configurations for all the KFD core modules
     modules:
-      networking: 
+      networking:
         type: calico
       # This section contains all the configurations for the ingress module
       ingress:
@@ -32,7 +32,7 @@ spec:
             type: http01
       logging:
         type: loki
-        loki: 
+        loki:
           backend: externalEndpoint
           externalEndpoint:
             endpoint: 192.168.1.100:9000
@@ -42,7 +42,7 @@ spec:
             bucketName: loki
       monitoring:
         type: mimir
-        mimir: 
+        mimir:
           backend: externalEndpoint
           externalEndpoint:
             endpoint: 192.168.1.100:9000
@@ -52,7 +52,7 @@ spec:
             bucketName: mimir
       tracing:
         type: tempo
-        tempo: 
+        tempo:
           backend: externalEndpoint
           externalEndpoint:
             endpoint: 192.168.1.100:9000
@@ -68,7 +68,7 @@ spec:
           validationFailureAction: enforce
       dr:
         type: on-premises
-        velero: 
+        velero:
           backend: externalEndpoint
           externalEndpoint:
             endpoint: 192.168.1.100:9000

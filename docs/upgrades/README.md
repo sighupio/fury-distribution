@@ -1,3 +1,5 @@
 # Kubernetes Fury Distribution Upgrade Path
 
-You can find all the upgrade paths on the `furyctl` repository : [upgrade docs](https://github.com/sighupio/furyctl/tree/develop/docs/upgrades/kfd) .
+KFD Upgrades are now managed by furyctl.
+
+You can find all the upgrade paths on `furyctl`'s repository [upgrades documentation](https://github.com/sighupio/furyctl/tree/main/docs/upgrades/kfd).
