@@ -58,3 +58,6 @@ staticClients:
 {{- if .spec.distribution.modules.auth.dex.additionalStaticClients }}
 {{ .spec.distribution.modules.auth.dex.additionalStaticClients | toYaml }}
 {{- end }}
+expiry:
+  signingKeys: {{ .spec.distribution.modules.auth.dex.expiry.signingKeys }}
+  idTokens: {{ .spec.distribution.modules.auth.dex.expiry.idTokens }}
