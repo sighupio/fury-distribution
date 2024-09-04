@@ -1,5 +1,6 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
+  "description": "Configuration for Pomerium, an indenity aware reverse proxy used for SSO.",
   "type": "object",
   "additionalProperties": false,
   "properties": {
@@ -11,7 +12,7 @@
     },
     "routes": {
       "type": "array",
-      "description": "Routes configuration for pomerium",
+      "description": "Additional routes configuration for Pomerium. Follows Pomerium's route format: https://www.pomerium.com/docs/reference/routes",
       "items": {
         "type": "object"
       }
@@ -24,10 +25,13 @@
       "$ref": "#/$defs/Types.FuryModuleComponentOverrides"
     }
   },
-  "required": ["secrets"],
+  "required": [
+    "secrets"
+  ],
   "$defs": {
     "Spec.Distribution.Modules.Auth.Pomerium.DefaultRoutesPolicy": {
       "type": "object",
+      "description": "override default routes for KFD components",
       "additionalProperties": false,
       "properties": {
         "monitoringPrometheus": {
@@ -95,22 +99,23 @@
     "Spec.Distribution.Modules.Auth.Pomerium.Secrets": {
       "type": "object",
       "additionalProperties": false,
+      "description": "Pomerium needs some user-provided secrets to be fully configured. These secrets should be unique between clusters.",
       "properties": {
         "COOKIE_SECRET": {
           "type": "string",
-          "description": "Cookie Secret is the secret used to encrypt and sign session cookies."
+          "description": "Cookie Secret is the secret used to encrypt and sign session cookies.\n\nTo generate a random key, run the following command: `head -c32 /dev/urandom | base64`"
         },
         "IDP_CLIENT_SECRET": {
           "type": "string",
-          "description": "Identity Provider Client Secret is the OAuth 2.0 Secret Identifier retrieved from your identity provider."
+          "description": "Identity Provider Client Secret is the OAuth 2.0 Secret Identifier. When auth type is SSO, this value will be the secret used to authenticate Pomerium with Dex, **use a strong random value**."
         },
         "SHARED_SECRET": {
           "type": "string",
-          "description": "Shared Secret is the base64-encoded, 256-bit key used to mutually authenticate requests between Pomerium services. It's critical that secret keys are random, and stored safely."
+          "description": "Shared Secret is the base64-encoded, 256-bit key used to mutually authenticate requests between Pomerium services. It's critical that secret keys are random, and stored safely.\n\nTo generate a key, run the following command: `head -c32 /dev/urandom | base64`"
         },
         "SIGNING_KEY": {
           "type": "string",
-          "description": "Signing Key is one or more PEM-encoded private keys used to sign a user's attestation JWT, which can be consumed by upstream applications to pass along identifying user information like username, id, and groups."
+          "description": "Signing Key is the base64 representation of one or more PEM-encoded private keys used to sign a user's attestation JWT, which can be consumed by upstream applications to pass along identifying user information like username, id, and groups.\n\nTo generates an P-256 (ES256) signing key:\n\n```bash\nopenssl ecparam  -genkey  -name prime256v1  -noout  -out ec_private.pem\n# careful! this will output your private key in terminal\ncat ec_private.pem | base64\n```"
         }
       },
       "required": [
@@ -120,7 +125,6 @@
         "SIGNING_KEY"
       ]
     },
-
     "Types.FuryModuleComponentOverrides": {
       "type": "object",
       "additionalProperties": false,
@@ -129,7 +133,10 @@
           "$ref": "#/$defs/Types.KubeNodeSelector"
         },
         "tolerations": {
-          "type": ["array", "null"],
+          "type": [
+            "array",
+            "null"
+          ],
           "items": {
             "$ref": "#/$defs/Types.KubeToleration"
           }
@@ -137,8 +144,13 @@
       }
     },
     "Types.KubeNodeSelector": {
-      "type": ["object", "null"],
-      "additionalProperties": { "type": "string" }
+      "type": [
+        "object",
+        "null"
+      ],
+      "additionalProperties": {
+        "type": "string"
+      }
     },
     "Types.KubeToleration": {
       "type": "object",
@@ -146,11 +158,18 @@
       "properties": {
         "effect": {
           "type": "string",
-          "enum": ["NoSchedule", "PreferNoSchedule", "NoExecute"]
+          "enum": [
+            "NoSchedule",
+            "PreferNoSchedule",
+            "NoExecute"
+          ]
         },
         "operator": {
           "type": "string",
-          "enum": ["Exists", "Equal"]
+          "enum": [
+            "Exists",
+            "Equal"
+          ]
         },
         "key": {
           "type": "string"
@@ -159,7 +178,11 @@
           "type": "string"
         }
       },
-      "required": ["effect", "key", "value"]
+      "required": [
+        "effect",
+        "key",
+        "value"
+      ]
     }
   }
 }

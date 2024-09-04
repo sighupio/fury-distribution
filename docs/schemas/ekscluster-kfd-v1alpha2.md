@@ -711,6 +711,10 @@ The value of the toleration
 | [routes](#specdistributionmodulesauthpomeriumroutes)                           | `array`  | Optional |
 | [secrets](#specdistributionmodulesauthpomeriumsecrets)                         | `object` | Required |
 
+### Description
+
+Configuration for Pomerium, an indenity aware reverse proxy used for SSO.
+
 ## .spec.distribution.modules.auth.pomerium.defaultRoutesPolicy
 
 ### Properties
@@ -727,6 +731,10 @@ The value of the toleration
 | [monitoringMinioConsole](#specdistributionmodulesauthpomeriumdefaultroutespolicymonitoringminioconsole)           | `array` | Optional |
 | [monitoringPrometheus](#specdistributionmodulesauthpomeriumdefaultroutespolicymonitoringprometheus)               | `array` | Optional |
 | [tracingMinioConsole](#specdistributionmodulesauthpomeriumdefaultroutespolicytracingminioconsole)                 | `array` | Optional |
+
+### Description
+
+override default routes for KFD components
 
 ## .spec.distribution.modules.auth.pomerium.defaultRoutesPolicy.gatekeeperPolicyManager
 
@@ -807,7 +815,7 @@ DEPRECATED: Use defaultRoutesPolicy and/or routes
 
 ### Description
 
-Routes configuration for pomerium
+Additional routes configuration for Pomerium. Follows Pomerium's route format: https://www.pomerium.com/docs/reference/routes
 
 ## .spec.distribution.modules.auth.pomerium.secrets
 
@@ -820,17 +828,23 @@ Routes configuration for pomerium
 | [SHARED_SECRET](#specdistributionmodulesauthpomeriumsecretsshared_secret)         | `string` | Required |
 | [SIGNING_KEY](#specdistributionmodulesauthpomeriumsecretssigning_key)             | `string` | Required |
 
+### Description
+
+Pomerium needs some user-provided secrets to be fully configured. These secrets should be unique between clusters.
+
 ## .spec.distribution.modules.auth.pomerium.secrets.COOKIE_SECRET
 
 ### Description
 
 Cookie Secret is the secret used to encrypt and sign session cookies.
 
+To generate a random key, run the following command: `head -c32 /dev/urandom | base64`
+
 ## .spec.distribution.modules.auth.pomerium.secrets.IDP_CLIENT_SECRET
 
 ### Description
 
-Identity Provider Client Secret is the OAuth 2.0 Secret Identifier retrieved from your identity provider.
+Identity Provider Client Secret is the OAuth 2.0 Secret Identifier. When auth type is SSO, this value will be the secret used to authenticate Pomerium with Dex, **use a strong random value**.
 
 ## .spec.distribution.modules.auth.pomerium.secrets.SHARED_SECRET
 
@@ -838,11 +852,21 @@ Identity Provider Client Secret is the OAuth 2.0 Secret Identifier retrieved fro
 
 Shared Secret is the base64-encoded, 256-bit key used to mutually authenticate requests between Pomerium services. It's critical that secret keys are random, and stored safely.
 
+To generate a key, run the following command: `head -c32 /dev/urandom | base64`
+
 ## .spec.distribution.modules.auth.pomerium.secrets.SIGNING_KEY
 
 ### Description
 
-Signing Key is one or more PEM-encoded private keys used to sign a user's attestation JWT, which can be consumed by upstream applications to pass along identifying user information like username, id, and groups.
+Signing Key is the base64 representation of one or more PEM-encoded private keys used to sign a user's attestation JWT, which can be consumed by upstream applications to pass along identifying user information like username, id, and groups.
+
+To generates an P-256 (ES256) signing key:
+
+```bash
+openssl ecparam  -genkey  -name prime256v1  -noout  -out ec_private.pem
+# careful! this will output your private key in terminal
+cat ec_private.pem | base64
+```
 
 ## .spec.distribution.modules.auth.provider
 
