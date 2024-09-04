@@ -7,16 +7,14 @@ kubectlbin="{{ .paths.kubectl }}"
 yqbin="{{ .paths.yq }}"
 vendorPath="{{ .paths.vendorPath }}"
 
-if command -v gsed >/dev/null 2>&1; then
-  sedbin="gsed"
-else
-  sedbin="sed"
-fi
-
 $kustomizebin build --load_restrictor LoadRestrictionsNone . > out.yaml
 
 {{- if and (index .spec.distribution.common "customRegistry") (ne .spec.distribution.common.customRegistry "") }}
-$sedbin -i 's#registry.sighup.io/fury#{{.spec.distribution.common.customRegistry}}#g' out.yaml
+if [[ "$OSTYPE" == "darwin"* ]]; then
+  sed -i "" 's#registry.sighup.io/fury#{{.spec.distribution.common.customRegistry}}#g' out.yaml
+else
+  sed -i 's#registry.sighup.io/fury#{{.spec.distribution.common.customRegistry}}#g' out.yaml
+fi
 {{- end }}
 
 {{- if eq .spec.distribution.modules.monitoring.type "none" }}
