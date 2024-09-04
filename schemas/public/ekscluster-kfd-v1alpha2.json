@@ -906,6 +906,10 @@
         "relativeVendorPath": {
           "type": "string",
           "description": "The relative path to the vendor directory, does not need to be changed"
+        },
+        "customRegistry": {
+          "type": "string",
+          "description": "The custom registry to use for the images"
         }
       }
     },

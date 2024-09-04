@@ -57,6 +57,9 @@ type SpecDistribution struct {
 }
 
 type SpecDistributionCommon struct {
+	// The custom registry to use for the images
+	CustomRegistry *string `json:"customRegistry,omitempty" yaml:"customRegistry,omitempty" mapstructure:"customRegistry,omitempty"`
+
 	// The node selector to use to place the pods for all the KFD modules
 	NodeSelector TypesKubeNodeSelector `json:"nodeSelector,omitempty" yaml:"nodeSelector,omitempty" mapstructure:"nodeSelector,omitempty"`
 
