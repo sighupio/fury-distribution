@@ -722,7 +722,7 @@ The value of the toleration
 
 ### Description
 
-Configuration for Pomerium, an indenity aware reverse proxy used for SSO.
+Configuration for Pomerium, an identity-aware reverse proxy used for SSO.
 
 ## .spec.distribution.modules.auth.pomerium.defaultRoutesPolicy
 
