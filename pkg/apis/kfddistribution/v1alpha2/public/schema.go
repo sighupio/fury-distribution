@@ -429,7 +429,7 @@ type SpecDistributionModulesAuthPomeriumSecrets struct {
 	SIGNINGKEY string `json:"SIGNING_KEY" yaml:"SIGNING_KEY" mapstructure:"SIGNING_KEY"`
 }
 
-// Configuration for Pomerium, an indenity aware reverse proxy used for SSO.
+// Configuration for Pomerium, an identity-aware reverse proxy used for SSO.
 type SpecDistributionModulesAuthPomerium_2 struct {
 	// DefaultRoutesPolicy corresponds to the JSON schema field "defaultRoutesPolicy".
 	DefaultRoutesPolicy *SpecDistributionModulesAuthPomeriumDefaultRoutesPolicy `json:"defaultRoutesPolicy,omitempty" yaml:"defaultRoutesPolicy,omitempty" mapstructure:"defaultRoutesPolicy,omitempty"`
