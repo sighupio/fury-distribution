@@ -78,10 +78,17 @@ An example file can be found [here](https://github.com/sighupio/fury-distributio
 
 | Property                                                        | Type     | Required |
 |:----------------------------------------------------------------|:---------|:---------|
+| [customRegistry](#specdistributioncommoncustomregistry)         | `string` | Optional |
 | [nodeSelector](#specdistributioncommonnodeselector)             | `object` | Optional |
 | [provider](#specdistributioncommonprovider)                     | `object` | Optional |
 | [relativeVendorPath](#specdistributioncommonrelativevendorpath) | `string` | Optional |
 | [tolerations](#specdistributioncommontolerations)               | `array`  | Optional |
+
+## .spec.distribution.common.customRegistry
+
+### Description
+
+The custom registry to use for the images
 
 ## .spec.distribution.common.nodeSelector
 

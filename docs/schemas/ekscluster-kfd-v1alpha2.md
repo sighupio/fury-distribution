@@ -86,10 +86,17 @@ A Fury Cluster deployed through AWS's Elastic Kubernetes Service
 
 | Property                                                        | Type     | Required |
 |:----------------------------------------------------------------|:---------|:---------|
+| [customRegistry](#specdistributioncommoncustomregistry)         | `string` | Optional |
 | [nodeSelector](#specdistributioncommonnodeselector)             | `object` | Optional |
 | [provider](#specdistributioncommonprovider)                     | `object` | Optional |
 | [relativeVendorPath](#specdistributioncommonrelativevendorpath) | `string` | Optional |
 | [tolerations](#specdistributioncommontolerations)               | `array`  | Optional |
+
+## .spec.distribution.common.customRegistry
+
+### Description
+
+The custom registry to use for the images
 
 ## .spec.distribution.common.nodeSelector
 
