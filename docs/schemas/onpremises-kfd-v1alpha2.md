@@ -4087,14 +4087,15 @@ The type of tracing to use, either ***none*** or ***tempo***
 
 ### Properties
 
-| Property                                        | Type     | Required |
-|:------------------------------------------------|:---------|:---------|
-| [airGap](#speckubernetesadvancedairgap)         | `object` | Optional |
-| [cloud](#speckubernetesadvancedcloud)           | `object` | Optional |
-| [containerd](#speckubernetesadvancedcontainerd) | `object` | Optional |
-| [encryption](#speckubernetesadvancedencryption) | `object` | Optional |
-| [oidc](#speckubernetesadvancedoidc)             | `object` | Optional |
-| [users](#speckubernetesadvancedusers)           | `object` | Optional |
+| Property                                                | Type     | Required |
+|:--------------------------------------------------------|:---------|:---------|
+| [airGap](#speckubernetesadvancedairgap)                 | `object` | Optional |
+| [cloud](#speckubernetesadvancedcloud)                   | `object` | Optional |
+| [containerd](#speckubernetesadvancedcontainerd)         | `object` | Optional |
+| [customRegistry](#speckubernetesadvancedcustomregistry) | `string` | Optional |
+| [encryption](#speckubernetesadvancedencryption)         | `object` | Optional |
+| [oidc](#speckubernetesadvancedoidc)                     | `object` | Optional |
+| [users](#speckubernetesadvancedusers)                   | `object` | Optional |
 
 ## .spec.kubernetes.advanced.airGap
 
@@ -4273,6 +4274,12 @@ This feature can be used for example to authenticate to a private registry at co
 ## .spec.kubernetes.advanced.containerd.registryConfigs.registry
 
 ## .spec.kubernetes.advanced.containerd.registryConfigs.username
+
+## .spec.kubernetes.advanced.customRegistry
+
+### Description
+
+The custom registry to use for the images
 
 ## .spec.kubernetes.advanced.encryption
 

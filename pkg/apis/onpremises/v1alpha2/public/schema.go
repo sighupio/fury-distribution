@@ -1271,6 +1271,9 @@ type SpecKubernetesAdvanced struct {
 	// Containerd corresponds to the JSON schema field "containerd".
 	Containerd *SpecKubernetesAdvancedContainerd `json:"containerd,omitempty" yaml:"containerd,omitempty" mapstructure:"containerd,omitempty"`
 
+	// The custom registry to use for the images
+	CustomRegistry *string `json:"customRegistry,omitempty" yaml:"customRegistry,omitempty" mapstructure:"customRegistry,omitempty"`
+
 	// Encryption corresponds to the JSON schema field "encryption".
 	Encryption *SpecKubernetesAdvancedEncryption `json:"encryption,omitempty" yaml:"encryption,omitempty" mapstructure:"encryption,omitempty"`
 

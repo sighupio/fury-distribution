@@ -355,6 +355,10 @@
         },
         "airGap": {
           "$ref": "#/$defs/Spec.Kubernetes.Advanced.AirGap"
+        },
+        "customRegistry": {
+          "type": "string",
+          "description": "The custom registry to use for the images"
         }
       }
     },
