@@ -132,9 +132,9 @@
           "type": "string",
           "description": "The relative path to the vendor directory, does not need to be changed"
         },
-        "customRegistry": {
+        "registry": {
           "type": "string",
-          "description": "The custom registry to use for the images"
+          "description": "URL of the registry where to pull images from for the Distribution phase. (Default is registry.sighup.io/fury)."
         }
       }
     },

@@ -57,14 +57,15 @@ type SpecDistribution struct {
 }
 
 type SpecDistributionCommon struct {
-	// The custom registry to use for the images
-	CustomRegistry *string `json:"customRegistry,omitempty" yaml:"customRegistry,omitempty" mapstructure:"customRegistry,omitempty"`
-
 	// The node selector to use to place the pods for all the KFD modules
 	NodeSelector TypesKubeNodeSelector `json:"nodeSelector,omitempty" yaml:"nodeSelector,omitempty" mapstructure:"nodeSelector,omitempty"`
 
 	// Provider corresponds to the JSON schema field "provider".
 	Provider *SpecDistributionCommonProvider `json:"provider,omitempty" yaml:"provider,omitempty" mapstructure:"provider,omitempty"`
+
+	// URL of the registry where to pull images from for the Distribution phase.
+	// (Default is registry.sighup.io/fury).
+	Registry *string `json:"registry,omitempty" yaml:"registry,omitempty" mapstructure:"registry,omitempty"`
 
 	// The relative path to the vendor directory, does not need to be changed
 	RelativeVendorPath *string `json:"relativeVendorPath,omitempty" yaml:"relativeVendorPath,omitempty" mapstructure:"relativeVendorPath,omitempty"`
