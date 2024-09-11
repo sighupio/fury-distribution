@@ -891,14 +891,27 @@ type SpecDistributionModulesMonitoringBlackboxExporter struct {
 }
 
 type SpecDistributionModulesMonitoringGrafana struct {
-	// BasicAuthIngress corresponds to the JSON schema field "basicAuthIngress".
+	// Setting this to true will deploy an additional `grafana-basic-auth` ingress
+	// protected with Grafana's basic auth instead of SSO. It's intended use is as a
+	// temporary ingress for when there are problems with the SSO login flow.
+	//
+	// Notice that by default anonymous access is enabled.
 	BasicAuthIngress *bool `json:"basicAuthIngress,omitempty" yaml:"basicAuthIngress,omitempty" mapstructure:"basicAuthIngress,omitempty"`
 
 	// Overrides corresponds to the JSON schema field "overrides".
 	Overrides *TypesFuryModuleComponentOverrides `json:"overrides,omitempty" yaml:"overrides,omitempty" mapstructure:"overrides,omitempty"`
 
-	// UsersRoleAttributePath corresponds to the JSON schema field
-	// "usersRoleAttributePath".
+	// [JMESPath](http://jmespath.org/examples.html) expression to retrieve the user's
+	// role. Example:
+	//
+	// ```yaml
+	// usersRoleAttributePath: "contains(groups[*], 'beta') && 'Admin' ||
+	// contains(groups[*], 'gamma') && 'Editor' || contains(groups[*], 'delta') &&
+	// 'Viewer'
+	// ```
+	//
+	// More details in [Grafana's
+	// documentation](https://grafana.com/docs/grafana/latest/setup-grafana/configure-security/configure-authentication/generic-oauth/#configure-role-mapping).
 	UsersRoleAttributePath *string `json:"usersRoleAttributePath,omitempty" yaml:"usersRoleAttributePath,omitempty" mapstructure:"usersRoleAttributePath,omitempty"`
 }
 
