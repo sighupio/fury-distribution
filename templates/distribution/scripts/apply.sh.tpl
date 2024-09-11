@@ -9,11 +9,11 @@ vendorPath="{{ .paths.vendorPath }}"
 
 $kustomizebin build --load_restrictor LoadRestrictionsNone . > out.yaml
 
-{{- if and (index .spec.distribution.common "customRegistry") (ne .spec.distribution.common.customRegistry "") }}
+{{- if and (index .spec.distribution.common "registry") (ne .spec.distribution.common.registry "") }}
 if [[ "$OSTYPE" == "darwin"* ]]; then
-  sed -i "" 's#registry.sighup.io/fury#{{.spec.distribution.common.customRegistry}}#g' out.yaml
+  sed -i "" 's#registry.sighup.io/fury#{{.spec.distribution.common.registry}}#g' out.yaml
 else
-  sed -i 's#registry.sighup.io/fury#{{.spec.distribution.common.customRegistry}}#g' out.yaml
+  sed -i 's#registry.sighup.io/fury#{{.spec.distribution.common.registry}}#g' out.yaml
 fi
 {{- end }}
 

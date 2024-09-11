@@ -78,17 +78,11 @@ An example file can be found [here](https://github.com/sighupio/fury-distributio
 
 | Property                                                        | Type     | Required |
 |:----------------------------------------------------------------|:---------|:---------|
-| [customRegistry](#specdistributioncommoncustomregistry)         | `string` | Optional |
 | [nodeSelector](#specdistributioncommonnodeselector)             | `object` | Optional |
 | [provider](#specdistributioncommonprovider)                     | `object` | Optional |
+| [registry](#specdistributioncommonregistry)                     | `string` | Optional |
 | [relativeVendorPath](#specdistributioncommonrelativevendorpath) | `string` | Optional |
 | [tolerations](#specdistributioncommontolerations)               | `array`  | Optional |
-
-## .spec.distribution.common.customRegistry
-
-### Description
-
-The custom registry to use for the images
 
 ## .spec.distribution.common.nodeSelector
 
@@ -109,6 +103,12 @@ The node selector to use to place the pods for all the KFD modules
 ### Description
 
 The type of the provider
+
+## .spec.distribution.common.registry
+
+### Description
+
+URL of the registry where to pull images from for the Distribution phase. (Default is registry.sighup.io/fury).
 
 ## .spec.distribution.common.relativeVendorPath
 

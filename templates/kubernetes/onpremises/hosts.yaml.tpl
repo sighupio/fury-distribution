@@ -78,8 +78,8 @@ all:
 
         {{- end }}
 
-        {{- if and (index .spec.kubernetes.advanced "customRegistry") (ne .spec.kubernetes.advanced.customRegistry "") }}
-        kubernetes_image_registry: "{{ .spec.kubernetes.advanced.customRegistry }}"
+        {{- if and (index .spec.kubernetes.advanced "registry") (ne .spec.kubernetes.advanced.registry "") }}
+        kubernetes_image_registry: "{{ .spec.kubernetes.advanced.registry }}"
         {{- end }}
     nodes:
       children:
