@@ -65,6 +65,9 @@ type SpecDistributionCommon struct {
 
 	// URL of the registry where to pull images from for the Distribution phase.
 	// (Default is registry.sighup.io/fury).
+	//
+	// NOTE: If plugins are pulling from the default registry, the registry will be
+	// replaced for the plugin too.
 	Registry *string `json:"registry,omitempty" yaml:"registry,omitempty" mapstructure:"registry,omitempty"`
 
 	// The relative path to the vendor directory, does not need to be changed

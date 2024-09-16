@@ -1278,7 +1278,7 @@ type SpecKubernetesAdvanced struct {
 	// Oidc corresponds to the JSON schema field "oidc".
 	Oidc *SpecKubernetesAdvancedOIDC `json:"oidc,omitempty" yaml:"oidc,omitempty" mapstructure:"oidc,omitempty"`
 
-	// URL of the registry where to pull images from for the Distribution phase.
+	// URL of the registry where to pull images from for the Kubernetes phase.
 	// (Default is registry.sighup.io/fury/on-premises).
 	Registry *string `json:"registry,omitempty" yaml:"registry,omitempty" mapstructure:"registry,omitempty"`
 

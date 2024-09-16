@@ -4340,7 +4340,7 @@ The issuer url of the oidc provider
 
 ### Description
 
-URL of the registry where to pull images from for the Distribution phase. (Default is registry.sighup.io/fury/on-premises).
+URL of the registry where to pull images from for the Kubernetes phase. (Default is registry.sighup.io/fury/on-premises).
 
 ## .spec.kubernetes.advanced.users
 

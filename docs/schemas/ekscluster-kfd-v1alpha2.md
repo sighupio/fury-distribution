@@ -118,6 +118,8 @@ The type of the provider, must be EKS if specified
 
 URL of the registry where to pull images from for the Distribution phase. (Default is registry.sighup.io/fury).
 
+NOTE: If plugins are pulling from the default registry, the registry will be replaced for these plugins too.
+
 ## .spec.distribution.common.relativeVendorPath
 
 ### Description
