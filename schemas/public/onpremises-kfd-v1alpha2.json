@@ -355,6 +355,10 @@
         },
         "airGap": {
           "$ref": "#/$defs/Spec.Kubernetes.Advanced.AirGap"
+        },
+        "registry": {
+          "type": "string",
+          "description": "URL of the registry where to pull images from for the Kubernetes phase. (Default is registry.sighup.io/fury/on-premises)."
         }
       }
     },
@@ -635,6 +639,10 @@
         "relativeVendorPath": {
           "type": "string",
           "description": "The relative path to the vendor directory, does not need to be changed"
+        },
+        "registry": {
+          "type": "string",
+          "description": "URL of the registry where to pull images from for the Distribution phase. (Default is registry.sighup.io/fury)."
         }
       }
     },
