@@ -77,10 +77,6 @@ all:
         {{- end }}
 
         {{- end }}
-
-        {{- if and (index .spec.kubernetes.advanced "registry") (ne .spec.kubernetes.advanced.registry "") }}
-        kubernetes_image_registry: "{{ .spec.kubernetes.advanced.registry }}"
-        {{- end }}
     nodes:
       children:
         {{- range $n := .spec.kubernetes.nodes }}

@@ -131,10 +131,6 @@
         "relativeVendorPath": {
           "type": "string",
           "description": "The relative path to the vendor directory, does not need to be changed"
-        },
-        "registry": {
-          "type": "string",
-          "description": "URL of the registry where to pull images from for the Distribution phase. (Default is registry.sighup.io/fury).\n\nNOTE: If plugins are pulling from the default registry, the registry will be replaced for the plugin too."
         }
       }
     },
