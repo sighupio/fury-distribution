@@ -80,6 +80,7 @@ An example file can be found [here](https://github.com/sighupio/fury-distributio
 |:----------------------------------------------------------------|:---------|:---------|
 | [nodeSelector](#specdistributioncommonnodeselector)             | `object` | Optional |
 | [provider](#specdistributioncommonprovider)                     | `object` | Optional |
+| [registry](#specdistributioncommonregistry)                     | `string` | Optional |
 | [relativeVendorPath](#specdistributioncommonrelativevendorpath) | `string` | Optional |
 | [tolerations](#specdistributioncommontolerations)               | `array`  | Optional |
 
@@ -102,6 +103,12 @@ The node selector to use to place the pods for all the KFD modules
 ### Description
 
 The type of the provider
+
+## .spec.distribution.common.registry
+
+### Description
+
+URL of the registry where to pull images from for the Distribution phase. (Default is registry.sighup.io/fury).
 
 ## .spec.distribution.common.relativeVendorPath
 
@@ -4127,6 +4134,7 @@ The type of tracing to use, either ***none*** or ***tempo***
 | [containerd](#speckubernetesadvancedcontainerd) | `object` | Optional |
 | [encryption](#speckubernetesadvancedencryption) | `object` | Optional |
 | [oidc](#speckubernetesadvancedoidc)             | `object` | Optional |
+| [registry](#speckubernetesadvancedregistry)     | `string` | Optional |
 | [users](#speckubernetesadvancedusers)           | `object` | Optional |
 
 ## .spec.kubernetes.advanced.airGap
@@ -4367,6 +4375,12 @@ The issuer url of the oidc provider
 ## .spec.kubernetes.advanced.oidc.username_claim
 
 ## .spec.kubernetes.advanced.oidc.username_prefix
+
+## .spec.kubernetes.advanced.registry
+
+### Description
+
+URL of the registry where to pull images from for the Kubernetes phase. (Default is registry.sighup.io/fury/on-premises).
 
 ## .spec.kubernetes.advanced.users
 

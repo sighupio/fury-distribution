@@ -88,6 +88,7 @@ A Fury Cluster deployed through AWS's Elastic Kubernetes Service
 |:----------------------------------------------------------------|:---------|:---------|
 | [nodeSelector](#specdistributioncommonnodeselector)             | `object` | Optional |
 | [provider](#specdistributioncommonprovider)                     | `object` | Optional |
+| [registry](#specdistributioncommonregistry)                     | `string` | Optional |
 | [relativeVendorPath](#specdistributioncommonrelativevendorpath) | `string` | Optional |
 | [tolerations](#specdistributioncommontolerations)               | `array`  | Optional |
 
@@ -110,6 +111,14 @@ The node selector to use to place the pods for all the KFD modules
 ### Description
 
 The type of the provider, must be EKS if specified
+
+## .spec.distribution.common.registry
+
+### Description
+
+URL of the registry where to pull images from for the Distribution phase. (Default is registry.sighup.io/fury).
+
+NOTE: If plugins are pulling from the default registry, the registry will be replaced for these plugins too.
 
 ## .spec.distribution.common.relativeVendorPath
 
