@@ -41,7 +41,7 @@ With no further ado, the steps to release a new version are:
    1. `.drone.yaml`
    2. `tests/e2e-kfddistribution-*.yaml`
    3. `tests/e2e-kfddistribution-upgrades.sh`
-   4. `tests/e2e/kfddistribution-upgrades/furyctl-init-cluster-1.29.3.yaml`
+   4. `tests/e2e/kfddistribution-upgrades/furyctl-init-cluster-1.29.4.yaml`
 6. Update the documentation:
    1. `README.md`
    2. `docs/COMPATIBILITY_MATRIX.md`
@@ -62,10 +62,10 @@ At this point, you'll need to switch to pushing some changes in furyctl
 12. Update the compatibility unit tests with the new versions (`internal/distribution/compatibility_test.go`)
 13. Bump the version to the new `fury-distribution` go library that has been released as RC in step `7`.
 
-  ```bash
-  go get -u github.com/sighupio/fury-distribution@v1.29.3
-  go mod tidy
-  ```
+```bash
+go get -u github.com/sighupio/fury-distribution@v1.29.4
+go mod tidy
+```
 
 14. Tag a release candidate with the changes. This will be used in the e2e tests of the distribution.
 

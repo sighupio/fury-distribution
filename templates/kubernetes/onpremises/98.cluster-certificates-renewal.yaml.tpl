@@ -29,7 +29,7 @@
   serial: 1
   tasks:
     
-    # Get Kubernetes version and modify the output from something like “v1.29.3” to “1.29”.
+    # Get Kubernetes version and modify the output from something like “v1.29.4” to “1.29”.
     - name: Get the current Kubernetes version
       shell: |
         K8S_VERSION=$(kubectl version --kubeconfig=/etc/kubernetes/admin.conf --short 2>/dev/null | grep 'Server Version:' | awk '{print $3}')

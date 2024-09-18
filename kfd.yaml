@@ -2,7 +2,7 @@
 # Use of this source code is governed by a BSD-style
 # license that can be found in the LICENSE file.
 
-version: v1.29.3
+version: v1.29.4
 modules:
   auth: v0.3.0
   aws: v4.2.1
@@ -35,7 +35,7 @@ tools:
     furyagent:
       version: 0.4.0
     kubectl:
-      version: 1.29.3
+      version: 1.29.4
     kustomize:
       version: 3.10.0
     terraform:
