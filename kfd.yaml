@@ -35,7 +35,7 @@ tools:
     furyagent:
       version: 0.4.0
     kubectl:
-      version: 1.29.4
+      version: 1.29.3
     kustomize:
       version: 3.10.0
     terraform:
