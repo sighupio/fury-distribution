@@ -10,6 +10,7 @@ For a complete list of all KFD releases and their compatibility with Kubernetes 
 
 | KFD / Kubernetes Version                                                      | v1.28.X            | v1.27.X            |
 | ----------------------------------------------------------------------------- | ------------------ | ------------------ |
+| [v1.28.4](https://github.com/sighupio/fury-distribution/releases/tag/v1.28.4) | :white_check_mark: |                    |
 | [v1.28.3](https://github.com/sighupio/fury-distribution/releases/tag/v1.28.3) | :white_check_mark: |                    |
 | [v1.28.2](https://github.com/sighupio/fury-distribution/releases/tag/v1.28.2) | :white_check_mark: |                    |
 | [v1.28.1](https://github.com/sighupio/fury-distribution/releases/tag/v1.28.1) | :white_check_mark: |                    |
