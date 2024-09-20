@@ -7,8 +7,8 @@
 <p align="center">Kubernetes Fury Distribution (KFD) is a certified battle-tested Kubernetes distribution based purely on upstream Kubernetes.</p>
 <!-- markdownlint-enable MD033 MD045 -->
 
-[![Build Status](http://ci.sighup.io/api/badges/sighupio/fury-distribution/status.svg?ref=refs/tags/v1.29.3)](http://ci.sighup.io/sighupio/fury-distribution)
-[![Release](https://img.shields.io/badge/release-v1.29.3-blue?label=FuryDistributionRelease)](https://github.com/sighupio/fury-distribution/releases/latest)
+[![Build Status](http://ci.sighup.io/api/badges/sighupio/fury-distribution/status.svg?ref=refs/tags/v1.29.4)](http://ci.sighup.io/sighupio/fury-distribution)
+[![Release](https://img.shields.io/badge/release-v1.29.4-blue?label=FuryDistributionRelease)](https://github.com/sighupio/fury-distribution/releases/latest)
 [![Slack](https://img.shields.io/badge/slack-@kubernetes/fury-yellow.svg?logo=slack)](https://kubernetes.slack.com/archives/C0154HYTAQH)
 [![License](https://img.shields.io/github/license/sighupio/fury-distribution)](https://github.com/sighupio/fury-distribution/blob/main/LICENSE)
 
@@ -130,9 +130,9 @@ Current supported versions of KFD are:
 
 |                                  KFD Version                                   | Kubernetes Version |
 | :----------------------------------------------------------------------------: | :----------------: |
-| [`1.29.3`](https://github.com/sighupio/fury-distribution/releases/tag/v1.29.3) |      `1.29.x`      |
-| [`1.28.3`](https://github.com/sighupio/fury-distribution/releases/tag/v1.28.3) |      `1.28.x`      |
-| [`1.27.8`](https://github.com/sighupio/fury-distribution/releases/tag/v1.27.8) |      `1.27.x`      |
+| [`1.29.4`](https://github.com/sighupio/fury-distribution/releases/tag/v1.29.4) |      `1.29.x`      |
+| [`1.28.4`](https://github.com/sighupio/fury-distribution/releases/tag/v1.28.4) |      `1.28.x`      |
+| [`1.27.9`](https://github.com/sighupio/fury-distribution/releases/tag/v1.27.8) |      `1.27.x`      |
 
 Check the [compatibility matrix][compatibility-matrix] for additional information about previous releases of the Distribution and the compatibility with `furyctl`.
 
