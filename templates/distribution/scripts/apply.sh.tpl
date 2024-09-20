@@ -9,6 +9,14 @@ vendorPath="{{ .paths.vendorPath }}"
 
 $kustomizebin build --load_restrictor LoadRestrictionsNone . > out.yaml
 
+{{- if and (index .spec.distribution.common "registry") (ne .spec.distribution.common.registry "") }}
+if [[ "$OSTYPE" == "darwin"* ]]; then
+  sed -i "" 's#registry.sighup.io/fury#{{.spec.distribution.common.registry}}#g' out.yaml
+else
+  sed -i 's#registry.sighup.io/fury#{{.spec.distribution.common.registry}}#g' out.yaml
+fi
+{{- end }}
+
 {{- if eq .spec.distribution.modules.monitoring.type "none" }}
 if ! $kubectlbin get apiservice v1.monitoring.coreos.com; then
   cat out.yaml | $yqbin 'select(.apiVersion != "monitoring.coreos.com/v1")' > out-filtered.yaml

@@ -63,6 +63,10 @@ type SpecDistributionCommon struct {
 	// Provider corresponds to the JSON schema field "provider".
 	Provider *SpecDistributionCommonProvider `json:"provider,omitempty" yaml:"provider,omitempty" mapstructure:"provider,omitempty"`
 
+	// URL of the registry where to pull images from for the Distribution phase.
+	// (Default is registry.sighup.io/fury).
+	Registry *string `json:"registry,omitempty" yaml:"registry,omitempty" mapstructure:"registry,omitempty"`
+
 	// The relative path to the vendor directory, does not need to be changed
 	RelativeVendorPath *string `json:"relativeVendorPath,omitempty" yaml:"relativeVendorPath,omitempty" mapstructure:"relativeVendorPath,omitempty"`
 
@@ -364,6 +368,7 @@ type SpecDistributionModulesAuthOverridesIngresses map[string]SpecDistributionMo
 
 type SpecDistributionModulesAuthPomerium interface{}
 
+// override default routes for KFD components
 type SpecDistributionModulesAuthPomeriumDefaultRoutesPolicy struct {
 	// GatekeeperPolicyManager corresponds to the JSON schema field
 	// "gatekeeperPolicyManager".
@@ -424,25 +429,43 @@ type SpecDistributionModulesAuthPomeriumDefaultRoutesPolicyTracingMinioConsoleEl
 
 type SpecDistributionModulesAuthPomeriumRoutesElem map[string]interface{}
 
+// Pomerium needs some user-provided secrets to be fully configured. These secrets
+// should be unique between clusters.
 type SpecDistributionModulesAuthPomeriumSecrets struct {
 	// Cookie Secret is the secret used to encrypt and sign session cookies.
+	//
+	// To generate a random key, run the following command: `head -c32 /dev/urandom |
+	// base64`
 	COOKIESECRET string `json:"COOKIE_SECRET" yaml:"COOKIE_SECRET" mapstructure:"COOKIE_SECRET"`
 
-	// Identity Provider Client Secret is the OAuth 2.0 Secret Identifier retrieved
-	// from your identity provider.
+	// Identity Provider Client Secret is the OAuth 2.0 Secret Identifier. When auth
+	// type is SSO, this value will be the secret used to authenticate Pomerium with
+	// Dex, **use a strong random value**.
 	IDPCLIENTSECRET string `json:"IDP_CLIENT_SECRET" yaml:"IDP_CLIENT_SECRET" mapstructure:"IDP_CLIENT_SECRET"`
 
 	// Shared Secret is the base64-encoded, 256-bit key used to mutually authenticate
 	// requests between Pomerium services. It's critical that secret keys are random,
 	// and stored safely.
+	//
+	// To generate a key, run the following command: `head -c32 /dev/urandom | base64`
 	SHAREDSECRET string `json:"SHARED_SECRET" yaml:"SHARED_SECRET" mapstructure:"SHARED_SECRET"`
 
-	// Signing Key is one or more PEM-encoded private keys used to sign a user's
-	// attestation JWT, which can be consumed by upstream applications to pass along
-	// identifying user information like username, id, and groups.
+	// Signing Key is the base64 representation of one or more PEM-encoded private
+	// keys used to sign a user's attestation JWT, which can be consumed by upstream
+	// applications to pass along identifying user information like username, id, and
+	// groups.
+	//
+	// To generates an P-256 (ES256) signing key:
+	//
+	// ```bash
+	// openssl ecparam  -genkey  -name prime256v1  -noout  -out ec_private.pem
+	// # careful! this will output your private key in terminal
+	// cat ec_private.pem | base64
+	// ```
 	SIGNINGKEY string `json:"SIGNING_KEY" yaml:"SIGNING_KEY" mapstructure:"SIGNING_KEY"`
 }
 
+// Configuration for Pomerium, an identity-aware reverse proxy used for SSO.
 type SpecDistributionModulesAuthPomerium_2 struct {
 	// DefaultRoutesPolicy corresponds to the JSON schema field "defaultRoutesPolicy".
 	DefaultRoutesPolicy *SpecDistributionModulesAuthPomeriumDefaultRoutesPolicy `json:"defaultRoutesPolicy,omitempty" yaml:"defaultRoutesPolicy,omitempty" mapstructure:"defaultRoutesPolicy,omitempty"`
@@ -453,7 +476,8 @@ type SpecDistributionModulesAuthPomerium_2 struct {
 	// DEPRECATED: Use defaultRoutesPolicy and/or routes
 	Policy *string `json:"policy,omitempty" yaml:"policy,omitempty" mapstructure:"policy,omitempty"`
 
-	// Routes configuration for pomerium
+	// Additional routes configuration for Pomerium. Follows Pomerium's route format:
+	// https://www.pomerium.com/docs/reference/routes
 	Routes []SpecDistributionModulesAuthPomeriumRoutesElem `json:"routes,omitempty" yaml:"routes,omitempty" mapstructure:"routes,omitempty"`
 
 	// Secrets corresponds to the JSON schema field "secrets".
@@ -909,14 +933,27 @@ type SpecDistributionModulesMonitoringBlackboxExporter struct {
 }
 
 type SpecDistributionModulesMonitoringGrafana struct {
-	// BasicAuthIngress corresponds to the JSON schema field "basicAuthIngress".
+	// Setting this to true will deploy an additional `grafana-basic-auth` ingress
+	// protected with Grafana's basic auth instead of SSO. It's intended use is as a
+	// temporary ingress for when there are problems with the SSO login flow.
+	//
+	// Notice that by default anonymous access is enabled.
 	BasicAuthIngress *bool `json:"basicAuthIngress,omitempty" yaml:"basicAuthIngress,omitempty" mapstructure:"basicAuthIngress,omitempty"`
 
 	// Overrides corresponds to the JSON schema field "overrides".
 	Overrides *TypesFuryModuleComponentOverrides `json:"overrides,omitempty" yaml:"overrides,omitempty" mapstructure:"overrides,omitempty"`
 
-	// UsersRoleAttributePath corresponds to the JSON schema field
-	// "usersRoleAttributePath".
+	// [JMESPath](http://jmespath.org/examples.html) expression to retrieve the user's
+	// role. Example:
+	//
+	// ```yaml
+	// usersRoleAttributePath: "contains(groups[*], 'beta') && 'Admin' ||
+	// contains(groups[*], 'gamma') && 'Editor' || contains(groups[*], 'delta') &&
+	// 'Viewer'
+	// ```
+	//
+	// More details in [Grafana's
+	// documentation](https://grafana.com/docs/grafana/latest/setup-grafana/configure-security/configure-authentication/generic-oauth/#configure-role-mapping).
 	UsersRoleAttributePath *string `json:"usersRoleAttributePath,omitempty" yaml:"usersRoleAttributePath,omitempty" mapstructure:"usersRoleAttributePath,omitempty"`
 }
 
@@ -1273,6 +1310,10 @@ type SpecKubernetesAdvanced struct {
 
 	// Oidc corresponds to the JSON schema field "oidc".
 	Oidc *SpecKubernetesAdvancedOIDC `json:"oidc,omitempty" yaml:"oidc,omitempty" mapstructure:"oidc,omitempty"`
+
+	// URL of the registry where to pull images from for the Kubernetes phase.
+	// (Default is registry.sighup.io/fury/on-premises).
+	Registry *string `json:"registry,omitempty" yaml:"registry,omitempty" mapstructure:"registry,omitempty"`
 
 	// Users corresponds to the JSON schema field "users".
 	Users *SpecKubernetesAdvancedUsers `json:"users,omitempty" yaml:"users,omitempty" mapstructure:"users,omitempty"`

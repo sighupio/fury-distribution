@@ -80,6 +80,7 @@ An example file can be found [here](https://github.com/sighupio/fury-distributio
 |:----------------------------------------------------------------|:---------|:---------|
 | [nodeSelector](#specdistributioncommonnodeselector)             | `object` | Optional |
 | [provider](#specdistributioncommonprovider)                     | `object` | Optional |
+| [registry](#specdistributioncommonregistry)                     | `string` | Optional |
 | [relativeVendorPath](#specdistributioncommonrelativevendorpath) | `string` | Optional |
 | [tolerations](#specdistributioncommontolerations)               | `array`  | Optional |
 
@@ -102,6 +103,14 @@ The node selector to use to place the pods for all the KFD modules
 ### Description
 
 The type of the provider
+
+## .spec.distribution.common.registry
+
+### Description
+
+URL of the registry where to pull images from for the Distribution phase. (Default is registry.sighup.io/fury).
+
+NOTE: If plugins are pulling from the default registry, the registry will be replaced for the plugin too.
 
 ## .spec.distribution.common.relativeVendorPath
 
@@ -708,6 +717,10 @@ The value of the toleration
 | [routes](#specdistributionmodulesauthpomeriumroutes)                           | `array`  | Optional |
 | [secrets](#specdistributionmodulesauthpomeriumsecrets)                         | `object` | Required |
 
+### Description
+
+Configuration for Pomerium, an identity-aware reverse proxy used for SSO.
+
 ## .spec.distribution.modules.auth.pomerium.defaultRoutesPolicy
 
 ### Properties
@@ -724,6 +737,10 @@ The value of the toleration
 | [monitoringMinioConsole](#specdistributionmodulesauthpomeriumdefaultroutespolicymonitoringminioconsole)           | `array` | Optional |
 | [monitoringPrometheus](#specdistributionmodulesauthpomeriumdefaultroutespolicymonitoringprometheus)               | `array` | Optional |
 | [tracingMinioConsole](#specdistributionmodulesauthpomeriumdefaultroutespolicytracingminioconsole)                 | `array` | Optional |
+
+### Description
+
+override default routes for KFD components
 
 ## .spec.distribution.modules.auth.pomerium.defaultRoutesPolicy.gatekeeperPolicyManager
 
@@ -804,7 +821,7 @@ DEPRECATED: Use defaultRoutesPolicy and/or routes
 
 ### Description
 
-Routes configuration for pomerium
+Additional routes configuration for Pomerium. Follows Pomerium's route format: https://www.pomerium.com/docs/reference/routes
 
 ## .spec.distribution.modules.auth.pomerium.secrets
 
@@ -817,17 +834,23 @@ Routes configuration for pomerium
 | [SHARED_SECRET](#specdistributionmodulesauthpomeriumsecretsshared_secret)         | `string` | Required |
 | [SIGNING_KEY](#specdistributionmodulesauthpomeriumsecretssigning_key)             | `string` | Required |
 
+### Description
+
+Pomerium needs some user-provided secrets to be fully configured. These secrets should be unique between clusters.
+
 ## .spec.distribution.modules.auth.pomerium.secrets.COOKIE_SECRET
 
 ### Description
 
 Cookie Secret is the secret used to encrypt and sign session cookies.
 
+To generate a random key, run the following command: `head -c32 /dev/urandom | base64`
+
 ## .spec.distribution.modules.auth.pomerium.secrets.IDP_CLIENT_SECRET
 
 ### Description
 
-Identity Provider Client Secret is the OAuth 2.0 Secret Identifier retrieved from your identity provider.
+Identity Provider Client Secret is the OAuth 2.0 Secret Identifier. When auth type is SSO, this value will be the secret used to authenticate Pomerium with Dex, **use a strong random value**.
 
 ## .spec.distribution.modules.auth.pomerium.secrets.SHARED_SECRET
 
@@ -835,11 +858,21 @@ Identity Provider Client Secret is the OAuth 2.0 Secret Identifier retrieved fro
 
 Shared Secret is the base64-encoded, 256-bit key used to mutually authenticate requests between Pomerium services. It's critical that secret keys are random, and stored safely.
 
+To generate a key, run the following command: `head -c32 /dev/urandom | base64`
+
 ## .spec.distribution.modules.auth.pomerium.secrets.SIGNING_KEY
 
 ### Description
 
-Signing Key is one or more PEM-encoded private keys used to sign a user's attestation JWT, which can be consumed by upstream applications to pass along identifying user information like username, id, and groups.
+Signing Key is the base64 representation of one or more PEM-encoded private keys used to sign a user's attestation JWT, which can be consumed by upstream applications to pass along identifying user information like username, id, and groups.
+
+To generates an P-256 (ES256) signing key:
+
+```bash
+openssl ecparam  -genkey  -name prime256v1  -noout  -out ec_private.pem
+# careful! this will output your private key in terminal
+cat ec_private.pem | base64
+```
 
 ## .spec.distribution.modules.auth.provider
 
@@ -2381,6 +2414,12 @@ The value of the toleration
 
 ## .spec.distribution.modules.monitoring.grafana.basicAuthIngress
 
+### Description
+
+Setting this to true will deploy an additional `grafana-basic-auth` ingress protected with Grafana's basic auth instead of SSO. It's intended use is as a temporary ingress for when there are problems with the SSO login flow.
+
+Notice that by default anonymous access is enabled.
+
 ## .spec.distribution.modules.monitoring.grafana.overrides
 
 ### Properties
@@ -2447,6 +2486,16 @@ The key of the toleration
 The value of the toleration
 
 ## .spec.distribution.modules.monitoring.grafana.usersRoleAttributePath
+
+### Description
+
+[JMESPath](http://jmespath.org/examples.html) expression to retrieve the user's role. Example:
+
+```yaml
+usersRoleAttributePath: "contains(groups[*], 'beta') && 'Admin' || contains(groups[*], 'gamma') && 'Editor' || contains(groups[*], 'delta') && 'Viewer'
+```
+
+More details in [Grafana's documentation](https://grafana.com/docs/grafana/latest/setup-grafana/configure-security/configure-authentication/generic-oauth/#configure-role-mapping).
 
 ## .spec.distribution.modules.monitoring.kubeStateMetrics
 
