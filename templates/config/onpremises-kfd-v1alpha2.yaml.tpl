@@ -13,19 +13,20 @@
 apiVersion: kfd.sighup.io/v1alpha2
 kind: OnPremises
 metadata:
-  # The name of the cluster, will be also used as a prefix for all the other resources created
+  # The name of the cluster. It will also be used as a prefix for all the other resources created.
   name: {{.Name}}
 spec:
-  # This value defines which KFD version will be installed and in consequence the Kubernetes version to use to create the cluster,
-  # it supports git tags and branches
+  # Defines which KFD version will be installed and, in consequence, the Kubernetes version used to create the cluster. It supports git tags and branches. Example: v1.30.1.
   distributionVersion: {{.DistributionVersion}}
-  # This section describes how the cluster will be created
+  # Defines the Kubernetes components configuration and the values needed for the kubernetes phase of furyctl.
   kubernetes:
+    # The path to the folder where the PKI files for Kubernetes and etcd are stored.
     pkiFolder: ./pki
+    # SSH credentials to access the hosts
     ssh:
       username: johndoe
       keyPath: /youruserpath/.ssh/id_ed25519
-    # this zone will be concatenated to the - name on each host to generate kubernetes_hostname in the hosts.yaml file, and also for the etcd initial cluster value
+    # The DNS zone of the machines. It will be appended to the name of each host to generate the `kubernetes_hostname` in the Ansible inventory file. It is also used to calculate etcd's initial cluster value.
     dnsZone: example.dev
     controlPlaneAddress: control-planelocal.example.dev:6443
     podCidr: 172.16.128.0/17
@@ -120,7 +121,7 @@ spec:
         type: "calico"
       # This section contains all the configurations for the ingress module
       ingress:
-        # the base domain used for all the KFD ingresses, if in the nginx dual configuration, it should be the same as the .spec.distribution.modules.ingress.dns.private.name zone
+        # The base domain used for all the KFD infrastructural ingresses. If using the nginx dual type, this value should be the same as the `.spec.distribution.modules.ingress.dns.private.name`
         baseDomain: internal.example.dev
         # configurations for the nginx ingress controller package
         nginx:
@@ -138,7 +139,7 @@ spec:
               # key: "{file://relative/path/to/ssl.key}"
               # the ca file, a file notation can be used to get the content from a file
               # ca: "{file://relative/path/to/ssl.ca}"
-        # configuration for the cert-manager package
+        # configuration for the cert-manager package Required even if `ingress.nginx.type` is `none`, cert-manager is used for managing other certificates in the cluster besides the TLS termination certificates for the ingresses."
         certManager:
           # the configuration for the clusterIssuer that will be created
           clusterIssuer:
@@ -190,7 +191,7 @@ spec:
         provider:
           # The authentication type used for the infrastructure ingresses (all the ingress for the distribution) can be none, basicAuth, sso
           type: none
-        # The base domain used for all the auth ingresses, if in the nginx dual configuration, it should be the same as the .spec.distribution.modules.ingress.dns.public.name zone
+        # The base domain used for all the auth ingresses, if in the nginx dual configuration, it should be the same as the .spec.distribution.modules.ingress.dns.public.name domain
         baseDomain: example.dev
     # Custom Patches to add or override fields in the generated manifests
     #customPatches: {}
