@@ -16,9 +16,9 @@ metadata:
   # The name of the cluster. It will also be used as a prefix for all the other resources created.
   name: {{.Name}}
 spec:
-  # Defines which KFD version will be installed and, in consequence, the Kubernetes version used to create the cluster. It supports git tags and branches. Example: v1.30.1.
+  # Defines which KFD version will be installed and, in consequence, the Kubernetes version used to create the cluster. It supports git tags and branches. Example: v1.29.4.
   distributionVersion: {{.DistributionVersion}}
-  # Defines the Kubernetes components configuration and the values needed for the kubernetes phase of furyctl.
+  # Defines the Kubernetes components configuration and the values needed for the `kubernetes` phase of furyctl.
   kubernetes:
     # The path to the folder where the PKI files for Kubernetes and etcd are stored.
     pkiFolder: ./pki

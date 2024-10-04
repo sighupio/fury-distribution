@@ -336,7 +336,7 @@
       "properties": {
         "name": {
           "type": "string",
-          "description": "Name for the node group. It will be also used as the node role label."
+          "description": "Name for the node group. It will be also used as the node role label. It should follow the [valid variable names guideline](https://docs.ansible.com/ansible/latest/playbook_guide/playbooks_variables.html#valid-variable-names) from Ansible."
         },
         "hosts": {
           "type": "array",
@@ -470,7 +470,7 @@
         },
         "username_claim": {
           "type": "string",
-          "description": "JWT claim to use as the user name. By default sub, which is expected to be a unique identifier of the end user."
+          "description": "JWT claim to use as the user name. The default value is `sub`, which is expected to be a unique identifier of the end user."
         },
         "username_prefix": {
           "type": "string",
@@ -506,23 +506,23 @@
         "properties": {
           "registry": {
             "type": "string",
-            "description": "registry you would like to configure authentication or mirror(s). Example: myregistry.tld:5000"
+            "description": "Registry address on which you would like to configure authentication or mirror(s). Example: `myregistry.tld:5000`"
           },
           "username": {
             "type": "string",
-            "description": "username containerd will use to authenticate against the registry."
+            "description": "The username containerd will use to authenticate against the registry."
           },
           "password": {
             "type": "string",
-            "description": "password containerd will use to authenticate against the registry."
+            "description": "The password containerd will use to authenticate against the registry."
           },
           "insecureSkipVerify": {
             "type": "boolean",
-            "description": "set to true to skip TLS verification (e.g. when using self-signed certificates)."
+            "description": "Set to `true` to skip TLS verification (e.g. when using self-signed certificates)."
           },
           "mirrorEndpoint": {
             "type": "array",
-            "description": "array of URLs with the mirrors to use for the registry. Example: `[\"http://mymirror.tld:8080\"]`",
+            "description": "Array of URLs with the mirrors to use for the registry. Example: `[\"http://mymirror.tld:8080\"]`",
             "items": {
               "type": "string"
             }
@@ -715,7 +715,7 @@
           "items": {
             "$ref": "#/$defs/Types.KubeToleration"
           },
-          "description": "An array with he tolerations that will be added to the pods for all the KFD modules. Follows Kubernetes tolerations format. Example:\n\n```yaml\n- effect: NoSchedule\n  key: node.kubernetes.io/role\n  value: infra\n```"
+          "description": "An array with the tolerations that will be added to the pods for all the KFD modules. Follows Kubernetes tolerations format. Example:\n\n```yaml\n- effect: NoSchedule\n  key: node.kubernetes.io/role\n  value: infra\n```"
         },
         "provider": {
           "$ref": "#/$defs/Spec.Distribution.Common.Provider"
@@ -1162,7 +1162,7 @@
           "properties": {
             "endpoint": {
               "type": "string",
-              "description": "External S3 endpoint for Loki's storage."
+              "description": "External S3-compatible endpoint for Loki's storage."
             },
             "insecure": {
               "type": "boolean",
@@ -1170,15 +1170,15 @@
             },
             "secretAccessKey": {
               "type": "string",
-              "description": "The secret access key (password) for the external S3 bucket."
+              "description": "The secret access key (password) for the external S3-compatible bucket."
             },
             "accessKeyId": {
               "type": "string",
-              "description": "The access key ID (username) for the external S3 bucket."
+              "description": "The access key ID (username) for the external S3-compatible bucket."
             },
             "bucketName": {
               "type": "string",
-              "description": "The bucket name of the external object storage."
+              "description": "The bucket name of the external S3-compatible object storage."
             }
           }
         },
@@ -1198,41 +1198,41 @@
       }
     },
     "Spec.Distribution.Modules.Logging.CustomOutputs": {
-      "description": "When using the customOutputs logging type, you need to manually specify the spec of the several Output and ClusterOutputs that the Logging Operator expects to forward the logs collected by the pre-defined flows.",
+      "description": "When using the `customOutputs` logging type, you need to manually specify the spec of the several `Output` and `ClusterOutputs` that the Logging Operator expects to forward the logs collected by the pre-defined flows.",
       "type": "object",
       "additionalProperties": false,
       "properties": {
         "audit": {
           "type": "string",
-          "description": "This value defines where the output from the `audit` Flow will be sent. Will be the `spec` section of the `Output` object. It must be a string (and not a YAML object) following the OutputSpec definition. Use the `nullout` output to discard the flow: `nullout: {}`"
+          "description": "This value defines where the output from the `audit` Flow will be sent. This will be the `spec` section of the `Output` object. It must be a string (and not a YAML object) following the OutputSpec definition. Use the `nullout` output to discard the flow: `nullout: {}`"
         },
         "events": {
           "type": "string",
-          "description": "This value defines where the output from the `events` Flow will be sent. Will be the `spec` section of the `Output` object. It must be a string (and not a YAML object) following the OutputSpec definition. Use the `nullout` output to discard the flow: `nullout: {}`"
+          "description": "This value defines where the output from the `events` Flow will be sent. This will be the `spec` section of the `Output` object. It must be a string (and not a YAML object) following the OutputSpec definition. Use the `nullout` output to discard the flow: `nullout: {}`"
         },
         "infra": {
           "type": "string",
-          "description": "This value defines where the output from the `infra` Flow will be sent. Will be the `spec` section of the `Output` object. It must be a string (and not a YAML object) following the OutputSpec definition. Use the `nullout` output to discard the flow: `nullout: {}`"
+          "description": "This value defines where the output from the `infra` Flow will be sent. This will be the `spec` section of the `Output` object. It must be a string (and not a YAML object) following the OutputSpec definition. Use the `nullout` output to discard the flow: `nullout: {}`"
         },
         "ingressNginx": {
           "type": "string",
-          "description": "This value defines where the output from the `ingressNginx` Flow will be sent. Will be the `spec` section of the `Output` object. It must be a string (and not a YAML object) following the OutputSpec definition. Use the `nullout` output to discard the flow: `nullout: {}`"
+          "description": "This value defines where the output from the `ingressNginx` Flow will be sent. This will be the `spec` section of the `Output` object. It must be a string (and not a YAML object) following the OutputSpec definition. Use the `nullout` output to discard the flow: `nullout: {}`"
         },
         "kubernetes": {
           "type": "string",
-          "description": "This value defines where the output from the `kubernetes` Flow will be sent. Will be the `spec` section of the `Output` object. It must be a string (and not a YAML object) following the OutputSpec definition. Use the `nullout` output to discard the flow: `nullout: {}`"
+          "description": "This value defines where the output from the `kubernetes` Flow will be sent. This will be the `spec` section of the `Output` object. It must be a string (and not a YAML object) following the OutputSpec definition. Use the `nullout` output to discard the flow: `nullout: {}`"
         },
         "systemdCommon": {
           "type": "string",
-          "description": "This value defines where the output from the `systemdCommon` Flow will be sent. Will be the `spec` section of the `Output` object. It must be a string (and not a YAML object) following the OutputSpec definition. Use the `nullout` output to discard the flow: `nullout: {}`"
+          "description": "This value defines where the output from the `systemdCommon` Flow will be sent. This will be the `spec` section of the `Output` object. It must be a string (and not a YAML object) following the OutputSpec definition. Use the `nullout` output to discard the flow: `nullout: {}`"
         },
         "systemdEtcd": {
           "type": "string",
-          "description": "This value defines where the output from the `systemdEtcd` Flow will be sent. Will be the `spec` section of the `Output` object. It must be a string (and not a YAML object) following the OutputSpec definition. Use the `nullout` output to discard the flow: `nullout: {}`"
+          "description": "This value defines where the output from the `systemdEtcd` Flow will be sent. This will be the `spec` section of the `Output` object. It must be a string (and not a YAML object) following the OutputSpec definition. Use the `nullout` output to discard the flow: `nullout: {}`"
         },
         "errors": {
           "type": "string",
-          "description": "This value defines where the output from the `errors` Flow will be sent. Will be the `spec` section of the `Output` object. It must be a string (and not a YAML object) following the OutputSpec definition. Use the `nullout` output to discard the flow: `nullout: {}`"
+          "description": "This value defines where the output from the `errors` Flow will be sent. This will be the `spec` section of the `Output` object. It must be a string (and not a YAML object) following the OutputSpec definition. Use the `nullout` output to discard the flow: `nullout: {}`"
         }
       },
       "required": [
@@ -1259,7 +1259,7 @@
             "prometheusAgent",
             "mimir"
           ],
-          "description": "The type of the monitoring, must be `none`, `prometheus`, `prometheusAgent` or `mimir`.\n\n- `none`: will disable the whole monitoring stack.\n- `prometheus`: will install Prometheus Operator and a preconfigured Prometheus instace, Alertmanager, a set of alert rules, exporters needed to monitor all the components of the cluster, Grafana and a series of dashboards to view the collected metrics, and more.\n- `prometheusAgent`: wil install Prometheus operator, an instance of Prometheus in Agent mode (no alerting, no queries, no storage), and all the exporters needed to get metrics for the status of the cluster and the workloads. Useful when having a centralized (remote) Prometheus where to ship the metrics and not storing them locally in the cluster.\n- `mimir`: will install the same as the `prometheus` option, and in addition Grafana Mimir that allows for longer retention of metrics and the usage of Object Storage."
+          "description": "The type of the monitoring, must be `none`, `prometheus`, `prometheusAgent` or `mimir`.\n\n- `none`: will disable the whole monitoring stack.\n- `prometheus`: will install Prometheus Operator and a preconfigured Prometheus instace, Alertmanager, a set of alert rules, exporters needed to monitor all the components of the cluster, Grafana and a series of dashboards to view the collected metrics, and more.\n- `prometheusAgent`: wil install Prometheus operator, an instance of Prometheus in Agent mode (no alerting, no queries, no storage), and all the exporters needed to get metrics for the status of the cluster and the workloads. Useful when having a centralized (remote) Prometheus where to ship the metrics and not storing them locally in the cluster.\n- `mimir`: will install the same as the `prometheus` option, plus Grafana Mimir that allows for longer retention of metrics and the usage of Object Storage."
         },
         "overrides": {
           "$ref": "#/$defs/Types.FuryModuleOverrides"
@@ -1417,7 +1417,7 @@
             "minio",
             "externalEndpoint"
           ],
-          "description": "The storage backend type for Mimir. `minio` will use an in-cluster MinIO deployment for object storage, `externalEndpoint` can be used to point to an external object storage instead of deploying an in-cluster MinIO."
+          "description": "The storage backend type for Mimir. `minio` will use an in-cluster MinIO deployment for object storage, `externalEndpoint` can be used to point to an external S3-compatible object storage instead of deploying an in-cluster MinIO."
         },
         "externalEndpoint": {
           "type": "object",
@@ -1426,7 +1426,7 @@
           "properties": {
             "endpoint": {
               "type": "string",
-              "description": "External S3 endpoint for Mimir's storage."
+              "description": "External S3-compatible endpoint for Mimir's storage."
             },
             "insecure": {
               "type": "boolean",
@@ -1434,15 +1434,15 @@
             },
             "secretAccessKey": {
               "type": "string",
-              "description": "The secret access key (password) for the external S3 bucket."
+              "description": "The secret access key (password) for the external S3-compatible bucket."
             },
             "accessKeyId": {
               "type": "string",
-              "description": "The access key ID (username) for the external S3 bucket."
+              "description": "The access key ID (username) for the external S3-compatible bucket."
             },
             "bucketName": {
               "type": "string",
-              "description": "The bucket name of the external object storage."
+              "description": "The bucket name of the external S3-compatible object storage."
             }
           }
         },
@@ -1521,7 +1521,7 @@
             "minio",
             "externalEndpoint"
           ],
-          "description": "The storage backend type for Tempo. `minio` will use an in-cluster MinIO deployment for object storage, `externalEndpoint` can be used to point to an external object storage instead of deploying an in-cluster MinIO."
+          "description": "The storage backend type for Tempo. `minio` will use an in-cluster MinIO deployment for object storage, `externalEndpoint` can be used to point to an external S3-compatible object storage instead of deploying an in-cluster MinIO."
         },
         "externalEndpoint": {
           "description": "Configuration for Tempo's external storage backend.",
@@ -1530,7 +1530,7 @@
           "properties": {
             "endpoint": {
               "type": "string",
-              "description": "External S3 endpoint for Tempo's storage."
+              "description": "External S3-compatible endpoint for Tempo's storage."
             },
             "insecure": {
               "type": "boolean",
@@ -1538,15 +1538,15 @@
             },
             "secretAccessKey": {
               "type": "string",
-              "description": "The secret access key (password) for the external S3 bucket."
+              "description": "The secret access key (password) for the external S3-compatible bucket."
             },
             "accessKeyId": {
               "type": "string",
-              "description": "The access key ID (username) for the external S3 bucket."
+              "description": "The access key ID (username) for the external S3-compatible bucket."
             },
             "bucketName": {
               "type": "string",
-              "description": "The bucket name of the external object storage."
+              "description": "The bucket name of the external S3-compatible object storage."
             }
           }
         },
@@ -1805,7 +1805,7 @@
       "properties": {
         "retentionTime": {
           "type": "string",
-          "description": "CURRENTLY NOT IS USE."
+          "description": "CURRENTLY NOT IN USE."
         },
         "backend": {
           "type": "string",
@@ -1813,7 +1813,7 @@
             "minio",
             "externalEndpoint"
           ],
-          "description": "The storage backend type for Velero. `minio` will use an in-cluster MinIO deployment for object storage, `externalEndpoint` can be used to point to an external object storage instead of deploying an in-cluster MinIO."
+          "description": "The storage backend type for Velero. `minio` will use an in-cluster MinIO deployment for object storage, `externalEndpoint` can be used to point to an external S3-compatible object storage instead of deploying an in-cluster MinIO."
         },
         "externalEndpoint": {
           "type": "object",
@@ -1822,7 +1822,7 @@
           "properties": {
             "endpoint": {
               "type": "string",
-              "description": "External S3 endpoint for Velero's storage."
+              "description": "External S3-compatible endpoint for Velero's storage."
             },
             "insecure": {
               "type": "boolean",
@@ -1830,15 +1830,15 @@
             },
             "secretAccessKey": {
               "type": "string",
-              "description": "The secret access key (password) for the external S3 bucket."
+              "description": "The secret access key (password) for the external S3-compatible bucket."
             },
             "accessKeyId": {
               "type": "string",
-              "description": "The access key ID (username) for the external S3 bucket."
+              "description": "The access key ID (username) for the external S3-compatible bucket."
             },
             "bucketName": {
               "type": "string",
-              "description": "The bucket name of the external object storage."
+              "description": "The bucket name of the external S3-compatible object storage."
             }
           }
         },
@@ -1860,7 +1860,7 @@
         },
         "baseDomain": {
           "type": "string",
-          "description": "NOT IN USE."
+          "description": "CURRENTLY NOT IN USE."
         },
         "pomerium": {
           "$ref": "#/$defs/Spec.Distribution.Modules.Auth.Pomerium"
