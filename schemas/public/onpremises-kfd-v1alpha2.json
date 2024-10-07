@@ -466,7 +466,7 @@
         },
         "ca_file": {
           "type": "string",
-          "description": "The path to the certificate for the CA that signed the identity provider's web certificate. Defaults to the host's root CAs."
+          "description": "The path to the certificate for the CA that signed the identity provider's web certificate. Defaults to the host's root CAs. This should be a path available to the API Server."
         },
         "username_claim": {
           "type": "string",
@@ -600,7 +600,7 @@
                 "gpg_key_id"
               ]
             },
-            "YUM": {
+            "yum": {
               "type": "object",
               "additionalProperties": false,
               "properties": {
@@ -982,7 +982,7 @@
           "enum": [
             "http01"
           ],
-          "description": "The type of the clusterIssuer. Only `http01` challenge is supported for on-premises clusters."
+          "description": "The type of the clusterIssuer. Only `http01` challenge is supported for on-premises clusters. See solvers for arbitrary configurations."
         },
         "solvers": {
           "type": "array",
@@ -1493,7 +1493,7 @@
             "none",
             "tempo"
           ],
-          "description": "The type of tracing to use, either `none` or `tempo`. `none` wil disable the Tracing module and Tempo will install a Grafana Tempo deployment."
+          "description": "The type of tracing to use, either `none` or `tempo`. `none` will disable the Tracing module and `tempo` will install a Grafana Tempo deployment."
         },
         "tempo": {
           "$ref": "#/$defs/Spec.Distribution.Modules.Tracing.Tempo"
