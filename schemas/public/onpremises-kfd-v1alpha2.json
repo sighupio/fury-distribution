@@ -1409,7 +1409,7 @@
       "properties": {
         "retentionTime": {
           "type": "string",
-          "description": "The retention time for the logs stored in Mimir."
+          "description": "The retention time for the logs stored in Mimir. Default is `30d`. Value must match the regular expression `[0-9]+(ns|us|µs|ms|s|m|h|d|w|y)` where y = 365 days."
         },
         "backend": {
           "type": "string",
