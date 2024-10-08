@@ -213,7 +213,7 @@
       "properties": {
         "name": {
           "type": "string",
-          "description": "A name to identify the host (not the hostname or FQDN)."
+          "description": "A name to identify the host. This value will be concatenated to `.spec.kubernetes.dnsZone` to calculate the FQDN for the host as `<name>.<dnsZone>`."
         },
         "ip": {
           "type": "string",
@@ -310,7 +310,7 @@
       "properties": {
         "name": {
           "type": "string",
-          "description": "A name to identify the host (not the hostname or FQDN)"
+          "description": "A name to identify the host. This value will be concatenated to `.spec.kubernetes.dnsZone` to calculate the FQDN for the host as `<name>.<dnsZone>`."
         },
         "ip": {
           "type": "string",
@@ -365,7 +365,7 @@
       "additionalProperties": false,
       "properties": {
         "name": {
-          "description": "A name to identify the host (not the hostname or FQDN)",
+          "description": "A name to identify the host. This value will be concatenated to `.spec.kubernetes.dnsZone` to calculate the FQDN for the host as `<name>.<dnsZone>`."
           "type": "string"
         },
         "ip": {
@@ -1625,7 +1625,7 @@
       "properties": {
         "podCidr": {
           "$ref": "#/$defs/Types.Cidr",
-          "description": "FIXME: The CIDR for the Pods network. Set if must be different from `.spec.kubernetes.podCidr`."
+          "description": "Allows specifing a CIDR for the Pods network different from `.spec.kubernetes.podCidr`. If not set the default is to use `.spec.kubernetes.podCidr`."
         },
         "maskSize": {
           "type": "string",
