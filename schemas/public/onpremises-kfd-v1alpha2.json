@@ -726,7 +726,7 @@
         },
         "registry": {
           "type": "string",
-          "description": "URL of the registry where to pull images from for the Distribution phase. (Default is registry.sighup.io/fury)."
+          "description": "URL of the registry where to pull images from for the Distribution phase. (Default is `registry.sighup.io/fury`)."
         }
       }
     },
