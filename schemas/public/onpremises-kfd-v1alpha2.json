@@ -365,7 +365,7 @@
       "additionalProperties": false,
       "properties": {
         "name": {
-          "description": "A name to identify the host. This value will be concatenated to `.spec.kubernetes.dnsZone` to calculate the FQDN for the host as `<name>.<dnsZone>`."
+          "description": "A name to identify the host. This value will be concatenated to `.spec.kubernetes.dnsZone` to calculate the FQDN for the host as `<name>.<dnsZone>`.",
           "type": "string"
         },
         "ip": {
