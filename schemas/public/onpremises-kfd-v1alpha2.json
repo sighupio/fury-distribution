@@ -554,7 +554,7 @@
       "properties": {
         "containerdDownloadUrl": {
           "type": "string",
-          "description": "URL where to download the containerd binary from."
+          "description": "URL where to download the `.tar.gz` with containerd from. The `tar.gz` should be as the one downloaded from containerd GitHub releases page."
         },
         "runcDownloadUrl": {
           "type": "string",
@@ -566,7 +566,7 @@
         },
         "etcdDownloadUrl": {
           "type": "string",
-          "description": "URL where to download the etcd binary from."
+          "description": "URL to the path where the etcd `tar.gz`s are available. etcd will be downloaded from `<etcdDownloadUrl>/<etcd_version>/etcd-<etcd_version>-linux-<host_architecture>.tar.gz`"
         },
         "dependenciesOverride": {
           "type": "object",
@@ -1860,7 +1860,7 @@
         },
         "baseDomain": {
           "type": "string",
-          "description": "CURRENTLY NOT IN USE."
+          "description": "Base domain for the ingresses created by the Auth module (Gangplank, Pomerium, Dex). Notice that when nginx type is dual, these will use the `external` ingress class."
         },
         "pomerium": {
           "$ref": "#/$defs/Spec.Distribution.Modules.Auth.Pomerium"
