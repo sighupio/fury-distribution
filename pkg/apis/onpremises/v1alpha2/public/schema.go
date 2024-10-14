@@ -9,7 +9,8 @@ import (
 )
 
 type Metadata struct {
-	// Name corresponds to the JSON schema field "name".
+	// The name of the cluster. It will also be used as a prefix for all the other
+	// resources created.
 	Name string `json:"name" yaml:"name" mapstructure:"name"`
 }
 
@@ -35,7 +36,9 @@ type Spec struct {
 	// Distribution corresponds to the JSON schema field "distribution".
 	Distribution SpecDistribution `json:"distribution" yaml:"distribution" mapstructure:"distribution"`
 
-	// DistributionVersion corresponds to the JSON schema field "distributionVersion".
+	// Defines which KFD version will be installed and, in consequence, the Kubernetes
+	// version used to create the cluster. It supports git tags and branches. Example:
+	// v1.30.1.
 	DistributionVersion string `json:"distributionVersion" yaml:"distributionVersion" mapstructure:"distributionVersion"`
 
 	// Kubernetes corresponds to the JSON schema field "kubernetes".
@@ -56,26 +59,35 @@ type SpecDistribution struct {
 	Modules SpecDistributionModules `json:"modules" yaml:"modules" mapstructure:"modules"`
 }
 
+// Common configuration for all the distribution modules.
 type SpecDistributionCommon struct {
-	// The node selector to use to place the pods for all the KFD modules
+	// The node selector to use to place the pods for all the KFD modules. Follows
+	// Kubernetes selector format. Example: `node.kubernetes.io/role: infra`
 	NodeSelector TypesKubeNodeSelector `json:"nodeSelector,omitempty" yaml:"nodeSelector,omitempty" mapstructure:"nodeSelector,omitempty"`
 
 	// Provider corresponds to the JSON schema field "provider".
 	Provider *SpecDistributionCommonProvider `json:"provider,omitempty" yaml:"provider,omitempty" mapstructure:"provider,omitempty"`
 
 	// URL of the registry where to pull images from for the Distribution phase.
-	// (Default is registry.sighup.io/fury).
+	// (Default is `registry.sighup.io/fury`).
 	Registry *string `json:"registry,omitempty" yaml:"registry,omitempty" mapstructure:"registry,omitempty"`
 
-	// The relative path to the vendor directory, does not need to be changed
+	// The relative path to the vendor directory, does not need to be changed.
 	RelativeVendorPath *string `json:"relativeVendorPath,omitempty" yaml:"relativeVendorPath,omitempty" mapstructure:"relativeVendorPath,omitempty"`
 
-	// The tolerations that will be added to the pods for all the KFD modules
+	// An array with the tolerations that will be added to the pods for all the KFD
+	// modules. Follows Kubernetes tolerations format. Example:
+	//
+	// ```yaml
+	// - effect: NoSchedule
+	//   key: node.kubernetes.io/role
+	//   value: infra
+	// ```
 	Tolerations []TypesKubeToleration `json:"tolerations,omitempty" yaml:"tolerations,omitempty" mapstructure:"tolerations,omitempty"`
 }
 
 type SpecDistributionCommonProvider struct {
-	// The type of the provider
+	// The provider type. Don't set. FOR INTERNAL USE ONLY.
 	Type string `json:"type" yaml:"type" mapstructure:"type"`
 }
 
@@ -274,8 +286,11 @@ type SpecDistributionModules struct {
 	Tracing *SpecDistributionModulesTracing `json:"tracing,omitempty" yaml:"tracing,omitempty" mapstructure:"tracing,omitempty"`
 }
 
+// Configuration for the Auth module.
 type SpecDistributionModulesAuth struct {
-	// The base domain for the auth module
+	// Base domain for the ingresses created by the Auth module (Gangplank, Pomerium,
+	// Dex). Notice that when nginx type is dual, these will use the `external`
+	// ingress class.
 	BaseDomain *string `json:"baseDomain,omitempty" yaml:"baseDomain,omitempty" mapstructure:"baseDomain,omitempty"`
 
 	// Dex corresponds to the JSON schema field "dex".
@@ -294,11 +309,25 @@ type SpecDistributionModulesAuth struct {
 	Provider SpecDistributionModulesAuthProvider `json:"provider" yaml:"provider" mapstructure:"provider"`
 }
 
+// Configuration for the Dex package.
 type SpecDistributionModulesAuthDex struct {
-	// The additional static clients for dex
+	// Additional static clients defitions that will be added to the default clients
+	// included with the distribution in Dex's configuration. Example:
+	//
+	// ```yaml
+	// additionalStaticClients:
+	//   - id: my-custom-client
+	//     name: "A custom additional static client"
+	//     redirectURIs:
+	//       - "https://myapp.tld/redirect"
+	//       - "https://alias.tld/oidc-callback"
+	//     secret: supersecretpassword
+	// ```
+	// Reference: https://dexidp.io/docs/connectors/local/
 	AdditionalStaticClients []interface{} `json:"additionalStaticClients,omitempty" yaml:"additionalStaticClients,omitempty" mapstructure:"additionalStaticClients,omitempty"`
 
-	// The connectors for dex
+	// A list with each item defining a Dex connector. Follows Dex connectors
+	// configuration format: https://dexidp.io/docs/connectors/
 	Connectors []interface{} `json:"connectors" yaml:"connectors" mapstructure:"connectors"`
 
 	// Expiry corresponds to the JSON schema field "expiry".
@@ -317,54 +346,72 @@ type SpecDistributionModulesAuthDexExpiry struct {
 }
 
 type SpecDistributionModulesAuthOIDCKubernetesAuth struct {
-	// The client ID for oidc kubernetes auth
+	// The client ID that the Kubernetes API will use to authenticate against the OIDC
+	// provider (Dex).
 	ClientID *string `json:"clientID,omitempty" yaml:"clientID,omitempty" mapstructure:"clientID,omitempty"`
 
-	// The client secret for oidc kubernetes auth
+	// The client secret that the Kubernetes API will use to authenticate against the
+	// OIDC provider (Dex).
 	ClientSecret *string `json:"clientSecret,omitempty" yaml:"clientSecret,omitempty" mapstructure:"clientSecret,omitempty"`
 
-	// The email claim for oidc kubernetes auth
+	// DEPRECATED. Defaults to `email`.
 	EmailClaim *string `json:"emailClaim,omitempty" yaml:"emailClaim,omitempty" mapstructure:"emailClaim,omitempty"`
 
-	// If true, oidc kubernetes auth will be enabled
+	// If true, components needed for interacting with the Kubernetes API with OIDC
+	// authentication (Gangplank, Dex) be deployed and configued.
 	Enabled bool `json:"enabled" yaml:"enabled" mapstructure:"enabled"`
 
-	// The namespace to set in the context of the kubeconfig file
+	// The namespace to set in the context of the kubeconfig file generated by
+	// Gangplank. Defaults to `default`.
 	Namespace *string `json:"namespace,omitempty" yaml:"namespace,omitempty" mapstructure:"namespace,omitempty"`
 
-	// Set to true to remove the CA from the kubeconfig file
+	// Set to true to remove the CA from the kubeconfig file generated by Gangplank.
 	RemoveCAFromKubeconfig *bool `json:"removeCAFromKubeconfig,omitempty" yaml:"removeCAFromKubeconfig,omitempty" mapstructure:"removeCAFromKubeconfig,omitempty"`
 
-	// The scopes for oidc kubernetes auth
+	// Used to specify the scope of the requested Oauth authorization by Gangplank.
+	// Defaults to: `["openid", "profile", "email", "offline_access", "groups"]`
 	Scopes []string `json:"scopes,omitempty" yaml:"scopes,omitempty" mapstructure:"scopes,omitempty"`
 
-	// The session security key for oidc kubernetes auth
+	// The Key to use for the sessions in Gangplank. Must be different between
+	// different instances of Gangplank.
 	SessionSecurityKey *string `json:"sessionSecurityKey,omitempty" yaml:"sessionSecurityKey,omitempty" mapstructure:"sessionSecurityKey,omitempty"`
 
-	// The username claim for oidc kubernetes auth
+	// The JWT claim to use as the username. This is used in Gangplank's UI. This is
+	// combined with the clusterName for the user portion of the kubeconfig. Defaults
+	// to `nickname`.
 	UsernameClaim *string `json:"usernameClaim,omitempty" yaml:"usernameClaim,omitempty" mapstructure:"usernameClaim,omitempty"`
 }
 
+// Override the common configuration with a particular configuration for the Auth
+// module.
 type SpecDistributionModulesAuthOverrides struct {
-	// Ingresses corresponds to the JSON schema field "ingresses".
-	Ingresses SpecDistributionModulesAuthOverridesIngresses `json:"ingresses,omitempty" yaml:"ingresses,omitempty" mapstructure:"ingresses,omitempty"`
+	// Override the definition of the Auth module ingresses.
+	Ingresses *SpecDistributionModulesAuthOverridesIngresses `json:"ingresses,omitempty" yaml:"ingresses,omitempty" mapstructure:"ingresses,omitempty"`
 
-	// The node selector to use to place the pods for the auth module
+	// Set to override the node selector used to place the pods of the Auth module.
 	NodeSelector TypesKubeNodeSelector `json:"nodeSelector,omitempty" yaml:"nodeSelector,omitempty" mapstructure:"nodeSelector,omitempty"`
 
-	// The tolerations that will be added to the pods for the auth module
+	// Set to override the tolerations that will be added to the pods of the Auth
+	// module.
 	Tolerations []TypesKubeToleration `json:"tolerations,omitempty" yaml:"tolerations,omitempty" mapstructure:"tolerations,omitempty"`
 }
 
 type SpecDistributionModulesAuthOverridesIngress struct {
-	// The host of the ingress
+	// Use this host for the ingress instead of the default one.
 	Host string `json:"host" yaml:"host" mapstructure:"host"`
 
-	// The ingress class of the ingress
+	// Use this ingress class for the ingress instead of the default one.
 	IngressClass string `json:"ingressClass" yaml:"ingressClass" mapstructure:"ingressClass"`
 }
 
-type SpecDistributionModulesAuthOverridesIngresses map[string]SpecDistributionModulesAuthOverridesIngress
+// Override the definition of the Auth module ingresses.
+type SpecDistributionModulesAuthOverridesIngresses struct {
+	// Dex corresponds to the JSON schema field "dex".
+	Dex *SpecDistributionModulesAuthOverridesIngress `json:"dex,omitempty" yaml:"dex,omitempty" mapstructure:"dex,omitempty"`
+
+	// Gangplank corresponds to the JSON schema field "gangplank".
+	Gangplank *SpecDistributionModulesAuthOverridesIngress `json:"gangplank,omitempty" yaml:"gangplank,omitempty" mapstructure:"gangplank,omitempty"`
+}
 
 type SpecDistributionModulesAuthPomerium interface{}
 
@@ -488,15 +535,21 @@ type SpecDistributionModulesAuthProvider struct {
 	// BasicAuth corresponds to the JSON schema field "basicAuth".
 	BasicAuth *SpecDistributionModulesAuthProviderBasicAuth `json:"basicAuth,omitempty" yaml:"basicAuth,omitempty" mapstructure:"basicAuth,omitempty"`
 
-	// The type of the provider, must be ***none***, ***sso*** or ***basicAuth***
+	// The type of the Auth provider, options are:
+	// - `none`: will disable authentication in the infrastructural ingresses.
+	// - `sso`: will protect the infrastructural ingresses with Pomerium and Dex (SSO)
+	// and require authentication before accessing them.
+	// - `basicAuth`: will protect the infrastructural ingresses with HTTP basic auth
+	// (username and password) authentication.
 	Type SpecDistributionModulesAuthProviderType `json:"type" yaml:"type" mapstructure:"type"`
 }
 
+// Configuration for the HTTP Basic Auth provider.
 type SpecDistributionModulesAuthProviderBasicAuth struct {
-	// The password for the basic auth
+	// The password for logging in with the HTTP basic authentication.
 	Password string `json:"password" yaml:"password" mapstructure:"password"`
 
-	// The username for the basic auth
+	// The username for logging in with the HTTP basic authentication.
 	Username string `json:"username" yaml:"username" mapstructure:"username"`
 }
 
@@ -508,11 +561,14 @@ const (
 	SpecDistributionModulesAuthProviderTypeSso       SpecDistributionModulesAuthProviderType = "sso"
 )
 
+// Configuration for the Disaster Recovery module.
 type SpecDistributionModulesDr struct {
 	// Overrides corresponds to the JSON schema field "overrides".
 	Overrides *TypesFuryModuleOverrides `json:"overrides,omitempty" yaml:"overrides,omitempty" mapstructure:"overrides,omitempty"`
 
-	// The type of the DR, must be ***none*** or ***on-premises***
+	// The type of the Disaster Recovery, must be `none` or `on-premises`. `none`
+	// disables the module and `on-premises` will install Velero and an optional MinIO
+	// deployment.
 	Type SpecDistributionModulesDrType `json:"type" yaml:"type" mapstructure:"type"`
 
 	// Velero corresponds to the JSON schema field "velero".
@@ -526,17 +582,20 @@ const (
 	SpecDistributionModulesDrTypeOnPremises SpecDistributionModulesDrType = "on-premises"
 )
 
+// Configuration for the Velero package.
 type SpecDistributionModulesDrVelero struct {
-	// The backend for velero
+	// The storage backend type for Velero. `minio` will use an in-cluster MinIO
+	// deployment for object storage, `externalEndpoint` can be used to point to an
+	// external S3-compatible object storage instead of deploying an in-cluster MinIO.
 	Backend *SpecDistributionModulesDrVeleroBackend `json:"backend,omitempty" yaml:"backend,omitempty" mapstructure:"backend,omitempty"`
 
-	// ExternalEndpoint corresponds to the JSON schema field "externalEndpoint".
+	// Configuration for Velero's external storage backend.
 	ExternalEndpoint *SpecDistributionModulesDrVeleroExternalEndpoint `json:"externalEndpoint,omitempty" yaml:"externalEndpoint,omitempty" mapstructure:"externalEndpoint,omitempty"`
 
 	// Overrides corresponds to the JSON schema field "overrides".
 	Overrides *TypesFuryModuleComponentOverrides `json:"overrides,omitempty" yaml:"overrides,omitempty" mapstructure:"overrides,omitempty"`
 
-	// The retention time for velero
+	// CURRENTLY NOT IN USE.
 	RetentionTime *string `json:"retentionTime,omitempty" yaml:"retentionTime,omitempty" mapstructure:"retentionTime,omitempty"`
 }
 
@@ -547,30 +606,34 @@ const (
 	SpecDistributionModulesDrVeleroBackendMinio            SpecDistributionModulesDrVeleroBackend = "minio"
 )
 
+// Configuration for Velero's external storage backend.
 type SpecDistributionModulesDrVeleroExternalEndpoint struct {
-	// The access key id for velero backend
+	// The access key ID (username) for the external S3-compatible bucket.
 	AccessKeyId *string `json:"accessKeyId,omitempty" yaml:"accessKeyId,omitempty" mapstructure:"accessKeyId,omitempty"`
 
-	// The bucket name for velero backend
+	// The bucket name of the external S3-compatible object storage.
 	BucketName *string `json:"bucketName,omitempty" yaml:"bucketName,omitempty" mapstructure:"bucketName,omitempty"`
 
-	// The endpoint for velero
+	// External S3-compatible endpoint for Velero's storage.
 	Endpoint *string `json:"endpoint,omitempty" yaml:"endpoint,omitempty" mapstructure:"endpoint,omitempty"`
 
-	// If true, the endpoint will be insecure
+	// If true, will use HTTP as protocol instead of HTTPS.
 	Insecure *bool `json:"insecure,omitempty" yaml:"insecure,omitempty" mapstructure:"insecure,omitempty"`
 
-	// The secret access key for velero backend
+	// The secret access key (password) for the external S3-compatible bucket.
 	SecretAccessKey *string `json:"secretAccessKey,omitempty" yaml:"secretAccessKey,omitempty" mapstructure:"secretAccessKey,omitempty"`
 }
 
 type SpecDistributionModulesIngress struct {
-	// the base domain used for all the KFD ingresses, if in the nginx dual
-	// configuration, it should be the same as the
-	// .spec.distribution.modules.ingress.dns.private.name zone
+	// The base domain used for all the KFD infrastructural ingresses. If using the
+	// nginx dual type, this value should be the same as the domain associated with
+	// the `internal` ingress class.
 	BaseDomain string `json:"baseDomain" yaml:"baseDomain" mapstructure:"baseDomain"`
 
-	// CertManager corresponds to the JSON schema field "certManager".
+	// Configuration for the cert-manager package. Required even if
+	// `ingress.nginx.type` is `none`, cert-manager is used for managing other
+	// certificates in the cluster besides the TLS termination certificates for the
+	// ingresses.
 	CertManager *SpecDistributionModulesIngressCertManager `json:"certManager,omitempty" yaml:"certManager,omitempty" mapstructure:"certManager,omitempty"`
 
 	// Forecastle corresponds to the JSON schema field "forecastle".
@@ -579,7 +642,7 @@ type SpecDistributionModulesIngress struct {
 	// If corresponds to the JSON schema field "if".
 	If interface{} `json:"if,omitempty" yaml:"if,omitempty" mapstructure:"if,omitempty"`
 
-	// Configurations for the nginx ingress controller module
+	// Configurations for the nginx ingress controller package.
 	Nginx SpecDistributionModulesIngressNginx `json:"nginx" yaml:"nginx" mapstructure:"nginx"`
 
 	// Overrides corresponds to the JSON schema field "overrides".
@@ -589,6 +652,10 @@ type SpecDistributionModulesIngress struct {
 	Then interface{} `json:"then,omitempty" yaml:"then,omitempty" mapstructure:"then,omitempty"`
 }
 
+// Configuration for the cert-manager package. Required even if
+// `ingress.nginx.type` is `none`, cert-manager is used for managing other
+// certificates in the cluster besides the TLS termination certificates for the
+// ingresses.
 type SpecDistributionModulesIngressCertManager struct {
 	// ClusterIssuer corresponds to the JSON schema field "clusterIssuer".
 	ClusterIssuer SpecDistributionModulesIngressCertManagerClusterIssuer `json:"clusterIssuer" yaml:"clusterIssuer" mapstructure:"clusterIssuer"`
@@ -597,17 +664,21 @@ type SpecDistributionModulesIngressCertManager struct {
 	Overrides *TypesFuryModuleComponentOverrides `json:"overrides,omitempty" yaml:"overrides,omitempty" mapstructure:"overrides,omitempty"`
 }
 
+// Configuration for the cert-manager's ACME clusterIssuer used to request
+// certificates from Let's Encrypt.
 type SpecDistributionModulesIngressCertManagerClusterIssuer struct {
-	// The email of the cluster issuer
+	// The email address to use during the certificate issuing process.
 	Email string `json:"email" yaml:"email" mapstructure:"email"`
 
-	// The name of the cluster issuer
+	// Name of the clusterIssuer
 	Name string `json:"name" yaml:"name" mapstructure:"name"`
 
-	// The custom solvers configurations
+	// List of challenge solvers to use instead of the default one for the `http01`
+	// challenge.
 	Solvers []interface{} `json:"solvers,omitempty" yaml:"solvers,omitempty" mapstructure:"solvers,omitempty"`
 
-	// The type of the cluster issuer, must be ***http01***
+	// The type of the clusterIssuer. Only `http01` challenge is supported for
+	// on-premises clusters. See solvers for arbitrary configurations.
 	Type *SpecDistributionModulesIngressCertManagerClusterIssuerType `json:"type,omitempty" yaml:"type,omitempty" mapstructure:"type,omitempty"`
 }
 
@@ -627,14 +698,22 @@ type SpecDistributionModulesIngressNginx struct {
 	// Tls corresponds to the JSON schema field "tls".
 	Tls *SpecDistributionModulesIngressNginxTLS `json:"tls,omitempty" yaml:"tls,omitempty" mapstructure:"tls,omitempty"`
 
-	// The type of the nginx ingress controller, must be ***none***, ***single*** or
-	// ***dual***
+	// The type of the nginx ingress controller, options are:
+	// - `none`: no ingress controller will be installed and no infrastructural
+	// ingresses will be created.
+	// - `single`: a single ingress controller with ingress class `nginx` will be
+	// installed to manage all the ingress resources, infrastructural ingresses will
+	// be created.
+	// - `dual`: two independent ingress controllers will be installed, one for the
+	// `internal` ingress class intended for private ingresses and one for the
+	// `external` ingress class intended for public ingresses. KFD infrastructural
+	// ingresses wil use the `internal` ingress class when using the dual type.
 	Type SpecDistributionModulesIngressNginxType `json:"type" yaml:"type" mapstructure:"type"`
 }
 
 type SpecDistributionModulesIngressNginxTLS struct {
-	// The provider of the TLS certificate, must be ***none***, ***certManager*** or
-	// ***secret***
+	// The provider of the TLS certificates for the ingresses, one of: `none`,
+	// `certManager`, or `secret`.
 	Provider SpecDistributionModulesIngressNginxTLSProvider `json:"provider" yaml:"provider" mapstructure:"provider"`
 
 	// Secret corresponds to the JSON schema field "secret".
@@ -649,15 +728,18 @@ const (
 	SpecDistributionModulesIngressNginxTLSProviderSecret      SpecDistributionModulesIngressNginxTLSProvider = "secret"
 )
 
+// Kubernetes TLS secret for the ingresses TLS certificate.
 type SpecDistributionModulesIngressNginxTLSSecret struct {
-	// Ca corresponds to the JSON schema field "ca".
+	// The Certificate Authority certificate file's content. You can use the
+	// `"{file://<path>}"` notation to get the content from a file.
 	Ca string `json:"ca" yaml:"ca" mapstructure:"ca"`
 
-	// The certificate file content or you can use the file notation to get the
-	// content from a file
+	// The certificate file's content. You can use the `"{file://<path>}"` notation to
+	// get the content from a file.
 	Cert string `json:"cert" yaml:"cert" mapstructure:"cert"`
 
-	// Key corresponds to the JSON schema field "key".
+	// The signing key file's content. You can use the `"{file://<path>}"` notation to
+	// get the content from a file.
 	Key string `json:"key" yaml:"key" mapstructure:"key"`
 }
 
@@ -669,14 +751,17 @@ const (
 	SpecDistributionModulesIngressNginxTypeSingle SpecDistributionModulesIngressNginxType = "single"
 )
 
+// Override the common configuration with a particular configuration for the
+// Ingress module.
 type SpecDistributionModulesIngressOverrides struct {
 	// Ingresses corresponds to the JSON schema field "ingresses".
 	Ingresses *SpecDistributionModulesIngressOverridesIngresses `json:"ingresses,omitempty" yaml:"ingresses,omitempty" mapstructure:"ingresses,omitempty"`
 
-	// The node selector to use to place the pods for the ingress module
+	// Set to override the node selector used to place the pods of the Ingress module
 	NodeSelector TypesKubeNodeSelector `json:"nodeSelector,omitempty" yaml:"nodeSelector,omitempty" mapstructure:"nodeSelector,omitempty"`
 
-	// The tolerations that will be added to the pods for the ingress module
+	// Set to override the tolerations that will be added to the pods of the Ingress
+	// module
 	Tolerations []TypesKubeToleration `json:"tolerations,omitempty" yaml:"tolerations,omitempty" mapstructure:"tolerations,omitempty"`
 }
 
@@ -685,6 +770,7 @@ type SpecDistributionModulesIngressOverridesIngresses struct {
 	Forecastle *TypesFuryModuleOverridesIngress `json:"forecastle,omitempty" yaml:"forecastle,omitempty" mapstructure:"forecastle,omitempty"`
 }
 
+// Configuration for the Logging module.
 type SpecDistributionModulesLogging struct {
 	// Cerebro corresponds to the JSON schema field "cerebro".
 	Cerebro *SpecDistributionModulesLoggingCerebro `json:"cerebro,omitempty" yaml:"cerebro,omitempty" mapstructure:"cerebro,omitempty"`
@@ -707,79 +793,85 @@ type SpecDistributionModulesLogging struct {
 	// Overrides corresponds to the JSON schema field "overrides".
 	Overrides *TypesFuryModuleOverrides `json:"overrides,omitempty" yaml:"overrides,omitempty" mapstructure:"overrides,omitempty"`
 
-	// selects the logging stack. Choosing none will disable the centralized logging.
-	// Choosing opensearch will deploy and configure the Logging Operator and an
+	// Selects the logging stack. Options are:
+	// - `none`: will disable the centralized logging.
+	// - `opensearch`: will deploy and configure the Logging Operator and an
 	// OpenSearch cluster (can be single or triple for HA) where the logs will be
-	// stored. Choosing loki will use a distributed Grafana Loki instead of OpenSearh
-	// for storage. Choosing customOuput the Logging Operator will be deployed and
-	// installed but with no local storage, you will have to create the needed Outputs
-	// and ClusterOutputs to ship the logs to your desired storage.
+	// stored.
+	// - `loki`: will use a distributed Grafana Loki instead of OpenSearh for storage.
+	// - `customOuputs`: the Logging Operator will be deployed and installed but with
+	// no local storage, you will have to create the needed Outputs and ClusterOutputs
+	// to ship the logs to your desired storage.
 	Type SpecDistributionModulesLoggingType `json:"type" yaml:"type" mapstructure:"type"`
 }
 
+// DEPRECATED in latest versions of KFD.
 type SpecDistributionModulesLoggingCerebro struct {
 	// Overrides corresponds to the JSON schema field "overrides".
 	Overrides *TypesFuryModuleComponentOverrides `json:"overrides,omitempty" yaml:"overrides,omitempty" mapstructure:"overrides,omitempty"`
 }
 
-// when using the customOutputs logging type, you need to manually specify the spec
-// of the several Output and ClusterOutputs that the Logging Operator expects to
-// forward the logs collected by the pre-defined flows.
+// When using the `customOutputs` logging type, you need to manually specify the
+// spec of the several `Output` and `ClusterOutputs` that the Logging Operator
+// expects to forward the logs collected by the pre-defined flows.
 type SpecDistributionModulesLoggingCustomOutputs struct {
-	// This value defines where the output from Flow will be sent. Will be the `spec`
-	// section of the `Output` object. It must be a string (and not a YAML object)
-	// following the OutputSpec definition. Use the nullout output to discard the
-	// flow.
+	// This value defines where the output from the `audit` Flow will be sent. This
+	// will be the `spec` section of the `Output` object. It must be a string (and not
+	// a YAML object) following the OutputSpec definition. Use the `nullout` output to
+	// discard the flow: `nullout: {}`
 	Audit string `json:"audit" yaml:"audit" mapstructure:"audit"`
 
-	// This value defines where the output from Flow will be sent. Will be the `spec`
-	// section of the `Output` object. It must be a string (and not a YAML object)
-	// following the OutputSpec definition. Use the nullout output to discard the
-	// flow.
+	// This value defines where the output from the `errors` Flow will be sent. This
+	// will be the `spec` section of the `Output` object. It must be a string (and not
+	// a YAML object) following the OutputSpec definition. Use the `nullout` output to
+	// discard the flow: `nullout: {}`
 	Errors string `json:"errors" yaml:"errors" mapstructure:"errors"`
 
-	// This value defines where the output from Flow will be sent. Will be the `spec`
-	// section of the `Output` object. It must be a string (and not a YAML object)
-	// following the OutputSpec definition. Use the nullout output to discard the
-	// flow.
+	// This value defines where the output from the `events` Flow will be sent. This
+	// will be the `spec` section of the `Output` object. It must be a string (and not
+	// a YAML object) following the OutputSpec definition. Use the `nullout` output to
+	// discard the flow: `nullout: {}`
 	Events string `json:"events" yaml:"events" mapstructure:"events"`
 
-	// This value defines where the output from Flow will be sent. Will be the `spec`
-	// section of the `Output` object. It must be a string (and not a YAML object)
-	// following the OutputSpec definition. Use the nullout output to discard the
-	// flow.
+	// This value defines where the output from the `infra` Flow will be sent. This
+	// will be the `spec` section of the `Output` object. It must be a string (and not
+	// a YAML object) following the OutputSpec definition. Use the `nullout` output to
+	// discard the flow: `nullout: {}`
 	Infra string `json:"infra" yaml:"infra" mapstructure:"infra"`
 
-	// This value defines where the output from Flow will be sent. Will be the `spec`
-	// section of the `Output` object. It must be a string (and not a YAML object)
-	// following the OutputSpec definition. Use the nullout output to discard the
-	// flow.
+	// This value defines where the output from the `ingressNginx` Flow will be sent.
+	// This will be the `spec` section of the `Output` object. It must be a string
+	// (and not a YAML object) following the OutputSpec definition. Use the `nullout`
+	// output to discard the flow: `nullout: {}`
 	IngressNginx string `json:"ingressNginx" yaml:"ingressNginx" mapstructure:"ingressNginx"`
 
-	// This value defines where the output from Flow will be sent. Will be the `spec`
-	// section of the `Output` object. It must be a string (and not a YAML object)
-	// following the OutputSpec definition. Use the nullout output to discard the
-	// flow.
+	// This value defines where the output from the `kubernetes` Flow will be sent.
+	// This will be the `spec` section of the `Output` object. It must be a string
+	// (and not a YAML object) following the OutputSpec definition. Use the `nullout`
+	// output to discard the flow: `nullout: {}`
 	Kubernetes string `json:"kubernetes" yaml:"kubernetes" mapstructure:"kubernetes"`
 
-	// This value defines where the output from Flow will be sent. Will be the `spec`
-	// section of the `Output` object. It must be a string (and not a YAML object)
-	// following the OutputSpec definition. Use the nullout output to discard the
-	// flow.
+	// This value defines where the output from the `systemdCommon` Flow will be sent.
+	// This will be the `spec` section of the `Output` object. It must be a string
+	// (and not a YAML object) following the OutputSpec definition. Use the `nullout`
+	// output to discard the flow: `nullout: {}`
 	SystemdCommon string `json:"systemdCommon" yaml:"systemdCommon" mapstructure:"systemdCommon"`
 
-	// This value defines where the output from Flow will be sent. Will be the `spec`
-	// section of the `Output` object. It must be a string (and not a YAML object)
-	// following the OutputSpec definition. Use the nullout output to discard the
-	// flow.
+	// This value defines where the output from the `systemdEtcd` Flow will be sent.
+	// This will be the `spec` section of the `Output` object. It must be a string
+	// (and not a YAML object) following the OutputSpec definition. Use the `nullout`
+	// output to discard the flow: `nullout: {}`
 	SystemdEtcd string `json:"systemdEtcd" yaml:"systemdEtcd" mapstructure:"systemdEtcd"`
 }
 
+// Configuration for the Loki package.
 type SpecDistributionModulesLoggingLoki struct {
-	// Backend corresponds to the JSON schema field "backend".
+	// The storage backend type for Loki. `minio` will use an in-cluster MinIO
+	// deployment for object storage, `externalEndpoint` can be used to point to an
+	// external object storage instead of deploying an in-cluster MinIO.
 	Backend *SpecDistributionModulesLoggingLokiBackend `json:"backend,omitempty" yaml:"backend,omitempty" mapstructure:"backend,omitempty"`
 
-	// ExternalEndpoint corresponds to the JSON schema field "externalEndpoint".
+	// Configuration for Loki's external storage backend.
 	ExternalEndpoint *SpecDistributionModulesLoggingLokiExternalEndpoint `json:"externalEndpoint,omitempty" yaml:"externalEndpoint,omitempty" mapstructure:"externalEndpoint,omitempty"`
 
 	// Resources corresponds to the JSON schema field "resources".
@@ -793,23 +885,25 @@ const (
 	SpecDistributionModulesLoggingLokiBackendMinio            SpecDistributionModulesLoggingLokiBackend = "minio"
 )
 
+// Configuration for Loki's external storage backend.
 type SpecDistributionModulesLoggingLokiExternalEndpoint struct {
-	// The access key id of the loki external endpoint
+	// The access key ID (username) for the external S3-compatible bucket.
 	AccessKeyId *string `json:"accessKeyId,omitempty" yaml:"accessKeyId,omitempty" mapstructure:"accessKeyId,omitempty"`
 
-	// The bucket name of the loki external endpoint
+	// The bucket name of the external S3-compatible object storage.
 	BucketName *string `json:"bucketName,omitempty" yaml:"bucketName,omitempty" mapstructure:"bucketName,omitempty"`
 
-	// The endpoint of the loki external endpoint
+	// External S3-compatible endpoint for Loki's storage.
 	Endpoint *string `json:"endpoint,omitempty" yaml:"endpoint,omitempty" mapstructure:"endpoint,omitempty"`
 
-	// If true, the loki external endpoint will be insecure
+	// If true, will use HTTP as protocol instead of HTTPS.
 	Insecure *bool `json:"insecure,omitempty" yaml:"insecure,omitempty" mapstructure:"insecure,omitempty"`
 
-	// The secret access key of the loki external endpoint
+	// The secret access key (password) for the external S3-compatible bucket.
 	SecretAccessKey *string `json:"secretAccessKey,omitempty" yaml:"secretAccessKey,omitempty" mapstructure:"secretAccessKey,omitempty"`
 }
 
+// Configuration for Logging's MinIO deployment.
 type SpecDistributionModulesLoggingMinio struct {
 	// Overrides corresponds to the JSON schema field "overrides".
 	Overrides *TypesFuryModuleComponentOverrides `json:"overrides,omitempty" yaml:"overrides,omitempty" mapstructure:"overrides,omitempty"`
@@ -817,15 +911,15 @@ type SpecDistributionModulesLoggingMinio struct {
 	// RootUser corresponds to the JSON schema field "rootUser".
 	RootUser *SpecDistributionModulesLoggingMinioRootUser `json:"rootUser,omitempty" yaml:"rootUser,omitempty" mapstructure:"rootUser,omitempty"`
 
-	// The PVC size for each minio disk, 6 disks total
+	// The PVC size for each MinIO disk, 6 disks total.
 	StorageSize *string `json:"storageSize,omitempty" yaml:"storageSize,omitempty" mapstructure:"storageSize,omitempty"`
 }
 
 type SpecDistributionModulesLoggingMinioRootUser struct {
-	// The password of the minio root user
+	// The password for the default MinIO root user.
 	Password *string `json:"password,omitempty" yaml:"password,omitempty" mapstructure:"password,omitempty"`
 
-	// The username of the minio root user
+	// The username for the default MinIO root user.
 	Username *string `json:"username,omitempty" yaml:"username,omitempty" mapstructure:"username,omitempty"`
 }
 
@@ -836,10 +930,11 @@ type SpecDistributionModulesLoggingOpensearch struct {
 	// Resources corresponds to the JSON schema field "resources".
 	Resources *TypesKubeResources `json:"resources,omitempty" yaml:"resources,omitempty" mapstructure:"resources,omitempty"`
 
-	// The storage size for the opensearch pods
+	// The storage size for the OpenSearch volumes.
 	StorageSize *string `json:"storageSize,omitempty" yaml:"storageSize,omitempty" mapstructure:"storageSize,omitempty"`
 
-	// The type of the opensearch, must be ***single*** or ***triple***
+	// The type of OpenSearch deployment. One of: `single` for a single replica or
+	// `triple` for an HA 3-replicas deployment.
 	Type SpecDistributionModulesLoggingOpensearchType `json:"type" yaml:"type" mapstructure:"type"`
 }
 
@@ -850,6 +945,7 @@ const (
 	SpecDistributionModulesLoggingOpensearchTypeTriple SpecDistributionModulesLoggingOpensearchType = "triple"
 )
 
+// Configuration for the Logging Operator.
 type SpecDistributionModulesLoggingOperator struct {
 	// Overrides corresponds to the JSON schema field "overrides".
 	Overrides *TypesFuryModuleComponentOverrides `json:"overrides,omitempty" yaml:"overrides,omitempty" mapstructure:"overrides,omitempty"`
@@ -864,7 +960,7 @@ const (
 	SpecDistributionModulesLoggingTypeOpensearch    SpecDistributionModulesLoggingType = "opensearch"
 )
 
-// configuration for the Monitoring module components
+// Configuration for the Monitoring module.
 type SpecDistributionModulesMonitoring struct {
 	// Alertmanager corresponds to the JSON schema field "alertmanager".
 	Alertmanager *SpecDistributionModulesMonitoringAlertManager `json:"alertmanager,omitempty" yaml:"alertmanager,omitempty" mapstructure:"alertmanager,omitempty"`
@@ -893,8 +989,8 @@ type SpecDistributionModulesMonitoring struct {
 	// PrometheusAgent corresponds to the JSON schema field "prometheusAgent".
 	PrometheusAgent *SpecDistributionModulesMonitoringPrometheusAgent `json:"prometheusAgent,omitempty" yaml:"prometheusAgent,omitempty" mapstructure:"prometheusAgent,omitempty"`
 
-	// The type of the monitoring, must be ***none***, ***prometheus***,
-	// ***prometheusAgent*** or ***mimir***.
+	// The type of the monitoring, must be `none`, `prometheus`, `prometheusAgent` or
+	// `mimir`.
 	//
 	// - `none`: will disable the whole monitoring stack.
 	// - `prometheus`: will install Prometheus Operator and a preconfigured Prometheus
@@ -906,9 +1002,8 @@ type SpecDistributionModulesMonitoring struct {
 	// needed to get metrics for the status of the cluster and the workloads. Useful
 	// when having a centralized (remote) Prometheus where to ship the metrics and not
 	// storing them locally in the cluster.
-	// - `mimir`: will install the same as the `prometheus` option, and in addition
-	// Grafana Mimir that allows for longer retention of metrics and the usage of
-	// Object Storage.
+	// - `mimir`: will install the same as the `prometheus` option, plus Grafana Mimir
+	// that allows for longer retention of metrics and the usage of Object Storage.
 	Type SpecDistributionModulesMonitoringType `json:"type" yaml:"type" mapstructure:"type"`
 
 	// X509Exporter corresponds to the JSON schema field "x509Exporter".
@@ -916,14 +1011,15 @@ type SpecDistributionModulesMonitoring struct {
 }
 
 type SpecDistributionModulesMonitoringAlertManager struct {
-	// The webhook url to send deadman switch monitoring, for example to use with
+	// The webhook URL to send dead man's switch monitoring, for example to use with
 	// healthchecks.io
 	DeadManSwitchWebhookUrl *string `json:"deadManSwitchWebhookUrl,omitempty" yaml:"deadManSwitchWebhookUrl,omitempty" mapstructure:"deadManSwitchWebhookUrl,omitempty"`
 
-	// If true, the default rules will be installed
+	// Set to false to avoid installing the Prometheus rules (alerts) included with
+	// the distribution.
 	InstallDefaultRules *bool `json:"installDefaultRules,omitempty" yaml:"installDefaultRules,omitempty" mapstructure:"installDefaultRules,omitempty"`
 
-	// The slack webhook url to send alerts
+	// The Slack webhook URL where to send the infrastructural and workload alerts to.
 	SlackWebhookUrl *string `json:"slackWebhookUrl,omitempty" yaml:"slackWebhookUrl,omitempty" mapstructure:"slackWebhookUrl,omitempty"`
 }
 
@@ -962,17 +1058,22 @@ type SpecDistributionModulesMonitoringKubeStateMetrics struct {
 	Overrides *TypesFuryModuleComponentOverrides `json:"overrides,omitempty" yaml:"overrides,omitempty" mapstructure:"overrides,omitempty"`
 }
 
+// Configuration for the Mimir package.
 type SpecDistributionModulesMonitoringMimir struct {
-	// The backend for the mimir pods, must be ***minio*** or ***externalEndpoint***
+	// The storage backend type for Mimir. `minio` will use an in-cluster MinIO
+	// deployment for object storage, `externalEndpoint` can be used to point to an
+	// external S3-compatible object storage instead of deploying an in-cluster MinIO.
 	Backend *SpecDistributionModulesMonitoringMimirBackend `json:"backend,omitempty" yaml:"backend,omitempty" mapstructure:"backend,omitempty"`
 
-	// ExternalEndpoint corresponds to the JSON schema field "externalEndpoint".
+	// Configuration for Mimir's external storage backend.
 	ExternalEndpoint *SpecDistributionModulesMonitoringMimirExternalEndpoint `json:"externalEndpoint,omitempty" yaml:"externalEndpoint,omitempty" mapstructure:"externalEndpoint,omitempty"`
 
 	// Overrides corresponds to the JSON schema field "overrides".
 	Overrides *TypesFuryModuleComponentOverrides `json:"overrides,omitempty" yaml:"overrides,omitempty" mapstructure:"overrides,omitempty"`
 
-	// The retention time for the mimir pods
+	// The retention time for the logs stored in Mimir. Default is `30d`. Value must
+	// match the regular expression `[0-9]+(ns|us|µs|ms|s|m|h|d|w|y)` where y = 365
+	// days.
 	RetentionTime *string `json:"retentionTime,omitempty" yaml:"retentionTime,omitempty" mapstructure:"retentionTime,omitempty"`
 }
 
@@ -983,23 +1084,25 @@ const (
 	SpecDistributionModulesMonitoringMimirBackendMinio            SpecDistributionModulesMonitoringMimirBackend = "minio"
 )
 
+// Configuration for Mimir's external storage backend.
 type SpecDistributionModulesMonitoringMimirExternalEndpoint struct {
-	// The access key id of the external mimir backend
+	// The access key ID (username) for the external S3-compatible bucket.
 	AccessKeyId *string `json:"accessKeyId,omitempty" yaml:"accessKeyId,omitempty" mapstructure:"accessKeyId,omitempty"`
 
-	// The bucket name of the external mimir backend
+	// The bucket name of the external S3-compatible object storage.
 	BucketName *string `json:"bucketName,omitempty" yaml:"bucketName,omitempty" mapstructure:"bucketName,omitempty"`
 
-	// The endpoint of the external mimir backend
+	// External S3-compatible endpoint for Mimir's storage.
 	Endpoint *string `json:"endpoint,omitempty" yaml:"endpoint,omitempty" mapstructure:"endpoint,omitempty"`
 
-	// If true, the external mimir backend will not use tls
+	// If true, will use HTTP as protocol instead of HTTPS.
 	Insecure *bool `json:"insecure,omitempty" yaml:"insecure,omitempty" mapstructure:"insecure,omitempty"`
 
-	// The secret access key of the external mimir backend
+	// The secret access key (password) for the external S3-compatible bucket.
 	SecretAccessKey *string `json:"secretAccessKey,omitempty" yaml:"secretAccessKey,omitempty" mapstructure:"secretAccessKey,omitempty"`
 }
 
+// Configuration for Monitoring's MinIO deployment.
 type SpecDistributionModulesMonitoringMinio struct {
 	// Overrides corresponds to the JSON schema field "overrides".
 	Overrides *TypesFuryModuleComponentOverrides `json:"overrides,omitempty" yaml:"overrides,omitempty" mapstructure:"overrides,omitempty"`
@@ -1007,15 +1110,15 @@ type SpecDistributionModulesMonitoringMinio struct {
 	// RootUser corresponds to the JSON schema field "rootUser".
 	RootUser *SpecDistributionModulesMonitoringMinioRootUser `json:"rootUser,omitempty" yaml:"rootUser,omitempty" mapstructure:"rootUser,omitempty"`
 
-	// The storage size for the minio pods
+	// The PVC size for each MinIO disk, 6 disks total.
 	StorageSize *string `json:"storageSize,omitempty" yaml:"storageSize,omitempty" mapstructure:"storageSize,omitempty"`
 }
 
 type SpecDistributionModulesMonitoringMinioRootUser struct {
-	// The password for the minio root user
+	// The password for the default MinIO root user.
 	Password *string `json:"password,omitempty" yaml:"password,omitempty" mapstructure:"password,omitempty"`
 
-	// The username for the minio root user
+	// The username for the default MinIO root user.
 	Username *string `json:"username,omitempty" yaml:"username,omitempty" mapstructure:"username,omitempty"`
 }
 
@@ -1032,13 +1135,13 @@ type SpecDistributionModulesMonitoringPrometheus struct {
 	// Resources corresponds to the JSON schema field "resources".
 	Resources *TypesKubeResources `json:"resources,omitempty" yaml:"resources,omitempty" mapstructure:"resources,omitempty"`
 
-	// The retention size for the k8s Prometheus instance.
+	// The retention size for the `k8s` Prometheus instance.
 	RetentionSize *string `json:"retentionSize,omitempty" yaml:"retentionSize,omitempty" mapstructure:"retentionSize,omitempty"`
 
-	// The retention time for the k8s Prometheus instance.
+	// The retention time for the `k8s` Prometheus instance.
 	RetentionTime *string `json:"retentionTime,omitempty" yaml:"retentionTime,omitempty" mapstructure:"retentionTime,omitempty"`
 
-	// The storage size for the k8s Prometheus instance.
+	// The storage size for the `k8s` Prometheus instance.
 	StorageSize *string `json:"storageSize,omitempty" yaml:"storageSize,omitempty" mapstructure:"storageSize,omitempty"`
 }
 
@@ -1074,6 +1177,7 @@ type SpecDistributionModulesMonitoringX509Exporter struct {
 	Overrides *TypesFuryModuleComponentOverrides `json:"overrides,omitempty" yaml:"overrides,omitempty" mapstructure:"overrides,omitempty"`
 }
 
+// Configuration for the Networking module.
 type SpecDistributionModulesNetworking struct {
 	// Cilium corresponds to the JSON schema field "cilium".
 	Cilium *SpecDistributionModulesNetworkingCilium `json:"cilium,omitempty" yaml:"cilium,omitempty" mapstructure:"cilium,omitempty"`
@@ -1084,18 +1188,21 @@ type SpecDistributionModulesNetworking struct {
 	// TigeraOperator corresponds to the JSON schema field "tigeraOperator".
 	TigeraOperator *SpecDistributionModulesNetworkingTigeraOperator `json:"tigeraOperator,omitempty" yaml:"tigeraOperator,omitempty" mapstructure:"tigeraOperator,omitempty"`
 
-	// The type of networking to use, either ***calico*** or ***cilium***
+	// The type of CNI plugin to use, either `calico` (default, via the Tigera
+	// Operator) or `cilium`.
 	Type SpecDistributionModulesNetworkingType `json:"type" yaml:"type" mapstructure:"type"`
 }
 
 type SpecDistributionModulesNetworkingCilium struct {
-	// The mask size to use for the cilium pods
+	// The mask size to use for the Pods network on each node.
 	MaskSize *string `json:"maskSize,omitempty" yaml:"maskSize,omitempty" mapstructure:"maskSize,omitempty"`
 
 	// Overrides corresponds to the JSON schema field "overrides".
 	Overrides *TypesFuryModuleComponentOverrides `json:"overrides,omitempty" yaml:"overrides,omitempty" mapstructure:"overrides,omitempty"`
 
-	// The pod cidr to use for the cilium pods
+	// Allows specifing a CIDR for the Pods network different from
+	// `.spec.kubernetes.podCidr`. If not set the default is to use
+	// `.spec.kubernetes.podCidr`.
 	PodCidr *TypesCidr `json:"podCidr,omitempty" yaml:"podCidr,omitempty" mapstructure:"podCidr,omitempty"`
 }
 
@@ -1111,6 +1218,7 @@ const (
 	SpecDistributionModulesNetworkingTypeCilium SpecDistributionModulesNetworkingType = "cilium"
 )
 
+// Configuration for the Policy module.
 type SpecDistributionModulesPolicy struct {
 	// Gatekeeper corresponds to the JSON schema field "gatekeeper".
 	Gatekeeper *SpecDistributionModulesPolicyGatekeeper `json:"gatekeeper,omitempty" yaml:"gatekeeper,omitempty" mapstructure:"gatekeeper,omitempty"`
@@ -1121,20 +1229,25 @@ type SpecDistributionModulesPolicy struct {
 	// Overrides corresponds to the JSON schema field "overrides".
 	Overrides *TypesFuryModuleOverrides `json:"overrides,omitempty" yaml:"overrides,omitempty" mapstructure:"overrides,omitempty"`
 
-	// The type of security to use, either ***none***, ***gatekeeper*** or
-	// ***kyverno***
+	// The type of policy enforcement to use, either `none`, `gatekeeper` or
+	// `kyverno`.
 	Type SpecDistributionModulesPolicyType `json:"type" yaml:"type" mapstructure:"type"`
 }
 
+// Configuration for the Gatekeeper package.
 type SpecDistributionModulesPolicyGatekeeper struct {
 	// This parameter adds namespaces to Gatekeeper's exemption list, so it will not
 	// enforce the constraints on them.
 	AdditionalExcludedNamespaces []string `json:"additionalExcludedNamespaces,omitempty" yaml:"additionalExcludedNamespaces,omitempty" mapstructure:"additionalExcludedNamespaces,omitempty"`
 
-	// The enforcement action to use for the gatekeeper module
+	// The default enforcement action to use for the included constraints. `deny` will
+	// block the admission when violations to the policies are found, `warn` will show
+	// a message to the user but will admit the violating requests and `dryrun` won't
+	// give any feedback to the user but it will log the violations.
 	EnforcementAction SpecDistributionModulesPolicyGatekeeperEnforcementAction `json:"enforcementAction" yaml:"enforcementAction" mapstructure:"enforcementAction"`
 
-	// If true, the default policies will be installed
+	// Set to `false` to avoid installing the default Gatekeeper policies (constraints
+	// templates and constraints) included with the distribution.
 	InstallDefaultPolicies bool `json:"installDefaultPolicies" yaml:"installDefaultPolicies" mapstructure:"installDefaultPolicies"`
 
 	// Overrides corresponds to the JSON schema field "overrides".
@@ -1149,18 +1262,22 @@ const (
 	SpecDistributionModulesPolicyGatekeeperEnforcementActionWarn   SpecDistributionModulesPolicyGatekeeperEnforcementAction = "warn"
 )
 
+// Configuration for the Kyverno package.
 type SpecDistributionModulesPolicyKyverno struct {
 	// This parameter adds namespaces to Kyverno's exemption list, so it will not
-	// enforce the constraints on them.
+	// enforce the policies on them.
 	AdditionalExcludedNamespaces []string `json:"additionalExcludedNamespaces,omitempty" yaml:"additionalExcludedNamespaces,omitempty" mapstructure:"additionalExcludedNamespaces,omitempty"`
 
-	// If true, the default policies will be installed
+	// Set to `false` to avoid installing the default Kyverno policies included with
+	// distribution.
 	InstallDefaultPolicies bool `json:"installDefaultPolicies" yaml:"installDefaultPolicies" mapstructure:"installDefaultPolicies"`
 
 	// Overrides corresponds to the JSON schema field "overrides".
 	Overrides *TypesFuryModuleComponentOverrides `json:"overrides,omitempty" yaml:"overrides,omitempty" mapstructure:"overrides,omitempty"`
 
-	// The validation failure action to use for the kyverno module
+	// The validation failure action to use for the policies, `enforce` will block
+	// when a request does not comply with the policies and `audit` will not block but
+	// log when a request does not comply with the policies.
 	ValidationFailureAction SpecDistributionModulesPolicyKyvernoValidationFailureAction `json:"validationFailureAction" yaml:"validationFailureAction" mapstructure:"validationFailureAction"`
 }
 
@@ -1179,6 +1296,7 @@ const (
 	SpecDistributionModulesPolicyTypeNone       SpecDistributionModulesPolicyType = "none"
 )
 
+// Configuration for the Tracing module.
 type SpecDistributionModulesTracing struct {
 	// Minio corresponds to the JSON schema field "minio".
 	Minio *SpecDistributionModulesTracingMinio `json:"minio,omitempty" yaml:"minio,omitempty" mapstructure:"minio,omitempty"`
@@ -1189,10 +1307,12 @@ type SpecDistributionModulesTracing struct {
 	// Tempo corresponds to the JSON schema field "tempo".
 	Tempo *SpecDistributionModulesTracingTempo `json:"tempo,omitempty" yaml:"tempo,omitempty" mapstructure:"tempo,omitempty"`
 
-	// The type of tracing to use, either ***none*** or ***tempo***
+	// The type of tracing to use, either `none` or `tempo`. `none` will disable the
+	// Tracing module and `tempo` will install a Grafana Tempo deployment.
 	Type SpecDistributionModulesTracingType `json:"type" yaml:"type" mapstructure:"type"`
 }
 
+// Configuration for Tracing's MinIO deployment.
 type SpecDistributionModulesTracingMinio struct {
 	// Overrides corresponds to the JSON schema field "overrides".
 	Overrides *TypesFuryModuleComponentOverrides `json:"overrides,omitempty" yaml:"overrides,omitempty" mapstructure:"overrides,omitempty"`
@@ -1200,29 +1320,32 @@ type SpecDistributionModulesTracingMinio struct {
 	// RootUser corresponds to the JSON schema field "rootUser".
 	RootUser *SpecDistributionModulesTracingMinioRootUser `json:"rootUser,omitempty" yaml:"rootUser,omitempty" mapstructure:"rootUser,omitempty"`
 
-	// The storage size for the minio pods
+	// The PVC size for each MinIO disk, 6 disks total.
 	StorageSize *string `json:"storageSize,omitempty" yaml:"storageSize,omitempty" mapstructure:"storageSize,omitempty"`
 }
 
 type SpecDistributionModulesTracingMinioRootUser struct {
-	// The password for the minio root user
+	// The password for the default MinIO root user.
 	Password *string `json:"password,omitempty" yaml:"password,omitempty" mapstructure:"password,omitempty"`
 
-	// The username for the minio root user
+	// The username for the default MinIO root user.
 	Username *string `json:"username,omitempty" yaml:"username,omitempty" mapstructure:"username,omitempty"`
 }
 
+// Configuration for the Tempo package.
 type SpecDistributionModulesTracingTempo struct {
-	// The backend for the tempo pods, must be ***minio*** or ***externalEndpoint***
+	// The storage backend type for Tempo. `minio` will use an in-cluster MinIO
+	// deployment for object storage, `externalEndpoint` can be used to point to an
+	// external S3-compatible object storage instead of deploying an in-cluster MinIO.
 	Backend *SpecDistributionModulesTracingTempoBackend `json:"backend,omitempty" yaml:"backend,omitempty" mapstructure:"backend,omitempty"`
 
-	// ExternalEndpoint corresponds to the JSON schema field "externalEndpoint".
+	// Configuration for Tempo's external storage backend.
 	ExternalEndpoint *SpecDistributionModulesTracingTempoExternalEndpoint `json:"externalEndpoint,omitempty" yaml:"externalEndpoint,omitempty" mapstructure:"externalEndpoint,omitempty"`
 
 	// Overrides corresponds to the JSON schema field "overrides".
 	Overrides *TypesFuryModuleComponentOverrides `json:"overrides,omitempty" yaml:"overrides,omitempty" mapstructure:"overrides,omitempty"`
 
-	// The retention time for the tempo pods
+	// The retention time for the traces stored in Tempo.
 	RetentionTime *string `json:"retentionTime,omitempty" yaml:"retentionTime,omitempty" mapstructure:"retentionTime,omitempty"`
 }
 
@@ -1233,20 +1356,21 @@ const (
 	SpecDistributionModulesTracingTempoBackendMinio            SpecDistributionModulesTracingTempoBackend = "minio"
 )
 
+// Configuration for Tempo's external storage backend.
 type SpecDistributionModulesTracingTempoExternalEndpoint struct {
-	// The access key id of the external tempo backend
+	// The access key ID (username) for the external S3-compatible bucket.
 	AccessKeyId *string `json:"accessKeyId,omitempty" yaml:"accessKeyId,omitempty" mapstructure:"accessKeyId,omitempty"`
 
-	// The bucket name of the external tempo backend
+	// The bucket name of the external S3-compatible object storage.
 	BucketName *string `json:"bucketName,omitempty" yaml:"bucketName,omitempty" mapstructure:"bucketName,omitempty"`
 
-	// The endpoint of the external tempo backend
+	// External S3-compatible endpoint for Tempo's storage.
 	Endpoint *string `json:"endpoint,omitempty" yaml:"endpoint,omitempty" mapstructure:"endpoint,omitempty"`
 
-	// If true, the external tempo backend will not use tls
+	// If true, will use HTTP as protocol instead of HTTPS.
 	Insecure *bool `json:"insecure,omitempty" yaml:"insecure,omitempty" mapstructure:"insecure,omitempty"`
 
-	// The secret access key of the external tempo backend
+	// The secret access key (password) for the external S3-compatible bucket.
 	SecretAccessKey *string `json:"secretAccessKey,omitempty" yaml:"secretAccessKey,omitempty" mapstructure:"secretAccessKey,omitempty"`
 }
 
@@ -1257,6 +1381,8 @@ const (
 	SpecDistributionModulesTracingTypeTempo SpecDistributionModulesTracingType = "tempo"
 )
 
+// Defines the Kubernetes components configuration and the values needed for the
+// kubernetes phase of furyctl.
 type SpecKubernetes struct {
 	// Advanced corresponds to the JSON schema field "advanced".
 	Advanced *SpecKubernetesAdvanced `json:"advanced,omitempty" yaml:"advanced,omitempty" mapstructure:"advanced,omitempty"`
@@ -1264,10 +1390,13 @@ type SpecKubernetes struct {
 	// AdvancedAnsible corresponds to the JSON schema field "advancedAnsible".
 	AdvancedAnsible *SpecKubernetesAdvancedAnsible `json:"advancedAnsible,omitempty" yaml:"advancedAnsible,omitempty" mapstructure:"advancedAnsible,omitempty"`
 
-	// The address of the control plane
+	// The address for the Kubernetes control plane. Usually a DNS entry pointing to a
+	// Load Balancer on port 6443.
 	ControlPlaneAddress string `json:"controlPlaneAddress" yaml:"controlPlaneAddress" mapstructure:"controlPlaneAddress"`
 
-	// The DNS zone to use for the cluster
+	// The DNS zone of the machines. It will be appended to the name of each host to
+	// generate the `kubernetes_hostname` in the Ansible inventory file. It is also
+	// used to calculate etcd's initial cluster value.
 	DnsZone string `json:"dnsZone" yaml:"dnsZone" mapstructure:"dnsZone"`
 
 	// LoadBalancers corresponds to the JSON schema field "loadBalancers".
@@ -1279,10 +1408,10 @@ type SpecKubernetes struct {
 	// Nodes corresponds to the JSON schema field "nodes".
 	Nodes SpecKubernetesNodes `json:"nodes" yaml:"nodes" mapstructure:"nodes"`
 
-	// The folder where the PKI will be stored
+	// The path to the folder where the PKI files for Kubernetes and etcd are stored.
 	PkiFolder string `json:"pkiFolder" yaml:"pkiFolder" mapstructure:"pkiFolder"`
 
-	// The CIDR to use for the pods
+	// The subnet CIDR to use for the Pods network.
 	PodCidr TypesCidr `json:"podCidr" yaml:"podCidr" mapstructure:"podCidr"`
 
 	// Proxy corresponds to the JSON schema field "proxy".
@@ -1291,7 +1420,7 @@ type SpecKubernetes struct {
 	// Ssh corresponds to the JSON schema field "ssh".
 	Ssh SpecKubernetesSSH `json:"ssh" yaml:"ssh" mapstructure:"ssh"`
 
-	// The CIDR to use for the services
+	// The subnet CIDR to use for the Services network.
 	SvcCidr TypesCidr `json:"svcCidr" yaml:"svcCidr" mapstructure:"svcCidr"`
 }
 
@@ -1319,21 +1448,27 @@ type SpecKubernetesAdvanced struct {
 	Users *SpecKubernetesAdvancedUsers `json:"users,omitempty" yaml:"users,omitempty" mapstructure:"users,omitempty"`
 }
 
+// Advanced configuration for air-gapped installations. Allows setting custom URLs
+// where to download the binaries dependencies from and custom .deb and .rpm
+// package repositories.
 type SpecKubernetesAdvancedAirGap struct {
-	// The containerd download url
+	// URL where to download the `.tar.gz` with containerd from. The `tar.gz` should
+	// be as the one downloaded from containerd GitHub releases page.
 	ContainerdDownloadUrl *string `json:"containerdDownloadUrl,omitempty" yaml:"containerdDownloadUrl,omitempty" mapstructure:"containerdDownloadUrl,omitempty"`
 
 	// DependenciesOverride corresponds to the JSON schema field
 	// "dependenciesOverride".
 	DependenciesOverride *SpecKubernetesAdvancedAirGapDependenciesOverride `json:"dependenciesOverride,omitempty" yaml:"dependenciesOverride,omitempty" mapstructure:"dependenciesOverride,omitempty"`
 
-	// The etcd download url
+	// URL to the path where the etcd `tar.gz`s are available. etcd will be downloaded
+	// from
+	// `<etcdDownloadUrl>/<etcd_version>/etcd-<etcd_version>-linux-<host_architecture>.tar.gz`
 	EtcdDownloadUrl *string `json:"etcdDownloadUrl,omitempty" yaml:"etcdDownloadUrl,omitempty" mapstructure:"etcdDownloadUrl,omitempty"`
 
-	// The runc checksum
+	// Checksum for the runc binary.
 	RuncChecksum *string `json:"runcChecksum,omitempty" yaml:"runcChecksum,omitempty" mapstructure:"runcChecksum,omitempty"`
 
-	// The runc download url
+	// URL where to download the runc binary from.
 	RuncDownloadUrl *string `json:"runcDownloadUrl,omitempty" yaml:"runcDownloadUrl,omitempty" mapstructure:"runcDownloadUrl,omitempty"`
 }
 
@@ -1346,52 +1481,58 @@ type SpecKubernetesAdvancedAirGapDependenciesOverride struct {
 }
 
 type SpecKubernetesAdvancedAirGapDependenciesOverrideApt struct {
-	// The gpg key of the apt dependency
+	// URL where to download the GPG key of the Apt repository. Example:
+	// `https://pkgs.k8s.io/core:/stable:/v1.29/deb/Release.key`
 	GpgKey string `json:"gpg_key" yaml:"gpg_key" mapstructure:"gpg_key"`
 
-	// The gpg key id of the apt dependency
+	// The GPG key ID of the Apt repository. Example:
+	// `36A1D7869245C8950F966E92D8576A8BA88D21E9`
 	GpgKeyId string `json:"gpg_key_id" yaml:"gpg_key_id" mapstructure:"gpg_key_id"`
 
-	// The name of the apt dependency
+	// An indicative name for the Apt repository. Example: `k8s-1.29`
 	Name string `json:"name" yaml:"name" mapstructure:"name"`
 
-	// The repo of the apt dependency
+	// A source string for the new Apt repository. Example: `deb
+	// https://pkgs.k8s.io/core:/stable:/v1.29/deb/ /`
 	Repo string `json:"repo" yaml:"repo" mapstructure:"repo"`
 }
 
 type SpecKubernetesAdvancedAirGapDependenciesOverrideYum struct {
-	// The gpg key of the yum dependency
+	// URL where to download the ASCII-armored GPG key of the Yum repository. Example:
+	// `https://pkgs.k8s.io/core:/stable:/v1.29/deb/Release.key`
 	GpgKey string `json:"gpg_key" yaml:"gpg_key" mapstructure:"gpg_key"`
 
-	// If true, the gpg key check will be enabled
+	// If true, the GPG signature check on the packages will be enabled.
 	GpgKeyCheck bool `json:"gpg_key_check" yaml:"gpg_key_check" mapstructure:"gpg_key_check"`
 
-	// The name of the yum dependency
+	// An indicative name for the Yum repository. Example: `k8s-1.29`
 	Name string `json:"name" yaml:"name" mapstructure:"name"`
 
-	// The repo of the yum dependency
+	// URL to the directory where the Yum repository's `repodata` directory lives.
+	// Example: `https://pkgs.k8s.io/core:/stable:/v1.29/rpm/`
 	Repo string `json:"repo" yaml:"repo" mapstructure:"repo"`
 
-	// If true, the repo gpg check will be enabled
+	// If true, the GPG signature check on the `repodata` will be enabled.
 	RepoGpgCheck bool `json:"repo_gpg_check" yaml:"repo_gpg_check" mapstructure:"repo_gpg_check"`
 }
 
 type SpecKubernetesAdvancedAnsible struct {
-	// Additional config to append to the ansible.cfg file
+	// Additional configuration to append to the ansible.cfg file
 	Config *string `json:"config,omitempty" yaml:"config,omitempty" mapstructure:"config,omitempty"`
 
-	// The python interpreter to use
+	// The Python interpreter to use for running Ansible. Example: python3
 	PythonInterpreter *string `json:"pythonInterpreter,omitempty" yaml:"pythonInterpreter,omitempty" mapstructure:"pythonInterpreter,omitempty"`
 }
 
 type SpecKubernetesAdvancedCloud struct {
-	// The cloud config to use
+	// Sets cloud config for the Kubelet
 	Config *string `json:"config,omitempty" yaml:"config,omitempty" mapstructure:"config,omitempty"`
 
-	// The cloud provider to use
+	// Sets the cloud provider for the Kubelet
 	Provider *string `json:"provider,omitempty" yaml:"provider,omitempty" mapstructure:"provider,omitempty"`
 }
 
+// Advanced configuration for containerd
 type SpecKubernetesAdvancedContainerd struct {
 	// RegistryConfigs corresponds to the JSON schema field "registryConfigs".
 	RegistryConfigs SpecKubernetesAdvancedContainerdRegistryConfigs `json:"registryConfigs,omitempty" yaml:"registryConfigs,omitempty" mapstructure:"registryConfigs,omitempty"`
@@ -1402,68 +1543,109 @@ type SpecKubernetesAdvancedContainerd struct {
 // This feature can be used for example to authenticate to a private registry at
 // containerd (container runtime) level, i.e. globally instead of using
 // `imagePullSecrets`. It also can be used to use a mirror for a registry or to
-// enable insecure connections to trusted registries that don't support TLS.
+// enable insecure connections to trusted registries that have self-signed
+// certificates.
 type SpecKubernetesAdvancedContainerdRegistryConfigs []struct {
-	// InsecureSkipVerify corresponds to the JSON schema field "insecureSkipVerify".
+	// Set to `true` to skip TLS verification (e.g. when using self-signed
+	// certificates).
 	InsecureSkipVerify *bool `json:"insecureSkipVerify,omitempty" yaml:"insecureSkipVerify,omitempty" mapstructure:"insecureSkipVerify,omitempty"`
 
-	// MirrorEndpoint corresponds to the JSON schema field "mirrorEndpoint".
+	// Array of URLs with the mirrors to use for the registry. Example:
+	// `["http://mymirror.tld:8080"]`
 	MirrorEndpoint []string `json:"mirrorEndpoint,omitempty" yaml:"mirrorEndpoint,omitempty" mapstructure:"mirrorEndpoint,omitempty"`
 
-	// Password corresponds to the JSON schema field "password".
+	// The password containerd will use to authenticate against the registry.
 	Password *string `json:"password,omitempty" yaml:"password,omitempty" mapstructure:"password,omitempty"`
 
-	// Registry corresponds to the JSON schema field "registry".
+	// Registry address on which you would like to configure authentication or
+	// mirror(s). Example: `myregistry.tld:5000`
 	Registry *string `json:"registry,omitempty" yaml:"registry,omitempty" mapstructure:"registry,omitempty"`
 
-	// Username corresponds to the JSON schema field "username".
+	// The username containerd will use to authenticate against the registry.
 	Username *string `json:"username,omitempty" yaml:"username,omitempty" mapstructure:"username,omitempty"`
 }
 
 type SpecKubernetesAdvancedEncryption struct {
-	// The configuration to use
+	// etcd's encryption at rest configuration. Must be a string with the
+	// EncryptionConfiguration object in YAML. Example:
+	//
+	// ```yaml
+	//
+	// apiVersion: apiserver.config.k8s.io/v1
+	// kind: EncryptionConfiguration
+	// resources:
+	//   - resources:
+	//     - secrets
+	//     providers:
+	//     - aescbc:
+	//         keys:
+	//         - name: mykey
+	//           secret: base64_encoded_secret
+	// ```
+	//
 	Configuration *string `json:"configuration,omitempty" yaml:"configuration,omitempty" mapstructure:"configuration,omitempty"`
 
-	// The tls cipher suites to use
+	// The TLS cipher suites to use for etcd, kubelet, and kubeadm static pods.
+	// Example:
+	// ```yaml
+	// tlsCipherSuites:
+	//   - "TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256"
+	//   - "TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256"
+	//   - "TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384"
+	//   - "TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384"
+	//   - "TLS_ECDHE_ECDSA_WITH_CHACHA20_POLY1305_SHA256"
+	//   - "TLS_ECDHE_RSA_WITH_CHACHA20_POLY1305_SHA256"
+	//   - "TLS_AES_128_GCM_SHA256"
+	//   - "TLS_AES_256_GCM_SHA384"
+	//   - "TLS_CHACHA20_POLY1305_SHA256"
+	// ```
 	TlsCipherSuites []string `json:"tlsCipherSuites,omitempty" yaml:"tlsCipherSuites,omitempty" mapstructure:"tlsCipherSuites,omitempty"`
 }
 
+// OIDC configuration for the Kubernetes API server.
 type SpecKubernetesAdvancedOIDC struct {
-	// The ca file of the oidc provider
+	// The path to the certificate for the CA that signed the identity provider's web
+	// certificate. Defaults to the host's root CAs. This should be a path available
+	// to the API Server.
 	CaFile *string `json:"ca_file,omitempty" yaml:"ca_file,omitempty" mapstructure:"ca_file,omitempty"`
 
-	// The client id of the oidc provider
+	// The client ID the API server will use to authenticate to the OIDC provider.
 	ClientId *string `json:"client_id,omitempty" yaml:"client_id,omitempty" mapstructure:"client_id,omitempty"`
 
-	// GroupPrefix corresponds to the JSON schema field "group_prefix".
+	// Prefix prepended to group claims to prevent clashes with existing names (such
+	// as system: groups).
 	GroupPrefix *string `json:"group_prefix,omitempty" yaml:"group_prefix,omitempty" mapstructure:"group_prefix,omitempty"`
 
-	// GroupsClaim corresponds to the JSON schema field "groups_claim".
+	// JWT claim to use as the user's group.
 	GroupsClaim *string `json:"groups_claim,omitempty" yaml:"groups_claim,omitempty" mapstructure:"groups_claim,omitempty"`
 
-	// The issuer url of the oidc provider
+	// The issuer URL of the OIDC provider.
 	IssuerUrl *string `json:"issuer_url,omitempty" yaml:"issuer_url,omitempty" mapstructure:"issuer_url,omitempty"`
 
-	// UsernameClaim corresponds to the JSON schema field "username_claim".
+	// JWT claim to use as the user name. The default value is `sub`, which is
+	// expected to be a unique identifier of the end user.
 	UsernameClaim *string `json:"username_claim,omitempty" yaml:"username_claim,omitempty" mapstructure:"username_claim,omitempty"`
 
-	// UsernamePrefix corresponds to the JSON schema field "username_prefix".
+	// Prefix prepended to username claims to prevent clashes with existing names
+	// (such as system: users).
 	UsernamePrefix *string `json:"username_prefix,omitempty" yaml:"username_prefix,omitempty" mapstructure:"username_prefix,omitempty"`
 }
 
 type SpecKubernetesAdvancedUsers struct {
-	// The names of the users
+	// List of user names to create and get a kubeconfig file. Users will not have any
+	// permissions by default, RBAC setup for the new users is needed.
 	Names []string `json:"names,omitempty" yaml:"names,omitempty" mapstructure:"names,omitempty"`
 
-	// The org of the users
+	// The organization the users belong to.
 	Org *string `json:"org,omitempty" yaml:"org,omitempty" mapstructure:"org,omitempty"`
 }
 
 type SpecKubernetesLoadBalancers struct {
-	// The additional config to use
+	// Additional configuration to append to HAProxy's configuration file.
 	AdditionalConfig *string `json:"additionalConfig,omitempty" yaml:"additionalConfig,omitempty" mapstructure:"additionalConfig,omitempty"`
 
-	// If true, the load balancers will be enabled
+	// Set to true to install HAProxy and configure it as a load balancer on the the
+	// load balancer hosts.
 	Enabled bool `json:"enabled" yaml:"enabled" mapstructure:"enabled"`
 
 	// Hosts corresponds to the JSON schema field "hosts".
@@ -1477,58 +1659,71 @@ type SpecKubernetesLoadBalancers struct {
 }
 
 type SpecKubernetesLoadBalancersHost struct {
-	// The IP of the host
+	// The IP address of the host.
 	Ip string `json:"ip" yaml:"ip" mapstructure:"ip"`
 
-	// The name of the host
+	// A name to identify the host. This value will be concatenated to
+	// `.spec.kubernetes.dnsZone` to calculate the FQDN for the host as
+	// `<name>.<dnsZone>`.
 	Name string `json:"name" yaml:"name" mapstructure:"name"`
 }
 
 type SpecKubernetesLoadBalancersKeepalived struct {
-	// If true, keepalived will be enabled
+	// Set to install keepalived with a floating virtual IP shared between the load
+	// balancer hosts for a deployment in High Availability.
 	Enabled bool `json:"enabled" yaml:"enabled" mapstructure:"enabled"`
 
-	// The interface to use
+	// Name of the network interface where to bind the Keepalived virtual IP.
 	Interface *string `json:"interface,omitempty" yaml:"interface,omitempty" mapstructure:"interface,omitempty"`
 
-	// The IP to use
+	// The Virtual floating IP for Keepalived
 	Ip *string `json:"ip,omitempty" yaml:"ip,omitempty" mapstructure:"ip,omitempty"`
 
-	// The passphrase to use
+	// The passphrase for the Keepalived clustering.
 	Passphrase *string `json:"passphrase,omitempty" yaml:"passphrase,omitempty" mapstructure:"passphrase,omitempty"`
 
-	// The virtual router ID to use
+	// The virtual router ID of Keepalived, must be different from other Keepalived
+	// instances in the same network.
 	VirtualRouterId *string `json:"virtualRouterId,omitempty" yaml:"virtualRouterId,omitempty" mapstructure:"virtualRouterId,omitempty"`
 }
 
+// Configuration for HAProxy stats page. Accessible at http://<haproxy
+// host>:1936/stats
 type SpecKubernetesLoadBalancersStats struct {
-	// The password to use
+	// The basic-auth password for HAProxy's stats page.
 	Password string `json:"password" yaml:"password" mapstructure:"password"`
 
-	// The username to use
+	// The basic-auth username for HAProxy's stats page
 	Username string `json:"username" yaml:"username" mapstructure:"username"`
 }
 
+// Configuration for the control plane hosts
 type SpecKubernetesMasters struct {
 	// Hosts corresponds to the JSON schema field "hosts".
 	Hosts []SpecKubernetesMastersHost `json:"hosts" yaml:"hosts" mapstructure:"hosts"`
 }
 
 type SpecKubernetesMastersHost struct {
-	// The IP of the host
+	// The IP address of the host
 	Ip string `json:"ip" yaml:"ip" mapstructure:"ip"`
 
-	// The name of the host
+	// A name to identify the host. This value will be concatenated to
+	// `.spec.kubernetes.dnsZone` to calculate the FQDN for the host as
+	// `<name>.<dnsZone>`.
 	Name string `json:"name" yaml:"name" mapstructure:"name"`
 }
 
+// Configuration for the node hosts
 type SpecKubernetesNodes []SpecKubernetesNodesNode
 
 type SpecKubernetesNodesNode struct {
 	// Hosts corresponds to the JSON schema field "hosts".
 	Hosts []SpecKubernetesNodesNodeHost `json:"hosts" yaml:"hosts" mapstructure:"hosts"`
 
-	// Name corresponds to the JSON schema field "name".
+	// Name for the node group. It will be also used as the node role label. It should
+	// follow the [valid variable names
+	// guideline](https://docs.ansible.com/ansible/latest/playbook_guide/playbooks_variables.html#valid-variable-names)
+	// from Ansible.
 	Name string `json:"name" yaml:"name" mapstructure:"name"`
 
 	// Taints corresponds to the JSON schema field "taints".
@@ -1536,29 +1731,33 @@ type SpecKubernetesNodesNode struct {
 }
 
 type SpecKubernetesNodesNodeHost struct {
-	// Ip corresponds to the JSON schema field "ip".
+	// The IP address of the host
 	Ip string `json:"ip" yaml:"ip" mapstructure:"ip"`
 
-	// Name corresponds to the JSON schema field "name".
+	// A name to identify the host. This value will be concatenated to
+	// `.spec.kubernetes.dnsZone` to calculate the FQDN for the host as
+	// `<name>.<dnsZone>`.
 	Name string `json:"name" yaml:"name" mapstructure:"name"`
 }
 
 type SpecKubernetesProxy struct {
-	// The HTTP proxy to use
+	// The HTTP proxy URL. Example: http://test.example.dev:3128
 	Http *TypesUri `json:"http,omitempty" yaml:"http,omitempty" mapstructure:"http,omitempty"`
 
-	// The HTTPS proxy to use
+	// The HTTPS proxy URL. Example: https://test.example.dev:3128
 	Https *TypesUri `json:"https,omitempty" yaml:"https,omitempty" mapstructure:"https,omitempty"`
 
-	// The no proxy to use
+	// Comma-separated list of hosts that should not use the HTTP(S) proxy. Example:
+	// localhost,127.0.0.1,172.16.0.0/17,172.16.128.0/17,10.0.0.0/8,.example.dev
 	NoProxy *string `json:"noProxy,omitempty" yaml:"noProxy,omitempty" mapstructure:"noProxy,omitempty"`
 }
 
+// SSH credentials to access the hosts
 type SpecKubernetesSSH struct {
-	// The path to the private key to use to connect to the nodes
+	// The path to the private key to use to connect to the hosts
 	KeyPath string `json:"keyPath" yaml:"keyPath" mapstructure:"keyPath"`
 
-	// The username to use to connect to the nodes
+	// The username to use to connect to the hosts
 	Username string `json:"username" yaml:"username" mapstructure:"username"`
 }
 
@@ -1629,10 +1828,10 @@ type TypesEnvRef string
 type TypesFileRef string
 
 type TypesFuryModuleComponentOverrides struct {
-	// The node selector to use to place the pods for the minio module
+	// Set to override the node selector used to place the pods of the package.
 	NodeSelector TypesKubeNodeSelector `json:"nodeSelector,omitempty" yaml:"nodeSelector,omitempty" mapstructure:"nodeSelector,omitempty"`
 
-	// The tolerations that will be added to the pods for the minio module
+	// Set to override the tolerations that will be added to the pods of the package.
 	Tolerations []TypesKubeToleration `json:"tolerations,omitempty" yaml:"tolerations,omitempty" mapstructure:"tolerations,omitempty"`
 }
 
@@ -1644,25 +1843,28 @@ type TypesFuryModuleComponentOverrides_1 struct {
 	Tolerations []TypesKubeToleration_1 `json:"tolerations,omitempty" yaml:"tolerations,omitempty" mapstructure:"tolerations,omitempty"`
 }
 
+// Override the common configuration with a particular configuration for the
+// module.
 type TypesFuryModuleOverrides struct {
 	// Ingresses corresponds to the JSON schema field "ingresses".
 	Ingresses TypesFuryModuleOverridesIngresses `json:"ingresses,omitempty" yaml:"ingresses,omitempty" mapstructure:"ingresses,omitempty"`
 
-	// The node selector to use to place the pods for the tracing module
+	// Set to override the node selector used to place the pods of the module.
 	NodeSelector TypesKubeNodeSelector `json:"nodeSelector,omitempty" yaml:"nodeSelector,omitempty" mapstructure:"nodeSelector,omitempty"`
 
-	// The tolerations that will be added to the pods for the policy module
+	// Set to override the tolerations that will be added to the pods of the module.
 	Tolerations []TypesKubeToleration `json:"tolerations,omitempty" yaml:"tolerations,omitempty" mapstructure:"tolerations,omitempty"`
 }
 
 type TypesFuryModuleOverridesIngress struct {
-	// If true, the ingress will not have authentication
+	// If true, the ingress will not have authentication even if
+	// `.spec.modules.auth.provider.type` is SSO or Basic Auth.
 	DisableAuth *bool `json:"disableAuth,omitempty" yaml:"disableAuth,omitempty" mapstructure:"disableAuth,omitempty"`
 
-	// The host of the ingress
+	// Use this host for the ingress instead of the default one.
 	Host *string `json:"host,omitempty" yaml:"host,omitempty" mapstructure:"host,omitempty"`
 
-	// The ingress class of the ingress
+	// Use this ingress class for the ingress instead of the default one.
 	IngressClass *string `json:"ingressClass,omitempty" yaml:"ingressClass,omitempty" mapstructure:"ingressClass,omitempty"`
 }
 
