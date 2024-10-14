@@ -3880,7 +3880,7 @@ The value of the toleration
 
 ### Description
 
-The validation failure action to use for the policies, `enforce` will block when a request does not comply with the policies and `audit` will not block but log when a request does not comply with the policies.
+The validation failure action to use for the policies, `Enforce` will block when a request does not comply with the policies and `Audit` will not block but log when a request does not comply with the policies.
 
 ### Constraints
 
@@ -3888,8 +3888,8 @@ The validation failure action to use for the policies, `enforce` will block when
 
 | Value     |
 |:----------|
-|`"audit"`  |
-|`"enforce"`|
+|`"Audit"`  |
+|`"Enforce"`|
 
 ## .spec.distribution.modules.policy.overrides
 

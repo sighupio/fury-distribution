@@ -1541,8 +1541,8 @@
         "validationFailureAction": {
           "type": "string",
           "enum": [
-            "audit",
-            "enforce"
+            "Audit",
+            "Enforce"
           ],
           "description": "The validation failure action to use for the kyverno module"
         },

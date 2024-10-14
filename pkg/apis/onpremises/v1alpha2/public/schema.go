@@ -1275,8 +1275,8 @@ type SpecDistributionModulesPolicyKyverno struct {
 	// Overrides corresponds to the JSON schema field "overrides".
 	Overrides *TypesFuryModuleComponentOverrides `json:"overrides,omitempty" yaml:"overrides,omitempty" mapstructure:"overrides,omitempty"`
 
-	// The validation failure action to use for the policies, `enforce` will block
-	// when a request does not comply with the policies and `audit` will not block but
+	// The validation failure action to use for the policies, `Enforce` will block
+	// when a request does not comply with the policies and `Audit` will not block but
 	// log when a request does not comply with the policies.
 	ValidationFailureAction SpecDistributionModulesPolicyKyvernoValidationFailureAction `json:"validationFailureAction" yaml:"validationFailureAction" mapstructure:"validationFailureAction"`
 }
@@ -1284,8 +1284,8 @@ type SpecDistributionModulesPolicyKyverno struct {
 type SpecDistributionModulesPolicyKyvernoValidationFailureAction string
 
 const (
-	SpecDistributionModulesPolicyKyvernoValidationFailureActionAudit   SpecDistributionModulesPolicyKyvernoValidationFailureAction = "audit"
-	SpecDistributionModulesPolicyKyvernoValidationFailureActionEnforce SpecDistributionModulesPolicyKyvernoValidationFailureAction = "enforce"
+	SpecDistributionModulesPolicyKyvernoValidationFailureActionAudit   SpecDistributionModulesPolicyKyvernoValidationFailureAction = "Audit"
+	SpecDistributionModulesPolicyKyvernoValidationFailureActionEnforce SpecDistributionModulesPolicyKyvernoValidationFailureAction = "Enforce"
 )
 
 type SpecDistributionModulesPolicyType string
@@ -2709,8 +2709,8 @@ func (j *SpecKubernetes) UnmarshalJSON(b []byte) error {
 }
 
 var enumValues_SpecDistributionModulesPolicyKyvernoValidationFailureAction = []interface{}{
-	"audit",
-	"enforce",
+	"Audit",
+	"Enforce",
 }
 
 // UnmarshalJSON implements json.Unmarshaler.

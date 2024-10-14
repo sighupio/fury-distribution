@@ -4018,8 +4018,8 @@ The validation failure action to use for the kyverno module
 
 | Value     |
 |:----------|
-|`"audit"`  |
-|`"enforce"`|
+|`"Audit"`  |
+|`"Enforce"`|
 
 ## .spec.distribution.modules.policy.overrides
 
