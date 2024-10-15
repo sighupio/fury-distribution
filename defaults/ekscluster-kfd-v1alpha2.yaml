@@ -229,7 +229,7 @@ data:
       kyverno:
         # this configuration adds namespaces to the excluded list, actually whitelisting them
         additionalExcludedNamespaces: []
-        validationFailureAction: enforce
+        validationFailureAction: Enforce
         installDefaultPolicies: true
     # dr module configuration
     dr:

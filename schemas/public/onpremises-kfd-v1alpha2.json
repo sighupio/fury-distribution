@@ -1743,10 +1743,10 @@
         "validationFailureAction": {
           "type": "string",
           "enum": [
-            "audit",
-            "enforce"
+            "Audit",
+            "Enforce"
           ],
-          "description": "The validation failure action to use for the policies, `enforce` will block when a request does not comply with the policies and `audit` will not block but log when a request does not comply with the policies."
+          "description": "The validation failure action to use for the policies, `Enforce` will block when a request does not comply with the policies and `Audit` will not block but log when a request does not comply with the policies."
         },
         "installDefaultPolicies": {
           "type": "boolean",

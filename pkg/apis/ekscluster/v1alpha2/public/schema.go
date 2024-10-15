@@ -1175,8 +1175,8 @@ type SpecDistributionModulesPolicyKyverno struct {
 type SpecDistributionModulesPolicyKyvernoValidationFailureAction string
 
 const (
-	SpecDistributionModulesPolicyKyvernoValidationFailureActionAudit   SpecDistributionModulesPolicyKyvernoValidationFailureAction = "audit"
-	SpecDistributionModulesPolicyKyvernoValidationFailureActionEnforce SpecDistributionModulesPolicyKyvernoValidationFailureAction = "enforce"
+	SpecDistributionModulesPolicyKyvernoValidationFailureActionAudit   SpecDistributionModulesPolicyKyvernoValidationFailureAction = "Audit"
+	SpecDistributionModulesPolicyKyvernoValidationFailureActionEnforce SpecDistributionModulesPolicyKyvernoValidationFailureAction = "Enforce"
 )
 
 type SpecDistributionModulesPolicyType string
@@ -2843,8 +2843,8 @@ func (j *SpecDistributionModulesPolicyKyvernoValidationFailureAction) UnmarshalJ
 }
 
 var enumValues_SpecDistributionModulesPolicyKyvernoValidationFailureAction = []interface{}{
-	"audit",
-	"enforce",
+	"Audit",
+	"Enforce",
 }
 
 // UnmarshalJSON implements json.Unmarshaler.
