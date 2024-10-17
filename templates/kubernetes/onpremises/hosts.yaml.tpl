@@ -50,6 +50,9 @@ all:
         kubernetes_users_names:
 {{ .spec.kubernetes.advanced.users.names | toYaml | indent 10 }}
         {{- end }}
+        {{- if index .spec.kubernetes.advanced.users "org" }}
+        kubernetes_users_org: "{{ .spec.kubernetes.advanced.users.org }}"
+        {{- end }}
         {{- end }}
 
         {{- if and (index .spec.kubernetes "advanced") (index .spec.kubernetes.advanced "oidc") }}
