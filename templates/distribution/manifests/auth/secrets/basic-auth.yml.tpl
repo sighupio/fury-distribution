@@ -52,4 +52,15 @@ type: Opaque
 stringData:
   auth: {{ htpasswd $username $password }}
 {{- end }}
+{{ if eq .spec.distribution.modules.networking.type "cilium" }}
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: basic-auth
+  namespace: kube-system
+type: Opaque
+stringData:
+  auth: {{ htpasswd $username $password }}
+{{- end }}
 {{- end -}}
