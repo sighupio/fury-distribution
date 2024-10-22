@@ -56,6 +56,15 @@ resources:
 
 patchesStrategicMerge:
   - patches/infra-nodes.yml
+{{- if eq .spec.distribution.common.provider.type "eks" }}{{/* in EKS there are no files to monitor on nodes */}}
+  - |-
+    $patch: delete
+    apiVersion: apps/v1
+    kind: DaemonSet
+    metadata:
+      namespace: monitoring
+      name: x509-certificate-exporter-data-plane
+{{- end }}
 {{- if or (eq $monitoringType "prometheus") (eq $monitoringType "mimir") }}
   - patches/alertmanager-operated.yml
   {{- if .checks.storageClassAvailable }}

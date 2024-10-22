@@ -114,6 +114,7 @@ spec:
         {{ template "nodeSelector" $x509ExporterArgs }}
       tolerations:
         {{ template "tolerations" $x509ExporterArgs }}
+{{- if ne .spec.distribution.common.provider.type "eks" }}{{/* in EKS there are no files to monitor on nodes */}}
 ---
 apiVersion: apps/v1
 kind: DaemonSet
@@ -127,6 +128,7 @@ spec:
         {{ template "nodeSelector" $x509ExporterArgs }}
       tolerations:
         {{ template "tolerations" $x509ExporterArgs }}
+{{- end }}
 
 {{ if eq $monitoringType "mimir" -}}
 {{- $mimirArgs := dict "module" "monitoring" "package" "mimir" "spec" .spec -}}
