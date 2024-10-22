@@ -325,7 +325,7 @@
     "Spec.Kubernetes.Nodes": {
       "type": "array",
       "description": "Configuration for the node hosts",
-      "minItems": 1,
+      "minItems": 0,
       "items": {
         "$ref": "#/$defs/Spec.Kubernetes.Nodes.Node"
       }

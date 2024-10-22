@@ -4914,10 +4914,6 @@ A name to identify the host. This value will be concatenated to `.spec.kubernete
 
 Configuration for the node hosts
 
-### Constraints
-
-**minimum number of items**: the minimum number of items for this array is: `1`
-
 ## .spec.kubernetes.nodes.hosts
 
 ### Properties
