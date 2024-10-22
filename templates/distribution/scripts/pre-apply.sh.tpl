@@ -519,6 +519,7 @@ deleteMimir() {
 # ██      ██ ██ ██      ██ ██ ██   ██     ██████  ██   ██  ██████ ██   ██ ███████ ██   ████ ██████  
                                                                                                                                   
 
+
 {{- if index .reducers "distributionModulesMonitoringMimirBackend" }}
 
 deleteMimirMinioHA() {
@@ -665,39 +666,43 @@ deleteInfraIngresses() {
   $kubectlbin delete --ignore-not-found --wait --timeout=180s ingress -n logging --all
   $kubectlbin delete --ignore-not-found --wait --timeout=180s ingress -n gatekeeper-system --all
   $kubectlbin delete --ignore-not-found --wait --timeout=180s ingress -n ingress-nginx --all
+  $kubectlbin delete --ignore-not-found --wait --timeout=180s ingress -n kube-system --all # hubble, dex, gangplank
   echo "All the infrastructural ingresses have been deleted"
 }
 
 
 {{- if eq .reducers.distributionModulesAuthProviderType.to "none" }}
-
+# Disable Auth
+echo "Deleting Auth module resources"
 deleteDex
 deleteGangplank
 deletePomeriumIngresses
 deletePomerium
-
+echo "All Auth module resources have been deleted"
 {{- end }}
 
-{{- if eq .reducers.distributionModulesAuthProviderType.to "sso" }}
-
-{{- if eq .reducers.distributionModulesAuthProviderType.from "basicAuth" }}
+{{- if eq .reducers.distributionModulesAuthProviderType.from "sso" }}
+    {{- if eq .reducers.distributionModulesAuthProviderType.to "basicAuth" }}
+echo "Running clean up tasks for migrating Auth type from SSO to basicAuth..."
 deleteDex
 deleteGangplank
+# delete infra ingresses in pomerium namspace because they need to be recreated in the right namespace
 deletePomeriumIngresses
 deletePomerium
+echo "Finished clean up tasks for migrating Auth type from SSO to basicAuth."
+    {{- end }}
 {{- end }}
-
-{{- end }}
-
-{{- if eq .reducers.distributionModulesAuthProviderType.to "sso" }}
 
 {{- if eq .reducers.distributionModulesAuthProviderType.from "basicAuth" }}
+    {{- if eq .reducers.distributionModulesAuthProviderType.to "sso" }}
+echo "Running clean up tasks for migrating Auth type from basicAuth to SSO..."
 deleteDex
 deleteGangplank
+# delete infra ingresses because they need to be recreated in the pomerium namespace
 deleteInfraIngresses
 deletePomerium
-{{- end }}
-
+echo "Finished clean up tasks for migrating Auth type from basicAuth to SSO."
+    {{- end }}
 {{- end }}
 
 {{- end }} # end distributionModulesAuthProviderType
