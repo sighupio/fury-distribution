@@ -1190,7 +1190,7 @@ The type of the Disaster Recovery, must be `none` or `on-premises`. `none` disab
 | [backend](#specdistributionmodulesdrvelerobackend)                   | `string` | Optional |
 | [externalEndpoint](#specdistributionmodulesdrveleroexternalendpoint) | `object` | Optional |
 | [overrides](#specdistributionmodulesdrvelerooverrides)               | `object` | Optional |
-| [retentionTime](#specdistributionmodulesdrveleroretentiontime)       | `string` | Optional |
+| [schedules](#specdistributionmodulesdrveleroschedules)               | `object` | Optional |
 
 ### Description
 
@@ -1322,11 +1322,56 @@ The key of the toleration
 
 The value of the toleration
 
-## .spec.distribution.modules.dr.velero.retentionTime
+## .spec.distribution.modules.dr.velero.schedules
+
+### Properties
+
+| Property                                                    | Type      | Required |
+|:------------------------------------------------------------|:----------|:---------|
+| [cron](#specdistributionmodulesdrveleroschedulescron)       | `object`  | Optional |
+| [install](#specdistributionmodulesdrveleroschedulesinstall) | `boolean` | Optional |
+| [ttl](#specdistributionmodulesdrveleroschedulesttl)         | `string`  | Optional |
 
 ### Description
 
-CURRENTLY NOT IN USE.
+Configuration for Velero's schedules.
+
+## .spec.distribution.modules.dr.velero.schedules.cron
+
+### Properties
+
+| Property                                                            | Type     | Required |
+|:--------------------------------------------------------------------|:---------|:---------|
+| [full](#specdistributionmodulesdrveleroschedulescronfull)           | `string` | Optional |
+| [manifests](#specdistributionmodulesdrveleroschedulescronmanifests) | `string` | Optional |
+
+### Description
+
+Configuration for Velero's schedules cron.
+
+## .spec.distribution.modules.dr.velero.schedules.cron.full
+
+### Description
+
+The cron of the full backup schedule (default 0 1 * * *).
+
+## .spec.distribution.modules.dr.velero.schedules.cron.manifests
+
+### Description
+
+The cron of the manifests backup schedule (default */15 * * * *).
+
+## .spec.distribution.modules.dr.velero.schedules.install
+
+### Description
+
+If true, manifests and full backup schedules will be installed.
+
+## .spec.distribution.modules.dr.velero.schedules.ttl
+
+### Description
+
+The TTL of the backup schedules (default 720h0m0s).
 
 ## .spec.distribution.modules.ingress
 

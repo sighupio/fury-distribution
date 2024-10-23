@@ -568,6 +568,9 @@ type SpecDistributionModulesDrVelero struct {
 
 	// Overrides corresponds to the JSON schema field "overrides".
 	Overrides *TypesFuryModuleComponentOverrides `json:"overrides,omitempty" yaml:"overrides,omitempty" mapstructure:"overrides,omitempty"`
+
+	// Configuration for Velero's schedules.
+	Schedules *SpecDistributionModulesDrVeleroSchedules `json:"schedules,omitempty" yaml:"schedules,omitempty" mapstructure:"schedules,omitempty"`
 }
 
 type SpecDistributionModulesDrVeleroEks struct {
@@ -579,6 +582,27 @@ type SpecDistributionModulesDrVeleroEks struct {
 
 	// The region where the velero bucket is located
 	Region TypesAwsRegion `json:"region" yaml:"region" mapstructure:"region"`
+}
+
+// Configuration for Velero's schedules.
+type SpecDistributionModulesDrVeleroSchedules struct {
+	// Configuration for Velero's schedules cron.
+	Cron *SpecDistributionModulesDrVeleroSchedulesCron `json:"cron,omitempty" yaml:"cron,omitempty" mapstructure:"cron,omitempty"`
+
+	// If true, manifests and full backup schedules will be installed.
+	Install *bool `json:"install,omitempty" yaml:"install,omitempty" mapstructure:"install,omitempty"`
+
+	// The TTL of the backup schedules (default 720h0m0s).
+	Ttl *string `json:"ttl,omitempty" yaml:"ttl,omitempty" mapstructure:"ttl,omitempty"`
+}
+
+// Configuration for Velero's schedules cron.
+type SpecDistributionModulesDrVeleroSchedulesCron struct {
+	// The cron of the full backup schedule (default 0 1 * * *).
+	Full *string `json:"full,omitempty" yaml:"full,omitempty" mapstructure:"full,omitempty"`
+
+	// The cron of the manifests backup schedule (default */15 * * * *).
+	Manifests *string `json:"manifests,omitempty" yaml:"manifests,omitempty" mapstructure:"manifests,omitempty"`
 }
 
 type SpecDistributionModulesIngress struct {

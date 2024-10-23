@@ -10,3 +10,7 @@ metadata:
   namespace: kube-system
 spec:
   schedule: {{ .spec.distribution.modules.dr.velero.schedules.cron.full }}
+  template:
+    {{- if ne .spec.distribution.modules.dr.velero.schedules.ttl "" }}
+    ttl: {{ .spec.distribution.modules.dr.velero.schedules.ttl }}
+    {{- end }}

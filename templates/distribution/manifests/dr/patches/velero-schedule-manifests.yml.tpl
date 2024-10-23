@@ -10,3 +10,5 @@ metadata:
   namespace: kube-system
 spec:
   schedule: {{ .spec.distribution.modules.dr.velero.schedules.cron.manifests }}
+  template:
+    ttl: {{ .spec.distribution.modules.dr.velero.schedules.ttl }}
