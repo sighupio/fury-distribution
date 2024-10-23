@@ -11,4 +11,6 @@ metadata:
 spec:
   schedule: {{ .spec.distribution.modules.dr.velero.schedules.cron.manifests }}
   template:
+    {{- if ne .spec.distribution.modules.dr.velero.schedules.ttl "" }}
     ttl: {{ .spec.distribution.modules.dr.velero.schedules.ttl }}
+    {{- end }}
