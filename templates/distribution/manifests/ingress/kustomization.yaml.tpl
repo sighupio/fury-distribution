@@ -37,7 +37,7 @@ resources:
   - resources/ingress-infra.yml
 {{- end }}
 
-{{ if eq .spec.distribution.modules.ingress.nginx.tls.provider "secret" }}
+{{ if and (eq .spec.distribution.modules.ingress.nginx.tls.provider "secret") (ne .spec.distribution.modules.ingress.nginx.type "none") }}
   - secrets/tls.yml
 {{- end }}
 

@@ -587,6 +587,7 @@ deleteNginxIngresses() {
   $kubectlbin delete --ignore-not-found --wait --timeout=180s ingress -n logging --all
   $kubectlbin delete --ignore-not-found --wait --timeout=180s ingress -n gatekeeper-system --all
   $kubectlbin delete --ignore-not-found --wait --timeout=180s ingress -n ingress-nginx --all
+  $kubectlbin delete --ignore-not-found --wait --timeout=180s ingress -n kube-system --all # hubble, gangplank, dex
   echo "All the infrastructural ingresses associated with nginx have been deleted"
 }
 
