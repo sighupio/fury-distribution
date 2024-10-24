@@ -1435,6 +1435,7 @@ The type of the DR, must be ***none*** or ***eks***
 |:-------------------------------------------------------|:---------|:---------|
 | [eks](#specdistributionmodulesdrveleroeks)             | `object` | Required |
 | [overrides](#specdistributionmodulesdrvelerooverrides) | `object` | Optional |
+| [schedules](#specdistributionmodulesdrveleroschedules) | `object` | Optional |
 
 ## .spec.distribution.modules.dr.velero.eks
 
@@ -1557,6 +1558,57 @@ The key of the toleration
 ### Description
 
 The value of the toleration
+
+## .spec.distribution.modules.dr.velero.schedules
+
+### Properties
+
+| Property                                                    | Type      | Required |
+|:------------------------------------------------------------|:----------|:---------|
+| [cron](#specdistributionmodulesdrveleroschedulescron)       | `object`  | Optional |
+| [install](#specdistributionmodulesdrveleroschedulesinstall) | `boolean` | Optional |
+| [ttl](#specdistributionmodulesdrveleroschedulesttl)         | `string`  | Optional |
+
+### Description
+
+Configuration for Velero's schedules.
+
+## .spec.distribution.modules.dr.velero.schedules.cron
+
+### Properties
+
+| Property                                                            | Type     | Required |
+|:--------------------------------------------------------------------|:---------|:---------|
+| [full](#specdistributionmodulesdrveleroschedulescronfull)           | `string` | Optional |
+| [manifests](#specdistributionmodulesdrveleroschedulescronmanifests) | `string` | Optional |
+
+### Description
+
+Configuration for Velero's schedules cron.
+
+## .spec.distribution.modules.dr.velero.schedules.cron.full
+
+### Description
+
+The cron of the full backup schedule (default 0 1 * * *).
+
+## .spec.distribution.modules.dr.velero.schedules.cron.manifests
+
+### Description
+
+The cron of the manifests backup schedule (default */15 * * * *).
+
+## .spec.distribution.modules.dr.velero.schedules.install
+
+### Description
+
+If true, manifests and full backup schedules will be installed.
+
+## .spec.distribution.modules.dr.velero.schedules.ttl
+
+### Description
+
+The TTL of the backup schedules (default 720h0m0s).
 
 ## .spec.distribution.modules.ingress
 

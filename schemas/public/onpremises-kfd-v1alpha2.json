@@ -1803,10 +1803,6 @@
       "additionalProperties": false,
       "description": "Configuration for the Velero package.",
       "properties": {
-        "retentionTime": {
-          "type": "string",
-          "description": "CURRENTLY NOT IN USE."
-        },
         "backend": {
           "type": "string",
           "enum": [
@@ -1839,6 +1835,36 @@
             "bucketName": {
               "type": "string",
               "description": "The bucket name of the external S3-compatible object storage."
+            }
+          }
+        },
+        "schedules": {
+          "type": "object",
+          "additionalProperties": false,
+          "description": "Configuration for Velero's schedules.",
+          "properties": {
+            "install": {
+              "type": "boolean",
+              "description": "If true, manifests and full backup schedules will be installed."
+            },
+            "cron": {
+              "type": "object",
+              "additionalProperties": false,
+              "description": "Configuration for Velero's schedules cron.",
+              "properties": {
+                "manifests": {
+                  "type": "string",
+                  "description": "The cron of the manifests backup schedule (default */15 * * * *)."
+                },
+                "full": {
+                  "type": "string",
+                  "description": "The cron of the full backup schedule (default 0 1 * * *)."
+                }
+              }
+            },
+            "ttl": {
+              "type": "string",
+              "description": "The TTL of the backup schedules (default 720h0m0s)."
             }
           }
         },

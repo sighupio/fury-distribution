@@ -243,6 +243,7 @@ data:
           cron:
             manifests: ""
             full: ""
+          ttl: ""
     # auth module configuration
     auth:
       overrides:

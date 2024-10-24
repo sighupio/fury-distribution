@@ -498,17 +498,19 @@ const (
 )
 
 type SpecDistributionModulesDrVelero struct {
-	// The backend for velero
+	// The storage backend type for Velero. `minio` will use an in-cluster MinIO
+	// deployment for object storage, `externalEndpoint` can be used to point to an
+	// external S3-compatible object storage instead of deploying an in-cluster MinIO.
 	Backend *SpecDistributionModulesDrVeleroBackend `json:"backend,omitempty" yaml:"backend,omitempty" mapstructure:"backend,omitempty"`
 
-	// ExternalEndpoint corresponds to the JSON schema field "externalEndpoint".
+	// Configuration for Velero's external storage backend.
 	ExternalEndpoint *SpecDistributionModulesDrVeleroExternalEndpoint `json:"externalEndpoint,omitempty" yaml:"externalEndpoint,omitempty" mapstructure:"externalEndpoint,omitempty"`
 
 	// Overrides corresponds to the JSON schema field "overrides".
 	Overrides *TypesFuryModuleComponentOverrides `json:"overrides,omitempty" yaml:"overrides,omitempty" mapstructure:"overrides,omitempty"`
 
-	// The retention time for velero
-	RetentionTime *string `json:"retentionTime,omitempty" yaml:"retentionTime,omitempty" mapstructure:"retentionTime,omitempty"`
+	// Configuration for Velero's schedules.
+	Schedules *SpecDistributionModulesDrVeleroSchedules `json:"schedules,omitempty" yaml:"schedules,omitempty" mapstructure:"schedules,omitempty"`
 }
 
 type SpecDistributionModulesDrVeleroBackend string
@@ -518,21 +520,43 @@ const (
 	SpecDistributionModulesDrVeleroBackendMinio            SpecDistributionModulesDrVeleroBackend = "minio"
 )
 
+// Configuration for Velero's external storage backend.
 type SpecDistributionModulesDrVeleroExternalEndpoint struct {
-	// The access key id for velero backend
+	// The access key ID (username) for the external S3-compatible bucket.
 	AccessKeyId *string `json:"accessKeyId,omitempty" yaml:"accessKeyId,omitempty" mapstructure:"accessKeyId,omitempty"`
 
-	// The bucket name for velero backend
+	// The bucket name of the external S3-compatible object storage.
 	BucketName *string `json:"bucketName,omitempty" yaml:"bucketName,omitempty" mapstructure:"bucketName,omitempty"`
 
-	// The endpoint for velero
+	// External S3-compatible endpoint for Velero's storage.
 	Endpoint *string `json:"endpoint,omitempty" yaml:"endpoint,omitempty" mapstructure:"endpoint,omitempty"`
 
-	// If true, the endpoint will be insecure
+	// If true, will use HTTP as protocol instead of HTTPS.
 	Insecure *bool `json:"insecure,omitempty" yaml:"insecure,omitempty" mapstructure:"insecure,omitempty"`
 
-	// The secret access key for velero backend
+	// The secret access key (password) for the external S3-compatible bucket.
 	SecretAccessKey *string `json:"secretAccessKey,omitempty" yaml:"secretAccessKey,omitempty" mapstructure:"secretAccessKey,omitempty"`
+}
+
+// Configuration for Velero's schedules.
+type SpecDistributionModulesDrVeleroSchedules struct {
+	// Configuration for Velero's schedules cron.
+	Cron *SpecDistributionModulesDrVeleroSchedulesCron `json:"cron,omitempty" yaml:"cron,omitempty" mapstructure:"cron,omitempty"`
+
+	// If true, manifests and full backup schedules will be installed.
+	Install *bool `json:"install,omitempty" yaml:"install,omitempty" mapstructure:"install,omitempty"`
+
+	// The TTL of the backup schedules (default 720h0m0s).
+	Ttl *string `json:"ttl,omitempty" yaml:"ttl,omitempty" mapstructure:"ttl,omitempty"`
+}
+
+// Configuration for Velero's schedules cron.
+type SpecDistributionModulesDrVeleroSchedulesCron struct {
+	// The cron of the full backup schedule (default 0 1 * * *).
+	Full *string `json:"full,omitempty" yaml:"full,omitempty" mapstructure:"full,omitempty"`
+
+	// The cron of the manifests backup schedule (default */15 * * * *).
+	Manifests *string `json:"manifests,omitempty" yaml:"manifests,omitempty" mapstructure:"manifests,omitempty"`
 }
 
 type SpecDistributionModulesIngress struct {
