@@ -1262,11 +1262,11 @@
         "schedules": {
           "type": "object",
           "additionalProperties": false,
-          "description": "Configuration for Velero's schedules.",
+          "description": "Configuration for Velero's backup schedules.",
           "properties": {
             "install": {
               "type": "boolean",
-              "description": "If true, manifests and full backup schedules will be installed."
+              "description": "Whether to install or not the default `manifests` and `full` backups schedules. Default is `true`."
             },
             "cron": {
               "type": "object",
@@ -1275,17 +1275,17 @@
               "properties": {
                 "manifests": {
                   "type": "string",
-                  "description": "The cron of the manifests backup schedule (default */15 * * * *)."
+                  "description": "The cron expression for the `manifests` backup schedule (default `*/15 * * * *`)."
                 },
                 "full": {
                   "type": "string",
-                  "description": "The cron of the full backup schedule (default 0 1 * * *)."
+                  "description": "The cron expression for the `full` backup schedule (default `0 1 * * *`)."
                 }
               }
             },
             "ttl": {
               "type": "string",
-              "description": "The TTL of the backup schedules (default 720h0m0s)."
+              "description": "The Time To Live (TTL) of the backups created by the backup schedules (default `720h0m0s`, 30 days). Notice that changing this value will affect only newly created backups, prior backups will keep the old TTL."
             }
           }
         },

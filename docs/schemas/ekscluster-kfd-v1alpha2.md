@@ -1571,7 +1571,7 @@ The value of the toleration
 
 ### Description
 
-Configuration for Velero's schedules.
+Configuration for Velero's backup schedules.
 
 ## .spec.distribution.modules.dr.velero.schedules.cron
 
@@ -1590,25 +1590,25 @@ Configuration for Velero's schedules cron.
 
 ### Description
 
-The cron of the full backup schedule (default 0 1 * * *).
+The cron expression for the `full` backup schedule (default `0 1 * * *`).
 
 ## .spec.distribution.modules.dr.velero.schedules.cron.manifests
 
 ### Description
 
-The cron of the manifests backup schedule (default */15 * * * *).
+The cron expression for the `manifests` backup schedule (default `*/15 * * * *`).
 
 ## .spec.distribution.modules.dr.velero.schedules.install
 
 ### Description
 
-If true, manifests and full backup schedules will be installed.
+Whether to install or not the default `manifests` and `full` backups schedules. Default is `true`.
 
 ## .spec.distribution.modules.dr.velero.schedules.ttl
 
 ### Description
 
-The TTL of the backup schedules (default 720h0m0s).
+The Time To Live (TTL) of the backups created by the backup schedules (default `720h0m0s`, 30 days). Notice that changing this value will affect only newly created backups, prior backups will keep the old TTL.
 
 ## .spec.distribution.modules.ingress
 
