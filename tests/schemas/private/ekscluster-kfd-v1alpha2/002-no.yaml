@@ -57,9 +57,9 @@ spec:
       policy:
         type: gatekeeper
         gatekeeper:
-           additionalExcludedNamespaces: []
-           installDefaultPolicies: true
-           enforcementAction: deny
+          additionalExcludedNamespaces: []
+          installDefaultPolicies: true
+          enforcementAction: deny
   distributionVersion: v1.24.1
   region: eu-west-1
   toolsConfiguration:
