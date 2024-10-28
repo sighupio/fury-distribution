@@ -1022,13 +1022,13 @@ The type of the DR, must be ***none*** or ***on-premises***
 | [backend](#specdistributionmodulesdrvelerobackend)                   | `string` | Optional |
 | [externalEndpoint](#specdistributionmodulesdrveleroexternalendpoint) | `object` | Optional |
 | [overrides](#specdistributionmodulesdrvelerooverrides)               | `object` | Optional |
-| [retentionTime](#specdistributionmodulesdrveleroretentiontime)       | `string` | Optional |
+| [schedules](#specdistributionmodulesdrveleroschedules)               | `object` | Optional |
 
 ## .spec.distribution.modules.dr.velero.backend
 
 ### Description
 
-The backend for velero
+The storage backend type for Velero. `minio` will use an in-cluster MinIO deployment for object storage, `externalEndpoint` can be used to point to an external S3-compatible object storage instead of deploying an in-cluster MinIO.
 
 ### Constraints
 
@@ -1051,35 +1051,39 @@ The backend for velero
 | [insecure](#specdistributionmodulesdrveleroexternalendpointinsecure)               | `boolean` | Optional |
 | [secretAccessKey](#specdistributionmodulesdrveleroexternalendpointsecretaccesskey) | `string`  | Optional |
 
+### Description
+
+Configuration for Velero's external storage backend.
+
 ## .spec.distribution.modules.dr.velero.externalEndpoint.accessKeyId
 
 ### Description
 
-The access key id for velero backend
+The access key ID (username) for the external S3-compatible bucket.
 
 ## .spec.distribution.modules.dr.velero.externalEndpoint.bucketName
 
 ### Description
 
-The bucket name for velero backend
+The bucket name of the external S3-compatible object storage.
 
 ## .spec.distribution.modules.dr.velero.externalEndpoint.endpoint
 
 ### Description
 
-The endpoint for velero
+External S3-compatible endpoint for Velero's storage.
 
 ## .spec.distribution.modules.dr.velero.externalEndpoint.insecure
 
 ### Description
 
-If true, the endpoint will be insecure
+If true, will use HTTP as protocol instead of HTTPS.
 
 ## .spec.distribution.modules.dr.velero.externalEndpoint.secretAccessKey
 
 ### Description
 
-The secret access key for velero backend
+The secret access key (password) for the external S3-compatible bucket.
 
 ## .spec.distribution.modules.dr.velero.overrides
 
@@ -1146,11 +1150,56 @@ The key of the toleration
 
 The value of the toleration
 
-## .spec.distribution.modules.dr.velero.retentionTime
+## .spec.distribution.modules.dr.velero.schedules
+
+### Properties
+
+| Property                                                    | Type      | Required |
+|:------------------------------------------------------------|:----------|:---------|
+| [cron](#specdistributionmodulesdrveleroschedulescron)       | `object`  | Optional |
+| [install](#specdistributionmodulesdrveleroschedulesinstall) | `boolean` | Optional |
+| [ttl](#specdistributionmodulesdrveleroschedulesttl)         | `string`  | Optional |
 
 ### Description
 
-The retention time for velero
+Configuration for Velero's backup schedules.
+
+## .spec.distribution.modules.dr.velero.schedules.cron
+
+### Properties
+
+| Property                                                            | Type     | Required |
+|:--------------------------------------------------------------------|:---------|:---------|
+| [full](#specdistributionmodulesdrveleroschedulescronfull)           | `string` | Optional |
+| [manifests](#specdistributionmodulesdrveleroschedulescronmanifests) | `string` | Optional |
+
+### Description
+
+Configuration for Velero's schedules cron.
+
+## .spec.distribution.modules.dr.velero.schedules.cron.full
+
+### Description
+
+The cron expression for the `full` backup schedule (default `0 1 * * *`).
+
+## .spec.distribution.modules.dr.velero.schedules.cron.manifests
+
+### Description
+
+The cron expression for the `manifests` backup schedule (default `*/15 * * * *`).
+
+## .spec.distribution.modules.dr.velero.schedules.install
+
+### Description
+
+Whether to install or not the default `manifests` and `full` backups schedules. Default is `true`.
+
+## .spec.distribution.modules.dr.velero.schedules.ttl
+
+### Description
+
+The Time To Live (TTL) of the backups created by the backup schedules (default `720h0m0s`, 30 days). Notice that changing this value will affect only newly created backups, prior backups will keep the old TTL.
 
 ## .spec.distribution.modules.ingress
 

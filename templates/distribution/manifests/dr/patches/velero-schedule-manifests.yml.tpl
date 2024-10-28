@@ -9,4 +9,10 @@ metadata:
   name: manifests
   namespace: kube-system
 spec:
+  {{- if and (index .spec.distribution.modules.dr.velero.schedules "cron") (index .spec.distribution.modules.dr.velero.schedules.cron "manifests") }}
   schedule: {{ .spec.distribution.modules.dr.velero.schedules.cron.manifests }}
+  {{- end }}
+  template:
+    {{- if index .spec.distribution.modules.dr.velero.schedules "ttl" }}
+    ttl: {{ .spec.distribution.modules.dr.velero.schedules.ttl }}
+    {{- end }}

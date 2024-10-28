@@ -240,9 +240,6 @@ data:
           bucketName: velerobucket
         schedules:
           install: true
-          cron:
-            manifests: ""
-            full: ""
     # auth module configuration
     auth:
       overrides:
