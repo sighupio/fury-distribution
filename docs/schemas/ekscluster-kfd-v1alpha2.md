@@ -1618,7 +1618,7 @@ The Time To Live (TTL) of the backups created by the backup schedules (default `
 |:----------------------------------------------------------|:---------|:---------|
 | [baseDomain](#specdistributionmodulesingressbasedomain)   | `string` | Required |
 | [certManager](#specdistributionmodulesingresscertmanager) | `object` | Optional |
-| [dns](#specdistributionmodulesingressdns)                 | `object` | Required |
+| [dns](#specdistributionmodulesingressdns)                 | `object` | Optional |
 | [forecastle](#specdistributionmodulesingressforecastle)   | `object` | Optional |
 | [nginx](#specdistributionmodulesingressnginx)             | `object` | Required |
 | [overrides](#specdistributionmodulesingressoverrides)     | `object` | Optional |
@@ -1754,8 +1754,8 @@ The value of the toleration
 | Property                                                 | Type     | Required |
 |:---------------------------------------------------------|:---------|:---------|
 | [overrides](#specdistributionmodulesingressdnsoverrides) | `object` | Optional |
-| [private](#specdistributionmodulesingressdnsprivate)     | `object` | Required |
-| [public](#specdistributionmodulesingressdnspublic)       | `object` | Required |
+| [private](#specdistributionmodulesingressdnsprivate)     | `object` | Optional |
+| [public](#specdistributionmodulesingressdnspublic)       | `object` | Optional |
 
 ## .spec.distribution.modules.ingress.dns.overrides
 
