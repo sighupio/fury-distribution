@@ -87,6 +87,10 @@
               "type": "string"
             },
             "description": "The values of the release"
+          },
+          "disableValidationOnInstall": {
+            "type": "boolean",
+            "description": "Disable helm diff validation on install"
           }
         },
         "required": ["name", "namespace", "chart"]
