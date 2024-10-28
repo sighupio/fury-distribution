@@ -9,8 +9,10 @@ metadata:
   name: full
   namespace: kube-system
 spec:
+  {{- if and (index .spec.distribution.modules.dr.velero.schedules "cron") (index .spec.distribution.modules.dr.velero.schedules.cron "full") }}
   schedule: {{ .spec.distribution.modules.dr.velero.schedules.cron.full }}
+  {{- end }}
   template:
-    {{- if ne .spec.distribution.modules.dr.velero.schedules.ttl "" }}
+    {{- if index .spec.distribution.modules.dr.velero.schedules "ttl" }}
     ttl: {{ .spec.distribution.modules.dr.velero.schedules.ttl }}
     {{- end }}
