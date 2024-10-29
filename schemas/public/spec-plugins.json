@@ -90,7 +90,7 @@
           },
           "disableValidationOnInstall": {
             "type": "boolean",
-            "description": "Disable helm diff validation on install"
+            "description": "Disable running `helm diff` validation when installing the plugin, it will still be done when upgrading."
           }
         },
         "required": ["name", "namespace", "chart"]
