@@ -33,11 +33,13 @@ patchesStrategicMerge:
 {{- if eq .spec.distribution.common.provider.type "eks" }}
   - patches/eks-velero.yml
 {{- end }}
-{{- if and (.spec.distribution.modules.dr.velero.schedules.install) (ne .spec.distribution.modules.dr.velero.schedules.cron.manifests "") }}
+{{- if .spec.distribution.modules.dr.velero.schedules.install }}
+{{- if or (index .spec.distribution.modules.dr.velero.schedules "ttl") (and (index .spec.distribution.modules.dr.velero.schedules "cron") (index .spec.distribution.modules.dr.velero.schedules.cron "manifests")) }}
   - patches/velero-schedule-manifests.yml
 {{- end }}
-{{- if and (.spec.distribution.modules.dr.velero.schedules.install) (ne .spec.distribution.modules.dr.velero.schedules.cron.full "") }}
+{{- if or (index .spec.distribution.modules.dr.velero.schedules "ttl") (and (index .spec.distribution.modules.dr.velero.schedules "cron") (index .spec.distribution.modules.dr.velero.schedules.cron "full")) }}
   - patches/velero-schedule-full.yml
+{{- end }}
 {{- end }}
 
 {{- if eq .spec.distribution.common.provider.type "none" }}
