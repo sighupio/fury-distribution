@@ -84,13 +84,20 @@ A Fury Cluster deployed through AWS's Elastic Kubernetes Service
 
 ### Properties
 
-| Property                                                        | Type     | Required |
-|:----------------------------------------------------------------|:---------|:---------|
-| [nodeSelector](#specdistributioncommonnodeselector)             | `object` | Optional |
-| [provider](#specdistributioncommonprovider)                     | `object` | Optional |
-| [registry](#specdistributioncommonregistry)                     | `string` | Optional |
-| [relativeVendorPath](#specdistributioncommonrelativevendorpath) | `string` | Optional |
-| [tolerations](#specdistributioncommontolerations)               | `array`  | Optional |
+| Property                                                                | Type      | Required |
+|:------------------------------------------------------------------------|:----------|:---------|
+| [networkPoliciesEnabled](#specdistributioncommonnetworkpoliciesenabled) | `boolean` | Optional |
+| [nodeSelector](#specdistributioncommonnodeselector)                     | `object`  | Optional |
+| [provider](#specdistributioncommonprovider)                             | `object`  | Optional |
+| [registry](#specdistributioncommonregistry)                             | `string`  | Optional |
+| [relativeVendorPath](#specdistributioncommonrelativevendorpath)         | `string`  | Optional |
+| [tolerations](#specdistributioncommontolerations)                       | `array`   | Optional |
+
+## .spec.distribution.common.networkPoliciesEnabled
+
+### Description
+
+This field defines whether Network Policies are provided for all modules
 
 ## .spec.distribution.common.nodeSelector
 
@@ -5474,20 +5481,27 @@ Overrides the default IAM role name prefix for the EKS workers
 
 ### Properties
 
-| Property                                       | Type     | Required |
-|:-----------------------------------------------|:---------|:---------|
-| [chart](#specpluginshelmreleaseschart)         | `string` | Required |
-| [name](#specpluginshelmreleasesname)           | `string` | Required |
-| [namespace](#specpluginshelmreleasesnamespace) | `string` | Required |
-| [set](#specpluginshelmreleasesset)             | `array`  | Optional |
-| [values](#specpluginshelmreleasesvalues)       | `array`  | Optional |
-| [version](#specpluginshelmreleasesversion)     | `string` | Optional |
+| Property                                                                         | Type      | Required |
+|:---------------------------------------------------------------------------------|:----------|:---------|
+| [chart](#specpluginshelmreleaseschart)                                           | `string`  | Required |
+| [disableValidationOnInstall](#specpluginshelmreleasesdisablevalidationoninstall) | `boolean` | Optional |
+| [name](#specpluginshelmreleasesname)                                             | `string`  | Required |
+| [namespace](#specpluginshelmreleasesnamespace)                                   | `string`  | Required |
+| [set](#specpluginshelmreleasesset)                                               | `array`   | Optional |
+| [values](#specpluginshelmreleasesvalues)                                         | `array`   | Optional |
+| [version](#specpluginshelmreleasesversion)                                       | `string`  | Optional |
 
 ## .spec.plugins.helm.releases.chart
 
 ### Description
 
 The chart of the release
+
+## .spec.plugins.helm.releases.disableValidationOnInstall
+
+### Description
+
+Disable running `helm diff` validation when installing the plugin, it will still be done when upgrading.
 
 ## .spec.plugins.helm.releases.name
 

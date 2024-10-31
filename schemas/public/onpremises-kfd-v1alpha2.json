@@ -727,6 +727,10 @@
         "registry": {
           "type": "string",
           "description": "URL of the registry where to pull images from for the Distribution phase. (Default is `registry.sighup.io/fury`)."
+        },
+        "networkPoliciesEnabled": {
+          "type": "boolean",
+          "description": "This field defines whether Network Policies are provided for all modules"
         }
       }
     },
