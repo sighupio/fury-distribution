@@ -8,7 +8,7 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 
 resources:
-  - common.yml
+  - common.yaml
   - prometheus-operator.yaml
   - kube-state-metrics.yaml
   - node-exporter.yaml
