@@ -89,4 +89,21 @@ spec:
       ports:
           - port: 9000
             protocol: TCP
+{{- else }}
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: tempo-distributed-egress-all
+  namespace: tracing
+  labels:
+    app.kubernetes.io/name: tempo
+spec:
+  policyTypes:
+    - Egress
+  podSelector:
+    matchLabels:
+      app.kubernetes.io/name: tempo
+  egress:
+    - {}
 {{- end }}

@@ -99,4 +99,21 @@ spec:
       ports:
           - port: 9000
             protocol: TCP
+{{- else }}
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: mimir-distributed-egress-all
+  namespace: monitoring
+  labels:
+    app.kubernetes.io/name: mimir
+spec:
+  policyTypes:
+    - Egress
+  podSelector:
+    matchLabels:
+      app.kubernetes.io/name: mimir
+  egress:
+    - {}
 {{- end }}
