@@ -29,3 +29,7 @@ resources:
   - minio.yaml
 {{- end }}  
 {{- end }}
+
+{{- if and (ne .spec.distribution.modules.ingress.nginx.type "none") }}{{/* we don't need ingresses for Prometheus in Agent mode */}}
+  - ingress.yaml
+{{- end }}
