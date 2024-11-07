@@ -40,7 +40,7 @@ spec:
     - from:
       - namespaceSelector:
           matchLabels:
-            kubernetes.io/metadata.name: ingress-nginx
+            kubernetes.io/metadata.name: pomerium
         podSelector:
           matchLabels:
             app: pomerium
@@ -87,7 +87,7 @@ spec:
     - from:
       - namespaceSelector:
           matchLabels:
-            kubernetes.io/metadata.name: ingress-nginx
+            kubernetes.io/metadata.name: pomerium
         podSelector:
           matchLabels:
             app: pomerium
@@ -134,7 +134,7 @@ spec:
     - from:
       - namespaceSelector:
           matchLabels:
-            kubernetes.io/metadata.name: ingress-nginx
+            kubernetes.io/metadata.name: pomerium
         podSelector:
           matchLabels:
             app: pomerium
