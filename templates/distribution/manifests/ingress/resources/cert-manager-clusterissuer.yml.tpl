@@ -31,6 +31,9 @@ spec:
         ingress:
           class: {{ template "globalIngressClass" (dict "type" "external" "spec" .spec) }}
           podTemplate:
+            metadata:
+              labels:
+                app: cert-manager
             spec:
               nodeSelector:
                 {{ template "nodeSelector" $certManagerArgs }}
