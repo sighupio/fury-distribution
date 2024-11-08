@@ -62,14 +62,14 @@ $kubectlbin delete --ignore-not-found --wait --timeout=180s job minio-tracing-bu
   | $kubectlbin apply -f - --server-side
 
 {{- if eq .spec.distribution.modules.ingress.nginx.type "dual" }}
-$kubectlbin rollout status daemonset nginx-ingress-controller-external -n ingress-nginx --timeout=180s
+$kubectlbin rollout status daemonset ingress-nginx-controller-external -n ingress-nginx --timeout=180s
 
-$kubectlbin rollout status daemonset nginx-ingress-controller-internal -n ingress-nginx --timeout=180s
+$kubectlbin rollout status daemonset ingress-nginx-controller-internal -n ingress-nginx --timeout=180s
 
 {{- end }}
 
 {{- if eq .spec.distribution.modules.ingress.nginx.type "single" }}
-$kubectlbin rollout status daemonset nginx-ingress-controller -n ingress-nginx --timeout=180s
+$kubectlbin rollout status daemonset ingress-nginx-controller -n ingress-nginx --timeout=180s
 
 {{- end }}
 
