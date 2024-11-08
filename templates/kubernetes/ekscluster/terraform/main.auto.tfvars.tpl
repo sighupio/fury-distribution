@@ -97,7 +97,7 @@ workers_iam_role_name_prefix_override = {{ .spec.kubernetes.workersIAMRoleNamePr
         {{- end}}
 
         {{- if hasKeyAny $np "ami" }}
-            {{- $currNodePool = mergeOverwrite $currNodePool (dict "ami_id" $np.ami.id) }}
+            {{- $currNodePool = mergeOverwrite $currNodePool (dict "ami_id" $np.ami.id "ami_owners" (list $np.ami.owner)) }}
         {{- end }}
 
         {{- if hasKeyAny $np.instance "spot" }}
