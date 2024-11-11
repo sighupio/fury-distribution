@@ -56,6 +56,7 @@ spec:
       - port: 80
         protocol: TCP
 ---
+{{- if eq .spec.distribution.modules.auth.provider.type "sso" }}
 apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
 metadata:
@@ -72,3 +73,4 @@ spec:
         - port: 8089
           protocol: TCP
 ---
+{{- end }}

@@ -114,13 +114,34 @@ spec:
     matchLabels:
       app: minio
   ingress:
+# single nginx, no sso
+{{if and (eq .spec.distribution.modules.ingress.nginx.type "single") (ne .spec.distribution.modules.auth.provider.type "sso") }}
     - from:
-        - namespaceSelector:
-            matchLabels:
-              kubernetes.io/metadata.name: pomerium
-          podSelector:
-            matchLabels:
-              app: pomerium
+      - namespaceSelector:
+          matchLabels:
+            kubernetes.io/metadata.name: ingress-nginx
+        podSelector:
+          matchLabels:
+            app: ingress-nginx
+# dual nginx, no sso
+{{ else if and (eq .spec.distribution.modules.ingress.nginx.type "dual") (ne .spec.distribution.modules.auth.provider.type "sso") }}
+    - from:
+      - namespaceSelector:
+          matchLabels:
+            kubernetes.io/metadata.name: ingress-nginx
+        podSelector:
+          matchLabels:
+            app: ingress
+# sso
+{{ else if (eq .spec.distribution.modules.auth.provider.type "sso") }}
+    - from:
+      - namespaceSelector:
+          matchLabels:
+            kubernetes.io/metadata.name: pomerium
+        podSelector:
+          matchLabels:
+            app: pomerium
+{{ end }}
       ports:
         - port: 9001
           protocol: TCP

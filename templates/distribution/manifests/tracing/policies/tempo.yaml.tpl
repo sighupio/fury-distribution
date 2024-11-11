@@ -18,6 +18,8 @@ spec:
           protocol: TCP
         - port: 7946
           protocol: TCP
+        - port: 3100
+          protocol: TCP
       from:
         - namespaceSelector:
             matchLabels:
@@ -31,6 +33,8 @@ spec:
           protocol: TCP
         - port: 7946
           protocol: TCP
+        - port: 3100
+          protocol: TCP
       to:
         - namespaceSelector:
             matchLabels:
@@ -38,6 +42,33 @@ spec:
           podSelector:
             matchLabels:
               app.kubernetes.io/name: tempo
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: tempo-distributed-ingress-grafana
+  namespace: tracing
+  labels:
+    app.kubernetes.io/name: tempo
+spec:
+  policyTypes:
+    - Ingress
+  podSelector:
+    matchLabels:
+      app.kubernetes.io/name: tempo
+      app.kubernetes.io/component: gateway
+  ingress:
+    - from:
+        - namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: monitoring
+          podSelector:
+            matchLabels:
+              app.kubernetes.io/name: grafana
+      ports:
+        - port: 8080
+          protocol: TCP
+
 ---
 apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
