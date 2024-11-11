@@ -24,6 +24,10 @@ resources:
 
 {{- end }}
 
+{{ if eq .spec.distribution.common.networkPoliciesEnabled true }}
+  - policies
+{{- end }}
+
 {{- if ne .spec.distribution.modules.ingress.nginx.type "none" }}
   - {{ print "../" .spec.distribution.common.relativeVendorPath "/modules/ingress/katalog/forecastle" }}
 {{- end }}
