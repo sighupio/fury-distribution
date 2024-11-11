@@ -34,6 +34,7 @@
       "properties": {
         "name": {
           "type": "string",
+          "description": "The name of the cluster. It will also be used as a prefix for all the other resources created.",
           "minLength": 1,
           "maxLength": 56
         }
@@ -48,17 +49,20 @@
       "properties": {
         "distributionVersion": {
           "type": "string",
+          "description": "Defines which KFD version will be installed and, in consequence, the Kubernetes version used to create the cluster. It supports git tags and branches. Example: `v1.30.1`.",
           "minLength": 1
         },
         "region": {
-          "$ref": "#/$defs/Types.AwsRegion"
+          "$ref": "#/$defs/Types.AwsRegion",
+          "description": "Defines in which AWS region the cluster and all the related resources will be created."
         },
         "tags": {
           "$ref": "#/$defs/Types.AwsTags",
           "description": "This map defines which will be the common tags that will be added to all the resources created on AWS."
         },
         "toolsConfiguration": {
-          "$ref": "#/$defs/Spec.ToolsConfiguration"
+          "$ref": "#/$defs/Spec.ToolsConfiguration",
+          "description": "Configuration for tools used by furyctl, like Terraform."
         },
         "infrastructure": {
           "$ref": "#/$defs/Spec.Infrastructure"
@@ -279,6 +283,7 @@
     },
     "Spec.Infrastructure.Vpc": {
       "type": "object",
+      "description": "Configuration for the VPC that will be created to host the EKS cluster and its related resources. If you already have a VPC that you want to use, leave this section empty and use `.spec.kubernetes.vpcId` instead.",
       "additionalProperties": false,
       "properties": {
         "network": {
@@ -424,6 +429,7 @@
     },
     "Spec.Kubernetes": {
       "type": "object",
+      "description": "Defines the Kubernetes components configuration and the values needed for the `kubernetes` phase of furyctl.",
       "additionalProperties": false,
       "properties": {
         "vpcId": {
@@ -916,6 +922,7 @@
     },
     "Spec.Kubernetes.NodePool.AdditionalFirewallRule.Ports": {
       "type": "object",
+      "description": "Port range for the Firewall Rule.",
       "additionalProperties": false,
       "properties": {
         "from": {
@@ -1183,7 +1190,8 @@
           "description": "Configurations for the nginx ingress controller module"
         },
         "certManager": {
-          "$ref": "#/$defs/Spec.Distribution.Modules.Ingress.CertManager"
+          "$ref": "#/$defs/Spec.Distribution.Modules.Ingress.CertManager",
+          "description": "Configuration for the cert-manager package. Required even if `ingress.nginx.type` is `none`, cert-manager is used for managing other certificates in the cluster besides the TLS termination certificates for the ingresses."
         },
         "dns": {
           "$ref": "#/$defs/Spec.Distribution.Modules.Ingress.DNS"
@@ -1280,6 +1288,7 @@
     "Spec.Distribution.Modules.Ingress.Overrides": {
       "type": "object",
       "additionalProperties": false,
+      "description": "Override the common configuration with a particular configuration for the Ingress module.",
       "properties": {
         "ingresses": {
           "$ref": "#/$defs/Spec.Distribution.Modules.Ingress.Overrides.Ingresses"
@@ -1326,7 +1335,7 @@
             "single",
             "dual"
           ],
-          "description": "The type of the nginx ingress controller, must be ***none***, ***single*** or ***dual***"
+          "description": "The type of the Ingress nginx controller, options are:\n- `none`: no ingress controller will be installed and no infrastructural ingresses will be created.\n- `single`: a single ingress controller with ingress class `nginx` will be installed to manage all the ingress resources, infrastructural ingresses will be created.\n- `dual`: two independent ingress controllers will be installed, one for the `internal` ingress class intended for private ingresses and one for the `external` ingress class intended for public ingresses. KFD infrastructural ingresses wil use the `internal` ingress class when using the dual type.\n\nDefault is `single`."
         },
         "tls": {
           "$ref": "#/$defs/Spec.Distribution.Modules.Ingress.Nginx.TLS"
@@ -1350,7 +1359,7 @@
             "secret",
             "none"
           ],
-          "description": "The provider of the TLS certificate, must be ***none***, ***certManager*** or ***secret***"
+          "description": "The provider of the TLS certificates for the ingresses, one of: `none`, `certManager`, or `secret`."
         },
         "secret": {
           "$ref": "#/$defs/Spec.Distribution.Modules.Ingress.Nginx.TLS.Secret"
@@ -1375,16 +1384,19 @@
     "Spec.Distribution.Modules.Ingress.Nginx.TLS.Secret": {
       "type": "object",
       "additionalProperties": false,
+      "description": "Kubernetes TLS secret for the ingresses TLS certificate.",
       "properties": {
         "cert": {
           "type": "string",
-          "description": "The certificate file content or you can use the file notation to get the content from a file"
+          "description": "The certificate file's content. You can use the `\"{file://<path>}\"` notation to get the content from a file."
         },
         "key": {
-          "type": "string"
+          "type": "string",
+          "description": "The signing key file's content. You can use the `\"{file://<path>}\"` notation to get the content from a file."
         },
         "ca": {
-          "type": "string"
+          "type": "string",
+          "description": "The Certificate Authority certificate file's content. You can use the `\"{file://<path>}\"` notation to get the content from a file."
         }
       },
       "required": [
@@ -1457,6 +1469,7 @@
     },
     "Spec.Distribution.Modules.Ingress.DNS": {
       "type": "object",
+      "description": "DNS definition, used in conjunction with `externalDNS` package to automate DNS management and certificates emission.",
       "additionalProperties": false,
       "properties": {
         "public": {
@@ -1513,6 +1526,7 @@
     "Spec.Distribution.Modules.Logging": {
       "type": "object",
       "additionalProperties": false,
+      "description": "Configuration for the Logging module.",
       "properties": {
         "overrides": {
           "$ref": "#/$defs/Types.FuryModuleOverrides"
@@ -1525,7 +1539,7 @@
             "loki",
             "customOutputs"
           ],
-          "description": "selects the logging stack. Choosing none will disable the centralized logging. Choosing opensearch will deploy and configure the Logging Operator and an OpenSearch cluster (can be single or triple for HA) where the logs will be stored. Choosing loki will use a distributed Grafana Loki instead of OpenSearh for storage. Choosing customOuput the Logging Operator will be deployed and installed but with no local storage, you will have to create the needed Outputs and ClusterOutputs to ship the logs to your desired storage."
+          "description": "Selects the logging stack. Options are:\n- `none`: will disable the centralized logging.\n- `opensearch`: will deploy and configure the Logging Operator and an OpenSearch cluster (can be single or triple for HA) where the logs will be stored.\n- `loki`: will use a distributed Grafana Loki instead of OpenSearh for storage.\n- `customOuputs`: the Logging Operator will be deployed and installed but with no local storage, you will have to create the needed Outputs and ClusterOutputs to ship the logs to your desired storage.\n\nDefault is `opensearch`."
         },
         "opensearch": {
           "$ref": "#/$defs/Spec.Distribution.Modules.Logging.Opensearch"
@@ -1623,6 +1637,7 @@
     },
     "Spec.Distribution.Modules.Logging.Cerebro": {
       "type": "object",
+      "description": "DEPRECATED since KFD v1.26.6, 1.27.5, v1.28.0.",
       "additionalProperties": false,
       "properties": {
         "overrides": {
@@ -1633,6 +1648,7 @@
     "Spec.Distribution.Modules.Logging.Minio": {
       "type": "object",
       "additionalProperties": false,
+      "description": "Configuration for Logging's MinIO deployment.",
       "properties": {
         "storageSize": {
           "type": "string",
@@ -1659,10 +1675,12 @@
     },
     "Spec.Distribution.Modules.Logging.Loki": {
       "type": "object",
+      "description": "Configuration for the Loki package.",
       "additionalProperties": false,
       "properties": {
         "backend": {
           "type": "string",
+          "description": "The storage backend type for Loki. `minio` will use an in-cluster MinIO deployment for object storage, `externalEndpoint` can be used to point to an external object storage instead of deploying an in-cluster MinIO.",
           "enum": [
             "minio",
             "externalEndpoint"
@@ -1671,26 +1689,27 @@
         "externalEndpoint": {
           "type": "object",
           "additionalProperties": false,
+          "description": "Configuration for Loki's external storage backend.",
           "properties": {
             "endpoint": {
               "type": "string",
-              "description": "The endpoint of the loki external endpoint"
+              "description": "External S3-compatible endpoint for Loki's storage."
             },
             "insecure": {
               "type": "boolean",
-              "description": "If true, the loki external endpoint will be insecure"
+              "description": "If true, will use HTTP as protocol instead of HTTPS."
             },
             "secretAccessKey": {
               "type": "string",
-              "description": "The secret access key of the loki external endpoint"
+              "description": "The secret access key (password) for the external S3-compatible bucket."
             },
             "accessKeyId": {
               "type": "string",
-              "description": "The access key id of the loki external endpoint"
+              "description": "The access key ID (username) for the external S3-compatible bucket."
             },
             "bucketName": {
               "type": "string",
-              "description": "The bucket name of the loki external endpoint"
+              "description": "The bucket name of the external S3-compatible object storage."
             }
           }
         },
@@ -1768,7 +1787,7 @@
     "Spec.Distribution.Modules.Monitoring": {
       "type": "object",
       "additionalProperties": false,
-      "description": "configuration for the Monitoring module components",
+      "description": "Configuration for the Monitoring module.",
       "properties": {
         "type": {
           "type": "string",
@@ -1778,7 +1797,7 @@
             "prometheusAgent",
             "mimir"
           ],
-          "description": "The type of the monitoring, must be ***none***, ***prometheus***, ***prometheusAgent*** or ***mimir***.\n\n- `none`: will disable the whole monitoring stack.\n- `prometheus`: will install Prometheus Operator and a preconfigured Prometheus instance, Alertmanager, a set of alert rules, exporters needed to monitor all the components of the cluster, Grafana and a series of dashboards to view the collected metrics, and more.\n- `prometheusAgent`: wil install Prometheus operator, an instance of Prometheus in Agent mode (no alerting, no queries, no storage), and all the exporters needed to get metrics for the status of the cluster and the workloads. Useful when having a centralized (remote) Prometheus where to ship the metrics and not storing them locally in the cluster.\n- `mimir`: will install the same as the `prometheus` option, and in addition Grafana Mimir that allows for longer retention of metrics and the usage of Object Storage."
+          "description": "The type of the monitoring, must be `none`, `prometheus`, `prometheusAgent` or `mimir`.\n\n- `none`: will disable the whole monitoring stack.\n- `prometheus`: will install Prometheus Operator and a preconfigured Prometheus instace, Alertmanager, a set of alert rules, exporters needed to monitor all the components of the cluster, Grafana and a series of dashboards to view the collected metrics, and more.\n- `prometheusAgent`: wil install Prometheus operator, an instance of Prometheus in Agent mode (no alerting, no queries, no storage), and all the exporters needed to get metrics for the status of the cluster and the workloads. Useful when having a centralized (remote) Prometheus where to ship the metrics and not storing them locally in the cluster.\n- `mimir`: will install the same as the `prometheus` option, plus Grafana Mimir that allows for longer retention of metrics and the usage of Object Storage.\n\nDefault is `prometheus`."
         },
         "overrides": {
           "$ref": "#/$defs/Types.FuryModuleOverrides"
@@ -1863,7 +1882,10 @@
       "type": "object",
       "additionalProperties": false,
       "properties": {
-        "deadManSwitchWebhookUrl": {
+        "resources": {
+          "$ref": "#/$defs/Types.KubeResources"
+        },
+        "retentionTime": {
           "type": "string",
           "description": "The webhook url to send deadman switch monitoring, for example to use with healthchecks.io"
         },
@@ -1871,7 +1893,7 @@
           "type": "boolean",
           "description": "If true, the default rules will be installed"
         },
-        "slackWebhookUrl": {
+        "storageSize": {
           "type": "string",
           "description": "The slack webhook url to send alerts"
         }
@@ -1924,10 +1946,11 @@
     "Spec.Distribution.Modules.Monitoring.Mimir": {
       "type": "object",
       "additionalProperties": false,
+      "description": "Configuration for the Mimir package.",
       "properties": {
         "retentionTime": {
           "type": "string",
-          "description": "The retention time for the mimir pods"
+          "description": "The retention time for the logs stored in Mimir. Default is `30d`. Value must match the regular expression `[0-9]+(ns|us|µs|ms|s|m|h|d|w|y)` where y = 365 days."
         },
         "backend": {
           "type": "string",
@@ -1935,31 +1958,32 @@
             "minio",
             "externalEndpoint"
           ],
-          "description": "The backend for the mimir pods, must be ***minio*** or ***externalEndpoint***"
+          "description": "The storage backend type for Mimir. `minio` will use an in-cluster MinIO deployment for object storage, `externalEndpoint` can be used to point to an external S3-compatible object storage instead of deploying an in-cluster MinIO."
         },
         "externalEndpoint": {
           "type": "object",
           "additionalProperties": false,
+          "description": "Configuration for Mimir's external storage backend.",
           "properties": {
             "endpoint": {
               "type": "string",
-              "description": "The endpoint of the external mimir backend"
+              "description": "External S3-compatible endpoint for Mimir's storage."
             },
             "insecure": {
               "type": "boolean",
-              "description": "If true, the external mimir backend will not use tls"
+              "description": "If true, will use HTTP as protocol instead of HTTPS."
             },
             "secretAccessKey": {
               "type": "string",
-              "description": "The secret access key of the external mimir backend"
+              "description": "The secret access key (password) for the external S3-compatible bucket."
             },
             "accessKeyId": {
               "type": "string",
-              "description": "The access key id of the external mimir backend"
+              "description": "The access key ID (username) for the external S3-compatible bucket."
             },
             "bucketName": {
               "type": "string",
-              "description": "The bucket name of the external mimir backend"
+              "description": "The bucket name of the external S3-compatible object storage."
             }
           }
         },
@@ -1970,11 +1994,12 @@
     },
     "Spec.Distribution.Modules.Monitoring.Minio": {
       "type": "object",
+      "description": "Configuration for Monitoring's MinIO deployment.",
       "additionalProperties": false,
       "properties": {
         "storageSize": {
           "type": "string",
-          "description": "The storage size for the minio pods"
+          "description": "The PVC size for each MinIO disk, 6 disks total."
         },
         "rootUser": {
           "type": "object",
@@ -1982,11 +2007,11 @@
           "properties": {
             "username": {
               "type": "string",
-              "description": "The username for the minio root user"
+              "description": "The username for the default MinIO root user."
             },
             "password": {
               "type": "string",
-              "description": "The password for the minio root user"
+              "description": "The password for the default MinIO root user."
             }
           }
         },
@@ -1998,6 +2023,7 @@
     "Spec.Distribution.Modules.Tracing": {
       "type": "object",
       "additionalProperties": false,
+      "description": "Configuration for the Tracing module.",
       "properties": {
         "overrides": {
           "$ref": "#/$defs/Types.FuryModuleOverrides"
@@ -2070,6 +2096,7 @@
     },
     "Spec.Distribution.Modules.Tracing.Minio": {
       "type": "object",
+      "description": "Configuration for Tracing's MinIO deployment.",
       "additionalProperties": false,
       "properties": {
         "storageSize": {
@@ -2098,9 +2125,10 @@
     "Spec.Distribution.Modules.Networking": {
       "type": "object",
       "additionalProperties": false,
+      "description": "Configuration for the Networking module.",
       "properties": {
         "overrides": {
-          "$ref": "#/$defs/Types.FuryModuleComponentOverrides"
+          "$ref": "#/$defs/Types.FuryModuleOverrides"
         },
         "tigeraOperator": {
           "$ref": "#/$defs/Spec.Distribution.Modules.Networking.TigeraOperator"
@@ -2125,6 +2153,7 @@
     "Spec.Distribution.Modules.Policy": {
       "type": "object",
       "additionalProperties": false,
+      "description": "Configuration for the Policy module.",
       "properties": {
         "overrides": {
           "$ref": "#/$defs/Types.FuryModuleOverrides"
@@ -2136,7 +2165,7 @@
             "gatekeeper",
             "kyverno"
           ],
-          "description": "The type of security to use, either ***none***, ***gatekeeper*** or ***kyverno***"
+          "description": "The type of policy enforcement to use, either `none`, `gatekeeper` or `kyverno`.\n\nDefault is `none`."
         },
         "gatekeeper": {
           "$ref": "#/$defs/Spec.Distribution.Modules.Policy.Gatekeeper"
@@ -2182,6 +2211,7 @@
     "Spec.Distribution.Modules.Policy.Gatekeeper": {
       "type": "object",
       "additionalProperties": false,
+      "description": "Configuration for the Gatekeeper package.",
       "properties": {
         "additionalExcludedNamespaces": {
           "type": "array",
@@ -2197,11 +2227,11 @@
             "dryrun",
             "warn"
           ],
-          "description": "The enforcement action to use for the gatekeeper module"
+          "description": "The default enforcement action to use for the included constraints. `deny` will block the admission when violations to the policies are found, `warn` will show a message to the user but will admit the violating requests and `dryrun` won't give any feedback to the user but it will log the violations."
         },
         "installDefaultPolicies": {
           "type": "boolean",
-          "description": "If true, the default policies will be installed"
+          "description": "Set to `false` to avoid installing the default Gatekeeper policies (constraints templates and constraints) included with the distribution."
         },
         "overrides": {
           "$ref": "#/$defs/Types.FuryModuleComponentOverrides"
@@ -2215,13 +2245,14 @@
     "Spec.Distribution.Modules.Policy.Kyverno": {
       "type": "object",
       "additionalProperties": false,
+      "description": "Configuration for the Kyverno package.",
       "properties": {
         "additionalExcludedNamespaces": {
           "type": "array",
           "items": {
             "type": "string"
           },
-          "description": "This parameter adds namespaces to Kyverno's exemption list, so it will not enforce the constraints on them."
+          "description": "This parameter adds namespaces to Kyverno's exemption list, so it will not enforce the policies on them."
         },
         "validationFailureAction": {
           "type": "string",
@@ -2229,11 +2260,11 @@
             "Audit",
             "Enforce"
           ],
-          "description": "The validation failure action to use for the kyverno module"
+          "description": "The validation failure action to use for the policies, `Enforce` will block when a request does not comply with the policies and `Audit` will not block but log when a request does not comply with the policies."
         },
         "installDefaultPolicies": {
           "type": "boolean",
-          "description": "If true, the default policies will be installed"
+          "description": "Set to `false` to avoid installing the default Kyverno policies included with distribution."
         },
         "overrides": {
           "$ref": "#/$defs/Types.FuryModuleComponentOverrides"
@@ -2373,6 +2404,7 @@
     "Spec.Distribution.Modules.Auth": {
       "type": "object",
       "additionalProperties": false,
+      "description": "Configuration for the Auth module.",
       "properties": {
         "overrides": {
           "$ref": "#/$defs/Spec.Distribution.Modules.Auth.Overrides"
@@ -2526,6 +2558,7 @@
     "Spec.Distribution.Modules.Auth.Provider.BasicAuth": {
       "type": "object",
       "additionalProperties": false,
+      "description": "Configuration for the HTTP Basic Auth provider.",
       "properties": {
         "username": {
           "type": "string",
@@ -2873,6 +2906,41 @@
       "type": "object",
       "additionalProperties": false,
       "properties": {
+        "requests": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "cpu": {
+              "type": "string",
+              "description": "The CPU request for the Pod, in cores. Example: `500m`."
+            },
+            "memory": {
+              "type": "string",
+              "description": "The memory request for the Pod. Example: `500M`."
+            }
+          }
+        },
+        "limits": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "cpu": {
+              "type": "string",
+              "description": "The CPU limit for the Pod. Example: `1000m`."
+            },
+            "memory": {
+              "type": "string",
+              "description": "The memory limit for the Pod. Example: `1G`."
+            }
+          }
+        }
+      }
+    },
+    "Types.FuryModuleOverrides": {
+      "type": "object",
+      "description": "Override the common configuration with a particular configuration for the module.",
+      "additionalProperties": false,
+      "properties": {
         "nodeSelector": {
           "$ref": "#/$defs/Types.KubeNodeSelector",
           "description": "The node selector to use to place the pods for the dr module"
@@ -2944,11 +3012,11 @@
       "properties": {
         "disableAuth": {
           "type": "boolean",
-          "description": "If true, the ingress will not have authentication"
+          "description": "If true, the ingress will not have authentication even if `.spec.modules.auth.provider.type` is SSO or Basic Auth."
         },
         "host": {
           "type": "string",
-          "description": "The host of the ingress"
+          "description": "Use this host for the ingress instead of the default one."
         },
         "ingressClass": {
           "type": "string",

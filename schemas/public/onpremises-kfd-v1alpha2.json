@@ -1,6 +1,6 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "description": "",
+  "description": "A KFD Cluster deployed on top of a set of existing VMs.",
   "type": "object",
   "properties": {
     "apiVersion": {
@@ -49,7 +49,7 @@
       "properties": {
         "distributionVersion": {
           "type": "string",
-          "description": "Defines which KFD version will be installed and, in consequence, the Kubernetes version used to create the cluster. It supports git tags and branches. Example: v1.30.1.",
+          "description": "Defines which KFD version will be installed and, in consequence, the Kubernetes version used to create the cluster. It supports git tags and branches. Example: `v1.30.1`.",
           "minLength": 1
         },
         "kubernetes": {
@@ -708,7 +708,7 @@
       "properties": {
         "nodeSelector": {
           "$ref": "#/$defs/Types.KubeNodeSelector",
-          "description": "The node selector to use to place the pods for all the KFD modules. Follows Kubernetes selector format. Example: `node.kubernetes.io/role: infra`"
+          "description": "The node selector to use to place the pods for all the KFD modules. Follows Kubernetes selector format. Example: `node.kubernetes.io/role: infra`."
         },
         "tolerations": {
           "type": "array",
@@ -726,7 +726,7 @@
         },
         "registry": {
           "type": "string",
-          "description": "URL of the registry where to pull images from for the Distribution phase. (Default is `registry.sighup.io/fury`)."
+          "description": "URL of the registry where to pull images from for the Distribution phase. (Default is `registry.sighup.io/fury`).\n\nNOTE: If plugins are pulling from the default registry, the registry will be replaced for the plugin too."
         },
         "networkPoliciesEnabled": {
           "type": "boolean",
@@ -796,7 +796,7 @@
         },
         "nginx": {
           "$ref": "#/$defs/Spec.Distribution.Modules.Ingress.Nginx",
-          "description": "Configurations for the nginx ingress controller package."
+          "description": "Configurations for the Ingress nginx controller package."
         },
         "certManager": {
           "$ref": "#/$defs/Spec.Distribution.Modules.Ingress.CertManager",
@@ -841,14 +841,14 @@
         },
         "nodeSelector": {
           "$ref": "#/$defs/Types.KubeNodeSelector",
-          "description": "Set to override the node selector used to place the pods of the Ingress module"
+          "description": "Set to override the node selector used to place the pods of the Ingress module."
         },
         "tolerations": {
           "type": "array",
           "items": {
             "$ref": "#/$defs/Types.KubeToleration"
           },
-          "description": "Set to override the tolerations that will be added to the pods of the Ingress module"
+          "description": "Set to override the tolerations that will be added to the pods of the Ingress module."
         }
       }
     },
@@ -881,7 +881,7 @@
             "single",
             "dual"
           ],
-          "description": "The type of the nginx ingress controller, options are:\n- `none`: no ingress controller will be installed and no infrastructural ingresses will be created.\n- `single`: a single ingress controller with ingress class `nginx` will be installed to manage all the ingress resources, infrastructural ingresses will be created.\n- `dual`: two independent ingress controllers will be installed, one for the `internal` ingress class intended for private ingresses and one for the `external` ingress class intended for public ingresses. KFD infrastructural ingresses wil use the `internal` ingress class when using the dual type."
+          "description": "The type of the Ingress nginx controller, options are:\n- `none`: no ingress controller will be installed and no infrastructural ingresses will be created.\n- `single`: a single ingress controller with ingress class `nginx` will be installed to manage all the ingress resources, infrastructural ingresses will be created.\n- `dual`: two independent ingress controllers will be installed, one for the `internal` ingress class intended for private ingresses and one for the `external` ingress class intended for public ingresses. KFD infrastructural ingresses wil use the `internal` ingress class when using the dual type.\n\nDefault is `single`."
         },
         "tls": {
           "$ref": "#/$defs/Spec.Distribution.Modules.Ingress.Nginx.TLS"
@@ -974,7 +974,7 @@
       "properties": {
         "name": {
           "type": "string",
-          "description": "Name of the clusterIssuer"
+          "description": "Name of the clusterIssuer."
         },
         "email": {
           "type": "string",
@@ -1026,7 +1026,7 @@
             "loki",
             "customOutputs"
           ],
-          "description": "Selects the logging stack. Options are:\n- `none`: will disable the centralized logging.\n- `opensearch`: will deploy and configure the Logging Operator and an OpenSearch cluster (can be single or triple for HA) where the logs will be stored.\n- `loki`: will use a distributed Grafana Loki instead of OpenSearh for storage.\n- `customOuputs`: the Logging Operator will be deployed and installed but with no local storage, you will have to create the needed Outputs and ClusterOutputs to ship the logs to your desired storage."
+          "description": "Selects the logging stack. Options are:\n- `none`: will disable the centralized logging.\n- `opensearch`: will deploy and configure the Logging Operator and an OpenSearch cluster (can be single or triple for HA) where the logs will be stored.\n- `loki`: will use a distributed Grafana Loki instead of OpenSearh for storage.\n- `customOuputs`: the Logging Operator will be deployed and installed but with no local storage, you will have to create the needed Outputs and ClusterOutputs to ship the logs to your desired storage.\n\nDefault is `opensearch`."
         },
         "opensearch": {
           "$ref": "#/$defs/Spec.Distribution.Modules.Logging.Opensearch"
@@ -1124,7 +1124,7 @@
     },
     "Spec.Distribution.Modules.Logging.Cerebro": {
       "type": "object",
-      "description": "DEPRECATED in latest versions of KFD.",
+      "description": "DEPRECATED since KFD v1.26.6, 1.27.5, v1.28.0.",
       "additionalProperties": false,
       "properties": {
         "overrides": {
@@ -1285,7 +1285,7 @@
             "prometheusAgent",
             "mimir"
           ],
-          "description": "The type of the monitoring, must be `none`, `prometheus`, `prometheusAgent` or `mimir`.\n\n- `none`: will disable the whole monitoring stack.\n- `prometheus`: will install Prometheus Operator and a preconfigured Prometheus instace, Alertmanager, a set of alert rules, exporters needed to monitor all the components of the cluster, Grafana and a series of dashboards to view the collected metrics, and more.\n- `prometheusAgent`: wil install Prometheus operator, an instance of Prometheus in Agent mode (no alerting, no queries, no storage), and all the exporters needed to get metrics for the status of the cluster and the workloads. Useful when having a centralized (remote) Prometheus where to ship the metrics and not storing them locally in the cluster.\n- `mimir`: will install the same as the `prometheus` option, plus Grafana Mimir that allows for longer retention of metrics and the usage of Object Storage."
+          "description": "The type of the monitoring, must be `none`, `prometheus`, `prometheusAgent` or `mimir`.\n\n- `none`: will disable the whole monitoring stack.\n- `prometheus`: will install Prometheus Operator and a preconfigured Prometheus instace, Alertmanager, a set of alert rules, exporters needed to monitor all the components of the cluster, Grafana and a series of dashboards to view the collected metrics, and more.\n- `prometheusAgent`: wil install Prometheus operator, an instance of Prometheus in Agent mode (no alerting, no queries, no storage), and all the exporters needed to get metrics for the status of the cluster and the workloads. Useful when having a centralized (remote) Prometheus where to ship the metrics and not storing them locally in the cluster.\n- `mimir`: will install the same as the `prometheus` option, plus Grafana Mimir that allows for longer retention of metrics and the usage of Object Storage.\n\nDefault is `prometheus`."
         },
         "overrides": {
           "$ref": "#/$defs/Types.FuryModuleOverrides"
@@ -1372,7 +1372,7 @@
       "properties": {
         "deadManSwitchWebhookUrl": {
           "type": "string",
-          "description": "The webhook URL to send dead man's switch monitoring, for example to use with healthchecks.io"
+          "description": "The webhook URL to send dead man's switch monitoring, for example to use with healthchecks.io."
         },
         "installDefaultRules": {
           "type": "boolean",
@@ -1519,7 +1519,7 @@
             "none",
             "tempo"
           ],
-          "description": "The type of tracing to use, either `none` or `tempo`. `none` will disable the Tracing module and `tempo` will install a Grafana Tempo deployment."
+          "description": "The type of tracing to use, either `none` or `tempo`. `none` will disable the Tracing module and `tempo` will install a Grafana Tempo deployment.\n\nDefault is `tempo`."
         },
         "tempo": {
           "$ref": "#/$defs/Spec.Distribution.Modules.Tracing.Tempo"
@@ -1677,7 +1677,7 @@
             "gatekeeper",
             "kyverno"
           ],
-          "description": "The type of policy enforcement to use, either `none`, `gatekeeper` or `kyverno`."
+          "description": "The type of policy enforcement to use, either `none`, `gatekeeper` or `kyverno`.\n\nDefault is `none`."
         },
         "gatekeeper": {
           "$ref": "#/$defs/Spec.Distribution.Modules.Policy.Gatekeeper"
@@ -1801,7 +1801,7 @@
             "none",
             "on-premises"
           ],
-          "description": "The type of the Disaster Recovery, must be `none` or `on-premises`. `none` disables the module and `on-premises` will install Velero and an optional MinIO deployment."
+          "description": "The type of the Disaster Recovery, must be `none` or `on-premises`. `none` disables the module and `on-premises` will install Velero and an optional MinIO deployment.\n\nDefault is `none`."
         },
         "velero": {
           "$ref": "#/$defs/Spec.Distribution.Modules.Dr.Velero"
@@ -2100,7 +2100,7 @@
             "basicAuth",
             "sso"
           ],
-          "description": "The type of the Auth provider, options are:\n- `none`: will disable authentication in the infrastructural ingresses.\n- `sso`: will protect the infrastructural ingresses with Pomerium and Dex (SSO) and require authentication before accessing them.\n- `basicAuth`: will protect the infrastructural ingresses with HTTP basic auth (username and password) authentication."
+          "description": "The type of the Auth provider, options are:\n- `none`: will disable authentication in the infrastructural ingresses.\n- `sso`: will protect the infrastructural ingresses with Pomerium and Dex (SSO) and require authentication before accessing them.\n- `basicAuth`: will protect the infrastructural ingresses with HTTP basic auth (username and password) authentication.\n\nDefault is `none`."
         },
         "basicAuth": {
           "$ref": "#/$defs/Spec.Distribution.Modules.Auth.Provider.BasicAuth"
@@ -2357,11 +2357,11 @@
           "properties": {
             "cpu": {
               "type": "string",
-              "description": "The cpu request for the loki pods"
+              "description": "The CPU request for the Pod, in cores. Example: `500m`."
             },
             "memory": {
               "type": "string",
-              "description": "The memory request for the prometheus pods"
+              "description": "The memory request for the Pod. Example: `500M`."
             }
           }
         },
@@ -2371,11 +2371,11 @@
           "properties": {
             "cpu": {
               "type": "string",
-              "description": "The cpu limit for the loki pods"
+              "description": "The CPU limit for the Pod. Example: `1000m`."
             },
             "memory": {
               "type": "string",
-              "description": "The memory limit for the prometheus pods"
+              "description": "The memory limit for the Pod. Example: `1G`."
             }
           }
         }

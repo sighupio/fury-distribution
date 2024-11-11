@@ -146,7 +146,7 @@ spec:
         #      to: 80
         #    # Additional AWS tags
         #    tags: {}
-    # aws-auth configmap definition, see https://docs.aws.amazon.com/eks/latest/userguide/add-user-role.html for more informations
+    # aws-auth configmap definition, see https://docs.aws.amazon.com/eks/latest/userguide/add-user-role.html for more information.
     awsAuth: {}
     #  additionalAccounts:
     #    - "777777777777"
@@ -212,7 +212,7 @@ spec:
             #   - http01:
             #       ingress:
             #         class: nginx
-        # DNS definition, used in conjunction with externalDNS package to automate DNS management and certificates emission
+        # DNS definition, used in conjunction with externalDNS package to automate DNS management and certificates emission.
         dns:
           # the public DNS zone definition
           public:

@@ -2,8 +2,14 @@
 
 This document explains the full schema for the `kind: KFDDistribution` for the `furyctl.yaml` file used by `furyctl`. This configuration file will be used to deploy the Kubernetes Fury Distribution modules on top of an existing Kubernetes cluster.
 
-An example file can be found [here](https://github.com/sighupio/fury-distribution/blob/feature/schema-docs/templates/config/kfddistribution-kfd-v1alpha2.yaml.tpl).
+An example configuration file can be created by running the following command:
 
+```bash
+furyctl create config --kind KFDDistribution --version v1.29.4 --name example-cluster
+```
+
+> [!NOTE]
+> Replace the version with your desired version of KFD.
 ## Properties
 
 | Property                  | Type     | Required |
@@ -12,6 +18,10 @@ An example file can be found [here](https://github.com/sighupio/fury-distributio
 | [kind](#kind)             | `string` | Required |
 | [metadata](#metadata)     | `object` | Required |
 | [spec](#spec)             | `object` | Required |
+
+### Description
+
+KFD modules deployed on top of an existing Kubernetes cluster.
 
 ## .apiVersion
 
@@ -44,6 +54,10 @@ An example file can be found [here](https://github.com/sighupio/fury-distributio
 | [name](#metadataname) | `string` | Required |
 
 ## .metadata.name
+
+### Description
+
+The name of the cluster. It will also be used as a prefix for all the other resources created.
 
 ### Constraints
 
@@ -84,11 +98,15 @@ An example file can be found [here](https://github.com/sighupio/fury-distributio
 | [relativeVendorPath](#specdistributioncommonrelativevendorpath) | `string` | Optional |
 | [tolerations](#specdistributioncommontolerations)               | `array`  | Optional |
 
+### Description
+
+Common configuration for all the distribution modules.
+
 ## .spec.distribution.common.nodeSelector
 
 ### Description
 
-The node selector to use to place the pods for all the KFD modules
+The node selector to use to place the pods for all the KFD modules. Follows Kubernetes selector format. Example: `node.kubernetes.io/role: infra`.
 
 ## .spec.distribution.common.provider
 
@@ -102,13 +120,13 @@ The node selector to use to place the pods for all the KFD modules
 
 ### Description
 
-The type of the provider
+The provider type. Don't set. FOR INTERNAL USE ONLY.
 
 ## .spec.distribution.common.registry
 
 ### Description
 
-URL of the registry where to pull images from for the Distribution phase. (Default is registry.sighup.io/fury).
+URL of the registry where to pull images from for the Distribution phase. (Default is `registry.sighup.io/fury`).
 
 NOTE: If plugins are pulling from the default registry, the registry will be replaced for the plugin too.
 
@@ -116,7 +134,7 @@ NOTE: If plugins are pulling from the default registry, the registry will be rep
 
 ### Description
 
-The relative path to the vendor directory, does not need to be changed
+The relative path to the vendor directory, does not need to be changed.
 
 ## .spec.distribution.common.tolerations
 
@@ -131,7 +149,13 @@ The relative path to the vendor directory, does not need to be changed
 
 ### Description
 
-The tolerations that will be added to the pods for all the KFD modules
+An array with the tolerations that will be added to the pods for all the KFD modules. Follows Kubernetes tolerations format. Example:
+
+```yaml
+- effect: NoSchedule
+  key: node.kubernetes.io/role
+  value: infra
+```
 
 ## .spec.distribution.common.tolerations.effect
 
@@ -493,7 +517,7 @@ The type of the secret
 
 ### Description
 
-The kubeconfig file path
+The path to the kubeconfig file.
 
 ## .spec.distribution.modules
 
@@ -522,11 +546,15 @@ The kubeconfig file path
 | [pomerium](#specdistributionmodulesauthpomerium)     | `object` | Optional |
 | [provider](#specdistributionmodulesauthprovider)     | `object` | Required |
 
+### Description
+
+Configuration for the Auth module.
+
 ## .spec.distribution.modules.auth.baseDomain
 
 ### Description
 
-The base domain for the auth module
+Base domain for the ingresses created by the Auth module (Gangplank, Pomerium, Dex). Notice that when nginx type is dual, these will use the `external` ingress class.
 
 ## .spec.distribution.modules.auth.dex
 
@@ -539,17 +567,32 @@ The base domain for the auth module
 | [expiry](#specdistributionmodulesauthdexexpiry)                                   | `object` | Optional |
 | [overrides](#specdistributionmodulesauthdexoverrides)                             | `object` | Optional |
 
+### Description
+
+Configuration for the Dex package.
+
 ## .spec.distribution.modules.auth.dex.additionalStaticClients
 
 ### Description
 
-The additional static clients for dex
+Additional static clients defitions that will be added to the default clients included with the distribution in Dex's configuration. Example:
+
+```yaml
+additionalStaticClients:
+  - id: my-custom-client
+    name: "A custom additional static client"
+    redirectURIs:
+      - "https://myapp.tld/redirect"
+      - "https://alias.tld/oidc-callback"
+    secret: supersecretpassword
+```
+Reference: https://dexidp.io/docs/connectors/local/
 
 ## .spec.distribution.modules.auth.dex.connectors
 
 ### Description
 
-The connectors for dex
+A list with each item defining a Dex connector. Follows Dex connectors configuration format: https://dexidp.io/docs/connectors/
 
 ## .spec.distribution.modules.auth.dex.expiry
 
@@ -585,7 +628,7 @@ Dex signing key expiration time duration (default 6h).
 
 ### Description
 
-The node selector to use to place the pods for the minio module
+Set to override the node selector used to place the pods of the package.
 
 ## .spec.distribution.modules.auth.dex.overrides.tolerations
 
@@ -600,7 +643,7 @@ The node selector to use to place the pods for the minio module
 
 ### Description
 
-The tolerations that will be added to the pods for the cert-manager module
+Set to override the tolerations that will be added to the pods of the package.
 
 ## .spec.distribution.modules.auth.dex.overrides.tolerations.effect
 
@@ -647,13 +690,17 @@ The value of the toleration
 | [nodeSelector](#specdistributionmodulesauthoverridesnodeselector) | `object` | Optional |
 | [tolerations](#specdistributionmodulesauthoverridestolerations)   | `array`  | Optional |
 
+### Description
+
+Override the common configuration with a particular configuration for the Auth module.
+
 ## .spec.distribution.modules.auth.overrides.ingresses
 
 ## .spec.distribution.modules.auth.overrides.nodeSelector
 
 ### Description
 
-The node selector to use to place the pods for the auth module
+Set to override the node selector used to place the pods of the Auth module.
 
 ## .spec.distribution.modules.auth.overrides.tolerations
 
@@ -668,7 +715,7 @@ The node selector to use to place the pods for the auth module
 
 ### Description
 
-The tolerations that will be added to the pods for the auth module
+Set to override the tolerations that will be added to the pods of the Auth module.
 
 ## .spec.distribution.modules.auth.overrides.tolerations.effect
 
@@ -892,23 +939,32 @@ cat ec_private.pem | base64
 | [password](#specdistributionmodulesauthproviderbasicauthpassword) | `string` | Required |
 | [username](#specdistributionmodulesauthproviderbasicauthusername) | `string` | Required |
 
+### Description
+
+Configuration for the HTTP Basic Auth provider.
+
 ## .spec.distribution.modules.auth.provider.basicAuth.password
 
 ### Description
 
-The password for the basic auth
+The password for logging in with the HTTP basic authentication.
 
 ## .spec.distribution.modules.auth.provider.basicAuth.username
 
 ### Description
 
-The username for the basic auth
+The username for logging in with the HTTP basic authentication.
 
 ## .spec.distribution.modules.auth.provider.type
 
 ### Description
 
-The type of the provider, must be ***none***, ***sso*** or ***basicAuth***
+The type of the Auth provider, options are:
+- `none`: will disable authentication in the infrastructural ingresses.
+- `sso`: will protect the infrastructural ingresses with Pomerium and Dex (SSO) and require authentication before accessing them.
+- `basicAuth`: will protect the infrastructural ingresses with HTTP basic auth (username and password) authentication.
+
+Default is `none`.
 
 ### Constraints
 
@@ -930,6 +986,10 @@ The type of the provider, must be ***none***, ***sso*** or ***basicAuth***
 | [type](#specdistributionmodulesdrtype)           | `string` | Required |
 | [velero](#specdistributionmodulesdrvelero)       | `object` | Optional |
 
+### Description
+
+Configuration for the Disaster Recovery module.
+
 ## .spec.distribution.modules.dr.overrides
 
 ### Properties
@@ -940,13 +1000,17 @@ The type of the provider, must be ***none***, ***sso*** or ***basicAuth***
 | [nodeSelector](#specdistributionmodulesdroverridesnodeselector) | `object` | Optional |
 | [tolerations](#specdistributionmodulesdroverridestolerations)   | `array`  | Optional |
 
+### Description
+
+Override the common configuration with a particular configuration for the module.
+
 ## .spec.distribution.modules.dr.overrides.ingresses
 
 ## .spec.distribution.modules.dr.overrides.nodeSelector
 
 ### Description
 
-The node selector to use to place the pods for the security module
+Set to override the node selector used to place the pods of the module.
 
 ## .spec.distribution.modules.dr.overrides.tolerations
 
@@ -961,7 +1025,7 @@ The node selector to use to place the pods for the security module
 
 ### Description
 
-The tolerations that will be added to the pods for the monitoring module
+Set to override the tolerations that will be added to the pods of the module.
 
 ## .spec.distribution.modules.dr.overrides.tolerations.effect
 
@@ -1002,7 +1066,9 @@ The value of the toleration
 
 ### Description
 
-The type of the DR, must be ***none*** or ***on-premises***
+The type of the Disaster Recovery, must be `none` or `on-premises`. `none` disables the module and `on-premises` will install Velero and an optional MinIO deployment.
+
+Default is `none`.
 
 ### Constraints
 
@@ -1024,6 +1090,10 @@ The type of the DR, must be ***none*** or ***on-premises***
 | [overrides](#specdistributionmodulesdrvelerooverrides)                   | `object` | Optional |
 | [schedules](#specdistributionmodulesdrveleroschedules)                   | `object` | Optional |
 | [snapshotController](#specdistributionmodulesdrvelerosnapshotcontroller) | `object` | Optional |
+
+### Description
+
+Configuration for the Velero package.
 
 ## .spec.distribution.modules.dr.velero.backend
 
@@ -1099,7 +1169,7 @@ The secret access key (password) for the external S3-compatible bucket.
 
 ### Description
 
-The node selector to use to place the pods for the minio module
+Set to override the node selector used to place the pods of the package.
 
 ## .spec.distribution.modules.dr.velero.overrides.tolerations
 
@@ -1114,7 +1184,7 @@ The node selector to use to place the pods for the minio module
 
 ### Description
 
-The tolerations that will be added to the pods for the cert-manager module
+Set to override the tolerations that will be added to the pods of the package.
 
 ## .spec.distribution.modules.dr.velero.overrides.tolerations.effect
 
@@ -1274,7 +1344,7 @@ Whether to install or not the snapshotController component in the cluster. Befor
 
 ### Description
 
-the base domain used for all the KFD ingresses, if in the nginx dual configuration, it should be the same as the .spec.distribution.modules.ingress.dns.private.name zone
+The base domain used for all the KFD infrastructural ingresses. If using the nginx dual type, this value should be the same as the domain associated with the `internal` ingress class.
 
 ## .spec.distribution.modules.ingress.certManager
 
@@ -1284,6 +1354,10 @@ the base domain used for all the KFD ingresses, if in the nginx dual configurati
 |:-------------------------------------------------------------------------|:---------|:---------|
 | [clusterIssuer](#specdistributionmodulesingresscertmanagerclusterissuer) | `object` | Required |
 | [overrides](#specdistributionmodulesingresscertmanageroverrides)         | `object` | Optional |
+
+### Description
+
+Configuration for the cert-manager package. Required even if `ingress.nginx.type` is `none`, cert-manager is used for managing other certificates in the cluster besides the TLS termination certificates for the ingresses.
 
 ## .spec.distribution.modules.ingress.certManager.clusterIssuer
 
@@ -1296,29 +1370,33 @@ the base domain used for all the KFD ingresses, if in the nginx dual configurati
 | [solvers](#specdistributionmodulesingresscertmanagerclusterissuersolvers) | `array`  | Optional |
 | [type](#specdistributionmodulesingresscertmanagerclusterissuertype)       | `string` | Optional |
 
+### Description
+
+Configuration for the cert-manager's ACME clusterIssuer used to request certificates from Let's Encrypt.
+
 ## .spec.distribution.modules.ingress.certManager.clusterIssuer.email
 
 ### Description
 
-The email of the cluster issuer
+The email address to use during the certificate issuing process.
 
 ## .spec.distribution.modules.ingress.certManager.clusterIssuer.name
 
 ### Description
 
-The name of the cluster issuer
+Name of the clusterIssuer.
 
 ## .spec.distribution.modules.ingress.certManager.clusterIssuer.solvers
 
 ### Description
 
-The custom solvers configurations
+List of challenge solvers to use instead of the default one for the `http01` challenge.
 
 ## .spec.distribution.modules.ingress.certManager.clusterIssuer.type
 
 ### Description
 
-The type of the cluster issuer, must be ***http01***
+The type of the clusterIssuer. Only `http01` challenge is supported for KFDDistribution kind. See solvers for arbitrary configurations.
 
 ### Constraints
 
@@ -1341,7 +1419,7 @@ The type of the cluster issuer, must be ***http01***
 
 ### Description
 
-The node selector to use to place the pods for the minio module
+Set to override the node selector used to place the pods of the package.
 
 ## .spec.distribution.modules.ingress.certManager.overrides.tolerations
 
@@ -1356,7 +1434,7 @@ The node selector to use to place the pods for the minio module
 
 ### Description
 
-The tolerations that will be added to the pods for the cert-manager module
+Set to override the tolerations that will be added to the pods of the package.
 
 ## .spec.distribution.modules.ingress.certManager.overrides.tolerations.effect
 
@@ -1414,7 +1492,7 @@ The value of the toleration
 
 ### Description
 
-The node selector to use to place the pods for the minio module
+Set to override the node selector used to place the pods of the package.
 
 ## .spec.distribution.modules.ingress.forecastle.overrides.tolerations
 
@@ -1429,7 +1507,7 @@ The node selector to use to place the pods for the minio module
 
 ### Description
 
-The tolerations that will be added to the pods for the cert-manager module
+Set to override the tolerations that will be added to the pods of the package.
 
 ## .spec.distribution.modules.ingress.forecastle.overrides.tolerations.effect
 
@@ -1478,7 +1556,7 @@ The value of the toleration
 
 ### Description
 
-Configurations for the nginx ingress controller module
+Configurations for the Ingress nginx controller package.
 
 ## .spec.distribution.modules.ingress.nginx.overrides
 
@@ -1493,7 +1571,7 @@ Configurations for the nginx ingress controller module
 
 ### Description
 
-The node selector to use to place the pods for the minio module
+Set to override the node selector used to place the pods of the package.
 
 ## .spec.distribution.modules.ingress.nginx.overrides.tolerations
 
@@ -1508,7 +1586,7 @@ The node selector to use to place the pods for the minio module
 
 ### Description
 
-The tolerations that will be added to the pods for the cert-manager module
+Set to override the tolerations that will be added to the pods of the package.
 
 ## .spec.distribution.modules.ingress.nginx.overrides.tolerations.effect
 
@@ -1558,7 +1636,7 @@ The value of the toleration
 
 ### Description
 
-The provider of the TLS certificate, must be ***none***, ***certManager*** or ***secret***
+The provider of the TLS certificates for the ingresses, one of: `none`, `certManager`, or `secret`.
 
 ### Constraints
 
@@ -1580,21 +1658,38 @@ The provider of the TLS certificate, must be ***none***, ***certManager*** or **
 | [cert](#specdistributionmodulesingressnginxtlssecretcert) | `string` | Required |
 | [key](#specdistributionmodulesingressnginxtlssecretkey)   | `string` | Required |
 
+### Description
+
+Kubernetes TLS secret for the ingresses TLS certificate.
+
 ## .spec.distribution.modules.ingress.nginx.tls.secret.ca
+
+### Description
+
+The Certificate Authority certificate file's content. You can use the `"{file://<path>}"` notation to get the content from a file.
 
 ## .spec.distribution.modules.ingress.nginx.tls.secret.cert
 
 ### Description
 
-The certificate file content or you can use the file notation to get the content from a file
+The certificate file's content. You can use the `"{file://<path>}"` notation to get the content from a file.
 
 ## .spec.distribution.modules.ingress.nginx.tls.secret.key
+
+### Description
+
+The signing key file's content. You can use the `"{file://<path>}"` notation to get the content from a file.
 
 ## .spec.distribution.modules.ingress.nginx.type
 
 ### Description
 
-The type of the nginx ingress controller, must be ***none***, ***single*** or ***dual***
+The type of the Ingress nginx controller, options are:
+- `none`: no ingress controller will be installed and no infrastructural ingresses will be created.
+- `single`: a single ingress controller with ingress class `nginx` will be installed to manage all the ingress resources, infrastructural ingresses will be created.
+- `dual`: two independent ingress controllers will be installed, one for the `internal` ingress class intended for private ingresses and one for the `external` ingress class intended for public ingresses. KFD infrastructural ingresses wil use the `internal` ingress class when using the dual type.
+
+Default is `single`.
 
 ### Constraints
 
@@ -1615,6 +1710,10 @@ The type of the nginx ingress controller, must be ***none***, ***single*** or **
 | [ingresses](#specdistributionmodulesingressoverridesingresses)       | `object` | Optional |
 | [nodeSelector](#specdistributionmodulesingressoverridesnodeselector) | `object` | Optional |
 | [tolerations](#specdistributionmodulesingressoverridestolerations)   | `array`  | Optional |
+
+### Description
+
+Override the common configuration with a particular configuration for the Ingress module.
 
 ## .spec.distribution.modules.ingress.overrides.ingresses
 
@@ -1638,25 +1737,25 @@ The type of the nginx ingress controller, must be ***none***, ***single*** or **
 
 ### Description
 
-If true, the ingress will not have authentication
+If true, the ingress will not have authentication even if `.spec.modules.auth.provider.type` is SSO or Basic Auth.
 
 ## .spec.distribution.modules.ingress.overrides.ingresses.forecastle.host
 
 ### Description
 
-The host of the ingress
+Use this host for the ingress instead of the default one.
 
 ## .spec.distribution.modules.ingress.overrides.ingresses.forecastle.ingressClass
 
 ### Description
 
-The ingress class of the ingress
+Use this ingress class for the ingress instead of the default one.
 
 ## .spec.distribution.modules.ingress.overrides.nodeSelector
 
 ### Description
 
-The node selector to use to place the pods for the ingress module
+Set to override the node selector used to place the pods of the Ingress module.
 
 ## .spec.distribution.modules.ingress.overrides.tolerations
 
@@ -1671,7 +1770,7 @@ The node selector to use to place the pods for the ingress module
 
 ### Description
 
-The tolerations that will be added to the pods for the ingress module
+Set to override the tolerations that will be added to the pods of the Ingress module.
 
 ## .spec.distribution.modules.ingress.overrides.tolerations.effect
 
@@ -1723,6 +1822,10 @@ The value of the toleration
 | [overrides](#specdistributionmodulesloggingoverrides)         | `object` | Optional |
 | [type](#specdistributionmodulesloggingtype)                   | `string` | Required |
 
+### Description
+
+Configuration for the Logging module.
+
 ## .spec.distribution.modules.logging.cerebro
 
 ### Properties
@@ -1730,6 +1833,10 @@ The value of the toleration
 | Property                                                     | Type     | Required |
 |:-------------------------------------------------------------|:---------|:---------|
 | [overrides](#specdistributionmodulesloggingcerebrooverrides) | `object` | Optional |
+
+### Description
+
+DEPRECATED since KFD v1.26.6, 1.27.5, v1.28.0.
 
 ## .spec.distribution.modules.logging.cerebro.overrides
 
@@ -1744,7 +1851,7 @@ The value of the toleration
 
 ### Description
 
-The node selector to use to place the pods for the minio module
+Set to override the node selector used to place the pods of the package.
 
 ## .spec.distribution.modules.logging.cerebro.overrides.tolerations
 
@@ -1759,7 +1866,7 @@ The node selector to use to place the pods for the minio module
 
 ### Description
 
-The tolerations that will be added to the pods for the cert-manager module
+Set to override the tolerations that will be added to the pods of the package.
 
 ## .spec.distribution.modules.logging.cerebro.overrides.tolerations.effect
 
@@ -1813,55 +1920,55 @@ The value of the toleration
 
 ### Description
 
-when using the customOutputs logging type, you need to manually specify the spec of the several Output and ClusterOutputs that the Logging Operator expects to forward the logs collected by the pre-defined flows.
+When using the `customOutputs` logging type, you need to manually specify the spec of the several `Output` and `ClusterOutputs` that the Logging Operator expects to forward the logs collected by the pre-defined flows.
 
 ## .spec.distribution.modules.logging.customOutputs.audit
 
 ### Description
 
-This value defines where the output from Flow will be sent. Will be the `spec` section of the `Output` object. It must be a string (and not a YAML object) following the OutputSpec definition. Use the nullout output to discard the flow.
+This value defines where the output from the `audit` Flow will be sent. This will be the `spec` section of the `Output` object. It must be a string (and not a YAML object) following the OutputSpec definition. Use the `nullout` output to discard the flow: `nullout: {}`
 
 ## .spec.distribution.modules.logging.customOutputs.errors
 
 ### Description
 
-This value defines where the output from Flow will be sent. Will be the `spec` section of the `Output` object. It must be a string (and not a YAML object) following the OutputSpec definition. Use the nullout output to discard the flow.
+This value defines where the output from the `errors` Flow will be sent. This will be the `spec` section of the `Output` object. It must be a string (and not a YAML object) following the OutputSpec definition. Use the `nullout` output to discard the flow: `nullout: {}`
 
 ## .spec.distribution.modules.logging.customOutputs.events
 
 ### Description
 
-This value defines where the output from Flow will be sent. Will be the `spec` section of the `Output` object. It must be a string (and not a YAML object) following the OutputSpec definition. Use the nullout output to discard the flow.
+This value defines where the output from the `events` Flow will be sent. This will be the `spec` section of the `Output` object. It must be a string (and not a YAML object) following the OutputSpec definition. Use the `nullout` output to discard the flow: `nullout: {}`
 
 ## .spec.distribution.modules.logging.customOutputs.infra
 
 ### Description
 
-This value defines where the output from Flow will be sent. Will be the `spec` section of the `Output` object. It must be a string (and not a YAML object) following the OutputSpec definition. Use the nullout output to discard the flow.
+This value defines where the output from the `infra` Flow will be sent. This will be the `spec` section of the `Output` object. It must be a string (and not a YAML object) following the OutputSpec definition. Use the `nullout` output to discard the flow: `nullout: {}`
 
 ## .spec.distribution.modules.logging.customOutputs.ingressNginx
 
 ### Description
 
-This value defines where the output from Flow will be sent. Will be the `spec` section of the `Output` object. It must be a string (and not a YAML object) following the OutputSpec definition. Use the nullout output to discard the flow.
+This value defines where the output from the `ingressNginx` Flow will be sent. This will be the `spec` section of the `Output` object. It must be a string (and not a YAML object) following the OutputSpec definition. Use the `nullout` output to discard the flow: `nullout: {}`
 
 ## .spec.distribution.modules.logging.customOutputs.kubernetes
 
 ### Description
 
-This value defines where the output from Flow will be sent. Will be the `spec` section of the `Output` object. It must be a string (and not a YAML object) following the OutputSpec definition. Use the nullout output to discard the flow.
+This value defines where the output from the `kubernetes` Flow will be sent. This will be the `spec` section of the `Output` object. It must be a string (and not a YAML object) following the OutputSpec definition. Use the `nullout` output to discard the flow: `nullout: {}`
 
 ## .spec.distribution.modules.logging.customOutputs.systemdCommon
 
 ### Description
 
-This value defines where the output from Flow will be sent. Will be the `spec` section of the `Output` object. It must be a string (and not a YAML object) following the OutputSpec definition. Use the nullout output to discard the flow.
+This value defines where the output from the `systemdCommon` Flow will be sent. This will be the `spec` section of the `Output` object. It must be a string (and not a YAML object) following the OutputSpec definition. Use the `nullout` output to discard the flow: `nullout: {}`
 
 ## .spec.distribution.modules.logging.customOutputs.systemdEtcd
 
 ### Description
 
-This value defines where the output from Flow will be sent. Will be the `spec` section of the `Output` object. It must be a string (and not a YAML object) following the OutputSpec definition. Use the nullout output to discard the flow.
+This value defines where the output from the `systemdEtcd` Flow will be sent. This will be the `spec` section of the `Output` object. It must be a string (and not a YAML object) following the OutputSpec definition. Use the `nullout` output to discard the flow: `nullout: {}`
 
 ## .spec.distribution.modules.logging.loki
 
@@ -1874,7 +1981,15 @@ This value defines where the output from Flow will be sent. Will be the `spec` s
 | [resources](#specdistributionmoduleslogginglokiresources)               | `object` | Optional |
 | [tsdbStartDate](#specdistributionmoduleslogginglokitsdbstartdate)       | `string` | Required |
 
+### Description
+
+Configuration for the Loki package.
+
 ## .spec.distribution.modules.logging.loki.backend
+
+### Description
+
+The storage backend type for Loki. `minio` will use an in-cluster MinIO deployment for object storage, `externalEndpoint` can be used to point to an external object storage instead of deploying an in-cluster MinIO.
 
 ### Constraints
 
@@ -1897,35 +2012,39 @@ This value defines where the output from Flow will be sent. Will be the `spec` s
 | [insecure](#specdistributionmoduleslogginglokiexternalendpointinsecure)               | `boolean` | Optional |
 | [secretAccessKey](#specdistributionmoduleslogginglokiexternalendpointsecretaccesskey) | `string`  | Optional |
 
+### Description
+
+Configuration for Loki's external storage backend.
+
 ## .spec.distribution.modules.logging.loki.externalEndpoint.accessKeyId
 
 ### Description
 
-The access key id of the loki external endpoint
+The access key ID (username) for the external S3-compatible bucket.
 
 ## .spec.distribution.modules.logging.loki.externalEndpoint.bucketName
 
 ### Description
 
-The bucket name of the loki external endpoint
+The bucket name of the external S3-compatible object storage.
 
 ## .spec.distribution.modules.logging.loki.externalEndpoint.endpoint
 
 ### Description
 
-The endpoint of the loki external endpoint
+External S3-compatible endpoint for Loki's storage.
 
 ## .spec.distribution.modules.logging.loki.externalEndpoint.insecure
 
 ### Description
 
-If true, the loki external endpoint will be insecure
+If true, will use HTTP as protocol instead of HTTPS.
 
 ## .spec.distribution.modules.logging.loki.externalEndpoint.secretAccessKey
 
 ### Description
 
-The secret access key of the loki external endpoint
+The secret access key (password) for the external S3-compatible bucket.
 
 ## .spec.distribution.modules.logging.loki.resources
 
@@ -1949,13 +2068,13 @@ The secret access key of the loki external endpoint
 
 ### Description
 
-The cpu limit for the loki pods
+The CPU limit for the Pod. Example: `1000m`.
 
 ## .spec.distribution.modules.logging.loki.resources.limits.memory
 
 ### Description
 
-The memory limit for the opensearch pods
+The memory limit for the Pod. Example: `1G`.
 
 ## .spec.distribution.modules.logging.loki.resources.requests
 
@@ -1970,13 +2089,13 @@ The memory limit for the opensearch pods
 
 ### Description
 
-The cpu request for the prometheus pods
+The CPU request for the Pod, in cores. Example: `500m`.
 
 ## .spec.distribution.modules.logging.loki.resources.requests.memory
 
 ### Description
 
-The memory request for the opensearch pods
+The memory request for the Pod. Example: `500M`.
 
 ## .spec.distribution.modules.logging.loki.tsdbStartDate
 
@@ -1998,6 +2117,10 @@ Value must be a string in `ISO 8601` date format (`yyyy-mm-dd`). Example: `2024-
 | [rootUser](#specdistributionmodulesloggingminiorootuser)       | `object` | Optional |
 | [storageSize](#specdistributionmodulesloggingminiostoragesize) | `string` | Optional |
 
+### Description
+
+Configuration for Logging's MinIO deployment.
+
 ## .spec.distribution.modules.logging.minio.overrides
 
 ### Properties
@@ -2011,7 +2134,7 @@ Value must be a string in `ISO 8601` date format (`yyyy-mm-dd`). Example: `2024-
 
 ### Description
 
-The node selector to use to place the pods for the minio module
+Set to override the node selector used to place the pods of the package.
 
 ## .spec.distribution.modules.logging.minio.overrides.tolerations
 
@@ -2026,7 +2149,7 @@ The node selector to use to place the pods for the minio module
 
 ### Description
 
-The tolerations that will be added to the pods for the cert-manager module
+Set to override the tolerations that will be added to the pods of the package.
 
 ## .spec.distribution.modules.logging.minio.overrides.tolerations.effect
 
@@ -2076,19 +2199,19 @@ The value of the toleration
 
 ### Description
 
-The password of the minio root user
+The password for the default MinIO root user.
 
 ## .spec.distribution.modules.logging.minio.rootUser.username
 
 ### Description
 
-The username of the minio root user
+The username for the default MinIO root user.
 
 ## .spec.distribution.modules.logging.minio.storageSize
 
 ### Description
 
-The PVC size for each minio disk, 6 disks total
+The PVC size for each MinIO disk, 6 disks total.
 
 ## .spec.distribution.modules.logging.opensearch
 
@@ -2114,7 +2237,7 @@ The PVC size for each minio disk, 6 disks total
 
 ### Description
 
-The node selector to use to place the pods for the minio module
+Set to override the node selector used to place the pods of the package.
 
 ## .spec.distribution.modules.logging.opensearch.overrides.tolerations
 
@@ -2129,7 +2252,7 @@ The node selector to use to place the pods for the minio module
 
 ### Description
 
-The tolerations that will be added to the pods for the cert-manager module
+Set to override the tolerations that will be added to the pods of the package.
 
 ## .spec.distribution.modules.logging.opensearch.overrides.tolerations.effect
 
@@ -2188,13 +2311,13 @@ The value of the toleration
 
 ### Description
 
-The cpu limit for the loki pods
+The CPU limit for the Pod. Example: `1000m`.
 
 ## .spec.distribution.modules.logging.opensearch.resources.limits.memory
 
 ### Description
 
-The memory limit for the opensearch pods
+The memory limit for the Pod. Example: `1G`.
 
 ## .spec.distribution.modules.logging.opensearch.resources.requests
 
@@ -2209,25 +2332,25 @@ The memory limit for the opensearch pods
 
 ### Description
 
-The cpu request for the prometheus pods
+The CPU request for the Pod, in cores. Example: `500m`.
 
 ## .spec.distribution.modules.logging.opensearch.resources.requests.memory
 
 ### Description
 
-The memory request for the opensearch pods
+The memory request for the Pod. Example: `500M`.
 
 ## .spec.distribution.modules.logging.opensearch.storageSize
 
 ### Description
 
-The storage size for the opensearch pods
+The storage size for the OpenSearch volumes.
 
 ## .spec.distribution.modules.logging.opensearch.type
 
 ### Description
 
-The type of the opensearch, must be ***single*** or ***triple***
+The type of OpenSearch deployment. One of: `single` for a single replica or `triple` for an HA 3-replicas deployment.
 
 ### Constraints
 
@@ -2246,6 +2369,10 @@ The type of the opensearch, must be ***single*** or ***triple***
 |:--------------------------------------------------------------|:---------|:---------|
 | [overrides](#specdistributionmodulesloggingoperatoroverrides) | `object` | Optional |
 
+### Description
+
+Configuration for the Logging Operator.
+
 ## .spec.distribution.modules.logging.operator.overrides
 
 ### Properties
@@ -2259,7 +2386,7 @@ The type of the opensearch, must be ***single*** or ***triple***
 
 ### Description
 
-The node selector to use to place the pods for the minio module
+Set to override the node selector used to place the pods of the package.
 
 ## .spec.distribution.modules.logging.operator.overrides.tolerations
 
@@ -2274,7 +2401,7 @@ The node selector to use to place the pods for the minio module
 
 ### Description
 
-The tolerations that will be added to the pods for the cert-manager module
+Set to override the tolerations that will be added to the pods of the package.
 
 ## .spec.distribution.modules.logging.operator.overrides.tolerations.effect
 
@@ -2321,13 +2448,17 @@ The value of the toleration
 | [nodeSelector](#specdistributionmodulesloggingoverridesnodeselector) | `object` | Optional |
 | [tolerations](#specdistributionmodulesloggingoverridestolerations)   | `array`  | Optional |
 
+### Description
+
+Override the common configuration with a particular configuration for the module.
+
 ## .spec.distribution.modules.logging.overrides.ingresses
 
 ## .spec.distribution.modules.logging.overrides.nodeSelector
 
 ### Description
 
-The node selector to use to place the pods for the security module
+Set to override the node selector used to place the pods of the module.
 
 ## .spec.distribution.modules.logging.overrides.tolerations
 
@@ -2342,7 +2473,7 @@ The node selector to use to place the pods for the security module
 
 ### Description
 
-The tolerations that will be added to the pods for the monitoring module
+Set to override the tolerations that will be added to the pods of the module.
 
 ## .spec.distribution.modules.logging.overrides.tolerations.effect
 
@@ -2383,7 +2514,13 @@ The value of the toleration
 
 ### Description
 
-selects the logging stack. Choosing none will disable the centralized logging. Choosing opensearch will deploy and configure the Logging Operator and an OpenSearch cluster (can be single or triple for HA) where the logs will be stored. Choosing loki will use a distributed Grafana Loki instead of OpenSearh for storage. Choosing customOuput the Logging Operator will be deployed and installed but with no local storage, you will have to create the needed Outputs and ClusterOutputs to ship the logs to your desired storage.
+Selects the logging stack. Options are:
+- `none`: will disable the centralized logging.
+- `opensearch`: will deploy and configure the Logging Operator and an OpenSearch cluster (can be single or triple for HA) where the logs will be stored.
+- `loki`: will use a distributed Grafana Loki instead of OpenSearh for storage.
+- `customOuputs`: the Logging Operator will be deployed and installed but with no local storage, you will have to create the needed Outputs and ClusterOutputs to ship the logs to your desired storage.
+
+Default is `opensearch`.
 
 ### Constraints
 
@@ -2416,7 +2553,7 @@ selects the logging stack. Choosing none will disable the centralized logging. C
 
 ### Description
 
-configuration for the Monitoring module components
+Configuration for the Monitoring module.
 
 ## .spec.distribution.modules.monitoring.alertmanager
 
@@ -2432,19 +2569,19 @@ configuration for the Monitoring module components
 
 ### Description
 
-The webhook url to send deadman switch monitoring, for example to use with healthchecks.io
+The webhook URL to send dead man's switch monitoring, for example to use with healthchecks.io.
 
 ## .spec.distribution.modules.monitoring.alertmanager.installDefaultRules
 
 ### Description
 
-If true, the default rules will be installed
+Set to false to avoid installing the Prometheus rules (alerts) included with the distribution.
 
 ## .spec.distribution.modules.monitoring.alertmanager.slackWebhookUrl
 
 ### Description
 
-The slack webhook url to send alerts
+The Slack webhook URL where to send the infrastructural and workload alerts to.
 
 ## .spec.distribution.modules.monitoring.blackboxExporter
 
@@ -2467,7 +2604,7 @@ The slack webhook url to send alerts
 
 ### Description
 
-The node selector to use to place the pods for the minio module
+Set to override the node selector used to place the pods of the package.
 
 ## .spec.distribution.modules.monitoring.blackboxExporter.overrides.tolerations
 
@@ -2482,7 +2619,7 @@ The node selector to use to place the pods for the minio module
 
 ### Description
 
-The tolerations that will be added to the pods for the cert-manager module
+Set to override the tolerations that will be added to the pods of the package.
 
 ## .spec.distribution.modules.monitoring.blackboxExporter.overrides.tolerations.effect
 
@@ -2550,7 +2687,7 @@ Notice that by default anonymous access is enabled.
 
 ### Description
 
-The node selector to use to place the pods for the minio module
+Set to override the node selector used to place the pods of the package.
 
 ## .spec.distribution.modules.monitoring.grafana.overrides.tolerations
 
@@ -2565,7 +2702,7 @@ The node selector to use to place the pods for the minio module
 
 ### Description
 
-The tolerations that will be added to the pods for the cert-manager module
+Set to override the tolerations that will be added to the pods of the package.
 
 ## .spec.distribution.modules.monitoring.grafana.overrides.tolerations.effect
 
@@ -2635,7 +2772,7 @@ More details in [Grafana's documentation](https://grafana.com/docs/grafana/lates
 
 ### Description
 
-The node selector to use to place the pods for the minio module
+Set to override the node selector used to place the pods of the package.
 
 ## .spec.distribution.modules.monitoring.kubeStateMetrics.overrides.tolerations
 
@@ -2650,7 +2787,7 @@ The node selector to use to place the pods for the minio module
 
 ### Description
 
-The tolerations that will be added to the pods for the cert-manager module
+Set to override the tolerations that will be added to the pods of the package.
 
 ## .spec.distribution.modules.monitoring.kubeStateMetrics.overrides.tolerations.effect
 
@@ -2698,11 +2835,15 @@ The value of the toleration
 | [overrides](#specdistributionmodulesmonitoringmimiroverrides)               | `object` | Optional |
 | [retentionTime](#specdistributionmodulesmonitoringmimirretentiontime)       | `string` | Optional |
 
+### Description
+
+Configuration for the Mimir package.
+
 ## .spec.distribution.modules.monitoring.mimir.backend
 
 ### Description
 
-The backend for the mimir pods, must be ***minio*** or ***externalEndpoint***
+The storage backend type for Mimir. `minio` will use an in-cluster MinIO deployment for object storage, `externalEndpoint` can be used to point to an external S3-compatible object storage instead of deploying an in-cluster MinIO.
 
 ### Constraints
 
@@ -2725,35 +2866,39 @@ The backend for the mimir pods, must be ***minio*** or ***externalEndpoint***
 | [insecure](#specdistributionmodulesmonitoringmimirexternalendpointinsecure)               | `boolean` | Optional |
 | [secretAccessKey](#specdistributionmodulesmonitoringmimirexternalendpointsecretaccesskey) | `string`  | Optional |
 
+### Description
+
+Configuration for Mimir's external storage backend.
+
 ## .spec.distribution.modules.monitoring.mimir.externalEndpoint.accessKeyId
 
 ### Description
 
-The access key id of the external mimir backend
+The access key ID (username) for the external S3-compatible bucket.
 
 ## .spec.distribution.modules.monitoring.mimir.externalEndpoint.bucketName
 
 ### Description
 
-The bucket name of the external mimir backend
+The bucket name of the external S3-compatible object storage.
 
 ## .spec.distribution.modules.monitoring.mimir.externalEndpoint.endpoint
 
 ### Description
 
-The endpoint of the external mimir backend
+External S3-compatible endpoint for Mimir's storage.
 
 ## .spec.distribution.modules.monitoring.mimir.externalEndpoint.insecure
 
 ### Description
 
-If true, the external mimir backend will not use tls
+If true, will use HTTP as protocol instead of HTTPS.
 
 ## .spec.distribution.modules.monitoring.mimir.externalEndpoint.secretAccessKey
 
 ### Description
 
-The secret access key of the external mimir backend
+The secret access key (password) for the external S3-compatible bucket.
 
 ## .spec.distribution.modules.monitoring.mimir.overrides
 
@@ -2768,7 +2913,7 @@ The secret access key of the external mimir backend
 
 ### Description
 
-The node selector to use to place the pods for the minio module
+Set to override the node selector used to place the pods of the package.
 
 ## .spec.distribution.modules.monitoring.mimir.overrides.tolerations
 
@@ -2783,7 +2928,7 @@ The node selector to use to place the pods for the minio module
 
 ### Description
 
-The tolerations that will be added to the pods for the cert-manager module
+Set to override the tolerations that will be added to the pods of the package.
 
 ## .spec.distribution.modules.monitoring.mimir.overrides.tolerations.effect
 
@@ -2824,7 +2969,7 @@ The value of the toleration
 
 ### Description
 
-The retention time for the mimir pods
+The retention time for the logs stored in Mimir. Default is `30d`. Value must match the regular expression `[0-9]+(ns|us|µs|ms|s|m|h|d|w|y)` where y = 365 days.
 
 ## .spec.distribution.modules.monitoring.minio
 
@@ -2835,6 +2980,10 @@ The retention time for the mimir pods
 | [overrides](#specdistributionmodulesmonitoringminiooverrides)     | `object` | Optional |
 | [rootUser](#specdistributionmodulesmonitoringminiorootuser)       | `object` | Optional |
 | [storageSize](#specdistributionmodulesmonitoringminiostoragesize) | `string` | Optional |
+
+### Description
+
+Configuration for Monitoring's MinIO deployment.
 
 ## .spec.distribution.modules.monitoring.minio.overrides
 
@@ -2849,7 +2998,7 @@ The retention time for the mimir pods
 
 ### Description
 
-The node selector to use to place the pods for the minio module
+Set to override the node selector used to place the pods of the package.
 
 ## .spec.distribution.modules.monitoring.minio.overrides.tolerations
 
@@ -2864,7 +3013,7 @@ The node selector to use to place the pods for the minio module
 
 ### Description
 
-The tolerations that will be added to the pods for the cert-manager module
+Set to override the tolerations that will be added to the pods of the package.
 
 ## .spec.distribution.modules.monitoring.minio.overrides.tolerations.effect
 
@@ -2914,19 +3063,19 @@ The value of the toleration
 
 ### Description
 
-The password for the minio root user
+The password for the default MinIO root user.
 
 ## .spec.distribution.modules.monitoring.minio.rootUser.username
 
 ### Description
 
-The username for the minio root user
+The username for the default MinIO root user.
 
 ## .spec.distribution.modules.monitoring.minio.storageSize
 
 ### Description
 
-The storage size for the minio pods
+The PVC size for each MinIO disk, 6 disks total.
 
 ## .spec.distribution.modules.monitoring.overrides
 
@@ -2938,13 +3087,17 @@ The storage size for the minio pods
 | [nodeSelector](#specdistributionmodulesmonitoringoverridesnodeselector) | `object` | Optional |
 | [tolerations](#specdistributionmodulesmonitoringoverridestolerations)   | `array`  | Optional |
 
+### Description
+
+Override the common configuration with a particular configuration for the module.
+
 ## .spec.distribution.modules.monitoring.overrides.ingresses
 
 ## .spec.distribution.modules.monitoring.overrides.nodeSelector
 
 ### Description
 
-The node selector to use to place the pods for the security module
+Set to override the node selector used to place the pods of the module.
 
 ## .spec.distribution.modules.monitoring.overrides.tolerations
 
@@ -2959,7 +3112,7 @@ The node selector to use to place the pods for the security module
 
 ### Description
 
-The tolerations that will be added to the pods for the monitoring module
+Set to override the tolerations that will be added to the pods of the module.
 
 ## .spec.distribution.modules.monitoring.overrides.tolerations.effect
 
@@ -3038,13 +3191,13 @@ Set this option to ship the collected metrics to a remote Prometheus receiver.
 
 ### Description
 
-The cpu limit for the loki pods
+The CPU limit for the Pod. Example: `1000m`.
 
 ## .spec.distribution.modules.monitoring.prometheus.resources.limits.memory
 
 ### Description
 
-The memory limit for the opensearch pods
+The memory limit for the Pod. Example: `1G`.
 
 ## .spec.distribution.modules.monitoring.prometheus.resources.requests
 
@@ -3059,31 +3212,31 @@ The memory limit for the opensearch pods
 
 ### Description
 
-The cpu request for the prometheus pods
+The CPU request for the Pod, in cores. Example: `500m`.
 
 ## .spec.distribution.modules.monitoring.prometheus.resources.requests.memory
 
 ### Description
 
-The memory request for the opensearch pods
+The memory request for the Pod. Example: `500M`.
 
 ## .spec.distribution.modules.monitoring.prometheus.retentionSize
 
 ### Description
 
-The retention size for the k8s Prometheus instance.
+The retention size for the `k8s` Prometheus instance.
 
 ## .spec.distribution.modules.monitoring.prometheus.retentionTime
 
 ### Description
 
-The retention time for the K8s Prometheus instance.
+The retention time for the `k8s` Prometheus instance.
 
 ## .spec.distribution.modules.monitoring.prometheus.storageSize
 
 ### Description
 
-The storage size for the k8s Prometheus instance.
+The storage size for the `k8s` Prometheus instance.
 
 ## .spec.distribution.modules.monitoring.prometheusAgent
 
@@ -3124,13 +3277,13 @@ Set this option to ship the collected metrics to a remote Prometheus receiver.
 
 ### Description
 
-The cpu limit for the loki pods
+The CPU limit for the Pod. Example: `1000m`.
 
 ## .spec.distribution.modules.monitoring.prometheusAgent.resources.limits.memory
 
 ### Description
 
-The memory limit for the opensearch pods
+The memory limit for the Pod. Example: `1G`.
 
 ## .spec.distribution.modules.monitoring.prometheusAgent.resources.requests
 
@@ -3145,24 +3298,26 @@ The memory limit for the opensearch pods
 
 ### Description
 
-The cpu request for the prometheus pods
+The CPU request for the Pod, in cores. Example: `500m`.
 
 ## .spec.distribution.modules.monitoring.prometheusAgent.resources.requests.memory
 
 ### Description
 
-The memory request for the opensearch pods
+The memory request for the Pod. Example: `500M`.
 
 ## .spec.distribution.modules.monitoring.type
 
 ### Description
 
-The type of the monitoring, must be ***none***, ***prometheus***, ***prometheusAgent*** or ***mimir***.
+The type of the monitoring, must be `none`, `prometheus`, `prometheusAgent` or `mimir`.
 
 - `none`: will disable the whole monitoring stack.
 - `prometheus`: will install Prometheus Operator and a preconfigured Prometheus instace, Alertmanager, a set of alert rules, exporters needed to monitor all the components of the cluster, Grafana and a series of dashboards to view the collected metrics, and more.
 - `prometheusAgent`: wil install Prometheus operator, an instance of Prometheus in Agent mode (no alerting, no queries, no storage), and all the exporters needed to get metrics for the status of the cluster and the workloads. Useful when having a centralized (remote) Prometheus where to ship the metrics and not storing them locally in the cluster.
-- `mimir`: will install the same as the `prometheus` option, and in addition Grafana Mimir that allows for longer retention of metrics and the usage of Object Storage.
+- `mimir`: will install the same as the `prometheus` option, plus Grafana Mimir that allows for longer retention of metrics and the usage of Object Storage.
+
+Default is `prometheus`.
 
 ### Constraints
 
@@ -3196,7 +3351,7 @@ The type of the monitoring, must be ***none***, ***prometheus***, ***prometheusA
 
 ### Description
 
-The node selector to use to place the pods for the minio module
+Set to override the node selector used to place the pods of the package.
 
 ## .spec.distribution.modules.monitoring.x509Exporter.overrides.tolerations
 
@@ -3211,7 +3366,7 @@ The node selector to use to place the pods for the minio module
 
 ### Description
 
-The tolerations that will be added to the pods for the cert-manager module
+Set to override the tolerations that will be added to the pods of the package.
 
 ## .spec.distribution.modules.monitoring.x509Exporter.overrides.tolerations.effect
 
@@ -3259,6 +3414,10 @@ The value of the toleration
 | [tigeraOperator](#specdistributionmodulesnetworkingtigeraoperator) | `object` | Optional |
 | [type](#specdistributionmodulesnetworkingtype)                     | `string` | Required |
 
+### Description
+
+Configuration for the Networking module.
+
 ## .spec.distribution.modules.networking.cilium
 
 ### Properties
@@ -3270,6 +3429,10 @@ The value of the toleration
 | [podCidr](#specdistributionmodulesnetworkingciliumpodcidr)     | `string` | Required |
 
 ## .spec.distribution.modules.networking.cilium.maskSize
+
+### Description
+
+The mask size to use for the Pods network on each node.
 
 ## .spec.distribution.modules.networking.cilium.overrides
 
@@ -3284,7 +3447,7 @@ The value of the toleration
 
 ### Description
 
-The node selector to use to place the pods for the minio module
+Set to override the node selector used to place the pods of the package.
 
 ## .spec.distribution.modules.networking.cilium.overrides.tolerations
 
@@ -3299,7 +3462,7 @@ The node selector to use to place the pods for the minio module
 
 ### Description
 
-The tolerations that will be added to the pods for the cert-manager module
+Set to override the tolerations that will be added to the pods of the package.
 
 ## .spec.distribution.modules.networking.cilium.overrides.tolerations.effect
 
@@ -3338,6 +3501,10 @@ The value of the toleration
 
 ## .spec.distribution.modules.networking.cilium.podCidr
 
+### Description
+
+Allows specifing a CIDR for the Pods network different from `.spec.kubernetes.podCidr`. If not set the default is to use `.spec.kubernetes.podCidr`.
+
 ### Constraints
 
 **pattern**: the string must match the following regular expression:
@@ -3358,13 +3525,17 @@ The value of the toleration
 | [nodeSelector](#specdistributionmodulesnetworkingoverridesnodeselector) | `object` | Optional |
 | [tolerations](#specdistributionmodulesnetworkingoverridestolerations)   | `array`  | Optional |
 
+### Description
+
+Override the common configuration with a particular configuration for the module.
+
 ## .spec.distribution.modules.networking.overrides.ingresses
 
 ## .spec.distribution.modules.networking.overrides.nodeSelector
 
 ### Description
 
-The node selector to use to place the pods for the security module
+Set to override the node selector used to place the pods of the module.
 
 ## .spec.distribution.modules.networking.overrides.tolerations
 
@@ -3379,7 +3550,7 @@ The node selector to use to place the pods for the security module
 
 ### Description
 
-The tolerations that will be added to the pods for the monitoring module
+Set to override the tolerations that will be added to the pods of the module.
 
 ## .spec.distribution.modules.networking.overrides.tolerations.effect
 
@@ -3437,7 +3608,7 @@ The value of the toleration
 
 ### Description
 
-The node selector to use to place the pods for the minio module
+Set to override the node selector used to place the pods of the package.
 
 ## .spec.distribution.modules.networking.tigeraOperator.overrides.tolerations
 
@@ -3452,7 +3623,7 @@ The node selector to use to place the pods for the minio module
 
 ### Description
 
-The tolerations that will be added to the pods for the cert-manager module
+Set to override the tolerations that will be added to the pods of the package.
 
 ## .spec.distribution.modules.networking.tigeraOperator.overrides.tolerations.effect
 
@@ -3493,7 +3664,7 @@ The value of the toleration
 
 ### Description
 
-The type of networking to use, either ***none***, ***calico*** or ***cilium***
+The type of CNI plugin to use, either `none`, `calico` (Tigera Operator) or `cilium`.
 
 ### Constraints
 
@@ -3516,6 +3687,10 @@ The type of networking to use, either ***none***, ***calico*** or ***cilium***
 | [overrides](#specdistributionmodulespolicyoverrides)   | `object` | Optional |
 | [type](#specdistributionmodulespolicytype)             | `string` | Required |
 
+### Description
+
+Configuration for the Policy module.
+
 ## .spec.distribution.modules.policy.gatekeeper
 
 ### Properties
@@ -3527,6 +3702,10 @@ The type of networking to use, either ***none***, ***calico*** or ***cilium***
 | [installDefaultPolicies](#specdistributionmodulespolicygatekeeperinstalldefaultpolicies)             | `boolean` | Required |
 | [overrides](#specdistributionmodulespolicygatekeeperoverrides)                                       | `object`  | Optional |
 
+### Description
+
+Configuration for the Gatekeeper package.
+
 ## .spec.distribution.modules.policy.gatekeeper.additionalExcludedNamespaces
 
 ### Description
@@ -3537,7 +3716,7 @@ This parameter adds namespaces to Gatekeeper's exemption list, so it will not en
 
 ### Description
 
-The enforcement action to use for the gatekeeper module
+The default enforcement action to use for the included constraints. `deny` will block the admission when violations to the policies are found, `warn` will show a message to the user but will admit the violating requests and `dryrun` won't give any feedback to the user but it will log the violations.
 
 ### Constraints
 
@@ -3553,7 +3732,7 @@ The enforcement action to use for the gatekeeper module
 
 ### Description
 
-If true, the default policies will be installed
+Set to `false` to avoid installing the default Gatekeeper policies (constraints templates and constraints) included with the distribution.
 
 ## .spec.distribution.modules.policy.gatekeeper.overrides
 
@@ -3568,7 +3747,7 @@ If true, the default policies will be installed
 
 ### Description
 
-The node selector to use to place the pods for the minio module
+Set to override the node selector used to place the pods of the package.
 
 ## .spec.distribution.modules.policy.gatekeeper.overrides.tolerations
 
@@ -3583,7 +3762,7 @@ The node selector to use to place the pods for the minio module
 
 ### Description
 
-The tolerations that will be added to the pods for the cert-manager module
+Set to override the tolerations that will be added to the pods of the package.
 
 ## .spec.distribution.modules.policy.gatekeeper.overrides.tolerations.effect
 
@@ -3631,17 +3810,21 @@ The value of the toleration
 | [overrides](#specdistributionmodulespolicykyvernooverrides)                                       | `object`  | Optional |
 | [validationFailureAction](#specdistributionmodulespolicykyvernovalidationfailureaction)           | `string`  | Required |
 
+### Description
+
+Configuration for the Kyverno package.
+
 ## .spec.distribution.modules.policy.kyverno.additionalExcludedNamespaces
 
 ### Description
 
-This parameter adds namespaces to Kyverno's exemption list, so it will not enforce the constraints on them.
+This parameter adds namespaces to Kyverno's exemption list, so it will not enforce the policies on them.
 
 ## .spec.distribution.modules.policy.kyverno.installDefaultPolicies
 
 ### Description
 
-If true, the default policies will be installed
+Set to `false` to avoid installing the default Kyverno policies included with distribution.
 
 ## .spec.distribution.modules.policy.kyverno.overrides
 
@@ -3656,7 +3839,7 @@ If true, the default policies will be installed
 
 ### Description
 
-The node selector to use to place the pods for the minio module
+Set to override the node selector used to place the pods of the package.
 
 ## .spec.distribution.modules.policy.kyverno.overrides.tolerations
 
@@ -3671,7 +3854,7 @@ The node selector to use to place the pods for the minio module
 
 ### Description
 
-The tolerations that will be added to the pods for the cert-manager module
+Set to override the tolerations that will be added to the pods of the package.
 
 ## .spec.distribution.modules.policy.kyverno.overrides.tolerations.effect
 
@@ -3712,7 +3895,7 @@ The value of the toleration
 
 ### Description
 
-The validation failure action to use for the kyverno module
+The validation failure action to use for the policies, `Enforce` will block when a request does not comply with the policies and `Audit` will not block but log when a request does not comply with the policies.
 
 ### Constraints
 
@@ -3733,13 +3916,17 @@ The validation failure action to use for the kyverno module
 | [nodeSelector](#specdistributionmodulespolicyoverridesnodeselector) | `object` | Optional |
 | [tolerations](#specdistributionmodulespolicyoverridestolerations)   | `array`  | Optional |
 
+### Description
+
+Override the common configuration with a particular configuration for the module.
+
 ## .spec.distribution.modules.policy.overrides.ingresses
 
 ## .spec.distribution.modules.policy.overrides.nodeSelector
 
 ### Description
 
-The node selector to use to place the pods for the security module
+Set to override the node selector used to place the pods of the module.
 
 ## .spec.distribution.modules.policy.overrides.tolerations
 
@@ -3754,7 +3941,7 @@ The node selector to use to place the pods for the security module
 
 ### Description
 
-The tolerations that will be added to the pods for the monitoring module
+Set to override the tolerations that will be added to the pods of the module.
 
 ## .spec.distribution.modules.policy.overrides.tolerations.effect
 
@@ -3795,7 +3982,9 @@ The value of the toleration
 
 ### Description
 
-The type of security to use, either ***none***, ***gatekeeper*** or ***kyverno***
+The type of policy enforcement to use, either `none`, `gatekeeper` or `kyverno`.
+
+Default is `none`.
 
 ### Constraints
 
@@ -3818,6 +4007,10 @@ The type of security to use, either ***none***, ***gatekeeper*** or ***kyverno**
 | [tempo](#specdistributionmodulestracingtempo)         | `object` | Optional |
 | [type](#specdistributionmodulestracingtype)           | `string` | Required |
 
+### Description
+
+Configuration for the Tracing module.
+
 ## .spec.distribution.modules.tracing.minio
 
 ### Properties
@@ -3827,6 +4020,10 @@ The type of security to use, either ***none***, ***gatekeeper*** or ***kyverno**
 | [overrides](#specdistributionmodulestracingminiooverrides)     | `object` | Optional |
 | [rootUser](#specdistributionmodulestracingminiorootuser)       | `object` | Optional |
 | [storageSize](#specdistributionmodulestracingminiostoragesize) | `string` | Optional |
+
+### Description
+
+Configuration for Tracing's MinIO deployment.
 
 ## .spec.distribution.modules.tracing.minio.overrides
 
@@ -3841,7 +4038,7 @@ The type of security to use, either ***none***, ***gatekeeper*** or ***kyverno**
 
 ### Description
 
-The node selector to use to place the pods for the minio module
+Set to override the node selector used to place the pods of the package.
 
 ## .spec.distribution.modules.tracing.minio.overrides.tolerations
 
@@ -3856,7 +4053,7 @@ The node selector to use to place the pods for the minio module
 
 ### Description
 
-The tolerations that will be added to the pods for the cert-manager module
+Set to override the tolerations that will be added to the pods of the package.
 
 ## .spec.distribution.modules.tracing.minio.overrides.tolerations.effect
 
@@ -3906,19 +4103,19 @@ The value of the toleration
 
 ### Description
 
-The password for the minio root user
+The password for the default MinIO root user.
 
 ## .spec.distribution.modules.tracing.minio.rootUser.username
 
 ### Description
 
-The username for the minio root user
+The username for the default MinIO root user.
 
 ## .spec.distribution.modules.tracing.minio.storageSize
 
 ### Description
 
-The storage size for the minio pods
+The PVC size for each MinIO disk, 6 disks total.
 
 ## .spec.distribution.modules.tracing.overrides
 
@@ -3930,13 +4127,17 @@ The storage size for the minio pods
 | [nodeSelector](#specdistributionmodulestracingoverridesnodeselector) | `object` | Optional |
 | [tolerations](#specdistributionmodulestracingoverridestolerations)   | `array`  | Optional |
 
+### Description
+
+Override the common configuration with a particular configuration for the module.
+
 ## .spec.distribution.modules.tracing.overrides.ingresses
 
 ## .spec.distribution.modules.tracing.overrides.nodeSelector
 
 ### Description
 
-The node selector to use to place the pods for the security module
+Set to override the node selector used to place the pods of the module.
 
 ## .spec.distribution.modules.tracing.overrides.tolerations
 
@@ -3951,7 +4152,7 @@ The node selector to use to place the pods for the security module
 
 ### Description
 
-The tolerations that will be added to the pods for the monitoring module
+Set to override the tolerations that will be added to the pods of the module.
 
 ## .spec.distribution.modules.tracing.overrides.tolerations.effect
 
@@ -3999,11 +4200,15 @@ The value of the toleration
 | [overrides](#specdistributionmodulestracingtempooverrides)               | `object` | Optional |
 | [retentionTime](#specdistributionmodulestracingtemporetentiontime)       | `string` | Optional |
 
+### Description
+
+Configuration for the Tempo package.
+
 ## .spec.distribution.modules.tracing.tempo.backend
 
 ### Description
 
-The backend for the tempo pods, must be ***minio*** or ***externalEndpoint***
+The storage backend type for Tempo. `minio` will use an in-cluster MinIO deployment for object storage, `externalEndpoint` can be used to point to an external S3-compatible object storage instead of deploying an in-cluster MinIO.
 
 ### Constraints
 
@@ -4026,35 +4231,39 @@ The backend for the tempo pods, must be ***minio*** or ***externalEndpoint***
 | [insecure](#specdistributionmodulestracingtempoexternalendpointinsecure)               | `boolean` | Optional |
 | [secretAccessKey](#specdistributionmodulestracingtempoexternalendpointsecretaccesskey) | `string`  | Optional |
 
+### Description
+
+Configuration for Tempo's external storage backend.
+
 ## .spec.distribution.modules.tracing.tempo.externalEndpoint.accessKeyId
 
 ### Description
 
-The access key id of the external tempo backend
+The access key ID (username) for the external S3-compatible bucket.
 
 ## .spec.distribution.modules.tracing.tempo.externalEndpoint.bucketName
 
 ### Description
 
-The bucket name of the external tempo backend
+The bucket name of the external S3-compatible object storage.
 
 ## .spec.distribution.modules.tracing.tempo.externalEndpoint.endpoint
 
 ### Description
 
-The endpoint of the external tempo backend
+External S3-compatible endpoint for Tempo's storage.
 
 ## .spec.distribution.modules.tracing.tempo.externalEndpoint.insecure
 
 ### Description
 
-If true, the external tempo backend will not use tls
+If true, will use HTTP as protocol instead of HTTPS.
 
 ## .spec.distribution.modules.tracing.tempo.externalEndpoint.secretAccessKey
 
 ### Description
 
-The secret access key of the external tempo backend
+The secret access key (password) for the external S3-compatible bucket.
 
 ## .spec.distribution.modules.tracing.tempo.overrides
 
@@ -4069,7 +4278,7 @@ The secret access key of the external tempo backend
 
 ### Description
 
-The node selector to use to place the pods for the minio module
+Set to override the node selector used to place the pods of the package.
 
 ## .spec.distribution.modules.tracing.tempo.overrides.tolerations
 
@@ -4084,7 +4293,7 @@ The node selector to use to place the pods for the minio module
 
 ### Description
 
-The tolerations that will be added to the pods for the cert-manager module
+Set to override the tolerations that will be added to the pods of the package.
 
 ## .spec.distribution.modules.tracing.tempo.overrides.tolerations.effect
 
@@ -4125,13 +4334,15 @@ The value of the toleration
 
 ### Description
 
-The retention time for the tempo pods
+The retention time for the traces stored in Tempo.
 
 ## .spec.distribution.modules.tracing.type
 
 ### Description
 
-The type of tracing to use, either ***none*** or ***tempo***
+The type of tracing to use, either `none` or `tempo`. `none` will disable the Tracing module and `tempo` will install a Grafana Tempo deployment.
+
+Default is `tempo`.
 
 ### Constraints
 
@@ -4143,6 +4354,10 @@ The type of tracing to use, either ***none*** or ***tempo***
 |`"tempo"`|
 
 ## .spec.distributionVersion
+
+### Description
+
+Defines which KFD version will be installed and, in consequence, the Kubernetes version used to create the cluster. It supports git tags and branches. Example: `v1.30.1`.
 
 ### Constraints
 
