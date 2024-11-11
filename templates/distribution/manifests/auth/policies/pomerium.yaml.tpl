@@ -203,3 +203,26 @@ spec:
        - port: 9200
          protocol: TCP
 ---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: pomerium-egress-minio
+  namespace: pomerium
+spec:
+  policyTypes:
+    - Egress
+  podSelector:
+    matchLabels:
+      app: pomerium
+  egress:
+    - to:
+        - namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: logging
+          podSelector:
+            matchLabels:
+              app: minio
+      ports:
+        - port: 9001
+          protocol: TCP
+---
