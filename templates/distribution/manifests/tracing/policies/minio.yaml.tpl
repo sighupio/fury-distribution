@@ -99,3 +99,47 @@ spec:
           podSelector:
             matchLabels:
               app.kubernetes.io/name: prometheus
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: minio-ingress-pomerium
+  namespace: tracing
+  labels:
+    app.kubernetes.io/name: minio-tracing
+spec:
+  policyTypes:
+    - Ingress
+  podSelector:
+    matchLabels:
+      app: minio
+  ingress:
+    - from:
+        - namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: pomerium
+          podSelector:
+            matchLabels:
+              app: pomerium
+      ports:
+        - port: 9001
+          protocol: TCP
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: minio-egress-https
+  namespace: tracing
+  labels:
+    app: minio
+spec:
+  policyTypes:
+    - Egress
+  podSelector:
+    matchLabels:
+      app: minio
+  egress:
+    - ports:
+      - port: 443
+        protocol: TCP
+---
