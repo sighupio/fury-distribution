@@ -30,6 +30,32 @@ spec:
           protocol: TCP
         - port: 3100
           protocol: TCP
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: loki-distributed-ingress-grafana
+  namespace: logging
+  labels:
+    app.kubernetes.io/name: loki-distributed
+spec:
+  policyTypes:
+    - Ingress
+  podSelector:
+    matchLabels:
+      app.kubernetes.io/name: loki-distributed
+      app.kubernetes.io/component: gateway
+  ingress:
+    - from:
+        - namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: monitoring
+          podSelector:
+            matchLabels:
+              app.kubernetes.io/name: grafana
+      ports:
+        - port: 8080
+          protocol: TCP
 
 ---
 apiVersion: networking.k8s.io/v1
