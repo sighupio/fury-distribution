@@ -3,6 +3,7 @@
 # license that can be found in the LICENSE file.
 
 # source: https://github.com/prometheus-operator/kube-prometheus/blob/main/manifests/blackboxExporter-networkPolicy.yaml
+---
 apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
 metadata:

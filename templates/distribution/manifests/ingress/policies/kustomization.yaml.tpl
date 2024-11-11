@@ -7,7 +7,7 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 
 resources:
-{{ if eq .spec.distribution.modules.ingress.nginx.tls.provider "certManager" -}}
+{{- if eq .spec.distribution.modules.ingress.nginx.tls.provider "certManager" }}
   - cert-manager
 {{ end }}
 {{- if ne .spec.distribution.modules.ingress.nginx.type "none" }}

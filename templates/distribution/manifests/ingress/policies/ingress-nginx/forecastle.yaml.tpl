@@ -16,11 +16,18 @@ spec:
   ingress:
     - from:
       - namespaceSelector:
+{{- if (eq .spec.distribution.modules.auth.provider.type "sso") }}
+          matchLabels:
+            kubernetes.io/metadata.name: pomerium
+{{ else }}
           matchLabels:
             kubernetes.io/metadata.name: ingress-nginx
+{{- end }}
         podSelector:
           matchLabels:
-{{- if eq .spec.distribution.modules.ingress.nginx.type "dual" }}
+{{- if (eq .spec.distribution.modules.auth.provider.type "sso") }}
+            app: pomerium
+{{- else if eq .spec.distribution.modules.ingress.nginx.type "dual" }}
             app: ingress
 {{- else if eq .spec.distribution.modules.ingress.nginx.type "single" }}
             app: ingress-nginx

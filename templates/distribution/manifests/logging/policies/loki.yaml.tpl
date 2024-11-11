@@ -28,6 +28,8 @@ spec:
       ports:
         - port: 8080
           protocol: TCP
+        - port: 3100
+          protocol: TCP
 
 ---
 apiVersion: networking.k8s.io/v1
@@ -76,6 +78,8 @@ spec:
           protocol: TCP
         - port: 3100
           protocol: TCP
+        - port: 7946
+          protocol: TCP
       from:
         - namespaceSelector:
             matchLabels:
@@ -88,6 +92,8 @@ spec:
         - port: 9095
           protocol: TCP
         - port: 3100
+          protocol: TCP
+        - port: 7946
           protocol: TCP
       to:
         - namespaceSelector:

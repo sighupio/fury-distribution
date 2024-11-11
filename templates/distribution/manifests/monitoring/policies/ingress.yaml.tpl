@@ -27,7 +27,7 @@ spec:
           matchLabels:
             app: ingress-nginx
 # dual nginx, no sso
-{{ else if (eq .spec.distribution.modules.ingress.nginx.type "dual") (ne .spec.distribution.modules.auth.provider.type "sso") }}
+{{ else if and (eq .spec.distribution.modules.ingress.nginx.type "dual") (ne .spec.distribution.modules.auth.provider.type "sso") }}
     - from:
       - namespaceSelector:
           matchLabels:
@@ -57,9 +57,9 @@ metadata:
 spec:
   podSelector:
     matchLabels:
-      app.kubernetes.io/component: alert-router
-      app.kubernetes.io/instance: main
-      app.kubernetes.io/name: alertmanager
+      app.kubernetes.io/component: prometheus
+      app.kubernetes.io/instance: k8s
+      app.kubernetes.io/name: prometheus
       app.kubernetes.io/part-of: kube-prometheus
   policyTypes:
     - Ingress
@@ -74,7 +74,7 @@ spec:
           matchLabels:
             app: ingress-nginx
 # dual nginx, no sso
-{{ else if (eq .spec.distribution.modules.ingress.nginx.type "dual") (ne .spec.distribution.modules.auth.provider.type "sso") }}
+{{ else if and (eq .spec.distribution.modules.ingress.nginx.type "dual") (ne .spec.distribution.modules.auth.provider.type "sso") }}
     - from:
       - namespaceSelector:
           matchLabels:
@@ -104,9 +104,9 @@ metadata:
 spec:
   podSelector:
     matchLabels:
-      app.kubernetes.io/component: prometheus
-      app.kubernetes.io/instance: k8s
-      app.kubernetes.io/name: prometheus
+      app.kubernetes.io/component: alert-router
+      app.kubernetes.io/instance: main
+      app.kubernetes.io/name: alertmanager
       app.kubernetes.io/part-of: kube-prometheus
   policyTypes:
     - Ingress
@@ -121,7 +121,7 @@ spec:
           matchLabels:
             app: ingress-nginx
 # dual nginx, no sso
-{{ else if (eq .spec.distribution.modules.ingress.nginx.type "dual") (ne .spec.distribution.modules.auth.provider.type "sso") }}
+{{ else if and (eq .spec.distribution.modules.ingress.nginx.type "dual") (ne .spec.distribution.modules.auth.provider.type "sso") }}
     - from:
       - namespaceSelector:
           matchLabels:
