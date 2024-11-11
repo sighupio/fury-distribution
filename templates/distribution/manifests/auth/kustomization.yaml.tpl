@@ -17,6 +17,10 @@ resources:
   - resources/ingress-infra.yml
 {{- end }}
 
+{{ if eq .spec.distribution.common.networkPoliciesEnabled true }}
+  - policies
+{{- end }}
+
 patchesStrategicMerge:
   - patches/infra-nodes.yml
   - patches/pomerium-ingress.yml
