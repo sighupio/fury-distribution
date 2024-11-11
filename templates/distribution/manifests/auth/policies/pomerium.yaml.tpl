@@ -206,7 +206,7 @@ spec:
 apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
 metadata:
-  name: pomerium-egress-minio
+  name: pomerium-egress-miniologging
   namespace: pomerium
 spec:
   policyTypes:
@@ -219,6 +219,29 @@ spec:
         - namespaceSelector:
             matchLabels:
               kubernetes.io/metadata.name: logging
+          podSelector:
+            matchLabels:
+              app: minio
+      ports:
+        - port: 9001
+          protocol: TCP
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: pomerium-egress-miniotracing
+  namespace: pomerium
+spec:
+  policyTypes:
+    - Egress
+  podSelector:
+    matchLabels:
+      app: pomerium
+  egress:
+    - to:
+        - namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: tracing
           podSelector:
             matchLabels:
               app: minio
