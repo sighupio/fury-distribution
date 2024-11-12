@@ -2,6 +2,8 @@
 # Use of this source code is governed by a BSD-style
 # license that can be found in the LICENSE file.
 
+{{- $monitoringType := .spec.distribution.modules.monitoring.type }}
+
 # source: https://github.com/prometheus-operator/kube-prometheus/blob/main/manifests/prometheus-networkPolicy.yaml
 apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
@@ -44,3 +46,117 @@ spec:
   policyTypes:
   - Egress
   - Ingress
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: prometheus-egress-minio
+  namespace: monitoring
+spec:
+  policyTypes:
+    - Egress
+  podSelector:
+    matchLabels:
+      app.kubernetes.io/name: prometheus
+  egress:
+    - to:
+        - podSelector:
+            matchLabels:
+              app: minio
+      ports:
+        - port: 9000
+          protocol: TCP
+---
+{{- if eq $monitoringType "mimir" }}
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: prometheus-egress-mimir
+  namespace: monitoring
+spec:
+  policyTypes:
+    - Egress
+  podSelector:
+    matchLabels:
+      app.kubernetes.io/name: prometheus
+      app.kubernetes.io/instance: k8s
+  egress:
+    - to:
+        - podSelector:
+            matchLabels:
+              app.kubernetes.io/component: gateway
+              app.kubernetes.io/name: mimir
+              app.kubernetes.io/instance: mimir-distributed
+      ports:
+        - port: 8080
+          protocol: TCP
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: prometheus-egress-kubeapiserver
+  namespace: monitoring
+spec:
+  policyTypes:
+    - Egress
+  podSelector:
+    matchLabels:
+      app.kubernetes.io/name: prometheus
+  egress:
+    - ports:
+        - port: 6443
+          protocol: TCP
+        - port: 8405
+          protocol: TCP
+---
+{{- if eq .spec.distribution.modules.monitoring.mimir.backend "minio" }}
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: prometheus-egress-miniologging
+  namespace: monitoring
+spec:
+  policyTypes:
+    - Egress
+  podSelector:
+    matchLabels:
+      app.kubernetes.io/name: prometheus
+  egress:
+    - to:
+        - namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: logging
+          podSelector:
+            matchLabels:
+              app: minio
+      ports:
+        - port: 9000
+          protocol: TCP
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: prometheus-egress-miniomonitoring
+  namespace: monitoring
+spec:
+  policyTypes:
+    - Egress
+  podSelector:
+    matchLabels:
+      app.kubernetes.io/name: prometheus
+      app.kubernetes.io/instance: k8s
+  egress:
+    - to:
+        - namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: monitoring
+          podSelector:
+            matchLabels:
+              app: minio
+      ports:
+        - port: 9000
+          protocol: TCP
+---
+{{- end }}
+{{- end }}
+

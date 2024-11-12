@@ -105,4 +105,20 @@ spec:
           podSelector:
             matchLabels:
               app.kubernetes.io/name: prometheus
-              
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: miniomonitoring-egress-all
+  namespace: monitoring
+spec:
+  policyTypes:
+    - Egress
+  podSelector:
+    matchLabels:
+      app: minio
+  egress:
+    - ports:
+        - port: 443
+          protocol: TCP
+---

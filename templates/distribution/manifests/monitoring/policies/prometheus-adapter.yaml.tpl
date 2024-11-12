@@ -21,3 +21,28 @@ spec:
   policyTypes:
   - Egress
   - Ingress
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: prometheus-ingress-prometheusadapter
+  namespace: monitoring
+  labels:
+    app.kubernetes.io/name: prometheus
+spec:
+  policyTypes:
+    - Ingress
+  podSelector:
+    matchLabels:
+      app.kubernetes.io/name: prometheus
+  ingress:
+    - from:
+        - podSelector:
+            matchLabels:
+              app.kubernetes.io/component: metrics-adapter
+              app.kubernetes.io/name: prometheus-adapter
+              app.kubernetes.io/part-of: kube-prometheus
+      ports:
+        - port: 9090
+          protocol: TCP
+---

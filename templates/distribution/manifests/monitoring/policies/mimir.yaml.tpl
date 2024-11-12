@@ -73,6 +73,65 @@ spec:
           podSelector:
             matchLabels:
               app.kubernetes.io/name: mimir
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: mimirgateway-ingress-grafana
+  namespace: monitoring
+spec:
+  policyTypes:
+    - Ingress
+  podSelector:
+    matchLabels:
+      app.kubernetes.io/component: gateway
+      app.kubernetes.io/instance: mimir-distributed
+      app.kubernetes.io/name: mimir
+  ingress:
+    - from:
+        - podSelector:
+            matchLabels:
+              app.kubernetes.io/name: grafana
+              app.kubernetes.io/component: grafana
+      ports:
+        - port: 8080
+          protocol: TCP
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+ name: mimirquerier-egress-all
+ namespace: monitoring
+spec:
+ policyTypes:
+   - Egress
+ podSelector:
+   matchLabels:
+     app.kubernetes.io/instance: mimir-distributed
+     app.kubernetes.io/name: mimir
+     app.kubernetes.io/component: querier
+ egress:
+   - ports:
+       - port: 443
+         protocol: TCP
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+ name: mimiringester-egress-all
+ namespace: monitoring
+spec:
+ policyTypes:
+   - Egress
+ podSelector:
+   matchLabels:
+     app.kubernetes.io/instance: mimir-distributed
+     app.kubernetes.io/name: mimir
+     app.kubernetes.io/component: ingester
+ egress:
+   - ports:
+       - port: 443
+         protocol: TCP
 {{- if eq .spec.distribution.modules.monitoring.mimir.backend "minio" }}
 ---
 apiVersion: networking.k8s.io/v1
