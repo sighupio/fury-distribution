@@ -19,8 +19,6 @@ resources:
   - alertmanager.yaml
   - prometheus-adapter.yaml
   - grafana.yaml
-{{- end }}
-{{- if eq $monitoringType "prometheus" }}
   - prometheus.yaml
 {{- end }}
 {{- if eq $monitoringType "mimir" }}
