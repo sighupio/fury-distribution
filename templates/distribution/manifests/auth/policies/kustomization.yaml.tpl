@@ -6,9 +6,9 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 
+{{- if eq .spec.distribution.modules.auth.provider.type "sso" }}
 resources:
   - common.yaml
-{{- if eq .spec.distribution.modules.auth.provider.type "sso" }}
   - acme-http-solver.yaml
   - pomerium.yaml
   - prometheus-metrics.yaml
