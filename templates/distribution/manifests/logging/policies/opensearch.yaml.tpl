@@ -114,3 +114,54 @@ spec:
       ports:
         - port: 9108
           protocol: TCP
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: opensearch-ingress-jobs
+  namespace: logging
+spec:
+  policyTypes:
+    - Ingress
+  podSelector:
+    matchLabels:
+      app.kubernetes.io/name: opensearch
+  ingress:
+    - from:
+        - podSelector:
+            matchExpressions:
+              - key: batch.kubernetes.io/job-name
+                operator: Exists
+      ports:
+        - port: 9200
+          protocol: TCP
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: jobs-egress-opensearch
+  namespace: logging
+spec:
+  policyTypes:
+    - Egress
+  podSelector:
+    matchExpressions:
+      - key: batch.kubernetes.io/job-name
+        operator: Exists
+  egress:
+    - to:
+        - podSelector:
+            matchLabels:
+              app: opensearch-dashboards
+              release: opensearch-dashboards
+      ports:
+        - port: 5601
+          protocol: TCP
+    - to:
+        - podSelector:
+            matchLabels:
+              app.kubernetes.io/name: opensearch
+      ports:
+        - port: 9200
+          protocol: TCP
+---
