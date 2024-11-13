@@ -441,6 +441,8 @@ deleteMimir() {
   $kustomizebin build $vendorPath/modules/monitoring/katalog/minio-ha | $kubectlbin delete --ignore-not-found --wait --timeout=360s -f -
   $kubectlbin delete -l app.kubernetes.io/name=mimir pvc -n monitoring --wait --timeout=360s
   $kubectlbin delete -l app=minio,release=minio-monitoring pvc -n monitoring --wait --timeout=360s
+  $kubectlbin delete ingress minio-monitoring -n monitoring --wait --timeout=360s --ignore-not-found
+  $kubectlbin delete ingress minio-monitoring -n pomerium --wait --timeout=360s --ignore-not-found
   echo "Mimir resources deleted"
 }
 
