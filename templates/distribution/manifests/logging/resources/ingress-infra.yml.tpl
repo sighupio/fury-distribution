@@ -93,4 +93,4 @@ spec:
                 port:
                   name: http
             {{ end }}
-{{- template "ingressTls" (dict "module" "logging" "package" "minio" "prefix" "minio-logging." "spec" .spec) }}
+{{- template "ingressTls" (dict "module" "logging" "package" "minio-logging" "prefix" "minio-logging." "spec" .spec) }}
