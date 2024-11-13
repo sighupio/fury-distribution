@@ -77,6 +77,15 @@ schema_config:
       object_store: s3
       schema: v11
       store: boltdb-shipper
+{{- if .spec.distribution.modules.logging.loki.tsdbSchemav13Migration.enabled }}
+    - from: {{ .spec.distribution.modules.logging.loki.tsdbSchemav13Migration.tsdbStartDate }}
+      index:
+        period: 24h
+        prefix: index_
+      object_store: s3
+      schema: v13
+      store: tsdb
+{{- end }}
 server:
   http_listen_port: 3100
 storage_config:
