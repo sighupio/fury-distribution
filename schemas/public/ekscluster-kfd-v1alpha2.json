@@ -1533,6 +1533,27 @@
         },
         "resources": {
           "$ref": "#/$defs/Types.KubeResources"
+        },
+        "tsdbSchemav13Migration": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "enabled": {
+              "type": "boolean",
+              "description": "A flag that enables migration of existing clusters towards TSDB and schema v13"
+            },
+            "schemaConfig": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "tsdbStartDate": {
+                  "type": "string",
+                  "format": "date",
+                  "description": "The date loki have to switch to TSDB and schema v13"
+                }
+              }
+            }
+          }
         }
       }
     },
