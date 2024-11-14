@@ -8,6 +8,8 @@ kind: NetworkPolicy
 metadata:
   name: deny-all
   namespace: tracing
+  labels:
+    cluster.kfd.sighup.io/module: tracing
 spec:
   podSelector: {}
   policyTypes:
@@ -17,8 +19,10 @@ spec:
 apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
 metadata:
-  name: allow-dns-access
+  name: all-egress-kube-dns
   namespace: tracing
+  labels:
+    cluster.kfd.sighup.io/module: tracing
 spec:
   podSelector:
     matchLabels: {}

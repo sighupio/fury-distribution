@@ -4,7 +4,7 @@ metadata:
   name: minio-ingress-namespace
   namespace: tracing
   labels:
-    app: minio
+    cluster.kfd.sighup.io/module: tracing
 spec:
   policyTypes:
     - Ingress
@@ -35,10 +35,10 @@ spec:
 apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
 metadata:
-  name: minio-buckets-setup-egress-apiserver
+  name: minio-buckets-setup-egress-kube-apiserver
   namespace: tracing
   labels:
-    app: minio-tracing-buckets-setup
+    cluster.kfd.sighup.io/module: tracing
 spec:
   policyTypes:
     - Egress
@@ -56,7 +56,7 @@ metadata:
   name: minio-buckets-setup-egress-minio
   namespace: tracing
   labels:
-    app: minio-tracing-buckets-setup
+    cluster.kfd.sighup.io/module: tracing
 spec:
   policyTypes:
     - Egress
@@ -81,7 +81,7 @@ metadata:
   name: minio-ingress-prometheus-metrics
   namespace: tracing
   labels:
-    app: minio
+    cluster.kfd.sighup.io/module: tracing
 spec:
   policyTypes:
     - Ingress
@@ -106,7 +106,7 @@ metadata:
   name: minio-ingress-pomerium
   namespace: tracing
   labels:
-    app.kubernetes.io/name: minio-tracing
+    cluster.kfd.sighup.io/module: tracing
 spec:
   policyTypes:
     - Ingress
@@ -152,7 +152,7 @@ metadata:
   name: minio-egress-https
   namespace: tracing
   labels:
-    app: minio
+    cluster.kfd.sighup.io/module: tracing
 spec:
   policyTypes:
     - Egress

@@ -4,7 +4,7 @@ metadata:
   name: tempo-distributed-discovery
   namespace: tracing
   labels:
-    app.kubernetes.io/name: tempo
+    cluster.kfd.sighup.io/module: tracing
 spec:
   policyTypes:
     - Ingress
@@ -46,17 +46,18 @@ spec:
 apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
 metadata:
-  name: tempo-distributed-ingress-grafana
+  name: tempo-gateway-ingress-grafana
   namespace: tracing
   labels:
-    app.kubernetes.io/name: tempo
+    cluster.kfd.sighup.io/module: tracing
 spec:
   policyTypes:
     - Ingress
   podSelector:
     matchLabels:
-      app.kubernetes.io/name: tempo
       app.kubernetes.io/component: gateway
+      app.kubernetes.io/name: tempo
+      app.kubernetes.io/instance: tempo-distributed
   ingress:
     - from:
         - namespaceSelector:
@@ -64,11 +65,99 @@ spec:
               kubernetes.io/metadata.name: monitoring
           podSelector:
             matchLabels:
+              app.kubernetes.io/component: grafana
               app.kubernetes.io/name: grafana
+              app.kubernetes.io/part-of: kube-prometheus
       ports:
         - port: 8080
           protocol: TCP
-
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: all-egress-tempo-distributor
+  namespace: tracing
+  labels:
+    cluster.kfd.sighup.io/module: tracing
+spec:
+  policyTypes:
+    - Egress
+  podSelector: {} 
+  egress:
+    - to:
+        - podSelector:
+            matchLabels:
+              app.kubernetes.io/name: tempo
+              app.kubernetes.io/component: distributor
+      ports:
+        - port: 4317
+          protocol: TCP
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: tempo-distributor-ingress-traces
+  namespace: tracing
+  labels:
+    cluster.kfd.sighup.io/module: tracing
+spec:
+  policyTypes:
+    - Ingress
+  podSelector:
+    matchLabels:
+      app.kubernetes.io/name: tempo
+      app.kubernetes.io/component: distributor
+  ingress:
+    - ports:
+        - port: 4317
+          protocol: TCP
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: tempocomponents-egress-memcached
+  namespace: tracing
+  labels:
+    cluster.kfd.sighup.io/module: tracing
+spec:
+ policyTypes:
+   - Egress
+ podSelector:
+   matchLabels:
+     app.kubernetes.io/instance: tempo-distributed
+ egress:
+   - to:
+       - podSelector:
+           matchLabels:
+             app.kubernetes.io/name: tempo
+             app.kubernetes.io/component: memcached
+     ports:
+       - port: 11211
+         protocol: TCP
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: memcached-ingress-querier
+  namespace: tracing
+  labels:
+    cluster.kfd.sighup.io/module: tracing
+spec:
+  policyTypes:
+    - Ingress
+  podSelector:
+    matchLabels:
+      app.kubernetes.io/name: tempo
+      app.kubernetes.io/component: memcached
+  ingress:
+    - from:
+        - podSelector:
+            matchLabels:
+              app.kubernetes.io/name: tempo
+              app.kubernetes.io/component: querier
+      ports:
+        - port: 11211
+          protocol: TCP
 ---
 apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
@@ -76,7 +165,7 @@ metadata:
   name: tempo-distributed-ingress-prometheus-metrics
   namespace: tracing
   labels:
-    app.kubernetes.io/name: tempo
+    cluster.kfd.sighup.io/module: tracing
 spec:
   policyTypes:
     - Ingress
@@ -94,6 +183,25 @@ spec:
           podSelector:
             matchLabels:
               app.kubernetes.io/name: prometheus
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: tempocomponents-egress-https
+  namespace: tracing
+  labels:
+    cluster.kfd.sighup.io/module: tracing
+spec:
+ policyTypes:
+   - Egress
+ podSelector:
+   matchLabels:
+     app.kubernetes.io/name: tempo
+     app.kubernetes.io/instance: tempo-distributed
+ egress:
+   - ports:
+       - port: 443
+         protocol: TCP
 {{- if eq .spec.distribution.modules.tracing.tempo.backend "minio" }}
 ---
 apiVersion: networking.k8s.io/v1
@@ -102,7 +210,7 @@ metadata:
   name: tempo-distributed-egress-minio
   namespace: tracing
   labels:
-    app.kubernetes.io/name: tempo
+    cluster.kfd.sighup.io/module: tracing
 spec:
   policyTypes:
     - Egress
@@ -128,7 +236,7 @@ metadata:
   name: tempo-distributed-egress-all
   namespace: tracing
   labels:
-    app.kubernetes.io/name: tempo
+    cluster.kfd.sighup.io/module: tracing
 spec:
   policyTypes:
     - Egress
@@ -138,3 +246,4 @@ spec:
   egress:
     - {}
 {{- end }}
+---
