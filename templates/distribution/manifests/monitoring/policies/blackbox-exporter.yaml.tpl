@@ -9,6 +9,8 @@ kind: NetworkPolicy
 metadata:
   name: blackbox-exporter
   namespace: monitoring
+  labels:
+    cluster.kfd.sighup.io/module: monitoring
 spec:
   egress:
   - {}

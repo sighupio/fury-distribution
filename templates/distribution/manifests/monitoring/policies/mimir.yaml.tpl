@@ -9,7 +9,8 @@ metadata:
   name: mimir-distributed-ingress-prometheus-metrics
   namespace: monitoring
   labels:
-    app.kubernetes.io/name: mimir
+    cluster.kfd.sighup.io/module: monitoring
+    cluster.kfd.sighup.io/monitoring-type: mimir
 spec:
   policyTypes:
     - Ingress
@@ -35,7 +36,8 @@ metadata:
   name: mimir-distributed-discovery
   namespace: monitoring
   labels:
-    app.kubernetes.io/name: mimir
+    cluster.kfd.sighup.io/module: monitoring
+    cluster.kfd.sighup.io/monitoring-type: mimir
 spec:
   policyTypes:
     - Ingress
@@ -77,8 +79,11 @@ spec:
 apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
 metadata:
-  name: mimirgateway-ingress-grafana
+  name: mimir-gateway-ingress-grafana
   namespace: monitoring
+  labels:
+    cluster.kfd.sighup.io/module: monitoring
+    cluster.kfd.sighup.io/monitoring-type: mimir
 spec:
   policyTypes:
     - Ingress
@@ -100,8 +105,11 @@ spec:
 apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
 metadata:
- name: mimirquerier-egress-all
- namespace: monitoring
+  name: mimir-querier-egress-https
+  namespace: monitoring
+  labels:
+    cluster.kfd.sighup.io/module: monitoring
+    cluster.kfd.sighup.io/monitoring-type: mimir
 spec:
  policyTypes:
    - Egress
@@ -118,8 +126,11 @@ spec:
 apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
 metadata:
- name: mimiringester-egress-all
- namespace: monitoring
+  name: mimir-ingester-egress-https
+  namespace: monitoring
+  labels:
+    cluster.kfd.sighup.io/module: monitoring
+    cluster.kfd.sighup.io/monitoring-type: mimir
 spec:
  policyTypes:
    - Egress
@@ -140,7 +151,8 @@ metadata:
   name: mimir-distributed-egress-minio
   namespace: monitoring
   labels:
-    app.kubernetes.io/name: mimir
+    cluster.kfd.sighup.io/module: monitoring
+    cluster.kfd.sighup.io/monitoring-type: mimir
 spec:
   policyTypes:
     - Egress
@@ -166,7 +178,8 @@ metadata:
   name: mimir-distributed-egress-all
   namespace: monitoring
   labels:
-    app.kubernetes.io/name: mimir
+    cluster.kfd.sighup.io/module: monitoring
+    cluster.kfd.sighup.io/monitoring-type: mimir
 spec:
   policyTypes:
     - Egress

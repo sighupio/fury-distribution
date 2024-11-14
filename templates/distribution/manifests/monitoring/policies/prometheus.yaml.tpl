@@ -115,6 +115,8 @@ kind: NetworkPolicy
 metadata:
   name: prometheus-egress-miniologging
   namespace: monitoring
+  labels:
+    cluster.kfd.sighup.io/module: monitoring
 spec:
   policyTypes:
     - Egress
@@ -136,8 +138,10 @@ spec:
 apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
 metadata:
-  name: prometheus-egress-miniomonitoring
+  name: prometheus-egress-minio-monitoring
   namespace: monitoring
+  labels:
+    cluster.kfd.sighup.io/module: monitoring
 spec:
   policyTypes:
     - Egress

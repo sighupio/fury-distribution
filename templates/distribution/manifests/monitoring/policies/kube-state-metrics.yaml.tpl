@@ -8,6 +8,8 @@ kind: NetworkPolicy
 metadata:
   name: kube-state-metrics
   namespace: monitoring
+  labels:
+    cluster.kfd.sighup.io/module: monitoring
 spec:
   egress:
   - {}

@@ -6,8 +6,10 @@
 apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
 metadata:
-  name: grafana-ingress-nginxingresscontroller
+  name: grafana-ingress-nginx
   namespace: monitoring
+  labels:
+    cluster.kfd.sighup.io/module: monitoring
 spec:
   podSelector:
     matchLabels:
@@ -52,8 +54,10 @@ spec:
 apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
 metadata:
-  name: prometheus-ingress-nginxingresscontroller
+  name: prometheus-ingress-nginx
   namespace: monitoring
+  labels:
+    cluster.kfd.sighup.io/module: monitoring
 spec:
   podSelector:
     matchLabels:
@@ -99,8 +103,10 @@ spec:
 apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
 metadata:
-  name: alertmanager-ingress-nginxingresscontroller
+  name: alertmanager-ingress-nginx
   namespace: monitoring
+  labels:
+    cluster.kfd.sighup.io/module: monitoring
 spec:
   podSelector:
     matchLabels:

@@ -10,6 +10,8 @@ kind: NetworkPolicy
 metadata:
   name: grafana
   namespace: monitoring
+  labels:
+    cluster.kfd.sighup.io/module: monitoring
 spec:
   egress:
   - {}
@@ -33,8 +35,36 @@ spec:
 apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
 metadata:
+  name: grafana-egress-tempo-gateway
+  namespace: monitoring
+  labels:
+    cluster.kfd.sighup.io/module: monitoring
+spec:
+  policyTypes:
+    - Egress
+  podSelector:
+    matchLabels:
+      app.kubernetes.io/name: grafana
+  egress:
+    - to:
+        - namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: tracing
+          podSelector:
+            matchLabels:
+              app.kubernetes.io/name: tempo
+              app.kubernetes.io/component: gateway
+      ports:
+        - port: 8080
+          protocol: TCP
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
   name: grafana-ingress-nginx
   namespace: monitoring
+  labels:
+    cluster.kfd.sighup.io/module: monitoring
 spec:
   policyTypes:
     - Ingress

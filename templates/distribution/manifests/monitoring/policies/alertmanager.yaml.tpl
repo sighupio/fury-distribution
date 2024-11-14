@@ -8,6 +8,8 @@ kind: NetworkPolicy
 metadata:
   name: alertmanager-main
   namespace: monitoring
+  labels:
+    cluster.kfd.sighup.io/module: monitoring
 spec:
   egress:
   - {}

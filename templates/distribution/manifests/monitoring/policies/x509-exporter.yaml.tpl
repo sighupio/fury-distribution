@@ -6,10 +6,10 @@
 apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
 metadata:
-  name: x509-exporter-egress-apiserver
+  name: x509-exporter-egress-kube-apiserver
   namespace: monitoring
   labels:
-    app: x509-certificate-exporter
+    cluster.kfd.sighup.io/module: monitoring
 spec:
   policyTypes:
     - Egress
@@ -27,7 +27,7 @@ metadata:
   name: x509-exporter-ingress-prometheus-metrics
   namespace: monitoring
   labels:
-    app: x509-certificate-exporter
+    cluster.kfd.sighup.io/module: monitoring
 spec:
   policyTypes:
     - Ingress

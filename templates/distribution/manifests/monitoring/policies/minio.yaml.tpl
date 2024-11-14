@@ -40,7 +40,7 @@ spec:
 apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
 metadata:
-  name: minio-buckets-setup-egress-apiserver
+  name: minio-buckets-setup-egress-kube-apiserver
   namespace: monitoring
   labels:
     app: minio-monitoring-buckets-setup

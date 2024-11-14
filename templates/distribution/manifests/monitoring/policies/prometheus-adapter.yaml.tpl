@@ -8,6 +8,8 @@ kind: NetworkPolicy
 metadata:
   name: prometheus-adapter
   namespace: monitoring
+  labels:
+    cluster.kfd.sighup.io/module: monitoring
 spec:
   egress:
   - {}
@@ -25,10 +27,10 @@ spec:
 apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
 metadata:
-  name: prometheus-ingress-prometheusadapter
+  name: prometheus-ingress-prometheus-adapter
   namespace: monitoring
   labels:
-    app.kubernetes.io/name: prometheus
+    cluster.kfd.sighup.io/module: monitoring
 spec:
   policyTypes:
     - Ingress
