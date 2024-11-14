@@ -6,8 +6,10 @@
 apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
 metadata:
- name: pomerium-ingress-prometheusmetrics
- namespace: pomerium
+  name: pomerium-ingress-prometheus-metrics
+  namespace: pomerium
+  labels:
+    cluster.kfd.sighup.io/auth-provider-type: sso
 spec:
   podSelector:
     matchLabels:

@@ -6,8 +6,10 @@
 apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
 metadata:
-  name: acmehttpsolver-ingress-nginxingresscontroller
+  name: acme-httpsolver-ingress-nginx
   namespace: pomerium
+  labels:
+    cluster.kfd.sighup.io/auth-provider-type: sso
 spec:
   podSelector:
     matchLabels:
@@ -21,7 +23,11 @@ spec:
             kubernetes.io/metadata.name: ingress-nginx
         podSelector:
           matchLabels:
+{{- if eq .spec.distribution.modules.ingress.nginx.type "dual" }}
+            app: ingress
+{{- else if eq .spec.distribution.modules.ingress.nginx.type "single" }}
             app: ingress-nginx
+{{- end }}
       ports:
         - port: 8089
           protocol: TCP

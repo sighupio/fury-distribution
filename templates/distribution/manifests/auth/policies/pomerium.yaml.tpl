@@ -6,8 +6,10 @@
 apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
 metadata:
-  name: pomerium-ingress-nginxingresscontroller
+  name: pomerium-ingress-nginx
   namespace: pomerium
+  labels:
+    cluster.kfd.sighup.io/auth-provider-type: sso
 spec:
   policyTypes:
     - Ingress
@@ -31,6 +33,8 @@ kind: NetworkPolicy
 metadata:
   name: pomerium-egress-https
   namespace: pomerium
+  labels:
+    cluster.kfd.sighup.io/auth-provider-type: sso
 spec:
   policyTypes:
     - Egress
@@ -45,8 +49,10 @@ spec:
 apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
 metadata:
- name: pomerium-egress-grafana
- namespace: pomerium
+  name: pomerium-egress-grafana
+  namespace: pomerium
+  labels:
+    cluster.kfd.sighup.io/auth-provider-type: sso
 spec:
  policyTypes:
    - Egress
@@ -68,8 +74,10 @@ spec:
 apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
 metadata:
- name: pomerium-egress-prometheus
- namespace: pomerium
+  name: pomerium-egress-prometheus
+  namespace: pomerium
+  labels:
+    cluster.kfd.sighup.io/auth-provider-type: sso
 spec:
  policyTypes:
    - Egress
@@ -91,8 +99,10 @@ spec:
 apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
 metadata:
- name: pomerium-egress-alertmanager
- namespace: pomerium
+  name: pomerium-egress-alert-manager
+  namespace: pomerium
+  labels:
+    cluster.kfd.sighup.io/auth-provider-type: sso
 spec:
  policyTypes:
    - Egress
@@ -114,8 +124,10 @@ spec:
 apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
 metadata:
- name: pomerium-egress-forecastle
- namespace: pomerium
+  name: pomerium-egress-forecastle
+  namespace: pomerium
+  labels:
+    cluster.kfd.sighup.io/auth-provider-type: sso
 spec:
  policyTypes:
    - Egress
@@ -137,8 +149,10 @@ spec:
 apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
 metadata:
- name: pomerium-egress-gatekeeperpolicymanager
- namespace: pomerium
+  name: pomerium-egress-gpm
+  namespace: pomerium
+  labels:
+    cluster.kfd.sighup.io/auth-provider-type: sso
 spec:
  policyTypes:
    - Egress
@@ -160,8 +174,10 @@ spec:
 apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
 metadata:
- name: pomerium-egress-hubbleui
- namespace: pomerium
+  name: pomerium-egress-hubble-ui
+  namespace: pomerium
+  labels:
+    cluster.kfd.sighup.io/auth-provider-type: sso
 spec:
  policyTypes:
    - Egress
@@ -183,8 +199,10 @@ spec:
 apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
 metadata:
- name: pomerium-egress-opensearchdashboard
- namespace: pomerium
+  name: pomerium-egress-opensearch-dashboard
+  namespace: pomerium
+  labels:
+    cluster.kfd.sighup.io/auth-provider-type: sso
 spec:
  policyTypes:
    - Egress
@@ -208,8 +226,10 @@ spec:
 apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
 metadata:
-  name: pomerium-egress-miniologging
+  name: pomerium-egress-minio-logging
   namespace: pomerium
+  labels:
+    cluster.kfd.sighup.io/auth-provider-type: sso
 spec:
   policyTypes:
     - Egress
@@ -231,8 +251,10 @@ spec:
 apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
 metadata:
-  name: pomerium-egress-miniotracing
+  name: pomerium-egress-minio-tracing
   namespace: pomerium
+  labels:
+    cluster.kfd.sighup.io/auth-provider-type: sso
 spec:
   policyTypes:
     - Egress
