@@ -7,6 +7,8 @@ kind: NetworkPolicy
 metadata:
   name: deny-all
   namespace: kyverno
+  labels:
+    cluster.kfd.sighup.io/module: opa
 spec:
   podSelector: {}
   policyTypes:
@@ -18,6 +20,8 @@ kind: NetworkPolicy
 metadata:
   name: all-egress-dns
   namespace: kyverno
+  labels:
+    cluster.kfd.sighup.io/module: opa
 spec:
   podSelector:
     matchLabels: {}

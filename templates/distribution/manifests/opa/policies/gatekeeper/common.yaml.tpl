@@ -8,6 +8,8 @@ kind: NetworkPolicy
 metadata:
   name: deny-all
   namespace: gatekeeper-system
+  labels:
+    cluster.kfd.sighup.io/module: opa
 spec:
   podSelector: {}
   policyTypes:
@@ -19,6 +21,8 @@ kind: NetworkPolicy
 metadata:
   name: all-egress-dns
   namespace: gatekeeper-system
+  labels:
+    cluster.kfd.sighup.io/module: opa
 spec:
   podSelector:
     matchLabels: {}

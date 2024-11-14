@@ -5,8 +5,11 @@
 apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
 metadata:
-  name: auditcontroller-egress-apiserver
+  name: audit-controller-egress-kube-apiserver
   namespace: gatekeeper-system
+  labels:
+    cluster.kfd.sighup.io/module: opa
+    cluster.kfd.sighup.io/policy-type: gatekeeper  
 spec:
   podSelector:
     matchLabels:

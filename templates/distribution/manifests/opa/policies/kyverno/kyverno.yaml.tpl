@@ -5,8 +5,11 @@
 apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
 metadata:
-  name: kyvernoadmission-egress-kubeapiserver
+  name: kyverno-admission-egress-kube-apiserver
   namespace: kyverno
+  labels:
+    cluster.kfd.sighup.io/module: opa
+    cluster.kfd.sighup.io/policy-type: kyverno
 spec:
   podSelector:
     matchLabels:
@@ -21,8 +24,11 @@ spec:
 apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
 metadata:
-  name: kyvernoadmission-ingress-nodes
+  name: kyverno-admission-ingress-nodes
   namespace: kyverno
+  labels:
+    cluster.kfd.sighup.io/module: opa
+    cluster.kfd.sighup.io/policy-type: kyverno
 spec:
   podSelector:
     matchLabels:
@@ -37,8 +43,11 @@ spec:
 apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
 metadata:
-  name: kyvernobackground-egress-kubeapiserver
+  name: kyverno-background-egress-kube-apiserver
   namespace: kyverno
+  labels:
+    cluster.kfd.sighup.io/module: opa
+    cluster.kfd.sighup.io/policy-type: kyverno
 spec:
   podSelector:
     matchLabels:
@@ -53,8 +62,11 @@ spec:
 apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
 metadata:
-  name: kyvernoreports-egress-kubeapiserver
+  name: kyverno-reports-egress-kube-apiserver
   namespace: kyverno
+  labels:
+    cluster.kfd.sighup.io/module: opa
+    cluster.kfd.sighup.io/policy-type: kyverno
 spec:
   podSelector:
     matchLabels:
@@ -69,8 +81,11 @@ spec:
 apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
 metadata:
-  name: kyvernocleanup-egress-kubeapiserver
+  name: kyverno-cleanup-egress-kube-apiserver
   namespace: kyverno
+  labels:
+    cluster.kfd.sighup.io/module: opa
+    cluster.kfd.sighup.io/policy-type: kyverno
 spec:
   podSelector:
     matchLabels:
@@ -85,8 +100,11 @@ spec:
 apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
 metadata:
-  name: kyvernocleanupreports-egress-kubeapiserver
+  name: kyverno-cleanup-reports-egress-kube-apiserver
   namespace: kyverno
+  labels:
+    cluster.kfd.sighup.io/module: opa
+    cluster.kfd.sighup.io/policy-type: kyverno
 spec:
   podSelector:
     matchExpressions: 
