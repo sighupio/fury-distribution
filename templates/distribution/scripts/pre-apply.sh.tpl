@@ -17,6 +17,21 @@ vendorPath="{{ .paths.vendorPath }}"
 
 # Text generated with: https://www.patorjk.com/software/taag/#p=display&f=ANSI%20Regular&t=TRACING%20TYPE
 
+# ███    ██ ███████ ████████ ██     ██  ██████  ██████  ██   ██     ██████   ██████  ██      ██  ██████ ██ ███████ ███████ 
+# ████   ██ ██         ██    ██     ██ ██    ██ ██   ██ ██  ██      ██   ██ ██    ██ ██      ██ ██      ██ ██      ██      
+# ██ ██  ██ █████      ██    ██  █  ██ ██    ██ ██████  █████       ██████  ██    ██ ██      ██ ██      ██ █████   ███████ 
+# ██  ██ ██ ██         ██    ██ ███ ██ ██    ██ ██   ██ ██  ██      ██      ██    ██ ██      ██ ██      ██ ██           ██ 
+# ██   ████ ███████    ██     ███ ███   ██████  ██   ██ ██   ██     ██       ██████  ███████ ██  ██████ ██ ███████ ███████ 
+
+{{- if index .reducers "distributionCommonNetworkPoliciesEnabled" }}
+
+{{- if eq .reducers.distributionCommonNetworkPoliciesEnabled.to false }}
+  $kubectlbin delete --ignore-not-found --wait --timeout=180s networkpolicies -A -l cluster.kfd.sighup.io/module
+  echo "Network Policies deleted"
+{{- end }}
+
+{{- end }}
+
 # ██       ██████   ██████   ██████  ██ ███    ██  ██████      ████████ ██    ██ ██████  ███████
 # ██      ██    ██ ██       ██       ██ ████   ██ ██              ██     ██  ██  ██   ██ ██
 # ██      ██    ██ ██   ███ ██   ███ ██ ██ ██  ██ ██   ███        ██      ████   ██████  █████
