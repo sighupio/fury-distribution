@@ -7,6 +7,9 @@ kind: NetworkPolicy
 metadata:
   name: controllermanager-egress-kubeapiserver
   namespace: gatekeeper-system
+  labels:
+    cluster.kfd.sighup.io/module: opa
+    cluster.kfd.sighup.io/policy-type: gatekeeper
 spec:
   podSelector:
     matchLabels:

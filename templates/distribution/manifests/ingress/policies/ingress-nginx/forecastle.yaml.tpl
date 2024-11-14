@@ -8,6 +8,7 @@ metadata:
   name: forecastle-ingress-nginx
   namespace: ingress-nginx
   labels:
+    cluster.kfd.sighup.io/module: ingress
     cluster.kfd.sighup.io/ingress-type: nginx
 spec:
   podSelector:
@@ -44,6 +45,7 @@ metadata:
   name: forecastle-egress-kube-apiserver
   namespace: ingress-nginx
   labels:
+    cluster.kfd.sighup.io/module: ingress
     cluster.kfd.sighup.io/ingress-type: nginx
 spec:
   podSelector:

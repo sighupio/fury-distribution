@@ -9,6 +9,7 @@ metadata:
   name: pomerium-ingress-prometheus-metrics
   namespace: pomerium
   labels:
+    cluster.kfd.sighup.io/module: auth
     cluster.kfd.sighup.io/auth-provider-type: sso
 spec:
   podSelector:

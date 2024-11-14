@@ -8,6 +8,7 @@ metadata:
   name: deny-all
   namespace: cert-manager
   labels:
+    cluster.kfd.sighup.io/module: ingress
     cluster.kfd.sighup.io/ingress-type: nginx
 spec:
   podSelector: {}
@@ -21,6 +22,7 @@ metadata:
   name: all-egress-kube-dns
   namespace: cert-manager
   labels:
+    cluster.kfd.sighup.io/module: ingress
     cluster.kfd.sighup.io/ingress-type: nginx
 spec:
   podSelector:

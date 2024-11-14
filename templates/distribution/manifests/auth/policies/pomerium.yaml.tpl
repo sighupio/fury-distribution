@@ -9,6 +9,7 @@ metadata:
   name: pomerium-ingress-nginx
   namespace: pomerium
   labels:
+    cluster.kfd.sighup.io/module: auth
     cluster.kfd.sighup.io/auth-provider-type: sso
 spec:
   policyTypes:
@@ -34,6 +35,7 @@ metadata:
   name: pomerium-egress-https
   namespace: pomerium
   labels:
+    cluster.kfd.sighup.io/module: auth
     cluster.kfd.sighup.io/auth-provider-type: sso
 spec:
   policyTypes:
@@ -52,6 +54,7 @@ metadata:
   name: pomerium-egress-grafana
   namespace: pomerium
   labels:
+    cluster.kfd.sighup.io/module: auth
     cluster.kfd.sighup.io/auth-provider-type: sso
 spec:
  policyTypes:
@@ -77,6 +80,7 @@ metadata:
   name: pomerium-egress-prometheus
   namespace: pomerium
   labels:
+    cluster.kfd.sighup.io/module: auth
     cluster.kfd.sighup.io/auth-provider-type: sso
 spec:
  policyTypes:
@@ -102,6 +106,7 @@ metadata:
   name: pomerium-egress-alert-manager
   namespace: pomerium
   labels:
+    cluster.kfd.sighup.io/module: auth
     cluster.kfd.sighup.io/auth-provider-type: sso
 spec:
  policyTypes:
@@ -127,6 +132,7 @@ metadata:
   name: pomerium-egress-forecastle
   namespace: pomerium
   labels:
+    cluster.kfd.sighup.io/module: auth
     cluster.kfd.sighup.io/auth-provider-type: sso
 spec:
  policyTypes:
@@ -152,6 +158,7 @@ metadata:
   name: pomerium-egress-gpm
   namespace: pomerium
   labels:
+    cluster.kfd.sighup.io/module: auth
     cluster.kfd.sighup.io/auth-provider-type: sso
 spec:
  policyTypes:
@@ -177,6 +184,7 @@ metadata:
   name: pomerium-egress-hubble-ui
   namespace: pomerium
   labels:
+    cluster.kfd.sighup.io/module: auth
     cluster.kfd.sighup.io/auth-provider-type: sso
 spec:
  policyTypes:
@@ -202,6 +210,7 @@ metadata:
   name: pomerium-egress-opensearch-dashboard
   namespace: pomerium
   labels:
+    cluster.kfd.sighup.io/module: auth
     cluster.kfd.sighup.io/auth-provider-type: sso
 spec:
  policyTypes:
@@ -229,6 +238,7 @@ metadata:
   name: pomerium-egress-minio-logging
   namespace: pomerium
   labels:
+    cluster.kfd.sighup.io/module: auth
     cluster.kfd.sighup.io/auth-provider-type: sso
 spec:
   policyTypes:
@@ -254,6 +264,7 @@ metadata:
   name: pomerium-egress-minio-tracing
   namespace: pomerium
   labels:
+    cluster.kfd.sighup.io/module: auth
     cluster.kfd.sighup.io/auth-provider-type: sso
 spec:
   policyTypes:

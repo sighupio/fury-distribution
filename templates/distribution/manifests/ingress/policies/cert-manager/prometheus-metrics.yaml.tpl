@@ -9,6 +9,7 @@ metadata:
   name: cert-manager-ingress-prometheus-metrics
   namespace: cert-manager
   labels:
+    cluster.kfd.sighup.io/module: ingress
     cluster.kfd.sighup.io/ingress-type: nginx
 spec:
   podSelector:

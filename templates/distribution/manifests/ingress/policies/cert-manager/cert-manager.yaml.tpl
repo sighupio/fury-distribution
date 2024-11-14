@@ -10,6 +10,7 @@ metadata:
   name: cert-manager-egress-kube-apiserver
   namespace: cert-manager
   labels:
+    cluster.kfd.sighup.io/module: ingress
     cluster.kfd.sighup.io/ingress-type: nginx
 spec:
   podSelector:
@@ -28,6 +29,7 @@ metadata:
   name: cert-manager-webhook-ingress-kube-apiserver
   namespace: cert-manager
   labels:
+    cluster.kfd.sighup.io/module: ingress
     cluster.kfd.sighup.io/ingress-type: nginx
 spec:
   podSelector:
@@ -47,6 +49,7 @@ metadata:
   name: cert-manager-egress-https
   namespace: cert-manager
   labels:
+    cluster.kfd.sighup.io/module: ingress
     cluster.kfd.sighup.io/ingress-type: nginx
 spec:
   podSelector:
@@ -69,6 +72,7 @@ metadata:
   name: acme-http-solver-ingress-lets-encrypt
   namespace: pomerium
   labels:
+    cluster.kfd.sighup.io/module: ingress
     cluster.kfd.sighup.io/ingress-type: nginx
 spec:
   podSelector:

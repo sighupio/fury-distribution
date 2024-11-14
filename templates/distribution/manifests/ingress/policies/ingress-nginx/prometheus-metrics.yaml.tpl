@@ -8,6 +8,7 @@ metadata:
   name: nginx-ingress-prometheus-metrics
   namespace: ingress-nginx
   labels:
+    cluster.kfd.sighup.io/module: ingress
     cluster.kfd.sighup.io/ingress-type: nginx
 spec:
   podSelector:
