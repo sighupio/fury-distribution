@@ -9,7 +9,8 @@ metadata:
   name: opensearch-dashboards-egress-opensearch
   namespace: logging
   labels:
-    app: opensearch-dashboards
+    cluster.kfd.sighup.io/module: logging
+    cluster.kfd.sighup.io/logging-type: opensearch
 spec:
   policyTypes:
     - Egress
@@ -31,8 +32,11 @@ spec:
 apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
 metadata:
-  name: opensearchdashboards-ingress-jobs
+  name: opensearch-dashboards-ingress-jobs
   namespace: logging
+  labels:
+    cluster.kfd.sighup.io/module: logging
+    cluster.kfd.sighup.io/logging-type: opensearch
 spec:
   policyTypes:
     - Ingress
@@ -53,8 +57,11 @@ spec:
 apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
 metadata:
- name: opensearchdashboards-ingress-nginx
- namespace: logging
+  name: opensearch-dashboards-ingress-nginx
+  namespace: logging
+  labels:
+    cluster.kfd.sighup.io/module: logging
+    cluster.kfd.sighup.io/logging-type: opensearch
 spec:
   policyTypes:
     - Ingress

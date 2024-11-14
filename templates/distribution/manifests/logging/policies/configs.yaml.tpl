@@ -6,10 +6,10 @@
 apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
 metadata:
-  name: event-tailer-egress-apiserver
+  name: event-tailer-egress-kube-apiserver
   namespace: logging
   labels:
-    app.kubernetes.io/name: event-tailer
+    cluster.kfd.sighup.io/module: logging
 spec:
   policyTypes:
     - Egress

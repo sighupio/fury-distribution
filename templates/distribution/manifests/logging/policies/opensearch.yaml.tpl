@@ -9,7 +9,8 @@ metadata:
   name: opensearch-ingress-dashboards
   namespace: logging
   labels:
-    app.kubernetes.io/name: opensearch
+    cluster.kfd.sighup.io/module: logging
+    cluster.kfd.sighup.io/logging-type: opensearch
 spec:
   policyTypes:
     - Ingress
@@ -34,7 +35,8 @@ metadata:
   name: opensearch-ingress-fluentd
   namespace: logging
   labels:
-    app.kubernetes.io/name: opensearch
+    cluster.kfd.sighup.io/module: logging
+    cluster.kfd.sighup.io/logging-type: opensearch
 spec:
   policyTypes:
     - Ingress
@@ -59,7 +61,8 @@ metadata:
   name: opensearch-discovery
   namespace: logging
   labels:
-    app.kubernetes.io/name: opensearch
+    cluster.kfd.sighup.io/module: logging
+    cluster.kfd.sighup.io/logging-type: opensearch
 spec:
   policyTypes:
     - Ingress
@@ -96,7 +99,8 @@ metadata:
   name: opensearch-ingress-prometheus-metrics
   namespace: logging
   labels:
-    app.kubernetes.io/name: opensearch
+    cluster.kfd.sighup.io/module: logging
+    cluster.kfd.sighup.io/logging-type: opensearch
 spec:
   policyTypes:
     - Ingress
@@ -120,6 +124,9 @@ kind: NetworkPolicy
 metadata:
   name: opensearch-ingress-jobs
   namespace: logging
+  labels:
+    cluster.kfd.sighup.io/module: logging
+    cluster.kfd.sighup.io/logging-type: opensearch
 spec:
   policyTypes:
     - Ingress
@@ -141,6 +148,9 @@ kind: NetworkPolicy
 metadata:
   name: jobs-egress-opensearch
   namespace: logging
+  labels:
+    cluster.kfd.sighup.io/module: logging
+    cluster.kfd.sighup.io/logging-type: opensearch
 spec:
   policyTypes:
     - Egress

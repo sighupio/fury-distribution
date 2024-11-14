@@ -9,7 +9,7 @@ metadata:
   name: minio-ingress-namespace
   namespace: logging
   labels:
-    app: minio
+    cluster.kfd.sighup.io/module: logging
 spec:
   policyTypes:
     - Ingress
@@ -40,10 +40,10 @@ spec:
 apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
 metadata:
-  name: minio-buckets-setup-egress-apiserver
+  name: minio-buckets-setup-egress-kube-apiserver
   namespace: logging
   labels:
-    app: minio-logging-buckets-setup
+    cluster.kfd.sighup.io/module: logging
 spec:
   policyTypes:
     - Egress
@@ -61,7 +61,7 @@ metadata:
   name: minio-buckets-setup-egress-minio
   namespace: logging
   labels:
-    app: minio-logging-buckets-setup
+    cluster.kfd.sighup.io/module: logging
 spec:
   policyTypes:
     - Egress
@@ -87,7 +87,7 @@ metadata:
   name: minio-ingress-prometheus-metrics
   namespace: logging
   labels:
-    app: minio
+    cluster.kfd.sighup.io/module: logging
 spec:
   policyTypes:
     - Ingress
@@ -112,7 +112,7 @@ metadata:
   name: minio-egress-https
   namespace: logging
   labels:
-    app: minio
+    cluster.kfd.sighup.io/module: logging
 spec:
   policyTypes:
     - Egress
@@ -127,10 +127,10 @@ spec:
 apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
 metadata:
-  name: minio-ingress-nginxingresscontroller
+  name: minio-ingress-nginx
   namespace: logging
   labels:
-    app: minio
+    cluster.kfd.sighup.io/module: logging
 spec:
   policyTypes:
     - Ingress

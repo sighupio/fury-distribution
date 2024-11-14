@@ -9,7 +9,7 @@ metadata:
   name: fluentbit-egress-fluentd
   namespace: logging
   labels:
-    app.kubernetes.io/name: fluentbit
+    cluster.kfd.sighup.io/module: logging
 spec:
   policyTypes:
     - Egress
@@ -25,10 +25,10 @@ spec:
 apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
 metadata:
-  name: fluentbit-egress-apiserver
+  name: fluentbit-egress-kube-apiserver
   namespace: logging
   labels:
-    app.kubernetes.io/name: fluentbit
+    cluster.kfd.sighup.io/module: logging
 spec:
   policyTypes:
     - Egress
@@ -46,7 +46,7 @@ metadata:
   name: fluentbit-ingress-prometheus-metrics
   namespace: logging
   labels:
-    app.kubernetes.io/name: fluentbit
+    cluster.kfd.sighup.io/module: logging
 spec:
   policyTypes:
     - Ingress

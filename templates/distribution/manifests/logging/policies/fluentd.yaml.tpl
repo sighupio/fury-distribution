@@ -9,7 +9,7 @@ metadata:
   name: fluentd-ingress-fluentbit
   namespace: logging
   labels:
-    app.kubernetes.io/name: fluentd
+    cluster.kfd.sighup.io/module: logging
 spec:
   policyTypes:
     - Ingress
@@ -34,7 +34,7 @@ metadata:
   name: fluentd-egress-minio
   namespace: logging
   labels:
-    app.kubernetes.io/name: fluentd
+    cluster.kfd.sighup.io/module: logging
 spec:
   policyTypes:
     - Egress
@@ -59,7 +59,7 @@ metadata:
   name: fluentd-ingress-prometheus-metrics
   namespace: logging
   labels:
-    app.kubernetes.io/name: fluentd
+    cluster.kfd.sighup.io/module: logging
 spec:
   policyTypes:
     - Ingress
@@ -85,7 +85,8 @@ metadata:
   name: fluentd-egress-opensearch
   namespace: logging
   labels:
-    app.kubernetes.io/name: fluentd
+    cluster.kfd.sighup.io/module: logging
+    cluster.kfd.sighup.io/logging-type: opensearch
 spec:
   policyTypes:
     - Egress
@@ -109,7 +110,8 @@ metadata:
   name: fluentd-egress-loki
   namespace: logging
   labels:
-    app.kubernetes.io/name: fluentd
+    cluster.kfd.sighup.io/module: logging
+    cluster.kfd.sighup.io/logging-type: loki
 spec:
   policyTypes:
     - Egress

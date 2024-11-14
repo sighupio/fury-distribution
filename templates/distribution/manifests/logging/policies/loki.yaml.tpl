@@ -9,7 +9,8 @@ metadata:
   name: loki-distributed-ingress-fluentd
   namespace: logging
   labels:
-    app.kubernetes.io/name: loki-distributed
+    cluster.kfd.sighup.io/module: logging
+    cluster.kfd.sighup.io/logging-type: loki
 spec:
   policyTypes:
     - Ingress
@@ -37,7 +38,8 @@ metadata:
   name: loki-distributed-ingress-grafana
   namespace: logging
   labels:
-    app.kubernetes.io/name: loki-distributed
+    cluster.kfd.sighup.io/module: logging
+    cluster.kfd.sighup.io/logging-type: loki
 spec:
   policyTypes:
     - Ingress
@@ -56,7 +58,6 @@ spec:
       ports:
         - port: 8080
           protocol: TCP
-
 ---
 apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
@@ -64,7 +65,8 @@ metadata:
   name: loki-distributed-ingress-prometheus-metrics
   namespace: logging
   labels:
-    app.kubernetes.io/name: loki-distributed
+    cluster.kfd.sighup.io/module: logging
+    cluster.kfd.sighup.io/logging-type: loki
 spec:
   policyTypes:
     - Ingress
@@ -82,7 +84,6 @@ spec:
           podSelector:
             matchLabels:
               app.kubernetes.io/name: prometheus
-
 ---
 apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
@@ -90,7 +91,8 @@ metadata:
   name: loki-distributed-discovery
   namespace: logging
   labels:
-    app.kubernetes.io/name: loki-distributed
+    cluster.kfd.sighup.io/module: logging
+    cluster.kfd.sighup.io/logging-type: loki
 spec:
   policyTypes:
     - Ingress
@@ -135,7 +137,8 @@ metadata:
   name: loki-distributed-egress-minio
   namespace: logging
   labels:
-    app.kubernetes.io/name: loki-distributed
+    cluster.kfd.sighup.io/module: logging
+    cluster.kfd.sighup.io/logging-type: loki
 spec:
   policyTypes:
     - Egress

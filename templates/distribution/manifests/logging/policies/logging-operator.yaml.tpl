@@ -6,10 +6,10 @@
 apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
 metadata:
-  name: logging-operator-egress-apiserver
+  name: logging-operator-egress-kube-apiserver
   namespace: logging
   labels:
-    app.kubernetes.io/name: logging-operator
+    cluster.kfd.sighup.io/module: logging
 spec:
   policyTypes:
     - Egress
