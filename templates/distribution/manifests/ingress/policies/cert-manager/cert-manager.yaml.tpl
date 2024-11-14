@@ -7,8 +7,10 @@
 apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
 metadata:
-  name: certmanager-egress-kubeapiserver
+  name: cert-manager-egress-kube-apiserver
   namespace: cert-manager
+  labels:
+    cluster.kfd.sighup.io/ingress-type: nginx
 spec:
   podSelector:
     matchLabels:
@@ -23,8 +25,10 @@ spec:
 apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
 metadata:
-  name: certmanagerwebhook-ingress-kubeapiserver
+  name: cert-manager-webhook-ingress-kube-apiserver
   namespace: cert-manager
+  labels:
+    cluster.kfd.sighup.io/ingress-type: nginx
 spec:
   podSelector:
     matchLabels:
@@ -40,8 +44,10 @@ spec:
 apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
 metadata:
-  name: certmanager-egress-https
+  name: cert-manager-egress-https
   namespace: cert-manager
+  labels:
+    cluster.kfd.sighup.io/ingress-type: nginx
 spec:
   podSelector:
     matchLabels:
@@ -60,8 +66,10 @@ spec:
 apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
 metadata:
-  name: acmehttpsolver-ingress-letsencrypt
+  name: acme-http-solver-ingress-lets-encrypt
   namespace: pomerium
+  labels:
+    cluster.kfd.sighup.io/ingress-type: nginx
 spec:
   podSelector:
     matchLabels:

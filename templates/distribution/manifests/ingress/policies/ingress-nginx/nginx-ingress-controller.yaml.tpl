@@ -5,8 +5,10 @@
 apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
 metadata:
-  name: nginxingresscontroller-egress-all
+  name: nginx-egress-all
   namespace: ingress-nginx
+  labels:
+    cluster.kfd.sighup.io/ingress-type: nginx
 spec:
   podSelector:
     matchLabels:
@@ -23,8 +25,10 @@ spec:
 apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
 metadata:
-  name: all-ingress-nginxingresscontroller
+  name: all-ingress-nginx
   namespace: ingress-nginx
+  labels:
+    cluster.kfd.sighup.io/ingress-type: nginx
 spec:
   podSelector:
     matchLabels:

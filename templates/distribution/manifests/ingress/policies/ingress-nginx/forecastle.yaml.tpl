@@ -5,8 +5,10 @@
 apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
 metadata:
-  name: forecastle-ingress-nginxingresscontroller
+  name: forecastle-ingress-nginx
   namespace: ingress-nginx
+  labels:
+    cluster.kfd.sighup.io/ingress-type: nginx
 spec:
   podSelector:
     matchLabels:
@@ -39,8 +41,10 @@ spec:
 apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
 metadata:
-  name: forecastle-egress-kubeapiserver
+  name: forecastle-egress-kube-apiserver
   namespace: ingress-nginx
+  labels:
+    cluster.kfd.sighup.io/ingress-type: nginx
 spec:
   podSelector:
     matchLabels:

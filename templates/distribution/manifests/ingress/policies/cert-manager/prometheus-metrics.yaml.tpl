@@ -6,8 +6,10 @@
 apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
 metadata:
-  name: certmanager-ingress-prometheusmetrics
+  name: cert-manager-ingress-prometheus-metrics
   namespace: cert-manager
+  labels:
+    cluster.kfd.sighup.io/ingress-type: nginx
 spec:
   podSelector:
     matchLabels:

@@ -5,8 +5,10 @@
 apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
 metadata:
-  name: nginx-ingress-prometheusmetrics
+  name: nginx-ingress-prometheus-metrics
   namespace: ingress-nginx
+  labels:
+    cluster.kfd.sighup.io/ingress-type: nginx
 spec:
   podSelector:
     matchLabels:
