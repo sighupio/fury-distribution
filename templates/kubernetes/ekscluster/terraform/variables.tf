@@ -63,19 +63,21 @@ variable "ssh_public_key" {
 variable "node_pools" {
   description = "An object list defining node pools configurations"
   type = list(object({
-    name              = string
     type              = optional(string, "self-managed") # "eks-managed" or "self-managed"
+    name              = string
     ami_id            = optional(string)
-    version           = optional(string) # null to use cluster_version
+    ami_owners        = optional(list(string), ["amazon"])
+    ami_type          = optional(string, null)
+    version           = optional(string, null) # null to use cluster_version
     min_size          = number
     max_size          = number
     instance_type     = string
-    container_runtime = optional(string)
-    spot_instance     = optional(bool)
-    max_pods          = optional(number) # null to use default upstream configuration
+    container_runtime = optional(string, "containerd")
+    spot_instance     = optional(bool, false)
+    max_pods          = optional(number, null) # null to use default upstream configuration
     volume_size       = optional(number, 100)
     volume_type       = optional(string, "gp2")
-    subnets           = optional(list(string)) # null to use default upstream configuration
+    subnets           = optional(list(string), null) # null to use default upstream configuration
     labels            = optional(map(string))
     taints            = optional(list(string))
     tags              = optional(map(string))
@@ -218,4 +220,14 @@ variable "workers_iam_role_name_prefix_override" {
   description = "The name prefix of the IAM role to use for the EKS workers. If not set, a name will be generated from the cluster name."
   type        = string
   default     = ""
+}
+
+variable "node_pools_global_ami_type" {
+  type        = string
+  description = "Global default AMI type used for EKS worker nodes. This will apply to all node pools unless overridden by a specific node pool."
+  default     = "alinux2"
+  validation {
+    condition     = contains(["alinux2", "alinux2023"], var.node_pools_global_ami_type)
+    error_message = "The global AMI type must be either 'alinux2' or 'alinux2023'."
+  }
 }
