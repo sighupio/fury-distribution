@@ -86,13 +86,12 @@ querier:
     trace_by_id:
         query_timeout: 10s
 query_frontend:
+    max_outstanding_per_tenant: 2000
     max_retries: 2
     search:
         concurrent_jobs: 1000
         target_bytes_per_job: 104857600
     trace_by_id:
-        hedge_requests_at: 2s
-        hedge_requests_up_to: 2
         query_shards: 50
 server:
     grpc_server_max_recv_msg_size: 4194304
