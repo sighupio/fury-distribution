@@ -212,6 +212,7 @@ metadata:
   labels:
     cluster.kfd.sighup.io/module: auth
     cluster.kfd.sighup.io/auth-provider-type: sso
+    cluster.kfd.sighup.io/logging-type: opensearch
 spec:
  policyTypes:
    - Egress
@@ -240,6 +241,7 @@ metadata:
   labels:
     cluster.kfd.sighup.io/module: auth
     cluster.kfd.sighup.io/auth-provider-type: sso
+    cluster.kfd.sighup.io/logging-backend: minio
 spec:
   policyTypes:
     - Egress

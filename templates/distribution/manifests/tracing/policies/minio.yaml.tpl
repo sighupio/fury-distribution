@@ -5,6 +5,7 @@ metadata:
   namespace: tracing
   labels:
     cluster.kfd.sighup.io/module: tracing
+    cluster.kfd.sighup.io/tracing-backend: minio
 spec:
   policyTypes:
     - Ingress
@@ -39,6 +40,7 @@ metadata:
   namespace: tracing
   labels:
     cluster.kfd.sighup.io/module: tracing
+    cluster.kfd.sighup.io/tracing-backend: minio
 spec:
   policyTypes:
     - Egress
@@ -57,6 +59,7 @@ metadata:
   namespace: tracing
   labels:
     cluster.kfd.sighup.io/module: tracing
+    cluster.kfd.sighup.io/tracing-backend: minio
 spec:
   policyTypes:
     - Egress
@@ -82,6 +85,7 @@ metadata:
   namespace: tracing
   labels:
     cluster.kfd.sighup.io/module: tracing
+    cluster.kfd.sighup.io/tracing-backend: minio
 spec:
   policyTypes:
     - Ingress
@@ -107,6 +111,7 @@ metadata:
   namespace: tracing
   labels:
     cluster.kfd.sighup.io/module: tracing
+    cluster.kfd.sighup.io/tracing-backend: minio
 spec:
   policyTypes:
     - Ingress
@@ -153,6 +158,7 @@ metadata:
   namespace: tracing
   labels:
     cluster.kfd.sighup.io/module: tracing
+    cluster.kfd.sighup.io/tracing-backend: minio
 spec:
   policyTypes:
     - Egress

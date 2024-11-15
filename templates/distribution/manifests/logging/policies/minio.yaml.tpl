@@ -10,6 +10,7 @@ metadata:
   namespace: logging
   labels:
     cluster.kfd.sighup.io/module: logging
+    cluster.kfd.sighup.io/logging-backend: minio
 spec:
   policyTypes:
     - Ingress
@@ -44,6 +45,7 @@ metadata:
   namespace: logging
   labels:
     cluster.kfd.sighup.io/module: logging
+    cluster.kfd.sighup.io/logging-backend: minio
 spec:
   policyTypes:
     - Egress
@@ -62,6 +64,7 @@ metadata:
   namespace: logging
   labels:
     cluster.kfd.sighup.io/module: logging
+    cluster.kfd.sighup.io/logging-backend: minio
 spec:
   policyTypes:
     - Egress
@@ -88,6 +91,7 @@ metadata:
   namespace: logging
   labels:
     cluster.kfd.sighup.io/module: logging
+    cluster.kfd.sighup.io/logging-backend: minio
 spec:
   policyTypes:
     - Ingress
@@ -113,6 +117,7 @@ metadata:
   namespace: logging
   labels:
     cluster.kfd.sighup.io/module: logging
+    cluster.kfd.sighup.io/logging-backend: minio
 spec:
   policyTypes:
     - Egress
@@ -131,6 +136,7 @@ metadata:
   namespace: logging
   labels:
     cluster.kfd.sighup.io/module: logging
+    cluster.kfd.sighup.io/logging-backend: minio
 spec:
   policyTypes:
     - Ingress
