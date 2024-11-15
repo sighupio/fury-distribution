@@ -46,4 +46,4 @@ spec:
                 port:
                   name: http
             {{ end }}
-{{- template "ingressTls" (dict "module" "tracing" "package" "minio-tracing" "prefix" "minio-tracing." "spec" .spec) }}
+{{- template "ingressTls" (dict "module" "tracing" "package" "minio" "prefix" "minio-tracing." "spec" .spec) }}
