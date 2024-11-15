@@ -97,7 +97,7 @@ Common configuration for all the distribution modules.
 
 ### Description
 
-This field defines whether Network Policies are provided for all modules
+EXPERIMENTAL FEATURE. This field defines whether Network Policies are provided for core modules.
 
 ## .spec.distribution.common.nodeSelector
 

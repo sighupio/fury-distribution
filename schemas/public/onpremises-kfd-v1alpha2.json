@@ -730,7 +730,7 @@
         },
         "networkPoliciesEnabled": {
           "type": "boolean",
-          "description": "This field defines whether Network Policies are provided for all modules"
+          "description": "EXPERIMENTAL FEATURE. This field defines whether Network Policies are provided for core modules."
         }
       }
     },
