@@ -27,7 +27,7 @@ vendorPath="{{ .paths.vendorPath }}"
 
 {{- if eq .reducers.distributionCommonNetworkPoliciesEnabled.to false }}
   $kubectlbin delete --ignore-not-found --wait --timeout=180s networkpolicies -A -l cluster.kfd.sighup.io/module
-  echo "Network Policies deleted"
+  echo "KFD Network Policies deleted"
 {{- end }}
 
 {{- end }}
@@ -56,6 +56,7 @@ deleteOpensearch() {
 
   $kubectlbin delete --ignore-not-found --wait --timeout=180s -f delete-opensearch.yaml
   $kubectlbin delete --ignore-not-found -l app.kubernetes.io/name=opensearch pvc -n logging --wait --timeout=180s
+  $kubectlbin delete --ignore-not-found --wait --timeout=180s networkpolicies -A -l cluster.kfd.sighup.io/logging-type=opensearch
   echo "OpenSearch resources deleted"
 }
 
@@ -72,6 +73,7 @@ deleteLoki() {
 
   $kubectlbin delete --ignore-not-found --wait --timeout=180s -f delete-loki.yaml
   $kubectlbin delete --ignore-not-found -l app.kubernetes.io/name=loki-distributed pvc -n logging --wait --timeout=180s
+  $kubectlbin delete --ignore-not-found --wait --timeout=180s networkpolicies -A -l cluster.kfd.sighup.io/logging-type=loki
   echo "Loki resources deleted"
 }
 
@@ -96,6 +98,7 @@ $kustomizebin build $vendorPath/modules/logging/katalog/minio-ha > delete-loggin
   fi
 {{- end }}
   $kubectlbin delete --ignore-not-found --wait --timeout=180s -f delete-logging-minio-ha.yaml
+  $kubectlbin delete --ignore-not-found --wait --timeout=180s networkpolicies -A -l cluster.kfd.sighup.io/logging-backend=minio
   echo "Minio Logging deleted"
 }
 
@@ -180,7 +183,7 @@ deleteGatekeeper() {
   $kustomizebin build $vendorPath/modules/opa/katalog/gatekeeper/monitoring | $kubectlbin delete --ignore-not-found --wait --timeout=180s -f -
 {{- end }}
   $kustomizebin build $vendorPath/modules/opa/katalog/gatekeeper/core | $kubectlbin delete --ignore-not-found --wait --timeout=180s -f -
-
+  $kubectlbin delete --ignore-not-found --wait --timeout=180s -A networkpolicy -l cluster.kfd.sighup.io/policy-type=gatekeeper
   echo "Gatekeeper resources deleted"
 }
 
@@ -188,6 +191,7 @@ deleteKyverno() {
   $kustomizebin build $vendorPath/modules/opa/katalog/kyverno | $kubectlbin delete --ignore-not-found --wait --timeout=180s -f -
   $kubectlbin delete --ignore-not-found --wait --timeout=180s validatingwebhookconfiguration -l webhook.kyverno.io/managed-by=kyverno
   $kubectlbin delete --ignore-not-found --wait --timeout=180s mutatingwebhookconfiguration -l webhook.kyverno.io/managed-by=kyverno
+  $kubectlbin delete --ignore-not-found --wait --timeout=180s -A networkpolicy -l cluster.kfd.sighup.io/policy-type=kyverno
   echo "Kyverno resources deleted"
 }
 
@@ -310,6 +314,7 @@ deleteTracingMinioHA() {
   fi
 {{- end }}
   $kubectlbin delete --ignore-not-found --wait --timeout=180s -f delete-tracing-minio-ha.yaml
+  $kubectlbin delete --ignore-not-found --wait --timeout=180s -A networkpolicy -l cluster.kfd.sighup.io/tracing-backend=minio
   echo "Minio HA on tracing namespace deleted"
 }
 
