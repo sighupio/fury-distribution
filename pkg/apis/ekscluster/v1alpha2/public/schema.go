@@ -89,9 +89,6 @@ type SpecDistributionCommon struct {
 
 	// The tolerations that will be added to the pods for all the KFD modules
 	Tolerations []TypesKubeToleration `json:"tolerations,omitempty" yaml:"tolerations,omitempty" mapstructure:"tolerations,omitempty"`
-
-	// NetworkPoliciesEnabled corresponds to the JSON schema field "networkPoliciesEnabled".
-	NetworkPoliciesEnabled *bool `json:"networkPoliciesEnabled,omitempty" yaml:"networkPoliciesEnabled,omitempty" mapstructure:"networkPoliciesEnabled,omitempty"`
 }
 
 type SpecDistributionCommonProvider struct {

@@ -76,20 +76,13 @@ An example file can be found [here](https://github.com/sighupio/fury-distributio
 
 ### Properties
 
-| Property                                                                | Type      | Required |
-|:------------------------------------------------------------------------|:----------|:---------|
-| [networkPoliciesEnabled](#specdistributioncommonnetworkpoliciesenabled) | `boolean` | Optional |
-| [nodeSelector](#specdistributioncommonnodeselector)                     | `object`  | Optional |
-| [provider](#specdistributioncommonprovider)                             | `object`  | Optional |
-| [registry](#specdistributioncommonregistry)                             | `string`  | Optional |
-| [relativeVendorPath](#specdistributioncommonrelativevendorpath)         | `string`  | Optional |
-| [tolerations](#specdistributioncommontolerations)                       | `array`   | Optional |
-
-## .spec.distribution.common.networkPoliciesEnabled
-
-### Description
-
-This field defines whether Network Policies are provided for all modules
+| Property                                                        | Type     | Required |
+|:----------------------------------------------------------------|:---------|:---------|
+| [nodeSelector](#specdistributioncommonnodeselector)             | `object` | Optional |
+| [provider](#specdistributioncommonprovider)                     | `object` | Optional |
+| [registry](#specdistributioncommonregistry)                     | `string` | Optional |
+| [relativeVendorPath](#specdistributioncommonrelativevendorpath) | `string` | Optional |
+| [tolerations](#specdistributioncommontolerations)               | `array`  | Optional |
 
 ## .spec.distribution.common.nodeSelector
 
