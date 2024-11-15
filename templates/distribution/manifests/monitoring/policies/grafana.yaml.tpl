@@ -66,31 +66,42 @@ metadata:
   labels:
     cluster.kfd.sighup.io/module: monitoring
 spec:
-  policyTypes:
-    - Ingress
   podSelector:
     matchLabels:
-      app.kubernetes.io/name: grafana
       app.kubernetes.io/component: grafana
+      app.kubernetes.io/name: grafana
+      app.kubernetes.io/part-of: kube-prometheus
+  policyTypes:
+    - Ingress
   ingress:
+# single nginx, no sso
+{{if and (eq .spec.distribution.modules.ingress.nginx.type "single") (ne .spec.distribution.modules.auth.provider.type "sso") }}
     - from:
       - namespaceSelector:
-{{- if (eq .spec.distribution.modules.auth.provider.type "sso") }}
-          matchLabels:
-            kubernetes.io/metadata.name: pomerium
-{{ else }}
           matchLabels:
             kubernetes.io/metadata.name: ingress-nginx
-{{- end }}
         podSelector:
           matchLabels:
-{{- if (eq .spec.distribution.modules.auth.provider.type "sso") }}
-            app: pomerium
-{{- else if eq .spec.distribution.modules.ingress.nginx.type "dual" }}
-            app: ingress
-{{- else if eq .spec.distribution.modules.ingress.nginx.type "single" }}
             app: ingress-nginx
-{{- end }}
+# dual nginx, no sso
+{{ else if and (eq .spec.distribution.modules.ingress.nginx.type "dual") (ne .spec.distribution.modules.auth.provider.type "sso") }}
+    - from:
+      - namespaceSelector:
+          matchLabels:
+            kubernetes.io/metadata.name: ingress-nginx
+        podSelector:
+          matchLabels:
+            app: ingress
+# sso
+{{ else if (eq .spec.distribution.modules.auth.provider.type "sso") }}
+    - from:
+      - namespaceSelector:
+          matchLabels:
+            kubernetes.io/metadata.name: pomerium
+        podSelector:
+          matchLabels:
+            app: pomerium
+{{ end }}
       ports:
         - port: 3000
           protocol: TCP
