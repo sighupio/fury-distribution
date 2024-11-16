@@ -2209,10 +2209,35 @@
             }
           }
         },
+        "eks": {
+          "$ref": "#/$defs/Spec.Distribution.Modules.Dr.Velero.Eks"
+        },
         "overrides": {
           "$ref": "#/$defs/Types.FuryModuleComponentOverrides"
         }
-      }
+      },
+      "required": [
+        "eks"
+      ]
+    },
+    "Spec.Distribution.Modules.Dr.Velero.Eks": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "region": {
+          "$ref": "#/$defs/Types.AwsRegion",
+          "description": "The region where the velero bucket is located"
+        },
+        "bucketName": {
+          "$ref": "#/$defs/Types.AwsS3BucketName",
+          "maxLength": 49,
+          "description": "The name of the velero bucket"
+        }
+      },
+      "required": [
+        "region",
+        "bucketName"
+      ]
     },
     "Spec.Distribution.Modules.Auth": {
       "type": "object",
