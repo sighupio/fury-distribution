@@ -4,11 +4,13 @@
 
 ---
 apiVersion: velero.io/v1
-kind: Schedule
+kind: VolumeSnapshotLocation
 metadata:
-  name: manifests
+  name: default
   namespace: kube-system
+  labels:
+    k8s-app: velero
 spec:
-  schedule: "{{ .spec.distribution.modules.dr.velero.schedules.definitions.manifests.schedule }}"
-  template:
-    ttl: "{{ .spec.distribution.modules.dr.velero.schedules.definitions.manifests.ttl }}"
+  config:
+    region: custom
+  provider: aws
