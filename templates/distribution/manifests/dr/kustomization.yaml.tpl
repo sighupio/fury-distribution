@@ -19,13 +19,13 @@ resources:
   - resources/volumeSnapshotLocation.yaml
 {{- end }}
   - {{ print "../" .spec.distribution.common.relativeVendorPath "/modules/dr/katalog/velero/velero-node-agent" }}
+{{- if .spec.distribution.modules.dr.velero.snapshotController.install }}
+  - {{ print "../" .spec.distribution.common.relativeVendorPath "/modules/dr/katalog/velero/snapshot-controller" }}
+{{- end }}
 
 {{- end }}
 {{- if .spec.distribution.modules.dr.velero.schedules.install }}
   - {{ print "../" .spec.distribution.common.relativeVendorPath "/modules/dr/katalog/velero/velero-schedules" }}
-{{- end }}
-{{- if .spec.distribution.modules.dr.velero.snapshotController.install }}
-  - {{ print "../" .spec.distribution.common.relativeVendorPath "/modules/dr/katalog/velero/snapshot-controller" }}
 {{- end }}
 {{- if eq .spec.distribution.common.provider.type "eks" }}
   - resources/eks-velero-backupstoragelocation.yml
