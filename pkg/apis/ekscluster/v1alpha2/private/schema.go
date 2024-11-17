@@ -608,9 +608,12 @@ type SpecDistributionModulesDrVeleroSchedulesDefinitionsFull struct {
 	// The cron expression for the `full` backup schedule (default `0 1 * * *`).
 	Schedule *string `json:"schedule,omitempty" yaml:"schedule,omitempty" mapstructure:"schedule,omitempty"`
 
-	// SnapshotMoveData specifies whether snapshot data should be moved. Velero will
-	// create a new volume from the snapshot and upload the content to the
-	// storageLocation.
+	// EXPERIMENTAL (if you do more than one backups, the following backups after the
+	// first are not automatically restorable, see
+	// https://github.com/vmware-tanzu/velero/issues/7057#issuecomment-2466815898 for
+	// the manual restore solution): SnapshotMoveData specifies whether snapshot data
+	// should be moved. Velero will create a new volume from the snapshot and upload
+	// the content to the storageLocation.
 	SnapshotMoveData *bool `json:"snapshotMoveData,omitempty" yaml:"snapshotMoveData,omitempty" mapstructure:"snapshotMoveData,omitempty"`
 
 	// The Time To Live (TTL) of the backups created by the backup schedules (default
