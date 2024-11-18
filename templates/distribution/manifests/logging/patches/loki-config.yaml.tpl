@@ -77,6 +77,7 @@ schema_config:
       object_store: s3
       schema: v11
       store: boltdb-shipper
+{{- if and (index .spec.distribution.modules.logging "loki") (index .spec.distribution.modules.logging.loki "tsdbStartDate") }}
     - from: "{{ .spec.distribution.modules.logging.loki.tsdbStartDate }}" 
       index:
         period: 24h
@@ -84,6 +85,7 @@ schema_config:
       object_store: s3
       schema: v13
       store: tsdb
+{{- end }}
 server:
   http_listen_port: 3100
 storage_config:
