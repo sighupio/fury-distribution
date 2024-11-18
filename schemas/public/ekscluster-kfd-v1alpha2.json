@@ -1108,29 +1108,83 @@
       },
       "required": [
         "baseDomain",
-        "dns",
         "nginx"
       ],
-      "if": {
-        "properties": {
-          "nginx": {
+      "allOf": [
+        {
+          "if": {
             "properties": {
-              "tls": {
+              "nginx": {
                 "properties": {
-                  "provider": {
-                    "const": "certManager"
+                  "type": {
+                    "const": "dual"
                   }
                 }
               }
             }
+          },
+          "then": {
+            "required": [
+              "dns"
+            ],
+            "properties": {
+              "dns": {
+                "required": [
+                  "public",
+                  "private"
+                ]
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "nginx": {
+                "properties": {
+                  "type": {
+                    "const": "single"
+                  }
+                }
+              }
+            }
+          },
+          "then": {
+            "required": [
+              "dns"
+            ],
+            "properties": {
+              "dns": {
+                "required": [
+                  "public"
+                ]
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "nginx": {
+                "properties": {
+                  "tls": {
+                    "properties": {
+                      "provider": {
+                        "const": "certManager"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "then": {
+            "required": [
+              "certManager"
+            ]
           }
         }
-      },
-      "then": {
-        "required": [
-          "certManager"
-        ]
-      }
+      ]
     },
     "Spec.Distribution.Modules.Ingress.Overrides": {
       "type": "object",
@@ -1319,11 +1373,7 @@
         "overrides": {
           "$ref": "#/$defs/Types.FuryModuleComponentOverrides"
         }
-      },
-      "required": [
-        "public",
-        "private"
-      ]
+      }
     },
     "Spec.Distribution.Modules.Ingress.DNS.Public": {
       "type": "object",
