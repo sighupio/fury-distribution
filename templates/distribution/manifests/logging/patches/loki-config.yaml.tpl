@@ -104,6 +104,14 @@ storage_config:
     cache_ttl: 24h
     resync_interval: 5s
     shared_store: s3
+{{- if .spec.distribution.modules.logging.loki.tsdbSchemav13Migration.enabled }}
+  tsdb_shipper:
+    active_index_directory: /var/loki/index
+    cache_location: /var/loki/cache
+    cache_ttl: 24h
+    resync_interval: 5s
+    shared_store: s3
+{{- end }}
   filesystem:
     directory: /var/loki/chunks
 table_manager:
