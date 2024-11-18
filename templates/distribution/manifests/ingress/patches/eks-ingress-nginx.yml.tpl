@@ -22,7 +22,7 @@ spec:
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: nginx-configuration
+  name: ingress-nginx-controller
   namespace: ingress-nginx
 data:
   use-proxy-protocol: "true"
