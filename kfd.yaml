@@ -9,8 +9,8 @@ modules:
   dr: v2.3.0
   ingress: v2.3.3
   logging: v3.4.1
-  monitoring: v3.2.0
   opa: v1.12.0
+  monitoring: v3.3.0-rc.1
   networking: v1.17.0
   tracing: v1.1.0
 kubernetes:
