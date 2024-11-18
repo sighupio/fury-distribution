@@ -29,7 +29,7 @@ An example file can be found [here](https://github.com/sighupio/fury-distributio
 
 ### Constraints
 
-**enum**: the value of this property must be equal to one of the following values:
+**enum**: the value of this property must be equal to one of the following string values:
 
 | Value        |
 |:-------------|
@@ -149,7 +149,7 @@ An array with the tolerations that will be added to the pods for all the KFD mod
 
 ### Constraints
 
-**enum**: the value of this property must be equal to one of the following values:
+**enum**: the value of this property must be equal to one of the following string values:
 
 | Value              |
 |:-------------------|
@@ -167,7 +167,7 @@ The key of the toleration
 
 ### Constraints
 
-**enum**: the value of this property must be equal to one of the following values:
+**enum**: the value of this property must be equal to one of the following string values:
 
 | Value    |
 |:---------|
@@ -214,7 +214,7 @@ The behavior of the configmap
 
 ### Constraints
 
-**enum**: the value of this property must be equal to one of the following values:
+**enum**: the value of this property must be equal to one of the following string values:
 
 | Value     |
 |:----------|
@@ -422,7 +422,7 @@ The behavior of the secret
 
 ### Constraints
 
-**enum**: the value of this property must be equal to one of the following values:
+**enum**: the value of this property must be equal to one of the following string values:
 
 | Value     |
 |:----------|
@@ -632,7 +632,7 @@ Set to override the tolerations that will be added to the pods of the package.
 
 ### Constraints
 
-**enum**: the value of this property must be equal to one of the following values:
+**enum**: the value of this property must be equal to one of the following string values:
 
 | Value              |
 |:-------------------|
@@ -650,7 +650,7 @@ The key of the toleration
 
 ### Constraints
 
-**enum**: the value of this property must be equal to one of the following values:
+**enum**: the value of this property must be equal to one of the following string values:
 
 | Value    |
 |:---------|
@@ -827,7 +827,7 @@ Set to override the tolerations that will be added to the pods of the Auth modul
 
 ### Constraints
 
-**enum**: the value of this property must be equal to one of the following values:
+**enum**: the value of this property must be equal to one of the following string values:
 
 | Value              |
 |:-------------------|
@@ -845,7 +845,7 @@ The key of the toleration
 
 ### Constraints
 
-**enum**: the value of this property must be equal to one of the following values:
+**enum**: the value of this property must be equal to one of the following string values:
 
 | Value    |
 |:---------|
@@ -941,7 +941,7 @@ override default routes for KFD components
 
 ### Constraints
 
-**enum**: the value of this property must be equal to one of the following values:
+**enum**: the value of this property must be equal to one of the following string values:
 
 | Value              |
 |:-------------------|
@@ -955,7 +955,7 @@ override default routes for KFD components
 
 ### Constraints
 
-**enum**: the value of this property must be equal to one of the following values:
+**enum**: the value of this property must be equal to one of the following string values:
 
 | Value    |
 |:---------|
@@ -1072,7 +1072,7 @@ The type of the Auth provider, options are:
 
 ### Constraints
 
-**enum**: the value of this property must be equal to one of the following values:
+**enum**: the value of this property must be equal to one of the following string values:
 
 | Value       |
 |:------------|
@@ -1135,7 +1135,7 @@ Set to override the tolerations that will be added to the pods of the module.
 
 ### Constraints
 
-**enum**: the value of this property must be equal to one of the following values:
+**enum**: the value of this property must be equal to one of the following string values:
 
 | Value              |
 |:-------------------|
@@ -1153,7 +1153,7 @@ The key of the toleration
 
 ### Constraints
 
-**enum**: the value of this property must be equal to one of the following values:
+**enum**: the value of this property must be equal to one of the following string values:
 
 | Value    |
 |:---------|
@@ -1174,7 +1174,7 @@ The type of the Disaster Recovery, must be `none` or `on-premises`. `none` disab
 
 ### Constraints
 
-**enum**: the value of this property must be equal to one of the following values:
+**enum**: the value of this property must be equal to one of the following string values:
 
 | Value         |
 |:--------------|
@@ -1204,7 +1204,7 @@ The storage backend type for Velero. `minio` will use an in-cluster MinIO deploy
 
 ### Constraints
 
-**enum**: the value of this property must be equal to one of the following values:
+**enum**: the value of this property must be equal to one of the following string values:
 
 | Value              |
 |:-------------------|
@@ -1291,7 +1291,7 @@ Set to override the tolerations that will be added to the pods of the package.
 
 ### Constraints
 
-**enum**: the value of this property must be equal to one of the following values:
+**enum**: the value of this property must be equal to one of the following string values:
 
 | Value              |
 |:-------------------|
@@ -1309,7 +1309,7 @@ The key of the toleration
 
 ### Constraints
 
-**enum**: the value of this property must be equal to one of the following values:
+**enum**: the value of this property must be equal to one of the following string values:
 
 | Value    |
 |:---------|
@@ -1446,7 +1446,7 @@ The type of the clusterIssuer. Only `http01` challenge is supported for on-premi
 
 ### Constraints
 
-**enum**: the value of this property must be equal to one of the following values:
+**enum**: the value of this property must be equal to one of the following string values:
 
 | Value    |
 |:---------|
@@ -1486,7 +1486,7 @@ Set to override the tolerations that will be added to the pods of the package.
 
 ### Constraints
 
-**enum**: the value of this property must be equal to one of the following values:
+**enum**: the value of this property must be equal to one of the following string values:
 
 | Value              |
 |:-------------------|
@@ -1504,7 +1504,7 @@ The key of the toleration
 
 ### Constraints
 
-**enum**: the value of this property must be equal to one of the following values:
+**enum**: the value of this property must be equal to one of the following string values:
 
 | Value    |
 |:---------|
@@ -1559,7 +1559,7 @@ Set to override the tolerations that will be added to the pods of the package.
 
 ### Constraints
 
-**enum**: the value of this property must be equal to one of the following values:
+**enum**: the value of this property must be equal to one of the following string values:
 
 | Value              |
 |:-------------------|
@@ -1577,7 +1577,7 @@ The key of the toleration
 
 ### Constraints
 
-**enum**: the value of this property must be equal to one of the following values:
+**enum**: the value of this property must be equal to one of the following string values:
 
 | Value    |
 |:---------|
@@ -1638,7 +1638,7 @@ Set to override the tolerations that will be added to the pods of the package.
 
 ### Constraints
 
-**enum**: the value of this property must be equal to one of the following values:
+**enum**: the value of this property must be equal to one of the following string values:
 
 | Value              |
 |:-------------------|
@@ -1656,7 +1656,7 @@ The key of the toleration
 
 ### Constraints
 
-**enum**: the value of this property must be equal to one of the following values:
+**enum**: the value of this property must be equal to one of the following string values:
 
 | Value    |
 |:---------|
@@ -1686,7 +1686,7 @@ The provider of the TLS certificates for the ingresses, one of: `none`, `certMan
 
 ### Constraints
 
-**enum**: the value of this property must be equal to one of the following values:
+**enum**: the value of this property must be equal to one of the following string values:
 
 | Value         |
 |:--------------|
@@ -1737,7 +1737,7 @@ The type of the nginx ingress controller, options are:
 
 ### Constraints
 
-**enum**: the value of this property must be equal to one of the following values:
+**enum**: the value of this property must be equal to one of the following string values:
 
 | Value    |
 |:---------|
@@ -1820,7 +1820,7 @@ Set to override the tolerations that will be added to the pods of the Ingress mo
 
 ### Constraints
 
-**enum**: the value of this property must be equal to one of the following values:
+**enum**: the value of this property must be equal to one of the following string values:
 
 | Value              |
 |:-------------------|
@@ -1838,7 +1838,7 @@ The key of the toleration
 
 ### Constraints
 
-**enum**: the value of this property must be equal to one of the following values:
+**enum**: the value of this property must be equal to one of the following string values:
 
 | Value    |
 |:---------|
@@ -1918,7 +1918,7 @@ Set to override the tolerations that will be added to the pods of the package.
 
 ### Constraints
 
-**enum**: the value of this property must be equal to one of the following values:
+**enum**: the value of this property must be equal to one of the following string values:
 
 | Value              |
 |:-------------------|
@@ -1936,7 +1936,7 @@ The key of the toleration
 
 ### Constraints
 
-**enum**: the value of this property must be equal to one of the following values:
+**enum**: the value of this property must be equal to one of the following string values:
 
 | Value    |
 |:---------|
@@ -2025,6 +2025,7 @@ This value defines where the output from the `systemdEtcd` Flow will be sent. Th
 | [backend](#specdistributionmoduleslogginglokibackend)                   | `string` | Optional |
 | [externalEndpoint](#specdistributionmoduleslogginglokiexternalendpoint) | `object` | Optional |
 | [resources](#specdistributionmoduleslogginglokiresources)               | `object` | Optional |
+| [tsdbStartDate](#specdistributionmoduleslogginglokitsdbstartdate)       | `string` | Required |
 
 ### Description
 
@@ -2038,7 +2039,7 @@ The storage backend type for Loki. `minio` will use an in-cluster MinIO deployme
 
 ### Constraints
 
-**enum**: the value of this property must be equal to one of the following values:
+**enum**: the value of this property must be equal to one of the following string values:
 
 | Value              |
 |:-------------------|
@@ -2142,6 +2143,12 @@ The cpu request for the loki pods
 
 The memory request for the prometheus pods
 
+## .spec.distribution.modules.logging.loki.tsdbStartDate
+
+### Description
+
+The date loki have to switch to TSDB and schema v13
+
 ## .spec.distribution.modules.logging.minio
 
 ### Properties
@@ -2190,7 +2197,7 @@ Set to override the tolerations that will be added to the pods of the package.
 
 ### Constraints
 
-**enum**: the value of this property must be equal to one of the following values:
+**enum**: the value of this property must be equal to one of the following string values:
 
 | Value              |
 |:-------------------|
@@ -2208,7 +2215,7 @@ The key of the toleration
 
 ### Constraints
 
-**enum**: the value of this property must be equal to one of the following values:
+**enum**: the value of this property must be equal to one of the following string values:
 
 | Value    |
 |:---------|
@@ -2293,7 +2300,7 @@ Set to override the tolerations that will be added to the pods of the package.
 
 ### Constraints
 
-**enum**: the value of this property must be equal to one of the following values:
+**enum**: the value of this property must be equal to one of the following string values:
 
 | Value              |
 |:-------------------|
@@ -2311,7 +2318,7 @@ The key of the toleration
 
 ### Constraints
 
-**enum**: the value of this property must be equal to one of the following values:
+**enum**: the value of this property must be equal to one of the following string values:
 
 | Value    |
 |:---------|
@@ -2389,7 +2396,7 @@ The type of OpenSearch deployment. One of: `single` for a single replica or `tri
 
 ### Constraints
 
-**enum**: the value of this property must be equal to one of the following values:
+**enum**: the value of this property must be equal to one of the following string values:
 
 | Value    |
 |:---------|
@@ -2442,7 +2449,7 @@ Set to override the tolerations that will be added to the pods of the package.
 
 ### Constraints
 
-**enum**: the value of this property must be equal to one of the following values:
+**enum**: the value of this property must be equal to one of the following string values:
 
 | Value              |
 |:-------------------|
@@ -2460,7 +2467,7 @@ The key of the toleration
 
 ### Constraints
 
-**enum**: the value of this property must be equal to one of the following values:
+**enum**: the value of this property must be equal to one of the following string values:
 
 | Value    |
 |:---------|
@@ -2514,7 +2521,7 @@ Set to override the tolerations that will be added to the pods of the module.
 
 ### Constraints
 
-**enum**: the value of this property must be equal to one of the following values:
+**enum**: the value of this property must be equal to one of the following string values:
 
 | Value              |
 |:-------------------|
@@ -2532,7 +2539,7 @@ The key of the toleration
 
 ### Constraints
 
-**enum**: the value of this property must be equal to one of the following values:
+**enum**: the value of this property must be equal to one of the following string values:
 
 | Value    |
 |:---------|
@@ -2557,7 +2564,7 @@ Selects the logging stack. Options are:
 
 ### Constraints
 
-**enum**: the value of this property must be equal to one of the following values:
+**enum**: the value of this property must be equal to one of the following string values:
 
 | Value           |
 |:----------------|
@@ -2658,7 +2665,7 @@ Set to override the tolerations that will be added to the pods of the package.
 
 ### Constraints
 
-**enum**: the value of this property must be equal to one of the following values:
+**enum**: the value of this property must be equal to one of the following string values:
 
 | Value              |
 |:-------------------|
@@ -2676,7 +2683,7 @@ The key of the toleration
 
 ### Constraints
 
-**enum**: the value of this property must be equal to one of the following values:
+**enum**: the value of this property must be equal to one of the following string values:
 
 | Value    |
 |:---------|
@@ -2741,7 +2748,7 @@ Set to override the tolerations that will be added to the pods of the package.
 
 ### Constraints
 
-**enum**: the value of this property must be equal to one of the following values:
+**enum**: the value of this property must be equal to one of the following string values:
 
 | Value              |
 |:-------------------|
@@ -2759,7 +2766,7 @@ The key of the toleration
 
 ### Constraints
 
-**enum**: the value of this property must be equal to one of the following values:
+**enum**: the value of this property must be equal to one of the following string values:
 
 | Value    |
 |:---------|
@@ -2826,7 +2833,7 @@ Set to override the tolerations that will be added to the pods of the package.
 
 ### Constraints
 
-**enum**: the value of this property must be equal to one of the following values:
+**enum**: the value of this property must be equal to one of the following string values:
 
 | Value              |
 |:-------------------|
@@ -2844,7 +2851,7 @@ The key of the toleration
 
 ### Constraints
 
-**enum**: the value of this property must be equal to one of the following values:
+**enum**: the value of this property must be equal to one of the following string values:
 
 | Value    |
 |:---------|
@@ -2880,7 +2887,7 @@ The storage backend type for Mimir. `minio` will use an in-cluster MinIO deploym
 
 ### Constraints
 
-**enum**: the value of this property must be equal to one of the following values:
+**enum**: the value of this property must be equal to one of the following string values:
 
 | Value              |
 |:-------------------|
@@ -2967,7 +2974,7 @@ Set to override the tolerations that will be added to the pods of the package.
 
 ### Constraints
 
-**enum**: the value of this property must be equal to one of the following values:
+**enum**: the value of this property must be equal to one of the following string values:
 
 | Value              |
 |:-------------------|
@@ -2985,7 +2992,7 @@ The key of the toleration
 
 ### Constraints
 
-**enum**: the value of this property must be equal to one of the following values:
+**enum**: the value of this property must be equal to one of the following string values:
 
 | Value    |
 |:---------|
@@ -3052,7 +3059,7 @@ Set to override the tolerations that will be added to the pods of the package.
 
 ### Constraints
 
-**enum**: the value of this property must be equal to one of the following values:
+**enum**: the value of this property must be equal to one of the following string values:
 
 | Value              |
 |:-------------------|
@@ -3070,7 +3077,7 @@ The key of the toleration
 
 ### Constraints
 
-**enum**: the value of this property must be equal to one of the following values:
+**enum**: the value of this property must be equal to one of the following string values:
 
 | Value    |
 |:---------|
@@ -3151,7 +3158,7 @@ Set to override the tolerations that will be added to the pods of the module.
 
 ### Constraints
 
-**enum**: the value of this property must be equal to one of the following values:
+**enum**: the value of this property must be equal to one of the following string values:
 
 | Value              |
 |:-------------------|
@@ -3169,7 +3176,7 @@ The key of the toleration
 
 ### Constraints
 
-**enum**: the value of this property must be equal to one of the following values:
+**enum**: the value of this property must be equal to one of the following string values:
 
 | Value    |
 |:---------|
@@ -3352,7 +3359,7 @@ The type of the monitoring, must be `none`, `prometheus`, `prometheusAgent` or `
 
 ### Constraints
 
-**enum**: the value of this property must be equal to one of the following values:
+**enum**: the value of this property must be equal to one of the following string values:
 
 | Value             |
 |:------------------|
@@ -3403,7 +3410,7 @@ Set to override the tolerations that will be added to the pods of the package.
 
 ### Constraints
 
-**enum**: the value of this property must be equal to one of the following values:
+**enum**: the value of this property must be equal to one of the following string values:
 
 | Value              |
 |:-------------------|
@@ -3421,7 +3428,7 @@ The key of the toleration
 
 ### Constraints
 
-**enum**: the value of this property must be equal to one of the following values:
+**enum**: the value of this property must be equal to one of the following string values:
 
 | Value    |
 |:---------|
@@ -3499,7 +3506,7 @@ Set to override the tolerations that will be added to the pods of the package.
 
 ### Constraints
 
-**enum**: the value of this property must be equal to one of the following values:
+**enum**: the value of this property must be equal to one of the following string values:
 
 | Value              |
 |:-------------------|
@@ -3517,7 +3524,7 @@ The key of the toleration
 
 ### Constraints
 
-**enum**: the value of this property must be equal to one of the following values:
+**enum**: the value of this property must be equal to one of the following string values:
 
 | Value    |
 |:---------|
@@ -3587,7 +3594,7 @@ Set to override the tolerations that will be added to the pods of the module.
 
 ### Constraints
 
-**enum**: the value of this property must be equal to one of the following values:
+**enum**: the value of this property must be equal to one of the following string values:
 
 | Value              |
 |:-------------------|
@@ -3605,7 +3612,7 @@ The key of the toleration
 
 ### Constraints
 
-**enum**: the value of this property must be equal to one of the following values:
+**enum**: the value of this property must be equal to one of the following string values:
 
 | Value    |
 |:---------|
@@ -3660,7 +3667,7 @@ Set to override the tolerations that will be added to the pods of the package.
 
 ### Constraints
 
-**enum**: the value of this property must be equal to one of the following values:
+**enum**: the value of this property must be equal to one of the following string values:
 
 | Value              |
 |:-------------------|
@@ -3678,7 +3685,7 @@ The key of the toleration
 
 ### Constraints
 
-**enum**: the value of this property must be equal to one of the following values:
+**enum**: the value of this property must be equal to one of the following string values:
 
 | Value    |
 |:---------|
@@ -3699,7 +3706,7 @@ The type of CNI plugin to use, either `calico` (default, via the Tigera Operator
 
 ### Constraints
 
-**enum**: the value of this property must be equal to one of the following values:
+**enum**: the value of this property must be equal to one of the following string values:
 
 | Value    |
 |:---------|
@@ -3750,7 +3757,7 @@ The default enforcement action to use for the included constraints. `deny` will 
 
 ### Constraints
 
-**enum**: the value of this property must be equal to one of the following values:
+**enum**: the value of this property must be equal to one of the following string values:
 
 | Value    |
 |:---------|
@@ -3798,7 +3805,7 @@ Set to override the tolerations that will be added to the pods of the package.
 
 ### Constraints
 
-**enum**: the value of this property must be equal to one of the following values:
+**enum**: the value of this property must be equal to one of the following string values:
 
 | Value              |
 |:-------------------|
@@ -3816,7 +3823,7 @@ The key of the toleration
 
 ### Constraints
 
-**enum**: the value of this property must be equal to one of the following values:
+**enum**: the value of this property must be equal to one of the following string values:
 
 | Value    |
 |:---------|
@@ -3890,7 +3897,7 @@ Set to override the tolerations that will be added to the pods of the package.
 
 ### Constraints
 
-**enum**: the value of this property must be equal to one of the following values:
+**enum**: the value of this property must be equal to one of the following string values:
 
 | Value              |
 |:-------------------|
@@ -3908,7 +3915,7 @@ The key of the toleration
 
 ### Constraints
 
-**enum**: the value of this property must be equal to one of the following values:
+**enum**: the value of this property must be equal to one of the following string values:
 
 | Value    |
 |:---------|
@@ -3929,7 +3936,7 @@ The validation failure action to use for the policies, `Enforce` will block when
 
 ### Constraints
 
-**enum**: the value of this property must be equal to one of the following values:
+**enum**: the value of this property must be equal to one of the following string values:
 
 | Value     |
 |:----------|
@@ -3977,7 +3984,7 @@ Set to override the tolerations that will be added to the pods of the module.
 
 ### Constraints
 
-**enum**: the value of this property must be equal to one of the following values:
+**enum**: the value of this property must be equal to one of the following string values:
 
 | Value              |
 |:-------------------|
@@ -3995,7 +4002,7 @@ The key of the toleration
 
 ### Constraints
 
-**enum**: the value of this property must be equal to one of the following values:
+**enum**: the value of this property must be equal to one of the following string values:
 
 | Value    |
 |:---------|
@@ -4016,7 +4023,7 @@ The type of policy enforcement to use, either `none`, `gatekeeper` or `kyverno`.
 
 ### Constraints
 
-**enum**: the value of this property must be equal to one of the following values:
+**enum**: the value of this property must be equal to one of the following string values:
 
 | Value        |
 |:-------------|
@@ -4087,7 +4094,7 @@ Set to override the tolerations that will be added to the pods of the package.
 
 ### Constraints
 
-**enum**: the value of this property must be equal to one of the following values:
+**enum**: the value of this property must be equal to one of the following string values:
 
 | Value              |
 |:-------------------|
@@ -4105,7 +4112,7 @@ The key of the toleration
 
 ### Constraints
 
-**enum**: the value of this property must be equal to one of the following values:
+**enum**: the value of this property must be equal to one of the following string values:
 
 | Value    |
 |:---------|
@@ -4186,7 +4193,7 @@ Set to override the tolerations that will be added to the pods of the module.
 
 ### Constraints
 
-**enum**: the value of this property must be equal to one of the following values:
+**enum**: the value of this property must be equal to one of the following string values:
 
 | Value              |
 |:-------------------|
@@ -4204,7 +4211,7 @@ The key of the toleration
 
 ### Constraints
 
-**enum**: the value of this property must be equal to one of the following values:
+**enum**: the value of this property must be equal to one of the following string values:
 
 | Value    |
 |:---------|
@@ -4240,7 +4247,7 @@ The storage backend type for Tempo. `minio` will use an in-cluster MinIO deploym
 
 ### Constraints
 
-**enum**: the value of this property must be equal to one of the following values:
+**enum**: the value of this property must be equal to one of the following string values:
 
 | Value              |
 |:-------------------|
@@ -4327,7 +4334,7 @@ Set to override the tolerations that will be added to the pods of the package.
 
 ### Constraints
 
-**enum**: the value of this property must be equal to one of the following values:
+**enum**: the value of this property must be equal to one of the following string values:
 
 | Value              |
 |:-------------------|
@@ -4345,7 +4352,7 @@ The key of the toleration
 
 ### Constraints
 
-**enum**: the value of this property must be equal to one of the following values:
+**enum**: the value of this property must be equal to one of the following string values:
 
 | Value    |
 |:---------|
@@ -4372,7 +4379,7 @@ The type of tracing to use, either `none` or `tempo`. `none` will disable the Tr
 
 ### Constraints
 
-**enum**: the value of this property must be equal to one of the following values:
+**enum**: the value of this property must be equal to one of the following string values:
 
 | Value   |
 |:--------|
@@ -5004,7 +5011,7 @@ Name for the node group. It will be also used as the node role label. It should 
 
 ### Constraints
 
-**enum**: the value of this property must be equal to one of the following values:
+**enum**: the value of this property must be equal to one of the following string values:
 
 | Value              |
 |:-------------------|
@@ -5150,20 +5157,27 @@ The subnet CIDR to use for the Services network.
 
 ### Properties
 
-| Property                                       | Type     | Required |
-|:-----------------------------------------------|:---------|:---------|
-| [chart](#specpluginshelmreleaseschart)         | `string` | Required |
-| [name](#specpluginshelmreleasesname)           | `string` | Required |
-| [namespace](#specpluginshelmreleasesnamespace) | `string` | Required |
-| [set](#specpluginshelmreleasesset)             | `array`  | Optional |
-| [values](#specpluginshelmreleasesvalues)       | `array`  | Optional |
-| [version](#specpluginshelmreleasesversion)     | `string` | Optional |
+| Property                                                                         | Type      | Required |
+|:---------------------------------------------------------------------------------|:----------|:---------|
+| [chart](#specpluginshelmreleaseschart)                                           | `string`  | Required |
+| [disableValidationOnInstall](#specpluginshelmreleasesdisablevalidationoninstall) | `boolean` | Optional |
+| [name](#specpluginshelmreleasesname)                                             | `string`  | Required |
+| [namespace](#specpluginshelmreleasesnamespace)                                   | `string`  | Required |
+| [set](#specpluginshelmreleasesset)                                               | `array`   | Optional |
+| [values](#specpluginshelmreleasesvalues)                                         | `array`   | Optional |
+| [version](#specpluginshelmreleasesversion)                                       | `string`  | Optional |
 
 ## .spec.plugins.helm.releases.chart
 
 ### Description
 
 The chart of the release
+
+## .spec.plugins.helm.releases.disableValidationOnInstall
+
+### Description
+
+Disable running `helm diff` validation when installing the plugin, it will still be done when upgrading.
 
 ## .spec.plugins.helm.releases.name
 

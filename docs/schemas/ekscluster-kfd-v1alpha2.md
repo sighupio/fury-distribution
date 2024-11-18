@@ -33,7 +33,7 @@ A Fury Cluster deployed through AWS's Elastic Kubernetes Service
 
 ### Constraints
 
-**enum**: the value of this property must be equal to one of the following values:
+**enum**: the value of this property must be equal to one of the following string values:
 
 | Value        |
 |:-------------|
@@ -145,7 +145,7 @@ The tolerations that will be added to the pods for all the KFD modules
 
 ### Constraints
 
-**enum**: the value of this property must be equal to one of the following values:
+**enum**: the value of this property must be equal to one of the following string values:
 
 | Value              |
 |:-------------------|
@@ -163,7 +163,7 @@ The key of the toleration
 
 ### Constraints
 
-**enum**: the value of this property must be equal to one of the following values:
+**enum**: the value of this property must be equal to one of the following string values:
 
 | Value    |
 |:---------|
@@ -210,7 +210,7 @@ The behavior of the configmap
 
 ### Constraints
 
-**enum**: the value of this property must be equal to one of the following values:
+**enum**: the value of this property must be equal to one of the following string values:
 
 | Value     |
 |:----------|
@@ -418,7 +418,7 @@ The behavior of the secret
 
 ### Constraints
 
-**enum**: the value of this property must be equal to one of the following values:
+**enum**: the value of this property must be equal to one of the following string values:
 
 | Value     |
 |:----------|
@@ -609,7 +609,7 @@ The tolerations that will be added to the pods for the cert-manager module
 
 ### Constraints
 
-**enum**: the value of this property must be equal to one of the following values:
+**enum**: the value of this property must be equal to one of the following string values:
 
 | Value              |
 |:-------------------|
@@ -627,7 +627,7 @@ The key of the toleration
 
 ### Constraints
 
-**enum**: the value of this property must be equal to one of the following values:
+**enum**: the value of this property must be equal to one of the following string values:
 
 | Value    |
 |:---------|
@@ -677,7 +677,7 @@ The tolerations that will be added to the pods for the auth module
 
 ### Constraints
 
-**enum**: the value of this property must be equal to one of the following values:
+**enum**: the value of this property must be equal to one of the following string values:
 
 | Value              |
 |:-------------------|
@@ -695,7 +695,7 @@ The key of the toleration
 
 ### Constraints
 
-**enum**: the value of this property must be equal to one of the following values:
+**enum**: the value of this property must be equal to one of the following string values:
 
 | Value    |
 |:---------|
@@ -791,7 +791,7 @@ override default routes for KFD components
 
 ### Constraints
 
-**enum**: the value of this property must be equal to one of the following values:
+**enum**: the value of this property must be equal to one of the following string values:
 
 | Value              |
 |:-------------------|
@@ -805,7 +805,7 @@ override default routes for KFD components
 
 ### Constraints
 
-**enum**: the value of this property must be equal to one of the following values:
+**enum**: the value of this property must be equal to one of the following string values:
 
 | Value    |
 |:---------|
@@ -915,7 +915,7 @@ The type of the provider, must be ***none***, ***sso*** or ***basicAuth***
 
 ### Constraints
 
-**enum**: the value of this property must be equal to one of the following values:
+**enum**: the value of this property must be equal to one of the following string values:
 
 | Value       |
 |:------------|
@@ -990,7 +990,7 @@ The tolerations that will be added to the pods for the cluster autoscaler module
 
 ### Constraints
 
-**enum**: the value of this property must be equal to one of the following values:
+**enum**: the value of this property must be equal to one of the following string values:
 
 | Value              |
 |:-------------------|
@@ -1008,7 +1008,7 @@ The key of the toleration
 
 ### Constraints
 
-**enum**: the value of this property must be equal to one of the following values:
+**enum**: the value of this property must be equal to one of the following string values:
 
 | Value    |
 |:---------|
@@ -1076,7 +1076,7 @@ The tolerations that will be added to the pods for the cluster autoscaler module
 
 ### Constraints
 
-**enum**: the value of this property must be equal to one of the following values:
+**enum**: the value of this property must be equal to one of the following string values:
 
 | Value              |
 |:-------------------|
@@ -1094,7 +1094,7 @@ The key of the toleration
 
 ### Constraints
 
-**enum**: the value of this property must be equal to one of the following values:
+**enum**: the value of this property must be equal to one of the following string values:
 
 | Value    |
 |:---------|
@@ -1149,7 +1149,7 @@ The tolerations that will be added to the pods for the cert-manager module
 
 ### Constraints
 
-**enum**: the value of this property must be equal to one of the following values:
+**enum**: the value of this property must be equal to one of the following string values:
 
 | Value              |
 |:-------------------|
@@ -1167,7 +1167,7 @@ The key of the toleration
 
 ### Constraints
 
-**enum**: the value of this property must be equal to one of the following values:
+**enum**: the value of this property must be equal to one of the following string values:
 
 | Value    |
 |:---------|
@@ -1235,7 +1235,7 @@ The tolerations that will be added to the pods for the cluster autoscaler module
 
 ### Constraints
 
-**enum**: the value of this property must be equal to one of the following values:
+**enum**: the value of this property must be equal to one of the following string values:
 
 | Value              |
 |:-------------------|
@@ -1253,7 +1253,7 @@ The key of the toleration
 
 ### Constraints
 
-**enum**: the value of this property must be equal to one of the following values:
+**enum**: the value of this property must be equal to one of the following string values:
 
 | Value    |
 |:---------|
@@ -1303,7 +1303,7 @@ The tolerations that will be added to the pods for the monitoring module
 
 ### Constraints
 
-**enum**: the value of this property must be equal to one of the following values:
+**enum**: the value of this property must be equal to one of the following string values:
 
 | Value              |
 |:-------------------|
@@ -1321,7 +1321,7 @@ The key of the toleration
 
 ### Constraints
 
-**enum**: the value of this property must be equal to one of the following values:
+**enum**: the value of this property must be equal to one of the following string values:
 
 | Value    |
 |:---------|
@@ -1381,7 +1381,7 @@ The tolerations that will be added to the pods for the monitoring module
 
 ### Constraints
 
-**enum**: the value of this property must be equal to one of the following values:
+**enum**: the value of this property must be equal to one of the following string values:
 
 | Value              |
 |:-------------------|
@@ -1399,7 +1399,7 @@ The key of the toleration
 
 ### Constraints
 
-**enum**: the value of this property must be equal to one of the following values:
+**enum**: the value of this property must be equal to one of the following string values:
 
 | Value    |
 |:---------|
@@ -1420,7 +1420,7 @@ The type of the DR, must be ***none*** or ***eks***
 
 ### Constraints
 
-**enum**: the value of this property must be equal to one of the following values:
+**enum**: the value of this property must be equal to one of the following string values:
 
 | Value  |
 |:-------|
@@ -1460,7 +1460,7 @@ The region where the velero bucket is located
 
 ### Constraints
 
-**enum**: the value of this property must be equal to one of the following values:
+**enum**: the value of this property must be equal to one of the following string values:
 
 | Value            |
 |:-----------------|
@@ -1528,7 +1528,7 @@ The tolerations that will be added to the pods for the cert-manager module
 
 ### Constraints
 
-**enum**: the value of this property must be equal to one of the following values:
+**enum**: the value of this property must be equal to one of the following string values:
 
 | Value              |
 |:-------------------|
@@ -1546,7 +1546,7 @@ The key of the toleration
 
 ### Constraints
 
-**enum**: the value of this property must be equal to one of the following values:
+**enum**: the value of this property must be equal to one of the following string values:
 
 | Value    |
 |:---------|
@@ -1675,7 +1675,7 @@ The type of the cluster issuer, must be ***dns01*** or ***http01***
 
 ### Constraints
 
-**enum**: the value of this property must be equal to one of the following values:
+**enum**: the value of this property must be equal to one of the following string values:
 
 | Value    |
 |:---------|
@@ -1716,7 +1716,7 @@ The tolerations that will be added to the pods for the cert-manager module
 
 ### Constraints
 
-**enum**: the value of this property must be equal to one of the following values:
+**enum**: the value of this property must be equal to one of the following string values:
 
 | Value              |
 |:-------------------|
@@ -1734,7 +1734,7 @@ The key of the toleration
 
 ### Constraints
 
-**enum**: the value of this property must be equal to one of the following values:
+**enum**: the value of this property must be equal to one of the following string values:
 
 | Value    |
 |:---------|
@@ -1791,7 +1791,7 @@ The tolerations that will be added to the pods for the cert-manager module
 
 ### Constraints
 
-**enum**: the value of this property must be equal to one of the following values:
+**enum**: the value of this property must be equal to one of the following string values:
 
 | Value              |
 |:-------------------|
@@ -1809,7 +1809,7 @@ The key of the toleration
 
 ### Constraints
 
-**enum**: the value of this property must be equal to one of the following values:
+**enum**: the value of this property must be equal to one of the following string values:
 
 | Value    |
 |:---------|
@@ -1906,7 +1906,7 @@ The tolerations that will be added to the pods for the cert-manager module
 
 ### Constraints
 
-**enum**: the value of this property must be equal to one of the following values:
+**enum**: the value of this property must be equal to one of the following string values:
 
 | Value              |
 |:-------------------|
@@ -1924,7 +1924,7 @@ The key of the toleration
 
 ### Constraints
 
-**enum**: the value of this property must be equal to one of the following values:
+**enum**: the value of this property must be equal to one of the following string values:
 
 | Value    |
 |:---------|
@@ -1985,7 +1985,7 @@ The tolerations that will be added to the pods for the cert-manager module
 
 ### Constraints
 
-**enum**: the value of this property must be equal to one of the following values:
+**enum**: the value of this property must be equal to one of the following string values:
 
 | Value              |
 |:-------------------|
@@ -2003,7 +2003,7 @@ The key of the toleration
 
 ### Constraints
 
-**enum**: the value of this property must be equal to one of the following values:
+**enum**: the value of this property must be equal to one of the following string values:
 
 | Value    |
 |:---------|
@@ -2033,7 +2033,7 @@ The provider of the TLS certificate, must be ***none***, ***certManager*** or **
 
 ### Constraints
 
-**enum**: the value of this property must be equal to one of the following values:
+**enum**: the value of this property must be equal to one of the following string values:
 
 | Value         |
 |:--------------|
@@ -2069,7 +2069,7 @@ The type of the nginx ingress controller, must be ***none***, ***single*** or **
 
 ### Constraints
 
-**enum**: the value of this property must be equal to one of the following values:
+**enum**: the value of this property must be equal to one of the following string values:
 
 | Value    |
 |:---------|
@@ -2148,7 +2148,7 @@ The tolerations that will be added to the pods for the ingress module
 
 ### Constraints
 
-**enum**: the value of this property must be equal to one of the following values:
+**enum**: the value of this property must be equal to one of the following string values:
 
 | Value              |
 |:-------------------|
@@ -2166,7 +2166,7 @@ The key of the toleration
 
 ### Constraints
 
-**enum**: the value of this property must be equal to one of the following values:
+**enum**: the value of this property must be equal to one of the following string values:
 
 | Value    |
 |:---------|
@@ -2236,7 +2236,7 @@ The tolerations that will be added to the pods for the cert-manager module
 
 ### Constraints
 
-**enum**: the value of this property must be equal to one of the following values:
+**enum**: the value of this property must be equal to one of the following string values:
 
 | Value              |
 |:-------------------|
@@ -2254,7 +2254,7 @@ The key of the toleration
 
 ### Constraints
 
-**enum**: the value of this property must be equal to one of the following values:
+**enum**: the value of this property must be equal to one of the following string values:
 
 | Value    |
 |:---------|
@@ -2343,12 +2343,13 @@ This value defines where the output from Flow will be sent. Will be the `spec` s
 | [backend](#specdistributionmoduleslogginglokibackend)                   | `string` | Optional |
 | [externalEndpoint](#specdistributionmoduleslogginglokiexternalendpoint) | `object` | Optional |
 | [resources](#specdistributionmoduleslogginglokiresources)               | `object` | Optional |
+| [tsdbStartDate](#specdistributionmoduleslogginglokitsdbstartdate)       | `string` | Required |
 
 ## .spec.distribution.modules.logging.loki.backend
 
 ### Constraints
 
-**enum**: the value of this property must be equal to one of the following values:
+**enum**: the value of this property must be equal to one of the following string values:
 
 | Value              |
 |:-------------------|
@@ -2448,6 +2449,12 @@ The cpu request for the prometheus pods
 
 The memory request for the opensearch pods
 
+## .spec.distribution.modules.logging.loki.tsdbStartDate
+
+### Description
+
+The date loki have to switch to TSDB and schema v13
+
 ## .spec.distribution.modules.logging.minio
 
 ### Properties
@@ -2492,7 +2499,7 @@ The tolerations that will be added to the pods for the cert-manager module
 
 ### Constraints
 
-**enum**: the value of this property must be equal to one of the following values:
+**enum**: the value of this property must be equal to one of the following string values:
 
 | Value              |
 |:-------------------|
@@ -2510,7 +2517,7 @@ The key of the toleration
 
 ### Constraints
 
-**enum**: the value of this property must be equal to one of the following values:
+**enum**: the value of this property must be equal to one of the following string values:
 
 | Value    |
 |:---------|
@@ -2595,7 +2602,7 @@ The tolerations that will be added to the pods for the cert-manager module
 
 ### Constraints
 
-**enum**: the value of this property must be equal to one of the following values:
+**enum**: the value of this property must be equal to one of the following string values:
 
 | Value              |
 |:-------------------|
@@ -2613,7 +2620,7 @@ The key of the toleration
 
 ### Constraints
 
-**enum**: the value of this property must be equal to one of the following values:
+**enum**: the value of this property must be equal to one of the following string values:
 
 | Value    |
 |:---------|
@@ -2691,7 +2698,7 @@ The type of the opensearch, must be ***single*** or ***triple***
 
 ### Constraints
 
-**enum**: the value of this property must be equal to one of the following values:
+**enum**: the value of this property must be equal to one of the following string values:
 
 | Value    |
 |:---------|
@@ -2740,7 +2747,7 @@ The tolerations that will be added to the pods for the cert-manager module
 
 ### Constraints
 
-**enum**: the value of this property must be equal to one of the following values:
+**enum**: the value of this property must be equal to one of the following string values:
 
 | Value              |
 |:-------------------|
@@ -2758,7 +2765,7 @@ The key of the toleration
 
 ### Constraints
 
-**enum**: the value of this property must be equal to one of the following values:
+**enum**: the value of this property must be equal to one of the following string values:
 
 | Value    |
 |:---------|
@@ -2808,7 +2815,7 @@ The tolerations that will be added to the pods for the monitoring module
 
 ### Constraints
 
-**enum**: the value of this property must be equal to one of the following values:
+**enum**: the value of this property must be equal to one of the following string values:
 
 | Value              |
 |:-------------------|
@@ -2826,7 +2833,7 @@ The key of the toleration
 
 ### Constraints
 
-**enum**: the value of this property must be equal to one of the following values:
+**enum**: the value of this property must be equal to one of the following string values:
 
 | Value    |
 |:---------|
@@ -2847,7 +2854,7 @@ selects the logging stack. Choosing none will disable the centralized logging. C
 
 ### Constraints
 
-**enum**: the value of this property must be equal to one of the following values:
+**enum**: the value of this property must be equal to one of the following string values:
 
 | Value           |
 |:----------------|
@@ -2948,7 +2955,7 @@ The tolerations that will be added to the pods for the cert-manager module
 
 ### Constraints
 
-**enum**: the value of this property must be equal to one of the following values:
+**enum**: the value of this property must be equal to one of the following string values:
 
 | Value              |
 |:-------------------|
@@ -2966,7 +2973,7 @@ The key of the toleration
 
 ### Constraints
 
-**enum**: the value of this property must be equal to one of the following values:
+**enum**: the value of this property must be equal to one of the following string values:
 
 | Value    |
 |:---------|
@@ -3031,7 +3038,7 @@ The tolerations that will be added to the pods for the cert-manager module
 
 ### Constraints
 
-**enum**: the value of this property must be equal to one of the following values:
+**enum**: the value of this property must be equal to one of the following string values:
 
 | Value              |
 |:-------------------|
@@ -3049,7 +3056,7 @@ The key of the toleration
 
 ### Constraints
 
-**enum**: the value of this property must be equal to one of the following values:
+**enum**: the value of this property must be equal to one of the following string values:
 
 | Value    |
 |:---------|
@@ -3116,7 +3123,7 @@ The tolerations that will be added to the pods for the cert-manager module
 
 ### Constraints
 
-**enum**: the value of this property must be equal to one of the following values:
+**enum**: the value of this property must be equal to one of the following string values:
 
 | Value              |
 |:-------------------|
@@ -3134,7 +3141,7 @@ The key of the toleration
 
 ### Constraints
 
-**enum**: the value of this property must be equal to one of the following values:
+**enum**: the value of this property must be equal to one of the following string values:
 
 | Value    |
 |:---------|
@@ -3166,7 +3173,7 @@ The backend for the mimir pods, must be ***minio*** or ***externalEndpoint***
 
 ### Constraints
 
-**enum**: the value of this property must be equal to one of the following values:
+**enum**: the value of this property must be equal to one of the following string values:
 
 | Value              |
 |:-------------------|
@@ -3249,7 +3256,7 @@ The tolerations that will be added to the pods for the cert-manager module
 
 ### Constraints
 
-**enum**: the value of this property must be equal to one of the following values:
+**enum**: the value of this property must be equal to one of the following string values:
 
 | Value              |
 |:-------------------|
@@ -3267,7 +3274,7 @@ The key of the toleration
 
 ### Constraints
 
-**enum**: the value of this property must be equal to one of the following values:
+**enum**: the value of this property must be equal to one of the following string values:
 
 | Value    |
 |:---------|
@@ -3330,7 +3337,7 @@ The tolerations that will be added to the pods for the cert-manager module
 
 ### Constraints
 
-**enum**: the value of this property must be equal to one of the following values:
+**enum**: the value of this property must be equal to one of the following string values:
 
 | Value              |
 |:-------------------|
@@ -3348,7 +3355,7 @@ The key of the toleration
 
 ### Constraints
 
-**enum**: the value of this property must be equal to one of the following values:
+**enum**: the value of this property must be equal to one of the following string values:
 
 | Value    |
 |:---------|
@@ -3425,7 +3432,7 @@ The tolerations that will be added to the pods for the monitoring module
 
 ### Constraints
 
-**enum**: the value of this property must be equal to one of the following values:
+**enum**: the value of this property must be equal to one of the following string values:
 
 | Value              |
 |:-------------------|
@@ -3443,7 +3450,7 @@ The key of the toleration
 
 ### Constraints
 
-**enum**: the value of this property must be equal to one of the following values:
+**enum**: the value of this property must be equal to one of the following string values:
 
 | Value    |
 |:---------|
@@ -3626,7 +3633,7 @@ The type of the monitoring, must be ***none***, ***prometheus***, ***prometheusA
 
 ### Constraints
 
-**enum**: the value of this property must be equal to one of the following values:
+**enum**: the value of this property must be equal to one of the following string values:
 
 | Value             |
 |:------------------|
@@ -3677,7 +3684,7 @@ The tolerations that will be added to the pods for the cert-manager module
 
 ### Constraints
 
-**enum**: the value of this property must be equal to one of the following values:
+**enum**: the value of this property must be equal to one of the following string values:
 
 | Value              |
 |:-------------------|
@@ -3695,7 +3702,7 @@ The key of the toleration
 
 ### Constraints
 
-**enum**: the value of this property must be equal to one of the following values:
+**enum**: the value of this property must be equal to one of the following string values:
 
 | Value    |
 |:---------|
@@ -3751,7 +3758,7 @@ The tolerations that will be added to the pods for the cert-manager module
 
 ### Constraints
 
-**enum**: the value of this property must be equal to one of the following values:
+**enum**: the value of this property must be equal to one of the following string values:
 
 | Value              |
 |:-------------------|
@@ -3769,7 +3776,7 @@ The key of the toleration
 
 ### Constraints
 
-**enum**: the value of this property must be equal to one of the following values:
+**enum**: the value of this property must be equal to one of the following string values:
 
 | Value    |
 |:---------|
@@ -3824,7 +3831,7 @@ The tolerations that will be added to the pods for the cert-manager module
 
 ### Constraints
 
-**enum**: the value of this property must be equal to one of the following values:
+**enum**: the value of this property must be equal to one of the following string values:
 
 | Value              |
 |:-------------------|
@@ -3842,7 +3849,7 @@ The key of the toleration
 
 ### Constraints
 
-**enum**: the value of this property must be equal to one of the following values:
+**enum**: the value of this property must be equal to one of the following string values:
 
 | Value    |
 |:---------|
@@ -3891,7 +3898,7 @@ The enforcement action to use for the gatekeeper module
 
 ### Constraints
 
-**enum**: the value of this property must be equal to one of the following values:
+**enum**: the value of this property must be equal to one of the following string values:
 
 | Value    |
 |:---------|
@@ -3939,7 +3946,7 @@ The tolerations that will be added to the pods for the cert-manager module
 
 ### Constraints
 
-**enum**: the value of this property must be equal to one of the following values:
+**enum**: the value of this property must be equal to one of the following string values:
 
 | Value              |
 |:-------------------|
@@ -3957,7 +3964,7 @@ The key of the toleration
 
 ### Constraints
 
-**enum**: the value of this property must be equal to one of the following values:
+**enum**: the value of this property must be equal to one of the following string values:
 
 | Value    |
 |:---------|
@@ -4027,7 +4034,7 @@ The tolerations that will be added to the pods for the cert-manager module
 
 ### Constraints
 
-**enum**: the value of this property must be equal to one of the following values:
+**enum**: the value of this property must be equal to one of the following string values:
 
 | Value              |
 |:-------------------|
@@ -4045,7 +4052,7 @@ The key of the toleration
 
 ### Constraints
 
-**enum**: the value of this property must be equal to one of the following values:
+**enum**: the value of this property must be equal to one of the following string values:
 
 | Value    |
 |:---------|
@@ -4066,7 +4073,7 @@ The validation failure action to use for the kyverno module
 
 ### Constraints
 
-**enum**: the value of this property must be equal to one of the following values:
+**enum**: the value of this property must be equal to one of the following string values:
 
 | Value     |
 |:----------|
@@ -4110,7 +4117,7 @@ The tolerations that will be added to the pods for the monitoring module
 
 ### Constraints
 
-**enum**: the value of this property must be equal to one of the following values:
+**enum**: the value of this property must be equal to one of the following string values:
 
 | Value              |
 |:-------------------|
@@ -4128,7 +4135,7 @@ The key of the toleration
 
 ### Constraints
 
-**enum**: the value of this property must be equal to one of the following values:
+**enum**: the value of this property must be equal to one of the following string values:
 
 | Value    |
 |:---------|
@@ -4149,7 +4156,7 @@ The type of security to use, either ***none***, ***gatekeeper*** or ***kyverno**
 
 ### Constraints
 
-**enum**: the value of this property must be equal to one of the following values:
+**enum**: the value of this property must be equal to one of the following string values:
 
 | Value        |
 |:-------------|
@@ -4212,7 +4219,7 @@ The tolerations that will be added to the pods for the cert-manager module
 
 ### Constraints
 
-**enum**: the value of this property must be equal to one of the following values:
+**enum**: the value of this property must be equal to one of the following string values:
 
 | Value              |
 |:-------------------|
@@ -4230,7 +4237,7 @@ The key of the toleration
 
 ### Constraints
 
-**enum**: the value of this property must be equal to one of the following values:
+**enum**: the value of this property must be equal to one of the following string values:
 
 | Value    |
 |:---------|
@@ -4307,7 +4314,7 @@ The tolerations that will be added to the pods for the monitoring module
 
 ### Constraints
 
-**enum**: the value of this property must be equal to one of the following values:
+**enum**: the value of this property must be equal to one of the following string values:
 
 | Value              |
 |:-------------------|
@@ -4325,7 +4332,7 @@ The key of the toleration
 
 ### Constraints
 
-**enum**: the value of this property must be equal to one of the following values:
+**enum**: the value of this property must be equal to one of the following string values:
 
 | Value    |
 |:---------|
@@ -4357,7 +4364,7 @@ The backend for the tempo pods, must be ***minio*** or ***externalEndpoint***
 
 ### Constraints
 
-**enum**: the value of this property must be equal to one of the following values:
+**enum**: the value of this property must be equal to one of the following string values:
 
 | Value              |
 |:-------------------|
@@ -4440,7 +4447,7 @@ The tolerations that will be added to the pods for the cert-manager module
 
 ### Constraints
 
-**enum**: the value of this property must be equal to one of the following values:
+**enum**: the value of this property must be equal to one of the following string values:
 
 | Value              |
 |:-------------------|
@@ -4458,7 +4465,7 @@ The key of the toleration
 
 ### Constraints
 
-**enum**: the value of this property must be equal to one of the following values:
+**enum**: the value of this property must be equal to one of the following string values:
 
 | Value    |
 |:---------|
@@ -4485,7 +4492,7 @@ The type of tracing to use, either ***none*** or ***tempo***
 
 ### Constraints
 
-**enum**: the value of this property must be equal to one of the following values:
+**enum**: the value of this property must be equal to one of the following string values:
 
 | Value   |
 |:--------|
@@ -4919,7 +4926,7 @@ Optional list of Kubernetes Cluster log types to enable. Defaults to all types.
 
 ### Constraints
 
-**enum**: the value of this property must be equal to one of the following values:
+**enum**: the value of this property must be equal to one of the following string values:
 
 | Value               |
 |:--------------------|
@@ -5032,7 +5039,7 @@ The CIDR blocks for the FW rule. At the moment the first item of the list will b
 
 ### Constraints
 
-**enum**: the value of this property must be equal to one of the following values:
+**enum**: the value of this property must be equal to one of the following string values:
 
 | Value     |
 |:----------|
@@ -5111,7 +5118,7 @@ The type of the FW rule can be ingress or egress
 
 ### Constraints
 
-**enum**: the value of this property must be equal to one of the following values:
+**enum**: the value of this property must be equal to one of the following string values:
 
 | Value     |
 |:----------|
@@ -5190,7 +5197,7 @@ The type of the FW rule can be ingress or egress
 
 ### Constraints
 
-**enum**: the value of this property must be equal to one of the following values:
+**enum**: the value of this property must be equal to one of the following string values:
 
 | Value     |
 |:----------|
@@ -5242,7 +5249,7 @@ The container runtime to use for the nodes
 
 ### Constraints
 
-**enum**: the value of this property must be equal to one of the following values:
+**enum**: the value of this property must be equal to one of the following string values:
 
 | Value        |
 |:-------------|
@@ -5285,7 +5292,7 @@ The size of the disk in GB
 
 ### Constraints
 
-**enum**: the value of this property must be equal to one of the following values:
+**enum**: the value of this property must be equal to one of the following string values:
 
 | Value      |
 |:-----------|
@@ -5365,7 +5372,7 @@ AWS tags that will be added to the ASG and EC2 instances
 
 ### Constraints
 
-**enum**: the value of this property must be equal to one of the following values:
+**enum**: the value of this property must be equal to one of the following string values:
 
 | Value          |
 |:---------------|
@@ -5380,7 +5387,7 @@ Either `launch_configurations`, `launch_templates` or `both`. For new clusters u
 
 ### Constraints
 
-**enum**: the value of this property must be equal to one of the following values:
+**enum**: the value of this property must be equal to one of the following string values:
 
 | Value                   |
 |:------------------------|
@@ -5474,20 +5481,27 @@ Overrides the default IAM role name prefix for the EKS workers
 
 ### Properties
 
-| Property                                       | Type     | Required |
-|:-----------------------------------------------|:---------|:---------|
-| [chart](#specpluginshelmreleaseschart)         | `string` | Required |
-| [name](#specpluginshelmreleasesname)           | `string` | Required |
-| [namespace](#specpluginshelmreleasesnamespace) | `string` | Required |
-| [set](#specpluginshelmreleasesset)             | `array`  | Optional |
-| [values](#specpluginshelmreleasesvalues)       | `array`  | Optional |
-| [version](#specpluginshelmreleasesversion)     | `string` | Optional |
+| Property                                                                         | Type      | Required |
+|:---------------------------------------------------------------------------------|:----------|:---------|
+| [chart](#specpluginshelmreleaseschart)                                           | `string`  | Required |
+| [disableValidationOnInstall](#specpluginshelmreleasesdisablevalidationoninstall) | `boolean` | Optional |
+| [name](#specpluginshelmreleasesname)                                             | `string`  | Required |
+| [namespace](#specpluginshelmreleasesnamespace)                                   | `string`  | Required |
+| [set](#specpluginshelmreleasesset)                                               | `array`   | Optional |
+| [values](#specpluginshelmreleasesvalues)                                         | `array`   | Optional |
+| [version](#specpluginshelmreleasesversion)                                       | `string`  | Optional |
 
 ## .spec.plugins.helm.releases.chart
 
 ### Description
 
 The chart of the release
+
+## .spec.plugins.helm.releases.disableValidationOnInstall
+
+### Description
+
+Disable running `helm diff` validation when installing the plugin, it will still be done when upgrading.
 
 ## .spec.plugins.helm.releases.name
 
@@ -5580,7 +5594,7 @@ The name of the kustomize plugin
 
 ### Constraints
 
-**enum**: the value of this property must be equal to one of the following values:
+**enum**: the value of this property must be equal to one of the following string values:
 
 | Value            |
 |:-----------------|
@@ -5687,7 +5701,7 @@ This value defines in which region the bucket is located
 
 ### Constraints
 
-**enum**: the value of this property must be equal to one of the following values:
+**enum**: the value of this property must be equal to one of the following string values:
 
 | Value            |
 |:-----------------|
