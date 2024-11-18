@@ -113,6 +113,8 @@ data:
           secretAccessKey: example
           accessKeyId: example
           bucketName: lokibucket
+        tsdbSchemav13Migration:
+          enabled: false
       customOutputs: {}
     # monitoring module configuration
     monitoring:
