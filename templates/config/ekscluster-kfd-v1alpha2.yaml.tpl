@@ -127,8 +127,8 @@ spec:
           - node.kubernetes.io/role=infra:NoSchedule
         # AWS tags that will be added to the ASG and EC2 instances, the example shows the labels needed by cluster autoscaler
         tags:
-          k8s.io/cluster-autoscaler/node-template/label/nodepool: "worker"
-          k8s.io/cluster-autoscaler/node-template/label/node.kubernetes.io/role: "worker"
+          k8s.io/cluster-autoscaler/node-template/label/nodepool: "infra"
+          k8s.io/cluster-autoscaler/node-template/label/node.kubernetes.io/role: "infra"
         # Optional additional firewall rules that will be attached to the nodes
         #additionalFirewallRules:
         #    # The name of the rule
