@@ -1756,6 +1756,10 @@ type SpecPluginsHelmReleases []struct {
 	// The chart of the release
 	Chart string `json:"chart" yaml:"chart" mapstructure:"chart"`
 
+	// Disable running `helm diff` validation when installing the plugin, it will
+	// still be done when upgrading.
+	DisableValidationOnInstall *bool `json:"disableValidationOnInstall,omitempty" yaml:"disableValidationOnInstall,omitempty" mapstructure:"disableValidationOnInstall,omitempty"`
+
 	// The name of the release
 	Name string `json:"name" yaml:"name" mapstructure:"name"`
 
