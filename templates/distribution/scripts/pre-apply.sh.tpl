@@ -700,6 +700,13 @@ echo "Finished clean up tasks for migrating Auth type from SSO to basicAuth."
     {{- end }}
 {{- end }}
 
+{{- if eq .reducers.distributionModulesAuthProviderType.from "none" }}
+    {{- if eq .reducers.distributionModulesAuthProviderType.to "sso" }}
+    # we need to delete infra ingresses that are present on each namespace before switching to sso, because they will be recreated in the pomerium namespace.
+    deleteInfraIngresses
+    {{- end }}
+{{- end }}
+
 {{- if eq .reducers.distributionModulesAuthProviderType.from "basicAuth" }}
     {{- if eq .reducers.distributionModulesAuthProviderType.to "sso" }}
 echo "Running clean up tasks for migrating Auth type from basicAuth to SSO..."
