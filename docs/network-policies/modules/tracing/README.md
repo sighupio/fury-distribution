@@ -20,7 +20,7 @@
 - tempo-distributed-egress-minio (when using MinIO)
 - tempo-distributed-egress-all (when not using MinIO)
 
-### MinIO (when enabled)
+### MinIO
 - minio-ingress-namespace
 - minio-buckets-setup-egress-kube-apiserver
 - minio-buckets-setup-egress-minio

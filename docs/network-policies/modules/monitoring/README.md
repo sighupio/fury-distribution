@@ -27,6 +27,8 @@
 - x509-exporter-egress-kube-apiserver
 - x509-exporter-ingress-prometheus-metrics
 - kube-state-metrics
+
+### MinIO
 - minio-ingress-namespace
 - minio-buckets-setup-egress-kube-apiserver
 - minio-buckets-setup-egress-minio

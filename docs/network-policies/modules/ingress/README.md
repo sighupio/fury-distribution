@@ -11,7 +11,7 @@
 
 ## Network Policies List
 
-### cert-manager namespace:
+### Cert-manager
 - deny-all
 - all-egress-kube-dns
 - cert-manager-egress-kube-apiserver
@@ -20,7 +20,7 @@
 - cert-manager-ingress-prometheus-metrics
 - acme-http-solver-ingress-lets-encrypt
 
-### ingress-nginx namespace:
+### Ingress-nginx
 - deny-all
 - all-egress-kube-dns
 - forecastle-ingress-nginx
