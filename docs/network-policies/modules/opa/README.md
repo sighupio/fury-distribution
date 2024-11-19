@@ -1,4 +1,4 @@
-# Policy Module Network Policies
+# OPA Module Network Policies
 
 ## Components
 - Gatekeeper + Gatekeeper Policy Manager
