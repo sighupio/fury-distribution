@@ -7,7 +7,7 @@ This documentation describes all Network Policies of the KFD components for the 
 - [Ingress](modules/ingress/README.md) - Nginx (single/dual) + Cert-manager
 - [Logging](modules/logging/README.md) - OpenSearch/Loki
 - [Monitoring](modules/monitoring/README.md) - Prometheus/Mimir
-- [Policy](modules/policy/README.md) - Gatekeeper/Kyverno
+- [OPA](modules/opa/README.md) - Gatekeeper/Kyverno
 - [Tracing](modules/tracing/README.md) - Tempo
 
 ## Common Patterns
