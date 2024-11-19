@@ -52,10 +52,10 @@ lint-go:
 
 .PHONY: tools-go
 tools-go:
-	@go install github.com/evanphx/json-patch/cmd/json-patch@v5.6.0
+	@go install github.com/evanphx/json-patch/v5/cmd/json-patch@v5.9.0
 	@go install github.com/google/addlicense@v1.1.1
-	@go install mvdan.cc/gofumpt@v0.5.0
-	@go install golang.org/x/tools/cmd/goimports@v0.9.3
+	@go install mvdan.cc/gofumpt@v0.7.0
+	@go install golang.org/x/tools/cmd/goimports@v0.26.0
 	@go install github.com/daixiang0/gci@v0.10.1
 	@go install github.com/momaek/formattag@v0.0.9
 	@go install github.com/santhosh-tekuri/jsonschema/cmd/jv@v0.4.0
