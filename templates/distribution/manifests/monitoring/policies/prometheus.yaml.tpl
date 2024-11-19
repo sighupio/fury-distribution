@@ -94,7 +94,7 @@ spec:
 apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
 metadata:
-  name: prometheus-egress-kubeapiserver
+  name: prometheus-egress-kube-apiserver
   namespace: monitoring
 spec:
   policyTypes:

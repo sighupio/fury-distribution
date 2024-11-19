@@ -115,7 +115,7 @@ spec:
 apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
 metadata:
-  name: tempocomponents-egress-memcached
+  name: tempo-components-egress-memcached
   namespace: tracing
   labels:
     cluster.kfd.sighup.io/module: tracing
@@ -187,7 +187,7 @@ spec:
 apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
 metadata:
-  name: tempocomponents-egress-https
+  name: tempo-components-egress-https
   namespace: tracing
   labels:
     cluster.kfd.sighup.io/module: tracing

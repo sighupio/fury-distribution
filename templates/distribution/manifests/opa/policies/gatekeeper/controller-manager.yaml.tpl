@@ -5,7 +5,7 @@
 apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
 metadata:
-  name: controllermanager-egress-kubeapiserver
+  name: controller-manager-egress-kube-apiserver
   namespace: gatekeeper-system
   labels:
     cluster.kfd.sighup.io/module: opa

@@ -109,7 +109,7 @@ spec:
 apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
 metadata:
-  name: miniomonitoring-egress-all
+  name: minio-monitoring-egress-all
   namespace: monitoring
 spec:
   policyTypes:
