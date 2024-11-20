@@ -5,7 +5,7 @@
 version: v1.30.0
 modules:
   auth: v0.3.0
-  aws: v4.2.1
+  aws: v4.3.0
   dr: v3.0.0-rc.1
   ingress: v3.0.1-rc.1
   logging: v4.0.0-rc.0
