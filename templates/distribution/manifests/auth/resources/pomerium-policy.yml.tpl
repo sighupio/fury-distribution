@@ -99,6 +99,8 @@ routes:
           and:
             - authenticated_user: true
       {{- end }}
+  {{- end }}
+  {{- if and (eq .spec.distribution.modules.tracing.type "tempo") (eq .spec.distribution.modules.tracing.tempo.backend "minio") (.checks.storageClassAvailable) }}
   - from: https://{{ template "minioTracingUrl" .spec }}
     to: http://minio-tracing-console.tracing.svc.cluster.local:9001
     allow_websockets: true
