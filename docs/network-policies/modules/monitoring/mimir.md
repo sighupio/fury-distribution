@@ -4,14 +4,14 @@
 graph TD
    %% Namespace
    subgraph monitoring
-       gateway[Gateway<br/>component: gateway]
-       distributor[Distributor<br/>component: distributor]
-       ingester[Ingester<br/>component: ingester]
-       querier[Querier<br/>component: querier]
-       qfront[Query Frontend<br/>component: query-frontend]
-       qsched[Query Scheduler<br/>component: query-scheduler]
-       store[Store Gateway<br/>component: store-gateway]
-       compactor[Compactor<br/>component: compactor]
+       gateway[Mimir Gateway<br/>app.kubernetes.io/component: gateway]
+       distributor[Mimir Distributor<br/>app.kubernetes.io/component: distributor]
+       ingester[Mimir Ingester<br/>app.kubernetes.io/component: ingester]
+       querier[Mimir Querier<br/>app.kubernetes.io/component: querier]
+       qfront[Mimir Query Frontend<br/>app.kubernetes.io/component: query-frontend]
+       qsched[Mimir Query Scheduler<br/>app.kubernetes.io/component: query-scheduler]
+       store[Mimir Store Gateway<br/>app.kubernetes.io/component: store-gateway]
+       compactor[Mimir Compactor<br/>app.kubernetes.io/component: compactor]
        grafana[Grafana<br/>app.kubernetes.io/name: grafana]
        prom[Prometheus<br/>app.kubernetes.io/name: prometheus]
        am[Alertmanager<br/>app.kubernetes.io/component: alert-router]

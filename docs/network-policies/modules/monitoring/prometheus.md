@@ -17,10 +17,6 @@ graph TD
         x509[x509 Exporter<br/>app: x509-certificate-exporter]
     end
 
-    subgraph tracing
-        tempo[Tempo Gateway<br/>app.kubernetes.io/name: tempo<br/>app.kubernetes.io/component: gateway]
-    end
-
     %% External and K8s Core Components
     api[Kubernetes API]
     dns[Kube DNS]
@@ -42,7 +38,6 @@ graph TD
     prom -->|"9093,8080/TCP"| am
     pom -->|"9093/TCP"| am
     prom -->|"3000/TCP"| grafana
-    grafana -->|"8080/TCP"| tempo
     pom -->|"3000/TCP"| grafana
     x509 -->|"6443/TCP"| api
 ```
