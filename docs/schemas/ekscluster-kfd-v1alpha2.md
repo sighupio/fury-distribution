@@ -2381,6 +2381,7 @@ This value defines where the output from Flow will be sent. Will be the `spec` s
 | [backend](#specdistributionmoduleslogginglokibackend)                   | `string` | Optional |
 | [externalEndpoint](#specdistributionmoduleslogginglokiexternalendpoint) | `object` | Optional |
 | [resources](#specdistributionmoduleslogginglokiresources)               | `object` | Optional |
+| [tsdbStartDate](#specdistributionmoduleslogginglokitsdbstartdate)       | `string` | Required |
 
 ## .spec.distribution.modules.logging.loki.backend
 
@@ -2485,6 +2486,16 @@ The cpu request for the prometheus pods
 ### Description
 
 The memory request for the opensearch pods
+
+## .spec.distribution.modules.logging.loki.tsdbStartDate
+
+### Description
+
+Starting from versions 1.28.4, 1.29.5 and 1.30.0 of KFD, Loki will change the time series database from BoltDB to TSDB and the schema from v11 to v13 that it uses to store the logs.
+
+The value of this field will determine the date when Loki will start writing using the new TSDB and the schema v13, always at midnight UTC. The old BoltDB and schema will be kept until they expire for reading purposes.
+
+Value must be a string in `ISO 8601` date format (`yyyy-mm-dd`). Example: `2024-11-18`.
 
 ## .spec.distribution.modules.logging.minio
 

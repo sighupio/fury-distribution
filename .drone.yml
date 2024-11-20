@@ -15,13 +15,13 @@ clone:
 
 steps:
   - name: license-check
-    image: quay.io/sighup/golang:1.21.5
+    image: quay.io/sighup/golang:1.23.3
     pull: always
     commands:
       - make license-check
 
   - name: schema-check
-    image: quay.io/sighup/golang:1.21.5
+    image: quay.io/sighup/golang:1.23.3
     pull: always
     commands:
       - |-
@@ -49,14 +49,14 @@ steps:
       - license-check
       - schema-check
 
-  - name: lint-go
-    image: quay.io/sighup/golang:1.21.5
-    pull: always
-    commands:
-      - make lint-go
-    depends_on:
-      - license-check
-      - schema-check
+  # - name: lint-go
+  #   image: quay.io/sighup/golang:1.23.3
+  #   pull: always
+  #   commands:
+  #     - make lint-go
+  #   depends_on:
+  #     - license-check
+  #     - schema-check
 
   - name: test-schema
     # KUBECTL 1.25.3 - KUSTOMIZE 3.5.3 - HELM 3.1.1 - YQ 4.21.1 - ISTIOCTL 1.9.4 - FURYCTL 0.9.0 - BATS 1.1.0

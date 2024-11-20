@@ -77,6 +77,15 @@ schema_config:
       object_store: s3
       schema: v11
       store: boltdb-shipper
+{{- if and (index .spec.distribution.modules.logging "loki") (index .spec.distribution.modules.logging.loki "tsdbStartDate") }}
+    - from: "{{ .spec.distribution.modules.logging.loki.tsdbStartDate }}" 
+      index:
+        period: 24h
+        prefix: index_
+      object_store: s3
+      schema: v13
+      store: tsdb
+{{- end }}
 server:
   http_listen_port: 3100
 storage_config:
@@ -90,6 +99,12 @@ storage_config:
     s3forcepathstyle: true
 {{- end }}
   boltdb_shipper:
+    active_index_directory: /var/loki/index
+    cache_location: /var/loki/cache
+    cache_ttl: 24h
+    resync_interval: 5s
+    shared_store: s3
+  tsdb_shipper:
     active_index_directory: /var/loki/index
     cache_location: /var/loki/cache
     cache_ttl: 24h
