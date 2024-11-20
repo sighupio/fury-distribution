@@ -177,7 +177,7 @@ spec:
                   number: 80
             {{ else }}
               service:
-                name: minio-tracing-console
+                name: minio-monitoring-console
                 port:
                   name: http
             {{ end }}

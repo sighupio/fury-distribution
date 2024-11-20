@@ -29,8 +29,8 @@ deleteOpensearch() {
   $kubectlbin delete --ignore-not-found --wait --timeout=180s ingress -n logging opensearch-dashboards
   $kubectlbin delete --ignore-not-found --wait --timeout=180s ingress -n pomerium opensearch-dashboards
 
-  $kustomizebin build $vendorPath/modules/logging/katalog/opensearch-dashboards > delete-opensearch.yaml
-  $kustomizebin build $vendorPath/modules/logging/katalog/opensearch-triple >> delete-opensearch.yaml
+  $kustomizebin build $vendorPath/modules/logging/katalog/opensearch-dashboards > delete-opensearch-dashboards.yaml
+  $kustomizebin build $vendorPath/modules/logging/katalog/opensearch-triple > delete-opensearch.yaml
 
 {{- if eq .spec.distribution.modules.monitoring.type "none" }}
   if ! $kubectlbin get apiservice v1.monitoring.coreos.com; then
@@ -41,6 +41,7 @@ deleteOpensearch() {
 
   $kubectlbin delete --ignore-not-found --wait --timeout=180s -f delete-opensearch.yaml
   $kubectlbin delete --ignore-not-found -l app.kubernetes.io/name=opensearch pvc -n logging --wait --timeout=180s
+  $kubectlbin delete --ignore-not-found --wait --timeout=180s -f delete-opensearch-dashboards.yaml
   echo "OpenSearch resources deleted"
 }
 
@@ -558,8 +559,8 @@ deleteNginx() {
 
   $kustomizebin build $vendorPath/modules/ingress/katalog/nginx > delete-nginx.yaml
   $kustomizebin build $vendorPath/modules/ingress/katalog/dual-nginx > delete-dual-nginx.yaml
-  $kustomizebin build $vendorPath/modules/ingress/katalog/external-dns/public > delete-external-dns.yaml
-  $kustomizebin build $vendorPath/modules/ingress/katalog/external-dns/private >> delete-external-dns.yaml
+  $kustomizebin build $vendorPath/modules/ingress/katalog/external-dns/public > delete-external-dns-public.yaml
+  $kustomizebin build $vendorPath/modules/ingress/katalog/external-dns/private > delete-external-dns-private.yaml
   $kustomizebin build $vendorPath/modules/ingress/katalog/forecastle > delete-forecastle.yaml
 
 {{- if eq .spec.distribution.modules.monitoring.type "none" }}
@@ -568,13 +569,16 @@ deleteNginx() {
     cp delete-nginx-filtered.yaml delete-nginx.yaml
     cat delete-dual-nginx.yaml | $yqbin 'select(.apiVersion != "monitoring.coreos.com/v1")' > delete-dual-nginx-filtered.yaml
     cp delete-dual-nginx-filtered.yaml delete-dual-nginx.yaml
-    cat delete-external-dns.yaml | $yqbin 'select(.apiVersion != "monitoring.coreos.com/v1")' > delete-external-dns-filtered.yaml
-    cp delete-external-dns-filtered.yaml delete-external-dns.yaml
+    cat delete-external-dns-public.yaml | $yqbin 'select(.apiVersion != "monitoring.coreos.com/v1")' > delete-external-dns-public-filtered.yaml
+    cp delete-external-dns-public-filtered.yaml delete-external-dns-public.yaml
+    cat delete-external-dns-private.yaml | $yqbin 'select(.apiVersion != "monitoring.coreos.com/v1")' > delete-external-dns-private-filtered.yaml
+    cp delete-external-dns-private-filtered.yaml delete-external-dns-private.yaml
     cat delete-forecastle.yaml | $yqbin 'select(.apiVersion != "monitoring.coreos.com/v1")' > delete-forecastle-filtered.yaml
     cp delete-forecastle-filtered.yaml delete-forecastle.yaml
   fi
 {{- end }}
-  $kubectlbin delete --ignore-not-found --wait --timeout=180s -f delete-external-dns.yaml
+  $kubectlbin delete --ignore-not-found --wait --timeout=180s -f delete-external-dns-public.yaml
+  $kubectlbin delete --ignore-not-found --wait --timeout=180s -f delete-external-dns-private.yaml
   $kubectlbin delete --ignore-not-found --wait --timeout=180s -f delete-forecastle.yaml
   $kubectlbin delete --ignore-not-found --wait --timeout=180s -f delete-dual-nginx.yaml
   $kubectlbin delete --ignore-not-found --wait --timeout=180s -f delete-nginx.yaml
@@ -693,6 +697,13 @@ deleteGangplank
 deletePomeriumIngresses
 deletePomerium
 echo "Finished clean up tasks for migrating Auth type from SSO to basicAuth."
+    {{- end }}
+{{- end }}
+
+{{- if eq .reducers.distributionModulesAuthProviderType.from "none" }}
+    {{- if eq .reducers.distributionModulesAuthProviderType.to "sso" }}
+    # we need to delete infra ingresses that are present on each namespace before switching to sso, because they will be recreated in the pomerium namespace.
+    deleteInfraIngresses
     {{- end }}
 {{- end }}
 
