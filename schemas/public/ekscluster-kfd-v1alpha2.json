@@ -472,6 +472,14 @@
           ],
           "description": "Either `launch_configurations`, `launch_templates` or `both`. For new clusters use `launch_templates`, for existing cluster you'll need to migrate from `launch_configurations` to `launch_templates` using `both` as interim."
         },
+        "nodePoolGlobalAmiType": {
+          "type": "string",
+          "enum": [
+            "alinux2",
+            "alinux2023"
+          ],
+          "description": "Global default AMI type used for EKS worker nodes. This will apply to all node pools unless overridden by a specific node pool."
+        },
         "logRetentionDays": {
           "type": "integer",
           "description": "Optional Kubernetes Cluster log retention in days. Defaults to 90 days."
@@ -607,8 +615,36 @@
       "required": [
         "instance",
         "name",
-        "size"
-      ]
+        "size",
+        "type"
+      ],
+      "if": {
+        "allOf": [
+          {
+            "properties": {
+              "type": {
+                "enum": [
+                  "eks-managed"
+                ]
+              }
+            }
+          }
+        ]
+      },
+      "then": {
+        "properties": {
+          "ami": {
+            "properties": {
+              "id": {
+                "type": "null"
+              },
+              "owner": {
+                "type": "null"
+              }
+            }
+          }
+        }
+      }
     },
     "Spec.Kubernetes.NodePool.Ami": {
       "type": "object",
@@ -621,12 +657,22 @@
         "owner": {
           "type": "string",
           "description": "The owner of the AMI"
+        },
+        "type": {
+          "type": "string",
+          "description": "The AMI type based on OS",
+          "enum": [
+            "alinux2",
+            "alinux2023"
+          ]
         }
       },
-      "required": [
-        "id",
-        "owner"
-      ]
+      "dependencies": {
+        "id": [
+          "owner"
+        ]
+      },
+      "required": []
     },
     "Spec.Kubernetes.NodePool.Instance": {
       "type": "object",

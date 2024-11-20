@@ -62,6 +62,7 @@ module "fury" {
   ssh_public_key                        = var.ssh_public_key
   node_pools                            = var.node_pools
   node_pools_launch_kind                = var.node_pools_launch_kind
+  node_pools_global_ami_type            = var.node_pools_global_ami_type
   tags                                  = var.tags
   cluster_iam_role_name                 = var.cluster_iam_role_name_prefix_override
   workers_role_name                     = var.workers_iam_role_name_prefix_override

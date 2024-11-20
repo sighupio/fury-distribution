@@ -33,6 +33,7 @@ spec:
       - ami:
           id: ami-01234567890123456
           owner: "123456789012"
+        type: self-managed
         instance:
           type: t3.large
         name: worker-eks
