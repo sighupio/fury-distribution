@@ -2166,24 +2166,46 @@
               "type": "boolean",
               "description": "Whether to install or not the default `manifests` and `full` backups schedules. Default is `true`."
             },
-            "cron": {
+            "definitions": {
               "type": "object",
               "additionalProperties": false,
-              "description": "Configuration for Velero's schedules cron.",
+              "description": "Configuration for Velero schedules.",
               "properties": {
                 "manifests": {
-                  "type": "string",
-                  "description": "The cron expression for the `manifests` backup schedule (default `*/15 * * * *`)."
+                  "type": "object",
+                  "additionalProperties": false,
+                  "description": "Configuration for Velero's manifests backup schedule.",
+                  "properties": {
+                    "schedule": {
+                      "type": "string",
+                      "description": "The cron expression for the `manifests` backup schedule (default `*/15 * * * *`)."
+                    },
+                    "ttl": {
+                      "type": "string",
+                      "description": "The Time To Live (TTL) of the backups created by the backup schedules (default `720h0m0s`, 30 days). Notice that changing this value will affect only newly created backups, prior backups will keep the old TTL."
+                    }
+                  }
                 },
                 "full": {
-                  "type": "string",
-                  "description": "The cron expression for the `full` backup schedule (default `0 1 * * *`)."
+                  "type": "object",
+                  "additionalProperties": false,
+                  "description": "Configuration for Velero's manifests backup schedule.",
+                  "properties": {
+                    "schedule": {
+                      "type": "string",
+                      "description": "The cron expression for the `full` backup schedule (default `0 1 * * *`)."
+                    },
+                    "ttl": {
+                      "type": "string",
+                      "description": "The Time To Live (TTL) of the backups created by the backup schedules (default `720h0m0s`, 30 days). Notice that changing this value will affect only newly created backups, prior backups will keep the old TTL."
+                    },
+                    "snapshotMoveData": {
+                      "type": "boolean",
+                      "description": "EXPERIMENTAL (if you do more than one backups, the following backups after the first are not automatically restorable, see https://github.com/vmware-tanzu/velero/issues/7057#issuecomment-2466815898 for the manual restore solution): SnapshotMoveData specifies whether snapshot data should be moved. Velero will create a new volume from the snapshot and upload the content to the storageLocation."
+                    }
+                  }
                 }
               }
-            },
-            "ttl": {
-              "type": "string",
-              "description": "The Time To Live (TTL) of the backups created by the backup schedules (default `720h0m0s`, 30 days). Notice that changing this value will affect only newly created backups, prior backups will keep the old TTL."
             }
           }
         },

@@ -61,4 +61,21 @@ spec:
         {{ template "tolerations" $veleroArgs }}
 
 {{- end }}
+
+{{- if .spec.distribution.modules.dr.velero.snapshotController.install }}
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: snapshot-controller
+  namespace: kube-system
+spec:
+  template:
+    spec:
+      nodeSelector:
+        {{ template "nodeSelector" $veleroArgs }}
+      tolerations:
+        {{ template "tolerations" $veleroArgs }}
+{{- end }}
+
 {{- end }}
