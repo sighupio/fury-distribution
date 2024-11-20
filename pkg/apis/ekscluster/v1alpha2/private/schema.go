@@ -82,6 +82,9 @@ type SpecDistributionCommon struct {
 
 	// URL of the registry where to pull images from for the Distribution phase.
 	// (Default is `registry.sighup.io/fury`).
+	//
+	// NOTE: If plugins are pulling from the default registry, the registry will be
+	// replaced for the plugin too.
 	Registry *string `json:"registry,omitempty" yaml:"registry,omitempty" mapstructure:"registry,omitempty"`
 
 	// The relative path to the vendor directory, does not need to be changed.
@@ -341,7 +344,9 @@ type SpecDistributionModulesAuthDexExpiry struct {
 }
 
 type SpecDistributionModulesAuth struct {
-	// The base domain for the auth module
+	// The base domain for the ingresses created by the Auth module (Gangplank,
+	// Pomerium, Dex). Notice that when the ingress module type is `dual`, these will
+	// use the `external` ingress class.
 	BaseDomain *string `json:"baseDomain,omitempty" yaml:"baseDomain,omitempty" mapstructure:"baseDomain,omitempty"`
 
 	// Dex corresponds to the JSON schema field "dex".
@@ -911,9 +916,9 @@ type SpecDistributionModulesDrVeleroSchedulesDefinitionsManifests struct {
 }
 
 type SpecDistributionModulesIngress struct {
-	// the base domain used for all the KFD ingresses, if in the nginx dual
-	// configuration, it should be the same as the
-	// .spec.distribution.modules.ingress.dns.private.name zone
+	// The base domain used for all the KFD infrastructural ingresses. If in the nginx
+	// `dual` configuration type, this value should be the same as the
+	// `.spec.distribution.modules.ingress.dns.private.name` zone.
 	BaseDomain string `json:"baseDomain" yaml:"baseDomain" mapstructure:"baseDomain"`
 
 	// CertManager corresponds to the JSON schema field "certManager".
@@ -947,13 +952,16 @@ type SpecDistributionModulesIngressCertManagerClusterIssuer struct {
 	// The email of the cluster issuer
 	Email string `json:"email" yaml:"email" mapstructure:"email"`
 
-	// The name of the cluster issuer
+	// The name of the clusterIssuer.
 	Name string `json:"name" yaml:"name" mapstructure:"name"`
 
 	// Route53 corresponds to the JSON schema field "route53".
 	Route53 SpecDistributionModulesIngressClusterIssuerRoute53 `json:"route53" yaml:"route53" mapstructure:"route53"`
 
-	// The custom solvers configurations
+	// The list of challenge solvers to use instead of the default one for the
+	// `http01` challenge. Check [cert manager's
+	// documentation](https://cert-manager.io/docs/configuration/acme/#adding-multiple-solver-types)
+	// for examples for this field.
 	Solvers []interface{} `json:"solvers,omitempty" yaml:"solvers,omitempty" mapstructure:"solvers,omitempty"`
 
 	// The type of the cluster issuer, must be ***dns01*** or ***http01***
@@ -1321,10 +1329,14 @@ type SpecDistributionModulesIngress struct {
 	// selects the logging stack. Choosing none will disable the centralized logging.
 	// Choosing opensearch will deploy and configure the Logging Operator and an
 	// OpenSearch cluster (can be single or triple for HA) where the logs will be
-	// stored. Choosing loki will use a distributed Grafana Loki instead of OpenSearh
-	// for storage. Choosing customOuput the Logging Operator will be deployed and
-	// installed but with no local storage, you will have to create the needed Outputs
-	// and ClusterOutputs to ship the logs to your desired storage.
+	// stored.
+	// - `loki`: will use a distributed Grafana Loki instead of OpenSearch for
+	// storage.
+	// - `customOuputs`: the Logging Operator will be deployed and installed but
+	// without in-cluster storage, you will have to create the needed Outputs and
+	// ClusterOutputs to ship the logs to your desired storage.
+	//
+	// Default is `opensearch`.
 	Type SpecDistributionModulesLoggingType `json:"type" yaml:"type" mapstructure:"type"`
 }
 
@@ -1533,16 +1545,18 @@ type SpecDistributionModulesMonitoring struct {
 	// - `none`: will disable the whole monitoring stack.
 	// - `prometheus`: will install Prometheus Operator and a preconfigured Prometheus
 	// instance, Alertmanager, a set of alert rules, exporters needed to monitor all
+	// instance, Alertmanager, a set of alert rules, exporters needed to monitor all
 	// the components of the cluster, Grafana and a series of dashboards to view the
 	// collected metrics, and more.
-	// - `prometheusAgent`: wil install Prometheus operator, an instance of Prometheus
-	// in Agent mode (no alerting, no queries, no storage), and all the exporters
-	// needed to get metrics for the status of the cluster and the workloads. Useful
-	// when having a centralized (remote) Prometheus where to ship the metrics and not
-	// storing them locally in the cluster.
-	// - `mimir`: will install the same as the `prometheus` option, and in addition
-	// Grafana Mimir that allows for longer retention of metrics and the usage of
-	// Object Storage.
+	// - `prometheusAgent`: will install Prometheus operator, an instance of
+	// Prometheus in Agent mode (no alerting, no queries, no storage), and all the
+	// exporters needed to get metrics for the status of the cluster and the
+	// workloads. Useful when having a centralized (remote) Prometheus where to ship
+	// the metrics and not storing them locally in the cluster.
+	// - `mimir`: will install the same as the `prometheus` option, plus Grafana Mimir
+	// that allows for longer retention of metrics and the usage of Object Storage.
+	//
+	// Default is `prometheus`.
 	Type SpecDistributionModulesMonitoringType `json:"type" yaml:"type" mapstructure:"type"`
 
 	// X509Exporter corresponds to the JSON schema field "x509Exporter".
@@ -1626,7 +1640,7 @@ type SpecDistributionModulesMonitoringMimirExternalEndpoint struct {
 	// The bucket name of the external S3-compatible object storage.
 	BucketName *string `json:"bucketName,omitempty" yaml:"bucketName,omitempty" mapstructure:"bucketName,omitempty"`
 
-	// External S3-compatible endpoint for Mimir's storage.
+	// The external S3-compatible endpoint for Mimir's storage.
 	Endpoint *string `json:"endpoint,omitempty" yaml:"endpoint,omitempty" mapstructure:"endpoint,omitempty"`
 
 	// If true, will use HTTP as protocol instead of HTTPS.
@@ -2084,7 +2098,7 @@ type SpecDistributionModulesTracingTempoExternalEndpoint struct {
 	// The bucket name of the external S3-compatible object storage.
 	BucketName *string `json:"bucketName,omitempty" yaml:"bucketName,omitempty" mapstructure:"bucketName,omitempty"`
 
-	// External S3-compatible endpoint for Tempo's storage.
+	// The external S3-compatible endpoint for Tempo's storage.
 	Endpoint *string `json:"endpoint,omitempty" yaml:"endpoint,omitempty" mapstructure:"endpoint,omitempty"`
 
 	// If true, will use HTTP as protocol instead of HTTPS.
@@ -2123,11 +2137,11 @@ type SpecInfrastructureVpcNetwork struct {
 }
 
 type SpecInfrastructureVpcNetworkSubnetsCidrs struct {
-	// These are the CIRDs for the private subnets, where the nodes, the pods, and the
+	// The network CIDRs for the private subnets, where the nodes, the pods, and the
 	// private load balancers will be created
 	Private []TypesCidr `json:"private" yaml:"private" mapstructure:"private"`
 
-	// These are the CIDRs for the public subnets, where the public load balancers and
+	// The network CIDRs for the public subnets, where the public load balancers and
 	// the VPN servers will be created
 	Public []TypesCidr `json:"public" yaml:"public" mapstructure:"public"`
 }
@@ -2208,12 +2222,10 @@ type SpecKubernetes struct {
 	// pools unless overridden by a specific node pool.
 	NodePoolGlobalAmiType *SpecKubernetesNodePoolGlobalAmiType `json:"nodePoolGlobalAmiType,omitempty" yaml:"nodePoolGlobalAmiType,omitempty" mapstructure:"nodePoolGlobalAmiType,omitempty"`
 
-	// Ingress corresponds to the JSON schema field "ingress".
-	Ingress SpecDistributionModulesIngress `json:"ingress" yaml:"ingress" mapstructure:"ingress"`
-
-	// Either `launch_configurations`, `launch_templates` or `both`. For new clusters
-	// use `launch_templates`, for existing cluster you'll need to migrate from
-	// `launch_configurations` to `launch_templates` using `both` as interim.
+	// Accepted values are `launch_configurations`, `launch_templates` or `both`. For
+	// new clusters use `launch_templates`, for adopting an existing cluster you'll
+	// need to migrate from `launch_configurations` to `launch_templates` using `both`
+	// as interim.
 	NodePoolsLaunchKind SpecKubernetesNodePoolsLaunchKind `json:"nodePoolsLaunchKind" yaml:"nodePoolsLaunchKind" mapstructure:"nodePoolsLaunchKind"`
 
 	// This value defines the CIDR that will be used to assign IP addresses to the

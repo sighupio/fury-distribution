@@ -556,7 +556,7 @@ Configuration for the Auth module.
 
 ### Description
 
-Base domain for the ingresses created by the Auth module (Gangplank, Pomerium, Dex). Notice that when nginx type is dual, these will use the `external` ingress class.
+The base domain for the ingresses created by the Auth module (Gangplank, Pomerium, Dex). Notice that when the ingress module type is `dual`, these will use the `external` ingress class.
 
 ## .spec.distribution.modules.auth.dex
 
@@ -1470,7 +1470,7 @@ Whether to install or not the snapshotController component in the cluster. Befor
 
 ### Description
 
-The base domain used for all the KFD infrastructural ingresses. If using the nginx dual type, this value should be the same as the domain associated with the `internal` ingress class.
+The base domain used for all the KFD infrastructural ingresses. If using the nginx `dual` type, this value should be the same as the domain associated with the `internal` ingress class.
 
 ## .spec.distribution.modules.ingress.certManager
 
@@ -1510,13 +1510,13 @@ The email address to use during the certificate issuing process.
 
 ### Description
 
-Name of the clusterIssuer.
+The name of the clusterIssuer.
 
 ## .spec.distribution.modules.ingress.certManager.clusterIssuer.solvers
 
 ### Description
 
-List of challenge solvers to use instead of the default one for the `http01` challenge.
+The list of challenge solvers to use instead of the default one for the `http01` challenge. Check [cert manager's documentation](https://cert-manager.io/docs/configuration/acme/#adding-multiple-solver-types) for examples for this field.
 
 ## .spec.distribution.modules.ingress.certManager.clusterIssuer.type
 
@@ -2645,8 +2645,8 @@ The value of the toleration
 Selects the logging stack. Options are:
 - `none`: will disable the centralized logging.
 - `opensearch`: will deploy and configure the Logging Operator and an OpenSearch cluster (can be single or triple for HA) where the logs will be stored.
-- `loki`: will use a distributed Grafana Loki instead of OpenSearh for storage.
-- `customOuputs`: the Logging Operator will be deployed and installed but with no local storage, you will have to create the needed Outputs and ClusterOutputs to ship the logs to your desired storage.
+- `loki`: will use a distributed Grafana Loki instead of OpenSearch for storage.
+- `customOuputs`: the Logging Operator will be deployed and installed but without in-cluster storage, you will have to create the needed Outputs and ClusterOutputs to ship the logs to your desired storage.
 
 Default is `opensearch`.
 
@@ -3014,7 +3014,7 @@ The bucket name of the external S3-compatible object storage.
 
 ### Description
 
-External S3-compatible endpoint for Mimir's storage.
+The external S3-compatible endpoint for Mimir's storage.
 
 ## .spec.distribution.modules.monitoring.mimir.externalEndpoint.insecure
 
@@ -3441,8 +3441,8 @@ The memory request for the Pod. Example: `500M`.
 The type of the monitoring, must be `none`, `prometheus`, `prometheusAgent` or `mimir`.
 
 - `none`: will disable the whole monitoring stack.
-- `prometheus`: will install Prometheus Operator and a preconfigured Prometheus instace, Alertmanager, a set of alert rules, exporters needed to monitor all the components of the cluster, Grafana and a series of dashboards to view the collected metrics, and more.
-- `prometheusAgent`: wil install Prometheus operator, an instance of Prometheus in Agent mode (no alerting, no queries, no storage), and all the exporters needed to get metrics for the status of the cluster and the workloads. Useful when having a centralized (remote) Prometheus where to ship the metrics and not storing them locally in the cluster.
+- `prometheus`: will install Prometheus Operator and a preconfigured Prometheus instance, Alertmanager, a set of alert rules, exporters needed to monitor all the components of the cluster, Grafana and a series of dashboards to view the collected metrics, and more.
+- `prometheusAgent`: will install Prometheus operator, an instance of Prometheus in Agent mode (no alerting, no queries, no storage), and all the exporters needed to get metrics for the status of the cluster and the workloads. Useful when having a centralized (remote) Prometheus where to ship the metrics and not storing them locally in the cluster.
 - `mimir`: will install the same as the `prometheus` option, plus Grafana Mimir that allows for longer retention of metrics and the usage of Object Storage.
 
 Default is `prometheus`.
@@ -3792,7 +3792,7 @@ The value of the toleration
 
 ### Description
 
-The type of CNI plugin to use, either `calico` (default, via the Tigera Operator) or `cilium`.
+The type of CNI plugin to use, either `calico` (Tigera Operator) or `cilium`. Default is `calico`.
 
 ### Constraints
 
@@ -4378,7 +4378,7 @@ The bucket name of the external S3-compatible object storage.
 
 ### Description
 
-External S3-compatible endpoint for Tempo's storage.
+The external S3-compatible endpoint for Tempo's storage.
 
 ## .spec.distribution.modules.tracing.tempo.externalEndpoint.insecure
 

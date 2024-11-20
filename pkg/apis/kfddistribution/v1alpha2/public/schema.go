@@ -294,9 +294,9 @@ type SpecDistributionModules struct {
 
 // Configuration for the Auth module.
 type SpecDistributionModulesAuth struct {
-	// Base domain for the ingresses created by the Auth module (Gangplank, Pomerium,
-	// Dex). Notice that when nginx type is dual, these will use the `external`
-	// ingress class.
+	// The base domain for the ingresses created by the Auth module (Gangplank,
+	// Pomerium, Dex). Notice that when the ingress module type is `dual`, these will
+	// use the `external` ingress class.
 	BaseDomain *string `json:"baseDomain,omitempty" yaml:"baseDomain,omitempty" mapstructure:"baseDomain,omitempty"`
 
 	// Dex corresponds to the JSON schema field "dex".
@@ -351,7 +351,7 @@ type SpecDistributionModulesAuthDexExpiry struct {
 // Override the common configuration with a particular configuration for the Auth
 // module.
 type SpecDistributionModulesAuthOverrides struct {
-	// Ingresses corresponds to the JSON schema field "ingresses".
+	// Override the definition of the Auth module ingresses.
 	Ingresses SpecDistributionModulesAuthOverridesIngresses `json:"ingresses,omitempty" yaml:"ingresses,omitempty" mapstructure:"ingresses,omitempty"`
 
 	// Set to override the node selector used to place the pods of the Auth module.
@@ -370,6 +370,7 @@ type SpecDistributionModulesAuthOverridesIngress struct {
 	IngressClass string `json:"ingressClass" yaml:"ingressClass" mapstructure:"ingressClass"`
 }
 
+// Override the definition of the Auth module ingresses.
 type SpecDistributionModulesAuthOverridesIngresses map[string]SpecDistributionModulesAuthOverridesIngress
 
 type SpecDistributionModulesAuthPomerium interface{}
@@ -650,7 +651,7 @@ type SpecDistributionModulesDrVeleroSnapshotController struct {
 
 type SpecDistributionModulesIngress struct {
 	// The base domain used for all the KFD infrastructural ingresses. If using the
-	// nginx dual type, this value should be the same as the domain associated with
+	// nginx `dual` type, this value should be the same as the domain associated with
 	// the `internal` ingress class.
 	BaseDomain string `json:"baseDomain" yaml:"baseDomain" mapstructure:"baseDomain"`
 
@@ -688,11 +689,13 @@ type SpecDistributionModulesIngressCertManagerClusterIssuer struct {
 	// The email address to use during the certificate issuing process.
 	Email string `json:"email" yaml:"email" mapstructure:"email"`
 
-	// Name of the clusterIssuer.
+	// The name of the clusterIssuer.
 	Name string `json:"name" yaml:"name" mapstructure:"name"`
 
-	// List of challenge solvers to use instead of the default one for the `http01`
-	// challenge.
+	// The list of challenge solvers to use instead of the default one for the
+	// `http01` challenge. Check [cert manager's
+	// documentation](https://cert-manager.io/docs/configuration/acme/#adding-multiple-solver-types)
+	// for examples for this field.
 	Solvers []interface{} `json:"solvers,omitempty" yaml:"solvers,omitempty" mapstructure:"solvers,omitempty"`
 
 	// The type of the clusterIssuer. Only `http01` challenge is supported for
@@ -818,10 +821,11 @@ type SpecDistributionModulesLogging struct {
 	// - `opensearch`: will deploy and configure the Logging Operator and an
 	// OpenSearch cluster (can be single or triple for HA) where the logs will be
 	// stored.
-	// - `loki`: will use a distributed Grafana Loki instead of OpenSearh for storage.
-	// - `customOuputs`: the Logging Operator will be deployed and installed but with
-	// no local storage, you will have to create the needed Outputs and ClusterOutputs
-	// to ship the logs to your desired storage.
+	// - `loki`: will use a distributed Grafana Loki instead of OpenSearch for
+	// storage.
+	// - `customOuputs`: the Logging Operator will be deployed and installed but
+	// without in-cluster storage, you will have to create the needed Outputs and
+	// ClusterOutputs to ship the logs to your desired storage.
 	//
 	// Default is `opensearch`.
 	Type SpecDistributionModulesLoggingType `json:"type" yaml:"type" mapstructure:"type"`
@@ -1838,7 +1842,112 @@ func (j *SpecDistributionModulesIngressCertManagerClusterIssuerType) UnmarshalJS
 	return nil
 }
 
-var enumValues_SpecDistributionModulesNetworkingType = []interface{}{
+const (
+	SpecDistributionModulesMonitoringMimirBackendMinio            SpecDistributionModulesMonitoringMimirBackend = "minio"
+	SpecDistributionModulesMonitoringMimirBackendExternalEndpoint SpecDistributionModulesMonitoringMimirBackend = "externalEndpoint"
+)
+
+// Configuration for Mimir's external storage backend.
+type SpecDistributionModulesMonitoringMimirExternalEndpoint struct {
+	// The access key ID (username) for the external S3-compatible bucket.
+	AccessKeyId *string `json:"accessKeyId,omitempty" yaml:"accessKeyId,omitempty" mapstructure:"accessKeyId,omitempty"`
+
+	// The bucket name of the external S3-compatible object storage.
+	BucketName *string `json:"bucketName,omitempty" yaml:"bucketName,omitempty" mapstructure:"bucketName,omitempty"`
+
+	// The external S3-compatible endpoint for Mimir's storage.
+	Endpoint *string `json:"endpoint,omitempty" yaml:"endpoint,omitempty" mapstructure:"endpoint,omitempty"`
+
+	// If true, will use HTTP as protocol instead of HTTPS.
+	Insecure *bool `json:"insecure,omitempty" yaml:"insecure,omitempty" mapstructure:"insecure,omitempty"`
+
+	// The secret access key (password) for the external S3-compatible bucket.
+	SecretAccessKey *string `json:"secretAccessKey,omitempty" yaml:"secretAccessKey,omitempty" mapstructure:"secretAccessKey,omitempty"`
+}
+
+// Configuration for the Mimir package.
+type SpecDistributionModulesMonitoringMimir struct {
+	// The storage backend type for Mimir. `minio` will use an in-cluster MinIO
+	// deployment for object storage, `externalEndpoint` can be used to point to an
+	// external S3-compatible object storage instead of deploying an in-cluster MinIO.
+	Backend *SpecDistributionModulesMonitoringMimirBackend `json:"backend,omitempty" yaml:"backend,omitempty" mapstructure:"backend,omitempty"`
+
+	// Configuration for Mimir's external storage backend.
+	ExternalEndpoint *SpecDistributionModulesMonitoringMimirExternalEndpoint `json:"externalEndpoint,omitempty" yaml:"externalEndpoint,omitempty" mapstructure:"externalEndpoint,omitempty"`
+
+	// Overrides corresponds to the JSON schema field "overrides".
+	Overrides *TypesFuryModuleComponentOverrides `json:"overrides,omitempty" yaml:"overrides,omitempty" mapstructure:"overrides,omitempty"`
+
+	// The retention time for the logs stored in Mimir. Default is `30d`. Value must
+	// match the regular expression `[0-9]+(ns|us|µs|ms|s|m|h|d|w|y)` where y = 365
+	// days.
+	RetentionTime *string `json:"retentionTime,omitempty" yaml:"retentionTime,omitempty" mapstructure:"retentionTime,omitempty"`
+}
+
+type SpecDistributionModulesMonitoringMinioRootUser struct {
+	// The password for the default MinIO root user.
+	Password *string `json:"password,omitempty" yaml:"password,omitempty" mapstructure:"password,omitempty"`
+
+	// The username for the default MinIO root user.
+	Username *string `json:"username,omitempty" yaml:"username,omitempty" mapstructure:"username,omitempty"`
+}
+
+// Configuration for Monitoring's MinIO deployment.
+type SpecDistributionModulesMonitoringMinio struct {
+	// Overrides corresponds to the JSON schema field "overrides".
+	Overrides *TypesFuryModuleComponentOverrides `json:"overrides,omitempty" yaml:"overrides,omitempty" mapstructure:"overrides,omitempty"`
+
+	// RootUser corresponds to the JSON schema field "rootUser".
+	RootUser *SpecDistributionModulesMonitoringMinioRootUser `json:"rootUser,omitempty" yaml:"rootUser,omitempty" mapstructure:"rootUser,omitempty"`
+
+	// The PVC size for each MinIO disk, 6 disks total.
+	StorageSize *string `json:"storageSize,omitempty" yaml:"storageSize,omitempty" mapstructure:"storageSize,omitempty"`
+}
+
+type SpecDistributionModulesMonitoringPrometheusRemoteWriteElem map[string]interface{}
+
+type SpecDistributionModulesMonitoringPrometheus struct {
+	// Set this option to ship the collected metrics to a remote Prometheus receiver.
+	//
+	// `remoteWrite` is an array of objects that allows configuring the
+	// [remoteWrite](https://prometheus.io/docs/specs/remote_write_spec/) options for
+	// Prometheus. The objects in the array follow [the same schema as in the
+	// prometheus
+	// operator](https://prometheus-operator.dev/docs/operator/api/#monitoring.coreos.com/v1.RemoteWriteSpec).
+	RemoteWrite []SpecDistributionModulesMonitoringPrometheusRemoteWriteElem `json:"remoteWrite,omitempty" yaml:"remoteWrite,omitempty" mapstructure:"remoteWrite,omitempty"`
+
+	// Resources corresponds to the JSON schema field "resources".
+	Resources *TypesKubeResources `json:"resources,omitempty" yaml:"resources,omitempty" mapstructure:"resources,omitempty"`
+
+	// The retention size for the `k8s` Prometheus instance.
+	RetentionSize *string `json:"retentionSize,omitempty" yaml:"retentionSize,omitempty" mapstructure:"retentionSize,omitempty"`
+
+	// The retention time for the `k8s` Prometheus instance.
+	RetentionTime *string `json:"retentionTime,omitempty" yaml:"retentionTime,omitempty" mapstructure:"retentionTime,omitempty"`
+
+	// The storage size for the `k8s` Prometheus instance.
+	StorageSize *string `json:"storageSize,omitempty" yaml:"storageSize,omitempty" mapstructure:"storageSize,omitempty"`
+}
+
+type SpecDistributionModulesMonitoringPrometheusAgentRemoteWriteElem map[string]interface{}
+
+type SpecDistributionModulesMonitoringPrometheusAgent struct {
+	// Set this option to ship the collected metrics to a remote Prometheus receiver.
+	//
+	// `remoteWrite` is an array of objects that allows configuring the
+	// [remoteWrite](https://prometheus.io/docs/specs/remote_write_spec/) options for
+	// Prometheus. The objects in the array follow [the same schema as in the
+	// prometheus
+	// operator](https://prometheus-operator.dev/docs/operator/api/#monitoring.coreos.com/v1.RemoteWriteSpec).
+	RemoteWrite []SpecDistributionModulesMonitoringPrometheusAgentRemoteWriteElem `json:"remoteWrite,omitempty" yaml:"remoteWrite,omitempty" mapstructure:"remoteWrite,omitempty"`
+
+	// Resources corresponds to the JSON schema field "resources".
+	Resources *TypesKubeResources `json:"resources,omitempty" yaml:"resources,omitempty" mapstructure:"resources,omitempty"`
+}
+
+type SpecDistributionModulesMonitoringType string
+
+var enumValues_SpecDistributionModulesMonitoringType = []interface{}{
 	"none",
 	"calico",
 	"cilium",
@@ -1864,8 +1973,68 @@ func (j *SpecDistributionModulesNetworkingType) UnmarshalJSON(b []byte) error {
 	return nil
 }
 
-var enumValues_SpecDistributionModulesIngressCertManagerClusterIssuerType = []interface{}{
-	"http01",
+const (
+	SpecDistributionModulesMonitoringTypeNone            SpecDistributionModulesMonitoringType = "none"
+	SpecDistributionModulesMonitoringTypePrometheus      SpecDistributionModulesMonitoringType = "prometheus"
+	SpecDistributionModulesMonitoringTypePrometheusAgent SpecDistributionModulesMonitoringType = "prometheusAgent"
+	SpecDistributionModulesMonitoringTypeMimir           SpecDistributionModulesMonitoringType = "mimir"
+)
+
+type SpecDistributionModulesMonitoringX509Exporter struct {
+	// Overrides corresponds to the JSON schema field "overrides".
+	Overrides *TypesFuryModuleComponentOverrides `json:"overrides,omitempty" yaml:"overrides,omitempty" mapstructure:"overrides,omitempty"`
+}
+
+// Configuration for the Monitoring module.
+type SpecDistributionModulesMonitoring struct {
+	// Alertmanager corresponds to the JSON schema field "alertmanager".
+	Alertmanager *SpecDistributionModulesMonitoringAlertManager `json:"alertmanager,omitempty" yaml:"alertmanager,omitempty" mapstructure:"alertmanager,omitempty"`
+
+	// BlackboxExporter corresponds to the JSON schema field "blackboxExporter".
+	BlackboxExporter *SpecDistributionModulesMonitoringBlackboxExporter `json:"blackboxExporter,omitempty" yaml:"blackboxExporter,omitempty" mapstructure:"blackboxExporter,omitempty"`
+
+	// Grafana corresponds to the JSON schema field "grafana".
+	Grafana *SpecDistributionModulesMonitoringGrafana `json:"grafana,omitempty" yaml:"grafana,omitempty" mapstructure:"grafana,omitempty"`
+
+	// KubeStateMetrics corresponds to the JSON schema field "kubeStateMetrics".
+	KubeStateMetrics *SpecDistributionModulesMonitoringKubeStateMetrics `json:"kubeStateMetrics,omitempty" yaml:"kubeStateMetrics,omitempty" mapstructure:"kubeStateMetrics,omitempty"`
+
+	// Mimir corresponds to the JSON schema field "mimir".
+	Mimir *SpecDistributionModulesMonitoringMimir `json:"mimir,omitempty" yaml:"mimir,omitempty" mapstructure:"mimir,omitempty"`
+
+	// Minio corresponds to the JSON schema field "minio".
+	Minio *SpecDistributionModulesMonitoringMinio `json:"minio,omitempty" yaml:"minio,omitempty" mapstructure:"minio,omitempty"`
+
+	// Overrides corresponds to the JSON schema field "overrides".
+	Overrides *TypesFuryModuleOverrides `json:"overrides,omitempty" yaml:"overrides,omitempty" mapstructure:"overrides,omitempty"`
+
+	// Prometheus corresponds to the JSON schema field "prometheus".
+	Prometheus *SpecDistributionModulesMonitoringPrometheus `json:"prometheus,omitempty" yaml:"prometheus,omitempty" mapstructure:"prometheus,omitempty"`
+
+	// PrometheusAgent corresponds to the JSON schema field "prometheusAgent".
+	PrometheusAgent *SpecDistributionModulesMonitoringPrometheusAgent `json:"prometheusAgent,omitempty" yaml:"prometheusAgent,omitempty" mapstructure:"prometheusAgent,omitempty"`
+
+	// The type of the monitoring, must be `none`, `prometheus`, `prometheusAgent` or
+	// `mimir`.
+	//
+	// - `none`: will disable the whole monitoring stack.
+	// - `prometheus`: will install Prometheus Operator and a preconfigured Prometheus
+	// instance, Alertmanager, a set of alert rules, exporters needed to monitor all
+	// the components of the cluster, Grafana and a series of dashboards to view the
+	// collected metrics, and more.
+	// - `prometheusAgent`: will install Prometheus operator, an instance of
+	// Prometheus in Agent mode (no alerting, no queries, no storage), and all the
+	// exporters needed to get metrics for the status of the cluster and the
+	// workloads. Useful when having a centralized (remote) Prometheus where to ship
+	// the metrics and not storing them locally in the cluster.
+	// - `mimir`: will install the same as the `prometheus` option, plus Grafana Mimir
+	// that allows for longer retention of metrics and the usage of Object Storage.
+	//
+	// Default is `prometheus`.
+	Type SpecDistributionModulesMonitoringType `json:"type" yaml:"type" mapstructure:"type"`
+
+	// X509Exporter corresponds to the JSON schema field "x509Exporter".
+	X509Exporter *SpecDistributionModulesMonitoringX509Exporter `json:"x509Exporter,omitempty" yaml:"x509Exporter,omitempty" mapstructure:"x509Exporter,omitempty"`
 }
 
 // UnmarshalJSON implements json.Unmarshaler.
@@ -2360,7 +2529,7 @@ type SpecDistributionModulesTracingTempoExternalEndpoint struct {
 	// The bucket name of the external tempo backend
 	BucketName *string `json:"bucketName,omitempty" yaml:"bucketName,omitempty" mapstructure:"bucketName,omitempty"`
 
-	// The endpoint of the external tempo backend
+	// The external S3-compatible endpoint for Tempo's storage.
 	Endpoint *string `json:"endpoint,omitempty" yaml:"endpoint,omitempty" mapstructure:"endpoint,omitempty"`
 
 	// If true, the external tempo backend will not use tls
