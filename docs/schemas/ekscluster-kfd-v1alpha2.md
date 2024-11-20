@@ -5437,6 +5437,21 @@ Either `launch_configurations`, `launch_templates` or `both`. For new clusters u
 |`"launch_templates"`     |
 |`"both"`                 |
 
+## .spec.kubernetes.nodePoolGlobalAmiType
+
+### Description
+
+Global default AMI type used for EKS worker nodes. This will apply to all node pools unless overridden by a specific node pool.
+
+### Constraints
+
+**enum**: the value of this property must be equal to one of the following values:
+
+| Value          |
+|:---------------|
+| `"alinux2"`    |
+| `"alinux2023"` |
+
 ## .spec.kubernetes.serviceIpV4Cidr
 
 ### Description
