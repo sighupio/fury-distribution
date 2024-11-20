@@ -220,7 +220,7 @@
         },
         "baseDomain": {
           "type": "string",
-          "description": "The base domain used for all the KFD infrastructural ingresses. If using the nginx dual type, this value should be the same as the domain associated with the `internal` ingress class."
+          "description": "The base domain used for all the KFD infrastructural ingresses. If using the nginx `dual` type, this value should be the same as the domain associated with the `internal` ingress class."
         },
         "nginx": {
           "$ref": "#/$defs/Spec.Distribution.Modules.Ingress.Nginx",
@@ -402,7 +402,7 @@
       "properties": {
         "name": {
           "type": "string",
-          "description": "Name of the clusterIssuer."
+          "description": "The name of the clusterIssuer."
         },
         "email": {
           "type": "string",
@@ -418,7 +418,7 @@
         },
         "solvers": {
           "type": "array",
-          "description": "List of challenge solvers to use instead of the default one for the `http01` challenge."
+          "description": "The list of challenge solvers to use instead of the default one for the `http01` challenge. Check [cert manager's documentation](https://cert-manager.io/docs/configuration/acme/#adding-multiple-solver-types) for examples for this field."
         }
       },
       "required": [
@@ -454,7 +454,7 @@
             "loki",
             "customOutputs"
           ],
-          "description": "Selects the logging stack. Options are:\n- `none`: will disable the centralized logging.\n- `opensearch`: will deploy and configure the Logging Operator and an OpenSearch cluster (can be single or triple for HA) where the logs will be stored.\n- `loki`: will use a distributed Grafana Loki instead of OpenSearh for storage.\n- `customOuputs`: the Logging Operator will be deployed and installed but with no local storage, you will have to create the needed Outputs and ClusterOutputs to ship the logs to your desired storage.\n\nDefault is `opensearch`."
+          "description": "Selects the logging stack. Options are:\n- `none`: will disable the centralized logging.\n- `opensearch`: will deploy and configure the Logging Operator and an OpenSearch cluster (can be single or triple for HA) where the logs will be stored.\n- `loki`: will use a distributed Grafana Loki instead of OpenSearch for storage.\n- `customOuputs`: the Logging Operator will be deployed and installed but without in-cluster storage, you will have to create the needed Outputs and ClusterOutputs to ship the logs to your desired storage.\n\nDefault is `opensearch`."
         },
         "opensearch": {
           "$ref": "#/$defs/Spec.Distribution.Modules.Logging.Opensearch"
@@ -713,7 +713,7 @@
             "prometheusAgent",
             "mimir"
           ],
-          "description": "The type of the monitoring, must be `none`, `prometheus`, `prometheusAgent` or `mimir`.\n\n- `none`: will disable the whole monitoring stack.\n- `prometheus`: will install Prometheus Operator and a preconfigured Prometheus instace, Alertmanager, a set of alert rules, exporters needed to monitor all the components of the cluster, Grafana and a series of dashboards to view the collected metrics, and more.\n- `prometheusAgent`: wil install Prometheus operator, an instance of Prometheus in Agent mode (no alerting, no queries, no storage), and all the exporters needed to get metrics for the status of the cluster and the workloads. Useful when having a centralized (remote) Prometheus where to ship the metrics and not storing them locally in the cluster.\n- `mimir`: will install the same as the `prometheus` option, plus Grafana Mimir that allows for longer retention of metrics and the usage of Object Storage.\n\nDefault is `prometheus`."
+          "description": "The type of the monitoring, must be `none`, `prometheus`, `prometheusAgent` or `mimir`.\n\n- `none`: will disable the whole monitoring stack.\n- `prometheus`: will install Prometheus Operator and a preconfigured Prometheus instance, Alertmanager, a set of alert rules, exporters needed to monitor all the components of the cluster, Grafana and a series of dashboards to view the collected metrics, and more.\n- `prometheusAgent`: will install Prometheus operator, an instance of Prometheus in Agent mode (no alerting, no queries, no storage), and all the exporters needed to get metrics for the status of the cluster and the workloads. Useful when having a centralized (remote) Prometheus where to ship the metrics and not storing them locally in the cluster.\n- `mimir`: will install the same as the `prometheus` option, plus Grafana Mimir that allows for longer retention of metrics and the usage of Object Storage.\n\nDefault is `prometheus`."
         },
         "overrides": {
           "$ref": "#/$defs/Types.FuryModuleOverrides"
@@ -880,7 +880,7 @@
           "properties": {
             "endpoint": {
               "type": "string",
-              "description": "External S3-compatible endpoint for Mimir's storage."
+              "description": "The external S3-compatible endpoint for Mimir's storage."
             },
             "insecure": {
               "type": "boolean",
@@ -984,7 +984,7 @@
           "properties": {
             "endpoint": {
               "type": "string",
-              "description": "External S3-compatible endpoint for Tempo's storage."
+              "description": "The external S3-compatible endpoint for Tempo's storage."
             },
             "insecure": {
               "type": "boolean",
@@ -1394,7 +1394,7 @@
         },
         "baseDomain": {
           "type": "string",
-          "description": "Base domain for the ingresses created by the Auth module (Gangplank, Pomerium, Dex). Notice that when nginx type is dual, these will use the `external` ingress class."
+          "description": "The base domain for the ingresses created by the Auth module (Gangplank, Pomerium, Dex). Notice that when the ingress module type is `dual`, these will use the `external` ingress class."
         },
         "pomerium": {
           "$ref": "#/$defs/Spec.Distribution.Modules.Auth.Pomerium"
@@ -1491,6 +1491,7 @@
         },
         "ingresses": {
           "type": "object",
+          "description": "Override the definition of the Auth module ingresses.",
           "additionalProperties": {
             "$ref": "#/$defs/Spec.Distribution.Modules.Auth.Overrides.Ingress"
           }

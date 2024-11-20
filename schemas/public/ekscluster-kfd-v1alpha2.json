@@ -1155,7 +1155,7 @@
         },
         "registry": {
           "type": "string",
-          "description": "URL of the registry where to pull images from for the Distribution phase. (Default is `registry.sighup.io/fury`)."
+          "description": "URL of the registry where to pull images from for the Distribution phase. (Default is `registry.sighup.io/fury`).\n\nNOTE: If plugins are pulling from the default registry, the registry will be replaced for the plugin too."
         }
       }
     },
@@ -1220,7 +1220,7 @@
         },
         "baseDomain": {
           "type": "string",
-          "description": "The base domain used for all the KFD ingresses. If in the nginx `dual` configuration type, this value should be the same as the `.spec.distribution.modules.ingress.dns.private.name` zone."
+          "description": "The base domain used for all the KFD infrastructural ingresses. If in the nginx `dual` configuration type, this value should be the same as the `.spec.distribution.modules.ingress.dns.private.name` zone."
         },
         "nginx": {
           "$ref": "#/$defs/Spec.Distribution.Modules.Ingress.Nginx",
@@ -1566,7 +1566,7 @@
             "loki",
             "customOutputs"
           ],
-          "description": "Selects the logging stack. Options are:\n- `none`: will disable the centralized logging.\n- `opensearch`: will deploy and configure the Logging Operator and an OpenSearch cluster (can be single or triple for HA) where the logs will be stored.\n- `loki`: will use a distributed Grafana Loki instead of OpenSearch for storage.\n- `customOuputs`: the Logging Operator will be deployed and installed without local storage, you will have to create the needed Outputs and ClusterOutputs to ship the logs to your desired storage.\n\nDefault is `opensearch`."
+          "description": "Selects the logging stack. Options are:\n- `none`: will disable the centralized logging.\n- `opensearch`: will deploy and configure the Logging Operator and an OpenSearch cluster (can be single or triple for HA) where the logs will be stored.\n- `loki`: will use a distributed Grafana Loki instead of OpenSearch for storage.\n- `customOuputs`: the Logging Operator will be deployed and installed but without in-cluster storage, you will have to create the needed Outputs and ClusterOutputs to ship the logs to your desired storage.\n\nDefault is `opensearch`."
         },
         "opensearch": {
           "$ref": "#/$defs/Spec.Distribution.Modules.Logging.Opensearch"
