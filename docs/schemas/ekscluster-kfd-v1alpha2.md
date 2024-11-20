@@ -1563,52 +1563,90 @@ The value of the toleration
 
 ### Properties
 
-| Property                                                    | Type      | Required |
-|:------------------------------------------------------------|:----------|:---------|
-| [cron](#specdistributionmodulesdrveleroschedulescron)       | `object`  | Optional |
-| [install](#specdistributionmodulesdrveleroschedulesinstall) | `boolean` | Optional |
-| [ttl](#specdistributionmodulesdrveleroschedulesttl)         | `string`  | Optional |
+| Property                                                            | Type      | Required |
+|:--------------------------------------------------------------------|:----------|:---------|
+| [definitions](#specdistributionmodulesdrveleroschedulesdefinitions) | `object`  | Optional |
+| [install](#specdistributionmodulesdrveleroschedulesinstall)         | `boolean` | Optional |
 
 ### Description
 
 Configuration for Velero's backup schedules.
 
-## .spec.distribution.modules.dr.velero.schedules.cron
+## .spec.distribution.modules.dr.velero.schedules.definitions
 
 ### Properties
 
-| Property                                                            | Type     | Required |
-|:--------------------------------------------------------------------|:---------|:---------|
-| [full](#specdistributionmodulesdrveleroschedulescronfull)           | `string` | Optional |
-| [manifests](#specdistributionmodulesdrveleroschedulescronmanifests) | `string` | Optional |
+| Property                                                                   | Type     | Required |
+|:---------------------------------------------------------------------------|:---------|:---------|
+| [full](#specdistributionmodulesdrveleroschedulesdefinitionsfull)           | `object` | Optional |
+| [manifests](#specdistributionmodulesdrveleroschedulesdefinitionsmanifests) | `object` | Optional |
 
 ### Description
 
-Configuration for Velero's schedules cron.
+Configuration for Velero schedules.
 
-## .spec.distribution.modules.dr.velero.schedules.cron.full
+## .spec.distribution.modules.dr.velero.schedules.definitions.full
+
+### Properties
+
+| Property                                                                                     | Type      | Required |
+|:---------------------------------------------------------------------------------------------|:----------|:---------|
+| [schedule](#specdistributionmodulesdrveleroschedulesdefinitionsfullschedule)                 | `string`  | Optional |
+| [snapshotMoveData](#specdistributionmodulesdrveleroschedulesdefinitionsfullsnapshotmovedata) | `boolean` | Optional |
+| [ttl](#specdistributionmodulesdrveleroschedulesdefinitionsfullttl)                           | `string`  | Optional |
+
+### Description
+
+Configuration for Velero's manifests backup schedule.
+
+## .spec.distribution.modules.dr.velero.schedules.definitions.full.schedule
 
 ### Description
 
 The cron expression for the `full` backup schedule (default `0 1 * * *`).
 
-## .spec.distribution.modules.dr.velero.schedules.cron.manifests
+## .spec.distribution.modules.dr.velero.schedules.definitions.full.snapshotMoveData
+
+### Description
+
+EXPERIMENTAL (if you do more than one backups, the following backups after the first are not automatically restorable, see https://github.com/vmware-tanzu/velero/issues/7057#issuecomment-2466815898 for the manual restore solution): SnapshotMoveData specifies whether snapshot data should be moved. Velero will create a new volume from the snapshot and upload the content to the storageLocation.
+
+## .spec.distribution.modules.dr.velero.schedules.definitions.full.ttl
+
+### Description
+
+The Time To Live (TTL) of the backups created by the backup schedules (default `720h0m0s`, 30 days). Notice that changing this value will affect only newly created backups, prior backups will keep the old TTL.
+
+## .spec.distribution.modules.dr.velero.schedules.definitions.manifests
+
+### Properties
+
+| Property                                                                          | Type     | Required |
+|:----------------------------------------------------------------------------------|:---------|:---------|
+| [schedule](#specdistributionmodulesdrveleroschedulesdefinitionsmanifestsschedule) | `string` | Optional |
+| [ttl](#specdistributionmodulesdrveleroschedulesdefinitionsmanifeststtl)           | `string` | Optional |
+
+### Description
+
+Configuration for Velero's manifests backup schedule.
+
+## .spec.distribution.modules.dr.velero.schedules.definitions.manifests.schedule
 
 ### Description
 
 The cron expression for the `manifests` backup schedule (default `*/15 * * * *`).
+
+## .spec.distribution.modules.dr.velero.schedules.definitions.manifests.ttl
+
+### Description
+
+The Time To Live (TTL) of the backups created by the backup schedules (default `720h0m0s`, 30 days). Notice that changing this value will affect only newly created backups, prior backups will keep the old TTL.
 
 ## .spec.distribution.modules.dr.velero.schedules.install
 
 ### Description
 
 Whether to install or not the default `manifests` and `full` backups schedules. Default is `true`.
-
-## .spec.distribution.modules.dr.velero.schedules.ttl
-
-### Description
-
-The Time To Live (TTL) of the backups created by the backup schedules (default `720h0m0s`, 30 days). Notice that changing this value will affect only newly created backups, prior backups will keep the old TTL.
 
 ## .spec.distribution.modules.ingress
 

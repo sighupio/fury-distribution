@@ -66,7 +66,7 @@ spec:
 apiVersion: apps/v1
 kind: DaemonSet
 metadata:
-  name: nginx-ingress-controller-external
+  name: ingress-nginx-controller-external
   namespace: ingress-nginx
 spec:
   template:
@@ -79,7 +79,7 @@ spec:
 apiVersion: apps/v1
 kind: DaemonSet
 metadata:
-  name: nginx-ingress-controller-internal
+  name: ingress-nginx-controller-internal
   namespace: ingress-nginx
 spec:
   template:
@@ -93,7 +93,7 @@ spec:
 apiVersion: apps/v1
 kind: DaemonSet
 metadata:
-  name: nginx-ingress-controller
+  name: ingress-nginx-controller
   namespace: ingress-nginx
 spec:
   template:
