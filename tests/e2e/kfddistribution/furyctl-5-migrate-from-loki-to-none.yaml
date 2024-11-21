@@ -16,7 +16,7 @@ spec:
     common: {}
     # This section contains all the configurations for all the KFD core modules
     modules:
-      networking: 
+      networking:
         type: calico
       # This section contains all the configurations for the ingress module
       ingress:
@@ -32,8 +32,6 @@ spec:
             type: http01
       logging:
         type: none
-        loki: 
-          backend: minio
         minio:
           storageSize: 20Gi
           rootUser:
@@ -41,7 +39,7 @@ spec:
             password: secretpassword1
       monitoring:
         type: mimir
-        mimir: 
+        mimir:
           backend: minio
         prometheus:
           resources:
@@ -57,7 +55,7 @@ spec:
             password: secretpassword2
       tracing:
         type: none
-        tempo: 
+        tempo:
           backend: minio
         minio:
           storageSize: 20Gi
@@ -72,7 +70,7 @@ spec:
           validationFailureAction: Enforce
       dr:
         type: none
-        velero: 
+        velero:
           backend: minio
       auth:
         provider:

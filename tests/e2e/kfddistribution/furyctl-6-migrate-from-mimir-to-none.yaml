@@ -32,8 +32,6 @@ spec:
             type: http01
       logging:
         type: none
-        loki: 
-          backend: minio
         minio:
           storageSize: 20Gi
           rootUser:
@@ -82,7 +80,8 @@ spec:
             password: testpassword
     # patches for kind compatibility and resource setting
     customPatches:
-      patchesStrategicMerge: []
+      patchesStrategicMerge:
+        []
         #- |
         #  apiVersion: apps/v1
         #  kind: StatefulSet

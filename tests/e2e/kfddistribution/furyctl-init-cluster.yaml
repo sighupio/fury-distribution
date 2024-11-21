@@ -37,6 +37,9 @@ spec:
           rootUser:
             username: sighup
             password: secretpassword1
+        loki:
+          backend: minio
+          tsdbStartDate: "2024-11-21"
       monitoring:
         type: mimir
         prometheus:
