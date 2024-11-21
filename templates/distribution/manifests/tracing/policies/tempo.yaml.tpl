@@ -1,3 +1,8 @@
+# Copyright (c) 2017-present SIGHUP s.r.l All rights reserved.
+# Use of this source code is governed by a BSD-style
+# license that can be found in the LICENSE file.
+
+---
 apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
 metadata:
@@ -120,20 +125,20 @@ metadata:
   labels:
     cluster.kfd.sighup.io/module: tracing
 spec:
- policyTypes:
-   - Egress
- podSelector:
-   matchLabels:
-     app.kubernetes.io/instance: tempo-distributed
- egress:
-   - to:
-       - podSelector:
-           matchLabels:
-             app.kubernetes.io/name: tempo
-             app.kubernetes.io/component: memcached
-     ports:
-       - port: 11211
-         protocol: TCP
+  policyTypes:
+    - Egress
+  podSelector:
+    matchLabels:
+      app.kubernetes.io/instance: tempo-distributed
+  egress:
+    - to:
+        - podSelector:
+            matchLabels:
+              app.kubernetes.io/name: tempo
+              app.kubernetes.io/component: memcached
+      ports:
+        - port: 11211
+          protocol: TCP
 ---
 apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
@@ -192,16 +197,16 @@ metadata:
   labels:
     cluster.kfd.sighup.io/module: tracing
 spec:
- policyTypes:
-   - Egress
- podSelector:
-   matchLabels:
-     app.kubernetes.io/name: tempo
-     app.kubernetes.io/instance: tempo-distributed
- egress:
-   - ports:
-       - port: 443
-         protocol: TCP
+  policyTypes:
+    - Egress
+  podSelector:
+    matchLabels:
+      app.kubernetes.io/name: tempo
+      app.kubernetes.io/instance: tempo-distributed
+  egress:
+    - ports:
+        - port: 443
+          protocol: TCP
 {{- if eq .spec.distribution.modules.tracing.tempo.backend "minio" }}
 ---
 apiVersion: networking.k8s.io/v1
