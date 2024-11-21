@@ -13,6 +13,7 @@
 - deny-all
 - all-egress-kube-dns
 - event-tailer-egress-kube-apiserver
+- fluentd-egress-all
 - fluentbit-egress-fluentd
 - fluentbit-egress-kube-apiserver
 - fluentbit-ingress-prometheus-metrics
@@ -21,8 +22,6 @@
 ### OpenSearch Stack
 - fluentd-ingress-fluentbit
 - fluentd-ingress-prometheus-metrics
-- fluentd-egress-minio
-- fluentd-egress-opensearch
 - opensearch-discovery
 - opensearch-ingress-dashboards
 - opensearch-ingress-fluentd
@@ -34,12 +33,11 @@
 - jobs-egress-opensearch
 
 ### Loki Stack
-- fluentd-egress-loki
 - loki-distributed-ingress-fluentd
 - loki-distributed-ingress-grafana
 - loki-distributed-ingress-prometheus-metrics
 - loki-distributed-discovery
-- loki-distributed-egress-minio
+- loki-distributed-egress-all
 
 ### MinIO
 - minio-ingress-namespace

@@ -30,7 +30,7 @@ graph TD
     op -->|"6443/TCP"| api
     bucket -->|"6443/TCP"| api
     fb -->|"24240/TCP"| fd
-    fd -->|"9200/TCP"| os
+    fd -->|"egress: all"| os
     osd -->|"9200/TCP"| os
     pom -->|"5601/TCP"| osd
     job -->|"5601/TCP"| osd

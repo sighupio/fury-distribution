@@ -27,7 +27,8 @@
 - forecastle-egress-kube-apiserver
 - nginx-egress-all
 - all-ingress-nginx
-- nginx-ingress-prometheus-metrics
+- nginx-ingress-prometheus-metric
+- external-dns
 
 ## Configurations
 - [Single Nginx](single.md)

@@ -42,9 +42,9 @@ graph TD
     loki_querier -->|"loki-discovery<br/>9095,7946,3100/TCP"| loki_ingester
     loki_querier -->|"loki-discovery<br/>9095,7946,3100/TCP"| loki_query_frontend
     loki_compactor -->|"loki-discovery<br/>9095,7946,3100/TCP"| loki_ingester
-    loki_compactor -->|"9000/TCP"| minio
-    loki_ingester -->|"9000/TCP"| minio
-    loki_querier -->|"9000/TCP"| minio
+    loki_compactor -->|"egress: all"| minio
+    loki_ingester -->|"egress: all"| minio
+    loki_querier -->|"egress: all"| minio
     bucket -->|"9000/TCP"| minio
     minio -->|"443/TCP"| ext
     pom -->|"9001/TCP"| minio
