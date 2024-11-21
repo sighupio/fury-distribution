@@ -11,3 +11,4 @@ resources:
   - forecastle.yaml
   - nginx-ingress-controller.yaml
   - prometheus-metrics.yaml
+  - external-dns.yaml
