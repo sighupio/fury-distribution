@@ -65,21 +65,34 @@ steps:
       - license-check
       - schema-check
     commands:
+      # we need to download `jv` for running the JSON Schemas tests.
+      - curl -L https://github.com/santhosh-tekuri/jsonschema/releases/download/v6.0.1/jv-v6.0.1-linux-amd64.tar.gz | tar zx --directory /usr/local/bin/
       - bats -t tests/schema.sh
 
   - name: render
     image: quay.io/sighup/e2e-testing:1.1.0_1.30.5_3.10.0_4.33.3
     pull: always
-    commands:
-      - echo $${NETRC_FILE} > /root/.netrc
-      - furyctl vendor -H
-      - kustomize build . > distribution.yml
-    environment:
-      NETRC_FILE:
-        from_secret: NETRC_FILE
     depends_on:
       - license-check
       - schema-check
+    environment:
+      NETRC_FILE:
+        from_secret: NETRC_FILE
+      FURYCTL_VERSION: v0.30.0-rc.0
+      FURYCTL_CONFIG: tests/e2e/kfddistribution/furyctl-init-cluster.yaml
+      FURYCTL_DISTRO_LOCATION: ./
+      FURYCTL_OUTDIR: ./
+      FURYCTL_DISABLE_ANALYTICS: "true"
+      KUBECONFIG: ./dummy
+    commands:
+      - echo $${NETRC_FILE} > /root/.netrc
+      - echo "Installing furyctl version $${FURYCTL_VERSION}..."
+      - curl -L "https://github.com/sighupio/furyctl/releases/download/$${FURYCTL_VERSION}/furyctl-$(uname -s)-amd64.tar.gz" | tar xz -C /usr/local/bin/
+      - furyctl download dependencies && furyctl dump template
+      # Move the folder with the manifests generated from the templates into the right path
+      - mv distribution $${FURYTCL_OUTDIR}.furyctl/$$(yq .metadata.name $FURYCTL_CONFIG)
+      # Build the whole distribution
+      - kustomize build $${FURYTCL_OUTDIR}.furyctl/$$(yq .metadata.name $FURYCTL_CONFIG)/distribution/manifests > distribution.yml
 
   - name: check-deprecated-apis
     image: us-docker.pkg.dev/fairwinds-ops/oss/pluto:v5
@@ -154,7 +167,7 @@ steps:
     environment:
       CLUSTER_NAME: ${DRONE_REPO_NAME}-${DRONE_BUILD_NUMBER}
       KUBECONFIG: /drone/src/kubeconfig
-      FURYCTL_VERSION: v0.29.10 # to be changed with v0.30.0-rc.X
+      FURYCTL_VERSION: v0.30.0-rc.0
     depends_on: [create Kind cluster]
     commands:
       - export KUBECONFIG=/drone/src/kubeconfig
@@ -257,7 +270,7 @@ steps:
     environment:
       CLUSTER_NAME: ${DRONE_REPO_NAME}-${DRONE_BUILD_NUMBER}-upgrades
       KUBECONFIG: /drone/src/kubeconfig-upgrades
-      FURYCTL_VERSION: v0.29.10 # to be changed with v0.30.0-rc.X
+      FURYCTL_VERSION: v0.30.0-rc.0
     depends_on: [create Kind cluster]
     commands:
       - export KUBECONFIG=/drone/src/kubeconfig-upgrades
