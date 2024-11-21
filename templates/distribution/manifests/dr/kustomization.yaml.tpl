@@ -16,8 +16,12 @@ resources:
 {{- else }}
   - {{ print "../" .spec.distribution.common.relativeVendorPath "/modules/dr/katalog/velero/velero-aws" }}
   - resources/storageLocation.yaml
+  - resources/volumeSnapshotLocation.yaml
 {{- end }}
   - {{ print "../" .spec.distribution.common.relativeVendorPath "/modules/dr/katalog/velero/velero-node-agent" }}
+{{- if .spec.distribution.modules.dr.velero.snapshotController.install }}
+  - {{ print "../" .spec.distribution.common.relativeVendorPath "/modules/dr/katalog/velero/snapshot-controller" }}
+{{- end }}
 
 {{- end }}
 {{- if .spec.distribution.modules.dr.velero.schedules.install }}
@@ -34,12 +38,8 @@ patchesStrategicMerge:
   - patches/eks-velero.yml
 {{- end }}
 {{- if .spec.distribution.modules.dr.velero.schedules.install }}
-{{- if or (index .spec.distribution.modules.dr.velero.schedules "ttl") (and (index .spec.distribution.modules.dr.velero.schedules "cron") (index .spec.distribution.modules.dr.velero.schedules.cron "manifests")) }}
   - patches/velero-schedule-manifests.yml
-{{- end }}
-{{- if or (index .spec.distribution.modules.dr.velero.schedules "ttl") (and (index .spec.distribution.modules.dr.velero.schedules "cron") (index .spec.distribution.modules.dr.velero.schedules.cron "full")) }}
   - patches/velero-schedule-full.yml
-{{- end }}
 {{- end }}
 
 {{- if eq .spec.distribution.common.provider.type "none" }}

@@ -4,10 +4,9 @@
 
 # Tests the following cases:
 
-# Given "spec.distribution.customPatches" is filled
-# a configMapGenerator is filled with a 'type' that is not valid
+# Given "spec.kubernetes.nodePools.0.type" is 'eks-managed' and "spec.kubernetes.nodePools.0.ami.id" is filled
 # When I validate the config against the schema
-# Then an error "additionalProperties 'type' not allowed" is returned
+# Then an error "$ref/properties/nodePools/items/$ref/then/properties/ami/properties/id/type: expected null, but got string" is returned
 
 ---
 apiVersion: kfd.sighup.io/v1alpha2
@@ -16,18 +15,6 @@ metadata:
   name: furyctl-dev-aws-al
 spec:
   infrastructure:
-    vpc:
-      network:
-        cidr: 10.0.0.0/16
-        subnetsCidrs:
-          private:
-            - 10.0.182.0/24
-            - 10.0.172.0/24
-            - 10.0.162.0/24
-          public:
-            - 10.0.20.0/24
-            - 10.0.30.0/24
-            - 10.0.40.0/24
     vpn:
       ssh:
         allowedFromCidrs:
@@ -40,16 +27,21 @@ spec:
   kubernetes:
     apiServer:
       privateAccess: true
-      privateAccessCidrs: ["0.0.0.0/0"]
+      privateAccessCidrs: ["10.0.0.3/16"]
       publicAccessCidrs: []
       publicAccess: false
+    vpcId: vpc-0123456789abcdef0
+    subnetIds:
+      - subnet-0123456789abcdef0
+      - subnet-0123456789abcdef1
+      - subnet-0123456789abcdef2
     nodeAllowedSshPublicKey: ssh-ed25519 SomethingSomething engineering@sighup.io
     nodePoolsLaunchKind: both
     nodePools:
       - ami:
           id: ami-01234567890123456
           owner: "123456789012"
-        type: self-managed
+        type: eks-managed
         instance:
           type: t3.large
         name: worker-eks
@@ -62,7 +54,6 @@ spec:
         - name: a-configmap
           files:
             - /path/to/config.example
-          type: Opaque
         - name: b-configmap
           envs:
             - /path/to/envs.env
@@ -91,7 +82,6 @@ spec:
         - name: b-secret
           envs:
             - /path/to/envs.env
-          type: Opaque
     common:
       provider:
         type: eks

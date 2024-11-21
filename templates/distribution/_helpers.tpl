@@ -125,7 +125,7 @@
     - hosts:
       - {{ template "ingressHost" . }}
     {{- if eq .spec.distribution.modules.ingress.nginx.tls.provider "certManager" }}
-      secretName: {{ lower .package }}-tls
+      secretName: {{ lower .prefix | trimSuffix "." }}-tls
     {{- end }}
 {{- end }}
 {{- end -}}
