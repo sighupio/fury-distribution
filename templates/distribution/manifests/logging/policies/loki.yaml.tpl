@@ -134,7 +134,7 @@ spec:
 apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
 metadata:
-  name: loki-distributed-egress-minio
+  name: loki-distributed-egress-all
   namespace: logging
   labels:
     cluster.kfd.sighup.io/module: logging
@@ -146,13 +146,5 @@ spec:
     matchLabels:
       app.kubernetes.io/name: loki-distributed
   egress:
-    - to:
-        - podSelector:
-            matchLabels:
-              app: minio
-          namespaceSelector:
-            matchLabels:
-              kubernetes.io/metadata.name: logging
-      ports:
-          - port: 9000
-            protocol: TCP
+    - {}
+---
