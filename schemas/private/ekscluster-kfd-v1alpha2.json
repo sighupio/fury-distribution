@@ -1,6 +1,6 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "description": "A Fury Cluster deployed through AWS's Elastic Kubernetes Service",
+  "description": "A KFD Cluster deployed on top of AWS's Elastic Kubernetes Service (EKS).",
   "type": "object",
   "properties": {
     "apiVersion": {
@@ -159,6 +159,7 @@
     "Spec.ToolsConfiguration.Terraform.State": {
       "type": "object",
       "additionalProperties": false,
+      "description": "Configuration for storing the Terraform state of the cluster.",
       "properties": {
         "s3": {
           "$ref": "#/$defs/Spec.ToolsConfiguration.Terraform.State.S3"
@@ -171,22 +172,23 @@
     "Spec.ToolsConfiguration.Terraform.State.S3": {
       "type": "object",
       "additionalProperties": false,
+      "description": "Configuration for the S3 bucket used to store the Terraform state.",
       "properties": {
         "bucketName": {
           "$ref": "#/$defs/Types.AwsS3BucketName",
-          "description": "This value defines which bucket will be used to store all the states"
+          "description": "This value defines which bucket will be used to store all the states."
         },
         "keyPrefix": {
           "$ref": "#/$defs/Types.AwsS3KeyPrefix",
-          "description": "This value defines which folder will be used to store all the states inside the bucket"
+          "description": "This value defines which folder will be used to store all the states inside the bucket."
         },
         "region": {
           "$ref": "#/$defs/Types.AwsRegion",
-          "description": "This value defines in which region the bucket is located"
+          "description": "This value defines in which region the bucket is located."
         },
         "skipRegionValidation": {
           "type": "boolean",
-          "description": "This value defines if the region of the bucket should be validated or not by Terraform, useful when using a bucket in a recently added region"
+          "description": "This value defines if the region of the bucket should be validated or not by Terraform, useful when using a bucket in a recently added region."
         }
       },
       "required": [
@@ -200,12 +202,10 @@
       "additionalProperties": false,
       "properties": {
         "vpc": {
-          "$ref": "#/$defs/Spec.Infrastructure.Vpc",
-          "description": "This key defines the VPC that will be created in AWS"
+          "$ref": "#/$defs/Spec.Infrastructure.Vpc"
         },
         "vpn": {
-          "$ref": "#/$defs/Spec.Infrastructure.Vpn",
-          "description": "This section defines the creation of VPN bastions"
+          "$ref": "#/$defs/Spec.Infrastructure.Vpn"
         }
       },
       "allOf": [
@@ -300,7 +300,7 @@
       "properties": {
         "cidr": {
           "$ref": "#/$defs/Types.Cidr",
-          "description": "This is the CIDR of the VPC that will be created"
+          "description": "The network CIDR for the VPC that will be created"
         },
         "subnetsCidrs": {
           "$ref": "#/$defs/Spec.Infrastructure.Vpc.Network.SubnetsCidrs"
@@ -313,6 +313,7 @@
     },
     "Spec.Infrastructure.Vpc.Network.SubnetsCidrs": {
       "type": "object",
+      "description": "Network CIDRS configuration for private and public subnets.",
       "additionalProperties": false,
       "properties": {
         "private": {
@@ -320,14 +321,14 @@
           "items": {
             "$ref": "#/$defs/Types.Cidr"
           },
-          "description": "These are the CIRDs for the private subnets, where the nodes, the pods, and the private load balancers will be created"
+          "description": "The network CIDRs for the private subnets, where the nodes, the pods, and the private load balancers will be created"
         },
         "public": {
           "type": "array",
           "items": {
             "$ref": "#/$defs/Types.Cidr"
           },
-          "description": "These are the CIDRs for the public subnets, where the public load balancers and the VPN servers will be created"
+          "description": "The network CIDRs for the public subnets, where the public load balancers and the VPN servers will be created"
         }
       },
       "required": [
@@ -337,31 +338,59 @@
     },
     "Spec.Infrastructure.Vpn": {
       "type": "object",
+      "description": "Configuration for the VPN server instances.",
       "additionalProperties": false,
       "properties": {
         "instances": {
           "type": "integer",
-          "description": "The number of instances to create, 0 to skip the creation"
+          "description": "The number of VPN server instances to create, `0` to skip the creation."
         },
         "port": {
           "$ref": "#/$defs/Types.TcpPort",
-          "description": "The port used by the OpenVPN server"
+          "description": "The port where each OpenVPN server will listen for connections."
         },
         "instanceType": {
           "type": "string",
-          "description": "The size of the AWS EC2 instance"
+          "description": "The type of the AWS EC2 instance for each VPN server. Follows AWS EC2 nomenclature. Example: `t3-micro`."
         },
         "diskSize": {
           "type": "integer",
-          "description": "The size of the disk in GB"
+          "description": "The size of the disk in GB for each VPN server. Example: entering `50` will create disks of 50 GB."
         },
         "operatorName": {
           "type": "string",
-          "description": "URL of the registry where to pull images from for the Distribution phase. (Default is `registry.sighup.io/fury`).\n\nNOTE: If plugins are pulling from the default registry, the registry will be replaced for the plugin too."
+          "description": "The username of the account to create in the bastion's operating system."
+        },
+        "dhParamsBits": {
+          "type": "integer",
+          "description": "The `dhParamsBits` size used for the creation of the .pem file that will be used in the dh openvpn server.conf file."
+        },
+        "vpnClientsSubnetCidr": {
+          "$ref": "#/$defs/Types.Cidr",
+          "description": "The network CIDR that will be used to assign IP addresses to the VPN clients when connected."
+        },
+        "ssh": {
+          "$ref": "#/$defs/Spec.Infrastructure.Vpn.Ssh"
+        },
+        "vpcId": {
+          "$ref": "#/$defs/Types.AwsVpcId",
+          "description": "The ID of the VPC where the VPN server instances will be created, required only if `.spec.infrastructure.vpc` is omitted."
+        },
+        "bucketNamePrefix": {
+          "$ref": "#/$defs/Types.AwsS3BucketNamePrefix",
+          "description": "This value defines the prefix for the bucket name where the VPN servers will store their state (VPN certificates, users)."
+        },
+        "iamUserNameOverride": {
+          "$ref": "#/$defs/Types.AwsIamRoleName",
+          "description": "Overrides IAM user name for the VPN. Default is to use the cluster name."
         }
-      }
+      },
+      "required": [
+        "ssh",
+        "vpnClientsSubnetCidr"
+      ]
     },
-    "Spec.Distribution.Common.Provider": {
+    "Spec.Infrastructure.Vpn.Ssh": {
       "type": "object",
       "additionalProperties": false,
       "properties": {
@@ -377,7 +406,7 @@
               }
             ]
           },
-          "description": "This value defines the public keys that will be added to the bastion's operating system NOTES: Not yet implemented"
+          "description": "**NOT IN USE**, use `githubUsersName` instead. This value defines the public keys that will be added to the bastion's operating system."
         },
         "githubUsersName": {
           "type": "array",
@@ -385,14 +414,14 @@
             "type": "string"
           },
           "minItems": 1,
-          "description": "The github user name list that will be used to get the ssh public key that will be added as authorized key to the operatorName user"
+          "description": "List of GitHub usernames from whom get their SSH public key and add as authorized keys of the `operatorName` user."
         },
         "allowedFromCidrs": {
           "type": "array",
           "items": {
             "$ref": "#/$defs/Types.Cidr"
           },
-          "description": "The CIDR enabled in the security group that can access the bastions in SSH"
+          "description": "The network CIDR enabled in the security group to access the VPN servers (bastions) via SSH. Setting this to `0.0.0.0/0` will allow any source."
         }
       },
       "required": [
@@ -407,29 +436,29 @@
       "properties": {
         "vpcId": {
           "$ref": "#/$defs/Types.AwsVpcId",
-          "description": "This value defines the VPC ID where the EKS cluster will be created, required only if .spec.infrastructure.vpc is omitted"
+          "description": "Required only if `.spec.infrastructure.vpc` is omitted. This value defines the ID of the VPC where the EKS cluster and its related resources will be created."
         },
         "clusterIAMRoleNamePrefixOverride": {
           "$ref": "#/$defs/Types.AwsIamRoleNamePrefix",
-          "description": "Overrides the default IAM role name prefix for the EKS cluster"
+          "description": "Overrides the default prefix for the IAM role name of the EKS cluster. If not set, a name will be generated from the cluster name."
         },
         "workersIAMRoleNamePrefixOverride": {
           "$ref": "#/$defs/Types.AwsIamRoleNamePrefix",
-          "description": "Overrides the default IAM role name prefix for the EKS workers"
+          "description": "Overrides the default prefix for the IAM role name of the EKS workers. If not set, a name will be generated from the cluster name."
         },
         "subnetIds": {
           "type": "array",
           "items": {
             "$ref": "#/$defs/Types.AwsSubnetId"
           },
-          "description": "This value defines the subnet IDs where the EKS cluster will be created, required only if .spec.infrastructure.vpc is omitted"
+          "description": "Required only if `.spec.infrastructure.vpc` is omitted. This value defines the ID of the subnet where the EKS cluster will be created."
         },
         "apiServer": {
           "$ref": "#/$defs/Spec.Kubernetes.APIServer"
         },
         "serviceIpV4Cidr": {
           "$ref": "#/$defs/Types.Cidr",
-          "description": "This value defines the CIDR that will be used to assign IP addresses to the services"
+          "description": "This value defines the network CIDR that will be used to assign IP addresses to Kubernetes services."
         },
         "nodeAllowedSshPublicKey": {
           "anyOf": [
@@ -440,7 +469,7 @@
               "$ref": "#/$defs/Types.FileRef"
             }
           ],
-          "description": "This key contains the ssh public key that can connect to the nodes via SSH using the ec2-user user"
+          "description": "The SSH public key that can connect to the nodes via SSH using the `ec2-user` user. Example: the contents of your `~/.ssh/id_ras.pub` file."
         },
         "nodePoolsLaunchKind": {
           "type": "string",
@@ -449,7 +478,7 @@
             "launch_templates",
             "both"
           ],
-          "description": "Either `launch_configurations`, `launch_templates` or `both`. For new clusters use `launch_templates`, for existing cluster you'll need to migrate from `launch_configurations` to `launch_templates` using `both` as interim."
+          "description": "Accepted values are `launch_configurations`, `launch_templates` or `both`. For new clusters use `launch_templates`, for adopting an existing cluster you'll need to migrate from `launch_configurations` to `launch_templates` using `both` as interim."
         },
         "nodePoolGlobalAmiType": {
           "type": "string",
@@ -461,7 +490,32 @@
         },
         "logRetentionDays": {
           "type": "integer",
-          "description": "Optional Kubernetes Cluster log retention in days. Defaults to 90 days."
+          "description": "Optional Kubernetes Cluster log retention in CloudWatch, expressed in days. Setting the value to zero (`0`) makes retention last forever. Default is `90` days.",
+          "enum": [
+            0,
+            1,
+            3,
+            5,
+            7,
+            14,
+            30,
+            60,
+            90,
+            120,
+            150,
+            180,
+            365,
+            400,
+            545,
+            731,
+            1096,
+            1827,
+            2192,
+            2557,
+            2922,
+            3288,
+            3653
+          ]
         },
         "logsTypes": {
           "type": "array",
@@ -501,7 +555,7 @@
       "properties": {
         "privateAccess": {
           "type": "boolean",
-          "description": "This value defines if the API server will be accessible only from the private subnets"
+          "description": "This value defines if the Kubernetes API server will be accessible from the private subnets. Default it `true`."
         },
         "privateAccessCidrs": {
           "type": "array",
@@ -509,7 +563,7 @@
             "$ref": "#/$defs/Types.Cidr"
           },
           "minItems": 0,
-          "description": "This value defines the CIDRs that will be allowed to access the API server from the private subnets"
+          "description": "The network CIDRs from the private subnets that will be allowed access the Kubernetes API server."
         },
         "publicAccessCidrs": {
           "type": "array",
@@ -517,11 +571,11 @@
             "$ref": "#/$defs/Types.Cidr"
           },
           "minItems": 0,
-          "description": "This value defines the CIDRs that will be allowed to access the API server from the public subnets"
+          "description": "The network CIDRs from the public subnets that will be allowed access the Kubernetes API server."
         },
         "publicAccess": {
           "type": "boolean",
-          "description": "This value defines if the API server will be accessible from the public subnets"
+          "description": "This value defines if the Kubernetes API server will be accessible from the public subnets. Default is `false`."
         }
       },
       "required": [
@@ -532,18 +586,62 @@
     "Spec.Kubernetes.NodePool": {
       "type": "object",
       "additionalProperties": false,
+      "description": "Array with all the node pool definitions that will join the cluster. Each item is an object.",
       "properties": {
         "type": {
           "description": "The type of Node Pool, can be `self-managed` for using customization like custom AMI, set max pods per node or `eks-managed` for using prebuilt AMIs from Amazon via the `ami.type` field. It is recommended to use `self-managed`.",
           "type": "string",
-          "description": "The base domain for the ingresses created by the Auth module (Gangplank, Pomerium, Dex). Notice that when the ingress module type is `dual`, these will use the `external` ingress class."
+          "enum": [
+            "eks-managed",
+            "self-managed"
+          ]
+        },
+        "name": {
+          "type": "string",
+          "description": "The name of the node pool."
+        },
+        "ami": {
+          "$ref": "#/$defs/Spec.Kubernetes.NodePool.Ami"
+        },
+        "containerRuntime": {
+          "type": "string",
+          "enum": [
+            "docker",
+            "containerd"
+          ],
+          "description": "The container runtime to use in the nodes of the node pool. Default is `containerd`."
+        },
+        "size": {
+          "$ref": "#/$defs/Spec.Kubernetes.NodePool.Size"
+        },
+        "instance": {
+          "$ref": "#/$defs/Spec.Kubernetes.NodePool.Instance"
+        },
+        "attachedTargetGroups": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/Types.AwsArn"
+          },
+          "description": "This optional array defines additional target groups to attach to the instances in the node pool."
+        },
+        "labels": {
+          "$ref": "#/$defs/Types.KubeLabels",
+          "description": "Kubernetes labels that will be added to the nodes."
+        },
+        "taints": {
+          "$ref": "#/$defs/Types.KubeTaints",
+          "description": "Kubernetes taints that will be added to the nodes."
+        },
+        "tags": {
+          "$ref": "#/$defs/Types.AwsTags",
+          "description": "AWS tags that will be added to the ASG and EC2 instances."
         },
         "subnetIds": {
           "type": "array",
           "items": {
             "$ref": "#/$defs/Types.AwsSubnetId"
           },
-          "description": "This value defines the subnet IDs where the nodes will be created"
+          "description": "Optional list of subnet IDs where to create the nodes."
         },
         "additionalFirewallRules": {
           "$ref": "#/$defs/Spec.Kubernetes.NodePool.AdditionalFirewallRules"
@@ -653,21 +751,23 @@
     "Spec.Kubernetes.NodePool.Instance": {
       "type": "object",
       "additionalProperties": false,
+      "description": "Configuration for the instances that will be used in the node pool.",
       "properties": {
         "type": {
           "type": "string",
-          "description": "The instance type to use for the nodes"
+          "description": "The instance type to use for the nodes."
         },
         "spot": {
           "type": "boolean",
-          "description": "If true, the nodes will be created as spot instances"
+          "description": "If `true`, the nodes will be created as spot instances. Default is `false`."
         },
         "volumeSize": {
           "type": "integer",
-          "description": "The size of the disk in GB"
+          "description": "The size of the disk in GB."
         },
         "volumeType": {
           "type": "string",
+          "description": "Volume type for the instance disk. Default is `gp2`.",
           "enum": [
             "gp2",
             "gp3",
@@ -676,7 +776,8 @@
           ]
         },
         "maxPods": {
-          "type": "integer"
+          "type": "integer",
+          "description": "Set the maximum pods per node to a custom value. If not set will use EKS default value that depends on the instance type.\n\nRef: https://github.com/awslabs/amazon-eks-ami/blob/main/templates/shared/runtime/eni-max-pods.txt"
         }
       },
       "required": [
@@ -690,12 +791,12 @@
         "min": {
           "type": "integer",
           "minimum": 0,
-          "description": "The minimum number of nodes in the node pool"
+          "description": "The minimum number of nodes in the node pool."
         },
         "max": {
           "type": "integer",
           "minimum": 0,
-          "description": "The maximum number of nodes in the node pool"
+          "description": "The maximum number of nodes in the node pool."
         }
       },
       "required": [
@@ -706,6 +807,7 @@
     "Spec.Kubernetes.NodePool.AdditionalFirewallRules": {
       "type": "object",
       "additionalProperties": false,
+      "description": "Optional additional firewall rules that will be attached to the nodes.",
       "properties": {
         "cidrBlocks": {
           "type": "array",
@@ -713,7 +815,8 @@
             "$ref": "#/$defs/Spec.Kubernetes.NodePool.AdditionalFirewallRule.CidrBlock"
           },
           "minItems": 1,
-          "description": "The CIDR blocks for the FW rule. At the moment the first item of the list will be used, others will be ignored."
+          "maxItems": 1,
+          "description": "The CIDR blocks objects definition for the Firewall rule. Even though it is a list, only one item is currently supported. See https://github.com/sighupio/fury-eks-installer/issues/46 for more details."
         },
         "sourceSecurityGroupId": {
           "type": "array",
@@ -740,13 +843,15 @@
         },
         "type": {
           "type": "string",
+          "description": "The type of the Firewall rule, can be `ingress` for incoming traffic or `egress` for outgoing traffic.",
           "enum": [
             "ingress",
             "egress"
           ]
         },
         "tags": {
-          "$ref": "#/$defs/Types.AwsTags"
+          "$ref": "#/$defs/Types.AwsTags",
+          "description": "Additional AWS tags for the Firewall rule."
         },
         "cidrBlocks": {
           "type": "array",
@@ -776,7 +881,7 @@
       "properties": {
         "name": {
           "type": "string",
-          "description": "The name of the FW rule"
+          "description": "The name for the additional Firewall rule Security Group."
         },
         "type": {
           "type": "string",
@@ -784,19 +889,19 @@
             "ingress",
             "egress"
           ],
-          "description": "The type of the FW rule can be ingress or egress"
+          "description": "The type of the Firewall rule, can be `ingress` for incoming traffic or `egress` for outgoing traffic."
         },
         "tags": {
           "$ref": "#/$defs/Types.AwsTags",
-          "description": "The tags of the FW rule"
+          "description": "Additional AWS tags for the Firewall rule."
         },
         "sourceSecurityGroupId": {
           "type": "string",
-          "description": "The source security group ID"
+          "description": "The source security group ID."
         },
         "protocol": {
           "$ref": "#/$defs/Types.AwsIpProtocol",
-          "description": "The protocol of the FW rule"
+          "description": "The protocol of the Firewall rule."
         },
         "ports": {
           "$ref": "#/$defs/Spec.Kubernetes.NodePool.AdditionalFirewallRule.Ports"
@@ -816,7 +921,7 @@
       "properties": {
         "name": {
           "type": "string",
-          "description": "The name of the FW rule"
+          "description": "The name of the Firewall rule."
         },
         "type": {
           "type": "string",
@@ -824,19 +929,19 @@
             "ingress",
             "egress"
           ],
-          "description": "The type of the FW rule can be ingress or egress"
+          "description": "The type of the Firewall rule, can be `ingress` for incoming traffic or `egress` for outgoing traffic."
         },
         "tags": {
           "$ref": "#/$defs/Types.AwsTags",
-          "description": "The tags of the FW rule"
+          "description": "Additional AWS tags for the Firewall rule."
         },
         "self": {
           "type": "boolean",
-          "description": "If true, the source will be the security group itself"
+          "description": "If `true`, the source will be the security group itself."
         },
         "protocol": {
           "$ref": "#/$defs/Types.AwsIpProtocol",
-          "description": "The protocol of the FW rule"
+          "description": "The protocol of the Firewall rule."
         },
         "ports": {
           "$ref": "#/$defs/Spec.Kubernetes.NodePool.AdditionalFirewallRule.Ports"
@@ -869,6 +974,7 @@
     },
     "Spec.Kubernetes.AwsAuth": {
       "type": "object",
+      "description": "Optional additional security configuration for EKS IAM via the `aws-auth` configmap.\n\nRef: https://docs.aws.amazon.com/eks/latest/userguide/auth-configmap.html",
       "additionalProperties": false,
       "properties": {
         "additionalAccounts": {
@@ -876,21 +982,21 @@
           "items": {
             "type": "string"
           },
-          "description": "This optional array defines additional AWS accounts that will be added to the aws-auth configmap"
+          "description": "This optional array defines additional AWS accounts that will be added to the `aws-auth` configmap."
         },
         "users": {
           "type": "array",
           "items": {
             "$ref": "#/$defs/Spec.Kubernetes.AwsAuth.User"
           },
-          "description": "This optional array defines additional IAM users that will be added to the aws-auth configmap"
+          "description": "This optional array defines additional IAM users that will be added to the `aws-auth` configmap."
         },
         "roles": {
           "type": "array",
           "items": {
             "$ref": "#/$defs/Spec.Kubernetes.AwsAuth.Role"
           },
-          "description": "This optional array defines additional IAM roles that will be added to the aws-auth configmap"
+          "description": "This optional array defines additional IAM roles that will be added to the `aws-auth` configmap."
         }
       }
     },
@@ -1027,28 +1133,29 @@
     "Spec.Distribution.Common": {
       "type": "object",
       "additionalProperties": false,
+      "description": "Common configuration for all the distribution modules.",
       "properties": {
         "nodeSelector": {
           "$ref": "#/$defs/Types.KubeNodeSelector",
-          "description": "The node selector to use to place the pods for all the KFD modules"
+          "description": "The node selector to use to place the pods for all the KFD modules. Follows Kubernetes selector format. Example: `node.kubernetes.io/role: infra`."
         },
         "tolerations": {
           "type": "array",
           "items": {
             "$ref": "#/$defs/Types.KubeToleration"
           },
-          "description": "The tolerations that will be added to the pods for all the KFD modules"
+          "description": "An array with the tolerations that will be added to the pods for all the KFD modules. Follows Kubernetes tolerations format. Example:\n\n```yaml\n- effect: NoSchedule\n  key: node.kubernetes.io/role\n  value: infra\n```"
         },
         "provider": {
           "$ref": "#/$defs/Spec.Distribution.Common.Provider"
         },
         "relativeVendorPath": {
           "type": "string",
-          "description": "The relative path to the vendor directory, does not need to be changed"
+          "description": "The relative path to the vendor directory, does not need to be changed."
         },
         "registry": {
           "type": "string",
-          "description": "URL of the registry where to pull images from for the Distribution phase. (Default is registry.sighup.io/fury).\n\nNOTE: If plugins are pulling from the default registry, the registry will be replaced for these plugins too."
+          "description": "URL of the registry where to pull images from for the Distribution phase. (Default is `registry.sighup.io/fury`).\n\nNOTE: If plugins are pulling from the default registry, the registry will be replaced for the plugin too."
         }
       }
     },
@@ -1058,7 +1165,7 @@
       "properties": {
         "type": {
           "type": "string",
-          "description": "The type of the provider, must be EKS if specified"
+          "description": "The provider type. Don't set. FOR INTERNAL USE ONLY."
         }
       },
       "required": [
@@ -1115,6 +1222,10 @@
           "type": "string",
           "description": "The base domain used for all the KFD infrastructural ingresses. If in the nginx `dual` configuration type, this value should be the same as the `.spec.distribution.modules.ingress.dns.private.name` zone."
         },
+        "nginx": {
+          "$ref": "#/$defs/Spec.Distribution.Modules.Ingress.Nginx",
+          "description": "Configurations for the Ingress nginx controller package."
+        },
         "certManager": {
           "$ref": "#/$defs/Spec.Distribution.Modules.Ingress.CertManager",
           "description": "Configuration for the cert-manager package. Required even if `ingress.nginx.type` is `none`, cert-manager is used for managing other certificates in the cluster besides the TLS termination certificates for the ingresses."
@@ -1135,139 +1246,81 @@
         "baseDomain",
         "nginx"
       ],
-      "then": {
-        "required": [
-          "certManager"
-        ]
-      },
-      "type": "object"
-    },
-    "Spec.Distribution.Modules.Ingress.CertManager": {
-      "type": "object",
-      "additionalProperties": false,
-      "description": "Configuration for the cert-manager package. Required even if `ingress.nginx.type` is `none`, cert-manager is used for managing other certificates in the cluster besides the TLS termination certificates for the ingresses.",
-      "properties": {
-        "clusterIssuer": {
-          "$ref": "#/$defs/Spec.Distribution.Modules.Ingress.CertManager.ClusterIssuer"
-        },
-        "overrides": {
-          "$ref": "#/$defs/Types.FuryModuleComponentOverrides"
-        }
-      },
-      "required": [
-        "clusterIssuer"
-      ]
-    },
-    "Spec.Distribution.Modules.Ingress.CertManager.ClusterIssuer": {
-      "additionalProperties": false,
-      "description": "Configuration for the cert-manager's ACME clusterIssuer used to request certificates from Let's Encrypt.",
-      "oneOf": [
+      "allOf": [
         {
-          "required": [
-            "type"
-          ]
+          "if": {
+            "properties": {
+              "nginx": {
+                "properties": {
+                  "type": {
+                    "const": "dual"
+                  }
+                }
+              }
+            }
+          },
+          "then": {
+            "required": [
+              "dns"
+            ],
+            "properties": {
+              "dns": {
+                "required": [
+                  "public",
+                  "private"
+                ]
+              }
+            }
+          }
         },
         {
-          "required": [
-            "solvers"
-          ]
+          "if": {
+            "properties": {
+              "nginx": {
+                "properties": {
+                  "type": {
+                    "const": "single"
+                  }
+                }
+              }
+            }
+          },
+          "then": {
+            "required": [
+              "dns"
+            ],
+            "properties": {
+              "dns": {
+                "required": [
+                  "public"
+                ]
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "nginx": {
+                "properties": {
+                  "tls": {
+                    "properties": {
+                      "provider": {
+                        "const": "certManager"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "then": {
+            "required": [
+              "certManager"
+            ]
+          }
         }
-      ],
-      "properties": {
-        "email": {
-          "type": "string",
-          "format": "email",
-          "description": "The email address to use during the certificate issuing process."
-        },
-        "name": {
-          "type": "string",
-          "description": "The name of the clusterIssuer."
-        },
-        "route53": {
-          "$ref": "#/$defs/Spec.Distribution.Modules.Ingress.ClusterIssuer.Route53"
-        },
-        "solvers": {
-          "type": "array",
-          "description": "The list of challenge solvers to use instead of the default one for the `http01` challenge. Check [cert manager's documentation](https://cert-manager.io/docs/configuration/acme/#adding-multiple-solver-types) for examples for this field."
-        },
-        "type": {
-          "type": "string",
-          "enum": [
-            "dns01",
-            "http01"
-          ],
-          "description": "The type of the clusterIssuer, must be `dns01` for using DNS challenge or `http01` for using HTTP challenge."
-        }
-      },
-      "required": [
-        "route53",
-        "name",
-        "email"
-      ],
-      "type": "object"
-    },
-    "Spec.Distribution.Modules.Ingress.ClusterIssuer.Route53": {
-      "type": "object",
-      "additionalProperties": false,
-      "properties": {
-        "iamRoleArn": {
-          "$ref": "#/$defs/Types.AwsArn"
-        },
-        "region": {
-          "$ref": "#/$defs/Types.AwsRegion"
-        },
-        "hostedZoneId": {
-          "type": "string"
-        }
-      },
-      "required": [
-        "hostedZoneId",
-        "iamRoleArn",
-        "region"
       ]
-    },
-    "Spec.Distribution.Modules.Ingress.DNS": {
-      "type": "object",
-      "description": "DNS definition, used in conjunction with `externalDNS` package to automate DNS management and certificates emission.",
-      "additionalProperties": false,
-      "properties": {
-        "public": {
-          "$ref": "#/$defs/Spec.Distribution.Modules.Ingress.DNS.Public"
-        },
-        "private": {
-          "$ref": "#/$defs/Spec.Distribution.Modules.Ingress.DNS.Private"
-        },
-        "overrides": {
-          "$ref": "#/$defs/Types.FuryModuleComponentOverrides"
-        }
-      },
-      "required": [
-        "public",
-        "private"
-      ]
-    },
-    "Spec.Distribution.Modules.Ingress.DNS.Private": {
-      "additionalProperties": false,
-      "description": "The private DNS zone is used only when `ingress.nginx.type` is `dual`, for exposing infrastructural services only in the private DNS zone.",
-      "properties": {
-        "create": {
-          "type": "boolean",
-          "description": "By default, a Terraform data source will be used to get the private DNS zone. Set to `true` to create the private zone instead."
-        },
-        "name": {
-          "type": "string",
-          "description": "The name of the private hosted zone. Example: `internal.fury-demo.sighup.io`."
-        },
-        "vpcId": {
-          "type": "string"
-        }
-      },
-      "required": [
-        "vpcId",
-        "name",
-        "create"
-      ],
-      "type": "object"
     },
     "Spec.Distribution.Modules.Ingress.Overrides": {
       "type": "object",
@@ -1279,14 +1332,14 @@
         },
         "nodeSelector": {
           "$ref": "#/$defs/Types.KubeNodeSelector",
-          "description": "The node selector to use to place the pods for the ingress module"
+          "description": "Set to override the node selector used to place the pods of the Ingress module."
         },
         "tolerations": {
           "type": "array",
           "items": {
             "$ref": "#/$defs/Types.KubeToleration"
           },
-          "description": "The tolerations that will be added to the pods for the ingress module"
+          "description": "Set to override the tolerations that will be added to the pods of the Ingress module."
         }
       }
     },
@@ -1392,6 +1445,7 @@
     "Spec.Distribution.Modules.Ingress.CertManager": {
       "type": "object",
       "additionalProperties": false,
+      "description": "Configuration for the cert-manager package. Required even if `ingress.nginx.type` is `none`, cert-manager is used for managing other certificates in the cluster besides the TLS termination certificates for the ingresses.",
       "properties": {
         "clusterIssuer": {
           "$ref": "#/$defs/Spec.Distribution.Modules.Ingress.CertManager.ClusterIssuer"
@@ -1407,15 +1461,16 @@
     "Spec.Distribution.Modules.Ingress.CertManager.ClusterIssuer": {
       "type": "object",
       "additionalProperties": false,
+      "description": "Configuration for the cert-manager's ACME clusterIssuer used to request certificates from Let's Encrypt.",
       "properties": {
         "name": {
           "type": "string",
-          "description": "The name of the cluster issuer"
+          "description": "The name of the clusterIssuer."
         },
         "email": {
           "type": "string",
           "format": "email",
-          "description": "The email of the cluster issuer"
+          "description": "The email address to use during the certificate issuing process."
         },
         "type": {
           "type": "string",
@@ -1423,11 +1478,11 @@
             "dns01",
             "http01"
           ],
-          "description": "The type of the cluster issuer, must be ***dns01*** or ***http01***"
+          "description": "The type of the clusterIssuer, must be `dns01` for using DNS challenge or `http01` for using HTTP challenge."
         },
         "solvers": {
           "type": "array",
-          "description": "The custom solvers configurations"
+          "description": "The list of challenge solvers to use instead of the default one for the `http01` challenge. Check [cert manager's documentation](https://cert-manager.io/docs/configuration/acme/#adding-multiple-solver-types) for examples for this field."
         },
         "route53": {
           "$ref": "#/$defs/Spec.Distribution.Modules.Ingress.ClusterIssuer.Route53"
@@ -1473,11 +1528,11 @@
       "properties": {
         "name": {
           "type": "string",
-          "description": "The name of the public hosted zone"
+          "description": "The name of the public hosted zone."
         },
         "create": {
           "type": "boolean",
-          "description": "If true, the public hosted zone will be created"
+          "description": "By default, a Terraform data source will be used to get the public DNS zone. Set to `true` to create the public zone instead."
         }
       },
       "required": [
@@ -1487,15 +1542,16 @@
     },
     "Spec.Distribution.Modules.Ingress.DNS.Private": {
       "type": "object",
+      "description": "The private DNS zone is used only when `ingress.nginx.type` is `dual`, for exposing infrastructural services only in the private DNS zone.",
       "additionalProperties": false,
       "properties": {
         "name": {
           "type": "string",
-          "description": "The name of the private hosted zone"
+          "description": "The name of the private hosted zone. Example: `internal.fury-demo.sighup.io`."
         },
         "create": {
           "type": "boolean",
-          "description": "If true, the private hosted zone will be created"
+          "description": "By default, a Terraform data source will be used to get the private DNS zone. Set to `true` to create the private zone instead."
         },
         "vpcId": {
           "type": "string"
@@ -1602,14 +1658,14 @@
             "single",
             "triple"
           ],
-          "description": "The type of the opensearch, must be ***single*** or ***triple***"
+          "description": "The type of OpenSearch deployment. One of: `single` for a single replica or `triple` for an HA 3-replicas deployment."
         },
         "resources": {
           "$ref": "#/$defs/Types.KubeResources"
         },
         "storageSize": {
           "type": "string",
-          "description": "The storage size for the opensearch pods"
+          "description": "The storage size for the OpenSearch volumes."
         },
         "overrides": {
           "$ref": "#/$defs/Types.FuryModuleComponentOverrides"
@@ -1636,7 +1692,7 @@
       "properties": {
         "storageSize": {
           "type": "string",
-          "description": "The PVC size for each minio disk, 6 disks total"
+          "description": "The PVC size for each MinIO disk, 6 disks total."
         },
         "rootUser": {
           "type": "object",
@@ -1644,11 +1700,11 @@
           "properties": {
             "username": {
               "type": "string",
-              "description": "The username of the minio root user"
+              "description": "The username for the default MinIO root user."
             },
             "password": {
               "type": "string",
-              "description": "The password of the minio root user"
+              "description": "The password for the default MinIO root user."
             }
           }
         },
@@ -1713,6 +1769,7 @@
     "Spec.Distribution.Modules.Logging.Operator": {
       "type": "object",
       "additionalProperties": false,
+      "description": "Configuration for the Logging Operator.",
       "properties": {
         "overrides": {
           "$ref": "#/$defs/Types.FuryModuleComponentOverrides"
@@ -1720,41 +1777,41 @@
       }
     },
     "Spec.Distribution.Modules.Logging.CustomOutputs": {
-      "description": "when using the customOutputs logging type, you need to manually specify the spec of the several Output and ClusterOutputs that the Logging Operator expects to forward the logs collected by the pre-defined flows.",
+      "description": "When using the `customOutputs` logging type, you need to manually specify the spec of the several `Output` and `ClusterOutputs` that the Logging Operator expects to forward the logs collected by the pre-defined flows.",
       "type": "object",
       "additionalProperties": false,
       "properties": {
         "audit": {
           "type": "string",
-          "description": "This value defines where the output from Flow will be sent. Will be the `spec` section of the `Output` object. It must be a string (and not a YAML object) following the OutputSpec definition. Use the nullout output to discard the flow."
+          "description": "This value defines where the output from the `audit` Flow will be sent. This will be the `spec` section of the `Output` object. It must be a string (and not a YAML object) following the OutputSpec definition. Use the `nullout` output to discard the flow: `nullout: {}`"
         },
         "events": {
           "type": "string",
-          "description": "This value defines where the output from Flow will be sent. Will be the `spec` section of the `Output` object. It must be a string (and not a YAML object) following the OutputSpec definition. Use the nullout output to discard the flow."
+          "description": "This value defines where the output from the `events` Flow will be sent. This will be the `spec` section of the `Output` object. It must be a string (and not a YAML object) following the OutputSpec definition. Use the `nullout` output to discard the flow: `nullout: {}`"
         },
         "infra": {
           "type": "string",
-          "description": "This value defines where the output from Flow will be sent. Will be the `spec` section of the `Output` object. It must be a string (and not a YAML object) following the OutputSpec definition. Use the nullout output to discard the flow."
+          "description": "This value defines where the output from the `infra` Flow will be sent. This will be the `spec` section of the `Output` object. It must be a string (and not a YAML object) following the OutputSpec definition. Use the `nullout` output to discard the flow: `nullout: {}`"
         },
         "ingressNginx": {
           "type": "string",
-          "description": "This value defines where the output from Flow will be sent. Will be the `spec` section of the `Output` object. It must be a string (and not a YAML object) following the OutputSpec definition. Use the nullout output to discard the flow."
+          "description": "This value defines where the output from the `ingressNginx` Flow will be sent. This will be the `spec` section of the `Output` object. It must be a string (and not a YAML object) following the OutputSpec definition. Use the `nullout` output to discard the flow: `nullout: {}`"
         },
         "kubernetes": {
           "type": "string",
-          "description": "This value defines where the output from Flow will be sent. Will be the `spec` section of the `Output` object. It must be a string (and not a YAML object) following the OutputSpec definition. Use the nullout output to discard the flow."
+          "description": "This value defines where the output from the `kubernetes` Flow will be sent. This will be the `spec` section of the `Output` object. It must be a string (and not a YAML object) following the OutputSpec definition. Use the `nullout` output to discard the flow: `nullout: {}`"
         },
         "systemdCommon": {
           "type": "string",
-          "description": "This value defines where the output from Flow will be sent. Will be the `spec` section of the `Output` object. It must be a string (and not a YAML object) following the OutputSpec definition. Use the nullout output to discard the flow."
+          "description": "This value defines where the output from the `systemdCommon` Flow will be sent. This will be the `spec` section of the `Output` object. It must be a string (and not a YAML object) following the OutputSpec definition. Use the `nullout` output to discard the flow: `nullout: {}`"
         },
         "systemdEtcd": {
           "type": "string",
-          "description": "This value defines where the output from Flow will be sent. Will be the `spec` section of the `Output` object. It must be a string (and not a YAML object) following the OutputSpec definition. Use the nullout output to discard the flow."
+          "description": "This value defines where the output from the `systemdEtcd` Flow will be sent. This will be the `spec` section of the `Output` object. It must be a string (and not a YAML object) following the OutputSpec definition. Use the `nullout` output to discard the flow: `nullout: {}`"
         },
         "errors": {
           "type": "string",
-          "description": "This value defines where the output from Flow will be sent. Will be the `spec` section of the `Output` object. It must be a string (and not a YAML object) following the OutputSpec definition. Use the nullout output to discard the flow."
+          "description": "This value defines where the output from the `errors` Flow will be sent. This will be the `spec` section of the `Output` object. It must be a string (and not a YAML object) following the OutputSpec definition. Use the `nullout` output to discard the flow: `nullout: {}`"
         }
       },
       "required": [
@@ -1827,15 +1884,15 @@
         },
         "retentionTime": {
           "type": "string",
-          "description": "The retention time for the k8s Prometheus instance."
+          "description": "The retention time for the `k8s` Prometheus instance."
         },
         "retentionSize": {
           "type": "string",
-          "description": "The retention size for the k8s Prometheus instance."
+          "description": "The retention size for the `k8s` Prometheus instance."
         },
         "storageSize": {
           "type": "string",
-          "description": "The storage size for the k8s Prometheus instance."
+          "description": "The storage size for the `k8s` Prometheus instance."
         },
         "remoteWrite": {
           "description": "Set this option to ship the collected metrics to a remote Prometheus receiver.\n\n`remoteWrite` is an array of objects that allows configuring the [remoteWrite](https://prometheus.io/docs/specs/remote_write_spec/) options for Prometheus. The objects in the array follow [the same schema as in the prometheus operator](https://prometheus-operator.dev/docs/operator/api/#monitoring.coreos.com/v1.RemoteWriteSpec).",
@@ -1866,20 +1923,17 @@
       "type": "object",
       "additionalProperties": false,
       "properties": {
-        "resources": {
-          "$ref": "#/$defs/Types.KubeResources"
-        },
-        "retentionTime": {
+        "deadManSwitchWebhookUrl": {
           "type": "string",
-          "description": "The webhook url to send deadman switch monitoring, for example to use with healthchecks.io"
+          "description": "The webhook URL to send dead man's switch monitoring, for example to use with healthchecks.io."
         },
         "installDefaultRules": {
           "type": "boolean",
-          "description": "If true, the default rules will be installed"
+          "description": "Set to false to avoid installing the Prometheus rules (alerts) included with the distribution."
         },
-        "storageSize": {
+        "slackWebhookUrl": {
           "type": "string",
-          "description": "The slack webhook url to send alerts"
+          "description": "The Slack webhook URL where to send the infrastructural and workload alerts to."
         }
       }
     },
@@ -2018,7 +2072,7 @@
             "none",
             "tempo"
           ],
-          "description": "The type of tracing to use, either ***none*** or ***tempo***"
+          "description": "The type of tracing to use, either `none` or `tempo`. `none` will disable the Tracing module and `tempo` will install a Grafana Tempo deployment.\n\nDefault is `tempo`."
         },
         "tempo": {
           "$ref": "#/$defs/Spec.Distribution.Modules.Tracing.Tempo"
@@ -2034,10 +2088,11 @@
     "Spec.Distribution.Modules.Tracing.Tempo": {
       "type": "object",
       "additionalProperties": false,
+      "description": "Configuration for the Tempo package.",
       "properties": {
         "retentionTime": {
           "type": "string",
-          "description": "The retention time for the tempo pods"
+          "description": "The retention time for the traces stored in Tempo."
         },
         "backend": {
           "type": "string",
@@ -2045,31 +2100,32 @@
             "minio",
             "externalEndpoint"
           ],
-          "description": "The backend for the tempo pods, must be ***minio*** or ***externalEndpoint***"
+          "description": "The storage backend type for Tempo. `minio` will use an in-cluster MinIO deployment for object storage, `externalEndpoint` can be used to point to an external S3-compatible object storage instead of deploying an in-cluster MinIO."
         },
         "externalEndpoint": {
+          "description": "Configuration for Tempo's external storage backend.",
           "type": "object",
           "additionalProperties": false,
           "properties": {
             "endpoint": {
               "type": "string",
-              "description": "The endpoint of the external tempo backend"
+              "description": "The external S3-compatible endpoint for Tempo's storage."
             },
             "insecure": {
               "type": "boolean",
-              "description": "If true, the external tempo backend will not use tls"
+              "description": "If true, will use HTTP as protocol instead of HTTPS."
             },
             "secretAccessKey": {
               "type": "string",
-              "description": "The secret access key of the external tempo backend"
+              "description": "The secret access key (password) for the external S3-compatible bucket."
             },
             "accessKeyId": {
               "type": "string",
-              "description": "The access key id of the external tempo backend"
+              "description": "The access key ID (username) for the external S3-compatible bucket."
             },
             "bucketName": {
               "type": "string",
-              "description": "The bucket name of the external tempo backend"
+              "description": "The bucket name of the external S3-compatible object storage."
             }
           }
         },
@@ -2085,7 +2141,7 @@
       "properties": {
         "storageSize": {
           "type": "string",
-          "description": "The storage size for the minio pods"
+          "description": "The PVC size for each MinIO disk, 6 disks total."
         },
         "rootUser": {
           "type": "object",
@@ -2093,11 +2149,11 @@
           "properties": {
             "username": {
               "type": "string",
-              "description": "The username for the minio root user"
+              "description": "The username for the default MinIO root user."
             },
             "password": {
               "type": "string",
-              "description": "The password for the minio root user"
+              "description": "The password for the default MinIO root user."
             }
           }
         },
@@ -2262,6 +2318,7 @@
     "Spec.Distribution.Modules.Dr": {
       "type": "object",
       "additionalProperties": false,
+      "description": "Configuration for the Disaster Recovery module.",
       "properties": {
         "overrides": {
           "$ref": "#/$defs/Types.FuryModuleOverrides"
@@ -2272,7 +2329,7 @@
             "none",
             "eks"
           ],
-          "description": "The type of the DR, must be ***none*** or ***eks***"
+          "description": "The type of the Disaster Recovery, must be `none` or `eks`. `none` disables the module and `eks` will install Velero  and use an S3 bucket to store the backups.\n\nDefault is `none`."
         },
         "velero": {
           "$ref": "#/$defs/Spec.Distribution.Modules.Dr.Velero"
@@ -2304,146 +2361,47 @@
           "additionalProperties": false,
           "description": "Configuration for Velero's backup schedules.",
           "properties": {
-            "username": {
-              "type": "string",
-              "description": "The username for the default MinIO root user."
-            },
-            "password": {
-              "type": "string",
-              "description": "The password for the default MinIO root user."
-            }
-          }
-        },
-        "overrides": {
-          "$ref": "#/$defs/Types.FuryModuleComponentOverrides"
-        }
-      }
-    },
-    "Spec.Distribution.Modules.Tracing.Tempo": {
-      "type": "object",
-      "additionalProperties": false,
-      "description": "Configuration for the Tempo package.",
-      "properties": {
-        "retentionTime": {
-          "type": "string",
-          "description": "The retention time for the traces stored in Tempo."
-        },
-        "backend": {
-          "type": "string",
-          "enum": [
-            "minio",
-            "externalEndpoint"
-          ],
-          "description": "The storage backend type for Tempo. `minio` will use an in-cluster MinIO deployment for object storage, `externalEndpoint` can be used to point to an external S3-compatible object storage instead of deploying an in-cluster MinIO."
-        },
-        "externalEndpoint": {
-          "description": "Configuration for Tempo's external storage backend.",
-          "type": "object",
-          "additionalProperties": false,
-          "properties": {
-            "endpoint": {
-              "type": "string",
-              "description": "The external S3-compatible endpoint for Tempo's storage."
-            },
-            "insecure": {
+            "install": {
               "type": "boolean",
-              "description": "If true, will use HTTP as protocol instead of HTTPS."
+              "description": "Whether to install or not the default `manifests` and `full` backups schedules. Default is `true`."
             },
-            "secretAccessKey": {
-              "type": "string",
-              "description": "The secret access key (password) for the external S3-compatible bucket."
-            },
-            "accessKeyId": {
-              "type": "string",
-              "description": "The access key ID (username) for the external S3-compatible bucket."
-            },
-            "bucketName": {
-              "type": "string",
-              "description": "The bucket name of the external S3-compatible object storage."
-            }
-          }
-        },
-        "overrides": {
-          "$ref": "#/$defs/Types.FuryModuleComponentOverrides"
-        }
-      }
-    },
-    "Spec.Infrastructure": {
-      "type": "object",
-      "additionalProperties": false,
-      "properties": {
-        "vpc": {
-          "$ref": "#/$defs/Spec.Infrastructure.Vpc"
-        },
-        "vpn": {
-          "$ref": "#/$defs/Spec.Infrastructure.Vpn"
-        }
-      },
-      "allOf": [
-        {
-          "if": {
-            "allOf": [
-              {
-                "properties": {
-                  "vpc": {
-                    "type": "null"
-                  }
-                }
-              },
-              {
-                "not": {
+            "definitions": {
+              "type": "object",
+              "additionalProperties": false,
+              "description": "Configuration for Velero schedules.",
+              "properties": {
+                "manifests": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "description": "Configuration for Velero's manifests backup schedule.",
                   "properties": {
-                    "vpn": {
-                      "type": "null"
+                    "schedule": {
+                      "type": "string",
+                      "description": "The cron expression for the `manifests` backup schedule (default `*/15 * * * *`)."
+                    },
+                    "ttl": {
+                      "type": "string",
+                      "description": "The Time To Live (TTL) of the backups created by the backup schedules (default `720h0m0s`, 30 days). Notice that changing this value will affect only newly created backups, prior backups will keep the old TTL."
                     }
                   }
-                }
-              }
-            ]
-          },
-          "then": {
-            "properties": {
-              "vpn": {
-                "required": [
-                  "vpcId"
-                ]
-              }
-            }
-          }
-        },
-        {
-          "if": {
-            "allOf": [
-              {
-                "not": {
+                },
+                "full": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "description": "Configuration for Velero's manifests backup schedule.",
                   "properties": {
-                    "vpc": {
-                      "type": "null"
+                    "schedule": {
+                      "type": "string",
+                      "description": "The cron expression for the `full` backup schedule (default `0 1 * * *`)."
+                    },
+                    "ttl": {
+                      "type": "string",
+                      "description": "The Time To Live (TTL) of the backups created by the backup schedules (default `720h0m0s`, 30 days). Notice that changing this value will affect only newly created backups, prior backups will keep the old TTL."
+                    },
+                    "snapshotMoveData": {
+                      "type": "boolean",
+                      "description": "EXPERIMENTAL (if you do more than one backups, the following backups after the first are not automatically restorable, see https://github.com/vmware-tanzu/velero/issues/7057#issuecomment-2466815898 for the manual restore solution): SnapshotMoveData specifies whether snapshot data should be moved. Velero will create a new volume from the snapshot and upload the content to the storageLocation."
                     }
-                  }
-                }
-              },
-              {
-                "not": {
-                  "properties": {
-                    "vpn": {
-                      "properties": {
-                        "vpcId": {
-                          "type": "null"
-                        }
-                      }
-                    }
-                  }
-                }
-              }
-            ]
-          },
-          "then": {
-            "properties": {
-              "vpn": {
-                "properties": {
-                  "vpcId": {
-                    "type": "null"
                   }
                 }
               }
@@ -2467,35 +2425,15 @@
       "properties": {
         "region": {
           "$ref": "#/$defs/Types.AwsRegion",
-          "description": "The region where the velero bucket is located"
+          "description": "The region where the bucket for Velero will be located."
         },
-        "subnetsCidrs": {
-          "$ref": "#/$defs/Spec.Infrastructure.Vpc.Network.SubnetsCidrs"
-        }
-      },
-      "required": [
-        "cidr",
-        "subnetsCidrs"
-      ]
-    },
-    "Spec.Infrastructure.Vpc.Network.SubnetsCidrs": {
-      "type": "object",
-      "description": "Network CIDRS configuration for private and public subnets.",
-      "additionalProperties": false,
-      "properties": {
-        "private": {
-          "type": "array",
-          "items": {
-            "$ref": "#/$defs/Types.Cidr"
-          },
-          "description": "The network CIDRs for the private subnets, where the nodes, the pods, and the private load balancers will be created"
+        "bucketName": {
+          "$ref": "#/$defs/Types.AwsS3BucketName",
+          "maxLength": 49,
+          "description": "The name of the bucket for Velero."
         },
-        "public": {
-          "type": "array",
-          "items": {
-            "$ref": "#/$defs/Types.Cidr"
-          },
-          "description": "The network CIDRs for the public subnets, where the public load balancers and the VPN servers will be created"
+        "iamRoleArn": {
+          "$ref": "#/$defs/Types.AwsArn"
         }
       },
       "required": [
@@ -2517,7 +2455,7 @@
         },
         "baseDomain": {
           "type": "string",
-          "description": "The base domain for the auth module"
+          "description": "The base domain for the ingresses created by the Auth module (Gangplank, Pomerium, Dex). Notice that when the ingress module type is `dual`, these will use the `external` ingress class."
         },
         "pomerium": {
           "$ref": "#/$defs/Spec.Distribution.Modules.Auth.Pomerium"
@@ -2542,113 +2480,22 @@
               }
             }
           },
-          "description": "The network CIDR enabled in the security group to access the VPN servers (bastions) via SSH. Setting this to `0.0.0.0/0` will allow any source."
-        }
-      },
-      "required": [
-        "allowedFromCidrs",
-        "githubUsersName"
-      ]
-    },
-    "Spec.Kubernetes": {
-      "type": "object",
-      "description": "Defines the Kubernetes components configuration and the values needed for the `kubernetes` phase of furyctl.",
-      "additionalProperties": false,
-      "properties": {
-        "vpcId": {
-          "$ref": "#/$defs/Types.AwsVpcId",
-          "description": "Required only if `.spec.infrastructure.vpc` is omitted. This value defines the ID of the VPC where the EKS cluster and its related resources will be created."
-        },
-        "clusterIAMRoleNamePrefixOverride": {
-          "$ref": "#/$defs/Types.AwsIamRoleNamePrefix",
-          "description": "Overrides the default prefix for the IAM role name of the EKS cluster. If not set, a name will be generated from the cluster name."
-        },
-        "workersIAMRoleNamePrefixOverride": {
-          "$ref": "#/$defs/Types.AwsIamRoleNamePrefix",
-          "description": "Overrides the default prefix for the IAM role name of the EKS workers. If not set, a name will be generated from the cluster name."
-        },
-        "subnetIds": {
-          "type": "array",
-          "items": {
-            "$ref": "#/$defs/Types.AwsSubnetId"
-          },
-          "description": "Required only if `.spec.infrastructure.vpc` is omitted. This value defines the ID of the subnet where the EKS cluster will be created."
-        },
-        "apiServer": {
-          "$ref": "#/$defs/Spec.Kubernetes.APIServer"
-        },
-        "serviceIpV4Cidr": {
-          "$ref": "#/$defs/Types.Cidr",
-          "description": "This value defines the network CIDR that will be used to assign IP addresses to Kubernetes services."
-        },
-        "nodeAllowedSshPublicKey": {
-          "anyOf": [
-            {
-              "$ref": "#/$defs/Types.AwsSshPubKey"
-            },
-            {
-              "$ref": "#/$defs/Types.FileRef"
-            }
-          ],
-          "description": "The SSH public key that can connect to the nodes via SSH using the `ec2-user` user. Example: the contents of your `~/.ssh/id_ras.pub` file."
-        },
-        "nodePoolsLaunchKind": {
-          "type": "string",
-          "enum": [
-            "launch_configurations",
-            "launch_templates",
-            "both"
-          ],
-          "description": "Accepted values are `launch_configurations`, `launch_templates` or `both`. For new clusters use `launch_templates`, for adopting an existing cluster you'll need to migrate from `launch_configurations` to `launch_templates` using `both` as interim."
-        },
-        "logRetentionDays": {
-          "type": "integer",
-          "description": "Optional Kubernetes Cluster log retention in CloudWatch, expressed in days. Setting the value to zero (`0`) makes retention last forever. Default is `90` days.",
-          "enum": [
-            0,
-            1,
-            3,
-            5,
-            7,
-            14,
-            30,
-            60,
-            90,
-            120,
-            150,
-            180,
-            365,
-            400,
-            545,
-            731,
-            1096,
-            1827,
-            2192,
-            2557,
-            2922,
-            3288,
-            3653
-          ]
-        },
-        "logsTypes": {
-          "type": "array",
-          "items": {
-            "type": "string",
-            "enum": [
-              "api",
-              "audit",
-              "authenticator",
-              "controllerManager",
-              "scheduler"
+          "then": {
+            "required": [
+              "dex",
+              "pomerium",
+              "baseDomain"
             ]
           },
-          "minItems": 0,
-          "description": "Optional list of Kubernetes Cluster log types to enable. Defaults to all types."
-        },
-        "nodePools": {
-          "type": "array",
-          "items": {
-            "$ref": "#/$defs/Spec.Kubernetes.NodePool"
+          "else": {
+            "properties": {
+              "dex": {
+                "type": "null"
+              },
+              "pomerium": {
+                "type": "null"
+              }
+            }
           }
         },
         {
@@ -2687,10 +2534,11 @@
     "Spec.Distribution.Modules.Auth.Overrides": {
       "type": "object",
       "additionalProperties": false,
+      "description": "Override the common configuration with a particular configuration for the Auth module.",
       "properties": {
         "nodeSelector": {
           "$ref": "#/$defs/Types.KubeNodeSelector",
-          "description": "The node selector to use to place the pods for the auth module"
+          "description": "Set to override the node selector used to place the pods of the Auth module."
         },
         "tolerations": {
           "type": [
@@ -2700,10 +2548,11 @@
           "items": {
             "$ref": "#/$defs/Types.KubeToleration"
           },
-          "description": "The tolerations that will be added to the pods for the auth module"
+          "description": "Set to override the tolerations that will be added to the pods of the Auth module."
         },
         "ingresses": {
           "type": "object",
+          "description": "Override the definition of the Auth module ingresses.",
           "additionalProperties": {
             "$ref": "#/$defs/Spec.Distribution.Modules.Auth.Overrides.Ingress"
           }
@@ -2716,11 +2565,11 @@
       "properties": {
         "host": {
           "type": "string",
-          "description": "The host of the ingress"
+          "description": "Use this host for the ingress instead of the default one."
         },
         "ingressClass": {
           "type": "string",
-          "description": "The ingress class of the ingress"
+          "description": "Use this ingress class for the ingress instead of the default one."
         }
       },
       "required": [
@@ -2739,7 +2588,7 @@
             "basicAuth",
             "sso"
           ],
-          "description": "The type of the provider, must be ***none***, ***sso*** or ***basicAuth***"
+          "description": "The type of the Auth provider, options are:\n- `none`: will disable authentication in the infrastructural ingresses.\n- `sso`: will protect the infrastructural ingresses with Pomerium and Dex (SSO) and require authentication before accessing them.\n- `basicAuth`: will protect the infrastructural ingresses with HTTP basic auth (username and password) authentication.\n\nDefault is `none`."
         },
         "basicAuth": {
           "$ref": "#/$defs/Spec.Distribution.Modules.Auth.Provider.BasicAuth"
@@ -2756,11 +2605,11 @@
       "properties": {
         "username": {
           "type": "string",
-          "description": "The username for the basic auth"
+          "description": "The username for logging in with the HTTP basic authentication."
         },
         "password": {
           "type": "string",
-          "description": "The password for the basic auth"
+          "description": "The password for logging in with the HTTP basic authentication."
         }
       },
       "required": [
@@ -2774,14 +2623,15 @@
     "Spec.Distribution.Modules.Auth.Dex": {
       "type": "object",
       "additionalProperties": false,
+      "description": "Configuration for the Dex package.",
       "properties": {
         "connectors": {
           "type": "array",
-          "description": "The connectors for dex"
+          "description": "A list with each item defining a Dex connector. Follows Dex connectors configuration format: https://dexidp.io/docs/connectors/"
         },
         "additionalStaticClients": {
           "type": "array",
-          "description": "The additional static clients for dex"
+          "description": "Additional static clients defitions that will be added to the default clients included with the distribution in Dex's configuration. Example:\n\n```yaml\nadditionalStaticClients:\n  - id: my-custom-client\n    name: \"A custom additional static client\"\n    redirectURIs:\n      - \"https://myapp.tld/redirect\"\n      - \"https://alias.tld/oidc-callback\"\n    secret: supersecretpassword\n```\nReference: https://dexidp.io/docs/connectors/local/"
         },
         "expiry": {
           "type": "object",
@@ -3072,40 +2922,6 @@
           "properties": {
             "cpu": {
               "type": "string",
-              "description": "The cpu request for the prometheus pods"
-            },
-            "memory": {
-              "type": "string",
-              "description": "The memory request for the opensearch pods"
-            }
-          }
-        },
-        "limits": {
-          "type": "object",
-          "additionalProperties": false,
-          "properties": {
-            "cpu": {
-              "type": "string",
-              "description": "The cpu limit for the opensearch pods"
-            },
-            "memory": {
-              "type": "string",
-              "description": "The memory limit for the opensearch pods"
-            }
-          }
-        }
-      }
-    },
-    "Types.FuryModuleOverrides": {
-      "type": "object",
-      "additionalProperties": false,
-      "properties": {
-        "requests": {
-          "type": "object",
-          "additionalProperties": false,
-          "properties": {
-            "cpu": {
-              "type": "string",
               "description": "The CPU request for the Pod, in cores. Example: `500m`."
             },
             "memory": {
@@ -3137,7 +2953,7 @@
       "properties": {
         "nodeSelector": {
           "$ref": "#/$defs/Types.KubeNodeSelector",
-          "description": "The node selector to use to place the pods for the dr module"
+          "description": "Set to override the node selector used to place the pods of the module."
         },
         "tolerations": {
           "type": [
@@ -3147,7 +2963,7 @@
           "items": {
             "$ref": "#/$defs/Types.KubeToleration"
           },
-          "description": "The tolerations that will be added to the pods for the monitoring module"
+          "description": "Set to override the tolerations that will be added to the pods of the module."
         },
         "ingresses": {
           "type": "object",
@@ -3163,7 +2979,7 @@
       "properties": {
         "nodeSelector": {
           "$ref": "#/$defs/Types.KubeNodeSelector",
-          "description": "The node selector to use to place the pods for the minio module"
+          "description": "Set to override the node selector used to place the pods of the package."
         },
         "tolerations": {
           "type": [
@@ -3173,7 +2989,7 @@
           "items": {
             "$ref": "#/$defs/Types.KubeToleration"
           },
-          "description": "The tolerations that will be added to the pods for the cert-manager module"
+          "description": "Set to override the tolerations that will be added to the pods of the package."
         }
       }
     },
@@ -3183,7 +2999,7 @@
       "properties": {
         "nodeSelector": {
           "$ref": "#/$defs/Types.KubeNodeSelector",
-          "description": "The node selector to use to place the pods for the load balancer controller module"
+          "description": "The node selector to use to place the pods for the load balancer controller module."
         },
         "tolerations": {
           "type": [
@@ -3193,7 +3009,7 @@
           "items": {
             "$ref": "#/$defs/Types.KubeToleration"
           },
-          "description": "The tolerations that will be added to the pods for the cluster autoscaler module"
+          "description": "The tolerations that will be added to the pods for the cluster autoscaler module."
         },
         "iamRoleName": {
           "$ref": "#/$defs/Types.AwsIamRoleName"
@@ -3214,7 +3030,7 @@
         },
         "ingressClass": {
           "type": "string",
-          "description": "The ingress class of the ingress"
+          "description": "Use this ingress class for the ingress instead of the default one."
         }
       }
     },
