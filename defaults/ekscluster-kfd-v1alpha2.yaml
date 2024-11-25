@@ -15,7 +15,6 @@ data:
     relativeVendorPath: "../../vendor"
     provider:
       type: eks
-
   # the module section will be used to fine tune each module behaviour and configuration
   modules:
     # ingress module configuration
