@@ -64,9 +64,11 @@ steps:
     depends_on:
       - license-check
       - schema-check
+    environment:
+      JV_VERSION: 6.0.1
     commands:
       # we need to download `jv` for running the JSON Schemas tests.
-      - curl -L https://github.com/santhosh-tekuri/jsonschema/releases/download/v6.0.1/jv-v6.0.1-linux-amd64.tar.gz | tar zx --directory /usr/local/bin/
+      - curl -L https://github.com/santhosh-tekuri/jsonschema/releases/download/v$${JV_VERSION}/jv-v$${JV_VERSION}-linux-amd64.tar.gz | tar zx --directory /usr/local/bin/
       - bats -t tests/schema.sh
 
   - name: render
