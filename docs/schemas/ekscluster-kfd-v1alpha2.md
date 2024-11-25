@@ -4800,6 +4800,7 @@ The CIDR that will be used to assign IP addresses to the VPN clients when connec
 | [logRetentionDays](#speckuberneteslogretentiondays)                                 | `integer` | Optional |
 | [logsTypes](#speckuberneteslogstypes)                                               | `array`   | Optional |
 | [nodeAllowedSshPublicKey](#speckubernetesnodeallowedsshpublickey)                   | `object`  | Required |
+| [nodePoolGlobalAmiType](#speckubernetesnodepoolglobalamitype)                       | `string`  | Optional |
 | [nodePools](#speckubernetesnodepools)                                               | `array`   | Required |
 | [nodePoolsLaunchKind](#speckubernetesnodepoolslaunchkind)                           | `string`  | Required |
 | [serviceIpV4Cidr](#speckubernetesserviceipv4cidr)                                   | `string`  | Optional |
@@ -4984,6 +4985,21 @@ Optional list of Kubernetes Cluster log types to enable. Defaults to all types.
 
 This key contains the ssh public key that can connect to the nodes via SSH using the ec2-user user
 
+## .spec.kubernetes.nodePoolGlobalAmiType
+
+### Description
+
+Global default AMI type used for EKS worker nodes. This will apply to all node pools unless overridden by a specific node pool.
+
+### Constraints
+
+**enum**: the value of this property must be equal to one of the following string values:
+
+| Value        |
+|:-------------|
+|`"alinux2"`   |
+|`"alinux2023"`|
+
 ## .spec.kubernetes.nodePools
 
 ### Properties
@@ -5001,7 +5017,7 @@ This key contains the ssh public key that can connect to the nodes via SSH using
 | [subnetIds](#speckubernetesnodepoolssubnetids)                             | `array`  | Optional |
 | [tags](#speckubernetesnodepoolstags)                                       | `object` | Optional |
 | [taints](#speckubernetesnodepoolstaints)                                   | `array`  | Optional |
-| [type](#speckubernetesnodepoolstype)                                       | `string` | Optional |
+| [type](#speckubernetesnodepoolstype)                                       | `string` | Required |
 
 ## .spec.kubernetes.nodePools.additionalFirewallRules
 
@@ -5252,20 +5268,42 @@ The type of the FW rule can be ingress or egress
 
 | Property                                  | Type     | Required |
 |:------------------------------------------|:---------|:---------|
-| [id](#speckubernetesnodepoolsamiid)       | `string` | Required |
-| [owner](#speckubernetesnodepoolsamiowner) | `string` | Required |
+| [id](#speckubernetesnodepoolsamiid)       | `string` | Optional |
+| [owner](#speckubernetesnodepoolsamiowner) | `string` | Optional |
+| [type](#speckubernetesnodepoolsamitype)   | `string` | Optional |
+
+### Description
+
+Configuration for customize the Amazon Machine Image (AMI) for the machines of the Node Pool.
+
+The AMI can be chosen either by specifing the `ami.id` and `ami.owner` fields for using a custom AMI (just with `self-managed` node pool type) or by setting the `ami.type` field to one of the official AMIs based on Amazon Linux.
 
 ## .spec.kubernetes.nodePools.ami.id
 
 ### Description
 
-The AMI ID to use for the nodes
+The ID of the AMI to use for the nodes, must be set toghether with the `owner` field. `ami.id` and `ami.owner` can be only set when Node Pool type is `self-managed` and they can't be set at the same time than `ami.type`.
 
 ## .spec.kubernetes.nodePools.ami.owner
 
 ### Description
 
-The owner of the AMI
+The owner of the AMI to use for the nodes, must be set toghether with the `id` field. `ami.id` and `ami.owner` can be only set when Node Pool type is `self-managed` and they can't be set at the same time than `ami.type`.
+
+## .spec.kubernetes.nodePools.ami.type
+
+### Description
+
+The AMI type defines the AMI to use for `eks-managed` and `self-managed` type of Node Pools. Only Amazon Linux based AMIs are supported. It can't be set at the same time than `ami.id` and `ami.owner`.
+
+### Constraints
+
+**enum**: the value of this property must be equal to one of the following string values:
+
+| Value        |
+|:-------------|
+|`"alinux2"`   |
+|`"alinux2023"`|
 
 ## .spec.kubernetes.nodePools.attachedTargetGroups
 
@@ -5353,7 +5391,7 @@ Kubernetes labels that will be added to the nodes
 
 ### Description
 
-The name of the node pool
+The name of the node pool.
 
 ## .spec.kubernetes.nodePools.size
 
@@ -5412,6 +5450,10 @@ AWS tags that will be added to the ASG and EC2 instances
 
 ## .spec.kubernetes.nodePools.type
 
+### Description
+
+The type of Node Pool, can be `self-managed` for using customization like custom AMI, set max pods per node or `eks-managed` for using prebuilt AMIs from Amazon via the `ami.type` field. It is recommended to use `self-managed`.
+
 ### Constraints
 
 **enum**: the value of this property must be equal to one of the following string values:
@@ -5436,21 +5478,6 @@ Either `launch_configurations`, `launch_templates` or `both`. For new clusters u
 |`"launch_configurations"`|
 |`"launch_templates"`     |
 |`"both"`                 |
-
-## .spec.kubernetes.nodePoolGlobalAmiType
-
-### Description
-
-Global default AMI type used for EKS worker nodes. This will apply to all node pools unless overridden by a specific node pool.
-
-### Constraints
-
-**enum**: the value of this property must be equal to one of the following values:
-
-| Value          |
-|:---------------|
-| `"alinux2"`    |
-| `"alinux2023"` |
 
 ## .spec.kubernetes.serviceIpV4Cidr
 

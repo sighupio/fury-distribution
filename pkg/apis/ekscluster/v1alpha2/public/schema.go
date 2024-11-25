@@ -1562,9 +1562,9 @@ type SpecKubernetesNodePool struct {
 	// Kubernetes taints that will be added to the nodes
 	Taints TypesKubeTaints `json:"taints,omitempty" yaml:"taints,omitempty" mapstructure:"taints,omitempty"`
 
-	// The type of Node Pool, can be `self-managed` for using a custom AMI or
-	// `eks-managed` for using prebuilt AMIs from Amazon via the `ami.type` field. It
-	// is reccomended to use `self-managed` with an `ami.type`.
+	// The type of Node Pool, can be `self-managed` for using customization like
+	// custom AMI, set max pods per node or `eks-managed` for using prebuilt AMIs from
+	// Amazon via the `ami.type` field. It is recommended to use `self-managed`.
 	Type SpecKubernetesNodePoolType `json:"type" yaml:"type" mapstructure:"type"`
 }
 
@@ -1670,12 +1670,12 @@ type SpecKubernetesNodePoolAdditionalFirewallRules struct {
 	SourceSecurityGroupId []SpecKubernetesNodePoolAdditionalFirewallRuleSourceSecurityGroupId `json:"sourceSecurityGroupId,omitempty" yaml:"sourceSecurityGroupId,omitempty" mapstructure:"sourceSecurityGroupId,omitempty"`
 }
 
-// Configuration for using custom a Amazon Machine Image (AMI) for the machines of
+// Configuration for customize the Amazon Machine Image (AMI) for the machines of
 // the Node Pool.
 //
 // The AMI can be chosen either by specifing the `ami.id` and `ami.owner` fields
-// for using a custom AMI or by setting the `ami.type` field to one of the official
-// AMIs based on Amazon Linux.
+// for using a custom AMI (just with `self-managed` node pool type) or by setting
+// the `ami.type` field to one of the official AMIs based on Amazon Linux.
 type SpecKubernetesNodePoolAmi struct {
 	// The ID of the AMI to use for the nodes, must be set toghether with the `owner`
 	// field. `ami.id` and `ami.owner` can be only set when Node Pool type is
