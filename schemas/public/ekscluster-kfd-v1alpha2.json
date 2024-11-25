@@ -555,6 +555,7 @@
       "additionalProperties": false,
       "properties": {
         "type": {
+          "description": "The type of Node Pool, can be `self-managed` for using customization like custom AMI, set max pods per node or `eks-managed` for using prebuilt AMIs from Amazon via the `ami.type` field. It is recommended to use `self-managed`.",
           "type": "string",
           "enum": [
             "eks-managed",
@@ -563,7 +564,7 @@
         },
         "name": {
           "type": "string",
-          "description": "The name of the node pool"
+          "description": "The name of the node pool."
         },
         "ami": {
           "$ref": "#/$defs/Spec.Kubernetes.NodePool.Ami"
@@ -649,30 +650,69 @@
     "Spec.Kubernetes.NodePool.Ami": {
       "type": "object",
       "additionalProperties": false,
+      "description": "Configuration for customize the Amazon Machine Image (AMI) for the machines of the Node Pool.\n\nThe AMI can be chosen either by specifing the `ami.id` and `ami.owner` fields for using a custom AMI (just with `self-managed` node pool type) or by setting the `ami.type` field to one of the official AMIs based on Amazon Linux.",
       "properties": {
         "id": {
           "type": "string",
-          "description": "The AMI ID to use for the nodes"
+          "description": "The ID of the AMI to use for the nodes, must be set toghether with the `owner` field. `ami.id` and `ami.owner` can be only set when Node Pool type is `self-managed` and they can't be set at the same time than `ami.type`."
         },
         "owner": {
           "type": "string",
-          "description": "The owner of the AMI"
+          "description": "The owner of the AMI to use for the nodes, must be set toghether with the `id` field. `ami.id` and `ami.owner` can be only set when Node Pool type is `self-managed` and they can't be set at the same time than `ami.type`."
         },
         "type": {
           "type": "string",
-          "description": "The AMI type based on OS",
+          "description": "The AMI type defines the AMI to use for `eks-managed` and `self-managed` type of Node Pools. Only Amazon Linux based AMIs are supported. It can't be set at the same time than `ami.id` and `ami.owner`.",
           "enum": [
             "alinux2",
             "alinux2023"
           ]
         }
       },
-      "dependencies": {
-        "id": [
-          "owner"
-        ]
-      },
-      "required": []
+      "oneOf": [
+        {
+          "allOf": [
+            {
+              "required": [
+                "id",
+                "owner"
+              ]
+            },
+            {
+              "not": {
+                "required": [
+                  "type"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "allOf": [
+            {
+              "required": [
+                "type"
+              ]
+            },
+            {
+              "not": {
+                "anyOf": [
+                  {
+                    "required": [
+                      "id"
+                    ]
+                  },
+                  {
+                    "required": [
+                      "owner"
+                    ]
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      ]
     },
     "Spec.Kubernetes.NodePool.Instance": {
       "type": "object",
