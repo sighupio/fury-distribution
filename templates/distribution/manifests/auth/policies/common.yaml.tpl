@@ -23,6 +23,7 @@ metadata:
   name: all-egress-kube-dns
   namespace: pomerium
   labels:
+    cluster.kfd.sighup.io/module: auth
     cluster.kfd.sighup.io/auth-provider-type: sso
 spec:
   podSelector:
