@@ -24,7 +24,11 @@ spec:
             kubernetes.io/metadata.name: ingress-nginx
         podSelector:
           matchLabels:
+{{- if eq .spec.distribution.modules.ingress.nginx.type "dual" }}
+            app: ingress
+{{- else if eq .spec.distribution.modules.ingress.nginx.type "single" }}
             app: ingress-nginx
+{{- end }}
       ports:
         - port: 8080
           protocol: TCP

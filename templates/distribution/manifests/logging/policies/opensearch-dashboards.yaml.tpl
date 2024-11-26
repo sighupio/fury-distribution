@@ -47,9 +47,9 @@ spec:
   ingress:
     - from:
         - podSelector:
-            matchExpressions:
-              - key: batch.kubernetes.io/job-name
-                operator: Exists
+            matchLabels:
+              app.kubernetes.io/name: opensearch-dashboards
+              app.kubernetes.io/instance: opensearch-dashboards
       ports:
         - port: 5601
           protocol: TCP
@@ -91,4 +91,28 @@ spec:
         - port: 5601
           protocol: TCP
 ---
-
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: jobs-egress-opensearch-dashboards
+  namespace: logging
+  labels:
+    cluster.kfd.sighup.io/module: logging
+    cluster.kfd.sighup.io/logging-type: opensearch
+spec:
+  policyTypes:
+    - Egress
+  podSelector:
+    matchLabels:
+      app.kubernetes.io/name: opensearch-dashboards
+      app.kubernetes.io/instance: opensearch-dashboards
+  egress:
+    - to:
+        - podSelector:
+            matchLabels:
+              app: opensearch-dashboards
+              release: opensearch-dashboards
+      ports:
+        - port: 5601
+          protocol: TCP
+---

@@ -136,9 +136,9 @@ spec:
   ingress:
     - from:
         - podSelector:
-            matchExpressions:
-              - key: batch.kubernetes.io/job-name
-                operator: Exists
+            matchLabels:
+              app.kubernetes.io/name: opensearch
+              app.kubernetes.io/instance: opensearch
       ports:
         - port: 9200
           protocol: TCP
@@ -155,18 +155,10 @@ spec:
   policyTypes:
     - Egress
   podSelector:
-    matchExpressions:
-      - key: batch.kubernetes.io/job-name
-        operator: Exists
+    matchLabels:
+      app.kubernetes.io/name: opensearch
+      app.kubernetes.io/instance: opensearch
   egress:
-    - to:
-        - podSelector:
-            matchLabels:
-              app: opensearch-dashboards
-              release: opensearch-dashboards
-      ports:
-        - port: 5601
-          protocol: TCP
     - to:
         - podSelector:
             matchLabels:
