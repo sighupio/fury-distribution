@@ -540,7 +540,7 @@
         },
         "storageSize": {
           "type": "string",
-          "description": "The storage size for the OpenSearch volumes."
+          "description": "The storage size for the OpenSearch volumes. Follows Kubernetes resources storage requests. Default is `150Gi`."
         },
         "overrides": {
           "$ref": "#/$defs/Types.FuryModuleComponentOverrides"

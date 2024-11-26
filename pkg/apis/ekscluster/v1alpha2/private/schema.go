@@ -1939,7 +1939,8 @@ type SpecDistributionModulesLoggingOpensearch struct {
 	// Resources corresponds to the JSON schema field "resources".
 	Resources *TypesKubeResources `json:"resources,omitempty" yaml:"resources,omitempty" mapstructure:"resources,omitempty"`
 
-	// The storage size for the OpenSearch volumes.
+	// The storage size for the OpenSearch volumes. Follows Kubernetes resources
+	// storage requests. Default is `150Gi`.
 	StorageSize *string `json:"storageSize,omitempty" yaml:"storageSize,omitempty" mapstructure:"storageSize,omitempty"`
 
 	// The type of OpenSearch deployment. One of: `single` for a single replica or

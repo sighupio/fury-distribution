@@ -2861,7 +2861,7 @@ The memory request for the Pod. Example: `500M`.
 
 ### Description
 
-The storage size for the OpenSearch volumes.
+The storage size for the OpenSearch volumes. Follows Kubernetes resources storage requests. Default is `150Gi`.
 
 ## .spec.distribution.modules.logging.opensearch.type
 
