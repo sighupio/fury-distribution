@@ -2,8 +2,14 @@
 
 This document explains the full schema for the `kind: OnPremises` for the `furyctl.yaml` file used by `furyctl`. This configuration file will be used to deploy the Kubernetes Fury Distribution modules and cluster on premises.
 
-An example file can be found [here](https://github.com/sighupio/fury-distribution/blob/feature/schema-docs/templates/config/onpremises-kfd-v1alpha2.yaml.tpl).
+An example configuration file can be created by running the following command:
 
+```bash
+furyctl create config --kind OnPremises --version v1.29.4 --name example-cluster
+```
+
+> [!NOTE]
+> Replace the version with your desired version of KFD.
 ## Properties
 
 | Property                  | Type     | Required |
@@ -12,6 +18,10 @@ An example file can be found [here](https://github.com/sighupio/fury-distributio
 | [kind](#kind)             | `string` | Required |
 | [metadata](#metadata)     | `object` | Required |
 | [spec](#spec)             | `object` | Required |
+
+### Description
+
+A KFD Cluster deployed on top of a set of existing VMs.
 
 ## .apiVersion
 
@@ -103,7 +113,7 @@ EXPERIMENTAL FEATURE. This field defines whether Network Policies are provided f
 
 ### Description
 
-The node selector to use to place the pods for all the KFD modules. Follows Kubernetes selector format. Example: `node.kubernetes.io/role: infra`
+The node selector to use to place the pods for all the KFD modules. Follows Kubernetes selector format. Example: `node.kubernetes.io/role: infra`.
 
 ## .spec.distribution.common.provider
 
@@ -124,6 +134,8 @@ The provider type. Don't set. FOR INTERNAL USE ONLY.
 ### Description
 
 URL of the registry where to pull images from for the Distribution phase. (Default is `registry.sighup.io/fury`).
+
+NOTE: If plugins are pulling from the default registry, the registry will be replaced for the plugin too.
 
 ## .spec.distribution.common.relativeVendorPath
 
@@ -544,7 +556,7 @@ Configuration for the Auth module.
 
 ### Description
 
-Base domain for the ingresses created by the Auth module (Gangplank, Pomerium, Dex). Notice that when nginx type is dual, these will use the `external` ingress class.
+The base domain for the ingresses created by the Auth module (Gangplank, Pomerium, Dex). Notice that when the ingress module type is `dual`, these will use the `external` ingress class.
 
 ## .spec.distribution.modules.auth.dex
 
@@ -1077,6 +1089,8 @@ The type of the Auth provider, options are:
 - `sso`: will protect the infrastructural ingresses with Pomerium and Dex (SSO) and require authentication before accessing them.
 - `basicAuth`: will protect the infrastructural ingresses with HTTP basic auth (username and password) authentication.
 
+Default is `none`.
+
 ### Constraints
 
 **enum**: the value of this property must be equal to one of the following string values:
@@ -1178,6 +1192,8 @@ The value of the toleration
 ### Description
 
 The type of the Disaster Recovery, must be `none` or `on-premises`. `none` disables the module and `on-premises` will install Velero and an optional MinIO deployment.
+
+Default is `none`.
 
 ### Constraints
 
@@ -1454,7 +1470,7 @@ Whether to install or not the snapshotController component in the cluster. Befor
 
 ### Description
 
-The base domain used for all the KFD infrastructural ingresses. If using the nginx dual type, this value should be the same as the domain associated with the `internal` ingress class.
+The base domain used for all the KFD infrastructural ingresses. If using the nginx `dual` type, this value should be the same as the domain associated with the `internal` ingress class.
 
 ## .spec.distribution.modules.ingress.certManager
 
@@ -1494,13 +1510,13 @@ The email address to use during the certificate issuing process.
 
 ### Description
 
-Name of the clusterIssuer
+The name of the clusterIssuer.
 
 ## .spec.distribution.modules.ingress.certManager.clusterIssuer.solvers
 
 ### Description
 
-List of challenge solvers to use instead of the default one for the `http01` challenge.
+The list of challenge solvers to use instead of the default one for the `http01` challenge. Check [cert manager's documentation](https://cert-manager.io/docs/configuration/acme/#adding-multiple-solver-types) for examples for this field.
 
 ## .spec.distribution.modules.ingress.certManager.clusterIssuer.type
 
@@ -1666,7 +1682,7 @@ The value of the toleration
 
 ### Description
 
-Configurations for the nginx ingress controller package.
+Configurations for the Ingress nginx controller package.
 
 ## .spec.distribution.modules.ingress.nginx.overrides
 
@@ -1794,10 +1810,12 @@ The signing key file's content. You can use the `"{file://<path>}"` notation to 
 
 ### Description
 
-The type of the nginx ingress controller, options are:
+The type of the Ingress nginx controller, options are:
 - `none`: no ingress controller will be installed and no infrastructural ingresses will be created.
 - `single`: a single ingress controller with ingress class `nginx` will be installed to manage all the ingress resources, infrastructural ingresses will be created.
 - `dual`: two independent ingress controllers will be installed, one for the `internal` ingress class intended for private ingresses and one for the `external` ingress class intended for public ingresses. KFD infrastructural ingresses wil use the `internal` ingress class when using the dual type.
+
+Default is `single`.
 
 ### Constraints
 
@@ -1863,7 +1881,7 @@ Use this ingress class for the ingress instead of the default one.
 
 ### Description
 
-Set to override the node selector used to place the pods of the Ingress module
+Set to override the node selector used to place the pods of the Ingress module.
 
 ## .spec.distribution.modules.ingress.overrides.tolerations
 
@@ -1878,7 +1896,7 @@ Set to override the node selector used to place the pods of the Ingress module
 
 ### Description
 
-Set to override the tolerations that will be added to the pods of the Ingress module
+Set to override the tolerations that will be added to the pods of the Ingress module.
 
 ## .spec.distribution.modules.ingress.overrides.tolerations.effect
 
@@ -1946,7 +1964,7 @@ Configuration for the Logging module.
 
 ### Description
 
-DEPRECATED in latest versions of KFD.
+DEPRECATED since KFD v1.26.6, 1.27.5, v1.28.0.
 
 ## .spec.distribution.modules.logging.cerebro.overrides
 
@@ -2178,13 +2196,13 @@ The secret access key (password) for the external S3-compatible bucket.
 
 ### Description
 
-The cpu limit for the loki pods
+The CPU limit for the Pod. Example: `1000m`.
 
 ## .spec.distribution.modules.logging.loki.resources.limits.memory
 
 ### Description
 
-The memory limit for the prometheus pods
+The memory limit for the Pod. Example: `1G`.
 
 ## .spec.distribution.modules.logging.loki.resources.requests
 
@@ -2199,13 +2217,13 @@ The memory limit for the prometheus pods
 
 ### Description
 
-The cpu request for the loki pods
+The CPU request for the Pod, in cores. Example: `500m`.
 
 ## .spec.distribution.modules.logging.loki.resources.requests.memory
 
 ### Description
 
-The memory request for the prometheus pods
+The memory request for the Pod. Example: `500M`.
 
 ## .spec.distribution.modules.logging.loki.tsdbStartDate
 
@@ -2421,13 +2439,13 @@ The value of the toleration
 
 ### Description
 
-The cpu limit for the loki pods
+The CPU limit for the Pod. Example: `1000m`.
 
 ## .spec.distribution.modules.logging.opensearch.resources.limits.memory
 
 ### Description
 
-The memory limit for the prometheus pods
+The memory limit for the Pod. Example: `1G`.
 
 ## .spec.distribution.modules.logging.opensearch.resources.requests
 
@@ -2442,19 +2460,19 @@ The memory limit for the prometheus pods
 
 ### Description
 
-The cpu request for the loki pods
+The CPU request for the Pod, in cores. Example: `500m`.
 
 ## .spec.distribution.modules.logging.opensearch.resources.requests.memory
 
 ### Description
 
-The memory request for the prometheus pods
+The memory request for the Pod. Example: `500M`.
 
 ## .spec.distribution.modules.logging.opensearch.storageSize
 
 ### Description
 
-The storage size for the OpenSearch volumes.
+The storage size for the OpenSearch volumes. Follows Kubernetes resources storage requests. Default is `150Gi`.
 
 ## .spec.distribution.modules.logging.opensearch.type
 
@@ -2627,8 +2645,10 @@ The value of the toleration
 Selects the logging stack. Options are:
 - `none`: will disable the centralized logging.
 - `opensearch`: will deploy and configure the Logging Operator and an OpenSearch cluster (can be single or triple for HA) where the logs will be stored.
-- `loki`: will use a distributed Grafana Loki instead of OpenSearh for storage.
-- `customOuputs`: the Logging Operator will be deployed and installed but with no local storage, you will have to create the needed Outputs and ClusterOutputs to ship the logs to your desired storage.
+- `loki`: will use a distributed Grafana Loki instead of OpenSearch for storage.
+- `customOuputs`: the Logging Operator will be deployed and installed but without in-cluster storage, you will have to create the needed Outputs and ClusterOutputs to ship the logs to your desired storage.
+
+Default is `opensearch`.
 
 ### Constraints
 
@@ -2677,7 +2697,7 @@ Configuration for the Monitoring module.
 
 ### Description
 
-The webhook URL to send dead man's switch monitoring, for example to use with healthchecks.io
+The webhook URL to send dead man's switch monitoring, for example to use with healthchecks.io.
 
 ## .spec.distribution.modules.monitoring.alertmanager.installDefaultRules
 
@@ -2994,7 +3014,7 @@ The bucket name of the external S3-compatible object storage.
 
 ### Description
 
-External S3-compatible endpoint for Mimir's storage.
+The external S3-compatible endpoint for Mimir's storage.
 
 ## .spec.distribution.modules.monitoring.mimir.externalEndpoint.insecure
 
@@ -3299,13 +3319,13 @@ Set this option to ship the collected metrics to a remote Prometheus receiver.
 
 ### Description
 
-The cpu limit for the loki pods
+The CPU limit for the Pod. Example: `1000m`.
 
 ## .spec.distribution.modules.monitoring.prometheus.resources.limits.memory
 
 ### Description
 
-The memory limit for the prometheus pods
+The memory limit for the Pod. Example: `1G`.
 
 ## .spec.distribution.modules.monitoring.prometheus.resources.requests
 
@@ -3320,13 +3340,13 @@ The memory limit for the prometheus pods
 
 ### Description
 
-The cpu request for the loki pods
+The CPU request for the Pod, in cores. Example: `500m`.
 
 ## .spec.distribution.modules.monitoring.prometheus.resources.requests.memory
 
 ### Description
 
-The memory request for the prometheus pods
+The memory request for the Pod. Example: `500M`.
 
 ## .spec.distribution.modules.monitoring.prometheus.retentionSize
 
@@ -3385,13 +3405,13 @@ Set this option to ship the collected metrics to a remote Prometheus receiver.
 
 ### Description
 
-The cpu limit for the loki pods
+The CPU limit for the Pod. Example: `1000m`.
 
 ## .spec.distribution.modules.monitoring.prometheusAgent.resources.limits.memory
 
 ### Description
 
-The memory limit for the prometheus pods
+The memory limit for the Pod. Example: `1G`.
 
 ## .spec.distribution.modules.monitoring.prometheusAgent.resources.requests
 
@@ -3406,13 +3426,13 @@ The memory limit for the prometheus pods
 
 ### Description
 
-The cpu request for the loki pods
+The CPU request for the Pod, in cores. Example: `500m`.
 
 ## .spec.distribution.modules.monitoring.prometheusAgent.resources.requests.memory
 
 ### Description
 
-The memory request for the prometheus pods
+The memory request for the Pod. Example: `500M`.
 
 ## .spec.distribution.modules.monitoring.type
 
@@ -3421,9 +3441,11 @@ The memory request for the prometheus pods
 The type of the monitoring, must be `none`, `prometheus`, `prometheusAgent` or `mimir`.
 
 - `none`: will disable the whole monitoring stack.
-- `prometheus`: will install Prometheus Operator and a preconfigured Prometheus instace, Alertmanager, a set of alert rules, exporters needed to monitor all the components of the cluster, Grafana and a series of dashboards to view the collected metrics, and more.
-- `prometheusAgent`: wil install Prometheus operator, an instance of Prometheus in Agent mode (no alerting, no queries, no storage), and all the exporters needed to get metrics for the status of the cluster and the workloads. Useful when having a centralized (remote) Prometheus where to ship the metrics and not storing them locally in the cluster.
+- `prometheus`: will install Prometheus Operator and a preconfigured Prometheus instance, Alertmanager, a set of alert rules, exporters needed to monitor all the components of the cluster, Grafana and a series of dashboards to view the collected metrics, and more.
+- `prometheusAgent`: will install Prometheus operator, an instance of Prometheus in Agent mode (no alerting, no queries, no storage), and all the exporters needed to get metrics for the status of the cluster and the workloads. Useful when having a centralized (remote) Prometheus where to ship the metrics and not storing them locally in the cluster.
 - `mimir`: will install the same as the `prometheus` option, plus Grafana Mimir that allows for longer retention of metrics and the usage of Object Storage.
+
+Default is `prometheus`.
 
 ### Constraints
 
@@ -3770,7 +3792,7 @@ The value of the toleration
 
 ### Description
 
-The type of CNI plugin to use, either `calico` (default, via the Tigera Operator) or `cilium`.
+The type of CNI plugin to use, either `calico` (Tigera Operator) or `cilium`. Default is `calico`.
 
 ### Constraints
 
@@ -4089,6 +4111,8 @@ The value of the toleration
 
 The type of policy enforcement to use, either `none`, `gatekeeper` or `kyverno`.
 
+Default is `none`.
+
 ### Constraints
 
 **enum**: the value of this property must be equal to one of the following string values:
@@ -4354,7 +4378,7 @@ The bucket name of the external S3-compatible object storage.
 
 ### Description
 
-External S3-compatible endpoint for Tempo's storage.
+The external S3-compatible endpoint for Tempo's storage.
 
 ## .spec.distribution.modules.tracing.tempo.externalEndpoint.insecure
 
@@ -4445,6 +4469,8 @@ The retention time for the traces stored in Tempo.
 
 The type of tracing to use, either `none` or `tempo`. `none` will disable the Tracing module and `tempo` will install a Grafana Tempo deployment.
 
+Default is `tempo`.
+
 ### Constraints
 
 **enum**: the value of this property must be equal to one of the following string values:
@@ -4458,7 +4484,7 @@ The type of tracing to use, either `none` or `tempo`. `none` will disable the Tr
 
 ### Description
 
-Defines which KFD version will be installed and, in consequence, the Kubernetes version used to create the cluster. It supports git tags and branches. Example: v1.30.1.
+Defines which KFD version will be installed and, in consequence, the Kubernetes version used to create the cluster. It supports git tags and branches. Example: `v1.30.1`.
 
 ### Constraints
 

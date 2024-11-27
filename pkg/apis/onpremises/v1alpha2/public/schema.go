@@ -16,6 +16,7 @@ type Metadata struct {
 	Name string `json:"name" yaml:"name" mapstructure:"name"`
 }
 
+// A KFD Cluster deployed on top of a set of existing VMs.
 type OnpremisesKfdV1Alpha2 struct {
 	// ApiVersion corresponds to the JSON schema field "apiVersion".
 	ApiVersion string `json:"apiVersion" yaml:"apiVersion" mapstructure:"apiVersion"`
@@ -40,7 +41,7 @@ type Spec struct {
 
 	// Defines which KFD version will be installed and, in consequence, the Kubernetes
 	// version used to create the cluster. It supports git tags and branches. Example:
-	// v1.30.1.
+	// `v1.30.1`.
 	DistributionVersion string `json:"distributionVersion" yaml:"distributionVersion" mapstructure:"distributionVersion"`
 
 	// Kubernetes corresponds to the JSON schema field "kubernetes".
@@ -68,7 +69,7 @@ type SpecDistributionCommon struct {
 	NetworkPoliciesEnabled *bool `json:"networkPoliciesEnabled,omitempty" yaml:"networkPoliciesEnabled,omitempty" mapstructure:"networkPoliciesEnabled,omitempty"`
 
 	// The node selector to use to place the pods for all the KFD modules. Follows
-	// Kubernetes selector format. Example: `node.kubernetes.io/role: infra`
+	// Kubernetes selector format. Example: `node.kubernetes.io/role: infra`.
 	NodeSelector TypesKubeNodeSelector `json:"nodeSelector,omitempty" yaml:"nodeSelector,omitempty" mapstructure:"nodeSelector,omitempty"`
 
 	// Provider corresponds to the JSON schema field "provider".
@@ -76,6 +77,9 @@ type SpecDistributionCommon struct {
 
 	// URL of the registry where to pull images from for the Distribution phase.
 	// (Default is `registry.sighup.io/fury`).
+	//
+	// NOTE: If plugins are pulling from the default registry, the registry will be
+	// replaced for the plugin too.
 	Registry *string `json:"registry,omitempty" yaml:"registry,omitempty" mapstructure:"registry,omitempty"`
 
 	// The relative path to the vendor directory, does not need to be changed.
@@ -294,9 +298,9 @@ type SpecDistributionModules struct {
 
 // Configuration for the Auth module.
 type SpecDistributionModulesAuth struct {
-	// Base domain for the ingresses created by the Auth module (Gangplank, Pomerium,
-	// Dex). Notice that when nginx type is dual, these will use the `external`
-	// ingress class.
+	// The base domain for the ingresses created by the Auth module (Gangplank,
+	// Pomerium, Dex). Notice that when the ingress module type is `dual`, these will
+	// use the `external` ingress class.
 	BaseDomain *string `json:"baseDomain,omitempty" yaml:"baseDomain,omitempty" mapstructure:"baseDomain,omitempty"`
 
 	// Dex corresponds to the JSON schema field "dex".
@@ -547,6 +551,8 @@ type SpecDistributionModulesAuthProvider struct {
 	// and require authentication before accessing them.
 	// - `basicAuth`: will protect the infrastructural ingresses with HTTP basic auth
 	// (username and password) authentication.
+	//
+	// Default is `none`.
 	Type SpecDistributionModulesAuthProviderType `json:"type" yaml:"type" mapstructure:"type"`
 }
 
@@ -575,6 +581,8 @@ type SpecDistributionModulesDr struct {
 	// The type of the Disaster Recovery, must be `none` or `on-premises`. `none`
 	// disables the module and `on-premises` will install Velero and an optional MinIO
 	// deployment.
+	//
+	// Default is `none`.
 	Type SpecDistributionModulesDrType `json:"type" yaml:"type" mapstructure:"type"`
 
 	// Velero corresponds to the JSON schema field "velero".
@@ -693,7 +701,7 @@ type SpecDistributionModulesDrVeleroSnapshotController struct {
 
 type SpecDistributionModulesIngress struct {
 	// The base domain used for all the KFD infrastructural ingresses. If using the
-	// nginx dual type, this value should be the same as the domain associated with
+	// nginx `dual` type, this value should be the same as the domain associated with
 	// the `internal` ingress class.
 	BaseDomain string `json:"baseDomain" yaml:"baseDomain" mapstructure:"baseDomain"`
 
@@ -709,7 +717,7 @@ type SpecDistributionModulesIngress struct {
 	// If corresponds to the JSON schema field "if".
 	If interface{} `json:"if,omitempty" yaml:"if,omitempty" mapstructure:"if,omitempty"`
 
-	// Configurations for the nginx ingress controller package.
+	// Configurations for the Ingress nginx controller package.
 	Nginx SpecDistributionModulesIngressNginx `json:"nginx" yaml:"nginx" mapstructure:"nginx"`
 
 	// Overrides corresponds to the JSON schema field "overrides".
@@ -737,11 +745,13 @@ type SpecDistributionModulesIngressCertManagerClusterIssuer struct {
 	// The email address to use during the certificate issuing process.
 	Email string `json:"email" yaml:"email" mapstructure:"email"`
 
-	// Name of the clusterIssuer
+	// The name of the clusterIssuer.
 	Name string `json:"name" yaml:"name" mapstructure:"name"`
 
-	// List of challenge solvers to use instead of the default one for the `http01`
-	// challenge.
+	// The list of challenge solvers to use instead of the default one for the
+	// `http01` challenge. Check [cert manager's
+	// documentation](https://cert-manager.io/docs/configuration/acme/#adding-multiple-solver-types)
+	// for examples for this field.
 	Solvers []interface{} `json:"solvers,omitempty" yaml:"solvers,omitempty" mapstructure:"solvers,omitempty"`
 
 	// The type of the clusterIssuer. Only `http01` challenge is supported for
@@ -765,7 +775,7 @@ type SpecDistributionModulesIngressNginx struct {
 	// Tls corresponds to the JSON schema field "tls".
 	Tls *SpecDistributionModulesIngressNginxTLS `json:"tls,omitempty" yaml:"tls,omitempty" mapstructure:"tls,omitempty"`
 
-	// The type of the nginx ingress controller, options are:
+	// The type of the Ingress nginx controller, options are:
 	// - `none`: no ingress controller will be installed and no infrastructural
 	// ingresses will be created.
 	// - `single`: a single ingress controller with ingress class `nginx` will be
@@ -775,6 +785,8 @@ type SpecDistributionModulesIngressNginx struct {
 	// `internal` ingress class intended for private ingresses and one for the
 	// `external` ingress class intended for public ingresses. KFD infrastructural
 	// ingresses wil use the `internal` ingress class when using the dual type.
+	//
+	// Default is `single`.
 	Type SpecDistributionModulesIngressNginxType `json:"type" yaml:"type" mapstructure:"type"`
 }
 
@@ -824,11 +836,11 @@ type SpecDistributionModulesIngressOverrides struct {
 	// Ingresses corresponds to the JSON schema field "ingresses".
 	Ingresses *SpecDistributionModulesIngressOverridesIngresses `json:"ingresses,omitempty" yaml:"ingresses,omitempty" mapstructure:"ingresses,omitempty"`
 
-	// Set to override the node selector used to place the pods of the Ingress module
+	// Set to override the node selector used to place the pods of the Ingress module.
 	NodeSelector TypesKubeNodeSelector `json:"nodeSelector,omitempty" yaml:"nodeSelector,omitempty" mapstructure:"nodeSelector,omitempty"`
 
 	// Set to override the tolerations that will be added to the pods of the Ingress
-	// module
+	// module.
 	Tolerations []TypesKubeToleration `json:"tolerations,omitempty" yaml:"tolerations,omitempty" mapstructure:"tolerations,omitempty"`
 }
 
@@ -865,14 +877,17 @@ type SpecDistributionModulesLogging struct {
 	// - `opensearch`: will deploy and configure the Logging Operator and an
 	// OpenSearch cluster (can be single or triple for HA) where the logs will be
 	// stored.
-	// - `loki`: will use a distributed Grafana Loki instead of OpenSearh for storage.
-	// - `customOuputs`: the Logging Operator will be deployed and installed but with
-	// no local storage, you will have to create the needed Outputs and ClusterOutputs
-	// to ship the logs to your desired storage.
+	// - `loki`: will use a distributed Grafana Loki instead of OpenSearch for
+	// storage.
+	// - `customOuputs`: the Logging Operator will be deployed and installed but
+	// without in-cluster storage, you will have to create the needed Outputs and
+	// ClusterOutputs to ship the logs to your desired storage.
+	//
+	// Default is `opensearch`.
 	Type SpecDistributionModulesLoggingType `json:"type" yaml:"type" mapstructure:"type"`
 }
 
-// DEPRECATED in latest versions of KFD.
+// DEPRECATED since KFD v1.26.6, 1.27.5, v1.28.0.
 type SpecDistributionModulesLoggingCerebro struct {
 	// Overrides corresponds to the JSON schema field "overrides".
 	Overrides *TypesFuryModuleComponentOverrides `json:"overrides,omitempty" yaml:"overrides,omitempty" mapstructure:"overrides,omitempty"`
@@ -1009,7 +1024,8 @@ type SpecDistributionModulesLoggingOpensearch struct {
 	// Resources corresponds to the JSON schema field "resources".
 	Resources *TypesKubeResources `json:"resources,omitempty" yaml:"resources,omitempty" mapstructure:"resources,omitempty"`
 
-	// The storage size for the OpenSearch volumes.
+	// The storage size for the OpenSearch volumes. Follows Kubernetes resources
+	// storage requests. Default is `150Gi`.
 	StorageSize *string `json:"storageSize,omitempty" yaml:"storageSize,omitempty" mapstructure:"storageSize,omitempty"`
 
 	// The type of OpenSearch deployment. One of: `single` for a single replica or
@@ -1073,16 +1089,18 @@ type SpecDistributionModulesMonitoring struct {
 	//
 	// - `none`: will disable the whole monitoring stack.
 	// - `prometheus`: will install Prometheus Operator and a preconfigured Prometheus
-	// instace, Alertmanager, a set of alert rules, exporters needed to monitor all
+	// instance, Alertmanager, a set of alert rules, exporters needed to monitor all
 	// the components of the cluster, Grafana and a series of dashboards to view the
 	// collected metrics, and more.
-	// - `prometheusAgent`: wil install Prometheus operator, an instance of Prometheus
-	// in Agent mode (no alerting, no queries, no storage), and all the exporters
-	// needed to get metrics for the status of the cluster and the workloads. Useful
-	// when having a centralized (remote) Prometheus where to ship the metrics and not
-	// storing them locally in the cluster.
+	// - `prometheusAgent`: will install Prometheus operator, an instance of
+	// Prometheus in Agent mode (no alerting, no queries, no storage), and all the
+	// exporters needed to get metrics for the status of the cluster and the
+	// workloads. Useful when having a centralized (remote) Prometheus where to ship
+	// the metrics and not storing them locally in the cluster.
 	// - `mimir`: will install the same as the `prometheus` option, plus Grafana Mimir
 	// that allows for longer retention of metrics and the usage of Object Storage.
+	//
+	// Default is `prometheus`.
 	Type SpecDistributionModulesMonitoringType `json:"type" yaml:"type" mapstructure:"type"`
 
 	// X509Exporter corresponds to the JSON schema field "x509Exporter".
@@ -1091,7 +1109,7 @@ type SpecDistributionModulesMonitoring struct {
 
 type SpecDistributionModulesMonitoringAlertManager struct {
 	// The webhook URL to send dead man's switch monitoring, for example to use with
-	// healthchecks.io
+	// healthchecks.io.
 	DeadManSwitchWebhookUrl *string `json:"deadManSwitchWebhookUrl,omitempty" yaml:"deadManSwitchWebhookUrl,omitempty" mapstructure:"deadManSwitchWebhookUrl,omitempty"`
 
 	// Set to false to avoid installing the Prometheus rules (alerts) included with
@@ -1171,7 +1189,7 @@ type SpecDistributionModulesMonitoringMimirExternalEndpoint struct {
 	// The bucket name of the external S3-compatible object storage.
 	BucketName *string `json:"bucketName,omitempty" yaml:"bucketName,omitempty" mapstructure:"bucketName,omitempty"`
 
-	// External S3-compatible endpoint for Mimir's storage.
+	// The external S3-compatible endpoint for Mimir's storage.
 	Endpoint *string `json:"endpoint,omitempty" yaml:"endpoint,omitempty" mapstructure:"endpoint,omitempty"`
 
 	// If true, will use HTTP as protocol instead of HTTPS.
@@ -1381,18 +1399,18 @@ var enumValues_SpecDistributionModulesIngressNginxTLSProvider = []interface{}{
 }
 
 type TypesKubeResourcesLimits struct {
-	// The cpu limit for the loki pods
+	// The CPU limit for the Pod. Example: `1000m`.
 	Cpu *string `json:"cpu,omitempty" yaml:"cpu,omitempty" mapstructure:"cpu,omitempty"`
 
-	// The memory limit for the prometheus pods
+	// The memory limit for the Pod. Example: `1G`.
 	Memory *string `json:"memory,omitempty" yaml:"memory,omitempty" mapstructure:"memory,omitempty"`
 }
 
 type TypesKubeResourcesRequests struct {
-	// The cpu request for the loki pods
+	// The CPU request for the Pod, in cores. Example: `500m`.
 	Cpu *string `json:"cpu,omitempty" yaml:"cpu,omitempty" mapstructure:"cpu,omitempty"`
 
-	// The memory request for the prometheus pods
+	// The memory request for the Pod. Example: `500M`.
 	Memory *string `json:"memory,omitempty" yaml:"memory,omitempty" mapstructure:"memory,omitempty"`
 }
 
@@ -2068,8 +2086,8 @@ type SpecDistributionModulesNetworking struct {
 	// TigeraOperator corresponds to the JSON schema field "tigeraOperator".
 	TigeraOperator *SpecDistributionModulesNetworkingTigeraOperator `json:"tigeraOperator,omitempty" yaml:"tigeraOperator,omitempty" mapstructure:"tigeraOperator,omitempty"`
 
-	// The type of CNI plugin to use, either `calico` (default, via the Tigera
-	// Operator) or `cilium`.
+	// The type of CNI plugin to use, either `calico` (Tigera Operator) or `cilium`.
+	// Default is `calico`.
 	Type SpecDistributionModulesNetworkingType `json:"type" yaml:"type" mapstructure:"type"`
 }
 
@@ -2285,6 +2303,8 @@ type SpecDistributionModulesPolicy struct {
 
 	// The type of policy enforcement to use, either `none`, `gatekeeper` or
 	// `kyverno`.
+	//
+	// Default is `none`.
 	Type SpecDistributionModulesPolicyType `json:"type" yaml:"type" mapstructure:"type"`
 }
 
@@ -2366,7 +2386,7 @@ type SpecDistributionModulesTracingTempoExternalEndpoint struct {
 	// The bucket name of the external S3-compatible object storage.
 	BucketName *string `json:"bucketName,omitempty" yaml:"bucketName,omitempty" mapstructure:"bucketName,omitempty"`
 
-	// External S3-compatible endpoint for Tempo's storage.
+	// The external S3-compatible endpoint for Tempo's storage.
 	Endpoint *string `json:"endpoint,omitempty" yaml:"endpoint,omitempty" mapstructure:"endpoint,omitempty"`
 
 	// If true, will use HTTP as protocol instead of HTTPS.
@@ -2436,6 +2456,8 @@ type SpecDistributionModulesTracing struct {
 
 	// The type of tracing to use, either `none` or `tempo`. `none` will disable the
 	// Tracing module and `tempo` will install a Grafana Tempo deployment.
+	//
+	// Default is `tempo`.
 	Type SpecDistributionModulesTracingType `json:"type" yaml:"type" mapstructure:"type"`
 }
 

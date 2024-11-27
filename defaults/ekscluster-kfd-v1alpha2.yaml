@@ -47,7 +47,7 @@ data:
           name: ""
           create: true
           # internal field, should be either the VPC ID taken from the kubernetes
-          # phase or the ID of the created VPC in the Ifra phase
+          # phase or the ID of the created VPC in the Infra phase
           vpcId: ""
       # common configuration for nginx ingress controller
       nginx:
