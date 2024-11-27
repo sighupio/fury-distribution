@@ -2,7 +2,6 @@
 # Use of this source code is governed by a BSD-style
 # license that can be found in the LICENSE file.
 
-{{- if or (index .spec.distribution.modules.dr.velero.schedules "ttl") (and (index .spec.distribution.modules.dr.velero.schedules "cron") (index .spec.distribution.modules.dr.velero.schedules.cron "manifests")) }}
 ---
 apiVersion: velero.io/v1
 kind: Schedule
@@ -10,11 +9,6 @@ metadata:
   name: manifests
   namespace: kube-system
 spec:
-  {{- if and (index .spec.distribution.modules.dr.velero.schedules "cron") (index .spec.distribution.modules.dr.velero.schedules.cron "manifests") }}
-  schedule: {{ .spec.distribution.modules.dr.velero.schedules.cron.manifests }}
-  {{- end }}
-  {{- if index .spec.distribution.modules.dr.velero.schedules "ttl" }}
+  schedule: "{{ .spec.distribution.modules.dr.velero.schedules.definitions.manifests.schedule }}"
   template:
-    ttl: {{ .spec.distribution.modules.dr.velero.schedules.ttl }}
-  {{- end }}
-{{- end }}
+    ttl: "{{ .spec.distribution.modules.dr.velero.schedules.definitions.manifests.ttl }}"

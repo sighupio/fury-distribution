@@ -153,6 +153,9 @@ spec:
       logging:
         # can be opensearch, loki, customOutput or none. With none, the logging module won't be installed
         type: loki
+        # configurations for the loki package
+        loki:
+          tsdbStartDate: "2024-11-20"
         # configurations for the minio-ha package
         minio:
           # the PVC size for each minio disk, 6 disks total

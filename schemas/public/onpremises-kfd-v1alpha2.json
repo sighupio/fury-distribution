@@ -1,6 +1,6 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "description": "",
+  "description": "A KFD Cluster deployed on top of a set of existing VMs.",
   "type": "object",
   "properties": {
     "apiVersion": {
@@ -49,7 +49,7 @@
       "properties": {
         "distributionVersion": {
           "type": "string",
-          "description": "Defines which KFD version will be installed and, in consequence, the Kubernetes version used to create the cluster. It supports git tags and branches. Example: v1.30.1.",
+          "description": "Defines which KFD version will be installed and, in consequence, the Kubernetes version used to create the cluster. It supports git tags and branches. Example: `v1.30.1`.",
           "minLength": 1
         },
         "kubernetes": {
@@ -708,7 +708,7 @@
       "properties": {
         "nodeSelector": {
           "$ref": "#/$defs/Types.KubeNodeSelector",
-          "description": "The node selector to use to place the pods for all the KFD modules. Follows Kubernetes selector format. Example: `node.kubernetes.io/role: infra`"
+          "description": "The node selector to use to place the pods for all the KFD modules. Follows Kubernetes selector format. Example: `node.kubernetes.io/role: infra`."
         },
         "tolerations": {
           "type": "array",
@@ -726,7 +726,11 @@
         },
         "registry": {
           "type": "string",
-          "description": "URL of the registry where to pull images from for the Distribution phase. (Default is `registry.sighup.io/fury`)."
+          "description": "URL of the registry where to pull images from for the Distribution phase. (Default is `registry.sighup.io/fury`).\n\nNOTE: If plugins are pulling from the default registry, the registry will be replaced for the plugin too."
+        },
+        "networkPoliciesEnabled": {
+          "type": "boolean",
+          "description": "EXPERIMENTAL FEATURE. This field defines whether Network Policies are provided for core modules."
         }
       }
     },
@@ -788,11 +792,11 @@
         },
         "baseDomain": {
           "type": "string",
-          "description": "The base domain used for all the KFD infrastructural ingresses. If using the nginx dual type, this value should be the same as the domain associated with the `internal` ingress class."
+          "description": "The base domain used for all the KFD infrastructural ingresses. If using the nginx `dual` type, this value should be the same as the domain associated with the `internal` ingress class."
         },
         "nginx": {
           "$ref": "#/$defs/Spec.Distribution.Modules.Ingress.Nginx",
-          "description": "Configurations for the nginx ingress controller package."
+          "description": "Configurations for the Ingress nginx controller package."
         },
         "certManager": {
           "$ref": "#/$defs/Spec.Distribution.Modules.Ingress.CertManager",
@@ -837,14 +841,14 @@
         },
         "nodeSelector": {
           "$ref": "#/$defs/Types.KubeNodeSelector",
-          "description": "Set to override the node selector used to place the pods of the Ingress module"
+          "description": "Set to override the node selector used to place the pods of the Ingress module."
         },
         "tolerations": {
           "type": "array",
           "items": {
             "$ref": "#/$defs/Types.KubeToleration"
           },
-          "description": "Set to override the tolerations that will be added to the pods of the Ingress module"
+          "description": "Set to override the tolerations that will be added to the pods of the Ingress module."
         }
       }
     },
@@ -877,7 +881,7 @@
             "single",
             "dual"
           ],
-          "description": "The type of the nginx ingress controller, options are:\n- `none`: no ingress controller will be installed and no infrastructural ingresses will be created.\n- `single`: a single ingress controller with ingress class `nginx` will be installed to manage all the ingress resources, infrastructural ingresses will be created.\n- `dual`: two independent ingress controllers will be installed, one for the `internal` ingress class intended for private ingresses and one for the `external` ingress class intended for public ingresses. KFD infrastructural ingresses wil use the `internal` ingress class when using the dual type."
+          "description": "The type of the Ingress nginx controller, options are:\n- `none`: no ingress controller will be installed and no infrastructural ingresses will be created.\n- `single`: a single ingress controller with ingress class `nginx` will be installed to manage all the ingress resources, infrastructural ingresses will be created.\n- `dual`: two independent ingress controllers will be installed, one for the `internal` ingress class intended for private ingresses and one for the `external` ingress class intended for public ingresses. KFD infrastructural ingresses wil use the `internal` ingress class when using the dual type.\n\nDefault is `single`."
         },
         "tls": {
           "$ref": "#/$defs/Spec.Distribution.Modules.Ingress.Nginx.TLS"
@@ -970,7 +974,7 @@
       "properties": {
         "name": {
           "type": "string",
-          "description": "Name of the clusterIssuer"
+          "description": "The name of the clusterIssuer."
         },
         "email": {
           "type": "string",
@@ -986,7 +990,7 @@
         },
         "solvers": {
           "type": "array",
-          "description": "List of challenge solvers to use instead of the default one for the `http01` challenge."
+          "description": "The list of challenge solvers to use instead of the default one for the `http01` challenge. Check [cert manager's documentation](https://cert-manager.io/docs/configuration/acme/#adding-multiple-solver-types) for examples for this field."
         }
       },
       "required": [
@@ -1022,7 +1026,7 @@
             "loki",
             "customOutputs"
           ],
-          "description": "Selects the logging stack. Options are:\n- `none`: will disable the centralized logging.\n- `opensearch`: will deploy and configure the Logging Operator and an OpenSearch cluster (can be single or triple for HA) where the logs will be stored.\n- `loki`: will use a distributed Grafana Loki instead of OpenSearh for storage.\n- `customOuputs`: the Logging Operator will be deployed and installed but with no local storage, you will have to create the needed Outputs and ClusterOutputs to ship the logs to your desired storage."
+          "description": "Selects the logging stack. Options are:\n- `none`: will disable the centralized logging.\n- `opensearch`: will deploy and configure the Logging Operator and an OpenSearch cluster (can be single or triple for HA) where the logs will be stored.\n- `loki`: will use a distributed Grafana Loki instead of OpenSearch for storage.\n- `customOuputs`: the Logging Operator will be deployed and installed but without in-cluster storage, you will have to create the needed Outputs and ClusterOutputs to ship the logs to your desired storage.\n\nDefault is `opensearch`."
         },
         "opensearch": {
           "$ref": "#/$defs/Spec.Distribution.Modules.Logging.Opensearch"
@@ -1065,6 +1069,20 @@
           "if": {
             "properties": {
               "type": {
+                "const": "loki"
+              }
+            }
+          },
+          "then": {
+            "required": [
+              "loki"
+            ]
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "type": {
                 "const": "customOutputs"
               }
             }
@@ -1094,7 +1112,7 @@
         },
         "storageSize": {
           "type": "string",
-          "description": "The storage size for the OpenSearch volumes."
+          "description": "The storage size for the OpenSearch volumes. Follows Kubernetes resources storage requests. Default is `150Gi`."
         },
         "overrides": {
           "$ref": "#/$defs/Types.FuryModuleComponentOverrides"
@@ -1106,7 +1124,7 @@
     },
     "Spec.Distribution.Modules.Logging.Cerebro": {
       "type": "object",
-      "description": "DEPRECATED in latest versions of KFD.",
+      "description": "DEPRECATED since KFD v1.26.6, 1.27.5, v1.28.0.",
       "additionalProperties": false,
       "properties": {
         "overrides": {
@@ -1182,10 +1200,18 @@
             }
           }
         },
+        "tsdbStartDate": {
+          "type": "string",
+          "format": "date",
+          "description": "Starting from versions 1.28.4, 1.29.5 and 1.30.0 of KFD, Loki will change the time series database from BoltDB to TSDB and the schema from v11 to v13 that it uses to store the logs.\n\nThe value of this field will determine the date when Loki will start writing using the new TSDB and the schema v13, always at midnight UTC. The old BoltDB and schema will be kept until they expire for reading purposes.\n\nValue must be a string in `ISO 8601` date format (`yyyy-mm-dd`). Example: `2024-11-18`."
+        },
         "resources": {
           "$ref": "#/$defs/Types.KubeResources"
         }
-      }
+      },
+      "required": [
+        "tsdbStartDate"
+      ]
     },
     "Spec.Distribution.Modules.Logging.Operator": {
       "type": "object",
@@ -1259,7 +1285,7 @@
             "prometheusAgent",
             "mimir"
           ],
-          "description": "The type of the monitoring, must be `none`, `prometheus`, `prometheusAgent` or `mimir`.\n\n- `none`: will disable the whole monitoring stack.\n- `prometheus`: will install Prometheus Operator and a preconfigured Prometheus instace, Alertmanager, a set of alert rules, exporters needed to monitor all the components of the cluster, Grafana and a series of dashboards to view the collected metrics, and more.\n- `prometheusAgent`: wil install Prometheus operator, an instance of Prometheus in Agent mode (no alerting, no queries, no storage), and all the exporters needed to get metrics for the status of the cluster and the workloads. Useful when having a centralized (remote) Prometheus where to ship the metrics and not storing them locally in the cluster.\n- `mimir`: will install the same as the `prometheus` option, plus Grafana Mimir that allows for longer retention of metrics and the usage of Object Storage."
+          "description": "The type of the monitoring, must be `none`, `prometheus`, `prometheusAgent` or `mimir`.\n\n- `none`: will disable the whole monitoring stack.\n- `prometheus`: will install Prometheus Operator and a preconfigured Prometheus instance, Alertmanager, a set of alert rules, exporters needed to monitor all the components of the cluster, Grafana and a series of dashboards to view the collected metrics, and more.\n- `prometheusAgent`: will install Prometheus operator, an instance of Prometheus in Agent mode (no alerting, no queries, no storage), and all the exporters needed to get metrics for the status of the cluster and the workloads. Useful when having a centralized (remote) Prometheus where to ship the metrics and not storing them locally in the cluster.\n- `mimir`: will install the same as the `prometheus` option, plus Grafana Mimir that allows for longer retention of metrics and the usage of Object Storage.\n\nDefault is `prometheus`."
         },
         "overrides": {
           "$ref": "#/$defs/Types.FuryModuleOverrides"
@@ -1346,7 +1372,7 @@
       "properties": {
         "deadManSwitchWebhookUrl": {
           "type": "string",
-          "description": "The webhook URL to send dead man's switch monitoring, for example to use with healthchecks.io"
+          "description": "The webhook URL to send dead man's switch monitoring, for example to use with healthchecks.io."
         },
         "installDefaultRules": {
           "type": "boolean",
@@ -1426,7 +1452,7 @@
           "properties": {
             "endpoint": {
               "type": "string",
-              "description": "External S3-compatible endpoint for Mimir's storage."
+              "description": "The external S3-compatible endpoint for Mimir's storage."
             },
             "insecure": {
               "type": "boolean",
@@ -1493,7 +1519,7 @@
             "none",
             "tempo"
           ],
-          "description": "The type of tracing to use, either `none` or `tempo`. `none` will disable the Tracing module and `tempo` will install a Grafana Tempo deployment."
+          "description": "The type of tracing to use, either `none` or `tempo`. `none` will disable the Tracing module and `tempo` will install a Grafana Tempo deployment.\n\nDefault is `tempo`."
         },
         "tempo": {
           "$ref": "#/$defs/Spec.Distribution.Modules.Tracing.Tempo"
@@ -1530,7 +1556,7 @@
           "properties": {
             "endpoint": {
               "type": "string",
-              "description": "External S3-compatible endpoint for Tempo's storage."
+              "description": "The external S3-compatible endpoint for Tempo's storage."
             },
             "insecure": {
               "type": "boolean",
@@ -1603,7 +1629,7 @@
             "calico",
             "cilium"
           ],
-          "description": "The type of CNI plugin to use, either `calico` (default, via the Tigera Operator) or `cilium`."
+          "description": "The type of CNI plugin to use, either `calico` (Tigera Operator) or `cilium`. Default is `calico`."
         }
       },
       "required": [
@@ -1651,7 +1677,7 @@
             "gatekeeper",
             "kyverno"
           ],
-          "description": "The type of policy enforcement to use, either `none`, `gatekeeper` or `kyverno`."
+          "description": "The type of policy enforcement to use, either `none`, `gatekeeper` or `kyverno`.\n\nDefault is `none`."
         },
         "gatekeeper": {
           "$ref": "#/$defs/Spec.Distribution.Modules.Policy.Gatekeeper"
@@ -1775,7 +1801,7 @@
             "none",
             "on-premises"
           ],
-          "description": "The type of the Disaster Recovery, must be `none` or `on-premises`. `none` disables the module and `on-premises` will install Velero and an optional MinIO deployment."
+          "description": "The type of the Disaster Recovery, must be `none` or `on-premises`. `none` disables the module and `on-premises` will install Velero and an optional MinIO deployment.\n\nDefault is `none`."
         },
         "velero": {
           "$ref": "#/$defs/Spec.Distribution.Modules.Dr.Velero"
@@ -1847,24 +1873,57 @@
               "type": "boolean",
               "description": "Whether to install or not the default `manifests` and `full` backups schedules. Default is `true`."
             },
-            "cron": {
+            "definitions": {
               "type": "object",
               "additionalProperties": false,
-              "description": "Configuration for Velero's schedules cron.",
+              "description": "Configuration for Velero schedules.",
               "properties": {
                 "manifests": {
-                  "type": "string",
-                  "description": "The cron expression for the `manifests` backup schedule (default `*/15 * * * *`)."
+                  "type": "object",
+                  "additionalProperties": false,
+                  "description": "Configuration for Velero's manifests backup schedule.",
+                  "properties": {
+                    "schedule": {
+                      "type": "string",
+                      "description": "The cron expression for the `manifests` backup schedule (default `*/15 * * * *`)."
+                    },
+                    "ttl": {
+                      "type": "string",
+                      "description": "The Time To Live (TTL) of the backups created by the backup schedules (default `720h0m0s`, 30 days). Notice that changing this value will affect only newly created backups, prior backups will keep the old TTL."
+                    }
+                  }
                 },
                 "full": {
-                  "type": "string",
-                  "description": "The cron expression for the `full` backup schedule (default `0 1 * * *`)."
+                  "type": "object",
+                  "additionalProperties": false,
+                  "description": "Configuration for Velero's manifests backup schedule.",
+                  "properties": {
+                    "schedule": {
+                      "type": "string",
+                      "description": "The cron expression for the `full` backup schedule (default `0 1 * * *`)."
+                    },
+                    "ttl": {
+                      "type": "string",
+                      "description": "The Time To Live (TTL) of the backups created by the backup schedules (default `720h0m0s`, 30 days). Notice that changing this value will affect only newly created backups, prior backups will keep the old TTL."
+                    },
+                    "snapshotMoveData": {
+                      "type": "boolean",
+                      "description": "EXPERIMENTAL (if you do more than one backups, the following backups after the first are not automatically restorable, see https://github.com/vmware-tanzu/velero/issues/7057#issuecomment-2466815898 for the manual restore solution): SnapshotMoveData specifies whether snapshot data should be moved. Velero will create a new volume from the snapshot and upload the content to the storageLocation."
+                    }
+                  }
                 }
               }
-            },
-            "ttl": {
-              "type": "string",
-              "description": "The Time To Live (TTL) of the backups created by the backup schedules (default `720h0m0s`, 30 days). Notice that changing this value will affect only newly created backups, prior backups will keep the old TTL."
+            }
+          }
+        },
+        "snapshotController": {
+          "type": "object",
+          "additionalProperties": false,
+          "description": "Configuration for the additional snapshotController component installation.",
+          "properties": {
+            "install": {
+              "type": "boolean",
+              "description": "Whether to install or not the snapshotController component in the cluster. Before enabling this field, check if your CSI driver does not have snapshotController built-in."
             }
           }
         },
@@ -1886,7 +1945,7 @@
         },
         "baseDomain": {
           "type": "string",
-          "description": "Base domain for the ingresses created by the Auth module (Gangplank, Pomerium, Dex). Notice that when nginx type is dual, these will use the `external` ingress class."
+          "description": "The base domain for the ingresses created by the Auth module (Gangplank, Pomerium, Dex). Notice that when the ingress module type is `dual`, these will use the `external` ingress class."
         },
         "pomerium": {
           "$ref": "#/$defs/Spec.Distribution.Modules.Auth.Pomerium"
@@ -2041,7 +2100,7 @@
             "basicAuth",
             "sso"
           ],
-          "description": "The type of the Auth provider, options are:\n- `none`: will disable authentication in the infrastructural ingresses.\n- `sso`: will protect the infrastructural ingresses with Pomerium and Dex (SSO) and require authentication before accessing them.\n- `basicAuth`: will protect the infrastructural ingresses with HTTP basic auth (username and password) authentication."
+          "description": "The type of the Auth provider, options are:\n- `none`: will disable authentication in the infrastructural ingresses.\n- `sso`: will protect the infrastructural ingresses with Pomerium and Dex (SSO) and require authentication before accessing them.\n- `basicAuth`: will protect the infrastructural ingresses with HTTP basic auth (username and password) authentication.\n\nDefault is `none`."
         },
         "basicAuth": {
           "$ref": "#/$defs/Spec.Distribution.Modules.Auth.Provider.BasicAuth"
@@ -2298,11 +2357,11 @@
           "properties": {
             "cpu": {
               "type": "string",
-              "description": "The cpu request for the loki pods"
+              "description": "The CPU request for the Pod, in cores. Example: `500m`."
             },
             "memory": {
               "type": "string",
-              "description": "The memory request for the prometheus pods"
+              "description": "The memory request for the Pod. Example: `500M`."
             }
           }
         },
@@ -2312,11 +2371,11 @@
           "properties": {
             "cpu": {
               "type": "string",
-              "description": "The cpu limit for the loki pods"
+              "description": "The CPU limit for the Pod. Example: `1000m`."
             },
             "memory": {
               "type": "string",
-              "description": "The memory limit for the prometheus pods"
+              "description": "The memory limit for the Pod. Example: `1G`."
             }
           }
         }

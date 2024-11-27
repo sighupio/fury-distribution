@@ -54,6 +54,10 @@ resources:
   - secrets/alertmanager.yml
 {{- end }}
 
+{{ if eq .spec.distribution.common.networkPoliciesEnabled true }}
+  - policies
+{{- end }}
+
 patchesStrategicMerge:
   - patches/infra-nodes.yml
 {{- if eq .spec.distribution.common.provider.type "eks" }}{{/* in EKS there are no files to monitor on nodes */}}

@@ -27,6 +27,10 @@ resources:
 {{- end }}
 {{- end }}
 
+{{ if eq .spec.distribution.common.networkPoliciesEnabled true }}
+  - policies
+{{- end }}
+
 patchesStrategicMerge:
   - patches/infra-nodes.yml
 {{- if .spec.distribution.modules.policy.kyverno.additionalExcludedNamespaces }}

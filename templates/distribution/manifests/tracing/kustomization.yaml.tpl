@@ -17,6 +17,10 @@ resources:
 {{- end }}
 {{- end }}
 
+{{ if eq .spec.distribution.common.networkPoliciesEnabled true }}
+  - policies
+{{- end }}
+
 patchesStrategicMerge:
   - patches/infra-nodes.yml
 {{- if eq .spec.distribution.modules.tracing.tempo.backend "minio" }}
