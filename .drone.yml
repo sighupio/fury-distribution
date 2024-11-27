@@ -353,8 +353,6 @@ steps:
         from_secret: github_token
       file_exists: skip
       files:
-        - Furyfile.yaml
-        - kustomization.yaml
         - kfd.yaml
       prerelease: true
       overwrite: true
@@ -380,8 +378,6 @@ steps:
         from_secret: github_token
       file_exists: skip
       files:
-        - Furyfile.yaml
-        - kustomization.yaml
         - kfd.yaml
       prerelease: false
       overwrite: true
