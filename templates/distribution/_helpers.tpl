@@ -75,7 +75,7 @@
         (index .spec.distribution.common "tolerations") -}}
 
   {{- if and (not $tolerations) (index . "returnEmptyInsteadOfNull") .returnEmptyInsteadOfNull -}}
-  {{- "{}" | indent $indent | trim -}}
+  {{- "[]" | indent $indent | trim -}}
   {{- else -}}
   {{- $tolerations | toYaml | indent $indent | trim -}}
   {{- end -}}
