@@ -43,7 +43,7 @@ $kubectlbin create namespace calico-system --dry-run=client -o yaml | $kubectlbi
 < out.yaml $yqbin 'select(.kind == "CustomResourceDefinition")' | $kubectlbin apply -f - --server-side
 < out.yaml $yqbin 'select(.kind == "CustomResourceDefinition")' | $kubectlbin wait --for condition=established --timeout=60s -f -
 
-echo "Clean up init jobs, since they cannot be changed without conficts and they are idempotent by nature..."
+echo "Clean up old init jobs..."
 
 $kubectlbin delete --ignore-not-found --wait --timeout=180s job minio-setup -n kube-system
 $kubectlbin delete --ignore-not-found --wait --timeout=180s job minio-logging-buckets-setup -n logging
