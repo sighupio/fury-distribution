@@ -22,8 +22,8 @@ From 2024, development will focus on hardening the distribution security-wise, p
 
 - [x] KFD 1.30.x release and release of the latest supported patch version for 1.29.x and 1.28.x, drop support for 1.27.x
 - [x] furyctl 0.30.x release
-- Feature: Add support for secured container runtimes
-- Feature: Track dependencies provenance and dependencies signing
+- [ ] Feature: Add support for secured container runtimes
+- [ ] Feature: Track dependencies provenance and dependencies signing
 - [x] (from Q2 2024) Feature: Optional selection of improved hardened images used in the KFD distribution installation
 - [x] (from Q2 2024) Feature: Experimental network policies for the KFD infrastructural components on the OnPremises provider
 - [ ] KFD 1.31.x release
