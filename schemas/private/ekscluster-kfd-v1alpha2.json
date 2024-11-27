@@ -546,7 +546,8 @@
         "apiServer",
         "nodeAllowedSshPublicKey",
         "nodePools",
-        "nodePoolsLaunchKind"
+        "nodePoolsLaunchKind",
+        "nodePoolGlobalAmiType"
       ]
     },
     "Spec.Kubernetes.APIServer": {

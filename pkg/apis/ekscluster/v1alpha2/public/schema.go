@@ -1578,7 +1578,7 @@ type SpecKubernetes struct {
 
 	// Global default AMI type used for EKS worker nodes. This will apply to all node
 	// pools unless overridden by a specific node pool.
-	NodePoolGlobalAmiType *SpecKubernetesNodePoolGlobalAmiType `json:"nodePoolGlobalAmiType,omitempty" yaml:"nodePoolGlobalAmiType,omitempty" mapstructure:"nodePoolGlobalAmiType,omitempty"`
+	NodePoolGlobalAmiType SpecKubernetesNodePoolGlobalAmiType `json:"nodePoolGlobalAmiType" yaml:"nodePoolGlobalAmiType" mapstructure:"nodePoolGlobalAmiType"`
 
 	// NodePools corresponds to the JSON schema field "nodePools".
 	NodePools []SpecKubernetesNodePool `json:"nodePools" yaml:"nodePools" mapstructure:"nodePools"`
@@ -3188,6 +3188,9 @@ func (j *SpecKubernetes) UnmarshalJSON(b []byte) error {
 	}
 	if v, ok := raw["nodeAllowedSshPublicKey"]; !ok || v == nil {
 		return fmt.Errorf("field nodeAllowedSshPublicKey in SpecKubernetes: required")
+	}
+	if v, ok := raw["nodePoolGlobalAmiType"]; !ok || v == nil {
+		return fmt.Errorf("field nodePoolGlobalAmiType in SpecKubernetes: required")
 	}
 	if v, ok := raw["nodePools"]; !ok || v == nil {
 		return fmt.Errorf("field nodePools in SpecKubernetes: required")

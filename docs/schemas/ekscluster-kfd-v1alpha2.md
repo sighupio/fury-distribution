@@ -5022,7 +5022,7 @@ The network CIDR that will be used to assign IP addresses to the VPN clients whe
 | [logRetentionDays](#speckuberneteslogretentiondays)                                 | `integer` | Optional |
 | [logsTypes](#speckuberneteslogstypes)                                               | `array`   | Optional |
 | [nodeAllowedSshPublicKey](#speckubernetesnodeallowedsshpublickey)                   | `object`  | Required |
-| [nodePoolGlobalAmiType](#speckubernetesnodepoolglobalamitype)                       | `string`  | Optional |
+| [nodePoolGlobalAmiType](#speckubernetesnodepoolglobalamitype)                       | `string`  | Required |
 | [nodePools](#speckubernetesnodepools)                                               | `array`   | Required |
 | [nodePoolsLaunchKind](#speckubernetesnodepoolslaunchkind)                           | `string`  | Required |
 | [serviceIpV4Cidr](#speckubernetesserviceipv4cidr)                                   | `string`  | Optional |
