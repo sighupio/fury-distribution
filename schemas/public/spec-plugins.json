@@ -87,6 +87,10 @@
               "type": "string"
             },
             "description": "The values of the release"
+          },
+          "disableValidationOnInstall": {
+            "type": "boolean",
+            "description": "Disable running `helm diff` validation when installing the plugin, it will still be done when upgrading."
           }
         },
         "required": ["name", "namespace", "chart"]

@@ -8,7 +8,7 @@ kind: KFDDistribution
 metadata:
   name: sighup
 spec:
-  distributionVersion: v1.28.3
+  distributionVersion: v1.28.5
   # This section describes how the KFD distribution will be installed
   distribution:
     kubeconfig: "{env://KUBECONFIG}"
@@ -37,6 +37,9 @@ spec:
           rootUser:
             username: sighup
             password: secretpassword1
+        loki:
+          backend: minio
+          tsdbStartDate: "2024-11-21"
       monitoring:
         type: mimir
         prometheus:
@@ -62,7 +65,7 @@ spec:
         type: kyverno
         kyverno:
           additionalExcludedNamespaces: ["local-path-storage"]
-          validationFailureAction: enforce
+          validationFailureAction: Enforce
           installDefaultPolicies: true
       dr:
         type: on-premises

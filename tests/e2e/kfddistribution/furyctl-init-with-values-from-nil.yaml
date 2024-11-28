@@ -8,7 +8,7 @@ kind: KFDDistribution
 metadata:
   name: sighup
 spec:
-  distributionVersion: v1.28.3
+  distributionVersion: v1.28.5
   # This section describes how the KFD distribution will be installed
   distribution:
     kubeconfig: "{env://KUBECONFIG}"
@@ -33,6 +33,7 @@ spec:
       logging:
         type: loki
         loki:
+          tsdbStartDate: "2024-11-21"
           backend: externalEndpoint
           externalEndpoint:
             endpoint: 192.168.1.100:9000
@@ -65,7 +66,7 @@ spec:
         kyverno:
           additionalExcludedNamespaces: ["local-path-storage"]
           installDefaultPolicies: false
-          validationFailureAction: enforce
+          validationFailureAction: Enforce
       dr:
         type: on-premises
         velero:

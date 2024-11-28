@@ -52,10 +52,10 @@ lint-go:
 
 .PHONY: tools-go
 tools-go:
-	@go install github.com/evanphx/json-patch/cmd/json-patch@v5.6.0
+	@go install github.com/evanphx/json-patch/v5/cmd/json-patch@v5.9.0
 	@go install github.com/google/addlicense@v1.1.1
-	@go install mvdan.cc/gofumpt@v0.5.0
-	@go install golang.org/x/tools/cmd/goimports@v0.9.3
+	@go install mvdan.cc/gofumpt@v0.7.0
+	@go install golang.org/x/tools/cmd/goimports@v0.26.0
 	@go install github.com/daixiang0/gci@v0.10.1
 	@go install github.com/momaek/formattag@v0.0.9
 	@go install github.com/santhosh-tekuri/jsonschema/cmd/jv@v0.4.0
@@ -93,6 +93,20 @@ generate-docs:
 	@md-gen gen --input schemas/public/onpremises-kfd-v1alpha2.json --output docs/schemas/onpremises-kfd-v1alpha2.md --overwrite --banner banners/onpremises.md
 	@md-gen gen --input schemas/public/kfddistribution-kfd-v1alpha2.json --output docs/schemas/kfddistribution-kfd-v1alpha2.md --overwrite --banner banners/kfddistribution.md
 	@md-gen gen --input schemas/public/ekscluster-kfd-v1alpha2.json --output docs/schemas/ekscluster-kfd-v1alpha2.md --overwrite --banner banners/ekscluster.md
+
+.PHONY: generate-np-diagrams
+generate-np-diagrams:
+	docker run --rm -v $(PWD)/docs/network-policies:/workdir minlag/mermaid-cli:latest -i "/workdir/overview.md" -o "/workdir/overview.png" -w 2048 -H 1536 -b white
+	docker run --rm -v $(PWD)/docs/network-policies/modules/auth:/workdir minlag/mermaid-cli:latest -i "/workdir/sso.md" -o "/workdir/sso.png" -w 2048 -H 1536 -b white
+	docker run --rm -v $(PWD)/docs/network-policies/modules/ingress:/workdir minlag/mermaid-cli:latest -i "/workdir/single.md" -o "/workdir/single.png" -w 2048 -H 1536 -b white
+	docker run --rm -v $(PWD)/docs/network-policies/modules/ingress:/workdir minlag/mermaid-cli:latest -i "/workdir/dual.md" -o "/workdir/dual.png" -w 2048 -H 1536 -b white
+	docker run --rm -v $(PWD)/docs/network-policies/modules/logging:/workdir minlag/mermaid-cli:latest -i "/workdir/loki.md" -o "/workdir/loki.png" -w 2048 -H 1536 -b white
+	docker run --rm -v $(PWD)/docs/network-policies/modules/logging:/workdir minlag/mermaid-cli:latest -i "/workdir/opensearch.md" -o "/workdir/opensearch.png" -w 2048 -H 1536 -b white
+	docker run --rm -v $(PWD)/docs/network-policies/modules/monitoring:/workdir minlag/mermaid-cli:latest -i "/workdir/mimir.md" -o "/workdir/mimir.png" -w 2048 -H 1536 -b white
+	docker run --rm -v $(PWD)/docs/network-policies/modules/monitoring:/workdir minlag/mermaid-cli:latest -i "/workdir/prometheus.md" -o "/workdir/prometheus.png" -w 2048 -H 1536 -b white
+	docker run --rm -v $(PWD)/docs/network-policies/modules/opa:/workdir minlag/mermaid-cli:latest -i "/workdir/gatekeeper.md" -o "/workdir/gatekeeper.png" -w 2048 -H 1536 -b white
+	docker run --rm -v $(PWD)/docs/network-policies/modules/opa:/workdir minlag/mermaid-cli:latest -i "/workdir/kyverno.md" -o "/workdir/kyverno.png" -w 2048 -H 1536 -b white
+	docker run --rm -v $(PWD)/docs/network-policies/modules/tracing:/workdir minlag/mermaid-cli:latest -i "/workdir/tempo.md" -o "/workdir/tempo.png" -w 2048 -H 1536 -b white
 
 .PHONY: dump-private-schema
 dump-private-schema:

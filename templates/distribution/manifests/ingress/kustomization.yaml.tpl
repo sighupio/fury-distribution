@@ -24,6 +24,10 @@ resources:
 
 {{- end }}
 
+{{ if eq .spec.distribution.common.networkPoliciesEnabled true }}
+  - policies
+{{- end }}
+
 {{- if ne .spec.distribution.modules.ingress.nginx.type "none" }}
   - {{ print "../" .spec.distribution.common.relativeVendorPath "/modules/ingress/katalog/forecastle" }}
 {{- end }}
@@ -37,7 +41,7 @@ resources:
   - resources/ingress-infra.yml
 {{- end }}
 
-{{ if eq .spec.distribution.modules.ingress.nginx.tls.provider "secret" }}
+{{ if and (eq .spec.distribution.modules.ingress.nginx.tls.provider "secret") (ne .spec.distribution.modules.ingress.nginx.type "none") }}
   - secrets/tls.yml
 {{- end }}
 
@@ -92,14 +96,14 @@ patchesJson6902:
       group: apps
       version: v1
       kind: DaemonSet
-      name: nginx-ingress-controller-external
+      name: ingress-nginx-controller-external
       namespace: ingress-nginx
     path: patchesJson/ingress-nginx.yml
   - target:
       group: apps
       version: v1
       kind: DaemonSet
-      name: nginx-ingress-controller-internal
+      name: ingress-nginx-controller-internal
       namespace: ingress-nginx
     path: patchesJson/ingress-nginx.yml
   {{- else if eq .spec.distribution.modules.ingress.nginx.type "single" }}
@@ -107,7 +111,7 @@ patchesJson6902:
       group: apps
       version: v1
       kind: DaemonSet
-      name: nginx-ingress-controller
+      name: ingress-nginx-controller
       namespace: ingress-nginx
     path: patchesJson/ingress-nginx.yml
   {{- end }}

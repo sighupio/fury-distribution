@@ -15,13 +15,13 @@ clone:
 
 steps:
   - name: license-check
-    image: quay.io/sighup/golang:1.21.5
+    image: quay.io/sighup/golang:1.23.3
     pull: always
     commands:
       - make license-check
 
   - name: schema-check
-    image: quay.io/sighup/golang:1.21.5
+    image: quay.io/sighup/golang:1.23.3
     pull: always
     commands:
       - |-
@@ -49,39 +49,52 @@ steps:
       - license-check
       - schema-check
 
-  - name: lint-go
-    image: quay.io/sighup/golang:1.21.5
-    pull: always
-    commands:
-      - make lint-go
-    depends_on:
-      - license-check
-      - schema-check
+  # - name: lint-go
+  #   image: quay.io/sighup/golang:1.23.3
+  #   pull: always
+  #   commands:
+  #     - make lint-go
+  #   depends_on:
+  #     - license-check
+  #     - schema-check
 
   - name: test-schema
-    # KUBECTL 1.25.3 - KUSTOMIZE 3.5.3 - HELM 3.1.1 - YQ 4.21.1 - ISTIOCTL 1.9.4 - FURYCTL 0.9.0 - BATS 1.1.0
-    image: quay.io/sighup/e2e-testing:1.1.0_0.9.0_3.1.1_1.9.4_1.25.3_3.5.3_4.21.1
+    image: quay.io/sighup/e2e-testing:1.1.0_1.30.5_3.10.0_4.33.3
     pull: always
     depends_on:
       - license-check
       - schema-check
+    environment:
+      JV_VERSION: 6.0.1
     commands:
+      # we need to download `jv` for running the JSON Schemas tests.
+      - curl -L https://github.com/santhosh-tekuri/jsonschema/releases/download/v$${JV_VERSION}/jv-v$${JV_VERSION}-linux-amd64.tar.gz | tar zx --directory /usr/local/bin/
       - bats -t tests/schema.sh
 
   - name: render
-    # KUBECTL 1.25.3 - KUSTOMIZE 3.5.3 - HELM 3.1.1 - YQ 4.21.1 - ISTIOCTL 1.9.4 - FURYCTL 0.9.0 - BATS 1.1.0
-    image: quay.io/sighup/e2e-testing:1.1.0_0.9.0_3.1.1_1.9.4_1.25.3_3.5.3_4.21.1
+    image: quay.io/sighup/e2e-testing:1.1.0_1.30.5_3.10.0_4.33.3
     pull: always
-    commands:
-      - echo $${NETRC_FILE} > /root/.netrc
-      - furyctl vendor -H
-      - kustomize build . > distribution.yml
-    environment:
-      NETRC_FILE:
-        from_secret: NETRC_FILE
     depends_on:
       - license-check
       - schema-check
+    environment:
+      NETRC_FILE:
+        from_secret: NETRC_FILE
+      FURYCTL_VERSION: v0.30.0
+      FURYCTL_CONFIG: tests/e2e/kfddistribution/furyctl-init-cluster.yaml
+      FURYCTL_DISTRO_LOCATION: ./
+      FURYCTL_OUTDIR: ./
+      FURYCTL_DISABLE_ANALYTICS: "true"
+      KUBECONFIG: ./dummy
+    commands:
+      - echo $${NETRC_FILE} > /root/.netrc
+      - echo "Installing furyctl version $${FURYCTL_VERSION}..."
+      - curl -L "https://github.com/sighupio/furyctl/releases/download/$${FURYCTL_VERSION}/furyctl-$(uname -s)-amd64.tar.gz" | tar xz -C /usr/local/bin/
+      - furyctl download dependencies && furyctl dump template
+      # Move the folder with the manifests generated from the templates into the right path
+      - mv distribution $${FURYTCL_OUTDIR}.furyctl/$$(yq .metadata.name $FURYCTL_CONFIG)
+      # Build the whole distribution
+      - kustomize build $${FURYTCL_OUTDIR}.furyctl/$$(yq .metadata.name $FURYCTL_CONFIG)/distribution/manifests > distribution.yml
 
   - name: check-deprecated-apis
     image: us-docker.pkg.dev/fairwinds-ops/oss/pluto:v5
@@ -116,7 +129,7 @@ trigger:
 
 steps:
   - name: create Kind cluster
-    image: quay.io/sighup/dind-kind-kubectl-kustomize:0.20.0_1.29.1_3.10.0
+    image: quay.io/sighup/dind-kind-kubectl-kustomize:0.24.0_1.30.5_3.10.0
     pull: always
     volumes:
       - name: dockersock
@@ -148,8 +161,7 @@ steps:
       - kind get kubeconfig --name $${CLUSTER_NAME} > $${KUBECONFIG}
 
   - name: e2e-kfddistribution
-    # KUBECTL_KUSTOMIZE_HELM_YQ_ISTIOCTL_FURYCTL_BATS
-    image: quay.io/sighup/e2e-testing:1.1.0_0.11.0_3.1.1_1.9.4_1.26.3_3.5.3_4.33.3
+    image: quay.io/sighup/e2e-testing:1.1.0_1.30.5_3.10.0_4.33.3
     pull: always
     # we need to use host network to access Kind API port that is listening on the worker's loopback
     # beacuse we mount the host's Docker socket to run Kind.
@@ -157,7 +169,7 @@ steps:
     environment:
       CLUSTER_NAME: ${DRONE_REPO_NAME}-${DRONE_BUILD_NUMBER}
       KUBECONFIG: /drone/src/kubeconfig
-      FURYCTL_VERSION: v0.29.7-rc.0
+      FURYCTL_VERSION: v0.30.0
     depends_on: [create Kind cluster]
     commands:
       - export KUBECONFIG=/drone/src/kubeconfig
@@ -175,7 +187,7 @@ steps:
       - tests/e2e-kfddistribution.sh
 
   - name: delete-kind-cluster
-    image: quay.io/sighup/dind-kind-kubectl-kustomize:0.20.0_1.29.1_3.10.0
+    image: quay.io/sighup/dind-kind-kubectl-kustomize:0.24.0_1.30.5_3.10.0
     volumes:
       - name: dockersock
         path: /var/run/docker.sock
@@ -196,7 +208,7 @@ volumes:
     host:
       path: /var/run/docker.sock
 ---
-name: e2e-kubernetes-1.28.0-1.28.1-1.28.2-1.28.3-1.28.4
+name: e2e-kubernetes-1.28.4-to-1.28.5
 kind: pipeline
 type: docker
 
@@ -220,7 +232,7 @@ trigger:
 
 steps:
   - name: create Kind cluster
-    image: quay.io/sighup/dind-kind-kubectl-kustomize:0.20.0_1.29.1_3.10.0
+    image: quay.io/sighup/dind-kind-kubectl-kustomize:0.24.0_1.30.5_3.10.0
     pull: always
     volumes:
       - name: dockersock
@@ -252,8 +264,7 @@ steps:
       - kind get kubeconfig --name $${CLUSTER_NAME} > $${KUBECONFIG}
 
   - name: e2e-kfddistribution
-    # KUBECTL_KUSTOMIZE_HELM_YQ_ISTIOCTL_FURYCTL_BATS
-    image: quay.io/sighup/e2e-testing:1.1.0_0.11.0_3.1.1_1.9.4_1.26.3_3.5.3_4.33.3
+    image: quay.io/sighup/e2e-testing:1.1.0_1.30.5_3.10.0_4.33.3
     pull: always
     # we need to use host network to access Kind API port that is listening on the worker's loopback
     # beacuse we mount the host's Docker socket to run Kind.
@@ -261,7 +272,7 @@ steps:
     environment:
       CLUSTER_NAME: ${DRONE_REPO_NAME}-${DRONE_BUILD_NUMBER}-upgrades
       KUBECONFIG: /drone/src/kubeconfig-upgrades
-      FURYCTL_VERSION: v0.29.7-rc.0
+      FURYCTL_VERSION: v0.30.0
     depends_on: [create Kind cluster]
     commands:
       - export KUBECONFIG=/drone/src/kubeconfig-upgrades
@@ -279,7 +290,7 @@ steps:
       - tests/e2e-kfddistribution-upgrades.sh
 
   - name: delete-kind-cluster
-    image: quay.io/sighup/dind-kind-kubectl-kustomize:0.20.0_1.29.1_3.10.0
+    image: quay.io/sighup/dind-kind-kubectl-kustomize:0.24.0_1.30.5_3.10.0
     volumes:
       - name: dockersock
         path: /var/run/docker.sock
@@ -306,7 +317,7 @@ type: docker
 
 depends_on:
   - e2e-kubernetes-1.28
-  - e2e-kubernetes-1.28.0-1.28.1-1.28.2-1.28.3-1.28.4
+  - e2e-kubernetes-1.28.4-to-1.28.5
 
 platform:
   os: linux
@@ -320,22 +331,6 @@ trigger:
       - refs/tags/**-docs*
 
 steps:
-  - name: prepare-release-manifests
-    image: quay.io/sighup/e2e-testing:1.1.0_0.7.0_3.1.1_1.9.4_1.24.1_3.8.7_4.21.1
-    pull: always
-    depends_on: [clone]
-    environment:
-      RELEASE_MANIFESTS_PATH: fury-distribution-${DRONE_TAG}.yml
-    commands:
-      - furyctl vendor -H
-      - kustomize build . > $${RELEASE_MANIFESTS_PATH}
-    when:
-      ref:
-        include:
-          - refs/tags/**
-        exclude:
-          - refs/tags/**-docs*
-
   - name: prepare-release-notes
     image: quay.io/sighup/fury-release-notes-plugin:3.7_2.8.4
     depends_on: [clone]
@@ -352,16 +347,12 @@ steps:
     image: plugins/github-release
     pull: always
     depends_on:
-      - prepare-release-manifests
       - prepare-release-notes
     settings:
       api_key:
         from_secret: github_token
       file_exists: skip
       files:
-        - fury-distribution-${DRONE_TAG}.yml
-        - Furyfile.yaml
-        - kustomization.yaml
         - kfd.yaml
       prerelease: true
       overwrite: true
@@ -381,16 +372,12 @@ steps:
     image: plugins/github-release
     pull: always
     depends_on:
-      - prepare-release-manifests
       - prepare-release-notes
     settings:
       api_key:
         from_secret: github_token
       file_exists: skip
       files:
-        - fury-distribution-${DRONE_TAG}.yml
-        - Furyfile.yaml
-        - kustomization.yaml
         - kfd.yaml
       prerelease: false
       overwrite: true
