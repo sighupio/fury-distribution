@@ -9,4 +9,6 @@ metadata:
   name: manifests
   namespace: kube-system
 spec:
-  schedule: {{ .spec.distribution.modules.dr.velero.schedules.cron.manifests }}
+  schedule: "{{ .spec.distribution.modules.dr.velero.schedules.definitions.manifests.schedule }}"
+  template:
+    ttl: "{{ .spec.distribution.modules.dr.velero.schedules.definitions.manifests.ttl }}"

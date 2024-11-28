@@ -47,6 +47,9 @@ resources:
   - {{ print "../" .spec.distribution.common.relativeVendorPath "/modules/logging/katalog/loki-distributed" }}
 {{- end }}
 
+{{ if eq .spec.distribution.common.networkPoliciesEnabled true }}
+  - policies
+{{- end }}
 
 # The kustomize version we are using does not support specifing more than 1 strategicMerge patch
 # in a single YAML file under the `patches` directive like the old versions did for `patchesStrategicMerge`.

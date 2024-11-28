@@ -9,4 +9,8 @@ metadata:
   name: full
   namespace: kube-system
 spec:
-  schedule: {{ .spec.distribution.modules.dr.velero.schedules.cron.full }}
+  schedule: "{{ .spec.distribution.modules.dr.velero.schedules.definitions.full.schedule }}"
+  template:
+    ttl: "{{ .spec.distribution.modules.dr.velero.schedules.definitions.full.ttl }}"
+    snapshotMoveData: {{ .spec.distribution.modules.dr.velero.schedules.definitions.full.snapshotMoveData }}
+

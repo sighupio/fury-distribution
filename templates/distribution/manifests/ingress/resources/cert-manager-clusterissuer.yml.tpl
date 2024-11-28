@@ -31,11 +31,15 @@ spec:
         ingress:
           class: {{ template "globalIngressClass" (dict "type" "external" "spec" .spec) }}
           podTemplate:
+            metadata:
+              labels:
+                app: cert-manager
             spec:
               nodeSelector:
-                {{ template "nodeSelector" $certManagerArgs }}
+                {{- /* NOTE!: merge order is important below */}}
+                {{ template "nodeSelector" ( merge (dict "returnEmptyInsteadOfNull" true) $certManagerArgs )  }}
               tolerations:
-                {{ template "tolerations" ( merge (dict "indent" 16) $certManagerArgs ) }}
+                {{ template "tolerations" ( merge (dict "indent" 16 "returnEmptyInsteadOfNull" true) $certManagerArgs ) }}
 {{- end -}}
 {{- else if .spec.distribution.modules.ingress.certManager.clusterIssuer.solvers }}
     solvers:

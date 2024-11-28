@@ -19,11 +19,11 @@ spec:
       vpcId: vpc-0123456789abcdef0
       ssh:
         allowedFromCidrs:
-        - 0.0.0.0/0
+          - 0.0.0.0/0
         githubUsersName:
-        - jnardiello
+          - jnardiello
         publicKeys:
-        - ssh-ed25519 SomethingSomething engineering@sighup.io
+          - ssh-ed25519 SomethingSomething engineering@sighup.io
       vpnClientsSubnetCidr: 192.168.200.0/24
   kubernetes:
     apiServer:
@@ -38,10 +38,12 @@ spec:
       - subnet-0123456789abcdef2
     nodeAllowedSshPublicKey: ssh-ed25519 SomethingSomething engineering@sighup.io
     nodePoolsLaunchKind: both
+    nodePoolGlobalAmiType: "alinux2"
     nodePools:
       - ami:
           id: ami-01234567890123456
           owner: "123456789012"
+        type: self-managed
         instance:
           type: t3.large
         name: worker-eks
@@ -51,37 +53,37 @@ spec:
   distribution:
     customPatches:
       configMapGenerator:
-      - name: a-configmap
-        files:
-          - /path/to/config.example
-      - name: b-configmap
-        envs:
-          - /path/to/envs.env
+        - name: a-configmap
+          files:
+            - /path/to/config.example
+        - name: b-configmap
+          envs:
+            - /path/to/envs.env
       patches:
-      - target:
-          group: ""
-          version: v1
-          kind: Service
-          name: cluster-autoscaler
-          namespace: kube-system
-        path: /path/to/patch.yaml
+        - target:
+            group: ""
+            version: v1
+            kind: Service
+            name: cluster-autoscaler
+            namespace: kube-system
+          path: /path/to/patch.yaml
       patchesStrategicMerge:
-      - |
-        ---
-        apiVersion: v1
-        kind: Service
-        metadata:
-          labels:
-            label1: value1
-          name: cluster-autoscaler
-          namespace: kube-system
+        - |
+          ---
+          apiVersion: v1
+          kind: Service
+          metadata:
+            labels:
+              label1: value1
+            name: cluster-autoscaler
+            namespace: kube-system
       secretGenerator:
-      - name: a-secret
-        files:
-          - /path/to/config.example
-      - name: b-secret
-        envs:
-          -  /path/to/envs.env
+        - name: a-secret
+          files:
+            - /path/to/config.example
+        - name: b-secret
+          envs:
+            - /path/to/envs.env
     common:
       provider:
         type: eks
@@ -92,8 +94,8 @@ spec:
         ebsCsiDriver:
           iamRoleArn: arn:aws:iam::123456789012:role/ebs-csi-driver
         loadBalancerController:
-            iamRoleArn: arn:aws:iam::123456789012:role/load-balancer-controller
-        overrides: { }
+          iamRoleArn: arn:aws:iam::123456789012:role/load-balancer-controller
+        overrides: {}
       dr:
         type: eks
         velero:
@@ -141,9 +143,9 @@ spec:
       policy:
         type: gatekeeper
         gatekeeper:
-           additionalExcludedNamespaces: []
-           installDefaultPolicies: true
-           enforcementAction: deny
+          additionalExcludedNamespaces: []
+          installDefaultPolicies: true
+          enforcementAction: deny
   distributionVersion: v1.24.1
   region: eu-west-1
   toolsConfiguration:

@@ -32,6 +32,7 @@ cluster_service_ipv4_cidr = null
 cluster_service_ipv4_cidr = {{ .spec.kubernetes.serviceIpV4Cidr | quote }}
 {{- end }}
 node_pools_launch_kind = {{ .spec.kubernetes.nodePoolsLaunchKind | quote }}
+node_pools_global_ami_type = {{ .spec.kubernetes.nodePoolGlobalAmiType | quote }}
 
 {{- if hasKeyAny .spec.kubernetes "logRetentionDays" }}
 cluster_log_retention_days = {{ .spec.kubernetes.logRetentionDays }}
@@ -97,7 +98,11 @@ workers_iam_role_name_prefix_override = {{ .spec.kubernetes.workersIAMRoleNamePr
         {{- end}}
 
         {{- if hasKeyAny $np "ami" }}
-            {{- $currNodePool = mergeOverwrite $currNodePool (dict "ami_id" $np.ami.id) }}
+            {{- if and (eq $np.type "self-managed") (hasKeyAny $np.ami "id") (not (hasKeyAny $np.ami "type")) }}
+                {{- $currNodePool = mergeOverwrite $currNodePool (dict "ami_id" $np.ami.id "ami_owners" (list $np.ami.owner))  }}
+            {{- else if and (hasKeyAny $np.ami "type") (not (hasKeyAny $np.ami "id")) }}
+                {{- $currNodePool = mergeOverwrite $currNodePool (dict "ami_type" $np.ami.type) }}
+            {{- end }}
         {{- end }}
 
         {{- if hasKeyAny $np.instance "spot" }}

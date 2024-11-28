@@ -50,6 +50,9 @@ all:
         kubernetes_users_names:
 {{ .spec.kubernetes.advanced.users.names | toYaml | indent 10 }}
         {{- end }}
+        {{- if index .spec.kubernetes.advanced.users "org" }}
+        kubernetes_users_org: "{{ .spec.kubernetes.advanced.users.org }}"
+        {{- end }}
         {{- end }}
 
         {{- if and (index .spec.kubernetes "advanced") (index .spec.kubernetes.advanced "oidc") }}
@@ -75,11 +78,12 @@ all:
         {{- if index .spec.kubernetes.advanced.oidc "group_prefix" }}
         oidc_group_prefix: "{{ .spec.kubernetes.advanced.oidc.group_prefix }}"
         {{- end }}
-
         {{- end }}
 
+        {{- if index .spec.kubernetes "advanced" }}
         {{- if and (index .spec.kubernetes.advanced "registry") (ne .spec.kubernetes.advanced.registry "") }}
         kubernetes_image_registry: "{{ .spec.kubernetes.advanced.registry }}"
+        {{- end }}
         {{- end }}
     nodes:
       children:

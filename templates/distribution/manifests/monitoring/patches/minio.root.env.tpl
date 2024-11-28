@@ -1,2 +1,2 @@
-ROOT_PASSWORD={{ .spec.distribution.modules.monitoring.minio.rootUser.password }}
-ROOT_USER={{ .spec.distribution.modules.monitoring.minio.rootUser.username }}
+rootPassword={{ .spec.distribution.modules.monitoring.minio.rootUser.password }}
+rootUser={{ .spec.distribution.modules.monitoring.minio.rootUser.username }}
