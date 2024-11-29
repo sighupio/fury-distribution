@@ -10,10 +10,13 @@ metadata:
     cluster.kfd.sighup.io/useful-link.enable: "true"
   annotations:
     cluster.kfd.sighup.io/useful-link.url: https://{{ template "hubbleUrl" .spec }}
-    cluster.kfd.sighup.io/useful-link.name: "Cilium Hubble"
+    cluster.kfd.sighup.io/useful-link.name: "Cilium Hubble UI"
     forecastle.stakater.com/expose: "true"
-    forecastle.stakater.com/appName: "Cilium Hubble"
+    forecastle.stakater.com/appName: "Cilium Hubble UI"
     forecastle.stakater.com/icon: "https://cilium.io/static/hubble-light-1-812e65cbb72a7f4efed59fcea48df840.svg"
+    {{ if and (not .spec.distribution.modules.ingress.overrides.ingresses.forecastle.disableAuth) (eq .spec.distribution.modules.auth.provider.type "sso") }}
+    forecastle.stakater.com/group: "networking"
+    {{ end }}
     {{ if not .spec.distribution.modules.networking.overrides.ingresses.hubble.disableAuth }}{{ template "ingressAuth" . }}{{ end }}
     {{ template "certManagerClusterIssuer" . }}
   name: hubble

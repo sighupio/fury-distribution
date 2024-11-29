@@ -15,7 +15,7 @@ data:
     relativeVendorPath: "../../vendor"
     provider:
       type: none
-
+    networkPoliciesEnabled: false
   # the module section will be used to fine tune each module behaviour and configuration
   modules:
     # ingress module configuration
@@ -221,7 +221,7 @@ data:
       kyverno:
         # this configuration adds namespaces to the excluded list, actually whitelisting them
         additionalExcludedNamespaces: []
-        validationFailureAction: enforce
+        validationFailureAction: Enforce
         installDefaultPolicies: true
     # dr module configuration
     dr:
@@ -240,9 +240,16 @@ data:
           bucketName: velerobucket
         schedules:
           install: true
-          cron:
-            manifests: ""
-            full: ""
+          definitions:
+            manifests:
+              schedule: "*/15 * * * *"
+              ttl: "720h0m0s"
+            full:
+              schedule: "0 1 * * *"
+              ttl: "720h0m0s"
+              snapshotMoveData: false
+        snapshotController:
+          install: false
     # auth module configuration
     auth:
       overrides:

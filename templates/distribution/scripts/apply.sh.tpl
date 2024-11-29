@@ -43,7 +43,7 @@ $kubectlbin create namespace calico-system --dry-run=client -o yaml | $kubectlbi
 < out.yaml $yqbin 'select(.kind == "CustomResourceDefinition")' | $kubectlbin apply -f - --server-side
 < out.yaml $yqbin 'select(.kind == "CustomResourceDefinition")' | $kubectlbin wait --for condition=established --timeout=60s -f -
 
-echo "Clean up init jobs, since they cannot be changed without conficts and they are idempotent by nature..."
+echo "Clean up old init jobs..."
 
 $kubectlbin delete --ignore-not-found --wait --timeout=180s job minio-setup -n kube-system
 $kubectlbin delete --ignore-not-found --wait --timeout=180s job minio-logging-buckets-setup -n logging
@@ -62,14 +62,14 @@ $kubectlbin delete --ignore-not-found --wait --timeout=180s job minio-tracing-bu
   | $kubectlbin apply -f - --server-side
 
 {{- if eq .spec.distribution.modules.ingress.nginx.type "dual" }}
-$kubectlbin rollout status daemonset nginx-ingress-controller-external -n ingress-nginx --timeout=180s
+$kubectlbin rollout status daemonset ingress-nginx-controller-external -n ingress-nginx --timeout=180s
 
-$kubectlbin rollout status daemonset nginx-ingress-controller-internal -n ingress-nginx --timeout=180s
+$kubectlbin rollout status daemonset ingress-nginx-controller-internal -n ingress-nginx --timeout=180s
 
 {{- end }}
 
 {{- if eq .spec.distribution.modules.ingress.nginx.type "single" }}
-$kubectlbin rollout status daemonset nginx-ingress-controller -n ingress-nginx --timeout=180s
+$kubectlbin rollout status daemonset ingress-nginx-controller -n ingress-nginx --timeout=180s
 
 {{- end }}
 

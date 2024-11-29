@@ -7,8 +7,8 @@
 <p align="center">Kubernetes Fury Distribution (KFD) is a certified battle-tested Kubernetes distribution based purely on upstream Kubernetes.</p>
 <!-- markdownlint-enable MD033 MD045 -->
 
-[![Build Status](http://ci.sighup.io/api/badges/sighupio/fury-distribution/status.svg?ref=refs/tags/v1.28.4)](http://ci.sighup.io/sighupio/fury-distribution)
-[![Release](https://img.shields.io/badge/release-v1.28.4-blue?label=FuryDistributionRelease)](https://github.com/sighupio/fury-distribution/releases/latest)
+[![Build Status](http://ci.sighup.io/api/badges/sighupio/fury-distribution/status.svg?ref=refs/tags/v1.28.5)](http://ci.sighup.io/sighupio/fury-distribution)
+[![Release](https://img.shields.io/badge/release-v1.28.5-blue?label=FuryDistributionRelease)](https://github.com/sighupio/fury-distribution/releases/latest)
 [![Slack](https://img.shields.io/badge/slack-@kubernetes/fury-yellow.svg?logo=slack)](https://kubernetes.slack.com/archives/C0154HYTAQH)
 [![License](https://img.shields.io/github/license/sighupio/fury-distribution)](https://github.com/sighupio/fury-distribution/blob/main/LICENSE)
 
@@ -130,9 +130,9 @@ Current supported versions of KFD are:
 
 |                                  KFD Version                                   | Kubernetes Version |
 | :----------------------------------------------------------------------------: | :----------------: |
-| [`1.29.3`](https://github.com/sighupio/fury-distribution/releases/tag/v1.29.3) |      `1.29.x`      |
-| [`1.28.4`](https://github.com/sighupio/fury-distribution/releases/tag/v1.28.3) |      `1.28.x`      |
-| [`1.27.8`](https://github.com/sighupio/fury-distribution/releases/tag/v1.27.8) |      `1.27.x`      |
+| [`1.30.0`](https://github.com/sighupio/fury-distribution/releases/tag/v1.30.0) |      `1.30.x`      |
+| [`1.29.5`](https://github.com/sighupio/fury-distribution/releases/tag/v1.29.5) |      `1.29.x`      |
+| [`1.28.5`](https://github.com/sighupio/fury-distribution/releases/tag/v1.28.5) |      `1.28.x`      |
 
 Check the [compatibility matrix][compatibility-matrix] for additional information about previous releases of the Distribution and the compatibility with `furyctl`.
 
@@ -174,14 +174,14 @@ KFD is open-source software and it's released under the following [LICENSE](LICE
 [dr-module]: https://github.com/sighupio/fury-kubernetes-dr
 [opa-module]: https://github.com/sighupio/fury-kubernetes-opa
 [auth-module]: https://github.com/sighupio/fury-kubernetes-auth
-[networking-version]: https://img.shields.io/badge/release-v1.17.0-blue
-[ingress-version]: https://img.shields.io/badge/release-v2.3.3-blue
-[logging-version]: https://img.shields.io/badge/release-v3.4.1-blue
-[monitoring-version]: https://img.shields.io/badge/release-v3.2.0-blue
-[tracing-version]: https://img.shields.io/badge/release-v1.0.3-blue
-[dr-version]: https://img.shields.io/badge/release-v2.3.0-blue
-[opa-version]: https://img.shields.io/badge/release-v1.12.0-blue
-[auth-version]: https://img.shields.io/badge/release-v0.3.0-blue
+[networking-version]: https://img.shields.io/badge/release-v2.0.0-blue
+[ingress-version]: https://img.shields.io/badge/release-v3.0.1-blue
+[logging-version]: https://img.shields.io/badge/release-v4.0.0-blue
+[monitoring-version]: https://img.shields.io/badge/release-v3.3.0-blue
+[tracing-version]: https://img.shields.io/badge/release-v1.1.0-blue
+[dr-version]: https://img.shields.io/badge/release-v3.0.0-blue
+[opa-version]: https://img.shields.io/badge/release-v1.13.0-blue
+[auth-version]: https://img.shields.io/badge/release-v0.4.0-blue
 
 <!-- Addon Modules -->
 

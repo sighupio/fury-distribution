@@ -13,7 +13,8 @@ resources:
   - {{ print "../" .spec.distribution.common.relativeVendorPath "/modules/aws/katalog/snapshot-controller" }}
   - {{ print "../" .spec.distribution.common.relativeVendorPath "/modules/aws/katalog/load-balancer-controller" }}
   - {{ print "../" .spec.distribution.common.relativeVendorPath "/modules/aws/katalog/node-termination-handler" }}
-  - resources/sc.yml
+  - resources/storageclasses.yml
+  - resources/snapshotclasses.yml
 
 patchesStrategicMerge:
   - patches/cluster-autoscaler.yml

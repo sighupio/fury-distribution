@@ -11,99 +11,101 @@
 # And the error "missing properties: 'aws'" is returned
 
 ---
-  apiVersion: kfd.sighup.io/v1alpha2
-  kind: EKSCluster
-  metadata:
-    name: furyctl-dev-aws-al
-  spec:
-    infrastructure:
-      vpc:
-        network:
-          cidr: 10.0.0.0/16
-          subnetsCidrs:
-            private:
+apiVersion: kfd.sighup.io/v1alpha2
+kind: EKSCluster
+metadata:
+  name: furyctl-dev-aws-al
+spec:
+  infrastructure:
+    vpc:
+      network:
+        cidr: 10.0.0.0/16
+        subnetsCidrs:
+          private:
             - 10.0.182.0/24
             - 10.0.172.0/24
             - 10.0.162.0/24
-            public:
+          public:
             - 10.0.20.0/24
             - 10.0.30.0/24
             - 10.0.40.0/24
-      vpn:
-        ssh:
-          allowedFromCidrs:
+    vpn:
+      ssh:
+        allowedFromCidrs:
           - 0.0.0.0/0
-          githubUsersName:
+        githubUsersName:
           - jnardiello
-          publicKeys:
+        publicKeys:
           - ssh-ed25519 SomethingSomething engineering@sighup.io
-        vpnClientsSubnetCidr: 192.168.200.0/24
-    kubernetes:
-    apiServer:
-      privateAccess: true
-      privateAccessCidrs: ["0.0.0.0/0"]
-      publicAccessCidrs: []
-      publicAccess: false
-      nodeAllowedSshPublicKey: ssh-ed25519 SomethingSomething engineering@sighup.io
-      nodePoolsLaunchKind: both
-      nodePools:
-        - ami:
-            id: ami-01234567890123456
-            owner: "123456789012"
-          instance:
-            type: t3.large
-          name: worker-eks
-          size:
-            max: 3
-            min: 2
-    distribution:
-      common:
+      vpnClientsSubnetCidr: 192.168.200.0/24
+  kubernetes:
+  apiServer:
+    privateAccess: true
+    privateAccessCidrs: ["0.0.0.0/0"]
+    publicAccessCidrs: []
+    publicAccess: false
+    nodeAllowedSshPublicKey: ssh-ed25519 SomethingSomething engineering@sighup.io
+    nodePoolsLaunchKind: both
+    nodePoolGlobalAmiType: "alinux2"
+    nodePools:
+      - ami:
+          id: ami-01234567890123456
+          owner: "123456789012"
+        type: self-managed
+        instance:
+          type: t3.large
+        name: worker-eks
+        size:
+          max: 3
+          min: 2
+  distribution:
+    common:
+      provider:
+        type: eks
+    modules:
+      auth:
         provider:
-          type: eks
-      modules:
-        auth:
-          provider:
-            type: basicAuth
-            basicAuth:
-              password: admin
-              username: admin
-        dr:
-          type: eks
-          velero:
-            eks:
-              bucketName: example-velero
-              iamRoleArn: arn:aws:iam::123456789012:role/example-velero
-              region: eu-west-1
-        ingress:
-          baseDomain: furyctl-demo.sighup.io
-          dns:
-            private:
-              create: true
-              name: internal.furyctl-demo.sighup.io
-              vpcId: ""
-            public:
-              create: true
-              name: furyctl-demo.sighup.io
-          nginx:
-            type: single
-            tls:
-              provider: secret
-        logging:
-          type: opensearch
-          opensearch:
-            type: single
-        policy:
-          type: gatekeeper
-        gatekeeper:
-           additionalExcludedNamespaces: []
-           installDefaultPolicies: true
-           enforcementAction: deny
-    distributionVersion: v1.24.1
-    region: eu-west-1
-    toolsConfiguration:
-      terraform:
-        state:
-          s3:
-            bucketName: furyctl-test-eks
-            keyPrefix: furyctl-test
+          type: basicAuth
+          basicAuth:
+            password: admin
+            username: admin
+      dr:
+        type: eks
+        velero:
+          eks:
+            bucketName: example-velero
+            iamRoleArn: arn:aws:iam::123456789012:role/example-velero
             region: eu-west-1
+      ingress:
+        baseDomain: furyctl-demo.sighup.io
+        dns:
+          private:
+            create: true
+            name: internal.furyctl-demo.sighup.io
+            vpcId: ""
+          public:
+            create: true
+            name: furyctl-demo.sighup.io
+        nginx:
+          type: single
+          tls:
+            provider: secret
+      logging:
+        type: opensearch
+        opensearch:
+          type: single
+      policy:
+        type: gatekeeper
+      gatekeeper:
+        additionalExcludedNamespaces: []
+        installDefaultPolicies: true
+        enforcementAction: deny
+  distributionVersion: v1.24.1
+  region: eu-west-1
+  toolsConfiguration:
+    terraform:
+      state:
+        s3:
+          bucketName: furyctl-test-eks
+          keyPrefix: furyctl-test
+          region: eu-west-1

@@ -29,10 +29,12 @@ spec:
       - subnet-0123456789abcdef2
     nodeAllowedSshPublicKey: ssh-ed25519 SomethingSomething engineering@sighup.io
     nodePoolsLaunchKind: both
+    nodePoolGlobalAmiType: "alinux2"
     nodePools:
       - ami:
           id: ami-01234567890123456
           owner: "123456789012"
+        type: self-managed
         instance:
           type: t3.large
         name: worker-eks
@@ -79,9 +81,9 @@ spec:
       policy:
         type: gatekeeper
         gatekeeper:
-           additionalExcludedNamespaces: []
-           installDefaultPolicies: true
-           enforcementAction: deny
+          additionalExcludedNamespaces: []
+          installDefaultPolicies: true
+          enforcementAction: deny
   distributionVersion: v1.24.1
   region: eu-west-1
   toolsConfiguration:

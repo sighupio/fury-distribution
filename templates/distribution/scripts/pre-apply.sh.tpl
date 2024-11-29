@@ -17,6 +17,21 @@ vendorPath="{{ .paths.vendorPath }}"
 
 # Text generated with: https://www.patorjk.com/software/taag/#p=display&f=ANSI%20Regular&t=TRACING%20TYPE
 
+# ███    ██ ███████ ████████ ██     ██  ██████  ██████  ██   ██     ██████   ██████  ██      ██  ██████ ██ ███████ ███████ 
+# ████   ██ ██         ██    ██     ██ ██    ██ ██   ██ ██  ██      ██   ██ ██    ██ ██      ██ ██      ██ ██      ██      
+# ██ ██  ██ █████      ██    ██  █  ██ ██    ██ ██████  █████       ██████  ██    ██ ██      ██ ██      ██ █████   ███████ 
+# ██  ██ ██ ██         ██    ██ ███ ██ ██    ██ ██   ██ ██  ██      ██      ██    ██ ██      ██ ██      ██ ██           ██ 
+# ██   ████ ███████    ██     ███ ███   ██████  ██   ██ ██   ██     ██       ██████  ███████ ██  ██████ ██ ███████ ███████ 
+
+{{- if index .reducers "distributionCommonNetworkPoliciesEnabled" }}
+
+{{- if eq .reducers.distributionCommonNetworkPoliciesEnabled.to false }}
+  $kubectlbin delete --ignore-not-found --wait --timeout=180s networkpolicies -A -l cluster.kfd.sighup.io/module
+  echo "KFD Network Policies deleted"
+{{- end }}
+
+{{- end }}
+
 # ██       ██████   ██████   ██████  ██ ███    ██  ██████      ████████ ██    ██ ██████  ███████
 # ██      ██    ██ ██       ██       ██ ████   ██ ██              ██     ██  ██  ██   ██ ██
 # ██      ██    ██ ██   ███ ██   ███ ██ ██ ██  ██ ██   ███        ██      ████   ██████  █████
@@ -29,8 +44,8 @@ deleteOpensearch() {
   $kubectlbin delete --ignore-not-found --wait --timeout=180s ingress -n logging opensearch-dashboards
   $kubectlbin delete --ignore-not-found --wait --timeout=180s ingress -n pomerium opensearch-dashboards
 
-  $kustomizebin build $vendorPath/modules/logging/katalog/opensearch-dashboards > delete-opensearch.yaml
-  $kustomizebin build $vendorPath/modules/logging/katalog/opensearch-triple >> delete-opensearch.yaml
+  $kustomizebin build $vendorPath/modules/logging/katalog/opensearch-dashboards > delete-opensearch-dashboards.yaml
+  $kustomizebin build $vendorPath/modules/logging/katalog/opensearch-triple > delete-opensearch.yaml
 
 {{- if eq .spec.distribution.modules.monitoring.type "none" }}
   if ! $kubectlbin get apiservice v1.monitoring.coreos.com; then
@@ -41,6 +56,8 @@ deleteOpensearch() {
 
   $kubectlbin delete --ignore-not-found --wait --timeout=180s -f delete-opensearch.yaml
   $kubectlbin delete --ignore-not-found -l app.kubernetes.io/name=opensearch pvc -n logging --wait --timeout=180s
+  $kubectlbin delete --ignore-not-found --wait --timeout=180s -f delete-opensearch-dashboards.yaml
+  $kubectlbin delete --ignore-not-found --wait --timeout=180s networkpolicies -A -l cluster.kfd.sighup.io/logging-type=opensearch
   echo "OpenSearch resources deleted"
 }
 
@@ -57,6 +74,7 @@ deleteLoki() {
 
   $kubectlbin delete --ignore-not-found --wait --timeout=180s -f delete-loki.yaml
   $kubectlbin delete --ignore-not-found -l app.kubernetes.io/name=loki-distributed pvc -n logging --wait --timeout=180s
+  $kubectlbin delete --ignore-not-found --wait --timeout=180s networkpolicies -A -l cluster.kfd.sighup.io/logging-type=loki
   echo "Loki resources deleted"
 }
 
@@ -81,6 +99,7 @@ $kustomizebin build $vendorPath/modules/logging/katalog/minio-ha > delete-loggin
   fi
 {{- end }}
   $kubectlbin delete --ignore-not-found --wait --timeout=180s -f delete-logging-minio-ha.yaml
+  $kubectlbin delete --ignore-not-found --wait --timeout=180s networkpolicies -A -l cluster.kfd.sighup.io/logging-backend=minio
   echo "Minio Logging deleted"
 }
 
@@ -165,7 +184,7 @@ deleteGatekeeper() {
   $kustomizebin build $vendorPath/modules/opa/katalog/gatekeeper/monitoring | $kubectlbin delete --ignore-not-found --wait --timeout=180s -f -
 {{- end }}
   $kustomizebin build $vendorPath/modules/opa/katalog/gatekeeper/core | $kubectlbin delete --ignore-not-found --wait --timeout=180s -f -
-
+  $kubectlbin delete --ignore-not-found --wait --timeout=180s -A networkpolicy -l cluster.kfd.sighup.io/policy-type=gatekeeper
   echo "Gatekeeper resources deleted"
 }
 
@@ -173,6 +192,7 @@ deleteKyverno() {
   $kustomizebin build $vendorPath/modules/opa/katalog/kyverno | $kubectlbin delete --ignore-not-found --wait --timeout=180s -f -
   $kubectlbin delete --ignore-not-found --wait --timeout=180s validatingwebhookconfiguration -l webhook.kyverno.io/managed-by=kyverno
   $kubectlbin delete --ignore-not-found --wait --timeout=180s mutatingwebhookconfiguration -l webhook.kyverno.io/managed-by=kyverno
+  $kubectlbin delete --ignore-not-found --wait --timeout=180s -A networkpolicy -l cluster.kfd.sighup.io/policy-type=kyverno
   echo "Kyverno resources deleted"
 }
 
@@ -295,6 +315,7 @@ deleteTracingMinioHA() {
   fi
 {{- end }}
   $kubectlbin delete --ignore-not-found --wait --timeout=180s -f delete-tracing-minio-ha.yaml
+  $kubectlbin delete --ignore-not-found --wait --timeout=180s -A networkpolicy -l cluster.kfd.sighup.io/tracing-backend=minio
   echo "Minio HA on tracing namespace deleted"
 }
 
@@ -441,6 +462,8 @@ deleteMimir() {
   $kustomizebin build $vendorPath/modules/monitoring/katalog/minio-ha | $kubectlbin delete --ignore-not-found --wait --timeout=360s -f -
   $kubectlbin delete -l app.kubernetes.io/name=mimir pvc -n monitoring --wait --timeout=360s
   $kubectlbin delete -l app=minio,release=minio-monitoring pvc -n monitoring --wait --timeout=360s
+  $kubectlbin delete ingress minio-monitoring -n monitoring --wait --timeout=360s --ignore-not-found
+  $kubectlbin delete ingress minio-monitoring -n pomerium --wait --timeout=360s --ignore-not-found
   echo "Mimir resources deleted"
 }
 
@@ -519,6 +542,7 @@ deleteMimir() {
 # ██      ██ ██ ██      ██ ██ ██   ██     ██████  ██   ██  ██████ ██   ██ ███████ ██   ████ ██████  
                                                                                                                                   
 
+
 {{- if index .reducers "distributionModulesMonitoringMimirBackend" }}
 
 deleteMimirMinioHA() {
@@ -555,8 +579,8 @@ deleteNginx() {
 
   $kustomizebin build $vendorPath/modules/ingress/katalog/nginx > delete-nginx.yaml
   $kustomizebin build $vendorPath/modules/ingress/katalog/dual-nginx > delete-dual-nginx.yaml
-  $kustomizebin build $vendorPath/modules/ingress/katalog/external-dns/public > delete-external-dns.yaml
-  $kustomizebin build $vendorPath/modules/ingress/katalog/external-dns/private >> delete-external-dns.yaml
+  $kustomizebin build $vendorPath/modules/ingress/katalog/external-dns/public > delete-external-dns-public.yaml
+  $kustomizebin build $vendorPath/modules/ingress/katalog/external-dns/private > delete-external-dns-private.yaml
   $kustomizebin build $vendorPath/modules/ingress/katalog/forecastle > delete-forecastle.yaml
 
 {{- if eq .spec.distribution.modules.monitoring.type "none" }}
@@ -565,13 +589,16 @@ deleteNginx() {
     cp delete-nginx-filtered.yaml delete-nginx.yaml
     cat delete-dual-nginx.yaml | $yqbin 'select(.apiVersion != "monitoring.coreos.com/v1")' > delete-dual-nginx-filtered.yaml
     cp delete-dual-nginx-filtered.yaml delete-dual-nginx.yaml
-    cat delete-external-dns.yaml | $yqbin 'select(.apiVersion != "monitoring.coreos.com/v1")' > delete-external-dns-filtered.yaml
-    cp delete-external-dns-filtered.yaml delete-external-dns.yaml
+    cat delete-external-dns-public.yaml | $yqbin 'select(.apiVersion != "monitoring.coreos.com/v1")' > delete-external-dns-public-filtered.yaml
+    cp delete-external-dns-public-filtered.yaml delete-external-dns-public.yaml
+    cat delete-external-dns-private.yaml | $yqbin 'select(.apiVersion != "monitoring.coreos.com/v1")' > delete-external-dns-private-filtered.yaml
+    cp delete-external-dns-private-filtered.yaml delete-external-dns-private.yaml
     cat delete-forecastle.yaml | $yqbin 'select(.apiVersion != "monitoring.coreos.com/v1")' > delete-forecastle-filtered.yaml
     cp delete-forecastle-filtered.yaml delete-forecastle.yaml
   fi
 {{- end }}
-  $kubectlbin delete --ignore-not-found --wait --timeout=180s -f delete-external-dns.yaml
+  $kubectlbin delete --ignore-not-found --wait --timeout=180s -f delete-external-dns-public.yaml
+  $kubectlbin delete --ignore-not-found --wait --timeout=180s -f delete-external-dns-private.yaml
   $kubectlbin delete --ignore-not-found --wait --timeout=180s -f delete-forecastle.yaml
   $kubectlbin delete --ignore-not-found --wait --timeout=180s -f delete-dual-nginx.yaml
   $kubectlbin delete --ignore-not-found --wait --timeout=180s -f delete-nginx.yaml
@@ -586,6 +613,7 @@ deleteNginxIngresses() {
   $kubectlbin delete --ignore-not-found --wait --timeout=180s ingress -n logging --all
   $kubectlbin delete --ignore-not-found --wait --timeout=180s ingress -n gatekeeper-system --all
   $kubectlbin delete --ignore-not-found --wait --timeout=180s ingress -n ingress-nginx --all
+  $kubectlbin delete --ignore-not-found --wait --timeout=180s ingress -n kube-system --all # hubble, gangplank, dex
   echo "All the infrastructural ingresses associated with nginx have been deleted"
 }
 
@@ -665,39 +693,50 @@ deleteInfraIngresses() {
   $kubectlbin delete --ignore-not-found --wait --timeout=180s ingress -n logging --all
   $kubectlbin delete --ignore-not-found --wait --timeout=180s ingress -n gatekeeper-system --all
   $kubectlbin delete --ignore-not-found --wait --timeout=180s ingress -n ingress-nginx --all
+  $kubectlbin delete --ignore-not-found --wait --timeout=180s ingress -n kube-system --all # hubble, dex, gangplank
   echo "All the infrastructural ingresses have been deleted"
 }
 
 
 {{- if eq .reducers.distributionModulesAuthProviderType.to "none" }}
-
+# Disable Auth
+echo "Deleting Auth module resources"
 deleteDex
 deleteGangplank
 deletePomeriumIngresses
 deletePomerium
-
+echo "All Auth module resources have been deleted"
 {{- end }}
 
-{{- if eq .reducers.distributionModulesAuthProviderType.to "sso" }}
-
-{{- if eq .reducers.distributionModulesAuthProviderType.from "basicAuth" }}
+{{- if eq .reducers.distributionModulesAuthProviderType.from "sso" }}
+    {{- if eq .reducers.distributionModulesAuthProviderType.to "basicAuth" }}
+echo "Running clean up tasks for migrating Auth type from SSO to basicAuth..."
 deleteDex
 deleteGangplank
+# delete infra ingresses in pomerium namspace because they need to be recreated in the right namespace
 deletePomeriumIngresses
 deletePomerium
+echo "Finished clean up tasks for migrating Auth type from SSO to basicAuth."
+    {{- end }}
 {{- end }}
 
+{{- if eq .reducers.distributionModulesAuthProviderType.from "none" }}
+    {{- if eq .reducers.distributionModulesAuthProviderType.to "sso" }}
+    # we need to delete infra ingresses that are present on each namespace before switching to sso, because they will be recreated in the pomerium namespace.
+    deleteInfraIngresses
+    {{- end }}
 {{- end }}
-
-{{- if eq .reducers.distributionModulesAuthProviderType.to "sso" }}
 
 {{- if eq .reducers.distributionModulesAuthProviderType.from "basicAuth" }}
+    {{- if eq .reducers.distributionModulesAuthProviderType.to "sso" }}
+echo "Running clean up tasks for migrating Auth type from basicAuth to SSO..."
 deleteDex
 deleteGangplank
+# delete infra ingresses because they need to be recreated in the pomerium namespace
 deleteInfraIngresses
 deletePomerium
-{{- end }}
-
+echo "Finished clean up tasks for migrating Auth type from basicAuth to SSO."
+    {{- end }}
 {{- end }}
 
 {{- end }} # end distributionModulesAuthProviderType

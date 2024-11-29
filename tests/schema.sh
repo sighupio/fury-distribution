@@ -29,7 +29,7 @@ test_schema() {
     yq "tests/schemas/${KIND}/${APIVER}/${EXAMPLE}.yaml" -o json  > "${TMPDIR}/tests/schemas/${KIND}/${APIVER}/${EXAMPLE}.json"
 
     validate() {
-        jv "schemas/${KIND}/${APIVER}.json" "${TMPDIR}/tests/schemas/${KIND}/${APIVER}/${EXAMPLE}.json"
+        jv "schemas/${KIND}/${APIVER}.json" "${TMPDIR}/tests/schemas/${KIND}/${APIVER}/${EXAMPLE}.json" 2>&1
     }
 
     run validate
@@ -63,8 +63,8 @@ test_schema() {
     expect() {
         expect_no "${1}"
 
-        local EXPECTED_ERROR_1="[S#/\$defs/Spec/else/properties/kubernetes/properties/vpcId/type] expected null, but got string"
-        local EXPECTED_ERROR_2="[S#/\$defs/Spec/else/properties/kubernetes/properties/subnetIds/type] expected null, but got array"
+        local EXPECTED_ERROR_1="at '/spec/kubernetes/vpcId': got string, want null"
+        local EXPECTED_ERROR_2="at '/spec/kubernetes/subnetIds': got array, want null"
 
         if [[ "${output}" != *"${EXPECTED_ERROR_1}"* ]]; then
             return 2
@@ -92,7 +92,7 @@ test_schema() {
     expect() {
         expect_no
 
-        local EXPECTED_ERROR_1="[S#/\$defs/Spec/then/properties/kubernetes/required] missing properties: 'vpcId', 'subnetIds'"
+        local EXPECTED_ERROR_1="at '/spec/kubernetes': missing properties 'vpcId', 'subnetIds'"
 
         if [[ "${output}" != *"${EXPECTED_ERROR_1}"* ]]; then
             return 2
@@ -116,8 +116,8 @@ test_schema() {
     expect() {
         expect_no
 
-        local EXPECTED_ERROR_1="[S#/\$defs/Spec.Distribution.Modules.Auth/allOf/0/else/properties/dex/type] expected null, but got object"
-        local EXPECTED_ERROR_2="[S#/\$defs/Spec.Distribution.Modules.Auth/allOf/0/else/properties/pomerium/type] expected null, but got object"
+        local EXPECTED_ERROR_1="at '/spec/distribution/modules/auth/dex': got object, want null"
+        local EXPECTED_ERROR_2="at '/spec/distribution/modules/auth/pomerium': got object, want null"
 
         if [[ "${output}" != *"${EXPECTED_ERROR_1}"* ]]; then
             return 2
@@ -145,7 +145,7 @@ test_schema() {
     expect() {
         expect_no
 
-        local EXPECTED_ERROR_1="[S#/\$defs/Spec.Distribution.Modules.Auth/allOf/1/then/properties/provider/required] missing properties: 'basicAuth'"
+        local EXPECTED_ERROR_1="at '/spec/distribution/modules/auth/provider': missing property 'basicAuth'"
 
         if [[ "${output}" != *"${EXPECTED_ERROR_1}"* ]]; then
             return 2
@@ -169,7 +169,7 @@ test_schema() {
     expect() {
         expect_no
 
-        local EXPECTED_ERROR_1="[S#/\$defs/Spec.Distribution/else/properties/modules/properties/aws/type] expected null, but got object"
+        local EXPECTED_ERROR_1="at '/spec/distribution/modules/aws': got object, want null"
 
         if [[ "${output}" != *"${EXPECTED_ERROR_1}"* ]]; then
             return 2
@@ -193,8 +193,8 @@ test_schema() {
     expect() {
         expect_no
 
-        local EXPECTED_ERROR_1="[S#/\$defs/Spec.Distribution.Modules.Ingress.Nginx.TLS/then/required] missing properties: 'secret'"
-        local EXPECTED_ERROR_2="[S#/\$defs/Spec.Distribution/then/properties/modules/required] missing properties: 'aws'"
+        local EXPECTED_ERROR_1="at '/spec/distribution/modules/ingress/nginx/tls': missing property 'secret'"
+        local EXPECTED_ERROR_2="at '/spec/distribution/modules': missing property 'aws'"
 
         if [[ "${output}" != *"${EXPECTED_ERROR_1}"* ]]; then
             return 2
@@ -222,7 +222,7 @@ test_schema() {
     expect() {
         expect_no
 
-        local EXPECTED_ERROR_1="[S#/\$defs/Spec.Distribution/then/properties/modules/required] missing properties: 'aws'"
+        local EXPECTED_ERROR_1="at '/spec/distribution/modules': missing property 'aws'"
 
         if [[ "${output}" != *"${EXPECTED_ERROR_1}"* ]]; then
             return 2
@@ -246,7 +246,7 @@ test_schema() {
     expect() {
         expect_no
 
-        local EXPECTED_ERROR_1="[S#/\$defs/Spec.Distribution.CustomPatches.Patch/oneOf] valid against schemas at indexes 0 and 1"
+        local EXPECTED_ERROR_1="at '/spec/distribution/customPatches/patches/0': oneOf failed, subschemas 0, 1 matched"
 
         if [[ "${output}" != *"${EXPECTED_ERROR_1}"* ]]; then
             return 2
@@ -270,7 +270,7 @@ test_schema() {
     expect() {
         expect_no
 
-        local EXPECTED_ERROR_1="additionalProperties 'type' not allowed"
+        local EXPECTED_ERROR_1="at '/spec/distribution/customPatches/configMapGenerator/0': additional properties 'type' not allowed"
 
         if [[ "${output}" != *"${EXPECTED_ERROR_1}"* ]]; then
             return 2
@@ -294,7 +294,7 @@ test_schema() {
     expect() {
         expect_no
 
-        local EXPECTED_ERROR_1="expected null, but got string"
+        local EXPECTED_ERROR_1="at '/spec/infrastructure/vpn/vpcId': got string, want null"
 
         if [[ "${output}" != *"${EXPECTED_ERROR_1}"* ]]; then
             return 2
@@ -318,7 +318,7 @@ test_schema() {
     expect() {
         expect_no
 
-        local EXPECTED_ERROR_1="missing properties: 'vpcId'"
+        local EXPECTED_ERROR_1=" at '/spec/infrastructure/vpn': missing property 'vpcId'"
 
         if [[ "${output}" != *"${EXPECTED_ERROR_1}"* ]]; then
             return 2

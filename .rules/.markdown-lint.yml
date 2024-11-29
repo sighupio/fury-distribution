@@ -22,12 +22,12 @@
 ###############
 # Rules by id #
 ###############
-MD004: false                  # Unordered list style
+MD004: false # Unordered list style
 MD007:
-  indent: 2                   # Unordered list indentation
+  indent: 2 # Unordered list indentation
 MD013:
-  line_length: 808            # Line length
-MD024: false                  # Multiple headers with the same content
+  line_length: 808 # Line length
+MD024: false # Multiple headers with the same content
 MD026:
   punctuation: ".,;:!。，；:"  # List of not allowed
 MD029: false                  # Ordered list item prefix
@@ -39,4 +39,4 @@ MD041: false
 #################
 # Rules by tags #
 #################
-blank_lines: false  # Error on blank lines
+blank_lines: false # Error on blank lines
