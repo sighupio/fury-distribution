@@ -304,7 +304,7 @@
           "$ref": "#/$defs/Types.KubeLabels"
         },
         "annotations": {
-          "description": "Optional additinal Kubernetes annotations that will be added to the control-plane nodes. Follows Kubernetes annotations format. **Existing annotations with the same key will be overwritten**.",
+          "description": "Optional additional Kubernetes annotations that will be added to the control-plane nodes. Follows Kubernetes annotations format. **Existing annotations with the same key will be overwritten**.",
           "$ref": "#/$defs/Types.KubeAnnotations"
         }
       },
@@ -367,7 +367,7 @@
           "$ref": "#/$defs/Types.KubeLabels"
         },
         "annotations": {
-          "description": "Optional additinal Kubernetes annotations that will be added to the nodes in this node group. Follows Kubernetes annotations format. **Existing annotations with the same key will be overwritten**.",
+          "description": "Optional additional Kubernetes annotations that will be added to the nodes in this node group. Follows Kubernetes annotations format. **Existing annotations with the same key will be overwritten**.",
           "$ref": "#/$defs/Types.KubeAnnotations"
         }
       },
