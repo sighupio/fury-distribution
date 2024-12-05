@@ -298,6 +298,14 @@
           "items": {
             "$ref": "#/$defs/Spec.Kubernetes.Masters.Host"
           }
+        },
+        "labels": {
+          "description": "Additional labels that will be added to the control-plane nodes. **Existing labels with the same key will be overwritten**.",
+          "$ref": "#/$defs/Types.KubeLabels"
+        },
+        "annotations": {
+          "description": "Additinal annotations that will be added to the control-plane nodes. **Existing annotations with the same key will be overwritten**.",
+          "$ref": "#/$defs/Types.KubeAnnotations"
         }
       },
       "required": [
@@ -353,6 +361,14 @@
           "items": {
             "$ref": "#/$defs/Types.KubeTaints"
           }
+        },
+        "labels": {
+          "description": "Additional labels that will be added to the nodes in this node group. **Existing labels with the same key will be overwritten**.",
+          "$ref": "#/$defs/Types.KubeLabels"
+        },
+        "annotations": {
+          "description": "Additinal annotations that will be added to the nodes in this node group. **Existing annotations with the same key will be overwritten**.",
+          "$ref": "#/$defs/Types.KubeAnnotations"
         }
       },
       "required": [
@@ -2263,7 +2279,29 @@
       "pattern": "^(http|https)\\:\\/\\/.+$"
     },
     "Types.KubeLabels": {
-      "type": "object",
+      "type": [
+        "object",
+        "null"
+      ],
+      "propertyNames": {
+        "pattern": "^([a-zA-Z0-9][a-zA-Z0-9-.]*[a-zA-Z0-9]/)?([a-zA-Z0-9][-a-zA-Z0-9_.]*)?[a-zA-Z0-9]$",
+        "maxLength": 253
+      },
+      "additionalProperties": {
+        "type": "string",
+        "pattern": "^(([a-zA-Z0-9][-a-zA-Z0-9_.]*)?[a-zA-Z0-9])?$",
+        "maxLength": 63
+      }
+    },
+    "Types.KubeAnnotations": {
+      "type": [
+        "object",
+        "null"
+      ],
+      "propertyNames": {
+        "pattern": "^([a-zA-Z0-9][a-zA-Z0-9-.]*[a-zA-Z0-9]/)?([a-zA-Z0-9][-a-zA-Z0-9_.]*)?[a-zA-Z0-9]$",
+        "maxLength": 253
+      },
       "additionalProperties": {
         "type": "string"
       }
