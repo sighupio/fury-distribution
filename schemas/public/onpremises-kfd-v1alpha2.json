@@ -300,11 +300,11 @@
           }
         },
         "labels": {
-          "description": "Additional labels that will be added to the control-plane nodes. **Existing labels with the same key will be overwritten**.",
+          "description": "Optional additional Kubernetes labels that will be added to the control-plane nodes. Follows Kubernetes labels format. **Existing labels with the same key will be overwritten**.",
           "$ref": "#/$defs/Types.KubeLabels"
         },
         "annotations": {
-          "description": "Additinal annotations that will be added to the control-plane nodes. **Existing annotations with the same key will be overwritten**.",
+          "description": "Optional additinal Kubernetes annotations that will be added to the control-plane nodes. Follows Kubernetes annotations format. **Existing annotations with the same key will be overwritten**.",
           "$ref": "#/$defs/Types.KubeAnnotations"
         }
       },
@@ -363,11 +363,11 @@
           }
         },
         "labels": {
-          "description": "Additional labels that will be added to the nodes in this node group. **Existing labels with the same key will be overwritten**.",
+          "description": "Optional additional Kubernetes labels that will be added to the nodes in this node group. Follows Kubernetes labels format. **Existing labels with the same key will be overwritten**.",
           "$ref": "#/$defs/Types.KubeLabels"
         },
         "annotations": {
-          "description": "Additinal annotations that will be added to the nodes in this node group. **Existing annotations with the same key will be overwritten**.",
+          "description": "Optional additinal Kubernetes annotations that will be added to the nodes in this node group. Follows Kubernetes annotations format. **Existing annotations with the same key will be overwritten**.",
           "$ref": "#/$defs/Types.KubeAnnotations"
         }
       },
