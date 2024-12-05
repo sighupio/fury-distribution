@@ -326,7 +326,7 @@ platform:
 trigger:
   ref:
     include:
-      - refs/tags/**
+      - refs/tags/v**
     exclude:
       - refs/tags/**-docs*
 
@@ -339,7 +339,7 @@ steps:
     when:
       ref:
         include:
-          - refs/tags/**
+          - refs/tags/v**
         exclude:
           - refs/tags/**-docs*
 
