@@ -2,7 +2,7 @@
 # Use of this source code is governed by a BSD-style
 # license that can be found in the LICENSE file.
 
-version: v1.30.0
+version: v1.31.0
 modules:
   auth: v0.4.0
   aws: v4.3.0
@@ -15,11 +15,11 @@ modules:
   tracing: v1.1.0
 kubernetes:
   eks:
-    version: 1.30
+    version: 1.31
     installer: v3.2.0
   onpremises:
-    version: 1.30.6
-    installer: v1.30.6
+    version: 1.31.3
+    installer: v1.31.3-rc.0
 furyctlSchemas:
   eks:
     - apiVersion: kfd.sighup.io/v1alpha2
@@ -35,7 +35,7 @@ tools:
     furyagent:
       version: 0.4.0
     kubectl:
-      version: 1.30.6
+      version: 1.31.3
     kustomize:
       version: 3.10.0
     terraform:
