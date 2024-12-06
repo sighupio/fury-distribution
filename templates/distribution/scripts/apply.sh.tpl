@@ -46,14 +46,10 @@ $kubectlbin delete --ignore-not-found --wait --timeout=180s job minio-tracing-bu
 
 additionalKappArgs=""
 
-{{- if eq .spec.distribution.modules.networking.type "calico" }}
-    additionalKappArgs+="-f <($kubectlbin create namespace calico-system --dry-run=client -o yaml)"
-{{- end }}
-
 {{- if eq .spec.distribution.modules.policy.type "gatekeeper" }}
     {{- if eq .spec.distribution.modules.policy.gatekeeper.installDefaultPolicies }}
     # We need this to tell Kapp that the CRDs will be created later by Gatekeeper
-    additionalKappArgs+="-f ../../vendor/modules/opa/katalog/tests/kapp/exists.yaml"
+additionalKappArgs+="-f ../../vendor/modules/opa/katalog/tests/kapp/exists.yaml"
     {{- end }}
 {{- end }}
 
