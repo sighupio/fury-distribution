@@ -11,6 +11,8 @@ yqbin="{{ .paths.yq }}"
 {{ if (index .spec.plugins "kustomize") -}}
 {{ range .spec.plugins.kustomize }}
 
+echo "Deploying plugin {{ .name }}..."
+
 $kustomizebin build --load_restrictor LoadRestrictionsNone {{ .folder }} > out.yaml
 
 $kappbin deploy -a kfd-plugin-{{ .name }} -n kube-system -f out.yaml --allow-all-ns -y --default-label-scoping-rules=false --apply-default-update-strategy=fallback-on-replace -c
