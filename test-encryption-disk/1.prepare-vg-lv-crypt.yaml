@@ -1,0 +1,72 @@
+---
+
+# THIS PLAYBOOK IS NOT IDEMPOTENT
+
+# Before executing, install requirements with ansible-galaxy collection install community.general community.crypto
+
+- name: Create volume group, logical volume, LUKS container and filesystem
+  hosts: worker01,worker02,worker03
+  become: true
+  vars:
+    src_encryption_file_path: "storagekey"
+    encryption_file_path: "/storagekey"
+    disk_device: "/dev/sdb"
+    volume_group: "pgsql_vg"
+    logical_volume: "pgsql_lv"
+    crypt_volume: "pgsql_crypt"
+    filesystem_type: "ext4"
+    mount_point: "/run/pgsql_crypt"
+    required_packages:
+      - cryptsetup
+
+  tasks:
+    - name: Install packages
+      package:
+        name: "{{ required_packages }}"
+        state: present
+        update_cache: true
+    
+    - name: Copy encryption file on remote host
+      copy:
+        src: "{{ src_encryption_file_path }}"
+        dest: "{{ encryption_file_path }}"
+        
+    - name: Create volume group
+      community.general.lvg:
+        vg: "{{ volume_group }}"
+        pvs: "{{ disk_device }}"
+        
+    - name: Create logical volume
+      community.general.lvol:
+        vg: "{{ volume_group }}"
+        lv: "{{ logical_volume }}"
+        size: "100%FREE"
+        
+    - name: Activate and Open LUKS container
+      community.crypto.luks_device:
+        device: "/dev/{{ volume_group }}/{{ logical_volume }}"
+        name: "{{ crypt_volume }}"
+        state: opened
+        keyfile: "{{ encryption_file_path }}"
+        
+    - name: Format filesystem
+      filesystem:
+        fstype: "{{ filesystem_type }}"
+        dev: "/dev/mapper/{{ crypt_volume }}"
+        
+    - name: Create mount point
+      file:
+        path: "{{ mount_point }}"
+        state: directory
+        
+    - name: Mount filesystem
+      mount:
+        path: "{{ mount_point }}"
+        src: "/dev/mapper/{{ crypt_volume }}"
+        fstype: "{{ filesystem_type }}"
+        state: ephemeral
+
+    - name: Delete encryption file from the remote host
+      file:
+        path: "{{ encryption_file_path }}"
+        state: absent

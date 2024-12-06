@@ -2,8 +2,14 @@
 
 This document explains the full schema for the `kind: OnPremises` for the `furyctl.yaml` file used by `furyctl`. This configuration file will be used to deploy the Kubernetes Fury Distribution modules and cluster on premises.
 
-An example file can be found [here](https://github.com/sighupio/fury-distribution/blob/feature/schema-docs/templates/config/onpremises-kfd-v1alpha2.yaml.tpl).
+An example configuration file can be created by running the following command:
 
+```bash
+furyctl create config --kind OnPremises --version v1.29.4 --name example-cluster
+```
+
+> [!NOTE]
+> Replace the version with your desired version of KFD.
 ## Properties
 
 | Property                  | Type     | Required |
@@ -12,6 +18,10 @@ An example file can be found [here](https://github.com/sighupio/fury-distributio
 | [kind](#kind)             | `string` | Required |
 | [metadata](#metadata)     | `object` | Required |
 | [spec](#spec)             | `object` | Required |
+
+### Description
+
+A KFD Cluster deployed on top of a set of existing VMs.
 
 ## .apiVersion
 
@@ -29,7 +39,7 @@ An example file can be found [here](https://github.com/sighupio/fury-distributio
 
 ### Constraints
 
-**enum**: the value of this property must be equal to one of the following values:
+**enum**: the value of this property must be equal to one of the following string values:
 
 | Value        |
 |:-------------|
@@ -80,23 +90,30 @@ The name of the cluster. It will also be used as a prefix for all the other reso
 
 ### Properties
 
-| Property                                                        | Type     | Required |
-|:----------------------------------------------------------------|:---------|:---------|
-| [nodeSelector](#specdistributioncommonnodeselector)             | `object` | Optional |
-| [provider](#specdistributioncommonprovider)                     | `object` | Optional |
-| [registry](#specdistributioncommonregistry)                     | `string` | Optional |
-| [relativeVendorPath](#specdistributioncommonrelativevendorpath) | `string` | Optional |
-| [tolerations](#specdistributioncommontolerations)               | `array`  | Optional |
+| Property                                                                | Type      | Required |
+|:------------------------------------------------------------------------|:----------|:---------|
+| [networkPoliciesEnabled](#specdistributioncommonnetworkpoliciesenabled) | `boolean` | Optional |
+| [nodeSelector](#specdistributioncommonnodeselector)                     | `object`  | Optional |
+| [provider](#specdistributioncommonprovider)                             | `object`  | Optional |
+| [registry](#specdistributioncommonregistry)                             | `string`  | Optional |
+| [relativeVendorPath](#specdistributioncommonrelativevendorpath)         | `string`  | Optional |
+| [tolerations](#specdistributioncommontolerations)                       | `array`   | Optional |
 
 ### Description
 
 Common configuration for all the distribution modules.
 
+## .spec.distribution.common.networkPoliciesEnabled
+
+### Description
+
+EXPERIMENTAL FEATURE. This field defines whether Network Policies are provided for core modules.
+
 ## .spec.distribution.common.nodeSelector
 
 ### Description
 
-The node selector to use to place the pods for all the KFD modules. Follows Kubernetes selector format. Example: `node.kubernetes.io/role: infra`
+The node selector to use to place the pods for all the KFD modules. Follows Kubernetes selector format. Example: `node.kubernetes.io/role: infra`.
 
 ## .spec.distribution.common.provider
 
@@ -117,6 +134,8 @@ The provider type. Don't set. FOR INTERNAL USE ONLY.
 ### Description
 
 URL of the registry where to pull images from for the Distribution phase. (Default is `registry.sighup.io/fury`).
+
+NOTE: If plugins are pulling from the default registry, the registry will be replaced for the plugin too.
 
 ## .spec.distribution.common.relativeVendorPath
 
@@ -149,7 +168,7 @@ An array with the tolerations that will be added to the pods for all the KFD mod
 
 ### Constraints
 
-**enum**: the value of this property must be equal to one of the following values:
+**enum**: the value of this property must be equal to one of the following string values:
 
 | Value              |
 |:-------------------|
@@ -167,7 +186,7 @@ The key of the toleration
 
 ### Constraints
 
-**enum**: the value of this property must be equal to one of the following values:
+**enum**: the value of this property must be equal to one of the following string values:
 
 | Value    |
 |:---------|
@@ -214,7 +233,7 @@ The behavior of the configmap
 
 ### Constraints
 
-**enum**: the value of this property must be equal to one of the following values:
+**enum**: the value of this property must be equal to one of the following string values:
 
 | Value     |
 |:----------|
@@ -422,7 +441,7 @@ The behavior of the secret
 
 ### Constraints
 
-**enum**: the value of this property must be equal to one of the following values:
+**enum**: the value of this property must be equal to one of the following string values:
 
 | Value     |
 |:----------|
@@ -537,7 +556,7 @@ Configuration for the Auth module.
 
 ### Description
 
-Base domain for the ingresses created by the Auth module (Gangplank, Pomerium, Dex). Notice that when nginx type is dual, these will use the `external` ingress class.
+The base domain for the ingresses created by the Auth module (Gangplank, Pomerium, Dex). Notice that when the ingress module type is `dual`, these will use the `external` ingress class.
 
 ## .spec.distribution.modules.auth.dex
 
@@ -632,7 +651,7 @@ Set to override the tolerations that will be added to the pods of the package.
 
 ### Constraints
 
-**enum**: the value of this property must be equal to one of the following values:
+**enum**: the value of this property must be equal to one of the following string values:
 
 | Value              |
 |:-------------------|
@@ -650,7 +669,7 @@ The key of the toleration
 
 ### Constraints
 
-**enum**: the value of this property must be equal to one of the following values:
+**enum**: the value of this property must be equal to one of the following string values:
 
 | Value    |
 |:---------|
@@ -827,7 +846,7 @@ Set to override the tolerations that will be added to the pods of the Auth modul
 
 ### Constraints
 
-**enum**: the value of this property must be equal to one of the following values:
+**enum**: the value of this property must be equal to one of the following string values:
 
 | Value              |
 |:-------------------|
@@ -845,7 +864,7 @@ The key of the toleration
 
 ### Constraints
 
-**enum**: the value of this property must be equal to one of the following values:
+**enum**: the value of this property must be equal to one of the following string values:
 
 | Value    |
 |:---------|
@@ -941,7 +960,7 @@ override default routes for KFD components
 
 ### Constraints
 
-**enum**: the value of this property must be equal to one of the following values:
+**enum**: the value of this property must be equal to one of the following string values:
 
 | Value              |
 |:-------------------|
@@ -955,7 +974,7 @@ override default routes for KFD components
 
 ### Constraints
 
-**enum**: the value of this property must be equal to one of the following values:
+**enum**: the value of this property must be equal to one of the following string values:
 
 | Value    |
 |:---------|
@@ -1070,9 +1089,11 @@ The type of the Auth provider, options are:
 - `sso`: will protect the infrastructural ingresses with Pomerium and Dex (SSO) and require authentication before accessing them.
 - `basicAuth`: will protect the infrastructural ingresses with HTTP basic auth (username and password) authentication.
 
+Default is `none`.
+
 ### Constraints
 
-**enum**: the value of this property must be equal to one of the following values:
+**enum**: the value of this property must be equal to one of the following string values:
 
 | Value       |
 |:------------|
@@ -1135,7 +1156,7 @@ Set to override the tolerations that will be added to the pods of the module.
 
 ### Constraints
 
-**enum**: the value of this property must be equal to one of the following values:
+**enum**: the value of this property must be equal to one of the following string values:
 
 | Value              |
 |:-------------------|
@@ -1153,7 +1174,7 @@ The key of the toleration
 
 ### Constraints
 
-**enum**: the value of this property must be equal to one of the following values:
+**enum**: the value of this property must be equal to one of the following string values:
 
 | Value    |
 |:---------|
@@ -1172,9 +1193,11 @@ The value of the toleration
 
 The type of the Disaster Recovery, must be `none` or `on-premises`. `none` disables the module and `on-premises` will install Velero and an optional MinIO deployment.
 
+Default is `none`.
+
 ### Constraints
 
-**enum**: the value of this property must be equal to one of the following values:
+**enum**: the value of this property must be equal to one of the following string values:
 
 | Value         |
 |:--------------|
@@ -1185,12 +1208,13 @@ The type of the Disaster Recovery, must be `none` or `on-premises`. `none` disab
 
 ### Properties
 
-| Property                                                             | Type     | Required |
-|:---------------------------------------------------------------------|:---------|:---------|
-| [backend](#specdistributionmodulesdrvelerobackend)                   | `string` | Optional |
-| [externalEndpoint](#specdistributionmodulesdrveleroexternalendpoint) | `object` | Optional |
-| [overrides](#specdistributionmodulesdrvelerooverrides)               | `object` | Optional |
-| [schedules](#specdistributionmodulesdrveleroschedules)               | `object` | Optional |
+| Property                                                                 | Type     | Required |
+|:-------------------------------------------------------------------------|:---------|:---------|
+| [backend](#specdistributionmodulesdrvelerobackend)                       | `string` | Optional |
+| [externalEndpoint](#specdistributionmodulesdrveleroexternalendpoint)     | `object` | Optional |
+| [overrides](#specdistributionmodulesdrvelerooverrides)                   | `object` | Optional |
+| [schedules](#specdistributionmodulesdrveleroschedules)                   | `object` | Optional |
+| [snapshotController](#specdistributionmodulesdrvelerosnapshotcontroller) | `object` | Optional |
 
 ### Description
 
@@ -1204,7 +1228,7 @@ The storage backend type for Velero. `minio` will use an in-cluster MinIO deploy
 
 ### Constraints
 
-**enum**: the value of this property must be equal to one of the following values:
+**enum**: the value of this property must be equal to one of the following string values:
 
 | Value              |
 |:-------------------|
@@ -1291,7 +1315,7 @@ Set to override the tolerations that will be added to the pods of the package.
 
 ### Constraints
 
-**enum**: the value of this property must be equal to one of the following values:
+**enum**: the value of this property must be equal to one of the following string values:
 
 | Value              |
 |:-------------------|
@@ -1309,7 +1333,7 @@ The key of the toleration
 
 ### Constraints
 
-**enum**: the value of this property must be equal to one of the following values:
+**enum**: the value of this property must be equal to one of the following string values:
 
 | Value    |
 |:---------|
@@ -1326,40 +1350,84 @@ The value of the toleration
 
 ### Properties
 
-| Property                                                    | Type      | Required |
-|:------------------------------------------------------------|:----------|:---------|
-| [cron](#specdistributionmodulesdrveleroschedulescron)       | `object`  | Optional |
-| [install](#specdistributionmodulesdrveleroschedulesinstall) | `boolean` | Optional |
-| [ttl](#specdistributionmodulesdrveleroschedulesttl)         | `string`  | Optional |
+| Property                                                            | Type      | Required |
+|:--------------------------------------------------------------------|:----------|:---------|
+| [definitions](#specdistributionmodulesdrveleroschedulesdefinitions) | `object`  | Optional |
+| [install](#specdistributionmodulesdrveleroschedulesinstall)         | `boolean` | Optional |
 
 ### Description
 
 Configuration for Velero's backup schedules.
 
-## .spec.distribution.modules.dr.velero.schedules.cron
+## .spec.distribution.modules.dr.velero.schedules.definitions
 
 ### Properties
 
-| Property                                                            | Type     | Required |
-|:--------------------------------------------------------------------|:---------|:---------|
-| [full](#specdistributionmodulesdrveleroschedulescronfull)           | `string` | Optional |
-| [manifests](#specdistributionmodulesdrveleroschedulescronmanifests) | `string` | Optional |
+| Property                                                                   | Type     | Required |
+|:---------------------------------------------------------------------------|:---------|:---------|
+| [full](#specdistributionmodulesdrveleroschedulesdefinitionsfull)           | `object` | Optional |
+| [manifests](#specdistributionmodulesdrveleroschedulesdefinitionsmanifests) | `object` | Optional |
 
 ### Description
 
-Configuration for Velero's schedules cron.
+Configuration for Velero schedules.
 
-## .spec.distribution.modules.dr.velero.schedules.cron.full
+## .spec.distribution.modules.dr.velero.schedules.definitions.full
+
+### Properties
+
+| Property                                                                                     | Type      | Required |
+|:---------------------------------------------------------------------------------------------|:----------|:---------|
+| [schedule](#specdistributionmodulesdrveleroschedulesdefinitionsfullschedule)                 | `string`  | Optional |
+| [snapshotMoveData](#specdistributionmodulesdrveleroschedulesdefinitionsfullsnapshotmovedata) | `boolean` | Optional |
+| [ttl](#specdistributionmodulesdrveleroschedulesdefinitionsfullttl)                           | `string`  | Optional |
+
+### Description
+
+Configuration for Velero's manifests backup schedule.
+
+## .spec.distribution.modules.dr.velero.schedules.definitions.full.schedule
 
 ### Description
 
 The cron expression for the `full` backup schedule (default `0 1 * * *`).
 
-## .spec.distribution.modules.dr.velero.schedules.cron.manifests
+## .spec.distribution.modules.dr.velero.schedules.definitions.full.snapshotMoveData
+
+### Description
+
+EXPERIMENTAL (if you do more than one backups, the following backups after the first are not automatically restorable, see https://github.com/vmware-tanzu/velero/issues/7057#issuecomment-2466815898 for the manual restore solution): SnapshotMoveData specifies whether snapshot data should be moved. Velero will create a new volume from the snapshot and upload the content to the storageLocation.
+
+## .spec.distribution.modules.dr.velero.schedules.definitions.full.ttl
+
+### Description
+
+The Time To Live (TTL) of the backups created by the backup schedules (default `720h0m0s`, 30 days). Notice that changing this value will affect only newly created backups, prior backups will keep the old TTL.
+
+## .spec.distribution.modules.dr.velero.schedules.definitions.manifests
+
+### Properties
+
+| Property                                                                          | Type     | Required |
+|:----------------------------------------------------------------------------------|:---------|:---------|
+| [schedule](#specdistributionmodulesdrveleroschedulesdefinitionsmanifestsschedule) | `string` | Optional |
+| [ttl](#specdistributionmodulesdrveleroschedulesdefinitionsmanifeststtl)           | `string` | Optional |
+
+### Description
+
+Configuration for Velero's manifests backup schedule.
+
+## .spec.distribution.modules.dr.velero.schedules.definitions.manifests.schedule
 
 ### Description
 
 The cron expression for the `manifests` backup schedule (default `*/15 * * * *`).
+
+## .spec.distribution.modules.dr.velero.schedules.definitions.manifests.ttl
+
+### Description
+
+The Time To Live (TTL) of the backups created by the backup schedules (default `720h0m0s`, 30 days). Notice that changing this value will affect only newly created backups, prior backups will keep the old TTL.
 
 ## .spec.distribution.modules.dr.velero.schedules.install
 
@@ -1367,11 +1435,23 @@ The cron expression for the `manifests` backup schedule (default `*/15 * * * *`)
 
 Whether to install or not the default `manifests` and `full` backups schedules. Default is `true`.
 
-## .spec.distribution.modules.dr.velero.schedules.ttl
+## .spec.distribution.modules.dr.velero.snapshotController
+
+### Properties
+
+| Property                                                             | Type      | Required |
+|:---------------------------------------------------------------------|:----------|:---------|
+| [install](#specdistributionmodulesdrvelerosnapshotcontrollerinstall) | `boolean` | Optional |
 
 ### Description
 
-The Time To Live (TTL) of the backups created by the backup schedules (default `720h0m0s`, 30 days). Notice that changing this value will affect only newly created backups, prior backups will keep the old TTL.
+Configuration for the additional snapshotController component installation.
+
+## .spec.distribution.modules.dr.velero.snapshotController.install
+
+### Description
+
+Whether to install or not the snapshotController component in the cluster. Before enabling this field, check if your CSI driver does not have snapshotController built-in.
 
 ## .spec.distribution.modules.ingress
 
@@ -1390,7 +1470,7 @@ The Time To Live (TTL) of the backups created by the backup schedules (default `
 
 ### Description
 
-The base domain used for all the KFD infrastructural ingresses. If using the nginx dual type, this value should be the same as the domain associated with the `internal` ingress class.
+The base domain used for all the KFD infrastructural ingresses. If using the nginx `dual` type, this value should be the same as the domain associated with the `internal` ingress class.
 
 ## .spec.distribution.modules.ingress.certManager
 
@@ -1430,13 +1510,13 @@ The email address to use during the certificate issuing process.
 
 ### Description
 
-Name of the clusterIssuer
+The name of the clusterIssuer.
 
 ## .spec.distribution.modules.ingress.certManager.clusterIssuer.solvers
 
 ### Description
 
-List of challenge solvers to use instead of the default one for the `http01` challenge.
+The list of challenge solvers to use instead of the default one for the `http01` challenge. Check [cert manager's documentation](https://cert-manager.io/docs/configuration/acme/#adding-multiple-solver-types) for examples for this field.
 
 ## .spec.distribution.modules.ingress.certManager.clusterIssuer.type
 
@@ -1446,7 +1526,7 @@ The type of the clusterIssuer. Only `http01` challenge is supported for on-premi
 
 ### Constraints
 
-**enum**: the value of this property must be equal to one of the following values:
+**enum**: the value of this property must be equal to one of the following string values:
 
 | Value    |
 |:---------|
@@ -1486,7 +1566,7 @@ Set to override the tolerations that will be added to the pods of the package.
 
 ### Constraints
 
-**enum**: the value of this property must be equal to one of the following values:
+**enum**: the value of this property must be equal to one of the following string values:
 
 | Value              |
 |:-------------------|
@@ -1504,7 +1584,7 @@ The key of the toleration
 
 ### Constraints
 
-**enum**: the value of this property must be equal to one of the following values:
+**enum**: the value of this property must be equal to one of the following string values:
 
 | Value    |
 |:---------|
@@ -1559,7 +1639,7 @@ Set to override the tolerations that will be added to the pods of the package.
 
 ### Constraints
 
-**enum**: the value of this property must be equal to one of the following values:
+**enum**: the value of this property must be equal to one of the following string values:
 
 | Value              |
 |:-------------------|
@@ -1577,7 +1657,7 @@ The key of the toleration
 
 ### Constraints
 
-**enum**: the value of this property must be equal to one of the following values:
+**enum**: the value of this property must be equal to one of the following string values:
 
 | Value    |
 |:---------|
@@ -1602,7 +1682,7 @@ The value of the toleration
 
 ### Description
 
-Configurations for the nginx ingress controller package.
+Configurations for the Ingress nginx controller package.
 
 ## .spec.distribution.modules.ingress.nginx.overrides
 
@@ -1638,7 +1718,7 @@ Set to override the tolerations that will be added to the pods of the package.
 
 ### Constraints
 
-**enum**: the value of this property must be equal to one of the following values:
+**enum**: the value of this property must be equal to one of the following string values:
 
 | Value              |
 |:-------------------|
@@ -1656,7 +1736,7 @@ The key of the toleration
 
 ### Constraints
 
-**enum**: the value of this property must be equal to one of the following values:
+**enum**: the value of this property must be equal to one of the following string values:
 
 | Value    |
 |:---------|
@@ -1686,7 +1766,7 @@ The provider of the TLS certificates for the ingresses, one of: `none`, `certMan
 
 ### Constraints
 
-**enum**: the value of this property must be equal to one of the following values:
+**enum**: the value of this property must be equal to one of the following string values:
 
 | Value         |
 |:--------------|
@@ -1730,14 +1810,16 @@ The signing key file's content. You can use the `"{file://<path>}"` notation to 
 
 ### Description
 
-The type of the nginx ingress controller, options are:
+The type of the Ingress nginx controller, options are:
 - `none`: no ingress controller will be installed and no infrastructural ingresses will be created.
 - `single`: a single ingress controller with ingress class `nginx` will be installed to manage all the ingress resources, infrastructural ingresses will be created.
 - `dual`: two independent ingress controllers will be installed, one for the `internal` ingress class intended for private ingresses and one for the `external` ingress class intended for public ingresses. KFD infrastructural ingresses wil use the `internal` ingress class when using the dual type.
 
+Default is `single`.
+
 ### Constraints
 
-**enum**: the value of this property must be equal to one of the following values:
+**enum**: the value of this property must be equal to one of the following string values:
 
 | Value    |
 |:---------|
@@ -1799,7 +1881,7 @@ Use this ingress class for the ingress instead of the default one.
 
 ### Description
 
-Set to override the node selector used to place the pods of the Ingress module
+Set to override the node selector used to place the pods of the Ingress module.
 
 ## .spec.distribution.modules.ingress.overrides.tolerations
 
@@ -1814,13 +1896,13 @@ Set to override the node selector used to place the pods of the Ingress module
 
 ### Description
 
-Set to override the tolerations that will be added to the pods of the Ingress module
+Set to override the tolerations that will be added to the pods of the Ingress module.
 
 ## .spec.distribution.modules.ingress.overrides.tolerations.effect
 
 ### Constraints
 
-**enum**: the value of this property must be equal to one of the following values:
+**enum**: the value of this property must be equal to one of the following string values:
 
 | Value              |
 |:-------------------|
@@ -1838,7 +1920,7 @@ The key of the toleration
 
 ### Constraints
 
-**enum**: the value of this property must be equal to one of the following values:
+**enum**: the value of this property must be equal to one of the following string values:
 
 | Value    |
 |:---------|
@@ -1882,7 +1964,7 @@ Configuration for the Logging module.
 
 ### Description
 
-DEPRECATED in latest versions of KFD.
+DEPRECATED since KFD v1.26.6, 1.27.5, v1.28.0.
 
 ## .spec.distribution.modules.logging.cerebro.overrides
 
@@ -1918,7 +2000,7 @@ Set to override the tolerations that will be added to the pods of the package.
 
 ### Constraints
 
-**enum**: the value of this property must be equal to one of the following values:
+**enum**: the value of this property must be equal to one of the following string values:
 
 | Value              |
 |:-------------------|
@@ -1936,7 +2018,7 @@ The key of the toleration
 
 ### Constraints
 
-**enum**: the value of this property must be equal to one of the following values:
+**enum**: the value of this property must be equal to one of the following string values:
 
 | Value    |
 |:---------|
@@ -2025,6 +2107,7 @@ This value defines where the output from the `systemdEtcd` Flow will be sent. Th
 | [backend](#specdistributionmoduleslogginglokibackend)                   | `string` | Optional |
 | [externalEndpoint](#specdistributionmoduleslogginglokiexternalendpoint) | `object` | Optional |
 | [resources](#specdistributionmoduleslogginglokiresources)               | `object` | Optional |
+| [tsdbStartDate](#specdistributionmoduleslogginglokitsdbstartdate)       | `string` | Required |
 
 ### Description
 
@@ -2038,7 +2121,7 @@ The storage backend type for Loki. `minio` will use an in-cluster MinIO deployme
 
 ### Constraints
 
-**enum**: the value of this property must be equal to one of the following values:
+**enum**: the value of this property must be equal to one of the following string values:
 
 | Value              |
 |:-------------------|
@@ -2113,13 +2196,13 @@ The secret access key (password) for the external S3-compatible bucket.
 
 ### Description
 
-The cpu limit for the loki pods
+The CPU limit for the Pod. Example: `1000m`.
 
 ## .spec.distribution.modules.logging.loki.resources.limits.memory
 
 ### Description
 
-The memory limit for the prometheus pods
+The memory limit for the Pod. Example: `1G`.
 
 ## .spec.distribution.modules.logging.loki.resources.requests
 
@@ -2134,13 +2217,23 @@ The memory limit for the prometheus pods
 
 ### Description
 
-The cpu request for the loki pods
+The CPU request for the Pod, in cores. Example: `500m`.
 
 ## .spec.distribution.modules.logging.loki.resources.requests.memory
 
 ### Description
 
-The memory request for the prometheus pods
+The memory request for the Pod. Example: `500M`.
+
+## .spec.distribution.modules.logging.loki.tsdbStartDate
+
+### Description
+
+Starting from versions 1.28.4, 1.29.5 and 1.30.0 of KFD, Loki will change the time series database from BoltDB to TSDB and the schema from v11 to v13 that it uses to store the logs.
+
+The value of this field will determine the date when Loki will start writing using the new TSDB and the schema v13, always at midnight UTC. The old BoltDB and schema will be kept until they expire for reading purposes.
+
+Value must be a string in `ISO 8601` date format (`yyyy-mm-dd`). Example: `2024-11-18`.
 
 ## .spec.distribution.modules.logging.minio
 
@@ -2190,7 +2283,7 @@ Set to override the tolerations that will be added to the pods of the package.
 
 ### Constraints
 
-**enum**: the value of this property must be equal to one of the following values:
+**enum**: the value of this property must be equal to one of the following string values:
 
 | Value              |
 |:-------------------|
@@ -2208,7 +2301,7 @@ The key of the toleration
 
 ### Constraints
 
-**enum**: the value of this property must be equal to one of the following values:
+**enum**: the value of this property must be equal to one of the following string values:
 
 | Value    |
 |:---------|
@@ -2293,7 +2386,7 @@ Set to override the tolerations that will be added to the pods of the package.
 
 ### Constraints
 
-**enum**: the value of this property must be equal to one of the following values:
+**enum**: the value of this property must be equal to one of the following string values:
 
 | Value              |
 |:-------------------|
@@ -2311,7 +2404,7 @@ The key of the toleration
 
 ### Constraints
 
-**enum**: the value of this property must be equal to one of the following values:
+**enum**: the value of this property must be equal to one of the following string values:
 
 | Value    |
 |:---------|
@@ -2346,13 +2439,13 @@ The value of the toleration
 
 ### Description
 
-The cpu limit for the loki pods
+The CPU limit for the Pod. Example: `1000m`.
 
 ## .spec.distribution.modules.logging.opensearch.resources.limits.memory
 
 ### Description
 
-The memory limit for the prometheus pods
+The memory limit for the Pod. Example: `1G`.
 
 ## .spec.distribution.modules.logging.opensearch.resources.requests
 
@@ -2367,19 +2460,19 @@ The memory limit for the prometheus pods
 
 ### Description
 
-The cpu request for the loki pods
+The CPU request for the Pod, in cores. Example: `500m`.
 
 ## .spec.distribution.modules.logging.opensearch.resources.requests.memory
 
 ### Description
 
-The memory request for the prometheus pods
+The memory request for the Pod. Example: `500M`.
 
 ## .spec.distribution.modules.logging.opensearch.storageSize
 
 ### Description
 
-The storage size for the OpenSearch volumes.
+The storage size for the OpenSearch volumes. Follows Kubernetes resources storage requests. Default is `150Gi`.
 
 ## .spec.distribution.modules.logging.opensearch.type
 
@@ -2389,7 +2482,7 @@ The type of OpenSearch deployment. One of: `single` for a single replica or `tri
 
 ### Constraints
 
-**enum**: the value of this property must be equal to one of the following values:
+**enum**: the value of this property must be equal to one of the following string values:
 
 | Value    |
 |:---------|
@@ -2442,7 +2535,7 @@ Set to override the tolerations that will be added to the pods of the package.
 
 ### Constraints
 
-**enum**: the value of this property must be equal to one of the following values:
+**enum**: the value of this property must be equal to one of the following string values:
 
 | Value              |
 |:-------------------|
@@ -2460,7 +2553,7 @@ The key of the toleration
 
 ### Constraints
 
-**enum**: the value of this property must be equal to one of the following values:
+**enum**: the value of this property must be equal to one of the following string values:
 
 | Value    |
 |:---------|
@@ -2514,7 +2607,7 @@ Set to override the tolerations that will be added to the pods of the module.
 
 ### Constraints
 
-**enum**: the value of this property must be equal to one of the following values:
+**enum**: the value of this property must be equal to one of the following string values:
 
 | Value              |
 |:-------------------|
@@ -2532,7 +2625,7 @@ The key of the toleration
 
 ### Constraints
 
-**enum**: the value of this property must be equal to one of the following values:
+**enum**: the value of this property must be equal to one of the following string values:
 
 | Value    |
 |:---------|
@@ -2552,12 +2645,14 @@ The value of the toleration
 Selects the logging stack. Options are:
 - `none`: will disable the centralized logging.
 - `opensearch`: will deploy and configure the Logging Operator and an OpenSearch cluster (can be single or triple for HA) where the logs will be stored.
-- `loki`: will use a distributed Grafana Loki instead of OpenSearh for storage.
-- `customOuputs`: the Logging Operator will be deployed and installed but with no local storage, you will have to create the needed Outputs and ClusterOutputs to ship the logs to your desired storage.
+- `loki`: will use a distributed Grafana Loki instead of OpenSearch for storage.
+- `customOuputs`: the Logging Operator will be deployed and installed but without in-cluster storage, you will have to create the needed Outputs and ClusterOutputs to ship the logs to your desired storage.
+
+Default is `opensearch`.
 
 ### Constraints
 
-**enum**: the value of this property must be equal to one of the following values:
+**enum**: the value of this property must be equal to one of the following string values:
 
 | Value           |
 |:----------------|
@@ -2602,7 +2697,7 @@ Configuration for the Monitoring module.
 
 ### Description
 
-The webhook URL to send dead man's switch monitoring, for example to use with healthchecks.io
+The webhook URL to send dead man's switch monitoring, for example to use with healthchecks.io.
 
 ## .spec.distribution.modules.monitoring.alertmanager.installDefaultRules
 
@@ -2658,7 +2753,7 @@ Set to override the tolerations that will be added to the pods of the package.
 
 ### Constraints
 
-**enum**: the value of this property must be equal to one of the following values:
+**enum**: the value of this property must be equal to one of the following string values:
 
 | Value              |
 |:-------------------|
@@ -2676,7 +2771,7 @@ The key of the toleration
 
 ### Constraints
 
-**enum**: the value of this property must be equal to one of the following values:
+**enum**: the value of this property must be equal to one of the following string values:
 
 | Value    |
 |:---------|
@@ -2741,7 +2836,7 @@ Set to override the tolerations that will be added to the pods of the package.
 
 ### Constraints
 
-**enum**: the value of this property must be equal to one of the following values:
+**enum**: the value of this property must be equal to one of the following string values:
 
 | Value              |
 |:-------------------|
@@ -2759,7 +2854,7 @@ The key of the toleration
 
 ### Constraints
 
-**enum**: the value of this property must be equal to one of the following values:
+**enum**: the value of this property must be equal to one of the following string values:
 
 | Value    |
 |:---------|
@@ -2826,7 +2921,7 @@ Set to override the tolerations that will be added to the pods of the package.
 
 ### Constraints
 
-**enum**: the value of this property must be equal to one of the following values:
+**enum**: the value of this property must be equal to one of the following string values:
 
 | Value              |
 |:-------------------|
@@ -2844,7 +2939,7 @@ The key of the toleration
 
 ### Constraints
 
-**enum**: the value of this property must be equal to one of the following values:
+**enum**: the value of this property must be equal to one of the following string values:
 
 | Value    |
 |:---------|
@@ -2880,7 +2975,7 @@ The storage backend type for Mimir. `minio` will use an in-cluster MinIO deploym
 
 ### Constraints
 
-**enum**: the value of this property must be equal to one of the following values:
+**enum**: the value of this property must be equal to one of the following string values:
 
 | Value              |
 |:-------------------|
@@ -2919,7 +3014,7 @@ The bucket name of the external S3-compatible object storage.
 
 ### Description
 
-External S3-compatible endpoint for Mimir's storage.
+The external S3-compatible endpoint for Mimir's storage.
 
 ## .spec.distribution.modules.monitoring.mimir.externalEndpoint.insecure
 
@@ -2967,7 +3062,7 @@ Set to override the tolerations that will be added to the pods of the package.
 
 ### Constraints
 
-**enum**: the value of this property must be equal to one of the following values:
+**enum**: the value of this property must be equal to one of the following string values:
 
 | Value              |
 |:-------------------|
@@ -2985,7 +3080,7 @@ The key of the toleration
 
 ### Constraints
 
-**enum**: the value of this property must be equal to one of the following values:
+**enum**: the value of this property must be equal to one of the following string values:
 
 | Value    |
 |:---------|
@@ -3052,7 +3147,7 @@ Set to override the tolerations that will be added to the pods of the package.
 
 ### Constraints
 
-**enum**: the value of this property must be equal to one of the following values:
+**enum**: the value of this property must be equal to one of the following string values:
 
 | Value              |
 |:-------------------|
@@ -3070,7 +3165,7 @@ The key of the toleration
 
 ### Constraints
 
-**enum**: the value of this property must be equal to one of the following values:
+**enum**: the value of this property must be equal to one of the following string values:
 
 | Value    |
 |:---------|
@@ -3151,7 +3246,7 @@ Set to override the tolerations that will be added to the pods of the module.
 
 ### Constraints
 
-**enum**: the value of this property must be equal to one of the following values:
+**enum**: the value of this property must be equal to one of the following string values:
 
 | Value              |
 |:-------------------|
@@ -3169,7 +3264,7 @@ The key of the toleration
 
 ### Constraints
 
-**enum**: the value of this property must be equal to one of the following values:
+**enum**: the value of this property must be equal to one of the following string values:
 
 | Value    |
 |:---------|
@@ -3224,13 +3319,13 @@ Set this option to ship the collected metrics to a remote Prometheus receiver.
 
 ### Description
 
-The cpu limit for the loki pods
+The CPU limit for the Pod. Example: `1000m`.
 
 ## .spec.distribution.modules.monitoring.prometheus.resources.limits.memory
 
 ### Description
 
-The memory limit for the prometheus pods
+The memory limit for the Pod. Example: `1G`.
 
 ## .spec.distribution.modules.monitoring.prometheus.resources.requests
 
@@ -3245,13 +3340,13 @@ The memory limit for the prometheus pods
 
 ### Description
 
-The cpu request for the loki pods
+The CPU request for the Pod, in cores. Example: `500m`.
 
 ## .spec.distribution.modules.monitoring.prometheus.resources.requests.memory
 
 ### Description
 
-The memory request for the prometheus pods
+The memory request for the Pod. Example: `500M`.
 
 ## .spec.distribution.modules.monitoring.prometheus.retentionSize
 
@@ -3310,13 +3405,13 @@ Set this option to ship the collected metrics to a remote Prometheus receiver.
 
 ### Description
 
-The cpu limit for the loki pods
+The CPU limit for the Pod. Example: `1000m`.
 
 ## .spec.distribution.modules.monitoring.prometheusAgent.resources.limits.memory
 
 ### Description
 
-The memory limit for the prometheus pods
+The memory limit for the Pod. Example: `1G`.
 
 ## .spec.distribution.modules.monitoring.prometheusAgent.resources.requests
 
@@ -3331,13 +3426,13 @@ The memory limit for the prometheus pods
 
 ### Description
 
-The cpu request for the loki pods
+The CPU request for the Pod, in cores. Example: `500m`.
 
 ## .spec.distribution.modules.monitoring.prometheusAgent.resources.requests.memory
 
 ### Description
 
-The memory request for the prometheus pods
+The memory request for the Pod. Example: `500M`.
 
 ## .spec.distribution.modules.monitoring.type
 
@@ -3346,13 +3441,15 @@ The memory request for the prometheus pods
 The type of the monitoring, must be `none`, `prometheus`, `prometheusAgent` or `mimir`.
 
 - `none`: will disable the whole monitoring stack.
-- `prometheus`: will install Prometheus Operator and a preconfigured Prometheus instace, Alertmanager, a set of alert rules, exporters needed to monitor all the components of the cluster, Grafana and a series of dashboards to view the collected metrics, and more.
-- `prometheusAgent`: wil install Prometheus operator, an instance of Prometheus in Agent mode (no alerting, no queries, no storage), and all the exporters needed to get metrics for the status of the cluster and the workloads. Useful when having a centralized (remote) Prometheus where to ship the metrics and not storing them locally in the cluster.
+- `prometheus`: will install Prometheus Operator and a preconfigured Prometheus instance, Alertmanager, a set of alert rules, exporters needed to monitor all the components of the cluster, Grafana and a series of dashboards to view the collected metrics, and more.
+- `prometheusAgent`: will install Prometheus operator, an instance of Prometheus in Agent mode (no alerting, no queries, no storage), and all the exporters needed to get metrics for the status of the cluster and the workloads. Useful when having a centralized (remote) Prometheus where to ship the metrics and not storing them locally in the cluster.
 - `mimir`: will install the same as the `prometheus` option, plus Grafana Mimir that allows for longer retention of metrics and the usage of Object Storage.
+
+Default is `prometheus`.
 
 ### Constraints
 
-**enum**: the value of this property must be equal to one of the following values:
+**enum**: the value of this property must be equal to one of the following string values:
 
 | Value             |
 |:------------------|
@@ -3403,7 +3500,7 @@ Set to override the tolerations that will be added to the pods of the package.
 
 ### Constraints
 
-**enum**: the value of this property must be equal to one of the following values:
+**enum**: the value of this property must be equal to one of the following string values:
 
 | Value              |
 |:-------------------|
@@ -3421,7 +3518,7 @@ The key of the toleration
 
 ### Constraints
 
-**enum**: the value of this property must be equal to one of the following values:
+**enum**: the value of this property must be equal to one of the following string values:
 
 | Value    |
 |:---------|
@@ -3499,7 +3596,7 @@ Set to override the tolerations that will be added to the pods of the package.
 
 ### Constraints
 
-**enum**: the value of this property must be equal to one of the following values:
+**enum**: the value of this property must be equal to one of the following string values:
 
 | Value              |
 |:-------------------|
@@ -3517,7 +3614,7 @@ The key of the toleration
 
 ### Constraints
 
-**enum**: the value of this property must be equal to one of the following values:
+**enum**: the value of this property must be equal to one of the following string values:
 
 | Value    |
 |:---------|
@@ -3587,7 +3684,7 @@ Set to override the tolerations that will be added to the pods of the module.
 
 ### Constraints
 
-**enum**: the value of this property must be equal to one of the following values:
+**enum**: the value of this property must be equal to one of the following string values:
 
 | Value              |
 |:-------------------|
@@ -3605,7 +3702,7 @@ The key of the toleration
 
 ### Constraints
 
-**enum**: the value of this property must be equal to one of the following values:
+**enum**: the value of this property must be equal to one of the following string values:
 
 | Value    |
 |:---------|
@@ -3660,7 +3757,7 @@ Set to override the tolerations that will be added to the pods of the package.
 
 ### Constraints
 
-**enum**: the value of this property must be equal to one of the following values:
+**enum**: the value of this property must be equal to one of the following string values:
 
 | Value              |
 |:-------------------|
@@ -3678,7 +3775,7 @@ The key of the toleration
 
 ### Constraints
 
-**enum**: the value of this property must be equal to one of the following values:
+**enum**: the value of this property must be equal to one of the following string values:
 
 | Value    |
 |:---------|
@@ -3695,11 +3792,11 @@ The value of the toleration
 
 ### Description
 
-The type of CNI plugin to use, either `calico` (default, via the Tigera Operator) or `cilium`.
+The type of CNI plugin to use, either `calico` (Tigera Operator) or `cilium`. Default is `calico`.
 
 ### Constraints
 
-**enum**: the value of this property must be equal to one of the following values:
+**enum**: the value of this property must be equal to one of the following string values:
 
 | Value    |
 |:---------|
@@ -3750,7 +3847,7 @@ The default enforcement action to use for the included constraints. `deny` will 
 
 ### Constraints
 
-**enum**: the value of this property must be equal to one of the following values:
+**enum**: the value of this property must be equal to one of the following string values:
 
 | Value    |
 |:---------|
@@ -3798,7 +3895,7 @@ Set to override the tolerations that will be added to the pods of the package.
 
 ### Constraints
 
-**enum**: the value of this property must be equal to one of the following values:
+**enum**: the value of this property must be equal to one of the following string values:
 
 | Value              |
 |:-------------------|
@@ -3816,7 +3913,7 @@ The key of the toleration
 
 ### Constraints
 
-**enum**: the value of this property must be equal to one of the following values:
+**enum**: the value of this property must be equal to one of the following string values:
 
 | Value    |
 |:---------|
@@ -3890,7 +3987,7 @@ Set to override the tolerations that will be added to the pods of the package.
 
 ### Constraints
 
-**enum**: the value of this property must be equal to one of the following values:
+**enum**: the value of this property must be equal to one of the following string values:
 
 | Value              |
 |:-------------------|
@@ -3908,7 +4005,7 @@ The key of the toleration
 
 ### Constraints
 
-**enum**: the value of this property must be equal to one of the following values:
+**enum**: the value of this property must be equal to one of the following string values:
 
 | Value    |
 |:---------|
@@ -3929,7 +4026,7 @@ The validation failure action to use for the policies, `Enforce` will block when
 
 ### Constraints
 
-**enum**: the value of this property must be equal to one of the following values:
+**enum**: the value of this property must be equal to one of the following string values:
 
 | Value     |
 |:----------|
@@ -3977,7 +4074,7 @@ Set to override the tolerations that will be added to the pods of the module.
 
 ### Constraints
 
-**enum**: the value of this property must be equal to one of the following values:
+**enum**: the value of this property must be equal to one of the following string values:
 
 | Value              |
 |:-------------------|
@@ -3995,7 +4092,7 @@ The key of the toleration
 
 ### Constraints
 
-**enum**: the value of this property must be equal to one of the following values:
+**enum**: the value of this property must be equal to one of the following string values:
 
 | Value    |
 |:---------|
@@ -4014,9 +4111,11 @@ The value of the toleration
 
 The type of policy enforcement to use, either `none`, `gatekeeper` or `kyverno`.
 
+Default is `none`.
+
 ### Constraints
 
-**enum**: the value of this property must be equal to one of the following values:
+**enum**: the value of this property must be equal to one of the following string values:
 
 | Value        |
 |:-------------|
@@ -4087,7 +4186,7 @@ Set to override the tolerations that will be added to the pods of the package.
 
 ### Constraints
 
-**enum**: the value of this property must be equal to one of the following values:
+**enum**: the value of this property must be equal to one of the following string values:
 
 | Value              |
 |:-------------------|
@@ -4105,7 +4204,7 @@ The key of the toleration
 
 ### Constraints
 
-**enum**: the value of this property must be equal to one of the following values:
+**enum**: the value of this property must be equal to one of the following string values:
 
 | Value    |
 |:---------|
@@ -4186,7 +4285,7 @@ Set to override the tolerations that will be added to the pods of the module.
 
 ### Constraints
 
-**enum**: the value of this property must be equal to one of the following values:
+**enum**: the value of this property must be equal to one of the following string values:
 
 | Value              |
 |:-------------------|
@@ -4204,7 +4303,7 @@ The key of the toleration
 
 ### Constraints
 
-**enum**: the value of this property must be equal to one of the following values:
+**enum**: the value of this property must be equal to one of the following string values:
 
 | Value    |
 |:---------|
@@ -4240,7 +4339,7 @@ The storage backend type for Tempo. `minio` will use an in-cluster MinIO deploym
 
 ### Constraints
 
-**enum**: the value of this property must be equal to one of the following values:
+**enum**: the value of this property must be equal to one of the following string values:
 
 | Value              |
 |:-------------------|
@@ -4279,7 +4378,7 @@ The bucket name of the external S3-compatible object storage.
 
 ### Description
 
-External S3-compatible endpoint for Tempo's storage.
+The external S3-compatible endpoint for Tempo's storage.
 
 ## .spec.distribution.modules.tracing.tempo.externalEndpoint.insecure
 
@@ -4327,7 +4426,7 @@ Set to override the tolerations that will be added to the pods of the package.
 
 ### Constraints
 
-**enum**: the value of this property must be equal to one of the following values:
+**enum**: the value of this property must be equal to one of the following string values:
 
 | Value              |
 |:-------------------|
@@ -4345,7 +4444,7 @@ The key of the toleration
 
 ### Constraints
 
-**enum**: the value of this property must be equal to one of the following values:
+**enum**: the value of this property must be equal to one of the following string values:
 
 | Value    |
 |:---------|
@@ -4370,9 +4469,11 @@ The retention time for the traces stored in Tempo.
 
 The type of tracing to use, either `none` or `tempo`. `none` will disable the Tracing module and `tempo` will install a Grafana Tempo deployment.
 
+Default is `tempo`.
+
 ### Constraints
 
-**enum**: the value of this property must be equal to one of the following values:
+**enum**: the value of this property must be equal to one of the following string values:
 
 | Value   |
 |:--------|
@@ -4383,7 +4484,7 @@ The type of tracing to use, either `none` or `tempo`. `none` will disable the Tr
 
 ### Description
 
-Defines which KFD version will be installed and, in consequence, the Kubernetes version used to create the cluster. It supports git tags and branches. Example: v1.30.1.
+Defines which KFD version will be installed and, in consequence, the Kubernetes version used to create the cluster. It supports git tags and branches. Example: `v1.30.1`.
 
 ### Constraints
 
@@ -5004,7 +5105,7 @@ Name for the node group. It will be also used as the node role label. It should 
 
 ### Constraints
 
-**enum**: the value of this property must be equal to one of the following values:
+**enum**: the value of this property must be equal to one of the following string values:
 
 | Value              |
 |:-------------------|
@@ -5150,20 +5251,27 @@ The subnet CIDR to use for the Services network.
 
 ### Properties
 
-| Property                                       | Type     | Required |
-|:-----------------------------------------------|:---------|:---------|
-| [chart](#specpluginshelmreleaseschart)         | `string` | Required |
-| [name](#specpluginshelmreleasesname)           | `string` | Required |
-| [namespace](#specpluginshelmreleasesnamespace) | `string` | Required |
-| [set](#specpluginshelmreleasesset)             | `array`  | Optional |
-| [values](#specpluginshelmreleasesvalues)       | `array`  | Optional |
-| [version](#specpluginshelmreleasesversion)     | `string` | Optional |
+| Property                                                                         | Type      | Required |
+|:---------------------------------------------------------------------------------|:----------|:---------|
+| [chart](#specpluginshelmreleaseschart)                                           | `string`  | Required |
+| [disableValidationOnInstall](#specpluginshelmreleasesdisablevalidationoninstall) | `boolean` | Optional |
+| [name](#specpluginshelmreleasesname)                                             | `string`  | Required |
+| [namespace](#specpluginshelmreleasesnamespace)                                   | `string`  | Required |
+| [set](#specpluginshelmreleasesset)                                               | `array`   | Optional |
+| [values](#specpluginshelmreleasesvalues)                                         | `array`   | Optional |
+| [version](#specpluginshelmreleasesversion)                                       | `string`  | Optional |
 
 ## .spec.plugins.helm.releases.chart
 
 ### Description
 
 The chart of the release
+
+## .spec.plugins.helm.releases.disableValidationOnInstall
+
+### Description
+
+Disable running `helm diff` validation when installing the plugin, it will still be done when upgrading.
 
 ## .spec.plugins.helm.releases.name
 

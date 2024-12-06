@@ -13,6 +13,14 @@ kubernetes:
   - path: .spec.kubernetes.svcCidr
     immutable: true
 distribution:
+  - path: .spec.distribution.common.networkPoliciesEnabled
+    immutable: false
+    description: "changes to the network policies have been detected. This will cause the reconfiguration or deletion of the current network policies."
+    safe:
+      - to: none
+    reducers:
+      - key: distributionCommonNetworkPoliciesEnabled
+        lifecycle: pre-apply
   - path: .spec.distribution.modules.networking.type
     immutable: true
   - path: .spec.distribution.modules.logging.type

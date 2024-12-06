@@ -85,6 +85,8 @@ spec:
     nodeAllowedSshPublicKey: "ssh-ed25519 XYZ"
     # Either `launch_configurations`, `launch_templates` or `both`. For new clusters use `launch_templates`, for existing cluster you'll need to migrate from `launch_configurations` to `launch_templates` using `both` as interim.
     nodePoolsLaunchKind: "launch_templates"
+    # Global default AMI type used for EKS worker nodes. This will apply to all node pools unless overridden by a specific node pool. Valid values are: `alinux2`, `alinux2023`
+    nodePoolGlobalAmiType: "alinux2"
     # Optional Kubernetes Cluster log retention in days. Defaults to 90 days.
     # logRetentionDays: 90
     # This map defines the access to the Kubernetes API server
@@ -97,6 +99,7 @@ spec:
     nodePools:
         # This is the name of the nodepool
       - name: infra
+        type: self-managed
         # This map defines the max and min number of nodes in the nodepool autoscaling group
         size:
           min: 1
@@ -124,8 +127,8 @@ spec:
           - node.kubernetes.io/role=infra:NoSchedule
         # AWS tags that will be added to the ASG and EC2 instances, the example shows the labels needed by cluster autoscaler
         tags:
-          k8s.io/cluster-autoscaler/node-template/label/nodepool: "worker"
-          k8s.io/cluster-autoscaler/node-template/label/node.kubernetes.io/role: "worker"
+          k8s.io/cluster-autoscaler/node-template/label/nodepool: "infra"
+          k8s.io/cluster-autoscaler/node-template/label/node.kubernetes.io/role: "infra"
         # Optional additional firewall rules that will be attached to the nodes
         #additionalFirewallRules:
         #    # The name of the rule
@@ -143,7 +146,7 @@ spec:
         #      to: 80
         #    # Additional AWS tags
         #    tags: {}
-    # aws-auth configmap definition, see https://docs.aws.amazon.com/eks/latest/userguide/add-user-role.html for more informations
+    # aws-auth configmap definition, see https://docs.aws.amazon.com/eks/latest/userguide/add-user-role.html for more information.
     awsAuth: {}
     #  additionalAccounts:
     #    - "777777777777"
@@ -209,7 +212,7 @@ spec:
             #   - http01:
             #       ingress:
             #         class: nginx
-        # DNS definition, used in conjunction with externalDNS package to automate DNS management and certificates emission
+        # DNS definition, used in conjunction with externalDNS package to automate DNS management and certificates emission.
         dns:
           # the public DNS zone definition
           public:
@@ -227,6 +230,9 @@ spec:
       logging:
         # can be opensearch, loki, customOutput or none. With none, the logging module won't be installed
         type: loki
+        # configurations for the loki package
+        loki:
+          tsdbStartDate: "2024-11-20"
         # configurations for the minio-ha package
         minio:
           # the PVC size for each minio disk, 6 disks total

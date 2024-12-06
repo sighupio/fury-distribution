@@ -15,7 +15,7 @@ data:
     relativeVendorPath: "../../vendor"
     provider:
       type: eks
-
+    networkPoliciesEnabled: false
   # the module section will be used to fine tune each module behaviour and configuration
   modules:
     # ingress module configuration
@@ -47,7 +47,7 @@ data:
           name: ""
           create: true
           # internal field, should be either the VPC ID taken from the kubernetes
-          # phase or the ID of the created VPC in the Ifra phase
+          # phase or the ID of the created VPC in the Infra phase
           vpcId: ""
       # common configuration for nginx ingress controller
       nginx:
@@ -253,6 +253,16 @@ data:
           bucketName: velerobucket
         schedules:
           install: true
+          definitions:
+            manifests:
+              schedule: "*/15 * * * *"
+              ttl: "720h0m0s"
+            full:
+              schedule: "0 1 * * *"
+              ttl: "720h0m0s"
+              snapshotMoveData: false
+        snapshotController:
+          install: false
     # auth module configuration
     auth:
       overrides:

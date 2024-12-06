@@ -37,18 +37,27 @@ if [ "$dryrun" != "" ]; then
   exit 0
 fi
 
-{{- if eq .spec.distribution.modules.networking.type "calico" }}
-$kubectlbin create namespace calico-system --dry-run=client -o yaml | $kubectlbin apply -f - --server-side
-{{- end }}
-
-echo "Clean up init jobs, since they are immutable and we need to remove them before applying a new version."
+echo "Clean up old init jobs..."
 
 $kubectlbin delete --ignore-not-found --wait --timeout=180s job minio-setup -n kube-system
 $kubectlbin delete --ignore-not-found --wait --timeout=180s job minio-logging-buckets-setup -n logging
 $kubectlbin delete --ignore-not-found --wait --timeout=180s job minio-monitoring-buckets-setup -n monitoring
 $kubectlbin delete --ignore-not-found --wait --timeout=180s job minio-tracing-buckets-setup -n tracing
 
-$kappbin deploy -a kfd -n kube-system -f out.yaml --allow-all-ns -y --default-label-scoping-rules=false -c
+additionalKappArgs=""
+
+{{- if eq .spec.distribution.modules.networking.type "calico" }}
+    additionalKappArgs+="-f <($kubectlbin create namespace calico-system --dry-run=client -o yaml)"
+{{- end }}
+
+{{- if eq .spec.distribution.modules.policy.type "gatekeeper" }}
+    {{- if eq .spec.distribution.modules.policy.gatekeeper.installDefaultPolicies }}
+    # We need this to tell Kapp that the CRDs will be created later by Gatekeeper
+    additionalKappArgs+="-f ../../vendor/modules/opa/katalog/tests/kapp/exists.yaml"
+    {{- end }}
+{{- end }}
+
+$kappbin deploy -a kfd -n kube-system -f out.yaml $additionalKappArgs --allow-all-ns -y --default-label-scoping-rules=false --apply-default-update-strategy=fallback-on-replace -c
 
 echo "Executing cleanup migrations on values that can be nil..."
 

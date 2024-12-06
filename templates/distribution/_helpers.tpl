@@ -42,7 +42,11 @@
         $moduleNodeSelector
         (index .spec.distribution.common "nodeSelector") -}}
 
+  {{- if and (not $nodeSelector) (index . "returnEmptyInsteadOfNull") .returnEmptyInsteadOfNull -}}
+  {{- "{}" | indent $indent | trim -}}
+  {{- else -}}
   {{- $nodeSelector | toYaml | indent $indent | trim -}}
+  {{- end -}}
 {{- end -}}
 
 {{- define "tolerations" -}}
@@ -70,7 +74,11 @@
         $moduleTolerations
         (index .spec.distribution.common "tolerations") -}}
 
+  {{- if and (not $tolerations) (index . "returnEmptyInsteadOfNull") .returnEmptyInsteadOfNull -}}
+  {{- "[]" | indent $indent | trim -}}
+  {{- else -}}
   {{- $tolerations | toYaml | indent $indent | trim -}}
+  {{- end -}}
 {{- end -}}
 
 {{ define "globalIngressClass" }}
