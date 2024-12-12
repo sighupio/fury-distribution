@@ -1,5 +1,0 @@
-{"level":"debug","msg":"logging to: /home/samuelechiocca/Projects/github.com/sighupio/fury-distribution/.furyctl/furyctl.1730218659-55416.log","time":"2024-10-29T17:17:39+01:00"}
-{"level":"debug","msg":"Getting Home Directory Path...","time":"2024-10-29T17:17:39+01:00"}
-{"level":"debug","action":"git version","msg":"git version 2.47.0\n","time":"2024-10-29T17:17:39+01:00"}
-{"level":"info","msg":"Downloading distribution...","time":"2024-10-29T17:17:39+01:00"}
-{"level":"info","msg":"There is a newer release available: v0.29.10","time":"2024-10-29T17:17:40+01:00"}
