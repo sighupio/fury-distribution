@@ -142,7 +142,7 @@
     - name: Deserialize previous cluster configuration into a variable
       delegate_to: localhost
       ansible.builtin.set_fact:
-        furyctl_yaml: "{{ print "{{ previous_state.stdout | b64decode | from_yaml }}" }}"
+        furyctl_yaml: "{{ "{{ previous_state.stdout | b64decode | from_yaml }}" }}"
       when: previous_state.rc == 0 and previous_state.stdout != "null"
       # This is common for all the nodes, just run it once.
       run_once: true
@@ -154,8 +154,9 @@
       vars:
         # We calculate the removed labels and annotations so we can pass them as parameters with the appended `-` to delete them from the nodes.
         # If they were not defined in the previous configuration we default to an empty list for calculating the difference.
+        # We use the `reject` filter to remove the role label in case it was added manually, so it does not get removed.
+        removed_cp_labels: "{{ "{{ furyctl_yaml.spec.kubernetes.masters.labels | default([], true) | difference(kubernetes_node_labels|default([], true)) | reject('match', 'node-role.kubernetes.io/control-plane') }}" }}"
         removed_cp_annotations: "{{ "{{ furyctl_yaml.spec.kubernetes.masters.annotations | default([], true) | difference(kubernetes_node_annotations|default([], true)) }}" }}"
-        removed_cp_labels: "{{ "{{ furyctl_yaml.spec.kubernetes.masters.labels | default([], true) | difference(kubernetes_node_labels|default([], true)) }}" }}"
       ansible.builtin.set_fact:
         # We apply all the labels defined in the new configuration and delete the removed ones. We don't care if the rest are new or existed before, we just overwrite.
         node_labels: "{{ "{% for l in kubernetes_node_labels|default([], true) %}{{l}}={{kubernetes_node_labels[l]}} {% endfor %}{% for rl in removed_cp_labels %}{{rl}}- {% endfor %}" }}"
@@ -173,7 +174,9 @@
         # We need to identify which element of the `nodes` list is the right one for this node.
         node_group_details: "{{ "{{ furyctl_yaml.spec.kubernetes.nodes | selectattr('name', '==', kubernetes_role) | first }}" }}"
         # We calculate the removed labels and annotations accessing the element of the `nodes` property we got in the previous line.
-        removed_node_labels: "{{ "{{ node_group_details.labels|default([], true) | difference(kubernetes_node_labels|default([], true)) }}" }}"
+        # We use the `reject` filter to remove the role label in case it was added manually, so it does not get removed.
+        node_role_label: {{ "node-role.kubernetes.io/{{ kubernetes_role }}" }}
+        removed_node_labels: "{{ "{{ node_group_details.labels|default([], true) | difference(kubernetes_node_labels|default([], true)) | reject('match', node_role_label) }}" }}"
         removed_node_annotations: "{{ "{{ node_group_details.annotations|default([], true) | difference(kubernetes_node_annotations|default([], true)) }}" }}"
       ansible.builtin.set_fact:
         node_labels: "{{ "{% for l in kubernetes_node_labels|default([], true) %}{{l}}={{kubernetes_node_labels[l]}} {% endfor %}{% for rl in removed_node_labels %}{{rl}}- {% endfor %}" }}"
@@ -195,11 +198,11 @@
     # Update the control plane and nodes labels with what we calculated before only if needed.
     - name: Update node labels
       delegate_to: localhost
-      ansible.builtin.command: "{{ .paths.kubectl }} {{ print "label node {{ kubernetes_hostname }} {{ node_labels }} --overwrite --kubeconfig={{ kubernetes_kubeconfig_path }}admin.conf" }}"
+      ansible.builtin.command: "{{ .paths.kubectl }} {{ "label node {{ kubernetes_hostname }} {{ node_labels }} --overwrite --kubeconfig={{ kubernetes_kubeconfig_path }}admin.conf" }}"
       when: node_labels is defined and node_labels|trim != ''
 
     # Update the control plane and nodes annotations with what we calculated before only if needed.
     - name: Update node annotations
       delegate_to: localhost
-      ansible.builtin.command: "{{ .paths.kubectl }} {{ print "annotate node {{ kubernetes_hostname }} {{ node_annotations }} --overwrite --kubeconfig={{ kubernetes_kubeconfig_path }}admin.conf" }}"
+      ansible.builtin.command: "{{ .paths.kubectl }} {{ "annotate node {{ kubernetes_hostname }} {{ node_annotations }} --overwrite --kubeconfig={{ kubernetes_kubeconfig_path }}admin.conf" }}"
       when: node_annotations is defined and node_annotations|trim != ''

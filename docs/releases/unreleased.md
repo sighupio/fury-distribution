@@ -45,7 +45,7 @@ The distribution is maintained with ❤️ by the team [SIGHUP](https://sighup.i
   ```yaml
   ...
   spec:
-    kubernete:
+    kubernetes:
       masters:
         hosts:
           - name: master1
