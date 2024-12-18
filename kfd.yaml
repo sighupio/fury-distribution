@@ -19,7 +19,7 @@ kubernetes:
     installer: v3.2.0
   onpremises:
     version: 1.31.4
-    installer: v1.31.4-rc.0
+    installer: v1.31.4
 furyctlSchemas:
   eks:
     - apiVersion: kfd.sighup.io/v1alpha2
@@ -35,7 +35,7 @@ tools:
     furyagent:
       version: 0.4.0
     kubectl:
-      version: 1.31.3
+      version: 1.31.4
     kustomize:
       version: 3.10.0
     terraform:
