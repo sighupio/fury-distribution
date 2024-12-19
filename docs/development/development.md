@@ -23,6 +23,8 @@ The files used by `furyctl`, in addition to the schema generated in `pkg/apis`, 
 <details>
   <summary>Answer</summary>
 
+Once you install fury for the first time, if you change mind about a configuration and you want to edit the `furyctl.yaml` file and reinstall there are some rules in place. These rules can contain migration paths and immutable fields.
+
 The rules for immutable fields and migrations are evaluated within the core logic of the `furyctl` tool. These rules are defined in the configuration files and enforced by the tool to ensure consistency and prevent misconfigurations.
 
 These rules serve as safety mechanisms during module changes (e.g., switching from the Loki logging system to OpenSearch). Some changes are allowed, while others are not. For example, fields marked as `immutable` will return an error if an attempt is made to change them.
