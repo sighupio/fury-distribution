@@ -12,6 +12,8 @@ The files used by `furyctl`, in addition to the schema generated in `pkg/apis`, 
 - **Templates for the distribution**: These are found in the `templates` folder and include specific templates like Terraform for `EKSCluster`. These templates serve as blueprints for configuring and deploying components (like cloud resources), enabling customizations for different environments.
 
 - **Rules for `furyctl.yaml` changes**: The rules determine which changes are permitted in the `furyctl.yaml` file after initial deployment. These rules are critical for ensuring that modifications to the configuration are safe and consistent with the intended deployment workflow, particularly when managing state changes across environments.
+
+- **Basic models for KFD and `furyctl.yaml` kind and version**: These are contained in the `pkg/apis/config` folder. These Go structures are used to parse the `kfd.yaml` file and the initial information such as `Kind` and `APIVersion` from the `furyctl.yaml`.
 </details>
 
 ---
@@ -28,6 +30,8 @@ These rules serve as safety mechanisms during module changes (e.g., switching fr
 The rules are configured in the `rules` folder, and the commands/scripts executed for each rule are found in `templates/distribution/scripts/pre-apply.sh.tpl`.
 
 Additionally, **Reducers** are special fields rendered inside the template engine that indicate whether a particular feature or module of the distribution has changed. The `.to` and `.from` strings indicate these changes precisely.
+
+For example from logging `loki` to `opensearch` the `.form` key contains the previous value `loki` and the key `.to` contains `opensearch` so you can run the `deleteLoki` script by checking the `.from` key. The new module `opensearch` will then be installed by the standard apply flow. (`templates/distribution/scripts/pre-apply.sh.tpl:106`)
 
 </details>
 
@@ -55,9 +59,12 @@ Once identified, `furyctl` downloads or references these dependencies from eithe
 
 The important commands in the `Makefile` are:
 
+- **`make tools-go`**: This command it's important and installs all the tools required for the subsequent commands.
+
 - **`make generate-go-models`**: This command generates Go code from the JSON schema files. The generated code defines the data models used in the codebase, providing a structured representation of the resources and configurations used by `furyctl`. It essentially converts the schema into Go structs, which are essential for interacting with the configuration data programmatically.
 
 - **`make generate-docs`**: This command generates Markdown documentation from the schema files. It extracts the necessary information from the schemas and formats it into human-readable documentation, helping developers and users understand how to configure and use the distribution and resources. This documentation serves as the primary reference for anyone interacting with `furyctl`.
+
 </details>
 
 ---
@@ -71,6 +78,6 @@ The `public` schema serves as the base schema, which is shared and visible to al
 
 The `private` schema is a modified version of the public schema, typically used internally within `furyctl`. It includes additional fields or configurations that should not be exposed in the public configuration files (like `furyctl.yaml`), but are still necessary for certain internal operations or customizations within the codebase.
 
-A notable case where the private schema is used is with the `EKSCluster` resource. Here, a patch is applied to the public schema to add internal fields that are required for `furyctl` to function but are not intended for end-user modification. This separation ensures that sensitive or internal details remain private while maintaining flexibility for internal customization.
+A notable case where the private schema is used is with the `EKSCluster` resource. Here, a patch (`schemas/private/ekscluster-kfd-v1alpha2.patch.json`) is applied to the public schema (`schemas/public/ekscluster-kfd-v1alpha2.json`) with `json-patch` and `jq` to add internal fields that are required for `furyctl` to function but are not intended for end-user modification. This separation ensures that sensitive or internal details remain private while maintaining flexibility for internal customization. Note that this process is automatic and managed by the `make generate-go-models` command.
 
 </details>
