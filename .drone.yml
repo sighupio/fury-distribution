@@ -214,7 +214,8 @@ type: docker
 
 depends_on:
   - qa
-  - e2e-kubernetes-1.31
+  #  I comment out the following dependency because we have now 2 workers, so we can run both pipelines in paralel.
+  # - e2e-kubernetes-1.31
 
 clone:
   depth: 1
