@@ -67,6 +67,8 @@ The important commands in the `Makefile` are:
 
 - **`make generate-docs`**: This command generates Markdown documentation from the schema files. It extracts the necessary information from the schemas and formats it into human-readable documentation, helping developers and users understand how to configure and use the distribution and resources. This documentation serves as the primary reference for anyone interacting with `furyctl`.
 
+To have a working dev environment you need to launch `make tools-go` and you must have `asdf` installed and configured.
+
 </details>
 
 ---
