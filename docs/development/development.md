@@ -61,7 +61,7 @@ The important commands in the `Makefile` are:
 
 - **`make tools-go`**: This command it's important and installs all the tools required for the subsequent commands.
 
-- **`make generate-go-models`**: This command generates Go code from the JSON schema files. The generated code defines the data models used in the codebase, providing a structured representation of the resources and configurations used by `furyctl`. It essentially converts the schema into Go structs, which are essential for interacting with the configuration data programmatically.
+- **`make generate-go-models`**: This command generates Go code from the JSON schema files. The generated code defines the data models used in the codebase, providing a structured representation of the resources and configurations used by `furyctl`. It essentially converts the schema into Go structs, which are essential for interacting with the configuration data programmatically. The tool used to generate the code is https://github.com/sighupio/go-jsonschema.
 
 - **`make generate-docs`**: This command generates Markdown documentation from the schema files. It extracts the necessary information from the schemas and formats it into human-readable documentation, helping developers and users understand how to configure and use the distribution and resources. This documentation serves as the primary reference for anyone interacting with `furyctl`.
 
