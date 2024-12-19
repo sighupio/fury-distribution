@@ -146,7 +146,7 @@ KFD has been certified by the [CNCF] (Cloud Native Computing Foundation) as a _C
 
 <!-- markdownlint-disable MD033 -->
 <p align="center">
-    <a href="https://github.com/cncf/k8s-conformance/pull/3124">
+    <a href="https://github.com/cncf/k8s-conformance/pull/3497">
         <img src="https://raw.githubusercontent.com/cncf/artwork/main/projects/kubernetes/certified-kubernetes/versionless/pantone/certified-kubernetes-pantone.svg" width="120" alt="KFD is CNCF Certified Kubernetes 1.29 - click to see the certification PR"/>
     </a>
 </p>
