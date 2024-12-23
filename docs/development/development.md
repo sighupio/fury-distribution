@@ -1,6 +1,6 @@
 # Development FAQ
 
-### **What are the points of the library used by furyctl that are not automatically generated and what's their purpose?**
+## **What are the points of the library used by furyctl that are not automatically generated and what's their purpose?**
 
 <details>
   <summary>Answer</summary>
@@ -18,7 +18,7 @@ The files used by `furyctl`, in addition to the schema generated in `pkg/apis`, 
 
 ---
 
-### **How do the rules for immutable fields/migrations work and where are they evaluated in furyctl's code?**
+## **How do the rules for immutable fields/migrations work and where are they evaluated in furyctl's code?**
 
 <details>
   <summary>Answer</summary>
@@ -39,7 +39,7 @@ For example from logging `loki` to `opensearch` the `.form` key contains the pre
 
 ---
 
-### **What's the dependency evaluation flow in the `kfd.yaml` and how does furyctl download them?**
+## **What's the dependency evaluation flow in the `kfd.yaml` and how does furyctl download them?**
 
 <details>
   <summary>Answer</summary>
@@ -54,7 +54,7 @@ Once identified, `furyctl` downloads or references these dependencies from eithe
 
 ---
 
-### **What's inside the Makefile?**
+## **What's inside the Makefile?**
 
 <details>
   <summary>Answer</summary>
@@ -73,7 +73,7 @@ To have a working dev environment you need to launch `make tools-go` and you mus
 
 ---
 
-### **What's the purpose of a private schema, and what are the differences from the public schema?**
+## **What's the purpose of a private schema, and what are the differences from the public schema?**
 
 <details>
   <summary>Answer</summary>
