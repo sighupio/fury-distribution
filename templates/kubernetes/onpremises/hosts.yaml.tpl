@@ -28,6 +28,14 @@ all:
           ansible_host: "{{ $h.ip }}"
           kubernetes_apiserver_advertise_address: "{{ $h.ip }}"
           kubernetes_hostname: "{{ $h.name }}.{{ $dnsZone }}"
+          {{- if index $.spec.kubernetes.masters "labels" }}
+          kubernetes_node_labels:
+            {{ $.spec.kubernetes.masters.labels | toYaml | indent 12 | trim }}
+          {{- end }}
+          {{- if index $.spec.kubernetes.masters "annotations" }}
+          kubernetes_node_annotations:
+            {{ $.spec.kubernetes.masters.annotations | toYaml | indent 12 | trim }}
+          {{- end }}
         {{- end }}
       vars:
         dns_zone: "{{ $dnsZone }}"
@@ -102,6 +110,14 @@ all:
             kubernetes_taints:
               {{ $n.taints | toYaml | indent 14 | trim }}
             {{- end }}
+            {{- if index $n "labels" }}
+            kubernetes_node_labels:
+              {{ $n.labels | toYaml | indent 14 | trim }}
+            {{- end -}}
+            {{- if index $n "annotations" }}
+            kubernetes_node_annotations:
+              {{ $n.annotations | toYaml | indent 14 | trim }}
+            {{- end -}}
       {{- end }}
     ungrouped: {}
   vars:
