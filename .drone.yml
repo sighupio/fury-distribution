@@ -153,6 +153,7 @@ steps:
         nodes:
           - role: control-plane
           - role: worker
+          - role: worker
         EOF
       # NOTE: kind's `--wait` flag that waits for the control-plane ot be ready
       # does not work when disabling the default CNI. It will always go in timeout.
@@ -256,6 +257,7 @@ steps:
           disableDefaultCNI: true
         nodes:
           - role: control-plane
+          - role: worker
           - role: worker
         EOF
       # NOTE: kind's `--wait` flag that waits for the control-plane ot be ready
