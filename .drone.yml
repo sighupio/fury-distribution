@@ -44,7 +44,7 @@ steps:
       # Disable go linting, we use the one included in the go image
       VALIDATE_GO: "false"
       # Exclude template files from linting. The linter does not understand Go template.
-      FILTER_REGEX_EXCLUDE: (templates/)
+      FILTER_REGEX_EXCLUDE: (templates/|\.github)
     depends_on:
       - license-check
       - schema-check
@@ -327,7 +327,7 @@ platform:
 trigger:
   ref:
     include:
-      - refs/tags/**
+      - refs/tags/v**
     exclude:
       - refs/tags/**-docs*
 
@@ -340,7 +340,7 @@ steps:
     when:
       ref:
         include:
-          - refs/tags/**
+          - refs/tags/v**
         exclude:
           - refs/tags/**-docs*
 
