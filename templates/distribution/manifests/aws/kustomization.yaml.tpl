@@ -20,3 +20,4 @@ patchesStrategicMerge:
   - patches/cluster-autoscaler.yml
   - patches/infra-nodes.yml
   - patches/load-balancer-controller.yml
+  - patches/load-balancer-controller-kapp-wait.yml

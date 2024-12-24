@@ -36,6 +36,9 @@ patchesStrategicMerge:
 {{- if .spec.distribution.modules.policy.kyverno.additionalExcludedNamespaces }}
   - patches/kyverno-whitelist-namespace.yml
 {{- end }}
+{{- if eq .spec.distribution.modules.policy.type "gatekeeper" }}
+  - patches/gatekeeper-kapp-ordering.yml
+{{- end }}
 
 {{- if eq .spec.distribution.modules.policy.type "kyverno" }}
 {{- if .spec.distribution.modules.policy.kyverno.installDefaultPolicies }}
