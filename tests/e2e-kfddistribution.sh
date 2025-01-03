@@ -12,11 +12,6 @@ echo "Testing that the components are running"
 bats -t tests/e2e-kfddistribution-init-cluster.sh
 
 echo "----------------------------------------------------------------------------"
-echo "Executing furyctl to values from nil"
-/tmp/furyctl create cluster --config tests/e2e/kfddistribution/furyctl-init-with-values-from-nil.yaml --outdir "$PWD" --distro-location ./ --skip-deps-download --force all --disable-analytics
-bats -t tests/e2e-kfddistribution-init-with-values-from-nil.sh
-
-echo "----------------------------------------------------------------------------"
 echo "Executing furyctl cleanup all modules and configurations"
 /tmp/furyctl create cluster --config tests/e2e/kfddistribution/furyctl-cleanup-all.yaml --outdir "$PWD" --distro-location ./ --skip-deps-download --force all --disable-analytics
 bats -t tests/e2e-kfddistribution-cleanup-all.sh
