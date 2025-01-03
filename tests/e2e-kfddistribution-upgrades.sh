@@ -6,12 +6,11 @@
 set -e
 
 echo "----------------------------------------------------------------------------"
-echo "Executing furyctl for the initial setup 1.29.4"
-/tmp/furyctl apply --config tests/e2e/kfddistribution-upgrades/furyctl-init-cluster-1.29.4.yaml --outdir "$PWD" --disable-analytics
+echo "Executing furyctl for the initial setup 1.29.5"
+/tmp/furyctl apply --config tests/e2e/kfddistribution-upgrades/furyctl-init-cluster-1.29.5.yaml --outdir "$PWD" --disable-analytics
 
 echo "----------------------------------------------------------------------------"
-echo "Executing upgrade to 1.29.5"
+echo "Executing upgrade to 1.29.6"
 # we set the switch date for Loki to "tomorrow". Notice that `-d flag` does not work on Darwin, you need to use `-v +1d` instead.
-# this is needed only when upgrading from 1.29.4 to 1.29.5 (and equivalent versions)
-yq -i ".spec.distribution.modules.logging.loki.tsdbStartDate=\"$(date -I -d '+1 day')\"" tests/e2e/kfddistribution-upgrades/furyctl-init-cluster-1.29.5.yaml
-/tmp/furyctl apply --upgrade --config tests/e2e/kfddistribution-upgrades/furyctl-init-cluster-1.29.5.yaml --outdir "$PWD" --distro-location ./ --force upgrades --disable-analytics
+# this is needed only when upgrading from 1.29.5 to 1.29.6 (and equivalent versions)
+/tmp/furyctl apply --upgrade --config tests/e2e/kfddistribution-upgrades/furyctl-init-cluster-1.29.6.yaml --outdir "$PWD" --distro-location ./ --force upgrades --disable-analytics
