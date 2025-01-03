@@ -7,8 +7,8 @@
 <p align="center">Kubernetes Fury Distribution (KFD) is a certified battle-tested Kubernetes distribution based purely on upstream Kubernetes.</p>
 <!-- markdownlint-enable MD033 MD045 -->
 
-[![Build Status](http://ci.sighup.io/api/badges/sighupio/fury-distribution/status.svg?ref=refs/tags/v1.29.5)](http://ci.sighup.io/sighupio/fury-distribution)
-[![Release](https://img.shields.io/badge/release-v1.29.5-blue?label=FuryDistributionRelease)](https://github.com/sighupio/fury-distribution/releases/latest)
+[![Build Status](http://ci.sighup.io/api/badges/sighupio/fury-distribution/status.svg?ref=refs/tags/v1.29.6)](http://ci.sighup.io/sighupio/fury-distribution)
+[![Release](https://img.shields.io/badge/release-v1.29.6-blue?label=FuryDistributionRelease)](https://github.com/sighupio/fury-distribution/releases/latest)
 [![Slack](https://img.shields.io/badge/slack-@kubernetes/fury-yellow.svg?logo=slack)](https://kubernetes.slack.com/archives/C0154HYTAQH)
 [![License](https://img.shields.io/github/license/sighupio/fury-distribution)](https://github.com/sighupio/fury-distribution/blob/main/LICENSE)
 
@@ -75,13 +75,13 @@ A KFD production grade cluster will be composed of 3 node pools:
 Some modules rely on persistent storage via PersistentVolumeClaims, by default (but configurable) the following capacity will be used:
 
 | Description                                | Size (GB) |
-| ------------------------------------------ | --------- |
-| Prometheus (metrics storage)               | 150       |
-| MinIO Monitoring (metrics storage, 20GBx6) | 120       |
-| MinIO Logging (logs storage, 20GBx6)       | 120       |
-| OpenSearch (logs storage)                  | 30        |
-| MinIO Tracing (traces storage)             | 120       |
-| **Total**                                  | **540**   |
+| ------------------------------------------ | --------: |
+| Prometheus (metrics storage)               |       150 |
+| MinIO Monitoring (metrics storage, 20GBx6) |       120 |
+| MinIO Logging (logs storage, 20GBx6)       |       120 |
+| OpenSearch (logs storage)                  |        30 |
+| MinIO Tracing (traces storage)             |       120 |
+| **Total**                                  |   **540** |
 
 ### Core Modules 📦
 
@@ -130,9 +130,14 @@ Current supported versions of KFD are:
 
 |                                  KFD Version                                   | Kubernetes Version |
 | :----------------------------------------------------------------------------: | :----------------: |
-| [`1.30.0`](https://github.com/sighupio/fury-distribution/releases/tag/v1.30.0) |      `1.30.x`      |
-| [`1.29.5`](https://github.com/sighupio/fury-distribution/releases/tag/v1.29.5) |      `1.29.x`      |
+| [`1.31.0`](https://github.com/sighupio/fury-distribution/releases/tag/v1.31.0) |      `1.31.x`      |
+| [`1.30.1`](https://github.com/sighupio/fury-distribution/releases/tag/v1.30.1) |      `1.30.x`      |
+| [`1.29.6`](https://github.com/sighupio/fury-distribution/releases/tag/v1.29.6) |      `1.29.x`      |
 | [`1.28.5`](https://github.com/sighupio/fury-distribution/releases/tag/v1.28.5) |      `1.28.x`      |
+
+> [!NOTE]
+> Usually, KFD supports 3 versions simultaneously that compatible with 3 different underlying Kubernetes versions. With KFD v1.31.0 the support for KFD v1.28.x will be extended for some time, effectively providing support for 4 versions (1.28, 1.29, 1.30 and 1.31).
+> See the [versioning](docs/VERSIONING.md) document for more details on KFD's version skew policy.
 
 Check the [compatibility matrix][compatibility-matrix] for additional information about previous releases of the Distribution and the compatibility with `furyctl`.
 
