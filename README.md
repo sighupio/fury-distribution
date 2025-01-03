@@ -132,8 +132,8 @@ Current supported versions of KFD are:
 | :----------------------------------------------------------------------------: | :----------------: |
 | [`1.31.0`](https://github.com/sighupio/fury-distribution/releases/tag/v1.31.0) |      `1.31.x`      |
 | [`1.30.1`](https://github.com/sighupio/fury-distribution/releases/tag/v1.30.1) |      `1.30.x`      |
-| [`1.29.5`](https://github.com/sighupio/fury-distribution/releases/tag/v1.29.5) |      `1.29.x`      |
-| [`1.28.5`](https://github.com/sighupio/fury-distribution/releases/tag/v1.28.5) |      `1.28.x`      |
+| [`1.29.6`](https://github.com/sighupio/fury-distribution/releases/tag/v1.29.6) |      `1.29.x`      |
+| [`1.28.6`](https://github.com/sighupio/fury-distribution/releases/tag/v1.28.6) |      `1.28.x`      |
 
 > [!NOTE]
 > Usually, KFD supports 3 versions simultaneously that compatible with 3 different underlying Kubernetes versions. With KFD v1.31.0 the support for KFD v1.28.x will be extended for some time, effectively providing support for 4 versions (1.28, 1.29, 1.30 and 1.31).
