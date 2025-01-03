@@ -7,3 +7,5 @@ vendor
 go.work
 go.work.sum
 .envrc
+.local
+.furyctl

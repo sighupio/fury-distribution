@@ -8,7 +8,7 @@ kind: KFDDistribution
 metadata:
   name: sighup
 spec:
-  distributionVersion: v1.28.5
+  distributionVersion: v1.28.6
   # This section describes how the KFD distribution will be installed
   distribution:
     kubeconfig: "{env://KUBECONFIG}"
@@ -33,53 +33,39 @@ spec:
       logging:
         type: loki
         loki:
-          tsdbStartDate: "2024-11-21"
-          backend: externalEndpoint
-          externalEndpoint:
-            endpoint: 192.168.1.100:9000
-            insecure: true
-            accessKeyId: minio
-            secretAccessKey: supersecretpassword
-            bucketName: loki
+          tsdbStartDate: "2024-11-28" # this should be a day in the future when upgrading
+        minio:
+          storageSize: 20Gi
+          rootUser:
+            username: sighup
+            password: secretpassword1
       monitoring:
-        type: mimir
-        mimir:
-          backend: externalEndpoint
-          externalEndpoint:
-            endpoint: 192.168.1.100:9000
-            insecure: true
-            accessKeyId: minio
-            secretAccessKey: supersecretpassword
-            bucketName: mimir
+        type: prometheus
+        prometheus:
+          resources:
+            requests:
+              cpu: 10m
+            limits:
+              cpu: 2000m
+              memory: 6Gi
       tracing:
-        type: tempo
-        tempo:
-          backend: externalEndpoint
-          externalEndpoint:
-            endpoint: 192.168.1.100:9000
-            insecure: true
-            accessKeyId: minio
-            secretAccessKey: supersecretpassword
-            bucketName: tempo
+        type: none
       policy:
         type: kyverno
         kyverno:
           additionalExcludedNamespaces: ["local-path-storage"]
-          installDefaultPolicies: false
           validationFailureAction: Enforce
+          installDefaultPolicies: true
       dr:
         type: on-premises
-        velero:
-          backend: externalEndpoint
-          externalEndpoint:
-            endpoint: 192.168.1.100:9000
-            insecure: true
-            accessKeyId: minio
-            secretAccessKey: supersecretpassword
-            bucketName: velero
+        velero: {}
       auth:
         provider:
-          type: none
+          type: basicAuth
+          basicAuth:
+            username: test
+            password: testpassword
+    # patches for kind compatibility and resource setting
     customPatches:
       patchesStrategicMerge:
         - |
