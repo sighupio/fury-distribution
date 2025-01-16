@@ -8,7 +8,7 @@ kind: KFDDistribution
 metadata:
   name: sighup
 spec:
-  distributionVersion: v1.29.4
+  distributionVersion: v1.29.6
   # This section describes how the KFD distribution will be installed
   distribution:
     kubeconfig: "{env://KUBECONFIG}"
@@ -32,6 +32,8 @@ spec:
             type: http01
       logging:
         type: loki
+        loki:
+          tsdbStartDate: "2024-11-28" # this should be a day in the future when upgrading
         minio:
           storageSize: 20Gi
           rootUser:
@@ -52,7 +54,7 @@ spec:
         type: kyverno
         kyverno:
           additionalExcludedNamespaces: ["local-path-storage"]
-          validationFailureAction: enforce
+          validationFailureAction: Enforce
           installDefaultPolicies: true
       dr:
         type: on-premises
