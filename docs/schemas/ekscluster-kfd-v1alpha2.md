@@ -4297,7 +4297,7 @@ The value of the toleration
 
 ### Description
 
-The validation failure action to use for the policies, `Enforce` will block when a request does not comply with the policies and `Audit` will not block but log when a request does not comply with the policies.
+The validation failure action to use for the included policies, `Enforce` will block when a request does not comply with the policies and `Audit` will not block but log when a request does not comply with the policies.
 
 ### Constraints
 

@@ -2506,9 +2506,9 @@ type SpecDistributionModulesPolicyKyverno struct {
 	// Overrides corresponds to the JSON schema field "overrides".
 	Overrides *TypesFuryModuleComponentOverrides `json:"overrides,omitempty" yaml:"overrides,omitempty" mapstructure:"overrides,omitempty"`
 
-	// The validation failure action to use for the policies, `Enforce` will block
-	// when a request does not comply with the policies and `Audit` will not block but
-	// log when a request does not comply with the policies.
+	// The validation failure action to use for the included policies, `Enforce` will
+	// block when a request does not comply with the policies and `Audit` will not
+	// block but log when a request does not comply with the policies.
 	ValidationFailureAction SpecDistributionModulesPolicyKyvernoValidationFailureAction `json:"validationFailureAction" yaml:"validationFailureAction" mapstructure:"validationFailureAction"`
 }
 

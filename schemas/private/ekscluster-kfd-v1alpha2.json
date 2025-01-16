@@ -2301,7 +2301,7 @@
             "Audit",
             "Enforce"
           ],
-          "description": "The validation failure action to use for the policies, `Enforce` will block when a request does not comply with the policies and `Audit` will not block but log when a request does not comply with the policies."
+          "description": "The validation failure action to use for the included policies, `Enforce` will block when a request does not comply with the policies and `Audit` will not block but log when a request does not comply with the policies."
         },
         "installDefaultPolicies": {
           "type": "boolean",
