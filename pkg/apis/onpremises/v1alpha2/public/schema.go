@@ -2952,6 +2952,8 @@ func (j *SpecKubernetesLoadBalancers) UnmarshalJSON(b []byte) error {
 	return nil
 }
 
+type TypesKubeAnnotations map[string]string
+
 type SpecKubernetesMastersHost struct {
 	// The IP address of the host
 	Ip string `json:"ip" yaml:"ip" mapstructure:"ip"`
@@ -2983,10 +2985,24 @@ func (j *SpecKubernetesMastersHost) UnmarshalJSON(b []byte) error {
 	return nil
 }
 
+type TypesKubeLabels_1 map[string]string
+
 // Configuration for the control plane hosts
 type SpecKubernetesMasters struct {
+	// Optional additional Kubernetes annotations that will be added to the
+	// control-plane nodes. Follows Kubernetes annotations format. **Existing
+	// annotations with the same key will be overwritten**.
+	Annotations TypesKubeAnnotations `json:"annotations,omitempty" yaml:"annotations,omitempty" mapstructure:"annotations,omitempty"`
+
 	// Hosts corresponds to the JSON schema field "hosts".
 	Hosts []SpecKubernetesMastersHost `json:"hosts" yaml:"hosts" mapstructure:"hosts"`
+
+	// Optional additional Kubernetes labels that will be added to the control-plane
+	// nodes. Follows Kubernetes labels format.
+	//
+	// Note: **Existing labels with the same key will be overwritten** and the label
+	// setting the `control-plane` role cannot be deleted.
+	Labels TypesKubeLabels_1 `json:"labels,omitempty" yaml:"labels,omitempty" mapstructure:"labels,omitempty"`
 }
 
 // UnmarshalJSON implements json.Unmarshaler.
@@ -3108,8 +3124,20 @@ func (j *TypesKubeTaints) UnmarshalJSON(b []byte) error {
 }
 
 type SpecKubernetesNodesNode struct {
+	// Optional additional Kubernetes annotations that will be added to the nodes in
+	// this node group. Follows Kubernetes annotations format. **Existing annotations
+	// with the same key will be overwritten**.
+	Annotations TypesKubeAnnotations `json:"annotations,omitempty" yaml:"annotations,omitempty" mapstructure:"annotations,omitempty"`
+
 	// Hosts corresponds to the JSON schema field "hosts".
 	Hosts []SpecKubernetesNodesNodeHost `json:"hosts" yaml:"hosts" mapstructure:"hosts"`
+
+	// Optional additional Kubernetes labels that will be added to the nodes in this
+	// node group. Follows Kubernetes labels format.
+	//
+	// Note: **Existing labels with the same key will be overwritten** and the label
+	// setting the node role to the node group name cannot be deleted.
+	Labels TypesKubeLabels_1 `json:"labels,omitempty" yaml:"labels,omitempty" mapstructure:"labels,omitempty"`
 
 	// Name for the node group. It will be also used as the node role label. It should
 	// follow the [valid variable names
@@ -3677,8 +3705,6 @@ type TypesEnvRef string
 type TypesFileRef string
 
 type TypesIpAddress string
-
-type TypesKubeLabels_1 map[string]string
 
 type TypesSemVer string
 
