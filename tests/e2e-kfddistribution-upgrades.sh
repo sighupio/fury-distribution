@@ -12,6 +12,5 @@ echo "Executing furyctl for the initial setup 1.29.4"
 echo "----------------------------------------------------------------------------"
 echo "Executing upgrade to 1.30.1"
 # we set the switch date for Loki to "tomorrow". Notice that `-d flag` does not work on Darwin, you need to use `-v +1d` instead.
-# this is needed only when upgrading from 1.29.4 to 1.30.1 (and equivalent versions)
 yq -i ".spec.distribution.modules.logging.loki.tsdbStartDate=\"$(date -I -d '+1 day')\"" tests/e2e/kfddistribution-upgrades/furyctl-init-cluster-1.30.1.yaml
 /tmp/furyctl apply --upgrade --config tests/e2e/kfddistribution-upgrades/furyctl-init-cluster-1.30.1.yaml --outdir "$PWD" --distro-location ./ --force upgrades --disable-analytics
