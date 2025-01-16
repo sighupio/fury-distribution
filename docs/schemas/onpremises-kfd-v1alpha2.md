@@ -5017,13 +5017,21 @@ The basic-auth username for HAProxy's stats page
 
 ### Properties
 
-| Property                             | Type    | Required |
-|:-------------------------------------|:--------|:---------|
-| [hosts](#speckubernetesmastershosts) | `array` | Required |
+| Property                                         | Type     | Required |
+|:-------------------------------------------------|:---------|:---------|
+| [annotations](#speckubernetesmastersannotations) | `object` | Optional |
+| [hosts](#speckubernetesmastershosts)             | `array`  | Required |
+| [labels](#speckubernetesmasterslabels)           | `object` | Optional |
 
 ### Description
 
 Configuration for the control plane hosts
+
+## .spec.kubernetes.masters.annotations
+
+### Description
+
+Optional additional Kubernetes annotations that will be added to the control-plane nodes. Follows Kubernetes annotations format. **Existing annotations with the same key will be overwritten**.
 
 ## .spec.kubernetes.masters.hosts
 
@@ -5046,19 +5054,35 @@ The IP address of the host
 
 A name to identify the host. This value will be concatenated to `.spec.kubernetes.dnsZone` to calculate the FQDN for the host as `<name>.<dnsZone>`.
 
+## .spec.kubernetes.masters.labels
+
+### Description
+
+Optional additional Kubernetes labels that will be added to the control-plane nodes. Follows Kubernetes labels format.
+
+Note: **Existing labels with the same key will be overwritten** and the label setting the `control-plane` role cannot be deleted.
+
 ## .spec.kubernetes.nodes
 
 ### Properties
 
-| Property                             | Type     | Required |
-|:-------------------------------------|:---------|:---------|
-| [hosts](#speckubernetesnodeshosts)   | `array`  | Required |
-| [name](#speckubernetesnodesname)     | `string` | Required |
-| [taints](#speckubernetesnodestaints) | `array`  | Optional |
+| Property                                       | Type     | Required |
+|:-----------------------------------------------|:---------|:---------|
+| [annotations](#speckubernetesnodesannotations) | `object` | Optional |
+| [hosts](#speckubernetesnodeshosts)             | `array`  | Required |
+| [labels](#speckubernetesnodeslabels)           | `object` | Optional |
+| [name](#speckubernetesnodesname)               | `string` | Required |
+| [taints](#speckubernetesnodestaints)           | `array`  | Optional |
 
 ### Description
 
 Configuration for the node hosts
+
+## .spec.kubernetes.nodes.annotations
+
+### Description
+
+Optional additional Kubernetes annotations that will be added to the nodes in this node group. Follows Kubernetes annotations format. **Existing annotations with the same key will be overwritten**.
 
 ## .spec.kubernetes.nodes.hosts
 
@@ -5084,6 +5108,14 @@ The IP address of the host
 ### Description
 
 A name to identify the host. This value will be concatenated to `.spec.kubernetes.dnsZone` to calculate the FQDN for the host as `<name>.<dnsZone>`.
+
+## .spec.kubernetes.nodes.labels
+
+### Description
+
+Optional additional Kubernetes labels that will be added to the nodes in this node group. Follows Kubernetes labels format.
+
+Note: **Existing labels with the same key will be overwritten** and the label setting the node role to the node group name cannot be deleted.
 
 ## .spec.kubernetes.nodes.name
 
