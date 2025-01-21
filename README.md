@@ -131,12 +131,12 @@ Current supported versions of KFD are:
 |                                  KFD Version                                   | Kubernetes Version |
 | :----------------------------------------------------------------------------: | :----------------: |
 | [`1.31.0`](https://github.com/sighupio/fury-distribution/releases/tag/v1.31.0) |      `1.31.x`      |
-| [`1.30.0`](https://github.com/sighupio/fury-distribution/releases/tag/v1.30.0) |      `1.30.x`      |
-| [`1.29.5`](https://github.com/sighupio/fury-distribution/releases/tag/v1.29.5) |      `1.29.x`      |
-| [`1.28.5`](https://github.com/sighupio/fury-distribution/releases/tag/v1.28.5) |      `1.28.x`      |
+| [`1.30.1`](https://github.com/sighupio/fury-distribution/releases/tag/v1.30.1) |      `1.30.x`      |
+| [`1.29.6`](https://github.com/sighupio/fury-distribution/releases/tag/v1.29.6) |      `1.29.x`      |
+| [`1.28.6`](https://github.com/sighupio/fury-distribution/releases/tag/v1.28.6) |      `1.28.x`      |
 
 > [!NOTE]
-> Usually, KFD supports 3 versions simultaneously that compatible with 3 different underlying Kubernetes versions. With KFD v1.31.0 the support for KFD v1.28.x will be extended for some time, effectively providing support for 4 versions (1.28, 1.29, 1.30 and 1.31).
+> Usually, KFD supports 3 versions simultaneously that are compatible with 3 different underlying Kubernetes versions. With KFD v1.31.0 the support for KFD v1.28.x will be extended for some time, effectively providing support for 4 versions (1.28, 1.29, 1.30 and 1.31).
 > See the [versioning](docs/VERSIONING.md) document for more details on KFD's version skew policy.
 
 Check the [compatibility matrix][compatibility-matrix] for additional information about previous releases of the Distribution and the compatibility with `furyctl`.
@@ -151,8 +151,8 @@ KFD has been certified by the [CNCF] (Cloud Native Computing Foundation) as a _C
 
 <!-- markdownlint-disable MD033 -->
 <p align="center">
-    <a href="https://github.com/cncf/k8s-conformance/pull/3497">
-        <img src="https://raw.githubusercontent.com/cncf/artwork/main/projects/kubernetes/certified-kubernetes/versionless/pantone/certified-kubernetes-pantone.svg" width="120" alt="KFD is CNCF Certified Kubernetes 1.29 - click to see the certification PR"/>
+    <a href="https://github.com/cncf/k8s-conformance/pull/3528">
+        <img src="https://raw.githubusercontent.com/cncf/artwork/main/projects/kubernetes/certified-kubernetes/versionless/pantone/certified-kubernetes-pantone.svg" width="120" alt="KFD is CNCF Certified Kubernetes 1.31 - click to see the certification PR"/>
     </a>
 </p>
 <!-- markdownlint-enable MD033 -->
