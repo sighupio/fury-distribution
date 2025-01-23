@@ -5314,11 +5314,9 @@ Optional additional firewall rules that will be attached to the nodes.
 
 ### Description
 
-The CIDR blocks objects definition for the Firewall rule. Even though it is a list, only one item is currently supported. See https://github.com/sighupio/fury-eks-installer/issues/46 for more details.
+The CIDR blocks objects definition for the Firewall rule.
 
 ### Constraints
-
-**maximum number of items**: the maximum number of items for this array is: `1`
 
 **minimum number of items**: the minimum number of items for this array is: `1`
 
@@ -5400,6 +5398,10 @@ The type of the Firewall rule, can be `ingress` for incoming traffic or `egress`
 | [self](#speckubernetesnodepoolsadditionalfirewallrulesselfself)         | `boolean` | Required |
 | [tags](#speckubernetesnodepoolsadditionalfirewallrulesselftags)         | `object`  | Optional |
 | [type](#speckubernetesnodepoolsadditionalfirewallrulesselftype)         | `string`  | Required |
+
+### Description
+
+The `self` objects definition for the Firewall rule.
 
 ### Constraints
 
@@ -5483,6 +5485,10 @@ The type of the Firewall rule, can be `ingress` for incoming traffic or `egress`
 | [sourceSecurityGroupId](#speckubernetesnodepoolsadditionalfirewallrulessourcesecuritygroupidsourcesecuritygroupid) | `string` | Required |
 | [tags](#speckubernetesnodepoolsadditionalfirewallrulessourcesecuritygroupidtags)                                   | `object` | Optional |
 | [type](#speckubernetesnodepoolsadditionalfirewallrulessourcesecuritygroupidtype)                                   | `string` | Required |
+
+### Description
+
+The Source Security Group ID objects definition for the Firewall rule.
 
 ### Constraints
 
