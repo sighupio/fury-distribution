@@ -816,22 +816,23 @@
             "$ref": "#/$defs/Spec.Kubernetes.NodePool.AdditionalFirewallRule.CidrBlock"
           },
           "minItems": 1,
-          "maxItems": 1,
-          "description": "The CIDR blocks objects definition for the Firewall rule. Even though it is a list, only one item is currently supported. See https://github.com/sighupio/fury-eks-installer/issues/46 for more details."
+          "description": "The CIDR blocks objects definition for the Firewall rule."
         },
         "sourceSecurityGroupId": {
           "type": "array",
           "items": {
             "$ref": "#/$defs/Spec.Kubernetes.NodePool.AdditionalFirewallRule.SourceSecurityGroupId"
           },
-          "minItems": 1
+          "minItems": 1,
+          "description": "The Source Security Group ID objects definition for the Firewall rule."
         },
         "self": {
           "type": "array",
           "items": {
             "$ref": "#/$defs/Spec.Kubernetes.NodePool.AdditionalFirewallRule.Self"
           },
-          "minItems": 1
+          "minItems": 1,
+          "description": "The `self` objects definition for the Firewall rule."
         }
       }
     },
