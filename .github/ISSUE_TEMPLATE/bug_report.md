@@ -2,35 +2,34 @@
 name: Bug report
 about: Create a report to help us improve
 title: ''
-labels: bug
+type: Bug
 assignees: ''
 
 ---
 
-**Describe the bug**
+### Describe the bug
 A clear and concise description of what the bug is.
 
-**To Reproduce**
+### To Reproduce
 Steps to reproduce the behavior:
 1. Go to '...'
 2. Click on '....'
 3. Scroll down to '....'
 4. See error
 
-**Expected behavior**
+Feel free to add any files or code snippets that can help us to reproduce the issue. For example, a `furyctl.yaml` file or a `furyctl` command.
+
+### Expected behavior
 A clear and concise description of what you expected to happen.
 
-**Screenshots**
+### Screenshots
 If applicable, add screenshots to help explain your problem.
 
-**Desktop (please complete the following information):**
- - OS: [e.g. iOS]
- - Browser [e.g. chrome, safari]
- - Version [e.g. 22]
+### Software versions
+Please complete the following information:
 
-**Kubernetes (please complete the following information):**
- - Kubernetes version: [e.g. 1.30.0]
- - OPA Gatekeeper version: [e.g. 3.18.0]
+ - Kubernetes Fury Distribution version: [e.g. 1.30.0]
+ - furyctl version: [e.g. 0.30.0]
 
-**Additional context**
+### Additional context
 Add any other context about the problem here.
