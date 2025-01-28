@@ -129,7 +129,7 @@
     # somehow instead of downloading it again.
     - name: Get previous cluster configuration
       delegate_to: localhost
-      ansible.builtin.command: "{{ .paths.kubectl }} get secrets -n kube-system furyctl-config -o jsonpath='{.data.config}'"
+      ansible.builtin.command: "{{ .paths.kubectl }} {{" get secrets -n kube-system furyctl-config -o jsonpath='{.data.config}' --kubeconfig={{ kubernetes_kubeconfig_path }}admin.conf" }}"
       register: previous_state
       # We ignore the secret not found error because when we init the cluster the secret does not exist yet, so the command fails.
       # Notice that all conditions must be true.
