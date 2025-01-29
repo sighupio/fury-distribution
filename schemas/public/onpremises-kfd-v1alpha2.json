@@ -247,7 +247,8 @@
         },
         "passphrase": {
           "type": "string",
-          "description": "The passphrase for the Keepalived clustering."
+          "description": "Password for accessing vrrpd. Only the first eight (8) characters are used.",
+          "maxLength": 8
         }
       },
       "required": [
