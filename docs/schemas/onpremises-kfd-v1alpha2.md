@@ -4980,13 +4980,17 @@ The Virtual floating IP for Keepalived
 
 ### Description
 
-The passphrase for the Keepalived clustering.
+Password for accessing vrrpd. Make it unique between Keepalived clusters.
+
+### Constraints
+
+**maximum length**: the maximum number of characters for this string is: `8`
 
 ## .spec.kubernetes.loadBalancers.keepalived.virtualRouterId
 
 ### Description
 
-The virtual router ID of Keepalived, must be different from other Keepalived instances in the same network.
+The virtual router ID of Keepalived, an arbitrary unique number from 1 to 255 used to differentiate multiple instances of vrrpd running on the same network interface and address family and multicast/unicast (and hence same socket).
 
 ## .spec.kubernetes.loadBalancers.stats
 
