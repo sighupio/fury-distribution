@@ -243,11 +243,12 @@
         },
         "virtualRouterId": {
           "type": "string",
-          "description": "The virtual router ID of Keepalived, must be different from other Keepalived instances in the same network."
+          "description": "The virtual router ID of Keepalived, an arbitrary unique number from 1 to 255 used to differentiate multiple instances of vrrpd running on the same network interface and address family and multicast/unicast (and hence same socket)."
         },
         "passphrase": {
           "type": "string",
-          "description": "The passphrase for the Keepalived clustering."
+          "description": "Password for accessing vrrpd. Make it unique between Keepalived clusters.",
+          "maxLength": 8
         }
       },
       "required": [
