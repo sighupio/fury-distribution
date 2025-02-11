@@ -590,7 +590,7 @@
     "Spec.Kubernetes.NodePoolsCommon": {
       "type": "object",
       "additionalProperties": false,
-      "description": "All the common self-managed node pool definitions. Currently supports only the IMDS properties.",
+      "description": "Additional properties in common for all self-managed node pools. Currently only IMDS properties are supported.",
       "properties": {
         "metadataHttpEndpoint": {
           "description": "Specifies whether the instance metadata service (IMDS) is enabled or disabled. When set to 'disabled', instance metadata is not accessible.",
