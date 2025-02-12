@@ -4500,6 +4500,7 @@ Defines which KFD version will be installed and, in consequence, the Kubernetes 
 | [advancedAnsible](#speckubernetesadvancedansible)         | `object` | Optional |
 | [controlPlaneAddress](#speckubernetescontrolplaneaddress) | `string` | Required |
 | [dnsZone](#speckubernetesdnszone)                         | `string` | Required |
+| [etcd](#speckubernetesetcd)                               | `object` | Optional |
 | [loadBalancers](#speckubernetesloadbalancers)             | `object` | Required |
 | [masters](#speckubernetesmasters)                         | `object` | Required |
 | [nodes](#speckubernetesnodes)                             | `array`  | Required |
@@ -4900,6 +4901,47 @@ The address for the Kubernetes control plane. Usually a DNS entry pointing to a 
 ### Description
 
 The DNS zone of the machines. It will be appended to the name of each host to generate the `kubernetes_hostname` in the Ansible inventory file. It is also used to calculate etcd's initial cluster value.
+
+## .spec.kubernetes.etcd
+
+### Properties
+
+| Property                          | Type    | Required |
+|:----------------------------------|:--------|:---------|
+| [hosts](#speckubernetesetcdhosts) | `array` | Required |
+
+### Description
+
+Optional configuration for an etcd cluster on dedicated nodes. If omitted, etcd will run on control plane nodes.
+
+## .spec.kubernetes.etcd.hosts
+
+### Properties
+
+| Property                             | Type     | Required |
+|:-------------------------------------|:---------|:---------|
+| [ip](#speckubernetesetcdhostsip)     | `string` | Required |
+| [name](#speckubernetesetcdhostsname) | `string` | Required |
+
+### Description
+
+List of nodes of the dedicated etcd cluster.
+
+### Constraints
+
+**minimum number of items**: the minimum number of items for this array is: `1`
+
+## .spec.kubernetes.etcd.hosts.ip
+
+### Description
+
+The IP address of the etcd node.
+
+## .spec.kubernetes.etcd.hosts.name
+
+### Description
+
+A name to identify the etcd node. This value will be concatenated to `.spec.kubernetes.dnsZone` to calculate the FQDN for the host as `<name>.<dnsZone>`.
 
 ## .spec.kubernetes.loadBalancers
 
