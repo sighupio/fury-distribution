@@ -38,11 +38,7 @@
 
 # cluster
 - name: Copy etcd and master PKIs
-  {{ if index $.spec.kubernetes "etcd" -}}
   hosts: master,etcd
-  {{- else -}}
-  hosts: master
-  {{- end }}
   become: true
   vars:
     pki_dir: "{{ .spec.kubernetes.pkiFolder }}"
@@ -89,11 +85,7 @@
     - pki
 
 - name: Kubernetes node preparation
-  {{ if index $.spec.kubernetes "etcd" -}}
   hosts: master,nodes,etcd
-  {{- else -}}
-  hosts: master,nodes
-  {{- end }}
   become: true
   roles:
     - kube-node-common
@@ -101,23 +93,15 @@
     - kube-node-common
 
 - name: Etcd cluster preparation
-  {{ if index $.spec.kubernetes "etcd" -}}
   hosts: etcd
-  {{- else -}}
-  hosts: master
-  {{- end }}
   become: true
   vars:
     etcd_address: "{{ "{{ ansible_host }}" }}"
-    {{- if index $.spec.kubernetes "etcd" }}
-    etcd_client_address: "{{ "{{ ansible_host }}" }}"
-    {{- end }}
   roles:
     - etcd
   tags:
     - etcd
 
-{{if index $.spec.kubernetes "etcd" -}}
 - name: Distribute etcd certificates on control plane nodes
   hosts: master
   become: true
@@ -135,6 +119,7 @@
         dest: "/tmp/etcd-certs/"
         flat: yes
       with_items: "{{ print "{{ etcd_certs }}" }}"
+      when: not etcd_on_control_plane
     - name: Copying certificates to control plane nodes
       copy:
         src: "/tmp/etcd-certs/{{ print "{{ item | basename }}" }}"
@@ -143,6 +128,7 @@
         group: root
         mode: 0640
       with_items: "{{ print "{{ etcd_certs }}" }}"
+      when: not etcd_on_control_plane
     - name: Cleaning up temporary certificates
       run_once: true
       become: false
@@ -150,7 +136,7 @@
       file:
         path: /tmp/etcd-certs
         state: absent
-{{- end }}
+      when: not etcd_on_control_plane
 
 - name: Control plane configuration
   hosts: master

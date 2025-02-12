@@ -20,11 +20,7 @@
     - reset-k8s
 
 - name: Reset etcd nodes
-  {{ if index $.spec.kubernetes "etcd" -}}
   hosts: etcd
-  {{- else -}}
-  hosts: master
-  {{- end }}
   become: true
   tasks:
     - name: Stop etcd
@@ -47,11 +43,7 @@
     - reset-etcd-master
 
 - name: Reboot
-  {{ if index $.spec.kubernetes "etcd" -}}
   hosts: master,nodes,etcd
-  {{- else -}}
-  hosts: master,nodes
-  {{- end }}
   become: true
   tasks:   
     - name: Reboot
