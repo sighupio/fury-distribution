@@ -4,36 +4,24 @@
 
 ---
 - name: Upgrade etcd
-  {{ if index $.spec.kubernetes "etcd" -}}
-  hosts: etcd
-  {{- else -}}
-  hosts: master
-  {{- end }}
+  hosts: master,etcd
   serial: 1
   become: true
   vars:
     etcd_address: "{{ "{{ ansible_host }}" }}"
-    {{- if index $.spec.kubernetes "etcd" }}
-    etcd_client_address: "{{ "{{ ansible_host }}" }}"
-    {{- end }}
   roles:
     - etcd
   tags:
     - kubeadm-upgrade
 
 - name: Etcd certificates renewal
-  {{ if index $.spec.kubernetes "etcd" -}}
-  hosts: etcd
-  {{- else -}}
-  hosts: master
-  {{- end }}
+  hosts: master,etcd
   vars:
     etcd_certs:
       - etcd/ca.crt
       - apiserver-etcd-client.crt
       - apiserver-etcd-client.key
   tasks:
-
     - name: Renewing etcd certificates
       command: "{{ print "{{ item }}" }}"
       loop:
@@ -41,21 +29,14 @@
         - "kubeadm certs renew --cert-dir=/etc/etcd/pki etcd-healthcheck-client --config=/etc/etcd/kubeadm-etcd.yml"
         - "kubeadm certs renew --cert-dir=/etc/etcd/pki etcd-peer --config=/etc/etcd/kubeadm-etcd.yml"
         - "kubeadm certs renew --cert-dir=/etc/etcd/pki etcd-server --config=/etc/etcd/kubeadm-etcd.yml"
-
     - name: Restarting etcd service
       systemd:
         name: etcd
         daemon_reload: yes
         state: restarted
 
-{{ if index $.spec.kubernetes "etcd" -}}
-
 - name: Distribute etcd certificates from etcd to control plane nodes
-  {{ if index $.spec.kubernetes "etcd" -}}
   hosts: etcd
-  {{- else -}}
-  hosts: master
-  {{- end }}
   become: true
   vars:
     etcd_certs:
@@ -71,7 +52,6 @@
       path: /tmp/etcd-certs
       state: directory
       mode: '0755'
-
   - name: Fetching certificates from etcd
     run_once: true
     fetch:
@@ -80,7 +60,6 @@
       flat: yes
     delegate_to: "{{ "{{ groups['etcd'][0] }}" }}"
     with_items: "{{ "{{ etcd_certs }}" }}"
-
   - name: Copy certificates from localhost to control plane nodes
     delegate_to: "{{ "{{ master }}" }}"
     copy:
@@ -95,7 +74,6 @@
     vars:
       master: "{{ "{{ item[0] }}" }}"
       cert: "{{ "{{ item[1] }}" }}"
-
   - name: Clean up temporary certificates on localhost
     run_once: true
     become: false
@@ -104,12 +82,10 @@
       path: /tmp/etcd-certs
       state: absent
 
-- name: Etcd node preparation and kubeadm package upgrade
+- name: Kubeadm package upgrade on etcd nodes
   become: true
   hosts: etcd
   roles:
     - kube-node-common
   tags:
     - kube-node-common
-
-{{ end }}

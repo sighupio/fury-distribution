@@ -41,14 +41,14 @@ all:
         {{- end }}
       vars:
         dns_zone: "{{ $dnsZone }}"
-        {{- if not (index $.spec.kubernetes "etcd") }}
-        etcd_initial_cluster: "{{ $etcdInitialCluster | join "," }}"
-        {{- end }}
         kubernetes_cluster_name: "{{ .metadata.name }}"
         kubernetes_control_plane_address: "{{ $controlPlaneAddress }}"
         kubernetes_pod_cidr: "{{ .spec.kubernetes.podCidr }}"
         kubernetes_svc_cidr: "{{ .spec.kubernetes.svcCidr }}"
-        {{- if index $.spec.kubernetes "etcd" }}
+        {{- if not (index $.spec.kubernetes "etcd") }}
+        etcd_initial_cluster: "{{ $etcdInitialCluster | join "," }}"
+        etcd_on_control_plane: True
+        {{- else }}
         etcd:
           endpoints:
             {{- range $h := .spec.kubernetes.etcd.hosts }}
@@ -57,21 +57,9 @@ all:
           caFile: "/etc/etcd/pki/etcd/ca.crt"
           keyFile: "/etc/etcd/pki/apiserver-etcd-client.key"
           certFile: "/etc/etcd/pki/apiserver-etcd-client.crt"
+        etcd_on_control_plane: False
         {{- end }}
-    {{- if index $.spec.kubernetes "etcd" }}
-    etcd:
-      hosts:
-        {{- range $h := .spec.kubernetes.etcd.hosts }}
-        {{- $etcdUri := print $h.name "=https://" $h.name "." $dnsZone ":2380" }}
-        {{- $etcdInitialCluster = append $etcdInitialCluster $etcdUri }}
-        {{ $h.name }}:
-          ansible_host: "{{ $h.ip }}"
-          kubernetes_hostname: "{{ $h.name }}.{{ $dnsZone }}"
-        {{- end }}
-      vars:
-        dns_zone: "{{ $dnsZone }}"
-        etcd_initial_cluster: "{{ $etcdInitialCluster | join "," }}"
-    {{- end }}
+
         {{- if and (index .spec.kubernetes "advanced") (index .spec.kubernetes.advanced "cloud") }}
         {{- if index .spec.kubernetes.advanced.cloud "provider" }}
         kubernetes_cloud_provider: "{{ .spec.kubernetes.advanced.cloud.provider }}"
@@ -98,6 +86,29 @@ all:
         {{- if index .spec.kubernetes.advanced.oidc "ca_file" }}
         oidc_ca_file: "{{ .spec.kubernetes.advanced.oidc.ca_file }}"
         {{- end }}
+        {{- end }}
+    etcd:
+      hosts:
+        {{- if index $.spec.kubernetes "etcd" }}
+        {{- range $h := .spec.kubernetes.etcd.hosts }}
+        {{- $etcdUri := print $h.name "=https://" $h.name "." $dnsZone ":2380" }}
+        {{- $etcdInitialCluster = append $etcdInitialCluster $etcdUri }}
+        {{ $h.name }}:
+          ansible_host: "{{ $h.ip }}"
+          kubernetes_hostname: "{{ $h.name }}.{{ $dnsZone }}"
+          etcd_client_address: "{{ $h.ip }}"
+        {{- end }}
+      vars:
+        dns_zone: "{{ $dnsZone }}"
+        etcd_initial_cluster: "{{ $etcdInitialCluster | join "," }}"
+        {{- else }}
+        {{- range $h := .spec.kubernetes.masters.hosts }}
+        {{ $h.name }}:
+          ansible_host: "{{ $h.ip }}"
+          kubernetes_hostname: "{{ $h.name }}.{{ $dnsZone }}"
+        {{- end }}
+      vars:
+        dns_zone: "{{ $dnsZone }}"
         {{- end }}
     nodes:
       children:
