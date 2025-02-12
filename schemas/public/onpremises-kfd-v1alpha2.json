@@ -104,6 +104,9 @@
         "masters": {
           "$ref": "#/$defs/Spec.Kubernetes.Masters"
         },
+        "etcd": {
+          "$ref": "#/$defs/Spec.Kubernetes.Etcd"
+        },
         "nodes": {
           "$ref": "#/$defs/Spec.Kubernetes.Nodes"
         },
@@ -324,6 +327,40 @@
         "ip": {
           "type": "string",
           "description": "The IP address of the host"
+        }
+      },
+      "required": [
+        "name",
+        "ip"
+      ]
+    },
+    "Spec.Kubernetes.Etcd": {
+      "type": "object",
+      "description": "Optional configuration for an etcd cluster on dedicated nodes. If omitted, etcd will run on control plane nodes.",
+      "additionalProperties": false,
+      "properties": {
+        "hosts": {
+          "type": "array",
+          "description": "List of nodes of the dedicated etcd cluster.",
+          "items": {
+            "$ref": "#/$defs/Spec.Kubernetes.Etcd.Host"
+          },
+          "minItems": 1
+        }
+      },
+      "required": ["hosts"]
+    },
+    "Spec.Kubernetes.Etcd.Host": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "A name to identify the etcd node. This value will be concatenated to `.spec.kubernetes.dnsZone` to calculate the FQDN for the host as `<name>.<dnsZone>`."
+        },
+        "ip": {
+          "type": "string",
+          "description": "The IP address of the etcd node."
         }
       },
       "required": [
