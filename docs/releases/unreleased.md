@@ -20,7 +20,7 @@ The distribution is maintained with ❤️ by the team [SIGHUP](https://sighup.i
 
 ## New features 🌟
 
-- TBD
+- [[#355](https://github.com/sighupio/fury-distribution/pull/355)] **Support for etcd cluster on dedicated nodes**: adding support for deploying etcd on dedicated nodes instead of control plane nodes on the OnPremises provider.
 
 ## Fixes 🐞
 
