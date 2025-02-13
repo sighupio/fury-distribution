@@ -33,7 +33,7 @@
       - apiserver-etcd-client.crt
       - apiserver-etcd-client.key
   tasks:
-    
+
     # Get Kubernetes version and modify the output from something like "v1.29.4" to "1.29".
     - name: Get the current Kubernetes version
       shell: |
@@ -87,35 +87,6 @@
         kubeadm certs renew --config=/etc/etcd/kubeadm-etcd.yml --cert-dir=/etc/etcd/pki etcd-server
       when: inventory_hostname in groups['etcd']
 
-    - name: Retrieving certificates from etcd nodes
-      run_once: true
-      delegate_to: "{{ print "{{ groups.etcd[0] }}" }}"
-      fetch:
-        src: "/etc/etcd/pki/{{ print "{{ item }}" }}"
-        dest: "/tmp/etcd-certs/"
-        flat: yes
-      with_items: "{{ print "{{ etcd_certs }}" }}"
-      when: not etcd_on_control_plane | bool
-  
-    - name: Copying certificates to control plane nodes
-      copy:
-        src: "/tmp/etcd-certs/{{ print "{{ item | basename }}" }}"
-        dest: "/etc/etcd/pki/{{ print "{{ item }}" }}"
-        owner: root
-        group: root
-        mode: 0640
-      with_items: "{{ print "{{ etcd_certs }}" }}"
-      when: not etcd_on_control_plane | bool
-
-    - name: Cleaning up temporary certificates
-      run_once: true
-      become: false
-      delegate_to: localhost
-      file:
-        path: /tmp/etcd-certs
-        state: absent
-      when: not etcd_on_control_plane | bool
-
     - name: Renew Kubernetes super-admin.conf (only if Kubernetes version >= 1.29)
       shell: kubeadm certs renew super-admin.conf
       when:
@@ -164,6 +135,43 @@
       until: etcd_status.rc == 0
       when: inventory_hostname in groups['etcd']
 
+- name: Distribute etcd certificates from etcd to control plane nodes
+  hosts: master
+  become: true
+  vars:
+    etcd_certs:
+      - etcd/ca.crt
+      - apiserver-etcd-client.crt
+      - apiserver-etcd-client.key
+  tasks:
+    - name: Retrieving certificates from etcd nodes
+      run_once: true
+      delegate_to: "{{ print "{{ groups.etcd[0] }}" }}"
+      fetch:
+        src: "/etc/etcd/pki/{{ print "{{ item }}" }}"
+        dest: "/tmp/etcd-certs/"
+        flat: yes
+      with_items: "{{ print "{{ etcd_certs }}" }}"
+      when: not etcd_on_control_plane | bool
+
+    - name: Copying certificates to control plane nodes
+      copy:
+        src: "/tmp/etcd-certs/{{ print "{{ item | basename }}" }}"
+        dest: "/etc/etcd/pki/{{ print "{{ item }}" }}"
+        owner: root
+        group: root
+        mode: 0640
+      with_items: "{{ print "{{ etcd_certs }}" }}"
+      when: not etcd_on_control_plane | bool
+
+    - name: Cleaning up temporary certificates
+      run_once: true
+      become: false
+      delegate_to: localhost
+      file:
+        path: /tmp/etcd-certs
+        state: absent
+      when: not etcd_on_control_plane | bool
 
 - name: Renew Kubelet certificates
   hosts: master,nodes
@@ -201,13 +209,13 @@
           regexp: '^$'
 
     - name: Delete the Kubelet server cert before regenarating them
-      file: 
+      file:
         path: "{{ print "{{ item }}" }}"
-        state: absent 
+        state: absent
       with_items:
         - /var/lib/kubelet/pki/kubelet.crt
         - /var/lib/kubelet/pki/kubelet.key
-        
+
     - name: Restart Kubelet and regenerate the server certificate
       shell: |
         systemctl restart kubelet.service
@@ -259,6 +267,6 @@
   tasks:
     - name: Print Kubelet certificates expiration dates
       shell: |
-        curl -kv https://127.0.0.1:10250 2>&1 | grep expire 
+        curl -kv https://127.0.0.1:10250 2>&1 | grep expire
       register: kubelet_info
     - debug: var=kubelet_info.stdout_lines
