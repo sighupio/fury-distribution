@@ -47,7 +47,6 @@ all:
         kubernetes_svc_cidr: "{{ .spec.kubernetes.svcCidr }}"
         {{- if not (index $.spec.kubernetes "etcd") }}
         etcd_initial_cluster: "{{ $etcdInitialCluster | join "," }}"
-        etcd_on_control_plane: True
         {{- else }}
         etcd:
           endpoints:
@@ -57,7 +56,6 @@ all:
           caFile: "/etc/etcd/pki/etcd/ca.crt"
           keyFile: "/etc/etcd/pki/apiserver-etcd-client.key"
           certFile: "/etc/etcd/pki/apiserver-etcd-client.crt"
-        etcd_on_control_plane: False
         {{- end }}
 
         {{- if and (index .spec.kubernetes "advanced") (index .spec.kubernetes.advanced "cloud") }}
@@ -139,6 +137,11 @@ all:
     ansible_user: "{{ .spec.kubernetes.ssh.username }}"
     kubernetes_kubeconfig_path: ./
     kubernetes_version: "{{ .kubernetes.version }}"
+    {{- if not (index $.spec.kubernetes "etcd") }}
+    etcd_on_control_plane: True
+    {{- else }}
+    etcd_on_control_plane: False
+    {{- end }}
     {{- if index .spec.kubernetes "proxy" }}
     http_proxy: "{{ .spec.kubernetes.proxy.http }}"
     https_proxy: "{{ .spec.kubernetes.proxy.https }}"

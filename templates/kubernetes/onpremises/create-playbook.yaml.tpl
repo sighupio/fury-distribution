@@ -119,7 +119,7 @@
         dest: "/tmp/etcd-certs/"
         flat: yes
       with_items: "{{ print "{{ etcd_certs }}" }}"
-      when: not etcd_on_control_plane
+      when: not etcd_on_control_plane | bool
     - name: Copying certificates to control plane nodes
       copy:
         src: "/tmp/etcd-certs/{{ print "{{ item | basename }}" }}"
@@ -128,7 +128,7 @@
         group: root
         mode: 0640
       with_items: "{{ print "{{ etcd_certs }}" }}"
-      when: not etcd_on_control_plane
+      when: not etcd_on_control_plane | bool
     - name: Cleaning up temporary certificates
       run_once: true
       become: false
@@ -136,7 +136,7 @@
       file:
         path: /tmp/etcd-certs
         state: absent
-      when: not etcd_on_control_plane
+      when: not etcd_on_control_plane | bool
 
 - name: Control plane configuration
   hosts: master
