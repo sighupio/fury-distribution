@@ -44,48 +44,42 @@
       - apiserver-etcd-client.crt
       - apiserver-etcd-client.key
   tasks:
-  - name: Ensuring temporary directory exists on localhost
-    run_once: true
-    delegate_to: localhost
-    become: false
-    file:
-      path: /tmp/etcd-certs
-      state: directory
-      mode: '0755'
-  - name: Fetching certificates from etcd
-    run_once: true
-    fetch:
-      src: "/etc/etcd/pki/{{ "{{ item }}" }}"
-      dest: "/tmp/etcd-certs/"
-      flat: yes
-    delegate_to: "{{ "{{ groups['etcd'][0] }}" }}"
-    with_items: "{{ "{{ etcd_certs }}" }}"
-  - name: Copy certificates from localhost to control plane nodes
-    delegate_to: "{{ "{{ master }}" }}"
-    copy:
-      src: "/tmp/etcd-certs/{{ "{{ cert | basename }}" }}"
-      dest: "/etc/etcd/pki/{{ "{{ cert }}" }}"
-      owner: root
-      group: root
-      mode: '0640'
-    loop: "{{ "{{ groups['master'] | product(etcd_certs) | list }}" }}"
-    loop_control:
-      loop_var: item
-    vars:
-      master: "{{ "{{ item[0] }}" }}"
-      cert: "{{ "{{ item[1] }}" }}"
-  - name: Clean up temporary certificates on localhost
-    run_once: true
-    become: false
-    delegate_to: localhost
-    file:
-      path: /tmp/etcd-certs
-      state: absent
+    - name: Retrieving certificates from etcd nodes
+      run_once: true
+      delegate_to: "{{ print "{{ groups.etcd[0] }}" }}"
+      fetch:
+        src: "/etc/etcd/pki/{{ print "{{ item }}" }}"
+        dest: "/tmp/etcd-certs/"
+        flat: yes
+      with_items: "{{ print "{{ etcd_certs }}" }}"
+      when: not etcd_on_control_plane | bool
+
+    - name: Copying certificates to control plane nodes
+      copy:
+        src: "/tmp/etcd-certs/{{ print "{{ item | basename }}" }}"
+        dest: "/etc/etcd/pki/{{ print "{{ item }}" }}"
+        owner: root
+        group: root
+        mode: 0640
+      with_items: "{{ print "{{ etcd_certs }}" }}"
+      when: not etcd_on_control_plane | bool
+
+    - name: Cleaning up temporary certificates
+      run_once: true
+      become: false
+      delegate_to: localhost
+      file:
+        path: /tmp/etcd-certs
+        state: absent
+      when: not etcd_on_control_plane | bool
 
 - name: Kubeadm package upgrade on etcd nodes
   become: true
   hosts: etcd
-  roles:
-    - kube-node-common
+  tasks:
+    - name: Include kube-node-common role
+      include_role:
+        name: kube-node-common
+      when: not etcd_on_control_plane | bool
   tags:
     - kube-node-common
