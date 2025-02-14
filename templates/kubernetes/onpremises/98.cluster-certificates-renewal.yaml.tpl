@@ -27,11 +27,6 @@
   hosts: master,etcd
   become: true
   serial: 1
-  vars:
-    etcd_certs:
-      - etcd/ca.crt
-      - apiserver-etcd-client.crt
-      - apiserver-etcd-client.key
   tasks:
 
     # Get Kubernetes version and modify the output from something like "v1.29.4" to "1.29".
@@ -93,48 +88,6 @@
         - inventory_hostname in groups['master']
         - kubernetes_version.stdout is version('1.29', '>=')
 
-    - name: Restart control plane components
-      shell: |
-        crictl ps -q --name 'kube-(controller-manager|scheduler|apiserver)' | xargs -r crictl stop
-        crictl ps -a -q --state exited --name 'kube-(apiserver|controller-manager|scheduler)' | xargs -r crictl rm
-      when: inventory_hostname in groups['master']
-
-    - name: Restart etcd
-      shell: systemctl restart etcd
-      when: inventory_hostname in groups['etcd']
-
-    - name: Wait for kube-controller-manager to be running
-      shell: crictl ps --name kube-controller-manager | grep -q Running
-      register: kube_controller_manager_status
-      retries: 10
-      delay: 5
-      until: kube_controller_manager_status.rc == 0
-      when: inventory_hostname in groups['master']
-
-    - name: Wait for kube-scheduler to be running
-      shell: crictl ps --name kube-scheduler | grep -q Running
-      register: kube_scheduler_status
-      retries: 10
-      delay: 5
-      until: kube_scheduler_status.rc == 0
-      when: inventory_hostname in groups['master']
-
-    - name: Wait for kube-apiserver to be running
-      shell: crictl ps --name kube-apiserver | grep -q Running
-      register: kube_apiserver_status
-      retries: 10
-      delay: 5
-      until: kube_apiserver_status.rc == 0
-      when: inventory_hostname in groups['master']
-
-    - name: Wait for etcd to be running
-      shell: systemctl is-active etcd --quiet
-      register: etcd_status
-      retries: 10
-      delay: 5
-      until: etcd_status.rc == 0
-      when: inventory_hostname in groups['etcd']
-
 - name: Distribute etcd certificates from etcd to control plane nodes
   hosts: master
   become: true
@@ -172,6 +125,53 @@
         path: /tmp/etcd-certs
         state: absent
       when: not etcd_on_control_plane | bool
+
+- name: Restart etcd and control plane components
+  hosts: etcd,master
+  become: true
+  serial: 1
+  tasks:
+    - name: Restart etcd
+      shell: systemctl restart etcd
+      when: inventory_hostname in groups['etcd']
+
+    - name: Wait for etcd to be running
+      shell: systemctl is-active etcd --quiet
+      register: etcd_status
+      retries: 10
+      delay: 5
+      until: etcd_status.rc == 0
+      when: inventory_hostname in groups['etcd']
+
+    - name: Restart control plane components
+      shell: |
+        crictl ps -q --name 'kube-(controller-manager|scheduler|apiserver)' | xargs -r crictl stop
+        crictl ps -a -q --state exited --name 'kube-(apiserver|controller-manager|scheduler)' | xargs -r crictl rm
+      when: inventory_hostname in groups['master']
+
+    - name: Wait for kube-controller-manager to be running
+      shell: crictl ps --name kube-controller-manager | grep -q Running
+      register: kube_controller_manager_status
+      retries: 10
+      delay: 5
+      until: kube_controller_manager_status.rc == 0
+      when: inventory_hostname in groups['master']
+
+    - name: Wait for kube-scheduler to be running
+      shell: crictl ps --name kube-scheduler | grep -q Running
+      register: kube_scheduler_status
+      retries: 10
+      delay: 5
+      until: kube_scheduler_status.rc == 0
+      when: inventory_hostname in groups['master']
+
+    - name: Wait for kube-apiserver to be running
+      shell: crictl ps --name kube-apiserver | grep -q Running
+      register: kube_apiserver_status
+      retries: 10
+      delay: 5
+      until: kube_apiserver_status.rc == 0
+      when: inventory_hostname in groups['master']
 
 - name: Renew Kubelet certificates
   hosts: master,nodes
