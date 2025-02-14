@@ -19,8 +19,8 @@
   tags:
     - reset-k8s
 
-- name: Reset etcd master nodes
-  hosts: master
+- name: Reset etcd nodes
+  hosts: etcd
   become: true
   tasks:
     - name: Stop etcd
@@ -43,7 +43,7 @@
     - reset-etcd-master
 
 - name: Reboot
-  hosts: master,nodes
+  hosts: master,nodes,etcd
   become: true
   tasks:   
     - name: Reboot
