@@ -24,11 +24,11 @@
 # In case the certificates are close to expiring, this playbook can be used to renew them.
 
 - name: Renew Kubernetes PKI certificates
-  hosts: master
+  hosts: master,etcd
   become: true
   serial: 1
   tasks:
-    
+
     # Get Kubernetes version and modify the output from something like "v1.29.4" to "1.29".
     - name: Get the current Kubernetes version
       shell: |
@@ -42,65 +42,98 @@
         fi
         echo "$K8S_VERSION" | sed -E 's/^v?([0-9]+\.[0-9]+)\.[0-9]+.*/\1/'
       register: kubernetes_version
-    
+      when: inventory_hostname in groups['master']
+
     - name: Ensure rsync is installed
       package:
         name:
           - rsync
         state: latest
 
-    - name: Backup all Kubernetes certs
+    - name: Backup Kubernetes certs
       shell: |
-        (BCK_FOLDER=$HOME/certs-backup/$(date +%Y-%m-%d_%H-%M-%S)
-        mkdir -p $BCK_FOLDER/etc-kubernetes $BCK_FOLDER/etc-etcd-pki \
-        && rsync -av /etc/kubernetes/ $BCK_FOLDER/etc-kubernetes --exclude tmp \
-        && rsync -av /etc/etcd/pki/ $BCK_FOLDER/etc-etcd-pki
-        )
+        BCK_FOLDER=$HOME/certs-backup/$(date +%Y-%m-%d_%H-%M-%S)
+        mkdir -p $BCK_FOLDER/etc-kubernetes $BCK_FOLDER/etc-etcd-pki
+        rsync -av /etc/kubernetes/ $BCK_FOLDER/etc-kubernetes --exclude tmp
+      when: inventory_hostname in groups['master']
 
-    - name: Renew all Kubernetes certs
+    - name: Backup etcd certs
       shell: |
-        kubeadm certs renew admin.conf \
-        && kubeadm certs renew apiserver \
-        && kubeadm certs renew apiserver-kubelet-client \
-        && kubeadm certs renew controller-manager.conf \
-        && kubeadm certs renew front-proxy-client \
-        && kubeadm certs renew scheduler.conf \
-        && kubeadm certs renew --config=/etc/etcd/kubeadm-etcd.yml --cert-dir=/etc/etcd/pki apiserver-etcd-client \
-        && kubeadm certs renew --config=/etc/etcd/kubeadm-etcd.yml --cert-dir=/etc/etcd/pki etcd-healthcheck-client \
-        && kubeadm certs renew --config=/etc/etcd/kubeadm-etcd.yml --cert-dir=/etc/etcd/pki etcd-peer \
-        && kubeadm certs renew --config=/etc/etcd/kubeadm-etcd.yml --cert-dir=/etc/etcd/pki etcd-server
+        BCK_FOLDER=$HOME/certs-backup/$(date +%Y-%m-%d_%H-%M-%S)
+        mkdir -p $BCK_FOLDER/etc-etcd-pki
+        rsync -av /etc/etcd/pki/ $BCK_FOLDER/etc-etcd-pki
+      when: inventory_hostname in groups['etcd']
+
+    - name: Renew Kubernetes control plane certs
+      shell: |
+        kubeadm certs renew admin.conf
+        kubeadm certs renew apiserver
+        kubeadm certs renew apiserver-kubelet-client
+        kubeadm certs renew controller-manager.conf
+        kubeadm certs renew front-proxy-client
+        kubeadm certs renew scheduler.conf
+      when: inventory_hostname in groups['master']
+
+    - name: Renew etcd certificates
+      shell: |
+        kubeadm certs renew --config=/etc/etcd/kubeadm-etcd.yml --cert-dir=/etc/etcd/pki apiserver-etcd-client
+        kubeadm certs renew --config=/etc/etcd/kubeadm-etcd.yml --cert-dir=/etc/etcd/pki etcd-healthcheck-client
+        kubeadm certs renew --config=/etc/etcd/kubeadm-etcd.yml --cert-dir=/etc/etcd/pki etcd-peer
+        kubeadm certs renew --config=/etc/etcd/kubeadm-etcd.yml --cert-dir=/etc/etcd/pki etcd-server
+      when: inventory_hostname in groups['etcd']
 
     - name: Renew Kubernetes super-admin.conf (only if Kubernetes version >= 1.29)
-      shell: |
-        kubeadm certs renew super-admin.conf
-      when: kubernetes_version.stdout is version('1.29', '>=')
+      shell: kubeadm certs renew super-admin.conf
+      when:
+        - inventory_hostname in groups['master']
+        - kubernetes_version.stdout is version('1.29', '>=')
 
-    - name: Restart all control plane components
-      shell: |
-        crictl ps -q --name 'kube-(controller-manager|scheduler|apiserver)' | xargs -r crictl stop
-        crictl ps -a -q --state exited --name 'kube-(apiserver|controller-manager|scheduler)' | xargs -r crictl rm
-        systemctl restart etcd
+- name: Distribute etcd certificates from etcd to control plane nodes
+  hosts: master
+  become: true
+  vars:
+    etcd_certs:
+      - etcd/ca.crt
+      - apiserver-etcd-client.crt
+      - apiserver-etcd-client.key
+  tasks:
+    - name: Retrieving certificates from etcd nodes
+      run_once: true
+      delegate_to: "{{ print "{{ groups.etcd[0] }}" }}"
+      fetch:
+        src: "/etc/etcd/pki/{{ print "{{ item }}" }}"
+        dest: "/tmp/etcd-certs/"
+        flat: yes
+      with_items: "{{ print "{{ etcd_certs }}" }}"
+      when: not etcd_on_control_plane | bool
 
-    - name: Wait for kube-controller-manager to be running
-      shell: crictl ps --name kube-controller-manager | grep -q Running
-      register: kube_controller_manager_status
-      retries: 10
-      delay: 5
-      until: kube_controller_manager_status.rc == 0
+    - name: Copying certificates to control plane nodes
+      copy:
+        src: "/tmp/etcd-certs/{{ print "{{ item | basename }}" }}"
+        dest: "/etc/etcd/pki/{{ print "{{ item }}" }}"
+        owner: root
+        group: root
+        mode: 0640
+      with_items: "{{ print "{{ etcd_certs }}" }}"
+      when: not etcd_on_control_plane | bool
 
-    - name: Wait for kube-scheduler to be running
-      shell: crictl ps --name kube-scheduler | grep -q Running
-      register: kube_scheduler_status
-      retries: 10
-      delay: 5
-      until: kube_scheduler_status.rc == 0
+    - name: Cleaning up temporary certificates
+      run_once: true
+      become: false
+      delegate_to: localhost
+      file:
+        path: /tmp/etcd-certs
+        state: absent
+      when: not etcd_on_control_plane | bool
 
-    - name: Wait for kube-apiserver to be running
-      shell: crictl ps --name kube-apiserver | grep -q Running
-      register: kube_apiserver_status
-      retries: 10
-      delay: 5
-      until: kube_apiserver_status.rc == 0
+- name: Restart etcd and control plane components
+  hosts: etcd,master
+  become: true
+  serial: 1
+  tasks:
+    - name: Restart etcd
+      shell: systemctl restart etcd
+      when: inventory_hostname in groups['etcd']
 
     - name: Wait for etcd to be running
       shell: systemctl is-active etcd --quiet
@@ -108,13 +141,44 @@
       retries: 10
       delay: 5
       until: etcd_status.rc == 0
+      when: inventory_hostname in groups['etcd']
 
+    - name: Restart control plane components
+      shell: |
+        crictl ps -q --name 'kube-(controller-manager|scheduler|apiserver)' | xargs -r crictl stop
+        crictl ps -a -q --state exited --name 'kube-(apiserver|controller-manager|scheduler)' | xargs -r crictl rm
+      when: inventory_hostname in groups['master']
+
+    - name: Wait for kube-controller-manager to be running
+      shell: crictl ps --name kube-controller-manager | grep -q Running
+      register: kube_controller_manager_status
+      retries: 10
+      delay: 5
+      until: kube_controller_manager_status.rc == 0
+      when: inventory_hostname in groups['master']
+
+    - name: Wait for kube-scheduler to be running
+      shell: crictl ps --name kube-scheduler | grep -q Running
+      register: kube_scheduler_status
+      retries: 10
+      delay: 5
+      until: kube_scheduler_status.rc == 0
+      when: inventory_hostname in groups['master']
+
+    - name: Wait for kube-apiserver to be running
+      shell: crictl ps --name kube-apiserver | grep -q Running
+      register: kube_apiserver_status
+      retries: 10
+      delay: 5
+      until: kube_apiserver_status.rc == 0
+      when: inventory_hostname in groups['master']
 
 - name: Renew Kubelet certificates
   hosts: master,nodes
   become: true
   serial: 1
   tasks:
+
     - name: Ensure Kubelet client certificate auto-renewal
       block:
       - name: Check whether it's already done
@@ -145,13 +209,13 @@
           regexp: '^$'
 
     - name: Delete the Kubelet server cert before regenarating them
-      file: 
+      file:
         path: "{{ print "{{ item }}" }}"
-        state: absent 
+        state: absent
       with_items:
         - /var/lib/kubelet/pki/kubelet.crt
         - /var/lib/kubelet/pki/kubelet.key
-        
+
     - name: Restart Kubelet and regenerate the server certificate
       shell: |
         systemctl restart kubelet.service
@@ -185,12 +249,24 @@
       register: kconfig_info
     - debug: var=kconfig_info.stdout_lines
 
+- name: Print etcd certificates expiration dates
+  hosts: etcd
+  become: true
+  tasks:
+    - name: Print certificates expiration dates
+      shell: |
+        find /etc/etcd/pki -type f -name "*.crt" -print | sort |
+        egrep -v 'ca\.crt$|\/pki\/expired\/|\/tmp\/|ca-bundle\.' |
+        xargs -L 1 -t  -i bash -c 'openssl x509  -noout -text -in {} | grep After'
+      register: etcd_pki_info
+    - debug: var=etcd_pki_info.stdout_lines
+
 - name: Print Kubelet certificates expiration dates
   hosts: master,nodes
   become: true
   tasks:
     - name: Print Kubelet certificates expiration dates
       shell: |
-        curl -kv https://127.0.0.1:10250 2>&1 | grep expire 
+        curl -kv https://127.0.0.1:10250 2>&1 | grep expire
       register: kubelet_info
     - debug: var=kubelet_info.stdout_lines
