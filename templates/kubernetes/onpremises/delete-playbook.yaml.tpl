@@ -40,7 +40,7 @@
         path: /etc/kubernetes/pki
         state: absent
   tags:
-    - reset-etcd-master
+    - reset-etcd-nodes
 
 - name: Reboot
   hosts: master,nodes,etcd
