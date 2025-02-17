@@ -12,6 +12,8 @@ kubernetes:
     immutable: true
   - path: .spec.kubernetes.svcCidr
     immutable: true
+  - path: .spec.kubernetes.etcd
+    immutable: true
 distribution:
   - path: .spec.distribution.common.networkPoliciesEnabled
     immutable: false
