@@ -1,4 +1,8 @@
 #!/bin/bash
+# Copyright (c) 2017-present SIGHUP s.r.l All rights reserved.
+# Use of this source code is governed by a BSD-style
+# license that can be found in the LICENSE file.
+
 set -e
 DISTRIBUTION_VERSION=""
 CLUSTER_NAME=""
@@ -47,6 +51,6 @@ yq -eiy ".spec.distributionVersion = \"$DISTRIBUTION_VERSION\"" $FURYCTL_YAML
 yq -eiy ".metadata.name = \"$CLUSTER_NAME\"" $FURYCTL_YAML
 yq -eiy ".spec.toolsConfiguration.terraform.state.s3.keyPrefix = \"$CLUSTER_NAME\"" $FURYCTL_YAML
 yq -eiy ".spec.tags.env = \"$CLUSTER_NAME\"" $FURYCTL_YAML
-if [ yq '.spec.distribution.modules.dr.velero.eks | has("bucketName")' $FURYCTL_YAML == 'true' ]; then
+if [[ $(yq '.spec.distribution.modules.dr.velero.eks | has("bucketName")' $FURYCTL_YAML) == "true" ]]; then
   yq -eiy ".spec.distribution.modules.dr.velero.eks.bucketName = \"$CLUSTER_NAME\"" $FURYCTL_YAML
 fi

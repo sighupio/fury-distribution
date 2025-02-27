@@ -1,4 +1,9 @@
 #!/usr/bin/expect -f
+# Copyright (c) 2017-present SIGHUP s.r.l All rights reserved.
+# Use of this source code is governed by a BSD-style
+# license that can be found in the LICENSE file.
+
+
 # Increase timeout as needed:
 set timeout 3600
 puts "Current working directory: $env(PWD)"
