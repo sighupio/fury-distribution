@@ -1,0 +1,223 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/sighupio/fury-distribution/v1.31.0/schemas/public/ekscluster-kfd-v1alpha2.json
+# Copyright (c) 2017-present SIGHUP s.r.l All rights reserved.
+# Use of this source code is governed by a BSD-style
+# license that can be found in the LICENSE file.
+
+
+# This is a sample configuration file to be used as a starting point. For the
+# complete reference of the configuration file schema, please refer to the
+# official documentation:
+# https://docs.kubernetesfury.com/docs/furyctl/providers/ekscluster
+
+---
+apiVersion: kfd.sighup.io/v1alpha2
+kind: EKSCluster
+metadata:
+  # The name of the cluster, will be also used as a prefix for all the other resources created on AWS
+  name:  "CLUSTER_NAME"
+spec:
+  # This value defines which KFD version will be installed and in consequence the Kubernetes version to use to create the cluster,
+  # it supports git tags and branches
+  distributionVersion: "DISTRIBUTION_VERSION"
+  # This sections defines where to store the terraform state files used by furyctl
+  toolsConfiguration:
+    terraform:
+      state:
+        s3:
+          # This value defines which bucket will be used to store all the states
+          bucketName: e2e-drone-eks
+          # This value defines which folder will be used to store all the states inside the bucket
+          keyPrefix:  "CLUSTER_NAME/"
+          # This value defines in which region the bucket is
+          region: eu-west-1
+  # This value defines in which AWS region the cluster and all the related resources will be created
+  region: eu-west-1
+  # This map defines which will be the common tags that will be added to all the resources created on AWS
+  tags:
+    env:  "CLUSTER_NAME"
+  # This first section, infrastructure, defines the underlying network and eventual VPN bastions that will be provisioned.
+  # If you already have a VPC, you can remove this key from the configuration file
+  infrastructure:
+    # This key defines the VPC that will be created in AWS
+    vpc:
+      network:
+        # This is the CIDR of the VPC
+        cidr: 10.1.0.0/16
+        subnetsCidrs:
+          # These are the CIRDs for the private subnets, where the nodes, the pods, and the private load balancers will be created
+          private:
+            - 10.1.0.0/20
+            - 10.1.16.0/20
+            - 10.1.32.0/20
+          # These are the CIDRs for the public subnets, where the public load balancers and the VPN servers will be created
+          public:
+            - 10.1.48.0/24
+            - 10.1.49.0/24
+            - 10.1.50.0/24
+    # This section defines the creation of VPN bastions
+    vpn:
+      instances: 0
+      port: 1194
+      instanceType: t3.micro
+      diskSize: 50
+      operatorName: sighup
+      dhParamsBits: 2048
+      vpnClientsSubnetCidr: 172.16.0.0/16
+      ssh:
+        githubUsersName:
+          - Filo01
+        allowedFromCidrs:
+          - 0.0.0.0/0
+  # This section describes how the EKS cluster will be created
+  kubernetes:
+    nodeAllowedSshPublicKey: "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQC73e7PMR9NmrehChjfC+cP6HifDPAaxtC9pAjsJQwymZlccwIMl65y3s7mGE5RO1GAMh6EzmgJQX3OuxwbJgI7jcGGzm6Oa6sjW40rAE3qaZSqz98uUT6TURCNaDNSx2ZtgcFL68yVErzyVpaMGsnw25G8ZdfRELlVeVTDRGcL+tpISy+2r9SOznA+twn7Nie/IK3YocoSM2JO6l5sZxPwIw7HoFeZE9yQsmeBkAMAd7tTSWdGiLUHrMRw/G++mS1OENS6JwHPoO66KmdxUlls7xy6WvTBI3kaBV03J4TUqQqtD3L+6tGAgWk9za9FJdg+8IpJFKCV9v+q9GiJb20MfObMMjXDpD+CwQM/ApwMb7pXPjAB2z9uxOgCJOfsnMxBjgCD6hYzJwhytoIFg2Z6ugVLsFeW5xkvfBUB8CWbBI6ZNjeVzN6cHQ/XHL98lSZfI0VRG33eX6O9FCRM0LWqSxmUX1PAkyQd/VHCr6Ig4eIM4djyqBmf7UWtcTg/Kvc= filipporavaglia@ITMI-FIRA-NB.local"
+    nodePoolGlobalAmiType: alinux2
+    # This key contains the ssh public key that can connect to the nodes via SSH using the ec2-user user
+    # nodeAllowedSshPublicKey: "{file://./id_rsa.pub}"
+    # Either `launch_configurations`, `launch_templates` or `both`. For new clusters use `launch_templates`, for existing cluster you'll need to migrate from `launch_configurations` to `launch_templates` using `both` as interim.
+    nodePoolsLaunchKind: "launch_templates"
+    # Optional Kubernetes Cluster log retention in days. Defaults to 90 days.
+    # logRetentionDays: 90
+    # This map defines the access to the Kubernetes API server
+    apiServer:
+      privateAccess: true
+      publicAccess: true
+      privateAccessCidrs: ['0.0.0.0/0']
+      publicAccessCidrs: ['0.0.0.0/0']
+    # This array contains the definition of the nodepools in the cluster
+    nodePools:
+        # This is the name of the nodepool
+      - name: infra
+        type: eks-managed
+        # This map defines the max and min number of nodes in the nodepool autoscaling group
+        size:
+          min: 5
+          max: 7
+        # This map defines the characteristics of the instance that will be used in the node pool
+        instance:
+          # The instance type
+          type: t3.xlarge
+          # If the instance is a spot instance
+          spot: true
+          # The instance disk size in GB
+          volumeSize: 50
+          # The instance disk type
+          volumeType: gp2
+        labels:
+          nodepool: infra
+          node.kubernetes.io/role: infra
+        # taints:
+        #   - node.kubernetes.io/role=infra:NoSchedule
+        tags:
+          k8s.io/cluster-autoscaler/node-template/label/nodepool: "worker"
+          k8s.io/cluster-autoscaler/node-template/label/node.kubernetes.io/role: "worker"
+    awsAuth: 
+     additionalAccounts: []
+    #    - "777777777777"
+    #    - "88888888888"
+     users:
+       - username: "filippo.ravaglia"
+         groups:
+           - system:masters
+         userarn: "arn:aws:iam::996502747800:user/filippo.ravaglia"
+     roles: []
+      #  - username: "example"
+      #    groups:
+      #      - example:masters
+      #    rolearn: "arn:aws:iam::123456789012:role/k8s-example-role"
+  # This section describes how the KFD distribution will be installed
+  distribution:
+    # This common configuration will be applied to all the packages that will be installed in the cluster
+    # common:
+      # networkPoliciesEnabled: true
+      # The node selector to use to place the pods for all the KFD packages
+      # nodeSelector:
+      #   node.kubernetes.io/role: infra
+      # The tolerations that will be added to the pods for all the KFD packages
+      # tolerations:
+      #   - effect: NoSchedule
+      #     key: node.kubernetes.io/role
+      #     value: infra
+    modules:
+      # This section contains all the configurations for the ingress module
+      ingress:
+        baseDomain: internal.e2e.ci.sighup.io
+        nginx:
+          type: dual
+          tls:
+            provider: certManager
+        certManager:
+          clusterIssuer:
+            name: letsencrypt-fury
+            email: test@sighup.io
+            type: http01
+        dns:
+          # the public DNS zone definition
+          public:
+            # the name of the zone
+            name: "e2e.ci.sighup.io"
+            # manage if we need to create the zone, or if it already exists and we only need to adopt/use it
+            create: true
+          # the private DNS zone definition, that will be attached to the VPC
+          private:
+            # the name of the zone
+            name: "internal.e2e.ci.sighup.io"
+            # defines if we need to create the zone, or if it already exists and we only need to adopt/use it
+            create: true
+      logging:
+        type: loki
+        loki:
+          backend: minio
+          tsdbStartDate: "2024-11-21"
+        minio:
+          storageSize: 20Gi
+          rootUser:
+            username: sighup
+            password: secretpassword1
+      monitoring:
+        type: mimir
+        mimir:
+          backend: minio
+        prometheus:
+          resources:
+            requests:
+              cpu: 10m
+            limits:
+              cpu: 2000m
+              memory: 6Gi
+        minio:
+          storageSize: 20Gi
+          rootUser:
+            username: sighup
+            password: secretpassword2
+      tracing:
+        type: none
+        tempo:
+          backend: minio
+        minio:
+          storageSize: 20Gi
+          rootUser:
+            username: sighup
+            password: secretpassword3
+      policy:
+        type: none
+        kyverno:
+          additionalExcludedNamespaces: ["local-path-storage"]
+          installDefaultPolicies: true
+          validationFailureAction: Enforce
+      dr:
+        type: eks
+        # Configurations for the velero package
+        velero:
+          # Velero configurations for EKS cluster
+          eks:
+            # The S3 bucket that will be created to store the backups
+            bucketName:  "CLUSTER_NAME-velero"
+            # The region where the bucket will be created (can be different from the overall region defined in .spec.region)
+            region: eu-west-1
+      auth:
+        provider:
+          type: basicAuth
+          basicAuth:
+            username: test
+            password: testpassword

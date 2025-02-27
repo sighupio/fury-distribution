@@ -1,0 +1,149 @@
+apiVersion: kfd.sighup.io/v1alpha2
+kind: EKSCluster
+metadata:
+  name: e2e-eks-1740661534
+spec:
+  distributionVersion: v1.31.0
+  toolsConfiguration:
+    terraform:
+      state:
+        s3:
+          bucketName: e2e-drone-eks
+          keyPrefix: e2e-eks-1740661534
+          region: eu-west-1
+  region: eu-west-1
+  tags:
+    env: e2e-eks-1740661534
+  infrastructure:
+    vpc:
+      network:
+        cidr: 10.1.0.0/16
+        subnetsCidrs:
+          private:
+            - 10.1.0.0/20
+            - 10.1.16.0/20
+            - 10.1.32.0/20
+          public:
+            - 10.1.48.0/24
+            - 10.1.49.0/24
+            - 10.1.50.0/24
+    vpn:
+      instances: 0
+      port: 1194
+      instanceType: t3.micro
+      diskSize: 50
+      operatorName: sighup
+      dhParamsBits: 2048
+      vpnClientsSubnetCidr: 172.16.0.0/16
+      ssh:
+        githubUsersName:
+          - Filo01
+        allowedFromCidrs:
+          - 0.0.0.0/0
+  kubernetes:
+    nodeAllowedSshPublicKey: ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQC73e7PMR9NmrehChjfC+cP6HifDPAaxtC9pAjsJQwymZlccwIMl65y3s7mGE5RO1GAMh6EzmgJQX3OuxwbJgI7jcGGzm6Oa6sjW40rAE3qaZSqz98uUT6TURCNaDNSx2ZtgcFL68yVErzyVpaMGsnw25G8ZdfRELlVeVTDRGcL+tpISy+2r9SOznA+twn7Nie/IK3YocoSM2JO6l5sZxPwIw7HoFeZE9yQsmeBkAMAd7tTSWdGiLUHrMRw/G++mS1OENS6JwHPoO66KmdxUlls7xy6WvTBI3kaBV03J4TUqQqtD3L+6tGAgWk9za9FJdg+8IpJFKCV9v+q9GiJb20MfObMMjXDpD+CwQM/ApwMb7pXPjAB2z9uxOgCJOfsnMxBjgCD6hYzJwhytoIFg2Z6ugVLsFeW5xkvfBUB8CWbBI6ZNjeVzN6cHQ/XHL98lSZfI0VRG33eX6O9FCRM0LWqSxmUX1PAkyQd/VHCr6Ig4eIM4djyqBmf7UWtcTg/Kvc=
+      filipporavaglia@ITMI-FIRA-NB.local
+    nodePoolGlobalAmiType: alinux2
+    nodePoolsLaunchKind: launch_templates
+    apiServer:
+      privateAccess: true
+      publicAccess: true
+      privateAccessCidrs:
+        - 0.0.0.0/0
+      publicAccessCidrs:
+        - 0.0.0.0/0
+    nodePools:
+      - name: infra
+        type: eks-managed
+        size:
+          min: 5
+          max: 7
+        instance:
+          type: t3.xlarge
+          spot: true
+          volumeSize: 50
+          volumeType: gp2
+        labels:
+          nodepool: infra
+          node.kubernetes.io/role: infra
+        tags:
+          k8s.io/cluster-autoscaler/node-template/label/nodepool: worker
+          k8s.io/cluster-autoscaler/node-template/label/node.kubernetes.io/role: worker
+    awsAuth:
+      additionalAccounts: []
+      users:
+        - username: filippo.ravaglia
+          groups:
+            - system:masters
+          userarn: arn:aws:iam::996502747800:user/filippo.ravaglia
+      roles: []
+  distribution:
+    modules:
+      ingress:
+        baseDomain: internal.e2e.ci.sighup.io
+        nginx:
+          type: dual
+          tls:
+            provider: certManager
+        certManager:
+          clusterIssuer:
+            name: letsencrypt-fury
+            email: test@sighup.io
+            type: http01
+        dns:
+          public:
+            name: e2e.ci.sighup.io
+            create: true
+          private:
+            name: internal.e2e.ci.sighup.io
+            create: true
+      logging:
+        type: loki
+        minio:
+          storageSize: 20Gi
+          rootUser:
+            username: sighup
+            password: secretpassword1
+        loki:
+          backend: minio
+          tsdbStartDate: '2024-11-21'
+      monitoring:
+        type: mimir
+        prometheus:
+          resources:
+            requests:
+              cpu: 10m
+            limits:
+              cpu: 2000m
+              memory: 6Gi
+        minio:
+          storageSize: 20Gi
+          rootUser:
+            username: sighup
+            password: secretpassword2
+      tracing:
+        type: tempo
+        minio:
+          storageSize: 20Gi
+          rootUser:
+            username: sighup
+            password: secretpassword3
+      policy:
+        type: kyverno
+        kyverno:
+          additionalExcludedNamespaces:
+            - local-path-storage
+          validationFailureAction: Enforce
+          installDefaultPolicies: true
+      dr:
+        type: eks
+        velero:
+          eks:
+            bucketName: e2e-eks-1740658260
+            region: eu-west-1
+      auth:
+        provider:
+          type: basicAuth
+          basicAuth:
+            username: test
+            password: testpassword

@@ -1,0 +1,129 @@
+#!/usr/bin/expect -f
+# Increase timeout as needed:
+set timeout 3600
+puts "Current working directory: $env(PWD)"
+if {[llength $argv] == 0} {
+    puts "Usage: furyctl_apply.expect /path/to/furyctl.yaml"
+    exit 1
+}
+set configFilePath [lindex $argv 0]
+# Verify that necessary AWS environment variables exist.
+if { ![info exists env(AWS_ACCESS_KEY_ID)] || \
+     ![info exists env(AWS_SECRET_ACCESS_KEY)] || \
+     ![info exists env(AWS_REGION)] } {
+    puts "One or more AWS environment variables (AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, AWS_REGION) are not set."
+    exit 1
+}
+
+# # Function to check if OpenVPN is already running
+# proc is_openvpn_running {} {
+#     set openvpn_running [catch {exec pgrep -f "openvpn --config"} result]
+#     return [expr {$openvpn_running == 0}]
+# }
+
+# # Function to start OpenVPN and wait for initialization
+# proc start_openvpn {config_file} {
+#     set vpn_timeout 300
+#     puts "Starting OpenVPN connection..."
+    
+#     # Spawn OpenVPN process
+#     spawn openvpn --config $config_file
+#     set vpn_id $spawn_id
+    
+#     # Wait for initialization to complete
+#     set initialized 0
+#     expect {
+#         -re {.*Initialization Sequence Completed.*} {
+#             puts "OpenVPN connection established successfully."
+#             set initialized 1
+#         }
+#         timeout {
+#             puts "Timed out waiting for OpenVPN to initialize."
+#             catch {exec kill -9 [exp_pid -i $vpn_id]}
+#             return 0
+#         }
+#         eof {
+#             puts "OpenVPN process terminated unexpectedly."
+#             return 0
+#         }
+#     }
+    
+#     if {$initialized} {
+#         # Detach the process but keep it running
+#         set vpn_pid [exp_pid -i $vpn_id]
+#         puts "OpenVPN running with PID: $vpn_pid"
+        
+#         return 1
+#     }
+    
+#     return 0
+# }
+
+# Start furyctl apply.
+spawn furyctl delete cluster --outdir $env(PWD) -D --config $configFilePath
+set furyctl_id $spawn_id
+# set prompt_count 0
+
+expect {
+    # -re {.*Press ENTER when you are ready to continue.*} {
+    #     incr prompt_count
+    #     if {$prompt_count == 1} {
+    #         # First prompt: check if OpenVPN is already connected, if not, connect
+    #         sleep 5
+            
+    #         # Check if VPN is already running
+    #         if {[is_openvpn_running]} {
+    #             puts "OpenVPN is already running. Continuing without restarting."
+    #         } else {
+    #             # Start OpenVPN and wait for initialization
+    #             set vpn_config "$env(PWD)/e2e-drone.ovpn"
+    #             if {![start_openvpn $vpn_config]} {
+    #                 puts "Failed to establish OpenVPN connection. Exiting..."
+    #                 exit 1
+    #             }
+    #         }
+            
+    #         # Continue with furyctl
+    #         send -i $furyctl_id "\r"
+    #         exp_continue
+    #     } elseif {$prompt_count == 2} {
+    #         # Second prompt: Just press enter
+    #         send -i $furyctl_id "\r"
+    #         exp_continue
+    #     }
+    # }
+     -re {.*Are you sure you want to continue\? Only 'yes' will be accepted to confirm.*} {
+        puts "Confirmation prompt detected, sending 'yes'"
+        send -i $furyctl_id "yes\r"
+        exp_continue
+    }
+    timeout {
+        puts "Timed out waiting for the interactive prompt."
+        catch {kill -s INT [exp_pid -i $furyctl_id]}
+        sleep 5
+        exit 1
+    }
+    eof {
+        puts "Furyctl process ended."
+    }
+}
+
+
+# Wait until furyctl has finished and capture its exit code
+set exit_code 0
+if {[catch {wait -i $furyctl_id} result]} {
+    puts "Process already exited, trying to get exit code from result: $result"
+    # Try to extract exit code from the result if possible
+    if {[llength $result] >= 4} {
+        set exit_code [lindex $result 3]
+    }
+} else {
+    # Normal case: extract exit code from wait result
+    puts "Furyctl exit status: $result"
+    set exit_code [lindex $result 3]
+}
+
+puts "Script completed with exit code $exit_code."
+exit $exit_code
+
+exec aws s3 rm s3://e2e-drone-eks/$env(CLUSTER_NAME) --recursive
