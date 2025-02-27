@@ -7,8 +7,8 @@ set -e
 
 echo "----------------------------------------------------------------------------"
 echo "Executing furyctl for the initial setup 1.30.0"
-/tmp/furyctl apply --config tests/e2e/kfddistribution-upgrades/furyctl-init-cluster-1.30.0.yaml --outdir "$PWD" --disable-analytics
+tests/e2e/ekscluster/furyctl_apply.expect tests/e2e/ekscluster-upgrades/furyctl-init-cluster-1.30.0.yaml
 
 echo "----------------------------------------------------------------------------"
 echo "Executing upgrade to 1.31.0"
-/tmp/furyctl apply --upgrade --config tests/e2e/kfddistribution-upgrades/furyctl-init-cluster-1.31.0.yaml --outdir "$PWD" --distro-location ./ --force upgrades --disable-analytics
+tests/e2e/ekscluster-upgrades/furyctl_upgrade.expect tests/e2e/kfddistribution-upgrades/furyctl-init-cluster-1.31.0.yaml --outdir "$PWD" --distro-location ./ --force upgrades --disable-analytics
