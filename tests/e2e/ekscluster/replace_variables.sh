@@ -47,10 +47,10 @@ if [ -z "$DISTRIBUTION_VERSION" ] || [ -z "$CLUSTER_NAME" ] || [ -z "$FURYCTL_YA
     exit 1
 fi
 
-yq -eiy ".spec.distributionVersion = \"$DISTRIBUTION_VERSION\"" $FURYCTL_YAML
-yq -eiy ".metadata.name = \"$CLUSTER_NAME\"" $FURYCTL_YAML
-yq -eiy ".spec.toolsConfiguration.terraform.state.s3.keyPrefix = \"$CLUSTER_NAME\"" $FURYCTL_YAML
-yq -eiy ".spec.tags.env = \"$CLUSTER_NAME\"" $FURYCTL_YAML
-if [[ $(yq '.spec.distribution.modules.dr.velero.eks | has("bucketName")' $FURYCTL_YAML) == "true" ]]; then
-  yq -eiy ".spec.distribution.modules.dr.velero.eks.bucketName = \"$CLUSTER_NAME\"" $FURYCTL_YAML
+yq -eiy ".spec.distributionVersion = \"$DISTRIBUTION_VERSION\"" "$FURYCTL_YAML"
+yq -eiy ".metadata.name = \"$CLUSTER_NAME\"" "$FURYCTL_YAML"
+yq -eiy ".spec.toolsConfiguration.terraform.state.s3.keyPrefix = \"$CLUSTER_NAME\"" "$FURYCTL_YAML"
+yq -eiy ".spec.tags.env = \"$CLUSTER_NAME\"" "$FURYCTL_YAML"
+if [[ $(yq '.spec.distribution.modules.dr.velero.eks | has("bucketName")' "$FURYCTL_YAML") == "true" ]]; then
+  yq -eiy ".spec.distribution.modules.dr.velero.eks.bucketName = \"$CLUSTER_NAME\"" "$FURYCTL_YAML"
 fi
