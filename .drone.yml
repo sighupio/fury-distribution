@@ -474,6 +474,7 @@ steps:
       
       # Run AWS Nuke
       - aws-nuke -c tests/e2e/ekscluster/awsnuke/config.yml --force --no-dry-run
+      - aws s3 rm s3://e2e-drone-eks --recursive
 
 ---
 name: release
