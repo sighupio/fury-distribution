@@ -375,7 +375,7 @@ steps:
     - mv furyctl /usr/local/bin
     - tests/e2e/ekscluster/furyctl_delete.expect $(cat ./last_furyctl_yaml.txt)
     - aws s3 rm s3://e2e-drone-eks/$CLUSTER_NAME --recursive
-    - aws s3 rm s3://e2e-drone-eks/$CLUSTER_NAME-velero --recursive
+    - aws s3 rm s3://$CLUSTER_NAME-velero --recursive
     - aws s3api delete-bucket --bucket $CLUSTER_NAME-velero
 ---
 name: e2e-ekscluster-upgrades
