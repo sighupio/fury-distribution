@@ -376,7 +376,7 @@ steps:
     - curl -L "https://github.com/sighupio/furyctl/releases/download/$${FURYCTL_VERSION}/furyctl-linux-amd64.tar.gz" | tar -xz
     - mv furyctl /usr/local/bin
     - tests/e2e/ekscluster/furyctl_delete.expect $(cat ./last_furyctl_yaml.txt)
-    - aws s3 rm s3://e2e-drone-eks/$env(CLUSTER_NAME) --recursive
+    - aws s3 rm s3://e2e-drone-eks/$CLUSTER_NAME --recursive
 
 ---
 name: e2e-ekscluster-upgrades
@@ -384,7 +384,7 @@ kind: pipeline
 type: docker
 
 depends_on:
-  - e2e-ekscluster
+  - qa
 
 clone:
   depth: 1
