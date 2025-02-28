@@ -126,7 +126,6 @@ trigger:
       - refs/tags/**
     exclude:
       - refs/tags/**-docs*
-      - refs/tags/e2e-full-**
 
 steps:
   - name: create Kind cluster
@@ -231,7 +230,6 @@ trigger:
       - refs/tags/**
     exclude:
       - refs/tags/**-docs*
-      - refs/tags/e2e-full-**
 
 steps:
   - name: create Kind cluster
