@@ -22,7 +22,7 @@ if { ![info exists env(AWS_ACCESS_KEY_ID)] || \
 
 
 # Start furyctl apply.
-spawn furyctl apply --upgrade --outdir $env(PWD) -D --config $configFilePath --distro-location ./ --force upgrades --disable-analytics
+spawn furyctl apply --upgrade --outdir $env(PWD) -D --config $configFilePath --force upgrades
 set furyctl_id $spawn_id
 
 expect {
