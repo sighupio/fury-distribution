@@ -11,4 +11,4 @@ tests/e2e/ekscluster/furyctl_apply.expect tests/e2e/ekscluster-upgrades/manifest
 
 echo "----------------------------------------------------------------------------"
 echo "Executing upgrade to 1.31.0"
-tests/e2e/ekscluster-upgrades/furyctl_upgrade.expect tests/e2e/ekscluster-upgrades/manifests/furyctl-init-cluster-1.31.0.yaml --outdir "$PWD" --distro-location ./ --force upgrades --disable-analytics
+tests/e2e/ekscluster-upgrades/furyctl_upgrade.expect tests/e2e/ekscluster-upgrades/manifests/furyctl-init-cluster-1.31.0.yaml --outdir "$PWD" --force upgrades --disable-analytics
