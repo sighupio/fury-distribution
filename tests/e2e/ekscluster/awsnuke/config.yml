@@ -1,0 +1,30 @@
+---
+regions:
+  - "eu-west-1"
+
+account-blocklist:
+- 363601582189 # production
+
+resource-types:
+  targets:
+    - EC2Subnet
+    - EC2SecurityGroup
+    - EC2InternetGateway
+    - EC2InternetGatewayAttachment
+    - EC2NetworkInterface
+    - EKSCluster
+    - EKSNodegroup
+    - EC2Address
+    - EC2NATGateway
+    - CloudWatchLogsLogGroup
+    - EC2Volume
+    - EC2Snapshot
+    - EC2VPC
+    - EC2Instance
+    - EC2LaunchTemplate
+    - AutoScalingGroup
+    - ELBv2
+    - EC2RouteTable
+
+accounts:
+  996502747800: {} # engineering-aws-ci

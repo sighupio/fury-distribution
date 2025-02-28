@@ -446,6 +446,42 @@ steps:
     - aws s3api delete-bucket --bucket $CLUSTER_NAME-velero
 
 ---
+kind: pipeline
+type: docker
+name: scheduled-aws-nuke
+
+trigger:
+  cron: 
+    - "0 23 * * *"  # Run at 11 PM every day
+
+clone:
+  depth: 1
+
+steps:
+  - name: run-aws-nuke
+    image: amazon/aws-cli:latest
+    environment:
+      AWS_ACCESS_KEY_ID:
+        from_secret: aws_access_key_id
+      AWS_SECRET_ACCESS_KEY:
+        from_secret: aws_secret_access_key
+      AWS_DEFAULT_REGION: eu-west-1
+    commands:
+      # Install required tools
+      - yum update -y
+      - yum install -y wget tar gzip
+      
+      # Install AWS Nuke
+      - wget https://github.com/rebuy-de/aws-nuke/releases/download/v2.25.0/aws-nuke-v2.25.0-linux-amd64.tar.gz
+      - tar -xvf aws-nuke-v2.25.0-linux-amd64.tar.gz
+      - mv aws-nuke-v2.25.0-linux-amd64 /usr/local/bin/aws-nuke
+      - chmod +x /usr/local/bin/aws-nuke
+      
+      
+      # Run AWS Nuke
+      - aws-nuke -c tests/e2e/ekscluster/awsnuke/config.yml --force --no-dry-run
+
+---
 name: release
 kind: pipeline
 type: docker
