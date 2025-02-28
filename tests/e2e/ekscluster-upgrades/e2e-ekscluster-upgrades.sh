@@ -7,8 +7,12 @@ set -e
 
 echo "----------------------------------------------------------------------------"
 echo "Executing furyctl for the initial setup 1.30.0"
-tests/e2e/ekscluster/furyctl_apply.expect tests/e2e/ekscluster-upgrades/manifests/furyctl-init-cluster-1.30.0.yaml
+FURYCTL_YAML=tests/e2e/ekscluster-upgrades/manifests/furyctl-init-cluster-1.30.0.yaml
+tests/e2e/ekscluster/replace_variables.sh --cluster-name "$CLUSTER_NAME" --furyctl-yaml "$FURYCTL_YAML"
+tests/e2e/ekscluster/furyctl_apply.expect $FURYCTL_YAML
 
 echo "----------------------------------------------------------------------------"
 echo "Executing upgrade to 1.31.0"
-tests/e2e/ekscluster-upgrades/furyctl_upgrade.expect tests/e2e/ekscluster-upgrades/manifests/furyctl-init-cluster-1.31.0.yaml --outdir "$PWD" --force upgrades --disable-analytics
+FURYCTL_YAML=tests/e2e/ekscluster-upgrades/manifests/furyctl-init-cluster-1.31.0.yaml
+tests/e2e/ekscluster/replace_variables.sh --cluster-name "$CLUSTER_NAME" --furyctl-yaml "$FURYCTL_YAML"
+tests/e2e/ekscluster-upgrades/furyctl_upgrade.expect $FURYCTL_YAML

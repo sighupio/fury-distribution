@@ -41,16 +41,18 @@ while [[ $# -gt 0 ]]; do
 done
 
 # Check if all required arguments are provided
-if [ -z "$DISTRIBUTION_VERSION" ] || [ -z "$CLUSTER_NAME" ] || [ -z "$FURYCTL_YAML" ]; then
+if [ -z "$CLUSTER_NAME" ] || [ -z "$FURYCTL_YAML" ]; then
     echo "Error: Missing required arguments"
-    echo "Usage: $0 -d <distribution_version> -c <cluster_name> -f <furyctl_yaml>"
+    echo "Usage: $0 -c <cluster_name> -f <furyctl_yaml>"
     exit 1
 fi
 
-yq -eiy ".spec.distributionVersion = \"$DISTRIBUTION_VERSION\"" "$FURYCTL_YAML"
+if [[ -v $DISTRIBUTION_VERSION ]]; then
+  yq -eiy ".spec.distributionVersion = \"$DISTRIBUTION_VERSION\"" "$FURYCTL_YAML"
+fi
 yq -eiy ".metadata.name = \"$CLUSTER_NAME\"" "$FURYCTL_YAML"
 yq -eiy ".spec.toolsConfiguration.terraform.state.s3.keyPrefix = \"$CLUSTER_NAME\"" "$FURYCTL_YAML"
 yq -eiy ".spec.tags.env = \"$CLUSTER_NAME\"" "$FURYCTL_YAML"
 if [[ $(yq '.spec.distribution.modules.dr.velero.eks | has("bucketName")' "$FURYCTL_YAML") == "true" ]]; then
-  yq -eiy ".spec.distribution.modules.dr.velero.eks.bucketName = \"$CLUSTER_NAME\"" "$FURYCTL_YAML"
+  yq -eiy ".spec.distribution.modules.dr.velero.eks.bucketName = \"$CLUSTER_NAME-velero\"" "$FURYCTL_YAML"
 fi
