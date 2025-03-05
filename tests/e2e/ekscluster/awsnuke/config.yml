@@ -7,7 +7,7 @@ regions:
   - "eu-west-1"
 
 account-blocklist:
-- 363601582189 # production
+- ACCOUNT_ID_PROD_PLACEHOLDER # production
 
 resource-types:
   targets:
@@ -37,4 +37,4 @@ resource-types:
     - Route53ResolverRuleAssociation
 
 accounts:
-  996502747800: {} # engineering-aws-ci
+  ACCOUNT_ID_PLACEHOLDER: {}

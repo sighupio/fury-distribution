@@ -445,8 +445,14 @@ type: docker
 name: scheduled-aws-nuke
 
 trigger:
-  cron: 
-    - "0 23 * * *"  # Run at 11 PM every day
+  event:
+    - cron
+    - tag
+  cron:
+    - "0 23 * * *" # Run at 11 PM every day
+  ref:
+    include:
+      - refs/tags/aws-nuke-ci-**
 
 clone:
   depth: 1
@@ -460,20 +466,23 @@ steps:
       AWS_SECRET_ACCESS_KEY:
         from_secret: aws_secret_access_key
       AWS_DEFAULT_REGION: eu-west-1
+      ACCOUNT_ID_PROD:
+        from_secret: aws_account_id_prod
     commands:
       # Install required tools
       - yum update -y
-      - yum install -y wget tar gzip
+      - yum install -y wget tar gzip jq
       
       # Install AWS Nuke
       - wget https://github.com/rebuy-de/aws-nuke/releases/download/v2.25.0/aws-nuke-v2.25.0-linux-amd64.tar.gz
       - tar -xvf aws-nuke-v2.25.0-linux-amd64.tar.gz
       - mv aws-nuke-v2.25.0-linux-amd64 /usr/local/bin/aws-nuke
       - chmod +x /usr/local/bin/aws-nuke
-      
-      
+      - export ACCOUNT_ID=$(aws sts get-caller-identity | jq -r ".UserId")
+      - sed "s/ACCOUNT_ID_PLACEHOLDER/$ACCOUNT_ID/" tests/e2e/ekscluster/awsnuke/config.yml > ./aws-nuke-config.yml
+      - sed -i "s/ACCOUNT_ID_PROD_PLACEHOLDER/$ACCOUNT_ID_PROD/" ./aws-nuke-config.yml
       # Run AWS Nuke
-      - aws-nuke -c tests/e2e/ekscluster/awsnuke/config.yml --force --no-dry-run
+      - aws-nuke -c ./aws-nuke-config.yml --force --no-dry-run
       - aws s3 rm s3://e2e-drone-eks --recursive
 
 ---
