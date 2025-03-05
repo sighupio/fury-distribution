@@ -88,7 +88,7 @@ spec:
   distribution:
     modules:
       ingress:
-        baseDomain: internal.e2e.ci.sighup.io
+        baseDomain: internal.e2e.ci.sighup.cc
         nginx:
           type: dual
           tls:
@@ -100,10 +100,10 @@ spec:
             type: http01
         dns:
           public:
-            name: e2e.ci.sighup.io
+            name: e2e.ci.sighup.cc
             create: true
           private:
-            name: internal.e2e.ci.sighup.io
+            name: internal.e2e.ci.sighup.cc
             create: true
       logging:
         type: none

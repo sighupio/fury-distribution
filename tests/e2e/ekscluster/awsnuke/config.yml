@@ -29,6 +29,12 @@ resource-types:
     - AutoScalingGroup
     - ELBv2
     - EC2RouteTable
+    - Route53HostedZone
+    - Route53RecordSet
+    - Route53HealthCheck
+    - Route53ResolverEndpoint
+    - Route53ResolverRule
+    - Route53ResolverRuleAssociation
 
 accounts:
   996502747800: {} # engineering-aws-ci

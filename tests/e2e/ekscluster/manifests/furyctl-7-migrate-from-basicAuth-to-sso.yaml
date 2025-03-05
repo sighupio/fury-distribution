@@ -88,7 +88,7 @@ spec:
   distribution:
     modules:
       ingress:
-        baseDomain: internal.e2e.ci.sighup.io
+        baseDomain: internal.e2e.ci.sighup.cc
         nginx:
           type: dual
           tls:
@@ -100,10 +100,10 @@ spec:
             type: http01
         dns:
           public:
-            name: e2e.ci.sighup.io
+            name: e2e.ci.sighup.cc
             create: true
           private:
-            name: internal.e2e.ci.sighup.io
+            name: internal.e2e.ci.sighup.cc
             create: true
       logging:
         type: none
@@ -156,7 +156,7 @@ spec:
             IDP_CLIENT_SECRET: iebee2Xohs7giongaihuch8iu5shie0O
             SHARED_SECRET: LEjtmaKtiCB2qA5rtFSHWiWAzkdFftADf/q2xWT64dg=
             SIGNING_KEY: LS0tLS1CRUdJTiBFQyBQUklWQVRFIEtFWS0tLS0tCk1IY0NBUUVFSU9DMHBBQmx4ZS84bjRQcHBBVUE1QnRxam96Z3dDZVpvRDI2c056TGRiS1hvQW9HQ0NxR1NNNDkKQXdFSG9VUURRZ0FFRUpDc253MHlXODRLZXhVSjQ5M21MMG9tNFN5dzJBeGtWOGFpRkxDZFdKaVBYamtUMDE1QwowclJsV2tqNVdlQUhqYmVncmRNL2QyejZTbzY3MWs3TVpRPT0KLS0tLS1FTkQgRUMgUFJJVkFURSBLRVktLS0tLQo=
-        baseDomain: e2e.ci.sighup.io
+        baseDomain: e2e.ci.sighup.cc
         dex:
           connectors:
             - type: ldap
