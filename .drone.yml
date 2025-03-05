@@ -478,7 +478,7 @@ steps:
       - tar -xvf aws-nuke-v2.25.0-linux-amd64.tar.gz
       - mv aws-nuke-v2.25.0-linux-amd64 /usr/local/bin/aws-nuke
       - chmod +x /usr/local/bin/aws-nuke
-      - export ACCOUNT_ID=$(aws sts get-caller-identity | jq -r ".UserId")
+      - export ACCOUNT_ID=$(aws sts get-caller-identity | jq -r ".Account")
       - sed "s/ACCOUNT_ID_PLACEHOLDER/$ACCOUNT_ID/" tests/e2e/ekscluster/awsnuke/config.yml > ./aws-nuke-config.yml
       - sed -i "s/ACCOUNT_ID_PROD_PLACEHOLDER/$ACCOUNT_ID_PROD/" ./aws-nuke-config.yml
       # Run AWS Nuke
