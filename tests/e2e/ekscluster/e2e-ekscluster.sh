@@ -71,13 +71,14 @@ tests/e2e/ekscluster/furyctl_apply.expect "$LAST_FURYCTL_YAML"
 echo "$LAST_FURYCTL_YAML" > last_furyctl_yaml.txt
 bats -t tests/e2e/ekscluster/e2e-ekscluster-6-migrate-from-mimir-to-none.sh
 
-# LAST_FURYCTL_YAML=tests/e2e/ekscluster/manifests/furyctl-7-migrate-from-basicAuth-to-sso.yaml
-# tests/e2e/ekscluster/replace_variables.sh --distribution-version "$DISTRIBUTION_VERSION" --cluster-name "$CLUSTER_NAME" --furyctl-yaml "$LAST_FURYCTL_YAML"
-# echo "----------------------------------------------------------------------------"
-# echo "Executing furyctl with the auth basic to sso migration"
-# tests/e2e/ekscluster/furyctl_apply.expect "$LAST_FURYCTL_YAML"
-# echo "$LAST_FURYCTL_YAML" > last_furyctl_yaml.txt
-# bats -t tests/e2e/ekscluster/e2e-ekscluster-7-migrate-from-basicAuth-to-sso.sh
+LAST_FURYCTL_YAML=tests/e2e/ekscluster/manifests/furyctl-7-migrate-from-basicAuth-to-sso.yaml
+tests/e2e/ekscluster/replace_variables.sh --distribution-version "$DISTRIBUTION_VERSION" --cluster-name "$CLUSTER_NAME" --furyctl-yaml "$LAST_FURYCTL_YAML"
+echo "----------------------------------------------------------------------------"
+echo "Executing furyctl with the auth basic to sso migration"
+tests/e2e/ekscluster/furyctl_apply.expect "$LAST_FURYCTL_YAML"
+export KUBECONFIG=./kubeconfig
+echo "$LAST_FURYCTL_YAML" > last_furyctl_yaml.txt
+bats -t tests/e2e/ekscluster/e2e-ekscluster-7-migrate-from-basicAuth-to-sso.sh
 
 LAST_FURYCTL_YAML=tests/e2e/ekscluster/manifests/furyctl-8-migrate-from-sso-to-none.yaml
 tests/e2e/ekscluster/replace_variables.sh --distribution-version "$DISTRIBUTION_VERSION" --cluster-name "$CLUSTER_NAME" --furyctl-yaml "$LAST_FURYCTL_YAML"
