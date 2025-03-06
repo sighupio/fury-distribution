@@ -60,12 +60,16 @@ fi
 if [[ $(yq '.spec.distribution.modules.ingress | has("baseDomain")' "$FURYCTL_YAML") == "true" ]]; then
   yq -eiy ".spec.distribution.modules.ingress.baseDomain = \"internal.$CLUSTER_NAME.e2e.ci.sighup.cc\"" "$FURYCTL_YAML"
 fi
-if [[ $(yq '.spec.distribution.modules.dns.public | has("name")' "$FURYCTL_YAML") == "true" ]]; then
-  yq -eiy ".spec.distribution.modules.dns.public.name = \"$CLUSTER_NAME.e2e.ci.sighup.cc\"" "$FURYCTL_YAML"
+if [[ $(yq '.spec.distribution.modules.ingress.dns.public | has("name")' "$FURYCTL_YAML") == "true" ]]; then
+  yq -eiy ".spec.distribution.modules.ingress.dns.public.name = \"$CLUSTER_NAME.e2e.ci.sighup.cc\"" "$FURYCTL_YAML"
 fi
 
-if [[ $(yq '.spec.distribution.modules.dns.private | has("name")' "$FURYCTL_YAML") == "true" ]]; then
-  yq -eiy ".spec.distribution.modules.dns.private.name = \"internal.$CLUSTER_NAME.e2e.ci.sighup.cc\"" "$FURYCTL_YAML"
+if [[ $(yq '.spec.distribution.modules.ingress.dns.private | has("name")' "$FURYCTL_YAML") == "true" ]]; then
+  yq -eiy ".spec.distribution.modules.ingress.dns.private.name = \"internal.$CLUSTER_NAME.e2e.ci.sighup.cc\"" "$FURYCTL_YAML"
+fi
+
+if [[ $(yq '.spec.distribution.modules.auth | has("baseDomain")' "$FURYCTL_YAML") == "true" ]]; then
+  yq -eiy ".spec.distribution.modules.auth.baseDomain = \"$CLUSTER_NAME.e2e.ci.sighup.cc\"" "$FURYCTL_YAML"
 fi
 
 
