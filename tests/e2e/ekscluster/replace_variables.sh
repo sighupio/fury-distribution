@@ -56,3 +56,16 @@ yq -eiy ".spec.tags.env = \"$CLUSTER_NAME\"" "$FURYCTL_YAML"
 if [[ $(yq '.spec.distribution.modules.dr.velero.eks | has("bucketName")' "$FURYCTL_YAML") == "true" ]]; then
   yq -eiy ".spec.distribution.modules.dr.velero.eks.bucketName = \"$CLUSTER_NAME-velero\"" "$FURYCTL_YAML"
 fi
+
+if [[ $(yq '.spec.distribution.modules.ingress | has("baseDomain")' "$FURYCTL_YAML") == "true" ]]; then
+  yq -eiy ".spec.distribution.modules.ingress.baseDomain = \"internal.$CLUSTER_NAME.e2e.ci.sighup.cc\"" "$FURYCTL_YAML"
+fi
+if [[ $(yq '.spec.distribution.modules.dns.public | has("name")' "$FURYCTL_YAML") == "true" ]]; then
+  yq -eiy ".spec.distribution.modules.dns.public.name = \"$CLUSTER_NAME.e2e.ci.sighup.cc\"" "$FURYCTL_YAML"
+fi
+
+if [[ $(yq '.spec.distribution.modules.dns.private | has("name")' "$FURYCTL_YAML") == "true" ]]; then
+  yq -eiy ".spec.distribution.modules.dns.private.name = \"internal.$CLUSTER_NAME.e2e.ci.sighup.cc\"" "$FURYCTL_YAML"
+fi
+
+

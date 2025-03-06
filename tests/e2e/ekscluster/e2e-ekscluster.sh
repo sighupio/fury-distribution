@@ -80,6 +80,26 @@ export KUBECONFIG=./kubeconfig
 echo "$LAST_FURYCTL_YAML" > last_furyctl_yaml.txt
 bats -t tests/e2e/ekscluster/e2e-ekscluster-7-migrate-from-basicAuth-to-sso.sh
 
+#Temporary fix to delete pomerium dns 
+hosted_zone_id=$(aws route53 list-hosted-zones \
+  --output text \
+  --query 'HostedZones[?Name==`$CLUSTER_NAME.e2e.ci.sighup.cc.`].Id')
+aws route53 list-resource-record-sets \
+  --hosted-zone-id $hosted_zone_id | \
+jq -c '.ResourceRecordSets[]' | \
+while read -r resourcerecordset; do
+  read -r name type <<<$(echo $(jq -r '.Name,.Type' <<<"$resourcerecordset"))
+  if [ $type != "NS" -a $type != "SOA" ]; then
+    aws route53 change-resource-record-sets \
+      --hosted-zone-id $hosted_zone_id \
+      --change-batch '{"Changes":[{"Action":"DELETE","ResourceRecordSet":
+          '"$resourcerecordset"'
+        }]}' \
+      --output text --query 'ChangeInfo.Id'
+  fi
+done
+
+
 LAST_FURYCTL_YAML=tests/e2e/ekscluster/manifests/furyctl-8-migrate-from-sso-to-none.yaml
 tests/e2e/ekscluster/replace_variables.sh --distribution-version "$DISTRIBUTION_VERSION" --cluster-name "$CLUSTER_NAME" --furyctl-yaml "$LAST_FURYCTL_YAML"
 echo "----------------------------------------------------------------------------"
