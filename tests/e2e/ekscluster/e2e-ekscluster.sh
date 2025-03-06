@@ -88,6 +88,7 @@ aws route53 list-resource-record-sets \
   --hosted-zone-id "$hosted_zone_id" | \
 jq -c '.ResourceRecordSets[]' | \
 while read -r resourcerecordset; do
+    read -r name type <<<$(echo $(jq -r '.Name,.Type' <<<"$resourcerecordset"))
   if [ "$type" != "NS" -a "$type" != "SOA" ]; then
     aws route53 change-resource-record-sets \
       --hosted-zone-id "$hosted_zone_id" \
