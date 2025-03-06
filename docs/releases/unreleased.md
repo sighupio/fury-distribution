@@ -16,7 +16,7 @@ The distribution is maintained with ❤️ by the team [SIGHUP](https://sighup.i
 
 ## Breaking changes 💔
 
-- TBD
+- [[#358](https://github.com/sighupio/fury-distribution/pull/358)] **Upgrade kustomize to version 5.6.0**: plugins that used old deprecated constructs in their `kustomization.yaml` may not work anymore. Please refer to the release notes of `kustomize` version [4.0.0](https://github.com/kubernetes-sigs/kustomize/releases/tag/kustomize%2Fv4.0.0) and version [5.0.0](https://github.com/kubernetes-sigs/kustomize/releases/tag/kustomize%2Fv5.0.0) for breaking changes that might affect your plugins.
 
 ## New features 🌟
 

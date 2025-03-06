@@ -8,7 +8,7 @@ kubectlbin="{{ .paths.kubectl }}"
 yqbin="{{ .paths.yq }}"
 vendorPath="{{ .paths.vendorPath }}"
 
-$kustomizebin build --load_restrictor LoadRestrictionsNone . > out.yaml
+$kustomizebin build --load-restrictor LoadRestrictionsNone . > out.yaml
 
 {{- if and (index .spec.distribution.common "registry") (ne .spec.distribution.common.registry "") }}
 if [[ "$OSTYPE" == "darwin"* ]]; then
