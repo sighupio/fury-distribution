@@ -138,9 +138,9 @@ all:
     kubernetes_kubeconfig_path: ./
     kubernetes_version: "{{ .kubernetes.version }}"
     {{- if not (index $.spec.kubernetes "etcd") }}
-    etcd_on_control_plane: True
+    etcd_on_control_plane: true
     {{- else }}
-    etcd_on_control_plane: False
+    etcd_on_control_plane: false
     {{- end }}
     {{- if index .spec.kubernetes "proxy" }}
     http_proxy: "{{ .spec.kubernetes.proxy.http }}"
