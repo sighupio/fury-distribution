@@ -102,42 +102,6 @@
   tags:
     - etcd
 
-- name: Distribute etcd certificates on control plane nodes
-  hosts: master
-  become: true
-  vars:
-    etcd_certs:
-      - etcd/ca.crt
-      - apiserver-etcd-client.crt
-      - apiserver-etcd-client.key
-  tasks:
-    - name: Retrieving certificates from etcd nodes
-      run_once: true
-      delegate_to: "{{ print "{{ groups.etcd[0] }}" }}"
-      fetch:
-        src: "/etc/etcd/pki/{{ print "{{ item }}" }}"
-        dest: "/tmp/etcd-certs/"
-        flat: yes
-      with_items: "{{ print "{{ etcd_certs }}" }}"
-      when: not etcd_on_control_plane | bool
-    - name: Copying certificates to control plane nodes
-      copy:
-        src: "/tmp/etcd-certs/{{ print "{{ item | basename }}" }}"
-        dest: "/etc/etcd/pki/{{ print "{{ item }}" }}"
-        owner: root
-        group: root
-        mode: 0640
-      with_items: "{{ print "{{ etcd_certs }}" }}"
-      when: not etcd_on_control_plane | bool
-    - name: Cleaning up temporary certificates
-      run_once: true
-      become: false
-      delegate_to: localhost
-      file:
-        path: /tmp/etcd-certs
-        state: absent
-      when: not etcd_on_control_plane | bool
-
 - name: Control plane configuration
   hosts: master
   become: true

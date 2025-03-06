@@ -20,13 +20,14 @@
     - reset-k8s
 
 - name: Reset etcd nodes
-  hosts: etcd
+  hosts: master,etcd
   become: true
   tasks:
     - name: Stop etcd
       systemd:
         name: etcd
         state: stopped
+      when: inventory_hostname in groups['etcd']
     - name: Clean etcd datadir
       file:
         path: /var/lib/etcd

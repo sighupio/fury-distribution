@@ -29,39 +29,50 @@
   serial: 1
   tasks:
 
-    # Get Kubernetes version and modify the output from something like "v1.29.4" to "1.29".
     - name: Get the current Kubernetes version
-      shell: |
-        K8S_VERSION=$(kubectl version --kubeconfig=/etc/kubernetes/admin.conf --short 2>/dev/null | grep 'Server Version:' | awk '{print $3}')
-        if [ -z "$K8S_VERSION" ]; then
-          K8S_VERSION=$(kubectl version --kubeconfig=/etc/kubernetes/admin.conf 2>/dev/null | grep 'Server Version:' | awk '{print $3}')
-        fi
-        if [ -z "$K8S_VERSION" ]; then
-          echo "ERROR: Unable to get Kubernetes version"
-          exit 1
-        fi
-        echo "$K8S_VERSION" | sed -E 's/^v?([0-9]+\.[0-9]+)\.[0-9]+.*/\1/'
-      register: kubernetes_version
+      command: kubectl version --kubeconfig=/etc/kubernetes/admin.conf -o json
+      register: json_output
       when: inventory_hostname in groups['master']
 
-    - name: Ensure rsync is installed
-      package:
-        name:
-          - rsync
-        state: latest
-
-    - name: Backup Kubernetes certs
-      shell: |
-        BCK_FOLDER=$HOME/certs-backup/$(date +%Y-%m-%d_%H-%M-%S)
-        mkdir -p $BCK_FOLDER/etc-kubernetes $BCK_FOLDER/etc-etcd-pki
-        rsync -av /etc/kubernetes/ $BCK_FOLDER/etc-kubernetes --exclude tmp
+    - name: Set Kubernetes version
+      set_fact:
+        kubernetes_version: "{{ "{{ (json_output.stdout | from_json).serverVersion.major }}.{{ (json_output.stdout | from_json).serverVersion.minor }}" }}"
       when: inventory_hostname in groups['master']
 
-    - name: Backup etcd certs
-      shell: |
-        BCK_FOLDER=$HOME/certs-backup/$(date +%Y-%m-%d_%H-%M-%S)
-        mkdir -p $BCK_FOLDER/etc-etcd-pki
-        rsync -av /etc/etcd/pki/ $BCK_FOLDER/etc-etcd-pki
+    - name: Set backup timestamp
+      set_fact:
+        backup_timestamp: "{{ "{{ lookup('pipe', 'date +%Y-%m-%d_%H-%M-%S') }}" }}"
+
+    - name: Ensure Kubernetes backup directory exists
+      file:
+        path: "{{ "{{ ansible_env.HOME }}" }}/certs-backup/{{ print "{{ backup_timestamp }}" }}/etc-kubernetes-pki"
+        state: directory
+        mode: '0750'
+      when: inventory_hostname in groups['master']
+
+    - name: Ensure etcd backup directory exists
+      file:
+        path: "{{ "{{ ansible_env.HOME }}" }}/certs-backup/{{ print "{{ backup_timestamp }}" }}/etc-etcd-pki"
+        state: directory
+        mode: '0750'
+      when: inventory_hostname in groups['etcd']
+
+    - name: Backup Kubernetes certificates
+      copy:
+        src: /etc/kubernetes/pki/
+        dest: "{{ "{{ ansible_env.HOME }}" }}/certs-backup/{{ print "{{ backup_timestamp }}" }}/etc-kubernetes-pki"
+        remote_src: yes
+        mode: preserve
+        directory_mode: '0750'
+      when: inventory_hostname in groups['master']
+
+    - name: Backup etcd certificates
+      copy:
+        src: /etc/etcd/pki/
+        dest: "{{ "{{ ansible_env.HOME }}" }}/certs-backup/{{ print "{{ backup_timestamp }}" }}/etc-etcd-pki"
+        remote_src: yes
+        mode: preserve
+        directory_mode: '0750'
       when: inventory_hostname in groups['etcd']
 
     - name: Renew Kubernetes control plane certs
@@ -86,7 +97,7 @@
       shell: kubeadm certs renew super-admin.conf
       when:
         - inventory_hostname in groups['master']
-        - kubernetes_version.stdout is version('1.29', '>=')
+        - kubernetes_version is version('1.29', '>=')
 
 - name: Distribute etcd certificates from etcd to control plane nodes
   hosts: master
@@ -99,13 +110,13 @@
   tasks:
     - name: Retrieving certificates from etcd nodes
       run_once: true
-      delegate_to: "{{ print "{{ groups.etcd[0] }}" }}"
+      delegate_to: "{{ "{{ groups.etcd[0] }}" }}"
       fetch:
         src: "/etc/etcd/pki/{{ print "{{ item }}" }}"
         dest: "/tmp/etcd-certs/"
         flat: yes
-      with_items: "{{ print "{{ etcd_certs }}" }}"
-      when: not etcd_on_control_plane | bool
+      with_items: "{{ "{{ etcd_certs }}" }}"
+      when: not etcd_on_control_plane
 
     - name: Copying certificates to control plane nodes
       copy:
@@ -114,8 +125,8 @@
         owner: root
         group: root
         mode: 0640
-      with_items: "{{ print "{{ etcd_certs }}" }}"
-      when: not etcd_on_control_plane | bool
+      with_items: "{{ "{{ etcd_certs }}" }}"
+      when: not etcd_on_control_plane
 
     - name: Cleaning up temporary certificates
       run_once: true
@@ -124,7 +135,7 @@
       file:
         path: /tmp/etcd-certs
         state: absent
-      when: not etcd_on_control_plane | bool
+      when: not etcd_on_control_plane
 
 - name: Restart etcd and control plane components
   hosts: etcd,master
@@ -210,7 +221,7 @@
 
     - name: Delete the Kubelet server cert before regenarating them
       file:
-        path: "{{ print "{{ item }}" }}"
+        path: "{{ "{{ item }}" }}"
         state: absent
       with_items:
         - /var/lib/kubelet/pki/kubelet.crt
