@@ -14,6 +14,10 @@ kubernetes:
     immutable: true
   - path: .spec.kubernetes.etcd
     immutable: true
+  - path: .spec.kubernetes.etcd.hosts.*
+    immutable: true
+  - path: .spec.kubernetes.masters.hosts.*
+    immutable: true
 distribution:
   - path: .spec.distribution.common.networkPoliciesEnabled
     immutable: false
