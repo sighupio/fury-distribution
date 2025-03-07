@@ -5,6 +5,9 @@
 
 set -e
 
+echo $PWD
+echo ls
+
 LAST_FURYCTL_YAML=tests/e2e/ekscluster/manifests/furyctl-init-cluster.yaml
 tests/e2e/ekscluster/replace_variables.sh --distribution-version "$DISTRIBUTION_VERSION" --cluster-name "$CLUSTER_NAME" --furyctl-yaml "$LAST_FURYCTL_YAML"
 echo "----------------------------------------------------------------------------"
@@ -92,11 +95,9 @@ while read -r resourcerecordset; do
   type=$(echo "$resourcerecordset" | jq -r '.Type')
   
   if [ "$type" != "NS" ] && [ "$type" != "SOA" ]; then
-    aws route53 change-resource-record-sets \
+    echo aws route53 change-resource-record-sets \
     --hosted-zone-id "$hosted_zone_id" \
-    --change-batch '{"Changes":[{"Action":"DELETE","ResourceRecordSet":
-'"$resourcerecordset"'
-}]}' \
+    --change-batch '{"Changes":[{"Action":"DELETE","ResourceRecordSet": '"$resourcerecordset"' }]}' \
     --output text --query 'ChangeInfo.Id'
   fi
 done
