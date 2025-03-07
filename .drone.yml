@@ -330,7 +330,7 @@ trigger:
 
 steps:
 - name: run-tests
-  image: ubuntu:latest
+  image: quay.io/sighup/e2e-testing:2.24.17_1.1.0_3.12.0_1.31.1_5.6.0_4.33.3
   environment:
     FURYCTL_VERSION: "v0.31.1"
     DISTRIBUTION_VERSION: "v1.31.0"
@@ -342,18 +342,10 @@ steps:
     AWS_REGION:
       from_secret: aws_region
   commands:
-    - apt-get update && apt-get install -y curl unzip expect bats git psmisc jq yq
-    - curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
-    - unzip awscliv2.zip
-    - ./aws/install
-    - curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
-    - install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
-    - curl -L "https://github.com/sighupio/furyctl/releases/download/$${FURYCTL_VERSION}/furyctl-linux-amd64.tar.gz" | tar -xz
-    - mv furyctl /usr/local/bin
     - ./tests/e2e/ekscluster/e2e-ekscluster.sh
 
 - name: cleanup
-  image: ubuntu:latest
+  image: quay.io/sighup/e2e-testing:2.24.17_1.1.0_3.12.0_1.31.1_5.6.0_4.33.3
   environment:
     FURYCTL_VERSION: "v0.31.1"
     CLUSTER_NAME: e2e-eks-${DRONE_BUILD_NUMBER}
@@ -365,14 +357,6 @@ steps:
     AWS_REGION:
       from_secret: aws_region
   commands:
-    - apt-get update && apt-get install -y curl unzip expect bats git psmisc jq yq
-    - curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
-    - rm -rf ./aws && unzip awscliv2.zip
-    - ./aws/install
-    - curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
-    - install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
-    - curl -L "https://github.com/sighupio/furyctl/releases/download/$${FURYCTL_VERSION}/furyctl-linux-amd64.tar.gz" | tar -xz
-    - mv furyctl /usr/local/bin
     - tests/e2e/ekscluster/furyctl_delete.expect $(cat ./last_furyctl_yaml.txt)
     - aws s3 rm s3://e2e-drone-eks/$CLUSTER_NAME --recursive
 ---
@@ -393,7 +377,7 @@ trigger:
 
 steps:
 - name: run-tests
-  image: ubuntu:latest
+  image: quay.io/sighup/e2e-testing:2.24.17_1.1.0_3.12.0_1.31.1_5.6.0_4.33.3
   environment:
     FURYCTL_VERSION: "v0.31.1"
     DISTRIBUTION_VERSION: "v1.31.0"
@@ -405,18 +389,10 @@ steps:
     AWS_REGION:
       from_secret: aws_region
   commands:
-    - apt-get update && apt-get install -y curl unzip expect bats git psmisc jq yq
-    - curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
-    - unzip awscliv2.zip
-    - ./aws/install
-    - curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
-    - install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
-    - curl -L "https://github.com/sighupio/furyctl/releases/download/$${FURYCTL_VERSION}/furyctl-linux-amd64.tar.gz" | tar -xz
-    - mv furyctl /usr/local/bin
     - ./tests/e2e/ekscluster-upgrades/e2e-ekscluster-upgrades.sh
 
 - name: cleanup
-  image: ubuntu:latest
+  image: quay.io/sighup/e2e-testing:2.24.17_1.1.0_3.12.0_1.31.1_5.6.0_4.33.3
   environment:
     FURYCTL_VERSION: "v0.31.1"
     CLUSTER_NAME: e2e-eks-${DRONE_BUILD_NUMBER}-upgrades
@@ -428,14 +404,6 @@ steps:
     AWS_REGION:
       from_secret: aws_region
   commands:
-    - apt-get update && apt-get install -y curl unzip expect bats git psmisc jq yq
-    - curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
-    - rm -rf ./aws && unzip awscliv2.zip
-    - ./aws/install
-    - curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
-    - install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
-    - curl -L "https://github.com/sighupio/furyctl/releases/download/$${FURYCTL_VERSION}/furyctl-linux-amd64.tar.gz" | tar -xz
-    - mv furyctl /usr/local/bin
     - tests/e2e/ekscluster/furyctl_delete.expect tests/e2e/ekscluster-upgrades/manifests/furyctl-init-cluster-1.31.0.yaml
     - aws s3 rm s3://e2e-drone-eks/$CLUSTER_NAME --recursive
 
