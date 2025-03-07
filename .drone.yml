@@ -407,7 +407,7 @@ steps:
     - echo "Installing the correct furyctl version..."
     - curl -L "https://github.com/sighupio/furyctl/releases/download/$${FURYCTL_VERSION}/furyctl-linux-amd64.tar.gz" | tar -xz
     - mv furyctl /usr/local/bin
-    - chmod +x /tmp/furyctl
+    - chmod +x /usr/local/bin/furyctl
     - ./tests/e2e/ekscluster-upgrades/e2e-ekscluster-upgrades.sh
 
 - name: cleanup
