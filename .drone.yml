@@ -334,6 +334,7 @@ steps:
   environment:
     FURYCTL_VERSION: "v0.31.1"
     DISTRIBUTION_VERSION: "v1.31.0"
+    DEBIAN_FRONTEND: noninteractive
     CLUSTER_NAME: e2e-eks-${DRONE_BUILD_NUMBER}
     AWS_ACCESS_KEY_ID:
       from_secret: aws_access_key_id
@@ -350,6 +351,7 @@ steps:
   environment:
     FURYCTL_VERSION: "v0.31.1"
     CLUSTER_NAME: e2e-eks-${DRONE_BUILD_NUMBER}
+    DEBIAN_FRONTEND: noninteractive
     DISTRIBUTION_VERSION: "v1.31.0"
     AWS_ACCESS_KEY_ID:
       from_secret: aws_access_key_id
@@ -384,6 +386,7 @@ steps:
     FURYCTL_VERSION: "v0.31.1"
     DISTRIBUTION_VERSION: "v1.31.0"
     CLUSTER_NAME: e2e-eks-${DRONE_BUILD_NUMBER}-upgrades
+    DEBIAN_FRONTEND: noninteractive
     AWS_ACCESS_KEY_ID:
       from_secret: aws_access_key_id
     AWS_SECRET_ACCESS_KEY:
@@ -399,6 +402,7 @@ steps:
   environment:
     FURYCTL_VERSION: "v0.31.1"
     CLUSTER_NAME: e2e-eks-${DRONE_BUILD_NUMBER}-upgrades
+    DEBIAN_FRONTEND: noninteractive
     DISTRIBUTION_VERSION: "v1.31.0"
     AWS_ACCESS_KEY_ID:
       from_secret: aws_access_key_id
