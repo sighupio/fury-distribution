@@ -48,28 +48,28 @@ if [ -z "$CLUSTER_NAME" ] || [ -z "$FURYCTL_YAML" ]; then
 fi
 
 if [[ -v $DISTRIBUTION_VERSION ]]; then
-  yq -eiy ".spec.distributionVersion = \"$DISTRIBUTION_VERSION\"" "$FURYCTL_YAML"
+  yq -ei ".spec.distributionVersion = \"$DISTRIBUTION_VERSION\"" "$FURYCTL_YAML"
 fi
-yq -eiy ".metadata.name = \"$CLUSTER_NAME\"" "$FURYCTL_YAML"
-yq -eiy ".spec.toolsConfiguration.terraform.state.s3.keyPrefix = \"$CLUSTER_NAME\"" "$FURYCTL_YAML"
-yq -eiy ".spec.tags.env = \"$CLUSTER_NAME\"" "$FURYCTL_YAML"
+yq -ei ".metadata.name = \"$CLUSTER_NAME\"" "$FURYCTL_YAML"
+yq -ei ".spec.toolsConfiguration.terraform.state.s3.keyPrefix = \"$CLUSTER_NAME\"" "$FURYCTL_YAML"
+yq -ei ".spec.tags.env = \"$CLUSTER_NAME\"" "$FURYCTL_YAML"
 if [[ $(yq '.spec.distribution.modules.dr.velero.eks | has("bucketName")' "$FURYCTL_YAML") == "true" ]]; then
-  yq -eiy ".spec.distribution.modules.dr.velero.eks.bucketName = \"$CLUSTER_NAME-velero\"" "$FURYCTL_YAML"
+  yq -ei ".spec.distribution.modules.dr.velero.eks.bucketName = \"$CLUSTER_NAME-velero\"" "$FURYCTL_YAML"
 fi
 
 if [[ $(yq '.spec.distribution.modules.ingress | has("baseDomain")' "$FURYCTL_YAML") == "true" ]]; then
-  yq -eiy ".spec.distribution.modules.ingress.baseDomain = \"internal.$CLUSTER_NAME.e2e.ci.sighup.cc\"" "$FURYCTL_YAML"
+  yq -ei ".spec.distribution.modules.ingress.baseDomain = \"internal.$CLUSTER_NAME.e2e.ci.sighup.cc\"" "$FURYCTL_YAML"
 fi
 if [[ $(yq '.spec.distribution.modules.ingress.dns.public | has("name")' "$FURYCTL_YAML") == "true" ]]; then
-  yq -eiy ".spec.distribution.modules.ingress.dns.public.name = \"$CLUSTER_NAME.e2e.ci.sighup.cc\"" "$FURYCTL_YAML"
+  yq -ei ".spec.distribution.modules.ingress.dns.public.name = \"$CLUSTER_NAME.e2e.ci.sighup.cc\"" "$FURYCTL_YAML"
 fi
 
 if [[ $(yq '.spec.distribution.modules.ingress.dns.private | has("name")' "$FURYCTL_YAML") == "true" ]]; then
-  yq -eiy ".spec.distribution.modules.ingress.dns.private.name = \"internal.$CLUSTER_NAME.e2e.ci.sighup.cc\"" "$FURYCTL_YAML"
+  yq -ei ".spec.distribution.modules.ingress.dns.private.name = \"internal.$CLUSTER_NAME.e2e.ci.sighup.cc\"" "$FURYCTL_YAML"
 fi
 
 if [[ $(yq '.spec.distribution.modules.auth | has("baseDomain")' "$FURYCTL_YAML") == "true" ]]; then
-  yq -eiy ".spec.distribution.modules.auth.baseDomain = \"$CLUSTER_NAME.e2e.ci.sighup.cc\"" "$FURYCTL_YAML"
+  yq -ei ".spec.distribution.modules.auth.baseDomain = \"$CLUSTER_NAME.e2e.ci.sighup.cc\"" "$FURYCTL_YAML"
 fi
 
 
