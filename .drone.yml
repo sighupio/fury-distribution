@@ -344,6 +344,11 @@ steps:
       from_secret: aws_region
   commands:
     - apt-get install -y expect
+    - echo "Installing the correct furyctl version..."
+    - curl -L "https://github.com/sighupio/furyctl/releases/download/$${FURYCTL_VERSION}/furyctl-$(uname -s)-amd64.tar.gz" -o /tmp/furyctl.tar.gz && tar xfz /tmp/furyctl.tar.gz -C /tmp
+    # to use furyctl latest, use the following instead:
+    # - curl -L "https://github.com/sighupio/furyctl/releases/latest/download/furyctl-$(uname -s)-amd64.tar.gz" -o /tmp/furyctl.tar.gz && tar xfz /tmp/furyctl.tar.gz -C /tmp
+    - chmod +x /tmp/furyctl
     - ./tests/e2e/ekscluster/e2e-ekscluster.sh
 
 - name: cleanup
@@ -361,6 +366,12 @@ steps:
       from_secret: aws_region
   commands:
     - apt-get install -y expect
+    - apt-get install -y expect
+    - echo "Installing the correct furyctl version..."
+    - curl -L "https://github.com/sighupio/furyctl/releases/download/$${FURYCTL_VERSION}/furyctl-$(uname -s)-amd64.tar.gz" -o /tmp/furyctl.tar.gz && tar xfz /tmp/furyctl.tar.gz -C /tmp
+    # to use furyctl latest, use the following instead:
+    # - curl -L "https://github.com/sighupio/furyctl/releases/latest/download/furyctl-$(uname -s)-amd64.tar.gz" -o /tmp/furyctl.tar.gz && tar xfz /tmp/furyctl.tar.gz -C /tmp
+    - chmod +x /tmp/furyctl
     - tests/e2e/ekscluster/furyctl_delete.expect $(cat ./last_furyctl_yaml.txt)
     - aws s3 rm s3://e2e-drone-eks/$CLUSTER_NAME --recursive
 ---
@@ -395,6 +406,12 @@ steps:
       from_secret: aws_region
   commands:
     - apt-get install -y expect
+    - apt-get install -y expect
+    - echo "Installing the correct furyctl version..."
+    - curl -L "https://github.com/sighupio/furyctl/releases/download/$${FURYCTL_VERSION}/furyctl-$(uname -s)-amd64.tar.gz" -o /tmp/furyctl.tar.gz && tar xfz /tmp/furyctl.tar.gz -C /tmp
+    # to use furyctl latest, use the following instead:
+    # - curl -L "https://github.com/sighupio/furyctl/releases/latest/download/furyctl-$(uname -s)-amd64.tar.gz" -o /tmp/furyctl.tar.gz && tar xfz /tmp/furyctl.tar.gz -C /tmp
+    - chmod +x /tmp/furyctl
     - ./tests/e2e/ekscluster-upgrades/e2e-ekscluster-upgrades.sh
 
 - name: cleanup
@@ -412,6 +429,12 @@ steps:
       from_secret: aws_region
   commands:
     - apt-get install -y expect
+    - apt-get install -y expect
+    - echo "Installing the correct furyctl version..."
+    - curl -L "https://github.com/sighupio/furyctl/releases/download/$${FURYCTL_VERSION}/furyctl-$(uname -s)-amd64.tar.gz" -o /tmp/furyctl.tar.gz && tar xfz /tmp/furyctl.tar.gz -C /tmp
+    # to use furyctl latest, use the following instead:
+    # - curl -L "https://github.com/sighupio/furyctl/releases/latest/download/furyctl-$(uname -s)-amd64.tar.gz" -o /tmp/furyctl.tar.gz && tar xfz /tmp/furyctl.tar.gz -C /tmp
+    - chmod +x /tmp/furyctl
     - tests/e2e/ekscluster/furyctl_delete.expect tests/e2e/ekscluster-upgrades/manifests/furyctl-init-cluster-1.31.0.yaml
     - aws s3 rm s3://e2e-drone-eks/$CLUSTER_NAME --recursive
 
