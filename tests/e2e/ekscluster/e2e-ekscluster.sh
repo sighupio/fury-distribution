@@ -5,9 +5,6 @@
 
 set -e
 
-echo "$PWD"
-echo ls
-
 LAST_FURYCTL_YAML=tests/e2e/ekscluster/manifests/furyctl-init-cluster.yaml
 tests/e2e/ekscluster/replace_variables.sh --distribution-version "$DISTRIBUTION_VERSION" --cluster-name "$CLUSTER_NAME" --furyctl-yaml "$LAST_FURYCTL_YAML"
 echo "----------------------------------------------------------------------------"
