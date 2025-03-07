@@ -5,7 +5,7 @@
 
 set -e
 
-echo $PWD
+echo "$PWD"
 echo ls
 
 LAST_FURYCTL_YAML=tests/e2e/ekscluster/manifests/furyctl-init-cluster.yaml
