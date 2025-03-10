@@ -20,7 +20,39 @@ The distribution is maintained with ❤️ by the team [SIGHUP](https://sighup.i
 
 ## New features 🌟
 
-- TBD
+- [[#355](https://github.com/sighupio/fury-distribution/pull/355)] **Support for etcd cluster on dedicated nodes**: adding support for deploying etcd on dedicated nodes instead of control plane nodes to the OnPremises provider. For the new clusters, users can define specific hosts for etcd, each with a name and IP. If the etcd key is omitted, etcd will be provisioned on control plane nodes. No migration paths are supported.
+
+To make use of this new feature, you need to define the hosts where etcd will be deployed in your configuration file using the `.spec.kubernetes.etcd` key, for example:
+
+
+
+  ```yaml
+  ...
+  spec:
+    kubernetes:
+      masters:
+        hosts:
+          - name: master1
+            ip: 192.168.66.29
+          - name: master2
+            ip: 192.168.66.30
+          - name: master3
+            ip: 192.168.66.31
+      etcd:
+        hosts:
+          - name: etcd1
+            ip: 192.168.66.39
+          - name: etcd2
+            ip: 192.168.66.40
+          - name: etcd3
+            ip: 192.168.66.41
+      nodes:
+        - name: worker
+          hosts:
+            - name: worker1
+              ip: 192.168.66.49
+  ...
+  ```
 
 ## Fixes 🐞
 
