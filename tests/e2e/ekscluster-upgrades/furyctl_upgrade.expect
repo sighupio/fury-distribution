@@ -11,6 +11,16 @@ if {[llength $argv] == 0} {
     puts "Usage: furyctl_apply.expect /path/to/furyctl.yaml"
     exit 1
 }
+
+
+if {[llength $argv] >= 2} { 
+    set outdir [lindex $argv 1] 
+    puts "Using specified output directory: $outdir" 
+} else { 
+    set outdir $env(PWD) 
+    puts "Using current directory as output directory: $outdir" 
+}
+
 set configFilePath [lindex $argv 0]
 # Verify that necessary AWS environment variables exist.
 if { ![info exists env(AWS_ACCESS_KEY_ID)] || \
@@ -22,7 +32,7 @@ if { ![info exists env(AWS_ACCESS_KEY_ID)] || \
 
 
 # Start furyctl apply.
-spawn furyctl apply --upgrade --outdir /tmp -D --config $configFilePath --force upgrades --distro-location $env(PWD) --disable-analytics
+spawn furyctl apply --upgrade --outdir $outdir -D --config $configFilePath --force upgrades --distro-location $env(PWD) --disable-analytics
 set furyctl_id $spawn_id
 
 expect {
