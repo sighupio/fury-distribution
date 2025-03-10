@@ -49,7 +49,7 @@ expect {
         exit 1
     }
     eof {
-        puts "Furyctl process ended."
+        puts "furyctl process ended."
     }
 }
 

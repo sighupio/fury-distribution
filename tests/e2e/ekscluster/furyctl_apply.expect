@@ -31,7 +31,7 @@ if { ![info exists env(AWS_ACCESS_KEY_ID)] || \
 
 
 # Start furyctl apply.
-spawn furyctl apply --outdir $outdir -D --config $configFilePath
+spawn furyctl apply --outdir $outdir --debug --disable-analytics --config $configFilePath
 set furyctl_id $spawn_id
 
 expect {
@@ -48,7 +48,7 @@ expect {
         exit 1
     }
     eof {
-        puts "Furyctl process ended."
+        puts "furyctl process ended."
     }
 }
 
