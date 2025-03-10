@@ -313,6 +313,172 @@ volumes:
     host:
       path: /var/run/docker.sock
 ---
+name: e2e-ekscluster
+kind: pipeline
+type: docker
+
+depends_on:
+  - qa
+
+clone:
+  depth: 1
+
+trigger:
+  ref:
+    - refs/tags/e2e-full-**
+    - refs/tags/v**
+
+steps:
+- name: run-tests
+  image: quay.io/sighup/e2e-testing:2.24.17_1.1.0_3.12.0_1.31.1_5.6.0_4.33.3
+  environment:
+    FURYCTL_VERSION: "v0.31.1"
+    DISTRIBUTION_VERSION: "v1.31.0"
+    DEBIAN_FRONTEND: noninteractive
+    CLUSTER_NAME: e2e-eks-${DRONE_BUILD_NUMBER}
+    AWS_ACCESS_KEY_ID:
+      from_secret: aws_access_key_id
+    AWS_SECRET_ACCESS_KEY:
+      from_secret: aws_secret_access_key
+    AWS_REGION:
+      from_secret: aws_region
+  commands:
+    - apt-get install -y expect
+    - echo "Installing the correct furyctl version..."
+    - curl -L "https://github.com/sighupio/furyctl/releases/download/$${FURYCTL_VERSION}/furyctl-linux-amd64.tar.gz" | tar -xz
+    - mv furyctl /usr/local/bin
+    - chmod +x /usr/local/bin/furyctl
+    - ./tests/e2e/ekscluster/e2e-ekscluster.sh
+
+- name: cleanup
+  image: quay.io/sighup/e2e-testing:2.24.17_1.1.0_3.12.0_1.31.1_5.6.0_4.33.3
+  environment:
+    FURYCTL_VERSION: "v0.31.1"
+    CLUSTER_NAME: e2e-eks-${DRONE_BUILD_NUMBER}
+    DEBIAN_FRONTEND: noninteractive
+    DISTRIBUTION_VERSION: "v1.31.0"
+    AWS_ACCESS_KEY_ID:
+      from_secret: aws_access_key_id
+    AWS_SECRET_ACCESS_KEY:
+      from_secret: aws_secret_access_key
+    AWS_REGION:
+      from_secret: aws_region
+  commands:
+    - apt-get install -y expect
+    - apt-get install -y expect
+    - echo "Installing the correct furyctl version..."
+    - curl -L "https://github.com/sighupio/furyctl/releases/download/$${FURYCTL_VERSION}/furyctl-linux-amd64.tar.gz" | tar -xz
+    - mv furyctl /usr/local/bin
+    - chmod +x /usr/local/bin/furyctl
+    - tests/e2e/ekscluster/furyctl_delete.expect $(cat ./last_furyctl_yaml.txt)
+    - aws s3 rm s3://e2e-drone-eks/$CLUSTER_NAME --recursive
+---
+name: e2e-ekscluster-upgrades
+kind: pipeline
+type: docker
+
+depends_on:
+  - qa
+
+clone:
+  depth: 1
+
+trigger:
+  ref:
+    - refs/tags/e2e-full-**
+    - refs/tags/v**
+
+steps:
+- name: run-tests
+  image: quay.io/sighup/e2e-testing:2.24.17_1.1.0_3.12.0_1.31.1_5.6.0_4.33.3
+  environment:
+    FURYCTL_VERSION: "v0.31.1"
+    DISTRIBUTION_VERSION: "v1.31.0"
+    CLUSTER_NAME: e2e-eks-${DRONE_BUILD_NUMBER}-upgrades
+    DEBIAN_FRONTEND: noninteractive
+    AWS_ACCESS_KEY_ID:
+      from_secret: aws_access_key_id
+    AWS_SECRET_ACCESS_KEY:
+      from_secret: aws_secret_access_key
+    AWS_REGION:
+      from_secret: aws_region
+  commands:
+    - apt-get install -y expect
+    - echo "Installing the correct furyctl version..."
+    - curl -L "https://github.com/sighupio/furyctl/releases/download/$${FURYCTL_VERSION}/furyctl-linux-amd64.tar.gz" | tar -xz
+    - mv furyctl /usr/local/bin
+    - chmod +x /usr/local/bin/furyctl
+    - ./tests/e2e/ekscluster-upgrades/e2e-ekscluster-upgrades.sh
+
+- name: cleanup
+  image: quay.io/sighup/e2e-testing:2.24.17_1.1.0_3.12.0_1.31.1_5.6.0_4.33.3
+  environment:
+    FURYCTL_VERSION: "v0.31.1"
+    CLUSTER_NAME: e2e-eks-${DRONE_BUILD_NUMBER}-upgrades
+    DEBIAN_FRONTEND: noninteractive
+    DISTRIBUTION_VERSION: "v1.31.0"
+    AWS_ACCESS_KEY_ID:
+      from_secret: aws_access_key_id
+    AWS_SECRET_ACCESS_KEY:
+      from_secret: aws_secret_access_key
+    AWS_REGION:
+      from_secret: aws_region
+  commands:
+    - apt-get install -y expect
+    - echo "Installing the correct furyctl version..."
+    - curl -L "https://github.com/sighupio/furyctl/releases/download/$${FURYCTL_VERSION}/furyctl-linux-amd64.tar.gz" | tar -xz
+    - mv furyctl /usr/local/bin
+    - chmod +x /usr/local/bin/furyctl
+    - tests/e2e/ekscluster/furyctl_delete.expect tests/e2e/ekscluster-upgrades/manifests/furyctl-init-cluster-1.31.0.yaml
+    - aws s3 rm s3://e2e-drone-eks/$CLUSTER_NAME --recursive
+
+---
+kind: pipeline
+type: docker
+name: scheduled-aws-nuke
+
+trigger:
+  event:
+    - cron
+    - tag
+  cron:
+    - "0 23 * * *" # Run at 11 PM every day
+  ref:
+    include:
+      - refs/tags/aws-nuke-ci-**
+
+clone:
+  depth: 1
+
+steps:
+  - name: run-aws-nuke
+    image: amazon/aws-cli:latest
+    environment:
+      AWS_ACCESS_KEY_ID:
+        from_secret: aws_access_key_id
+      AWS_SECRET_ACCESS_KEY:
+        from_secret: aws_secret_access_key
+      AWS_DEFAULT_REGION: eu-west-1
+      ACCOUNT_ID_PROD:
+        from_secret: aws_account_id_prod
+    commands:
+      # Install required tools
+      - yum update -y
+      - yum install -y wget tar gzip jq
+      
+      # Install AWS Nuke
+      - wget https://github.com/rebuy-de/aws-nuke/releases/download/v2.25.0/aws-nuke-v2.25.0-linux-amd64.tar.gz
+      - tar -xvf aws-nuke-v2.25.0-linux-amd64.tar.gz
+      - mv aws-nuke-v2.25.0-linux-amd64 /usr/local/bin/aws-nuke
+      - chmod +x /usr/local/bin/aws-nuke
+      - export ACCOUNT_ID=$(aws sts get-caller-identity | jq -r ".Account")
+      - sed "s/ACCOUNT_ID_PLACEHOLDER/$ACCOUNT_ID/" tests/e2e/ekscluster/awsnuke/config.yml > ./aws-nuke-config.yml
+      - sed -i "s/ACCOUNT_ID_PROD_PLACEHOLDER/$ACCOUNT_ID_PROD/" ./aws-nuke-config.yml
+      # Run AWS Nuke
+      - aws-nuke -c ./aws-nuke-config.yml --force --no-dry-run
+      - aws s3 rm s3://e2e-drone-eks --recursive
+
+---
 name: release
 kind: pipeline
 type: docker
