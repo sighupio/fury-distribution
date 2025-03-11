@@ -1,8 +1,8 @@
 <!-- markdownlint-disable MD033 MD045 -->
 <h1 align="center">
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="docs/assets/white-logo.png">
-  <source media="(prefers-color-scheme: light)" srcset="docs/assets/black-logo.png">
+  <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/sighupio/fury-distribution/refs/heads/feat/rebranding/docs/assets/white-logo.png">
+  <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/sighupio/fury-distribution/refs/heads/feat/rebranding/docs/assets/black-logo.png">
 </picture><br/>
   SIGHUP Kubernetes Distribution
 </h1>
