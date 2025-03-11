@@ -1,6 +1,6 @@
-# SIGHUP Kubernetes Distribution Release vTBD
+# SIGHUP Distribution Release vTBD
 
-Welcome to SKD release `vTBD`.
+Welcome to SD release `vTBD`.
 
 The distribution is maintained with ❤️ by the team [SIGHUP](https://sighup.io/).
 
