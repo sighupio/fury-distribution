@@ -47,7 +47,7 @@ spec:
         interface: eth1
         ip: 192.168.1.201/24
         virtualRouterId: "201"
-        passphrase: "123aaaccc321"
+        passphrase: "123ab321"
       stats:
         username: admin
         password: password
