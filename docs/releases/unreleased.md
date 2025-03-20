@@ -1,6 +1,6 @@
-# Kubernetes Fury Distribution Release vTBD
+# SIGHUP Distribution Release vTBD
 
-Welcome to KFD release `vTBD`.
+Welcome to SD release `vTBD`.
 
 The distribution is maintained with ❤️ by the team [SIGHUP](https://sighup.io/).
 
