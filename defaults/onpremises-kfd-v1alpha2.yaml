@@ -229,6 +229,15 @@ data:
       overrides:
         nodeSelector: null
         tolerations: null
+      etcdBackup:
+        type: "none"
+        pvc:
+          schedule: "0 1 * * *"
+          retentionTime: 10d
+        s3:
+          schedule: "0 1 * * *"
+          retentionTime: 10d
+          insecure: false
       # the standard configuration for velero on the dr module
       velero:
         backend: minio
