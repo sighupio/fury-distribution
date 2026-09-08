@@ -2,7 +2,7 @@
 # Use of this source code is governed by a BSD-style
 # license that can be found in the LICENSE file.
 
-- name: Verify that the cluster exists
+- name: Check for admin.conf on master nodes
   hosts: master
   become: true
   tasks:
