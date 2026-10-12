@@ -162,7 +162,7 @@ SD is open-source software, and it's released under the following [LICENSE](LICE
 [dr-version]: https://img.shields.io/badge/release-v3.5.0-blue
 [policy-version]: https://img.shields.io/badge/release-v1.18.0-blue
 [auth-version]: https://img.shields.io/badge/release-v0.8.0-blue
-[utilities-version]: https://img.shields.io/badge/release-v0.1.1-blue
+[utilities-version]: https://img.shields.io/badge/release-v1.0.0-blue
 
 <!-- Addon Modules -->
 
