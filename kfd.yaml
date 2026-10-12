@@ -20,10 +20,10 @@ kubernetes:
     installer: v3.6.0-rc.0
   onpremises:
     version: 1.36.5
-    installer: v1.36.5-rc.0
+    installer: v1.36.5-rc.1
   immutable:
     version: 1.36.5
-    installer: v1.36.5-rc.4
+    installer: v1.36.5-rc.5
 furyctlSchemas:
   eks:
     - apiVersion: kfd.sighup.io/v1alpha2
