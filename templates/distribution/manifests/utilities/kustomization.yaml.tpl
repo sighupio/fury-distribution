@@ -19,6 +19,7 @@ resources:
   - resources/headlamp-rbac.yml
 {{- end }}
   - resources/headlamp-ingress.yml
+  - resources/sd-distribution-info.yml
 
 patches:
   - path: patches/infra-nodes.yml

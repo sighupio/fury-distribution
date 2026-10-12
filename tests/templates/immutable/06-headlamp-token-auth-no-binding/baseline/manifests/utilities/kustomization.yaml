@@ -9,6 +9,7 @@ kind: Kustomization
 resources:
   - ../../../vendor/modules/utilities/katalog/headlamp
   - resources/headlamp-ingress.yml
+  - resources/sd-distribution-info.yml
 
 patches:
   - path: patches/infra-nodes.yml

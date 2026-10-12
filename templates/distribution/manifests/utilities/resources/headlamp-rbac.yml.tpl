@@ -42,6 +42,7 @@ rules:
       - events
       - endpoints
       - persistentvolumeclaims
+      # Includes headlamp/sd-distribution-info, the distribution summary every SD plugin reads.
       - configmaps
     verbs: ["get", "list", "watch"]
   # Node CPU/memory tiles on the sd-core landing page (served by metrics-server).
@@ -110,31 +111,4 @@ roleRef:
   kind: ClusterRole
   name: sd-ui-service-proxy
 {{- end }}
----
-# sd-core reads distribution metadata from the furyctl secrets. `view` excludes secrets, so
-# this is a narrow, name-scoped Role rather than a blanket secrets grant.
-apiVersion: rbac.authorization.k8s.io/v1
-kind: Role
-metadata:
-  name: sd-ui-furyctl-secrets-reader
-  namespace: kube-system
-rules:
-  - apiGroups: [""]
-    resources: ["secrets"]
-    resourceNames: ["furyctl-kfd", "furyctl-config"]
-    verbs: ["get"]
----
-apiVersion: rbac.authorization.k8s.io/v1
-kind: RoleBinding
-metadata:
-  name: sd-ui-furyctl-secrets-reader
-  namespace: kube-system
-subjects:
-  - kind: Group
-    name: {{ $group }}
-    apiGroup: rbac.authorization.k8s.io
-roleRef:
-  apiGroup: rbac.authorization.k8s.io
-  kind: Role
-  name: sd-ui-furyctl-secrets-reader
 {{- end }}
