@@ -42,7 +42,7 @@ rules:
       - events
       - endpoints
       - persistentvolumeclaims
-      # Includes headlamp/sd-distribution-info, the distribution summary every SD plugin reads.
+      # Includes headlamp/sd-spec, the distribution summary every SD plugin reads.
       - configmaps
     verbs: ["get", "list", "watch"]
   # Node CPU/memory tiles on the sd-core landing page (served by metrics-server).

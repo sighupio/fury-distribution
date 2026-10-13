@@ -56,7 +56,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: sd-distribution-info
+  name: sd-spec
   namespace: headlamp
 data:
   info.json: |

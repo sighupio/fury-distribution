@@ -22,7 +22,7 @@ mise run test:templates:regression
 
 If changes to the templates are made, the `baseline` folder for all test cases should be updated to reflect the new output.
 
-Changes to `kfd.yaml` also require a baseline update: every test case that enables Headlamp renders `manifests/utilities/resources/sd-distribution-info.yml`, which contains the distribution and module versions from `kfd.yaml`.
+Changes to `kfd.yaml` also require a baseline update: every test case that enables Headlamp renders `manifests/utilities/resources/sd-spec.yml`, which contains the distribution and module versions from `kfd.yaml`.
 
 First run the regression tests to ensure the changes are not breaking other parts of the output:
 

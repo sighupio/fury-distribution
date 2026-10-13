@@ -10,7 +10,7 @@ resources:
   - ../../../vendor/modules/utilities/katalog/headlamp
   - resources/headlamp-clusterrolebinding.yml
   - resources/headlamp-ingress.yml
-  - resources/sd-distribution-info.yml
+  - resources/sd-spec.yml
 
 patches:
   - path: patches/infra-nodes.yml

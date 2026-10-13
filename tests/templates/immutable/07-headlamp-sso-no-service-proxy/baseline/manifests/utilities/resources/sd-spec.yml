@@ -6,14 +6,14 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: sd-distribution-info
+  name: sd-spec
   namespace: headlamp
 data:
   info.json: |
     {
       "cluster": {
-        "kind": "OnPremises",
-        "name": "full-calico-nginx"
+        "kind": "Immutable",
+        "name": "headlamp-sso"
       },
       "distributionVersion": "v1.36.0",
       "moduleVersions": {
@@ -46,10 +46,10 @@ data:
           }
         },
         "logging": {
-          "type": "loki"
+          "type": "customOutputs"
         },
         "monitoring": {
-          "type": "mimir"
+          "type": "none"
         },
         "networking": {
           "type": "calico"
@@ -62,7 +62,7 @@ data:
         },
         "utilities": {
           "headlamp": {
-            "type": "token-auth"
+            "type": "sso"
           }
         }
       }
