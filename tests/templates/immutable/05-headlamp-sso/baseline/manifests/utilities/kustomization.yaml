@@ -10,6 +10,7 @@ resources:
   - ../../../vendor/modules/utilities/katalog/headlamp
   - resources/headlamp-rbac.yml
   - resources/headlamp-ingress.yml
+  - resources/sd-spec.yml
 
 patches:
   - path: patches/infra-nodes.yml

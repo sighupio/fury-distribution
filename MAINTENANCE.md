@@ -47,6 +47,7 @@ With no further ado, the steps to release a new version are:
 1. Create a new branch `feat/release-vx.y.z` (`feat/release-v1.29.4`, for example) where to work on.
 2. Create the PRs fixing the issues or adding new features to the templates or other files of fury-distribution, test them and merge them.
 3. Update the `kfd.yaml` file, bumping the distribution version, adjusting the modules and installers versions where needed.
+   1. Regenerate the templates test suite baselines with `mise run test:templates:update-baseline`, and commit them together with the `kfd.yaml` change. Every test case that enables Headlamp renders the `sd-spec` ConfigMap, which contains the distribution and module versions from `kfd.yaml`, so any version change makes `mise run test:templates:regressions` fail until the baselines are updated.
 4. If the distribution schemas have been changed:
    1. If you haven't already, install the needed tools with `mise install`.
    2. Generate the new docs with `mise run generate-docs`.
