@@ -26,7 +26,7 @@ data:
         "networking": "v4.1.0-rc.1",
         "opa": "v1.18.0-rc.4",
         "tracing": "v1.6.0-rc.0",
-        "utilities": "v0.1.1"
+        "utilities": "v1.0.0-rc.2"
       },
       "modules": {
         "auth": {
