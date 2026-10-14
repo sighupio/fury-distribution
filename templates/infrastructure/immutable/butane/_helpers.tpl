@@ -392,7 +392,8 @@ kernel_arguments:
         Description=Report node status to furyctl
         Requires=network-online.target
         After=network-online.target
-        After=sshd.service
+        # Flatcar starts sshd from sshd.socket by default; sshd.service covers nodes that switch to it.
+        After=sshd.socket sshd.service
         ConditionFirstBoot=yes
 
         [Service]
