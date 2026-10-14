@@ -5562,7 +5562,7 @@ The OIDC group to bind to the roles that Headlamp needs, used only when `type` i
 The type of authentication for Headlamp, options are:
 - `none`: will disable Headlamp.
 - `token-auth`: will expose Headlamp at `dashboard.<baseDomain>`, users log in with a Kubernetes token.
-- `sso`: will expose Headlamp at `dashboard.<baseDomain>` protected by Pomerium, users log in with SSO. Requires `.spec.distribution.modules.auth.provider.type` to be `sso`.
+- `sso`: will expose Headlamp at `dashboard.<baseDomain>` protected by Pomerium, users log in with SSO. Requires `.spec.distribution.modules.auth.provider.type` to be `sso`. Pomerium's sign-out redirect URL is also set to Headlamp, so signing out of any application protected by Pomerium lands on Headlamp's login flow.
 
 Default is `none`.
 
