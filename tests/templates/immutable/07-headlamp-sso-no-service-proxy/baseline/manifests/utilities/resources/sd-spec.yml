@@ -17,16 +17,16 @@ data:
       },
       "distributionVersion": "v1.36.0",
       "moduleVersions": {
-        "auth": "v0.8.0-rc.5",
-        "aws": "v5.4.0-rc.0",
-        "dr": "v3.5.0-rc.0",
-        "ingress": "v5.2.0-rc.0",
-        "logging": "v5.5.0-rc.3",
-        "monitoring": "v4.3.0-rc.4",
-        "networking": "v4.1.0-rc.1",
-        "opa": "v1.18.0-rc.4",
-        "tracing": "v1.6.0-rc.0",
-        "utilities": "v1.0.0-rc.2"
+        "auth": "v0.8.0",
+        "aws": "v5.4.0",
+        "dr": "v3.5.0",
+        "ingress": "v5.2.0",
+        "logging": "v5.5.0",
+        "monitoring": "v4.3.0",
+        "networking": "v4.1.0",
+        "opa": "v1.18.0",
+        "tracing": "v1.6.0",
+        "utilities": "v1.0.0"
       },
       "modules": {
         "auth": {
