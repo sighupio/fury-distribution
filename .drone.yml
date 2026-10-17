@@ -1790,6 +1790,9 @@ steps: # e2e-immutable-upgrades-1.35.1-1.36.0
         from_secret: github_token
       DISTRO_LOCATION: /drone/src
       DIAG_DIR: /diag
+      # the pod-settle wait after each node's reboot retries every 15s, so furyctl's
+      # 300s default is 150s: not enough for an infra node's longhorn-backed pods.
+      POD_RUNNING_CHECK_TIMEOUT: "1200"
     volumes:
       - name: cache
         path: /cache
