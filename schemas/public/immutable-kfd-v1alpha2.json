@@ -3979,7 +3979,7 @@
       ]
     },
     "Spec.Distribution.Modules.Auth.Pomerium": {
-      "$ref": "./spec-distribution-modules-auth-pomerium.json"
+      "$ref": "./spec-distribution-modules-auth-pomerium-onpremises.json"
     },
     "Spec.Distribution.Modules.Auth.Dex": {
       "type": "object",

@@ -1,0 +1,113 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "description": "Configuration for Pomerium, an identity-aware reverse proxy used for SSO.",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "secrets": {
+      "$ref": "./spec-distribution-modules-auth-pomerium.json#/$defs/Spec.Distribution.Modules.Auth.Pomerium.Secrets"
+    },
+    "defaultRoutesPolicy": {
+      "$ref": "#/$defs/Spec.Distribution.Modules.Auth.Pomerium.DefaultRoutesPolicy"
+    },
+    "routes": {
+      "type": "array",
+      "description": "Additional routes configuration for Pomerium. Follows Pomerium's route format: https://www.pomerium.com/docs/reference/routes",
+      "items": {
+        "type": "object"
+      }
+    },
+    "policy": {
+      "type": "string",
+      "description": "DEPRECATED: Use defaultRoutesPolicy and/or routes"
+    },
+    "overrides": {
+      "$ref": "./spec-distribution-modules-auth-pomerium.json#/$defs/Types.FuryModuleComponentOverrides"
+    }
+  },
+  "required": [
+    "secrets"
+  ],
+  "$defs": {
+    "Spec.Distribution.Modules.Auth.Pomerium.DefaultRoutesPolicy": {
+      "type": "object",
+      "description": "override default routes for SD components",
+      "additionalProperties": false,
+      "properties": {
+        "monitoringPrometheus": {
+          "type": "array",
+          "items": {
+            "type": "object"
+          }
+        },
+        "monitoringAlertmanager": {
+          "type": "array",
+          "items": {
+            "type": "object"
+          }
+        },
+        "monitoringGrafana": {
+          "type": "array",
+          "items": {
+            "type": "object"
+          }
+        },
+        "monitoringMinioConsole": {
+          "type": "array",
+          "items": {
+            "type": "object"
+          }
+        },
+        "ingressForecastle": {
+          "type": "array",
+          "items": {
+            "type": "object"
+          }
+        },
+        "loggingOpensearchDashboards": {
+          "type": "array",
+          "items": {
+            "type": "object"
+          }
+        },
+        "loggingMinioConsole": {
+          "type": "array",
+          "items": {
+            "type": "object"
+          }
+        },
+        "tracingMinioConsole": {
+          "type": "array",
+          "items": {
+            "type": "object"
+          }
+        },
+        "gatekeeperPolicyManager": {
+          "type": "array",
+          "items": {
+            "type": "object"
+          }
+        },
+        "hubbleUi": {
+          "type": "array",
+          "items": {
+            "type": "object"
+          }
+        },
+        "whisker": {
+          "type": "array",
+          "items": {
+            "type": "object"
+          }
+        },
+        "headlamp": {
+          "type": "array",
+          "description": "Override the default Pomerium policy for the Headlamp route. Only used when `.spec.distribution.modules.utilities.headlamp.type` is `sso`.",
+          "items": {
+            "type": "object"
+          }
+        }
+      }
+    }
+  }
+}
