@@ -35,7 +35,7 @@
       "type": "string",
       "description": "DEPRECATED: Use defaultRoutesPolicy and/or routes"
     },
-    "Spec.Distribution.Modules.Auth.Pomerium.DefaultRoutesPolicy.Entry": {
+    "Spec.Distribution.Modules.Auth.Pomerium.DefaultRoutesPolicy.Rules": {
       "type": "array",
       "items": {
         "type": "object"
@@ -47,37 +47,37 @@
       "additionalProperties": false,
       "properties": {
         "monitoringPrometheus": {
-          "$ref": "#/$defs/Spec.Distribution.Modules.Auth.Pomerium.DefaultRoutesPolicy.Entry"
+          "$ref": "#/$defs/Spec.Distribution.Modules.Auth.Pomerium.DefaultRoutesPolicy.Rules"
         },
         "monitoringAlertmanager": {
-          "$ref": "#/$defs/Spec.Distribution.Modules.Auth.Pomerium.DefaultRoutesPolicy.Entry"
+          "$ref": "#/$defs/Spec.Distribution.Modules.Auth.Pomerium.DefaultRoutesPolicy.Rules"
         },
         "monitoringGrafana": {
-          "$ref": "#/$defs/Spec.Distribution.Modules.Auth.Pomerium.DefaultRoutesPolicy.Entry"
+          "$ref": "#/$defs/Spec.Distribution.Modules.Auth.Pomerium.DefaultRoutesPolicy.Rules"
         },
         "monitoringMinioConsole": {
-          "$ref": "#/$defs/Spec.Distribution.Modules.Auth.Pomerium.DefaultRoutesPolicy.Entry"
+          "$ref": "#/$defs/Spec.Distribution.Modules.Auth.Pomerium.DefaultRoutesPolicy.Rules"
         },
         "ingressForecastle": {
-          "$ref": "#/$defs/Spec.Distribution.Modules.Auth.Pomerium.DefaultRoutesPolicy.Entry"
+          "$ref": "#/$defs/Spec.Distribution.Modules.Auth.Pomerium.DefaultRoutesPolicy.Rules"
         },
         "loggingOpensearchDashboards": {
-          "$ref": "#/$defs/Spec.Distribution.Modules.Auth.Pomerium.DefaultRoutesPolicy.Entry"
+          "$ref": "#/$defs/Spec.Distribution.Modules.Auth.Pomerium.DefaultRoutesPolicy.Rules"
         },
         "loggingMinioConsole": {
-          "$ref": "#/$defs/Spec.Distribution.Modules.Auth.Pomerium.DefaultRoutesPolicy.Entry"
+          "$ref": "#/$defs/Spec.Distribution.Modules.Auth.Pomerium.DefaultRoutesPolicy.Rules"
         },
         "tracingMinioConsole": {
-          "$ref": "#/$defs/Spec.Distribution.Modules.Auth.Pomerium.DefaultRoutesPolicy.Entry"
+          "$ref": "#/$defs/Spec.Distribution.Modules.Auth.Pomerium.DefaultRoutesPolicy.Rules"
         },
         "gatekeeperPolicyManager": {
-          "$ref": "#/$defs/Spec.Distribution.Modules.Auth.Pomerium.DefaultRoutesPolicy.Entry"
+          "$ref": "#/$defs/Spec.Distribution.Modules.Auth.Pomerium.DefaultRoutesPolicy.Rules"
         },
         "hubbleUi": {
-          "$ref": "#/$defs/Spec.Distribution.Modules.Auth.Pomerium.DefaultRoutesPolicy.Entry"
+          "$ref": "#/$defs/Spec.Distribution.Modules.Auth.Pomerium.DefaultRoutesPolicy.Rules"
         },
         "whisker": {
-          "$ref": "#/$defs/Spec.Distribution.Modules.Auth.Pomerium.DefaultRoutesPolicy.Entry"
+          "$ref": "#/$defs/Spec.Distribution.Modules.Auth.Pomerium.DefaultRoutesPolicy.Rules"
         }
       }
     },
