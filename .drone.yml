@@ -335,7 +335,7 @@ environment:
   MISE_DATA_DIR: /mise-data
   CLUSTER_NAME: ${DRONE_REPO_NAME}-${DRONE_BUILD_NUMBER}-upgrades
   KUBECONFIG: /drone/src/kubeconfig-upgrades
-  KUBECTL_VERSION: "1.35.0"
+  KUBECTL_VERSION: "1.35.5"
   CLUSTER_VERSION: v1.35.0
 
 volumes:
