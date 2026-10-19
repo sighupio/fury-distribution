@@ -11,15 +11,10 @@
       "$ref": "#/$defs/Spec.Distribution.Modules.Auth.Pomerium.DefaultRoutesPolicy"
     },
     "routes": {
-      "type": "array",
-      "description": "Additional routes configuration for Pomerium. Follows Pomerium's route format: https://www.pomerium.com/docs/reference/routes",
-      "items": {
-        "type": "object"
-      }
+      "$ref": "./spec-distribution-modules-auth-pomerium.json#/$defs/Spec.Distribution.Modules.Auth.Pomerium.Routes"
     },
     "policy": {
-      "type": "string",
-      "description": "DEPRECATED: Use defaultRoutesPolicy and/or routes"
+      "$ref": "./spec-distribution-modules-auth-pomerium.json#/$defs/Spec.Distribution.Modules.Auth.Pomerium.Policy"
     },
     "overrides": {
       "$ref": "./spec-distribution-modules-auth-pomerium.json#/$defs/Types.FuryModuleComponentOverrides"
@@ -35,70 +30,37 @@
       "additionalProperties": false,
       "properties": {
         "monitoringPrometheus": {
-          "type": "array",
-          "items": {
-            "type": "object"
-          }
+          "$ref": "./spec-distribution-modules-auth-pomerium.json#/$defs/Spec.Distribution.Modules.Auth.Pomerium.DefaultRoutesPolicy.Rules"
         },
         "monitoringAlertmanager": {
-          "type": "array",
-          "items": {
-            "type": "object"
-          }
+          "$ref": "./spec-distribution-modules-auth-pomerium.json#/$defs/Spec.Distribution.Modules.Auth.Pomerium.DefaultRoutesPolicy.Rules"
         },
         "monitoringGrafana": {
-          "type": "array",
-          "items": {
-            "type": "object"
-          }
+          "$ref": "./spec-distribution-modules-auth-pomerium.json#/$defs/Spec.Distribution.Modules.Auth.Pomerium.DefaultRoutesPolicy.Rules"
         },
         "monitoringMinioConsole": {
-          "type": "array",
-          "items": {
-            "type": "object"
-          }
+          "$ref": "./spec-distribution-modules-auth-pomerium.json#/$defs/Spec.Distribution.Modules.Auth.Pomerium.DefaultRoutesPolicy.Rules"
         },
         "ingressForecastle": {
-          "type": "array",
-          "items": {
-            "type": "object"
-          }
+          "$ref": "./spec-distribution-modules-auth-pomerium.json#/$defs/Spec.Distribution.Modules.Auth.Pomerium.DefaultRoutesPolicy.Rules"
         },
         "loggingOpensearchDashboards": {
-          "type": "array",
-          "items": {
-            "type": "object"
-          }
+          "$ref": "./spec-distribution-modules-auth-pomerium.json#/$defs/Spec.Distribution.Modules.Auth.Pomerium.DefaultRoutesPolicy.Rules"
         },
         "loggingMinioConsole": {
-          "type": "array",
-          "items": {
-            "type": "object"
-          }
+          "$ref": "./spec-distribution-modules-auth-pomerium.json#/$defs/Spec.Distribution.Modules.Auth.Pomerium.DefaultRoutesPolicy.Rules"
         },
         "tracingMinioConsole": {
-          "type": "array",
-          "items": {
-            "type": "object"
-          }
+          "$ref": "./spec-distribution-modules-auth-pomerium.json#/$defs/Spec.Distribution.Modules.Auth.Pomerium.DefaultRoutesPolicy.Rules"
         },
         "gatekeeperPolicyManager": {
-          "type": "array",
-          "items": {
-            "type": "object"
-          }
+          "$ref": "./spec-distribution-modules-auth-pomerium.json#/$defs/Spec.Distribution.Modules.Auth.Pomerium.DefaultRoutesPolicy.Rules"
         },
         "hubbleUi": {
-          "type": "array",
-          "items": {
-            "type": "object"
-          }
+          "$ref": "./spec-distribution-modules-auth-pomerium.json#/$defs/Spec.Distribution.Modules.Auth.Pomerium.DefaultRoutesPolicy.Rules"
         },
         "whisker": {
-          "type": "array",
-          "items": {
-            "type": "object"
-          }
+          "$ref": "./spec-distribution-modules-auth-pomerium.json#/$defs/Spec.Distribution.Modules.Auth.Pomerium.DefaultRoutesPolicy.Rules"
         },
         "headlamp": {
           "type": "array",
