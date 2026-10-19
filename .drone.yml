@@ -1201,7 +1201,7 @@ steps: # e2e-onpremises
 
   - name: delete
     image: quay.io/sighup/mise:v2026.8.6
-    pull: always
+    pull: if-not-exists # teardown must not depend on quay.io
     network_mode: host
     volumes:
       - name: mise-cache
@@ -1431,7 +1431,7 @@ steps: # e2e-onpremises-upgrades-1.35.1-1.36.0
 
   - name: delete
     image: quay.io/sighup/mise:v2026.8.6
-    pull: always
+    pull: if-not-exists # teardown must not depend on quay.io
     network_mode: host
     volumes:
       - name: mise-cache
@@ -1613,7 +1613,7 @@ steps: # e2e-immutable
 
   - name: delete
     image: quay.io/sighup/mise:v2026.8.6
-    pull: always
+    pull: if-not-exists # teardown must not depend on quay.io
     network_mode: host
     volumes:
       - name: mise-cache
@@ -1790,9 +1790,10 @@ steps: # e2e-immutable-upgrades-1.35.1-1.36.0
         from_secret: github_token
       DISTRO_LOCATION: /drone/src
       DIAG_DIR: /diag
-      # the pod-settle wait after each node's reboot retries every 15s, so furyctl's
-      # 300s default is 150s: not enough for an infra node's longhorn-backed pods.
+      # the default leaves an infra node 150s to get its pods Ready after the reboot
       POD_RUNNING_CHECK_TIMEOUT: "1200"
+      # resume once after the rollouts that passed their progress deadline
+      UPGRADE_RESUME: "1"
     volumes:
       - name: cache
         path: /cache
@@ -1826,7 +1827,7 @@ steps: # e2e-immutable-upgrades-1.35.1-1.36.0
 
   - name: delete
     image: quay.io/sighup/mise:v2026.8.6
-    pull: always
+    pull: if-not-exists # teardown must not depend on quay.io
     network_mode: host
     volumes:
       - name: mise-cache
