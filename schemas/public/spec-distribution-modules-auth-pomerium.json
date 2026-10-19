@@ -11,15 +11,10 @@
       "$ref": "#/$defs/Spec.Distribution.Modules.Auth.Pomerium.DefaultRoutesPolicy"
     },
     "routes": {
-      "type": "array",
-      "description": "Additional routes configuration for Pomerium. Follows Pomerium's route format: https://www.pomerium.com/docs/reference/routes",
-      "items": {
-        "type": "object"
-      }
+      "$ref": "#/$defs/Spec.Distribution.Modules.Auth.Pomerium.Routes"
     },
     "policy": {
-      "type": "string",
-      "description": "DEPRECATED: Use defaultRoutesPolicy and/or routes"
+      "$ref": "#/$defs/Spec.Distribution.Modules.Auth.Pomerium.Policy"
     },
     "overrides": {
       "$ref": "#/$defs/Types.FuryModuleComponentOverrides"
@@ -29,76 +24,60 @@
     "secrets"
   ],
   "$defs": {
+    "Spec.Distribution.Modules.Auth.Pomerium.Routes": {
+      "type": "array",
+      "description": "Additional routes configuration for Pomerium. Follows Pomerium's route format: https://www.pomerium.com/docs/reference/routes",
+      "items": {
+        "type": "object"
+      }
+    },
+    "Spec.Distribution.Modules.Auth.Pomerium.Policy": {
+      "type": "string",
+      "description": "DEPRECATED: Use defaultRoutesPolicy and/or routes"
+    },
+    "Spec.Distribution.Modules.Auth.Pomerium.DefaultRoutesPolicy.Entry": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      }
+    },
     "Spec.Distribution.Modules.Auth.Pomerium.DefaultRoutesPolicy": {
       "type": "object",
       "description": "override default routes for SD components",
       "additionalProperties": false,
       "properties": {
         "monitoringPrometheus": {
-          "type": "array",
-          "items": {
-            "type": "object"
-          }
+          "$ref": "#/$defs/Spec.Distribution.Modules.Auth.Pomerium.DefaultRoutesPolicy.Entry"
         },
         "monitoringAlertmanager": {
-          "type": "array",
-          "items": {
-            "type": "object"
-          }
+          "$ref": "#/$defs/Spec.Distribution.Modules.Auth.Pomerium.DefaultRoutesPolicy.Entry"
         },
         "monitoringGrafana": {
-          "type": "array",
-          "items": {
-            "type": "object"
-          }
+          "$ref": "#/$defs/Spec.Distribution.Modules.Auth.Pomerium.DefaultRoutesPolicy.Entry"
         },
         "monitoringMinioConsole": {
-          "type": "array",
-          "items": {
-            "type": "object"
-          }
+          "$ref": "#/$defs/Spec.Distribution.Modules.Auth.Pomerium.DefaultRoutesPolicy.Entry"
         },
         "ingressForecastle": {
-          "type": "array",
-          "items": {
-            "type": "object"
-          }
+          "$ref": "#/$defs/Spec.Distribution.Modules.Auth.Pomerium.DefaultRoutesPolicy.Entry"
         },
         "loggingOpensearchDashboards": {
-          "type": "array",
-          "items": {
-            "type": "object"
-          }
+          "$ref": "#/$defs/Spec.Distribution.Modules.Auth.Pomerium.DefaultRoutesPolicy.Entry"
         },
         "loggingMinioConsole": {
-          "type": "array",
-          "items": {
-            "type": "object"
-          }
+          "$ref": "#/$defs/Spec.Distribution.Modules.Auth.Pomerium.DefaultRoutesPolicy.Entry"
         },
         "tracingMinioConsole": {
-          "type": "array",
-          "items": {
-            "type": "object"
-          }
+          "$ref": "#/$defs/Spec.Distribution.Modules.Auth.Pomerium.DefaultRoutesPolicy.Entry"
         },
         "gatekeeperPolicyManager": {
-          "type": "array",
-          "items": {
-            "type": "object"
-          }
+          "$ref": "#/$defs/Spec.Distribution.Modules.Auth.Pomerium.DefaultRoutesPolicy.Entry"
         },
         "hubbleUi": {
-          "type": "array",
-          "items": {
-            "type": "object"
-          }
+          "$ref": "#/$defs/Spec.Distribution.Modules.Auth.Pomerium.DefaultRoutesPolicy.Entry"
         },
         "whisker": {
-          "type": "array",
-          "items": {
-            "type": "object"
-          }
+          "$ref": "#/$defs/Spec.Distribution.Modules.Auth.Pomerium.DefaultRoutesPolicy.Entry"
         }
       }
     },
