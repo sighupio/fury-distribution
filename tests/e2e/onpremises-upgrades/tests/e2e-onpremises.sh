@@ -6,7 +6,7 @@
 # shellcheck disable=SC2154
 
 # Distribution smoke checks for the upgrade pipeline (calico + gatekeeper path).
-# Reused for both phases: post-install (v1.34.1) and post-upgrade (v1.35.1). The
+# Reused for both phases: post-install and post-upgrade. The
 # haproxy ingress controller only exists after the upgrade adds it, so that single
 # check is skipped unless EXPECT_HAPROXY_INGRESS=1.
 
@@ -54,7 +54,7 @@ load ./helper
 
 @test "HAProxy Ingress Controller is Running" {
     info
-    # haproxy ingress is added by the upgrade; not present in the v1.34.1 base.
+    # haproxy ingress is added by the upgrade; not present in the base install.
     [ "${EXPECT_HAPROXY_INGRESS:-0}" = "1" ] || skip "haproxy ingress only after upgrade"
     test() {
         kubectl get pods -l app.kubernetes.io/name=kubernetes-ingress -o json -n ingress-haproxy |jq '.items[].status.containerStatuses[].ready' | uniq | grep -q true
