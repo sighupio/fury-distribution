@@ -74,7 +74,7 @@ metadata:
   name: sd-ui-reader
 subjects:
   - kind: Group
-    name: {{ $group }}
+    name: {{ $group | quote }}
     apiGroup: rbac.authorization.k8s.io
 roleRef:
   apiGroup: rbac.authorization.k8s.io
@@ -104,7 +104,7 @@ metadata:
   name: sd-ui-service-proxy
 subjects:
   - kind: Group
-    name: {{ $group }}
+    name: {{ $group | quote }}
     apiGroup: rbac.authorization.k8s.io
 roleRef:
   apiGroup: rbac.authorization.k8s.io
