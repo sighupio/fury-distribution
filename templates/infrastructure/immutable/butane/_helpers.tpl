@@ -25,6 +25,49 @@ passwd:
         inline: {{ .node.hostname }}
 {{- end }}
 
+{{- /* Every proxy field is optional, so read them with index and not .proxy.http:
+templates run missingkey=error and an omitted key aborts the whole render.
+systemd parses DefaultEnvironment as a whitespace separated list, hence the quotes
+and the trailing space after each assignment. Each variable is written twice because
+curl reads only the lower case http_proxy, while Go reads either case. */}}
+
+{{- define "global-http-proxy" }}
+{{- if .proxy }}
+{{- $http := index .proxy "http" }}
+{{- $https := index .proxy "https" }}
+{{- $noProxy := index .proxy "noProxy" }}
+    - path: /etc/systemd/system.conf.d/10-default-env.conf
+      mode: 0644
+      contents:
+        inline: |
+          [Manager]
+          DefaultEnvironment={{ if $http }}"HTTP_PROXY={{ $http }}" "http_proxy={{ $http }}" {{ end }}{{ if $https }}"HTTPS_PROXY={{ $https }}" "https_proxy={{ $https }}" {{ end }}{{ if $noProxy }}"NO_PROXY={{ $noProxy }}" "no_proxy={{ $noProxy }}"{{ end }}
+    - path: /etc/profile.env
+      mode: 0644
+      contents:
+        inline: |
+          {{- if $http }}
+          export HTTP_PROXY={{ $http }}
+          export http_proxy={{ $http }}
+          {{- end }}
+          {{- if $https }}
+          export HTTPS_PROXY={{ $https }}
+          export https_proxy={{ $https }}
+          {{- end }}
+          {{- if $noProxy }}
+          export NO_PROXY={{ $noProxy }}
+          export no_proxy={{ $noProxy }}
+          {{- end }}
+    # flatcar-update serves the OS update to update-engine on localhost: keep that request away from the proxy.
+    - path: /etc/systemd/system/update-engine.service.d/10-no-proxy.conf
+      mode: 0644
+      contents:
+        inline: |
+          [Service]
+          UnsetEnvironment=http_proxy https_proxy all_proxy HTTP_PROXY HTTPS_PROXY ALL_PROXY
+{{- end }}
+{{- end }}
+
 {{- define "sysupdate-noop"}}
     # This dummy sysupdate configuration is needed to prevent spurious error messages
     - path: /etc/sysupdate.d/noop.conf
@@ -40,21 +83,15 @@ passwd:
 {{- end }}
 
 {{- define "update-server-config" }}
-    # Point Flatcar update-engine to a custom Nebraska/Omaha update server.
-    # OS updates are NOT applied automatically: update-engine.service and
-    # locksmithd.service are masked (see "disable-os-updates" and the locksmithd
-    # mask in each node config) and REBOOT_STRATEGY=off disables auto-reboot.
-    # To run an update manually on a node:
-    #   sudo systemctl unmask update-engine.service
-    #   sudo systemctl start update-engine.service
-    #   sudo update_engine_client -check_for_update
+    # OS updates are manual-only: SERVER=disabled makes every update check of update-engine fail, as the
+    # Flatcar documentation recommends, and each node configuration masks locksmithd.service. During an
+    # upgrade, the os-upgrade role stages the pinned version with flatcar-update, which serves it on localhost.
     - path: /etc/flatcar/update.conf
       overwrite: true
       mode: 0644
       contents:
         inline: |
-          SERVER=https://public.update.sighup-prod.sighup.io/v1/update/
-          GROUP=stable
+          SERVER=disabled
           REBOOT_STRATEGY=off
 {{- end }}
 
@@ -336,13 +373,6 @@ kernel_arguments:
       mask: true
 {{- end }}
 
-{{- define "disable-os-updates" }}
-    # Disable Flatcar OS automatic update checks and downloads - updates are manual-only
-    - name: update-engine.service
-      enabled: false
-      mask: true
-{{- end }}
-
 {{- define "disable-flatcar-containerd-docker" }}
     # Disable Docker from Flatcar base OS
     - path: /etc/extensions/docker-flatcar.raw
@@ -354,12 +384,6 @@ kernel_arguments:
       overwrite: true
 {{- end }}
 
-{{- define "locksmith-disable" }}
-    - name: locksmithd.service
-      # Disable Flatcar native reboot coordination as KureD will handle OS updates, too
-      mask: true
-{{- end }}
-
 {{- define "statusReporterBooted" }}
     - name: furyctl-status-reporter.service
       enabled: true
@@ -368,7 +392,8 @@ kernel_arguments:
         Description=Report node status to furyctl
         Requires=network-online.target
         After=network-online.target
-        After=sshd.service
+        # Flatcar starts sshd from sshd.socket by default; sshd.service covers nodes that switch to it.
+        After=sshd.socket sshd.service
         ConditionFirstBoot=yes
 
         [Service]

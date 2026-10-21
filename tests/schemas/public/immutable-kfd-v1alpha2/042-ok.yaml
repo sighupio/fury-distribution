@@ -13,6 +13,7 @@ spec:
   infrastructure:
     nodes:
       - hostname: cp01.k8s.example.com
+        arch: x86-64
         macAddress: 52:54:00:10:00:01
         storage:
           installDisk: /dev/sda
@@ -22,6 +23,7 @@ spec:
               addresses:
                 - "192.168.1.10/24"
       - hostname: cp02.k8s.example.com
+        arch: x86-64
         macAddress: 52:54:00:10:00:02
         storage:
           installDisk: /dev/sda
@@ -31,6 +33,7 @@ spec:
               addresses:
                 - "192.168.1.11/24"
       - hostname: cp03.k8s.example.com
+        arch: x86-64
         macAddress: 52:54:00:10:00:03
         storage:
           installDisk: /dev/sda
@@ -45,6 +48,7 @@ spec:
       privateKeyPath: ~/.ssh/id_rsa
 
   kubernetes:
+    pkiPath: ./pki
     # Valid controlPlane configuration with 3 members
     controlPlane:
       address: k8s-api.example.com:6443
@@ -64,6 +68,9 @@ spec:
           ip: 192.168.1.11
         - hostname: cp03.k8s.example.com
           ip: 192.168.1.12
+
+    # No worker nodes, the workloads run on the control plane
+    nodeGroups: []
 
     networking:
       podCIDR: 10.244.0.0/16

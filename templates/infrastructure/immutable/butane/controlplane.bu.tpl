@@ -12,6 +12,7 @@ storage:
   files:
 {{ template "hostname" . }}
 {{ template "network" . }}
+{{ template "global-http-proxy" . }}
 {{ template "sysupdate-noop" . }}
 {{ template "update-server-config" . }}
 {{ template "sshd-pq-configuration" . }}
@@ -59,9 +60,8 @@ storage:
 
 systemd:
   units:
-    # Disable all automatic updates - sysext and OS updates are manual-only in production
+    # sysext updates are manual-only. OS updates are off through SERVER=disabled (see "update-server-config").
 {{ template "disable-sysext-updates" . }}
-{{ template "disable-os-updates" . }}
     # Disable Flatcar native reboot coordination
     - name: locksmithd.service
       mask: true
