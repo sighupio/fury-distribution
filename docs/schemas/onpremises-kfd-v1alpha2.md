@@ -5,7 +5,7 @@ This document explains the full schema for the `kind: OnPremises` for the `furyc
 An example configuration file can be created by running the following command:
 
 ```bash
-furyctl create config --kind OnPremises --version v1.34.2 --name example-cluster
+furyctl create config --kind OnPremises --version v1.34.3 --name example-cluster
 ```
 
 > [!NOTE]
@@ -91,7 +91,7 @@ The name of the cluster. It will also be used as a prefix for all the other reso
 |:----------------------------------------------------|:---------|:---------|
 | [common](#specdistributioncommon)                   | `object` | Optional |
 | [customPatches](#specdistributioncustompatches)     | `object` | Optional |
-| [customResources](#specdistributioncustomresources) | `object` | Optional |
+| [customResources](#specdistributioncustomresources) | `array`  | Optional |
 | [modules](#specdistributionmodules)                 | `object` | Required |
 
 ## .spec.distribution.common
@@ -532,7 +532,7 @@ The type of the secret
 
 ### Description
 
-Add custom resources to the distribution phase. Each entry should point to a resource file, a kustomize base, or a remote resource (e.g. a git repository or URL). `customResources` should be used when you _need_ the resources to be applyed in the distribution phase together with the rest of the modules; prefer using Plugins instead when possible.
+Add custom resources to the distribution phase. This field is a list of strings. Each entry points to a resource file, a kustomize base, or a remote resource, for example a Git repository or a URL. Use `customResources` only when furyctl must apply the resources in the distribution phase, together with the other modules. For all the other resources, use Plugins.
 
 ## .spec.distribution.modules
 
@@ -1791,7 +1791,7 @@ The base domain used for all the SD infrastructural ingresses. If using the ngin
 
 ### Description
 
-Configuration for Bring Your Own Ingress Controller mode. The ingressClass is used for infrastructure ingresses when both controllers are disabled.
+Configuration for Bring Your Own Ingress Controller mode. Can coexist with nginx and haproxy. The ingressClass is used for infrastructure ingresses when both controllers are disabled.
 
 ## .spec.distribution.modules.ingress.byoic.commonAnnotations
 
@@ -2021,7 +2021,7 @@ The value of the toleration
 
 ### Description
 
-Configuration for HAProxy Kubernetes Ingress Controller.
+Configurations for the HAProxy Kubernetes Ingress Controller package.
 
 ## .spec.distribution.modules.ingress.haproxy.overrides
 
@@ -2865,6 +2865,18 @@ The username for the default MinIO root user.
 
 The PVC size for each MinIO disk, 6 disks total.
 
+Follows the Kubernetes resource quantity format, for example `10Gi`. Suffixes like `GB` or `MB` are not valid.
+
+### Constraints
+
+**pattern**: the string must match the following regular expression:
+
+```regexp
+^(\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))))?$
+```
+
+[try pattern](https://regexr.com/?expression=^\(\%2B|-\)?\(\([0-9]%2B\(\.[0-9]*\)?\)|\(\.[0-9]%2B\)\)\(\([KMGTPE]i\)|[numkMGTPE]|\([eE]\(\%2B|-\)?\(\([0-9]%2B\(\.[0-9]*\)?\)|\(\.[0-9]%2B\)\)\)\)?$)
+
 ## .spec.distribution.modules.logging.opensearch
 
 ### Properties
@@ -2996,7 +3008,19 @@ The memory request for the Pod. Example: `500M`.
 
 ### Description
 
-The storage size for the OpenSearch volumes. Follows Kubernetes resources storage requests. Default is `150Gi`.
+The storage size for the OpenSearch volumes. Default is `150Gi`.
+
+Follows the Kubernetes resource quantity format, for example `10Gi`. Suffixes like `GB` or `MB` are not valid.
+
+### Constraints
+
+**pattern**: the string must match the following regular expression:
+
+```regexp
+^(\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))))?$
+```
+
+[try pattern](https://regexr.com/?expression=^\(\%2B|-\)?\(\([0-9]%2B\(\.[0-9]*\)?\)|\(\.[0-9]%2B\)\)\(\([KMGTPE]i\)|[numkMGTPE]|\([eE]\(\%2B|-\)?\(\([0-9]%2B\(\.[0-9]*\)?\)|\(\.[0-9]%2B\)\)\)\)?$)
 
 ## .spec.distribution.modules.logging.opensearch.type
 
@@ -3865,6 +3889,18 @@ The username for the default MinIO root user.
 
 The PVC size for each MinIO disk, 6 disks total.
 
+Follows the Kubernetes resource quantity format, for example `10Gi`. Suffixes like `GB` or `MB` are not valid.
+
+### Constraints
+
+**pattern**: the string must match the following regular expression:
+
+```regexp
+^(\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))))?$
+```
+
+[try pattern](https://regexr.com/?expression=^\(\%2B|-\)?\(\([0-9]%2B\(\.[0-9]*\)?\)|\(\.[0-9]%2B\)\)\(\([KMGTPE]i\)|[numkMGTPE]|\([eE]\(\%2B|-\)?\(\([0-9]%2B\(\.[0-9]*\)?\)|\(\.[0-9]%2B\)\)\)\)?$)
+
 ## .spec.distribution.modules.monitoring.overrides
 
 ### Properties
@@ -4025,6 +4061,18 @@ The retention time for the `k8s` Prometheus instance.
 ### Description
 
 The storage size for the `k8s` Prometheus instance.
+
+Follows the Kubernetes resource quantity format, for example `10Gi`. Suffixes like `GB` or `MB` are not valid.
+
+### Constraints
+
+**pattern**: the string must match the following regular expression:
+
+```regexp
+^(\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))))?$
+```
+
+[try pattern](https://regexr.com/?expression=^\(\%2B|-\)?\(\([0-9]%2B\(\.[0-9]*\)?\)|\(\.[0-9]%2B\)\)\(\([KMGTPE]i\)|[numkMGTPE]|\([eE]\(\%2B|-\)?\(\([0-9]%2B\(\.[0-9]*\)?\)|\(\.[0-9]%2B\)\)\)\)?$)
 
 ## .spec.distribution.modules.monitoring.prometheusAdapter
 
@@ -4994,6 +5042,18 @@ The username for the default MinIO root user.
 
 The PVC size for each MinIO disk, 6 disks total.
 
+Follows the Kubernetes resource quantity format, for example `10Gi`. Suffixes like `GB` or `MB` are not valid.
+
+### Constraints
+
+**pattern**: the string must match the following regular expression:
+
+```regexp
+^(\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))))?$
+```
+
+[try pattern](https://regexr.com/?expression=^\(\%2B|-\)?\(\([0-9]%2B\(\.[0-9]*\)?\)|\(\.[0-9]%2B\)\)\(\([KMGTPE]i\)|[numkMGTPE]|\([eE]\(\%2B|-\)?\(\([0-9]%2B\(\.[0-9]*\)?\)|\(\.[0-9]%2B\)\)\)\)?$)
+
 ## .spec.distribution.modules.tracing.overrides
 
 ### Properties
@@ -5635,21 +5695,27 @@ Maximum number of terminated Pods retained by the controller-manager before auto
 
 ### Description
 
-etcd's encryption at rest configuration. Must be a string with the EncryptionConfiguration object in YAML. Example:
+etcd's encryption at rest configuration. Must be a string with the EncryptionConfiguration object in YAML. Check the [Kubernetes documentation](https://kubernetes.io/docs/tasks/administer-cluster/encrypt-data/) for the providers that the API server accepts and for the properties of each one.
+
+Example:
 
 ```yaml
-
 apiVersion: apiserver.config.k8s.io/v1
 kind: EncryptionConfiguration
 resources:
   - resources:
-    - secrets
+      - secrets
     providers:
-    - aescbc:
-        keys:
-        - name: mykey
-          secret: base64_encoded_secret
+      - secretbox:
+          keys:
+            - name: key1
+              secret: base64_encoded_key
+      - identity: {}
 ```
+
+The `secretbox` provider of the example needs a 256-bit key in base64. To generate a random key, run the following command: `head -c32 /dev/urandom | base64`
+
+The `identity` provider comes last in the example, whatever the provider before it is: without `identity`, the API server cannot read the secrets that etcd holds with no encryption.
 
 
 ## .spec.kubernetes.advanced.encryption.tlsCipherSuites
@@ -5832,6 +5898,7 @@ The maximum time a streaming connection can be idle before it is closed. Example
 | [client_id](#speckubernetesadvancedoidcclient_id)             | `string` | Optional |
 | [group_prefix](#speckubernetesadvancedoidcgroup_prefix)       | `string` | Optional |
 | [groups_claim](#speckubernetesadvancedoidcgroups_claim)       | `string` | Optional |
+| [groups_prefix](#speckubernetesadvancedoidcgroups_prefix)     | `string` | Optional |
 | [issuer_url](#speckubernetesadvancedoidcissuer_url)           | `string` | Optional |
 | [username_claim](#speckubernetesadvancedoidcusername_claim)   | `string` | Optional |
 | [username_prefix](#speckubernetesadvancedoidcusername_prefix) | `string` | Optional |
@@ -5856,13 +5923,19 @@ The client ID the API server will use to authenticate to the OIDC provider.
 
 ### Description
 
-Prefix prepended to group claims to prevent clashes with existing names (such as system: groups).
+DEPRECATED, use `groups_prefix`. Ignored when `groups_prefix` is set.
 
 ## .spec.kubernetes.advanced.oidc.groups_claim
 
 ### Description
 
 JWT claim to use as the user's group.
+
+## .spec.kubernetes.advanced.oidc.groups_prefix
+
+### Description
+
+Prefix prepended to group claims to prevent clashes with existing names (such as system: groups). Sets `claimMappings.groups.prefix` in the API server AuthenticationConfiguration. Replaces the deprecated `group_prefix` field. Defaults to `oidc:`.
 
 ## .spec.kubernetes.advanced.oidc.issuer_url
 
@@ -6213,7 +6286,7 @@ The value of the kernel parameter to edit. Example: `"15"`
 
 ### Description
 
-Advanced configuration for Kubelet. This open field allows users to specify any parameter supported by the `KubeletConfiguration` object. Examples of uses include controlling the maximum number of pods per core (`podsPerCore`), managing container logging (`containerLogMaxSize`), Topology Manager options (`topologyManagerPolicyOptions`). All values must follow the official Kubelet specification: https://kubernetes.io/docs/reference/config-api/kubelet-config.v1beta1/.
+Optional Kubelet configuration specific to control-plane nodes. If set, this will override the global `advanced.kubeletConfiguration`. See `advanced.KubeletConfiguration` for more details.
 
 NOTE: Content will **not** be validated by furyctl. To customize the TLS cipher suites of the Kubelet, set only the `Spec.Kubernetes.Advanced.Encryption.tlsCipherSuitesKubelet` field - do not configure them under this field.
 
@@ -6371,7 +6444,7 @@ The value of the kernel parameter to edit. Example: `"15"`
 
 ### Description
 
-Advanced configuration for Kubelet. This open field allows users to specify any parameter supported by the `KubeletConfiguration` object. Examples of uses include controlling the maximum number of pods per core (`podsPerCore`), managing container logging (`containerLogMaxSize`), Topology Manager options (`topologyManagerPolicyOptions`). All values must follow the official Kubelet specification: https://kubernetes.io/docs/reference/config-api/kubelet-config.v1beta1/.
+Optional Kubelet configuration specific to worker nodes. If set, this will override the global `advanced.kubeletConfiguration`. See `advanced.KubeletConfiguration` for more details.
 
 NOTE: Content will **not** be validated by furyctl. To customize the TLS cipher suites of the Kubelet, set only the `Spec.Kubernetes.Advanced.Encryption.tlsCipherSuitesKubelet` field - do not configure them under this field.
 
@@ -6432,6 +6505,10 @@ Name for the node group. It will be also used as the node role label. It should 
 ### Description
 
 The path to the folder where the PKI files for Kubernetes and etcd are stored.
+
+### Constraints
+
+**minimum length**: the minimum number of characters for this string is: `1`
 
 ## .spec.kubernetes.podCidr
 

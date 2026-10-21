@@ -10,5 +10,5 @@ echo "Executing furyctl for the initial setup 1.33.3"
 furyctl apply --config tests/e2e/kfddistribution-upgrades/manifests/furyctl-init-cluster-1.33.3.yaml --outdir "$PWD" --disable-analytics
 
 echo "----------------------------------------------------------------------------"
-echo "Executing upgrade to 1.34.2"
-furyctl apply --upgrade --config tests/e2e/kfddistribution-upgrades/manifests/furyctl-init-cluster-1.34.2.yaml --outdir "$PWD" --distro-location ./ --force upgrades --disable-analytics -D
+echo "Executing upgrade to 1.34.3"
+furyctl apply --upgrade --config tests/e2e/kfddistribution-upgrades/manifests/furyctl-init-cluster-1.34.3.yaml --outdir "$PWD" --distro-location ./ --force upgrades --disable-analytics -D
