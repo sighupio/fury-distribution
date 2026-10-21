@@ -5549,7 +5549,7 @@ The name of an existing ClusterRole to bind to the Headlamp ServiceAccount, used
 
 ### Description
 
-The name of the OIDC group, without the prefix, to bind to the roles that Headlamp needs. Required when `type` is `sso`, and used only in that case. The group will be able to read the main cluster resources (including the `headlamp/sd-spec` ConfigMap), and to query the installed Prometheus, Loki and OpenSearch, with any Kubernetes client. The OIDC groups prefix of the API server (`.spec.kubernetes.advanced.oidc.groups_prefix`, default `oidc:`) is added automatically, so do not include it. Example: `authors` becomes `oidc:authors`.
+The name of the OIDC group, without the prefix, to bind to the role that Headlamp needs. Required when `type` is `sso`, and used only in that case. The group will only be able to get and watch the `headlamp/sd-spec` ConfigMap, the distribution summary that the SD plugins read. To let the group see other resources in Headlamp, bind it to other roles, for example the `view` ClusterRole. The OIDC groups prefix of the API server (`.spec.kubernetes.advanced.oidc.groups_prefix`, default `oidc:`) is added automatically, so do not include it. Example: `authors` becomes `oidc:authors`.
 
 ### Constraints
 
