@@ -21,14 +21,9 @@ fi
 
 cd "$E2E_DIR/config" || exit 1
 
-# POD_RUNNING_CHECK_TIMEOUT (Immutable): its pod wait retries every 15s, not 30s, so
-# furyctl's 300s default is only 150s.
-timeout_flag=()
-[ -n "${POD_RUNNING_CHECK_TIMEOUT:-}" ] && timeout_flag=(--pod-running-check-timeout "$POD_RUNNING_CHECK_TIMEOUT")
-
 upgrade() {
   rm -rf /tmp/furyctl-* 2>/dev/null || true
-  furyctl apply -D --upgrade --force upgrades --config furyctl_upgrade.yaml --distro-location "$DISTRO_LOCATION" "${timeout_flag[@]}"
+  furyctl apply -D --upgrade --force upgrades --config furyctl_upgrade.yaml --distro-location "$DISTRO_LOCATION"
 }
 
 show_not_ready() {
