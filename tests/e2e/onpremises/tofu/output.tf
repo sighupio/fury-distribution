@@ -36,7 +36,7 @@ kind: OnPremises
 metadata:
   name: reevo
 spec:
-  distributionVersion: v1.34.2
+  distributionVersion: v1.34.3
   kubernetes:
     pkiFolder: ./pki
     ssh:

@@ -6,7 +6,7 @@
 # shared module. name_prefix "e2eup" + the 110..199 subnet range keep it disjoint
 # from the install pipeline (e2e / 10..99), so the two never collide on the shared
 # worker even if the gate ever lets them overlap. output.tf renders the v1.33.3
-# base config and the v1.34.2 upgrade-target config.
+# base config and the v1.34.3 upgrade-target config.
 terraform {
   required_providers {
     libvirt = {

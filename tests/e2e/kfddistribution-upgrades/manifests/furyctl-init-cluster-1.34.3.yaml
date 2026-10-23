@@ -1,14 +1,14 @@
 # Copyright (c) 2017-present SIGHUP s.r.l All rights reserved.
 # Use of this source code is governed by a BSD-style
 # license that can be found in the LICENSE file.
-# yaml-language-server: $schema=https://raw.githubusercontent.com/sighupio/fury-distribution/v1.34.2/schemas/public/kfddistribution-kfd-v1alpha2.json
+# yaml-language-server: $schema=https://raw.githubusercontent.com/sighupio/fury-distribution/v1.34.3/schemas/public/kfddistribution-kfd-v1alpha2.json
 ---
 apiVersion: kfd.sighup.io/v1alpha2
 kind: KFDDistribution
 metadata:
   name: sighup
 spec:
-  distributionVersion: v1.34.2
+  distributionVersion: v1.34.3
   # This section describes how the KFD distribution will be installed
   distribution:
     kubeconfig: "{env://KUBECONFIG}"
@@ -18,6 +18,10 @@ spec:
     modules:
       networking:
         type: calico
+        # Kind's pod CIDR, set explicitly: without it the rendered Installation has no ipPools and,
+        # when kapp re-applies it, the Tigera operator deletes the default IPPool and cannot recreate it.
+        tigeraOperator:
+          podCidr: 10.244.0.0/16
       # This section contains all the configurations for the ingress module
       ingress:
         baseDomain: fury.sighup.cc

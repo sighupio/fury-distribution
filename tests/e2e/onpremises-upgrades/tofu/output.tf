@@ -179,7 +179,7 @@ spec:
 EOF
 }
 
-# v1.34.2 upgrade target: identical to the base config but the newer version and
+# v1.34.3 upgrade target: identical to the base config but the newer version and
 # with the haproxy ingress controller added (the upgrade's visible delta).
 output "furyctl_upgrade_yaml" {
   value = <<EOF
@@ -189,7 +189,7 @@ kind: OnPremises
 metadata:
   name: reevo
 spec:
-  distributionVersion: v1.34.2
+  distributionVersion: v1.34.3
   kubernetes:
     pkiFolder: ./pki
     ssh:

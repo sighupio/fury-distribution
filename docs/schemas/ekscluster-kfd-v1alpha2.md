@@ -5,7 +5,7 @@ This document explains the full schema for the `kind: EKSCluster` for the `furyc
 An example configuration file can be created by running the following command:
 
 ```bash
-furyctl create config --kind EKSCluster --version v1.34.2 --name example-cluster
+furyctl create config --kind EKSCluster --version v1.34.3 --name example-cluster
 ```
 
 > [!NOTE]
@@ -95,7 +95,7 @@ The name of the cluster. It will also be used as a prefix for all the other reso
 |:----------------------------------------------------|:---------|:---------|
 | [common](#specdistributioncommon)                   | `object` | Optional |
 | [customPatches](#specdistributioncustompatches)     | `object` | Optional |
-| [customResources](#specdistributioncustomresources) | `object` | Optional |
+| [customResources](#specdistributioncustomresources) | `array`  | Optional |
 | [modules](#specdistributionmodules)                 | `object` | Required |
 
 ## .spec.distribution.common
@@ -529,7 +529,7 @@ The type of the secret
 
 ### Description
 
-Add custom resources to the distribution phase. Each entry should point to a resource file, a kustomize base, or a remote resource (e.g. a git repository or URL). `customResources` should be used when you _need_ the resources to be applyed in the distribution phase together with the rest of the modules; prefer using Plugins instead when possible.
+Add custom resources to the distribution phase. This field is a list of strings. Each entry points to a resource file, a kustomize base, or a remote resource, for example a Git repository or a URL. Use `customResources` only when furyctl must apply the resources in the distribution phase, together with the other modules. For all the other resources, use Plugins.
 
 ## .spec.distribution.modules
 
@@ -1889,7 +1889,7 @@ The base domain used for all the SD infrastructural ingresses. If in the nginx `
 
 ### Description
 
-Configuration for Bring Your Own Ingress Controller mode. The ingressClass is used for infrastructure ingresses when both controllers are disabled.
+Configuration for Bring Your Own Ingress Controller mode. Can coexist with nginx and haproxy. The ingressClass is used for infrastructure ingresses when both controllers are disabled.
 
 ## .spec.distribution.modules.ingress.byoic.commonAnnotations
 
@@ -2245,7 +2245,7 @@ The value of the toleration
 
 ### Description
 
-Configuration for HAProxy ingress controller.
+Configurations for the HAProxy ingress controller package.
 
 ## .spec.distribution.modules.ingress.haproxy.overrides
 
@@ -3089,6 +3089,18 @@ The username for the default MinIO root user.
 
 The PVC size for each MinIO disk, 6 disks total.
 
+Follows the Kubernetes resource quantity format, for example `10Gi`. Suffixes like `GB` or `MB` are not valid.
+
+### Constraints
+
+**pattern**: the string must match the following regular expression:
+
+```regexp
+^(\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))))?$
+```
+
+[try pattern](https://regexr.com/?expression=^\(\%2B|-\)?\(\([0-9]%2B\(\.[0-9]*\)?\)|\(\.[0-9]%2B\)\)\(\([KMGTPE]i\)|[numkMGTPE]|\([eE]\(\%2B|-\)?\(\([0-9]%2B\(\.[0-9]*\)?\)|\(\.[0-9]%2B\)\)\)\)?$)
+
 ## .spec.distribution.modules.logging.opensearch
 
 ### Properties
@@ -3220,7 +3232,19 @@ The memory request for the Pod. Example: `500M`.
 
 ### Description
 
-The storage size for the OpenSearch volumes. Follows Kubernetes resources storage requests. Default is `150Gi`.
+The storage size for the OpenSearch volumes. Default is `150Gi`.
+
+Follows the Kubernetes resource quantity format, for example `10Gi`. Suffixes like `GB` or `MB` are not valid.
+
+### Constraints
+
+**pattern**: the string must match the following regular expression:
+
+```regexp
+^(\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))))?$
+```
+
+[try pattern](https://regexr.com/?expression=^\(\%2B|-\)?\(\([0-9]%2B\(\.[0-9]*\)?\)|\(\.[0-9]%2B\)\)\(\([KMGTPE]i\)|[numkMGTPE]|\([eE]\(\%2B|-\)?\(\([0-9]%2B\(\.[0-9]*\)?\)|\(\.[0-9]%2B\)\)\)\)?$)
 
 ## .spec.distribution.modules.logging.opensearch.type
 
@@ -3954,6 +3978,18 @@ The username for the default MinIO root user.
 
 The PVC size for each MinIO disk, 6 disks total.
 
+Follows the Kubernetes resource quantity format, for example `10Gi`. Suffixes like `GB` or `MB` are not valid.
+
+### Constraints
+
+**pattern**: the string must match the following regular expression:
+
+```regexp
+^(\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))))?$
+```
+
+[try pattern](https://regexr.com/?expression=^\(\%2B|-\)?\(\([0-9]%2B\(\.[0-9]*\)?\)|\(\.[0-9]%2B\)\)\(\([KMGTPE]i\)|[numkMGTPE]|\([eE]\(\%2B|-\)?\(\([0-9]%2B\(\.[0-9]*\)?\)|\(\.[0-9]%2B\)\)\)\)?$)
+
 ## .spec.distribution.modules.monitoring.overrides
 
 ### Properties
@@ -4114,6 +4150,18 @@ The retention time for the `k8s` Prometheus instance.
 ### Description
 
 The storage size for the `k8s` Prometheus instance.
+
+Follows the Kubernetes resource quantity format, for example `10Gi`. Suffixes like `GB` or `MB` are not valid.
+
+### Constraints
+
+**pattern**: the string must match the following regular expression:
+
+```regexp
+^(\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))))?$
+```
+
+[try pattern](https://regexr.com/?expression=^\(\%2B|-\)?\(\([0-9]%2B\(\.[0-9]*\)?\)|\(\.[0-9]%2B\)\)\(\([KMGTPE]i\)|[numkMGTPE]|\([eE]\(\%2B|-\)?\(\([0-9]%2B\(\.[0-9]*\)?\)|\(\.[0-9]%2B\)\)\)\)?$)
 
 ## .spec.distribution.modules.monitoring.prometheusAdapter
 
@@ -4944,6 +4992,18 @@ The username for the default MinIO root user.
 ### Description
 
 The PVC size for each MinIO disk, 6 disks total.
+
+Follows the Kubernetes resource quantity format, for example `10Gi`. Suffixes like `GB` or `MB` are not valid.
+
+### Constraints
+
+**pattern**: the string must match the following regular expression:
+
+```regexp
+^(\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))))?$
+```
+
+[try pattern](https://regexr.com/?expression=^\(\%2B|-\)?\(\([0-9]%2B\(\.[0-9]*\)?\)|\(\.[0-9]%2B\)\)\(\([KMGTPE]i\)|[numkMGTPE]|\([eE]\(\%2B|-\)?\(\([0-9]%2B\(\.[0-9]*\)?\)|\(\.[0-9]%2B\)\)\)\)?$)
 
 ## .spec.distribution.modules.tracing.overrides
 

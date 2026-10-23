@@ -77,6 +77,7 @@
       "properties": {
         "pkiFolder": {
           "type": "string",
+          "minLength": 1,
           "description": "The path to the folder where the PKI files for Kubernetes and etcd are stored."
         },
         "ssh": {
@@ -323,7 +324,7 @@
           "$ref": "#/$defs/Types.KubeAnnotations"
         },
         "kubeletConfiguration": {
-          "description": "Optional Kubelet configuration specific to control-plane nodes. If set, this will override the global `advanced.kubeletConfiguration`. See `advanced.KubeletConfiguration` for more details.",
+          "description": "Optional Kubelet configuration specific to control-plane nodes. If set, this will override the global `advanced.kubeletConfiguration`. See `advanced.KubeletConfiguration` for more details.\n\nNOTE: Content will **not** be validated by furyctl. To customize the TLS cipher suites of the Kubelet, set only the `Spec.Kubernetes.Advanced.Encryption.tlsCipherSuitesKubelet` field - do not configure them under this field.",
           "$ref": "#/$defs/Spec.Kubernetes.Advanced.KubeletConfiguration"
         },
         "kernelParameters": {
@@ -447,7 +448,7 @@
           "$ref": "#/$defs/Types.KubeAnnotations"
         },
         "kubeletConfiguration": {
-          "description": "Optional Kubelet configuration specific to worker nodes. If set, this will override the global `advanced.kubeletConfiguration`. See `advanced.KubeletConfiguration` for more details.",
+          "description": "Optional Kubelet configuration specific to worker nodes. If set, this will override the global `advanced.kubeletConfiguration`. See `advanced.KubeletConfiguration` for more details.\n\nNOTE: Content will **not** be validated by furyctl. To customize the TLS cipher suites of the Kubelet, set only the `Spec.Kubernetes.Advanced.Encryption.tlsCipherSuitesKubelet` field - do not configure them under this field.",
           "$ref": "#/$defs/Spec.Kubernetes.Advanced.KubeletConfiguration"
         },
         "kernelParameters": {
@@ -652,9 +653,13 @@
           "type": "string",
           "description": "JWT claim to use as the user's group."
         },
+        "groups_prefix": {
+          "type": "string",
+          "description": "Prefix prepended to group claims to prevent clashes with existing names (such as system: groups). Sets `claimMappings.groups.prefix` in the API server AuthenticationConfiguration. Replaces the deprecated `group_prefix` field. Defaults to `oidc:`."
+        },
         "group_prefix": {
           "type": "string",
-          "description": "Prefix prepended to group claims to prevent clashes with existing names (such as system: groups)."
+          "description": "DEPRECATED, use `groups_prefix`. Ignored when `groups_prefix` is set."
         }
       }
     },
@@ -770,7 +775,7 @@
         },
         "configuration": {
           "type": "string",
-          "description": "etcd's encryption at rest configuration. Must be a string with the EncryptionConfiguration object in YAML. Example:\n\n```yaml\n\napiVersion: apiserver.config.k8s.io/v1\nkind: EncryptionConfiguration\nresources:\n  - resources:\n    - secrets\n    providers:\n    - aescbc:\n        keys:\n        - name: mykey\n          secret: base64_encoded_secret\n```\n"
+          "description": "etcd's encryption at rest configuration. Must be a string with the EncryptionConfiguration object in YAML. Check the [Kubernetes documentation](https://kubernetes.io/docs/tasks/administer-cluster/encrypt-data/) for the providers that the API server accepts and for the properties of each one.\n\nExample:\n\n```yaml\napiVersion: apiserver.config.k8s.io/v1\nkind: EncryptionConfiguration\nresources:\n  - resources:\n      - secrets\n    providers:\n      - secretbox:\n          keys:\n            - name: key1\n              secret: base64_encoded_key\n      - identity: {}\n```\n\nThe `secretbox` provider of the example needs a 256-bit key in base64. To generate a random key, run the following command: `head -c32 /dev/urandom | base64`\n\nThe `identity` provider comes last in the example, whatever the provider before it is: without `identity`, the API server cannot read the secrets that etcd holds with no encryption.\n"
         }
       }
     },
@@ -1417,7 +1422,7 @@
         },
         "byoic": {
           "$ref": "#/$defs/Spec.Distribution.Modules.Ingress.BYOIC",
-          "description": "Configuration for Bring Your Own Ingress Controller mode. Can coexist with nginx and haproxy. The ingressClass is used when both controllers are disabled."
+          "description": "Configuration for Bring Your Own Ingress Controller mode. Can coexist with nginx and haproxy. The ingressClass is used for infrastructure ingresses when both controllers are disabled."
         },
         "certManager": {
           "$ref": "#/$defs/Spec.Distribution.Modules.Ingress.CertManager",
@@ -1892,8 +1897,8 @@
           "$ref": "#/$defs/Types.KubeResources"
         },
         "storageSize": {
-          "type": "string",
-          "description": "The storage size for the OpenSearch volumes. Follows Kubernetes resources storage requests. Default is `150Gi`."
+          "$ref": "./shared-types.json#/$defs/Types.KubernetesQuantity",
+          "description": "The storage size for the OpenSearch volumes. Default is `150Gi`.\n\nFollows the Kubernetes resource quantity format, for example `10Gi`. Suffixes like `GB` or `MB` are not valid."
         },
         "overrides": {
           "$ref": "#/$defs/Types.FuryModuleComponentOverrides"
@@ -1919,8 +1924,8 @@
       "description": "Configuration for Logging's MinIO deployment.",
       "properties": {
         "storageSize": {
-          "type": "string",
-          "description": "The PVC size for each MinIO disk, 6 disks total."
+          "$ref": "./shared-types.json#/$defs/Types.KubernetesQuantity",
+          "description": "The PVC size for each MinIO disk, 6 disks total.\n\nFollows the Kubernetes resource quantity format, for example `10Gi`. Suffixes like `GB` or `MB` are not valid."
         },
         "rootUser": {
           "type": "object",
@@ -2152,8 +2157,8 @@
           "description": "The retention size for the `k8s` Prometheus instance."
         },
         "storageSize": {
-          "type": "string",
-          "description": "The storage size for the `k8s` Prometheus instance."
+          "$ref": "./shared-types.json#/$defs/Types.KubernetesQuantity",
+          "description": "The storage size for the `k8s` Prometheus instance.\n\nFollows the Kubernetes resource quantity format, for example `10Gi`. Suffixes like `GB` or `MB` are not valid."
         },
         "remoteWrite": {
           "description": "Set this option to ship the collected metrics to a remote Prometheus receiver.\n\n`remoteWrite` is an array of objects that allows configuring the [remoteWrite](https://prometheus.io/docs/specs/remote_write_spec/) options for Prometheus. The objects in the array follow [the same schema as in the prometheus operator](https://prometheus-operator.dev/docs/api-reference/api/#monitoring.coreos.com/v1.RemoteWriteSpec).",
@@ -2310,8 +2315,8 @@
       "additionalProperties": false,
       "properties": {
         "storageSize": {
-          "type": "string",
-          "description": "The PVC size for each MinIO disk, 6 disks total."
+          "$ref": "./shared-types.json#/$defs/Types.KubernetesQuantity",
+          "description": "The PVC size for each MinIO disk, 6 disks total.\n\nFollows the Kubernetes resource quantity format, for example `10Gi`. Suffixes like `GB` or `MB` are not valid."
         },
         "rootUser": {
           "type": "object",
@@ -2414,8 +2419,8 @@
       "additionalProperties": false,
       "properties": {
         "storageSize": {
-          "type": "string",
-          "description": "The PVC size for each MinIO disk, 6 disks total."
+          "$ref": "./shared-types.json#/$defs/Types.KubernetesQuantity",
+          "description": "The PVC size for each MinIO disk, 6 disks total.\n\nFollows the Kubernetes resource quantity format, for example `10Gi`. Suffixes like `GB` or `MB` are not valid."
         },
         "rootUser": {
           "type": "object",
@@ -3167,7 +3172,7 @@
       ]
     },
     "Spec.Distribution.Modules.Auth.Pomerium": {
-      "$ref": "./spec-distribution-modules-auth-pomerium.json"
+      "$ref": "./spec-distribution-modules-auth-pomerium-onpremises.json"
     },
     "Spec.Distribution.Modules.Auth.Dex": {
       "type": "object",
