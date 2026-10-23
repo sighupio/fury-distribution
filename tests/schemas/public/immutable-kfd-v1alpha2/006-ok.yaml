@@ -13,6 +13,7 @@ spec:
   infrastructure:
     nodes:
       - hostname: node01.k8s.example.com
+        arch: x86-64
         macAddress: 52:54:00:10:00:01
         storage:
           installDisk: /dev/sda
@@ -27,6 +28,7 @@ spec:
       privateKeyPath: ~/.ssh/id_rsa
 
   kubernetes:
+    pkiPath: ./pki
     controlPlane:
       address: k8s-api.example.com:6443
       members:
@@ -37,6 +39,9 @@ spec:
       members:
         - hostname: node01.k8s.example.com
           ip: 192.168.1.10
+
+    # No worker nodes, the workloads run on the control plane
+    nodeGroups: []
 
     networking:
       podCIDR: 10.244.0.0/16

@@ -11,7 +11,7 @@
 <p align="center">SIGHUP Distribution (SD) is a certified battle-tested Kubernetes distribution based purely on upstream Kubernetes.</p>
 <!-- markdownlint-enable MD033 MD045 -->
 
-[![Release](https://img.shields.io/badge/release-v1.35.1-blue?label=Latest%20Release)](https://github.com/sighupio/distribution/releases/latest)
+[![Release](https://img.shields.io/badge/release-v1.35.2-blue?label=Latest%20Release)](https://github.com/sighupio/distribution/releases/latest)
 [![Slack](https://img.shields.io/badge/slack-@kubernetes/fury-yellow.svg?logo=slack)](https://kubernetes.slack.com/archives/C0154HYTAQH)
 [![License](https://img.shields.io/github/license/sighupio/distribution)](https://github.com/sighupio/distribution/blob/main/LICENSE)
 
@@ -108,9 +108,9 @@ Current supported versions of SD are:
 
 |                                SD Version                                 | Kubernetes Version |
 |:-------------------------------------------------------------------------:|:------------------:|
-| [`1.35.1`](https://github.com/sighupio/distribution/releases/tag/v1.35.1) |      `1.35.x`      |
-| [`1.34.2`](https://github.com/sighupio/distribution/releases/tag/v1.34.2) |      `1.34.x`      |
-| [`1.33.3`](https://github.com/sighupio/distribution/releases/tag/v1.33.3) |      `1.33.x`      |
+| [`1.36.0`](https://github.com/sighupio/distribution/releases/tag/v1.36.0) |      `1.36.x`      |
+| [`1.35.2`](https://github.com/sighupio/distribution/releases/tag/v1.35.2) |      `1.35.x`      |
+| [`1.34.3`](https://github.com/sighupio/distribution/releases/tag/v1.34.3) |      `1.34.x`      |
 
 Check the [compatibility matrix][compatibility-matrix] for additional information about previous releases of the Distribution and the compatibility with `furyctl`.
 
@@ -124,8 +124,8 @@ SD has been certified by the [CNCF] (Cloud Native Computing Foundation) as a _Ce
 
 <!-- markdownlint-disable MD033 -->
 <p align="center">
-    <a href="https://github.com/cncf/k8s-conformance/pull/4126">
-        <img src="https://raw.githubusercontent.com/cncf/artwork/main/projects/kubernetes/certified-kubernetes/versionless/pantone/certified-kubernetes-pantone.svg" width="120" alt="SD is CNCF Certified Kubernetes 1.34 - click to see the certification PR"/>
+    <a href="https://github.com/cncf/k8s-conformance/pull/4316">
+        <img src="https://raw.githubusercontent.com/cncf/artwork/main/projects/kubernetes/certified-kubernetes/versionless/pantone/certified-kubernetes-pantone.svg" width="120" alt="SD is CNCF Certified Kubernetes 1.35 - click to see the certification PR"/>
     </a>
 </p>
 <!-- markdownlint-enable MD033 -->
@@ -152,14 +152,14 @@ SD is open-source software, and it's released under the following [LICENSE](LICE
 [dr-module]: https://github.com/sighupio/module-dr
 [policy-module]: https://github.com/sighupio/module-policy
 [auth-module]: https://github.com/sighupio/module-auth
-[networking-version]: https://img.shields.io/badge/release-v4.0.0-blue
-[ingress-version]: https://img.shields.io/badge/release-v5.1.0-blue
-[logging-version]: https://img.shields.io/badge/release-v5.4.0-blue
-[monitoring-version]: https://img.shields.io/badge/release-v4.2.0-blue
-[tracing-version]: https://img.shields.io/badge/release-v1.5.0-blue
-[dr-version]: https://img.shields.io/badge/release-v3.4.0-blue
-[policy-version]: https://img.shields.io/badge/release-v1.17.0-blue
-[auth-version]: https://img.shields.io/badge/release-v0.7.0-blue
+[networking-version]: https://img.shields.io/badge/release-v4.1.0-blue
+[ingress-version]: https://img.shields.io/badge/release-v5.2.0-blue
+[logging-version]: https://img.shields.io/badge/release-v5.5.0-blue
+[monitoring-version]: https://img.shields.io/badge/release-v4.3.0-blue
+[tracing-version]: https://img.shields.io/badge/release-v1.6.0-blue
+[dr-version]: https://img.shields.io/badge/release-v3.5.0-blue
+[policy-version]: https://img.shields.io/badge/release-v1.18.0-blue
+[auth-version]: https://img.shields.io/badge/release-v0.8.0-blue
 
 <!-- Addon Modules -->
 

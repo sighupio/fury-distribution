@@ -21,8 +21,8 @@ wait_for_eks_active() {
 }
 
 echo "----------------------------------------------------------------------------"
-echo "Executing furyctl for the initial setup 1.34.1 with alinux2023"
-FURYCTL_YAML=tests/e2e/ekscluster-upgrades/manifests/furyctl-upgrade-version-1.34.1.yaml
+echo "Executing furyctl for the initial setup 1.34.2 with alinux2023"
+FURYCTL_YAML=tests/e2e/ekscluster-upgrades/manifests/furyctl-upgrade-version-1.34.2.yaml
 tests/e2e/ekscluster/replace_variables.sh --cluster-name "$CLUSTER_NAME" --furyctl-yaml "$FURYCTL_YAML"
 if ! furyctl apply \
   --outdir /furyctl-outdir \
@@ -66,22 +66,52 @@ if ! furyctl apply \
     --no-tty
 fi
 
-# Wait for the cluster to be ACTIVE with no pending updates before upgrading.
-# Without this, UpdateClusterVersion fails with ResourceInUseException (HTTP 409)
-# when an update is still in progress from the initial cluster creation.
 EKS_REGION=$(yq '.spec.region' "$FURYCTL_YAML")
 wait_for_eks_active "$CLUSTER_NAME" "$EKS_REGION"
 
 echo "----------------------------------------------------------------------------"
-echo "Executing version upgrade to 1.35.1 (with alinux2023)"
-FURYCTL_YAML=tests/e2e/ekscluster-upgrades/manifests/furyctl-upgrade-version-1.35.1.yaml
+echo "Executing version upgrade to 1.35.2 (with alinux2023)"
+FURYCTL_YAML=tests/e2e/ekscluster-upgrades/manifests/furyctl-upgrade-version-1.35.2.yaml
 tests/e2e/ekscluster/replace_variables.sh --cluster-name "$CLUSTER_NAME" --furyctl-yaml "$FURYCTL_YAML"
-furyctl apply --upgrade \
-  --outdir /furyctl-outdir \
-  --config "$FURYCTL_YAML" \
-  --disable-analytics \
-  --distro-location ./ \
-  --force upgrades \
-  --skip-vpn-confirmation \
-  --no-tty
+
+# About 18 minutes after its creation EKS replaces the control plane instances of
+# the cluster, for about 10 minutes. Meanwhile the cluster stays ACTIVE with no
+# update listed, but UpdateClusterVersion fails with ResourceInUseException
+# (HTTP 409, "currently has an update in progress"), and the upgrade of the e2e
+# falls in that window. Retry on that error only: furyctl resumes the upgrade
+# from the failed phase.
+UPGRADE_MAX_ATTEMPTS=10
+UPGRADE_RETRY_DELAY=120
+attempt=1
+while true; do
+  echo "Upgrade attempt ${attempt}/${UPGRADE_MAX_ATTEMPTS} ($(date -u +%Y-%m-%dT%H:%M:%SZ))"
+  # The exit code goes through a file: the one of the pipeline is tee's.
+  rm -f upgrade_exit_code.txt
+  {
+    exit_code=0
+    furyctl apply --upgrade \
+      --outdir /furyctl-outdir \
+      --config "$FURYCTL_YAML" \
+      --disable-analytics \
+      --distro-location ./ \
+      --force upgrades \
+      --skip-vpn-confirmation \
+      --no-tty || exit_code=$?
+    echo "$exit_code" > upgrade_exit_code.txt
+  } 2>&1 | tee upgrade_output.txt
+  if [ "$(cat upgrade_exit_code.txt)" = "0" ]; then
+    break
+  fi
+  if ! grep -q "Cannot VersionUpdate because cluster ${CLUSTER_NAME} currently has an update in progress" upgrade_output.txt; then
+    echo "Upgrade to 1.35.2 failed."
+    exit 1
+  fi
+  if [ "$attempt" -ge "$UPGRADE_MAX_ATTEMPTS" ]; then
+    echo "Upgrade to 1.35.2 still blocked by the EKS update in progress after ${attempt} attempts."
+    exit 1
+  fi
+  echo "EKS has an update in progress on the cluster, retrying the upgrade in ${UPGRADE_RETRY_DELAY}s..."
+  sleep "$UPGRADE_RETRY_DELAY"
+  attempt=$((attempt + 1))
+done
 echo "$FURYCTL_YAML" > last_furyctl_yaml.txt

@@ -196,7 +196,7 @@
           "items": {
             "$ref": "#/$defs/Spec.Kubernetes.Member"
           },
-          "description": "Load balancer member nodes. These nodes will run HAProxy and keepalived. If no members are specified it will be assumed some other solution for load balancing is in place.",
+          "description": "Load balancer member nodes. These nodes will run HAProxy and keepalived. If no members are specified it will be assumed some other solution for load balancing is in place. Each entry refers to an infrastructure node by hostname, with an optional IP override.",
           "minItems": 1
         },
         "keepalived": {
@@ -268,23 +268,22 @@
         },
         "arch": {
           "type": "string",
-          "description": "CPU architecture for the node. Determines which Flatcar artifacts and sysext packages are downloaded. Supports mixed-architecture clusters where different nodes can run different architectures. Kubernetes automatically labels nodes with kubernetes.io/arch. Examples: x86-64 (Intel/AMD amd64), arm64 (ARM aarch64). See examples/immutable-mixed-arch-example.yaml for mixed-architecture cluster configuration.",
+          "description": "CPU architecture for the node. Determines which Flatcar artifacts and sysext packages are downloaded. Supports mixed-architecture clusters where different nodes can run different architectures. Kubernetes automatically labels nodes with kubernetes.io/arch. Examples: x86-64 (Intel/AMD amd64), arm64 (ARM aarch64).",
           "enum": [
             "x86-64",
             "arm64"
-          ],
-          "default": "x86-64"
+          ]
         },
         "macAddress": {
           "$ref": "#/$defs/Types.MacAddress",
-          "description": "MAC address for PXE boot identification. Example: 52:54:00:10:00:01"
+          "description": "MAC address for PXE boot identification. Not case-sensitive, accepts `:` or `-` as separator. Example: 52:54:00:10:00:01"
         },
         "storage": {
           "$ref": "#/$defs/Spec.Infrastructure.Node.Storage"
         },
         "kernelArguments": {
           "$ref": "#/$defs/Spec.Infrastructure.Node.KernelArguments",
-          "description": "Node-specific kernel arguments. When omitted, furyctl derives the initramfs network arguments (ip=/nameserver=) from the node's static interfaces so it can boot on a segment without DHCP. When set, these replace that derivation, so include the network arguments yourself if the node has no DHCP."
+          "description": "Node-specific kernel arguments, with the same format as Butane's `kernel_arguments` (both lists are optional). Ignition writes them to the bootloader on the first boot of the node. When omitted, furyctl derives the initramfs network arguments (ip=/nameserver=) from the node's static interfaces so it can boot on a segment without DHCP. When set, these replace that derivation, so include the network arguments yourself if the node has no DHCP."
         },
         "kernelParameters": {
           "type": "array",
@@ -305,6 +304,7 @@
       },
       "required": [
         "hostname",
+        "arch",
         "macAddress",
         "storage",
         "network"
@@ -360,7 +360,7 @@
       "properties": {
         "installDisk": {
           "$ref": "#/$defs/Types.DevicePath",
-          "description": "The disk device where the OS will be installed. Example: /dev/sda"
+          "description": "The disk device where the OS will be installed. The path must be absolute and clean: it must not contain empty, `.` or `..` path segments. Examples: `/dev/sda`, `/dev/nvme0n1`, `/dev/disk/by-id/wwn-0x5000c500a1b2c3d4`"
         },
         "disks": {
           "type": "array",
@@ -1139,6 +1139,7 @@
         },
         "pkiPath": {
           "type": "string",
+          "minLength": 1,
           "description": "Path to the PKI directory where to find the certificates and keys for Kubernetes Control Plane and etcd. Must have the `master` and `etcd` folders inside."
         },
         "controlPlane": {
@@ -1152,7 +1153,7 @@
           "items": {
             "$ref": "#/$defs/Spec.Kubernetes.NodeGroup"
           },
-          "description": "Worker node groups with labels, taints, and annotations."
+          "description": "Worker node groups with labels, taints, and annotations. Ref: https://kubernetes.io/docs/concepts/scheduling-eviction/taint-and-toleration/"
         },
         "networking": {
           "$ref": "#/$defs/Spec.Kubernetes.Networking"
@@ -1162,7 +1163,9 @@
         }
       },
       "required": [
+        "pkiPath",
         "controlPlane",
+        "nodeGroups",
         "networking"
       ]
     },
@@ -1184,7 +1187,7 @@
           "items": {
             "$ref": "#/$defs/Spec.Kubernetes.Member"
           },
-          "description": "Control plane member nodes.",
+          "description": "Control plane member nodes. Each entry refers to an infrastructure node by hostname, with an optional IP override.",
           "minItems": 1
         },
         "keepalived": {
@@ -1254,7 +1257,7 @@
           "items": {
             "$ref": "#/$defs/Spec.Kubernetes.Member"
           },
-          "description": "etcd member nodes.",
+          "description": "etcd member nodes. Each entry refers to an infrastructure node by hostname, with an optional IP override.",
           "minItems": 1
         }
       },
@@ -1296,7 +1299,7 @@
           "items": {
             "$ref": "#/$defs/Spec.Kubernetes.Member"
           },
-          "description": "Nodes in this group.",
+          "description": "Nodes in this group. Each entry refers to an infrastructure node by hostname, with an optional IP override.",
           "minItems": 1
         },
         "labels": {
@@ -1347,12 +1350,12 @@
               "description": "CPU reserved for system daemons, in cores or millicores. Examples: `500m`, `1`, `0.5`"
             },
             "memory": {
-              "$ref": "#/$defs/Types.KubernetesQuantity",
-              "description": "Memory reserved for system daemons. Example: `1Gi`, `500Mi`"
+              "$ref": "./shared-types.json#/$defs/Types.KubernetesQuantity",
+              "description": "Memory reserved for system daemons. Example: `1Gi`, `500Mi`\n\nFollows the Kubernetes resource quantity format, for example `10Gi`. Suffixes like `GB` or `MB` are not valid."
             },
             "ephemeral-storage": {
-              "$ref": "#/$defs/Types.KubernetesQuantity",
-              "description": "Ephemeral storage reserved for system daemons. Example: `2Gi`"
+              "$ref": "./shared-types.json#/$defs/Types.KubernetesQuantity",
+              "description": "Ephemeral storage reserved for system daemons. Example: `2Gi`\n\nFollows the Kubernetes resource quantity format, for example `10Gi`. Suffixes like `GB` or `MB` are not valid."
             },
             "pid": {
               "type": "string",
@@ -1549,9 +1552,13 @@
           "type": "string",
           "description": "JWT claim to use as the user's group."
         },
+        "groups_prefix": {
+          "type": "string",
+          "description": "Prefix prepended to group claims to prevent clashes with existing names (such as system: groups). Sets `claimMappings.groups.prefix` in the API server AuthenticationConfiguration. Replaces the deprecated `group_prefix` field. Defaults to `oidc:`."
+        },
         "group_prefix": {
           "type": "string",
-          "description": "Prefix prepended to group claims to prevent clashes with existing names (such as system: groups)."
+          "description": "DEPRECATED, use `groups_prefix`. Ignored when `groups_prefix` is set."
         }
       }
     },
@@ -1667,7 +1674,7 @@
         },
         "configuration": {
           "type": "string",
-          "description": "etcd's encryption at rest configuration. Must be a string with the EncryptionConfiguration object in YAML. Example:\n\n```yaml\n\napiVersion: apiserver.config.k8s.io/v1\nkind: EncryptionConfiguration\nresources:\n  - resources:\n    - secrets\n    providers:\n    - aescbc:\n        keys:\n        - name: mykey\n          secret: base64_encoded_secret\n```\n"
+          "description": "etcd's encryption at rest configuration. Must be a string with the EncryptionConfiguration object in YAML. Check the [Kubernetes documentation](https://kubernetes.io/docs/tasks/administer-cluster/encrypt-data/) for the providers that the API server accepts and for the properties of each one.\n\nExample:\n\n```yaml\napiVersion: apiserver.config.k8s.io/v1\nkind: EncryptionConfiguration\nresources:\n  - resources:\n      - secrets\n    providers:\n      - secretbox:\n          keys:\n            - name: key1\n              secret: base64_encoded_key\n      - identity: {}\n```\n\nThe `secretbox` provider of the example needs a 256-bit key in base64. To generate a random key, run the following command: `head -c32 /dev/urandom | base64`\n\nThe `identity` provider comes last in the example, whatever the provider before it is: without `identity`, the API server cannot read the secrets that etcd holds with no encryption.\n"
         }
       }
     },
@@ -2188,7 +2195,7 @@
         },
         "byoic": {
           "$ref": "#/$defs/Spec.Distribution.Modules.Ingress.BYOIC",
-          "description": "Configuration for Bring Your Own Ingress Controller mode. Can coexist with nginx and haproxy. The ingressClass is used when both controllers are disabled."
+          "description": "Configuration for Bring Your Own Ingress Controller mode. Can coexist with nginx and haproxy. The ingressClass is used for infrastructure ingresses when both controllers are disabled."
         },
         "certManager": {
           "$ref": "#/$defs/Spec.Distribution.Modules.Ingress.CertManager",
@@ -2663,8 +2670,8 @@
           "$ref": "#/$defs/Types.KubeResources"
         },
         "storageSize": {
-          "type": "string",
-          "description": "The storage size for the OpenSearch volumes. Follows Kubernetes resources storage requests. Default is `150Gi`."
+          "$ref": "./shared-types.json#/$defs/Types.KubernetesQuantity",
+          "description": "The storage size for the OpenSearch volumes. Default is `150Gi`.\n\nFollows the Kubernetes resource quantity format, for example `10Gi`. Suffixes like `GB` or `MB` are not valid."
         },
         "overrides": {
           "$ref": "#/$defs/Types.FuryModuleComponentOverrides"
@@ -2680,8 +2687,8 @@
       "description": "Configuration for Logging's MinIO deployment.",
       "properties": {
         "storageSize": {
-          "type": "string",
-          "description": "The PVC size for each MinIO disk, 6 disks total."
+          "$ref": "./shared-types.json#/$defs/Types.KubernetesQuantity",
+          "description": "The PVC size for each MinIO disk, 6 disks total.\n\nFollows the Kubernetes resource quantity format, for example `10Gi`. Suffixes like `GB` or `MB` are not valid."
         },
         "rootUser": {
           "type": "object",
@@ -2913,8 +2920,8 @@
           "description": "The retention size for the `k8s` Prometheus instance."
         },
         "storageSize": {
-          "type": "string",
-          "description": "The storage size for the `k8s` Prometheus instance."
+          "$ref": "./shared-types.json#/$defs/Types.KubernetesQuantity",
+          "description": "The storage size for the `k8s` Prometheus instance.\n\nFollows the Kubernetes resource quantity format, for example `10Gi`. Suffixes like `GB` or `MB` are not valid."
         },
         "remoteWrite": {
           "description": "Set this option to ship the collected metrics to a remote Prometheus receiver.\n\n`remoteWrite` is an array of objects that allows configuring the [remoteWrite](https://prometheus.io/docs/specs/remote_write_spec/) options for Prometheus. The objects in the array follow [the same schema as in the prometheus operator](https://prometheus-operator.dev/docs/api-reference/api/#monitoring.coreos.com/v1.RemoteWriteSpec).",
@@ -3071,8 +3078,8 @@
       "additionalProperties": false,
       "properties": {
         "storageSize": {
-          "type": "string",
-          "description": "The PVC size for each MinIO disk, 6 disks total."
+          "$ref": "./shared-types.json#/$defs/Types.KubernetesQuantity",
+          "description": "The PVC size for each MinIO disk, 6 disks total.\n\nFollows the Kubernetes resource quantity format, for example `10Gi`. Suffixes like `GB` or `MB` are not valid."
         },
         "rootUser": {
           "type": "object",
@@ -3175,8 +3182,8 @@
       "additionalProperties": false,
       "properties": {
         "storageSize": {
-          "type": "string",
-          "description": "The PVC size for each MinIO disk, 6 disks total."
+          "$ref": "./shared-types.json#/$defs/Types.KubernetesQuantity",
+          "description": "The PVC size for each MinIO disk, 6 disks total.\n\nFollows the Kubernetes resource quantity format, for example `10Gi`. Suffixes like `GB` or `MB` are not valid."
         },
         "rootUser": {
           "type": "object",
@@ -3925,7 +3932,7 @@
       ]
     },
     "Spec.Distribution.Modules.Auth.Pomerium": {
-      "$ref": "./spec-distribution-modules-auth-pomerium.json"
+      "$ref": "./spec-distribution-modules-auth-pomerium-onpremises.json"
     },
     "Spec.Distribution.Modules.Auth.Dex": {
       "type": "object",
@@ -4026,13 +4033,12 @@
     },
     "Types.MacAddress": {
       "type": "string",
-      "pattern": "^([0-9A-Fa-f]{2}:){5}([0-9A-Fa-f]{2})$",
-      "description": "MAC address in format XX:XX:XX:XX:XX:XX"
+      "pattern": "^([0-9A-Fa-f]{2}:){5}([0-9A-Fa-f]{2})$"
     },
     "Types.DevicePath": {
       "type": "string",
-      "pattern": "^/dev/[a-zA-Z0-9/]+$",
-      "description": "Unix device path. Example: /dev/sda, /dev/nvme0n1"
+      "pattern": "^(/([^/.][^/]*|\\.[^/.][^/]*|\\.\\.[^/]+))+$",
+      "description": "Absolute, clean Unix device path, validated like Butane/Ignition does for device fields: it must be absolute and must not contain empty, '.' or '..' path segments. Example: /dev/sda, /dev/nvme0n1, /dev/disk/by-id/wwn-0x5000c500a1b2c3d4"
     },
     "Types.IpAddress": {
       "type": "string",
@@ -4167,8 +4173,8 @@
               "description": "The CPU request for the Pod, in cores or millicores. Examples: 500m, 1, 0.5"
             },
             "memory": {
-              "$ref": "#/$defs/Types.KubernetesQuantity",
-              "description": "The memory request for the Pod. Example: 500Mi, 1Gi"
+              "$ref": "./shared-types.json#/$defs/Types.KubernetesQuantity",
+              "description": "The memory request for the Pod. Example: 500Mi, 1Gi\n\nFollows the Kubernetes resource quantity format, for example `10Gi`. Suffixes like `GB` or `MB` are not valid."
             }
           }
         },
@@ -4182,17 +4188,12 @@
               "description": "The CPU limit for the Pod, in cores or millicores. Examples: 1000m, 2, 1.5"
             },
             "memory": {
-              "$ref": "#/$defs/Types.KubernetesQuantity",
-              "description": "The memory limit for the Pod. Example: 1Gi, 2Gi"
+              "$ref": "./shared-types.json#/$defs/Types.KubernetesQuantity",
+              "description": "The memory limit for the Pod. Example: 1Gi, 2Gi\n\nFollows the Kubernetes resource quantity format, for example `10Gi`. Suffixes like `GB` or `MB` are not valid."
             }
           }
         }
       }
-    },
-    "Types.KubernetesQuantity": {
-      "type": "string",
-      "pattern": "^[0-9]+(\\.[0-9]+)?(Ei?|Pi?|Ti?|Gi?|Mi?|Ki?|[EPTGMk])$",
-      "description": "Kubernetes resource quantity format. Examples: 50Gi, 100Mi, 1Ti"
     },
     "Types.FuryModuleOverrides": {
       "type": "object",

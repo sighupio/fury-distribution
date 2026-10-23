@@ -1,0 +1,68 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "description": "Configuration for Pomerium, an identity-aware reverse proxy used for SSO.",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "secrets": {
+      "$ref": "./spec-distribution-modules-auth-pomerium.json#/$defs/Spec.Distribution.Modules.Auth.Pomerium.Secrets"
+    },
+    "defaultRoutesPolicy": {
+      "$ref": "#/$defs/Spec.Distribution.Modules.Auth.Pomerium.DefaultRoutesPolicy"
+    },
+    "routes": {
+      "$ref": "./spec-distribution-modules-auth-pomerium.json#/$defs/Spec.Distribution.Modules.Auth.Pomerium.Routes"
+    },
+    "policy": {
+      "$ref": "./spec-distribution-modules-auth-pomerium.json#/$defs/Spec.Distribution.Modules.Auth.Pomerium.Policy"
+    },
+    "overrides": {
+      "$ref": "./spec-distribution-modules-auth-pomerium.json#/$defs/Types.FuryModuleComponentOverrides"
+    }
+  },
+  "required": [
+    "secrets"
+  ],
+  "$defs": {
+    "Spec.Distribution.Modules.Auth.Pomerium.DefaultRoutesPolicy": {
+      "type": "object",
+      "description": "override default routes for SD components",
+      "additionalProperties": false,
+      "properties": {
+        "monitoringPrometheus": {
+          "$ref": "./spec-distribution-modules-auth-pomerium.json#/$defs/Spec.Distribution.Modules.Auth.Pomerium.DefaultRoutesPolicy.Rules"
+        },
+        "monitoringAlertmanager": {
+          "$ref": "./spec-distribution-modules-auth-pomerium.json#/$defs/Spec.Distribution.Modules.Auth.Pomerium.DefaultRoutesPolicy.Rules"
+        },
+        "monitoringGrafana": {
+          "$ref": "./spec-distribution-modules-auth-pomerium.json#/$defs/Spec.Distribution.Modules.Auth.Pomerium.DefaultRoutesPolicy.Rules"
+        },
+        "monitoringMinioConsole": {
+          "$ref": "./spec-distribution-modules-auth-pomerium.json#/$defs/Spec.Distribution.Modules.Auth.Pomerium.DefaultRoutesPolicy.Rules"
+        },
+        "ingressForecastle": {
+          "$ref": "./spec-distribution-modules-auth-pomerium.json#/$defs/Spec.Distribution.Modules.Auth.Pomerium.DefaultRoutesPolicy.Rules"
+        },
+        "loggingOpensearchDashboards": {
+          "$ref": "./spec-distribution-modules-auth-pomerium.json#/$defs/Spec.Distribution.Modules.Auth.Pomerium.DefaultRoutesPolicy.Rules"
+        },
+        "loggingMinioConsole": {
+          "$ref": "./spec-distribution-modules-auth-pomerium.json#/$defs/Spec.Distribution.Modules.Auth.Pomerium.DefaultRoutesPolicy.Rules"
+        },
+        "tracingMinioConsole": {
+          "$ref": "./spec-distribution-modules-auth-pomerium.json#/$defs/Spec.Distribution.Modules.Auth.Pomerium.DefaultRoutesPolicy.Rules"
+        },
+        "gatekeeperPolicyManager": {
+          "$ref": "./spec-distribution-modules-auth-pomerium.json#/$defs/Spec.Distribution.Modules.Auth.Pomerium.DefaultRoutesPolicy.Rules"
+        },
+        "hubbleUi": {
+          "$ref": "./spec-distribution-modules-auth-pomerium.json#/$defs/Spec.Distribution.Modules.Auth.Pomerium.DefaultRoutesPolicy.Rules"
+        },
+        "whisker": {
+          "$ref": "./spec-distribution-modules-auth-pomerium.json#/$defs/Spec.Distribution.Modules.Auth.Pomerium.DefaultRoutesPolicy.Rules"
+        }
+      }
+    }
+  }
+}
