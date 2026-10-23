@@ -59,6 +59,7 @@ With no further ado, the steps to release a new version are:
 6. Update the documentation:
    1. `README.md`
    2. `docs/COMPATIBILITY_MATRIX.md`
+   3. Bump the version in the `banners/*.md` files, then regenerate the schema docs with `mise run generate-docs`
    4. Write the release notes for the new version (`docs/releases/vx.y.z.md`)
 7. Use the `e2e-all-*` tag pattern to trigger all the e2e tests, fix eventual problems and finally tag a release candidate
 
